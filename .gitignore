@@ -1,0 +1,3 @@
+# never let the key reach this repository
+.keyliteral
+*.key
