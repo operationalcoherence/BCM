@@ -1,4 +1,4 @@
-/* Bear Canyon Method v98 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v99 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -3698,6 +3698,24 @@
     butterfly: 1,
     firefly: 1,
     monopoly: 1,
+    costly: 1,
+    deadly: 1,
+    friendly: 1,
+    timely: 1,
+    orderly: 1,
+    elderly: 1,
+    lovely: 1,
+    daily: 1,
+    weekly: 1,
+    monthly: 1,
+    yearly: 1,
+    lonely: 1,
+    lively: 1,
+    silly: 1,
+    holy: 1,
+    ugly: 1,
+    chilly: 1,
+    prickly: 1,
   };
   function Nt(t) {
     var e = t;
@@ -3740,7 +3758,7 @@
   function Ht(t) {
     var e = { k: {}, b: {}, seq: [] },
       n = (t || "").replace(/[’']/g, "");
-    ((n = n.replace(/([.!?;:]\s+|^\s*|\n\s*)([A-Z])/g, function (t, e, n) {
+    ((n = n.replace(/((?:[.!?;:]\s+|^\s*|\n\s*)(?:["“”\(\-–—]\s*)*)([A-Z])/g, function (t, e, n) {
       return e + n.toLowerCase();
     })),
       It.forEach(function (t) {
@@ -4811,7 +4829,7 @@
             }),
               Y.length &&
                 c(
-                  "ONE FEELING THROUGHOUT",
+                  "ONE EMOTION THROUGHOUT",
                   Y.slice(0, 3)
                     .map(function (t) {
                       return l(t) + " (" + P[z[t]] + ")";
@@ -4819,7 +4837,7 @@
                     .join(", ") +
                     (Y.length > 3 ? " and " + (Y.length - 3) + " more" : "") +
                     (Y.length > 1 ? " carry" : " carries") +
-                    " the same feeling everywhere " +
+                    " the same emotion everywhere " +
                     (Y.length > 1 ? "they appear" : "it appears") +
                     ". Nothing you wrote has pulled the other way yet." +
                     D(Y),
@@ -5008,11 +5026,11 @@
                     ],
                     [
                       "SOUNDS LIKE A BARRIER",
-                      "ONE FEELING THROUGHOUT",
+                      "ONE EMOTION THROUGHOUT",
                       function (t) {
                         return (
                           t +
-                          " is written about as something that cannot happen, and it carries the same feeling wherever it appears. The feeling and the barrier may be holding each other up."
+                          " is written about as something that cannot happen, and it carries the same emotion wherever it appears. The emotion and the barrier may be holding each other up."
                         );
                       },
                     ],
@@ -5049,11 +5067,11 @@
                     ],
                     [
                       "A WORD THAT CROSSES QUESTIONS",
-                      "ONE FEELING THROUGHOUT",
+                      "ONE EMOTION THROUGHOUT",
                       function (t) {
                         return (
                           t +
-                          " runs through several questions carrying the same feeling in each. One feeling may be colouring more of the workbook than you meant."
+                          " runs through several questions carrying the same emotion in each. One emotion may be coloring more of the workbook than you meant."
                         );
                       },
                     ],
@@ -5332,10 +5350,10 @@
           var mt = gt[0] + gt[4];
           mt && mt >= gt[1]
             ? (lt +=
-                "<p>Aggression and defiance are as strong as acceptance, or stronger. The article’s “behaviors first” strategy may fit: start with actions that work alongside the feelings already there.</p>")
+                "<p>Aggression and defiance are as strong as acceptance, or stronger. The article’s “behaviors first” strategy may fit: start with actions that work alongside the emotions already there.</p>")
             : gt[1] > mt &&
               (lt +=
-                "<p>Acceptance is the strongest feeling in your notes. The article’s “emotions first” strategy may fit: start where people already accept, and build toward the mitigation work.</p>");
+                "<p>Acceptance is the strongest emotion in your notes. The article’s “emotions first” strategy may fit: start where people already accept, and build toward the mitigation work.</p>");
           var vt = ft.filter(function (t) {
             return (
               (2 === t.k && 1 === t.e) || ((3 === t.k || 7 === t.k || 1 === t.k) && (0 === t.e || 4 === t.e))
@@ -5432,7 +5450,7 @@
               ),
             Lt &&
               wt.push(
-                "<b>Feeling read on " +
+                "<b>Emotion read on " +
                   ft.length +
                   " of " +
                   Lt +
@@ -5877,7 +5895,7 @@
             }).length;
           (Ze &&
             Fe.push(
-              "<b>Feeling read on " +
+              "<b>Emotion read on " +
                 Xe +
                 " of " +
                 Ze +
@@ -6471,7 +6489,7 @@
                 "contested" === e.c && r.push("it is pulled both ways"),
                 "unanswered" === e.c && r.push("nothing in Q.5–Q.7 answers it"),
                 "condition" === e.c && r.push("it is a condition with nothing behind it yet"),
-                null != e.emo && _t[e.emo] && r.push("the feeling around it is strong"),
+                null != e.emo && _t[e.emo] && r.push("the emotion around it is strong"),
                 e.R.act || r.push("Q.5–Q.7 do not reach it"),
                 o > n &&
                   r.push(
@@ -6667,7 +6685,7 @@
                     "TRIGGER POINTS TO WATCH",
                     i,
                     "",
-                    " carry the strongest feeling of anything you wrote about this, so they are the likeliest to move. If what they describe changes, the strategy may need to change with it.",
+                    " carry the strongest emotion of anything you wrote about this, so they are the likeliest to move. If what they describe changes, the strategy may need to change with it.",
                   ) +
                   Wn("WHAT YOU SAID TO DO ABOUT IT", "", a) +
                   Gn(
@@ -7778,7 +7796,7 @@
                     var O = Math.max.apply(null, n.emo),
                       A = n.emo.indexOf(O);
                     E.push([
-                      "Feeling",
+                      "Emotion",
                       A !== e.brLead.k
                         ? "Across all your notes, " +
                           b[A] +
@@ -7786,7 +7804,7 @@
                           e.brLead.name +
                           "”, the thread that carries Q.1–Q.4 into Q.5–Q.7, " +
                           b[e.brLead.k] +
-                          " leads. The idea that connects cause to action is where the feeling changes, so expect friction there."
+                          " leads. The idea that connects cause to action is where the emotion changes, so expect friction there."
                         : "Across all your notes, " +
                           b[A] +
                           " leads, and it leads on “" +
@@ -7997,14 +8015,14 @@
                           a = n.indexOf(Math.max.apply(null, n));
                         i !== a &&
                           B(
-                            "THE FEELING CHANGES",
-                            "a feeling that changes",
+                            "THE EMOTION CHANGES",
+                            "a emotion that changes",
                             j(t) +
                               " carries mostly " +
                               b[i] +
                               " in Q.1–Q.4 and mostly " +
                               b[a] +
-                              " in Q.5–Q.7. The same word may change feeling once it becomes something to do.",
+                              " in Q.5–Q.7. The same word may change emotion once it becomes something to do.",
                             6 + t.n / 100,
                             { words: [t.w], emo: [i, a] },
                           );
@@ -8156,13 +8174,13 @@
                       },
                       {
                         a: "contested",
-                        b: "THE FEELING CHANGES",
+                        b: "THE EMOTION CHANGES",
                         on: "w",
                         f: function (t) {
                           return (
                             "“" +
                             jt(t) +
-                            "” is pulled both ways, and its feeling changes between Q.1–Q.4 and Q.5–Q.7. Those may be two signs of one unsettled thing."
+                            "” is pulled both ways, and its emotion changes between Q.1–Q.4 and Q.5–Q.7. Those may be two signs of one unsettled thing."
                           );
                         },
                       },
@@ -9918,9 +9936,9 @@
           if (
             (S.length &&
               T.push(
-                "§Feeling.§ " +
+                "§Emotion.§ " +
                   S.join("; ") +
-                  ". The feeling around a thread says how hard it will be to move: acceptance is a place to start, aggression and distrust need care.",
+                  ". The emotion around a thread says how hard it will be to move: acceptance is a place to start, aggression and distrust need care.",
               ),
             Kt >= 2)
           ) {
@@ -10095,7 +10113,7 @@
               "In Q.1–Q.4, not in Q.5–Q.7",
               "In Q.5–Q.7, not in Q.1–Q.4",
               "Help and hinder",
-              "Feeling",
+              "Emotion",
               "Voices",
               "Outliers",
               "Where to look first",
@@ -12246,7 +12264,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v98");
+        t && (t.textContent = "v99");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
