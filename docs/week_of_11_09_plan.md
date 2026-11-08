@@ -20,7 +20,10 @@ v101, both of which shipped on 2026-11-08 outside this plan.
 
 **One screen, by minimizing the existing menus, on all three reading pages.**
 Not Pattern Synthesis alone. The existing folds collapse by default and hold
-whatever comes off the top; nothing is deleted. Current weights:
+whatever comes off the top. His first framing was that nothing is deleted; he
+reopened that himself later the same day ("if it's minimized why does it
+exist?"), so see the standard below — folding is the default, cutting is now on
+the table where a section earns nothing. Current weights:
 
 | Page | Words today |
 | --- | --- |
@@ -88,6 +91,39 @@ sees.
 So items 2 and 3 move together into one batch after item 6. The cost of this
 order, stated plainly: nothing from either ships until item 6 is finished, and
 item 6 is the long one.
+
+## The standard item 6 is judged against (set 2026-11-08)
+
+He set this from Gelernter's definition of elegance: power and simplicity. For
+an interface, functional minimalism — offer the appropriate core functions
+(power) and nothing else (simplicity), as against "the exceeding amount of
+less-than-powerful features found in many mainstream applications."
+
+Applied here, that has three consequences.
+
+**The reading pages are the mainstream application in that analogy.** Not in
+their menus, in their findings. Pattern Analysis prints a line about names that
+recur, a line about numbers appearing in notes, a line about words that signal
+necessity, a line about notes using "but". None is wrong. Together they are the
+poor layout tools and the worse drawing tools.
+
+**Folding is not minimizing.** His rule has been that nothing is deleted and
+everything goes behind a fold. That preserves power and simulates simplicity.
+He raised the harder question himself on 2026-11-08: if it is minimized, why
+does it exist? So **the Layer 1 ranking must be allowed to drop a finding, not
+only fold it.** A page that is merely shorter is not the same as a page that is
+elegant. Deciding this in advance is what separates the two.
+
+A preliminary screening of every section on all three reading pages is in
+`elegance_screening.md`, for him to rule on. He will go through it in the week
+of 2026-11-09.
+
+**It also settles the ceiling, which was open.** Claim extraction or a language
+model would buy power by spending all of the simplicity: no longer
+self-contained, no longer deterministic, no longer private. By this standard
+that is not an upgrade to the artifact, it is a different artifact. The
+standard argues for staying under the ceiling and getting more out of what is
+already computed. His call still, but he now has a principle to decide it with.
 
 ## Build order
 
@@ -157,6 +193,9 @@ Unchanged from the handoff unless noted:
 - Change the two older "the problem" sentences to question-number wording?
 - Should the PDF include the new sections, and the version number?
 - Cut `/gsmlive` over to the hosted file?
+- `elegance_screening.md`: which of the screened sections get cut, which get
+  folded, which stay. The duplicates in its section 1 are the only ones Claude
+  would act on with a simple yes.
 - Does the vocabulary feature jump ahead of item 6? Note that its step 2 —
   asking only about terms that carry a finding — needs Layer 1, so it leans on
   item 6 whichever way this is answered.
