@@ -1,4 +1,4 @@
-/* Bear Canyon Method v99 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v100 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -819,6 +819,7 @@
   }
   function tt(t, n) {
     var o = (t[3] || "").trim();
+    var a = (t[9] || C.who || "").trim();
     return (
       "<b>N" +
       (n + 1) +
@@ -826,6 +827,7 @@
       t[0] +
       " " +
       Gt(e[t[0] - 1] || "") +
+      (a ? " · " + Gt(a) : "") +
       "</b><br>" +
       (o ? Gt(o.length > 220 ? o.slice(0, 220) + "…" : o).replace(/\n/g, "<br>") : "<i>No text yet</i>")
     );
@@ -1003,7 +1005,7 @@
                 r += " " + n.children[i].textContent;
               var a = [],
                 s;
-              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r)); )
+              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r));)
                 a.indexOf(s[1]) < 0 && a.push(s[1]);
               if (a.length) {
                 var c = document.createElement("div");
@@ -9386,14 +9388,14 @@
                   o = [];
                 return (
                   t.forEach(function (t) {
-                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0; ) n.pop();
+                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0;) n.pop();
                     n.push(t);
                   }),
                   t
                     .slice()
                     .reverse()
                     .forEach(function (t) {
-                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0; ) o.pop();
+                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0;) o.pop();
                       o.push(t);
                     }),
                   o.pop(),
@@ -11916,11 +11918,11 @@
             S();
             var n = (function (t) {
               if (Rt.contains(t) && t !== Rt) {
-                for (var e = t; e.parentNode !== Rt; ) e = e.parentNode;
+                for (var e = t; e.parentNode !== Rt;) e = e.parentNode;
                 var n = e.getAttribute("data-pv");
                 return n ? +n : r;
               }
-              for (; t && t.parentNode !== N; ) t = t.parentNode;
+              for (; t && t.parentNode !== N;) t = t.parentNode;
               if (!t || !t.hasAttribute || !t.hasAttribute("data-tab")) return r;
               var o = +t.getAttribute("data-tab");
               return 2 === o ? (r >= 2 ? r : 2) : o;
@@ -12276,7 +12278,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v99");
+        t && (t.textContent = "v100");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -12510,13 +12512,13 @@
                               i = [C.m.length, C.p.m.length, (C.links || []).length];
                             function a(t, e) {
                               t.forEach(function (t) {
-                                for (; t.length < 10; ) t.push(null);
+                                for (; t.length < 10;) t.push(null);
                                 t[9] || ((t[9] = e), t[7] || (t[7] = e));
                               });
                             }
                             function s(t, n, o) {
                               (t || []).forEach(function (t, i) {
-                                for (var a = t.slice(); a.length < 10; ) a.push(null);
+                                for (var a = t.slice(); a.length < 10;) a.push(null);
                                 (a[8] || (a[8] = o + i + "-" + Math.random().toString(36).slice(2, 7)),
                                   r[a[8]] ||
                                     ((r[a[8]] = 1), a[9] || (a[9] = e), a[7] || (a[7] = a[9]), n.push(a)));
