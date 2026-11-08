@@ -131,7 +131,10 @@ Asked directly, he chose:
 Build order, so the safe part can be looked at first: the four measured fixes
 ship as one push, the engine changes and the synthesis rewrite as a second.
 
-The build was stopped before it started - he called it a night at 20:59. None
+Timing: **the build waits for next week.** He was at 75% of his usage on the
+evening of 2026-11-07 and it resets Wednesday morning, so v99 is to be built
+after that, in one go, not squeezed into what is left. He called it a night at
+21:00. None
 of the code changes below exist yet. Everything in this repository at this
 point is documentation and the readable source; `gsm-preview.js` is still v98
 untouched, so the preview page is unchanged.
