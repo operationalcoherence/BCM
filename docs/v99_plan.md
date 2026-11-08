@@ -117,9 +117,38 @@ Check the PDF walker for the same strings. The synonym-interface mockup uses
 spelling in the workbook the biggest error. ("realistic" elsewhere is correct
 and stays.)
 
+## Decided 2026-11-07, 20:57
+
+Asked directly, he chose:
+
+- **Scope: all of it, synthesis rewrite included.** v99 carries the four
+  measured fixes, the engine changes (proper nouns visible, the -ly adjective
+  fix, stopword cleanup, PRESENT-FUTURE findings, the emotion/placement
+  redundancy finding), and the Pattern Synthesis rewrite.
+- **Length: one screen, no scrolling.** Roughly 150-250 words at full weight,
+  three or four blocks, everything else behind folds. Nothing is deleted.
+
+Build order, so the safe part can be looked at first: the four measured fixes
+ship as one push, the engine changes and the synthesis rewrite as a second.
+
+The build was stopped before it started - he called it a night at 20:59. None
+of the code changes below exist yet. Everything in this repository at this
+point is documentation and the readable source; `gsm-preview.js` is still v98
+untouched, so the preview page is unchanged.
+
+### First step when picking this up
+
+Prove the rebuild path before editing anything: minify the unchanged
+`gsm-readable.js` with esbuild, and confirm it renders identical page text to
+`gsm-preview.js` on the real workbook across all four reading tabs. Only then
+start editing the readable file. Baseline captures for five workbooks were
+being generated for exactly this comparison. If the round trip does not come
+out clean, fall back to exact-string patching of `gsm-preview.js`, which is how
+v95-v98 were made.
+
 ## Not yet settled
 
 - Whether the bottom clipping he saw on screen matches the 16 units measured
   here, or whether his screen shows more.
-- How short the synthesis should be. No target length agreed.
 - Whether the folded remainder keeps all 12 paragraphs or drops some.
+- All new synthesis wording will be Claude's and needs his pass.
