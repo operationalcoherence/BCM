@@ -40,6 +40,25 @@ file minifies to something that renders identically, all later work gets much
 easier. If it does not, fall back to exact-string patching. This was set up
 but never run.
 
+## Getting the code
+
+The repository is public, and Pages serves it publicly. An anonymous clone
+works with no attach and no approval:
+
+    git clone --depth 1 https://github.com/operationalcoherence/bcm
+
+Give it a generous timeout, up to ten minutes; `git index-pack` looks stalled
+while unpacking and is not.
+
+Attaching the repository is only needed in order to push. Everything below --
+patching, rendering, testing, measuring -- needs read access alone. If a push
+attach is unavailable, hand Gregory the patched `gsm-preview.js` and
+`gsm-readable.js` as files and he commits them.
+
+His two saved workbooks are deliberately not in the repository and have to
+come from him. See `claude/groundsmith_repo_access_note.md` in the Claude
+project.
+
 ## Hosting (unchanged)
 
 - Repository: `operationalcoherence/BCM` — https://github.com/operationalcoherence/BCM
