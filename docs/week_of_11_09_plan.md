@@ -30,9 +30,9 @@ whatever comes off the top; nothing is deleted. Current weights:
 
 **The six subject words are going in, but not yet.** He wants `community`,
 `communities`, `people`, `person`, `area`, `areas` read by the engine — decided
-2026-11-08 — and chose to wait rather than ship it that day. Do it after the
-Layer 1 ranking exists. This is no longer an open question; it is a queued
-change with a known cost (below).
+2026-11-08 — and chose to wait rather than ship it that day. It is batched with
+item 2, after item 6, for the reason in the next section. This is no longer an
+open question; it is a queued change with a known cost (below).
 
 Why after the ranking: surprise scoring is what demotes a word behaving exactly
 as its overall frequency predicts — the same machinery that correctly demotes
@@ -69,6 +69,26 @@ That displacement is the whole reason to do this after the ranking rather than
 before: nothing currently decides which four terms earn a named slot except
 where they happen to sort.
 
+## Why item 6 comes before item 2 (decided 2026-11-08)
+
+He reached this himself. Item 2 admits the largest number of new terms of any
+change here — 28 distinct names on his workbook — into the same fixed set of
+named slots. The six subject words added three terms and cost four names their
+place on the page; proper nouns are roughly nine times that influx. **This part
+is reasoning, not measurement:** item 2's displacement cannot be measured until
+it is built, unlike the six words, which were rendered from a test build.
+
+A second reason. Layer 1 scores a term by how far it strays from what its
+frequency predicts, so admitting 28 new names afterwards shifts that landscape
+and the ranking needs rechecking either way. The two orders fail differently:
+item 2 first leaves the reading pages flooded until item 6 lands, which is a
+state he would be reading; item 6 first costs only a verification pass he never
+sees.
+
+So items 2 and 3 move together into one batch after item 6. The cost of this
+order, stated plainly: nothing from either ships until item 6 is finished, and
+item 6 is the long one.
+
 ## Build order
 
 Estimates are wall-clock build time at Opus medium, including testing and the
@@ -82,10 +102,9 @@ update doc, excluding his review. Ranges, not promises — see the caveat below.
 | 5a | Duplicate reason in course-of-action cards | 30–45 min | `unanswered === e.c` and `!e.R.act` both fire for any Q.1–Q.4 item whose word is unanswered. Self-contained; the classifier itself is sound and stays as it is. |
 | 4 | PRESENT–FUTURE axis produces findings | 60–90 min | Data already there; the x coordinate is read in exactly one place today. New wording, needs his pass. |
 | — | In Parallel line into Start Here | 10 min | **Blocked on his copy.** |
-| 2 | Proper nouns | 1.5–2.5 hr | The one that can surprise: changing the tokenizer changes every reading page at once. Re-measure the clinic and place-map workbooks alongside his. |
-| — | Degenerate workbook says nothing | 20–30 min | Edge case. Low value. |
 | 6 | One screen, all three reading pages | 4.5–8 hr | Split across sessions. Includes Layer 1 scoring, the heavy-overlap-opposite-emotion finding family, and 5b (the correlation discount). Synthesis alone is 3–5 hr; the ranking machinery is shared, so Analysis and In Parallel are mostly selection and folding after that. |
-| 3 | Let the six subject words through | 10–15 min | Decided, and sequenced last on purpose: the ranking from item 6 is what makes it safe. Six-word deletion from the stopword list, reversible. Cost already measured — see above. |
+| 2 + 3 | Proper nouns, and the six subject words, together | 1.75–2.75 hr | Do these as one batch after item 6, so they share a single verification pass. Both add terms competing for the same named slots, and the ranking is what arbitrates. Re-measure the clinic and place-map workbooks alongside his. |
+| — | Degenerate workbook says nothing | 20–30 min | Edge case. Low value. Can go anywhere. |
 
 Roughly **8.5 to 14 hours** for everything above.
 
@@ -138,10 +157,13 @@ Unchanged from the handoff unless noted:
 - Change the two older "the problem" sentences to question-number wording?
 - Should the PDF include the new sections, and the version number?
 - Cut `/gsmlive` over to the hosted file?
-- Does the vocabulary feature jump ahead of item 6?
+- Does the vocabulary feature jump ahead of item 6? Note that its step 2 —
+  asking only about terms that carry a finding — needs Layer 1, so it leans on
+  item 6 whichever way this is answered.
 
-No longer open: the six subject words (decided, queued behind item 6) and
-whether the one-screen work covers all three reading pages (yes).
+No longer open: the six subject words (decided, batched with item 2 behind item
+6), whether the one-screen work covers all three reading pages (yes), and
+whether item 6 precedes item 2 (yes).
 
 ## On the estimates
 
