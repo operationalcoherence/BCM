@@ -6,6 +6,8 @@ Claude's unless it quotes Gregory directly.
 
 | File | What it is |
 | --- | --- |
+| `handoff_v99.md` | **Start here.** Current state, every change agreed for next week with its evidence, standing rules, architecture notes, and the lessons. |
+| `v99_update.md` | What v99 actually shipped on 2026-11-07. |
 | `engine_audit_v98.md` | A measured audit of the engine at v98: what is sound, nine defects with evidence, and where the advancements are. |
 | `v99_plan.md` | The next batch: figure clipping, the Pattern Synthesis rewrite, "feeling" to "emotion". |
 | `vocabulary_architecture.md` | Why a built-in domain lexicon cannot generalize, and why the engine cannot infer synonyms by itself. The reasoning behind v98. |
