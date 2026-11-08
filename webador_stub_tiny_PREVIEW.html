@@ -1,18 +1,16 @@
-<div id="gsm-mount"></div>
+<div id="gsm-mount">Loading the Bear Canyon Method&#8230;</div>
 <script>
-(function () {
-  /* Paste this into the Webador Embed Code block ONCE. Nothing here ever
-     changes again. The workbook itself lives at the address below. Your Esri
-     key stays on this page and never goes into the repository. */
-  window.GSM_ESRI_KEY = "PUT-YOUR-ESRI-KEY-HERE";
-  var REPO = "https://operationalcoherence.github.io/BCM/";
-  var s = document.createElement("script");
-  s.src = REPO + "gsm-preview.js?t=" + Math.floor(Date.now() / 60000);
-  s.onerror = function () {
-    document.getElementById("gsm-mount").innerHTML =
-      '<div style="padding:10px;border:1px solid #c33;color:#c33;font:13px sans-serif">'
-      + 'The workbook could not load from ' + REPO + '</div>';
-  };
-  document.body.appendChild(s);
-})();
+window.GSM_ESRI_KEY = "PUT-YOUR-ESRI-KEY-HERE";
+var gsmSrc = "https://operationalcoherence.github.io/BCM/gsm-preview.js?t=" + Math.floor(Date.now() / 60000);
+var gsmTag = document.createElement("script");
+gsmTag.src = gsmSrc;
+document.body.appendChild(gsmTag);
+</script>
+<script>
+window.setTimeout(function () {
+  var m = document.getElementById("gsm-mount");
+  if (m && !document.getElementById("gsm")) {
+    m.textContent = "The workbook did not load from " + gsmSrc + " - try reloading the page.";
+  }
+}, 12000);
 </script>
