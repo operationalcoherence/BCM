@@ -131,7 +131,10 @@ Asked directly, he chose:
 Build order, so the safe part can be looked at first: the four measured fixes
 ship as one push, the engine changes and the synthesis rewrite as a second.
 
-Timing: **the build waits for next week.** He was at 75% of his usage on the
+**Superseded in part: v99 shipped on 2026-11-07 with items 3 and 4 below plus
+two tokenizer fixes. See `v99_update.md`. Everything else here still stands.**
+
+Timing: **the rest of the build waits for next week.** He was at 75% of his usage on the
 evening of 2026-11-07 and it resets Wednesday morning, so v99 is to be built
 after that, in one go, not squeezed into what is left. He called it a night at
 21:00. None
