@@ -1,4 +1,4 @@
-/* Bear Canyon Method v100 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v101 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -1207,7 +1207,9 @@
   }
   (document.addEventListener("mouseover", function (t) {
     var e = at(t);
-    e && e[1] ? Z(e[1], t.clientX, t.clientY) : e || Z(null);
+    e && e[1]
+      ? Z(e[1], t.clientX, t.clientY)
+      : e || (t.target.closest && t.target.closest(".leaflet-marker-icon")) || Z(null);
   }),
     document.addEventListener("mousemove", function (t) {
       if (X && "block" === X.style.display) {
@@ -12278,7 +12280,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v100");
+        t && (t.textContent = "v101");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {

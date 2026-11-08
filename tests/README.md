@@ -28,3 +28,17 @@ the `data` key of a saved workbook file.
 Run a non-wildfire workbook every time. It is what exposed the domain lexicon
 corrupting other subjects, and place-map bugs have hidden behind line-map
 assumptions more than once.
+
+## placehover.py - the place map
+
+The page loads Leaflet from a CDN, which this harness blocks, so the place map
+never rendered in testing and place-map bugs hid behind that. `placehover.py`
+serves Leaflet from a local copy and hovers every marker:
+
+    npm install leaflet@1.9.4
+    python3 placehover.py ../gsm-preview.js bear-canyon-workbook-2026-11-05.json Greg
+
+The third argument is optional and is written into the workbook's `who` field,
+which is what a note with no author falls back to in the hover heading. Map
+tiles stay blocked; markers do not need them. `hover.py` is the line-map
+equivalent and needs no Leaflet.
