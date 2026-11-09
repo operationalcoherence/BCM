@@ -34,8 +34,9 @@ the table where a section earns nothing. Current weights:
 **The six subject words are going in, but not yet.** He wants `community`,
 `communities`, `people`, `person`, `area`, `areas` read by the engine — decided
 2026-11-08 — and chose to wait rather than ship it that day. It is batched with
-item 2, after item 6, for the reason in the next section. This is no longer an
-open question; it is a queued change with a known cost (below).
+item 2, after the Layer 1 scoring (6a), for the reason in the next section.
+This is no longer an open question; it is a queued change with a known cost
+(below).
 
 Why after the ranking: surprise scoring is what demotes a word behaving exactly
 as its overall frequency predicts — the same machinery that correctly demotes
@@ -88,9 +89,10 @@ item 2 first leaves the reading pages flooded until item 6 lands, which is a
 state he would be reading; item 6 first costs only a verification pass he never
 sees.
 
-So items 2 and 3 move together into one batch after item 6. The cost of this
-order, stated plainly: nothing from either ships until item 6 is finished, and
-item 6 is the long one.
+So items 2 and 3 move together into one batch after the ranking. Once item 6
+was split (see "What comes first"), what gates them is 6a, the scoring, not 6b,
+the page rewrite — so the wait is about two hours of work, not the whole long
+item.
 
 ## The standard item 6 is judged against (set 2026-11-08)
 
@@ -125,26 +127,70 @@ that is not an upgrade to the artifact, it is a different artifact. The
 standard argues for staying under the ceiling and getting more out of what is
 already computed. His call still, but he now has a principle to decide it with.
 
+## What comes first (set 2026-11-08)
+
+He asked which things come first judged by the two goals he has set — elegance,
+and the engine asking better questions. Four, in this order, about six hours
+together.
+
+**0. Figure clipping, 45–75 min.** Added at his instruction. It serves neither
+goal; it is a bug fix. It is here because it is the one thing he sees the
+moment it ships, and it is cheap. Do it first for that reason and no other.
+
+**1. The safe cuts, about an hour.** Screening sections 1, 2 and 5, plus item
+5a. Duplicated findings, the two "meaning of the meaning" blocks that do not
+earn their heading, the paragraph describing the drawing, and the action card
+giving the same reason twice. 350–450 words off three pages, no finding lost,
+no ranking needed, nothing deferred. The only pure elegance work available
+before anything else is built.
+
+**2. Layer 1 scoring, split out of item 6 and built alone, about 2 hr.** This
+is a change to the plan as first written, where the ranking sat inside a 4.5–8
+hour page rewrite. It should not. Scoring gates nearly everything else: cut
+versus fold, which terms earn a named slot, whether items 2 and 3 can come in,
+which questions are worth asking, whether the funnel can choose its five to
+eight pairs, whether `costly` and `deadly` ever surface.
+
+Built alone it is testable alone: score every finding, change nothing on
+screen, dump the scores, and check across all four workbooks that the top three
+or four are the ones a person would have picked. A wrong ranking is then found
+in two hours rather than six, and everything downstream unblocks at once.
+
+**3. The question mechanism, with one question, about 2 hr.** The first
+question carries the whole cost: answers need somewhere to live (`C.decisions`
+is taken by Keep/Change/Drop on the course-of-action cards) and they have to
+survive a combine. Every question after it is cheap. Build it once with the
+strongest candidate — class 1 in `asking_questions.md`, the contradiction the
+engine already finds and already prints: *you put N20 on the hinder side, but
+two of the three notes it shares words with sit on the help side. Which is
+right?* Per-note, already computed, and the answer corrects the data rather
+than merely acknowledging a remark.
+
 ## Build order
 
 Estimates are wall-clock build time at Opus medium, including testing and the
 update doc, excluding his review. Ranges, not promises — see the caveat below.
+The four that come first are, in this table: item 1, the safe cuts, 6a and 6c.
 
 | # | Item | Estimate | Note |
 | --- | --- | --- | --- |
+| — | The safe cuts from `elegance_screening.md` (sections 1, 2, 5) | ~45 min | Duplicated findings, the two blocks that do not earn their heading, the figure describing itself. No ranking needed. Pair with 5a, which is the same bug class. |
 | — | Stopword cleanup, the free parts | 10–15 min | 8 duplicates, plus `place's` and `time's`, which the tokenizer can never match. No behavior change. |
 | — | Update `tests/tok.js` to the shipped engine, re-baseline both workbooks | 20–30 min | Must precede item 2. See corrections below. |
 | 1 | Figure clipping | 45–75 min | Most visible payoff. Compute the viewBox from the union of drawn geometry plus a margin. Verify on all three workbooks, line and place map, full screen at more than one window size. |
 | 5a | Duplicate reason in course-of-action cards | 30–45 min | `unanswered === e.c` and `!e.R.act` both fire for any Q.1–Q.4 item whose word is unanswered. Self-contained; the classifier itself is sound and stays as it is. |
 | 4 | PRESENT–FUTURE axis produces findings | 60–90 min | Data already there; the x coordinate is read in exactly one place today. New wording, needs his pass. |
 | — | In Parallel line into Start Here | 10 min | **Blocked on his copy.** |
-| 6 | One screen, all three reading pages | 4.5–8 hr | Split across sessions. Includes Layer 1 scoring, the heavy-overlap-opposite-emotion finding family, and 5b (the correlation discount). Synthesis alone is 3–5 hr; the ranking machinery is shared, so Analysis and In Parallel are mostly selection and folding after that. |
-| 2 + 3 | Proper nouns, and the six subject words, together | 1.75–2.75 hr | Do these as one batch after item 6, so they share a single verification pass. Both add terms competing for the same named slots, and the ranking is what arbitrates. Re-measure the clinic and place-map workbooks alongside his. |
+| 6a | Layer 1 scoring, built alone | ~2 hr | Score every finding on surprise, reach, consequence and corroboration, with 5b's correlation discount. Change nothing on screen; dump the scores and check the top three or four against human judgement on all four workbooks. Gates everything below. |
+| 6b | One screen, all three reading pages | 3–6 hr | What remains of item 6 once 6a is done: selection, ordering, folding, cutting, the heavy-overlap-opposite-emotion finding family, and the new wording for his pass. Split across sessions. |
+| 6c | The question mechanism, with one question | ~2 hr | Somewhere for answers to live on `C` that survives combine, plus class 1 from `asking_questions.md`. The first question carries the cost; the rest are cheap. Can run before or after 6b once 6a exists. |
+| 2 + 3 | Proper nouns, and the six subject words, together | 1.75–2.75 hr | Gated by 6a, not by 6b — the ranking is what arbitrates, so these can follow the scoring without waiting for the page rewrite. Do them as one batch, sharing a single verification pass. Both add terms competing for the same named slots. Re-measure the clinic and place-map workbooks alongside his. |
 | — | Degenerate workbook says nothing | 20–30 min | Edge case. Low value. Can go anywhere. |
 | — | The Outliers line claims more than its test supports | 20–30 min | Synthesis says "6 dots share no thread yet (N5, N7, N18, N20, N22, N24). **They use words nothing else uses.**" That second sentence is false for N20, whose word `social` also appears in N4 and N23 — the page says so elsewhere. In Parallel says the same note "shares words with 3 places". The test is presumably about the 8 threads drawn in the figure; the prose claims something larger. Fix the sentence, or the test. Found 2026-11-08. |
 | — | "Where to start" can nominate the same word twice | 15–25 min | In Parallel reads: *Start with the contested word "fire", then the unreached cause "tradition", then the bridging thread "fire".* Three roles, no check that they differ. Found 2026-11-08 while screening. |
 
-Roughly **8.5 to 14 hours** for everything above.
+Roughly **9.5 to 15 hours** for everything above, of which the four that come
+first are about six.
 
 Deliberately not scheduled:
 
@@ -152,8 +198,7 @@ Deliberately not scheduled:
   tell an adjective from an adverb, so it may not converge.
 - The stem-collision guard — 45–75 min. Latent; all 41 collisions on his
   workbook and the clinic one are legitimate variants.
-- `costly` and `deadly` — no separate work. Item 6's ranking is what surfaces
-  them.
+- `costly` and `deadly` — no separate work. 6a's scoring is what surfaces them.
 
 `asking_questions.md` is a design note, not a scheduled item: the classes of
 question the engine could ask from structure it already computes, and the rule
@@ -206,8 +251,8 @@ Unchanged from the handoff unless noted:
   after he asked whether the "meaning of the meaning" heading is earned: block
   1 on Synthesis holds up and is now marked keep.
 - Does the vocabulary feature jump ahead of item 6? Note that its step 2 —
-  asking only about terms that carry a finding — needs Layer 1, so it leans on
-  item 6 whichever way this is answered.
+  asking only about terms that carry a finding — needs 6a, so it leans on the
+  scoring whichever way this is answered.
 
 No longer open: the six subject words (decided, batched with item 2 behind item
 6), whether the one-screen work covers all three reading pages (yes), and
@@ -221,6 +266,7 @@ a local copy took ten minutes and exposed a bug that had been invisible for
 every prior version. Item 2 is the least trustworthy number here.
 
 The handoff's standing lesson applies to estimating as much as to findings:
-offer the cheap version first and give an honest number. **The cheap bundle is
-the first three rows — about an hour, all low-risk, and item 1 is the one he
-sees the moment it ships.**
+offer the cheap version first and give an honest number. **The cheapest useful
+start is item 1 plus the safe cuts — under two hours, both low-risk, and item 1
+is the one he sees the moment it ships.** See "What comes first" above for the
+full four.
