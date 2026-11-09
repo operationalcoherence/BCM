@@ -141,6 +141,7 @@ update doc, excluding his review. Ranges, not promises — see the caveat below.
 | 6 | One screen, all three reading pages | 4.5–8 hr | Split across sessions. Includes Layer 1 scoring, the heavy-overlap-opposite-emotion finding family, and 5b (the correlation discount). Synthesis alone is 3–5 hr; the ranking machinery is shared, so Analysis and In Parallel are mostly selection and folding after that. |
 | 2 + 3 | Proper nouns, and the six subject words, together | 1.75–2.75 hr | Do these as one batch after item 6, so they share a single verification pass. Both add terms competing for the same named slots, and the ranking is what arbitrates. Re-measure the clinic and place-map workbooks alongside his. |
 | — | Degenerate workbook says nothing | 20–30 min | Edge case. Low value. Can go anywhere. |
+| — | "Where to start" can nominate the same word twice | 15–25 min | In Parallel reads: *Start with the contested word "fire", then the unreached cause "tradition", then the bridging thread "fire".* Three roles, no check that they differ. Found 2026-11-08 while screening. |
 
 Roughly **8.5 to 14 hours** for everything above.
 
@@ -195,7 +196,9 @@ Unchanged from the handoff unless noted:
 - Cut `/gsmlive` over to the hosted file?
 - `elegance_screening.md`: which of the screened sections get cut, which get
   folded, which stay. The duplicates in its section 1 are the only ones Claude
-  would act on with a simple yes.
+  would act on with a simple yes. Its section 2 was corrected on 2026-11-08
+  after he asked whether the "meaning of the meaning" heading is earned: block
+  1 on Synthesis holds up and is now marked keep.
 - Does the vocabulary feature jump ahead of item 6? Note that its step 2 —
   asking only about terms that carry a finding — needs Layer 1, so it leans on
   item 6 whichever way this is answered.

@@ -28,22 +28,48 @@ These say the same thing twice. No power is lost by cutting either copy.
 | Synthesis → In Parallel | "Where to look first" and "Where to start" both nominate a first move, from the same threads. | Safe to merge, not to cut both |
 | Analysis, three sections | BIGGEST GAP, SAID BUT NOT ANSWERED and Synthesis's "In Q.1–Q.4, not in Q.5–Q.7" are three statements of the same gap in three wordings. | Safe to keep one |
 
-## 2. The "meaning of the meaning" blocks — judgment, but a strong case
+## 2. The "meaning of the meaning" blocks — one of three holds up
 
-Three places restate figures the reader was given moments earlier, under a
-heading announcing a deeper reading:
+**Corrected 2026-11-08, after Gregory asked whether the heading is earned.**
+The first pass of this screening condemned all three blocks. That was wrong.
+Read in full, the idea earns its heading once, half-earns it once and fails
+once. The category should survive, shrunk — it is the closest thing the engine
+currently has to the "theories of patterns" he asked for.
 
-- Synthesis, ABOUT WHAT YOU COLLECTED: "Balanced... Spread out... Grounded
-  across the board..." after the counts that produced them.
-- Synthesis, WHAT IT MIGHT MEAN: "Heavy on Q.5–Q.7. 68 groups... Concentrated.
-  'fire' is the most repeated (19)... Contested ground. 19 groups... Support
-  not yet used. 8 groups..." Every one of those numbers appears in the bucket
-  list directly above it.
-- In Parallel: "The meaning of that meaning."
+**Synthesis, block 1, under ABOUT WHAT YOU COLLECTED — keep all four lines.**
 
-These are the clearest case of a less-than-powerful feature in the passage's
-sense: they add a layer without adding a finding. Cutting all three is the
-single largest word saving available that costs no information.
+> Balanced. Q.1–Q.4 and Q.5–Q.7 get about equal weight.
+> Spread out. The threads run through 26 pieces fairly evenly, so no single
+> answer or note holds the picture together.
+> Grounded across the board. On the map: opposition, support, conditions,
+> design, redesign, reinforce.
+> Emotion read on 23 of 24 notes.
+
+None of these is about wildfire. Each is about the shape of what he collected —
+whether he is lopsided, whether one piece carries everything, whether his map
+covers all seven question types, how completely he marked emotion. Nothing else
+on any page says this. The heading promises what the patterns say about the
+data itself, and these four deliver exactly that.
+
+**Synthesis, block 2, under WHAT IT MIGHT MEAN — cut to one sentence.**
+
+"Support not yet used. 8 groups..." is the bucket "Unused support (8)" moved
+down the page. "Contested ground. 19 groups appear in both opposition and
+support" is the bucket "For and against (19)". "Concentrated. 'fire' is the
+most repeated (19), then 'wildfire' (16)" repeats counts given three times
+already. "Emotion read on 23 of 24 notes" is verbatim block 1, same page.
+
+One sentence here is a real interpretation and should be kept, attached to the
+for-and-against finding rather than left in a block of its own: *the
+disagreement is over what these words mean, not whether they matter.* Likewise
+the tail of the "Heavy on Q.5–Q.7" line — *those 16 are where Q.5–Q.7 are
+thinnest* — is a genuine conclusion, and the handoff already identifies it as
+one of the two sections he asked for, buried.
+
+**In Parallel, "The meaning of that meaning" — cut.** It is not meta at all. It
+recaps the findings directly above it (contested words, unreached words, the
+bridging thread) while wearing the meta heading, and the next line, "Where to
+start", says the same three things a third time.
 
 ## 3. Word-spotting, not pattern-finding — judgment
 
@@ -71,6 +97,14 @@ now.
 | A WORD THAT CROSSES QUESTIONS | "fire (Q.1–Q.7); wildfire (Q.3–Q.7); burn (...); and 57 more" | This is WHAT REPEATS in a sentence. |
 | A WORD THAT RETURNS | "fire (19), wildfire (16), suppression (13), aggressive (8) and 92 more" | The counts are already in PRESSING NOW and in the figure. |
 
+## 4a. A defect found while screening, not a judgment call
+
+In Parallel, "Where to start" reads: *Start with the contested word "fire",
+then the unreached cause "tradition", then the bridging thread "fire".* It
+nominates `fire` twice in one sentence, in two different roles. On his workbook
+the same word wins both slots and nothing prevents it. Logged in the plan's
+queue; it is a bug, not a screening decision.
+
 ## 5. The figure describing itself — safe
 
 Synthesis: "The tangle. It is made of 8 threads, each tying about 11 dots. Many
@@ -97,9 +131,10 @@ method working:
 ## Rough size of the cut
 
 Not measured by building it, only estimated from the rendered text: sections 1,
-2 and 5 together are on the order of 400–500 words across the three pages, and
-cost no finding. Sections 3 and 4 are perhaps another 400, and those are
-judgment calls.
+2 and 5 together are on the order of 350–450 words across the three pages, and
+cost no finding. That is lower than the first pass of this document claimed,
+because block 1 of section 2 is now kept. Sections 3 and 4 are perhaps another
+400, and those are judgment calls.
 
 Against pages of 1,860, 1,957 and 1,013 words, that is a meaningful share of
 the way to one screen before a single ranking decision is made.
