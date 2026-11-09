@@ -141,6 +141,7 @@ update doc, excluding his review. Ranges, not promises — see the caveat below.
 | 6 | One screen, all three reading pages | 4.5–8 hr | Split across sessions. Includes Layer 1 scoring, the heavy-overlap-opposite-emotion finding family, and 5b (the correlation discount). Synthesis alone is 3–5 hr; the ranking machinery is shared, so Analysis and In Parallel are mostly selection and folding after that. |
 | 2 + 3 | Proper nouns, and the six subject words, together | 1.75–2.75 hr | Do these as one batch after item 6, so they share a single verification pass. Both add terms competing for the same named slots, and the ranking is what arbitrates. Re-measure the clinic and place-map workbooks alongside his. |
 | — | Degenerate workbook says nothing | 20–30 min | Edge case. Low value. Can go anywhere. |
+| — | The Outliers line claims more than its test supports | 20–30 min | Synthesis says "6 dots share no thread yet (N5, N7, N18, N20, N22, N24). **They use words nothing else uses.**" That second sentence is false for N20, whose word `social` also appears in N4 and N23 — the page says so elsewhere. In Parallel says the same note "shares words with 3 places". The test is presumably about the 8 threads drawn in the figure; the prose claims something larger. Fix the sentence, or the test. Found 2026-11-08. |
 | — | "Where to start" can nominate the same word twice | 15–25 min | In Parallel reads: *Start with the contested word "fire", then the unreached cause "tradition", then the bridging thread "fire".* Three roles, no check that they differ. Found 2026-11-08 while screening. |
 
 Roughly **8.5 to 14 hours** for everything above.
@@ -153,6 +154,11 @@ Deliberately not scheduled:
   workbook and the clinic one are legitimate variants.
 - `costly` and `deadly` — no separate work. Item 6's ranking is what surfaces
   them.
+
+`asking_questions.md` is a design note, not a scheduled item: the classes of
+question the engine could ask from structure it already computes, and the rule
+that governs which findings become questions. It generalizes the vocabulary
+feature and shares its cap. Not estimated.
 
 The vocabulary feature remains its own version: **4–8 hr** across sessions,
 with the mockup's counts needing a 20-minute refresh against the live engine
