@@ -1,4 +1,4 @@
-/* Bear Canyon Method v122 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v123 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4629,11 +4629,29 @@
             var FAMR = {
               thread: { su: "c", rc: "c", cq: "c", cr: "e", ct: "c" },
               contradiction: { su: "c", rc: "e", cq: "c", cr: "e" },
-              gap: { su: "c", rc: "e", cq: "c", cr: "e" },
+              gap: { su: "c", rc: "e", cq: "n", cr: "e" },
               overlap: { su: "c", rc: "c", cq: "c", cr: "e", ct: "c" },
               structure: { su: "c", rc: "c", cq: "c", cr: "e" },
             };
             var FW = { su: 0.35, rc: 0.25, cq: 0.2, cr: 0.2, ct: 0.2 };
+            R.forEach(function (x) {
+              var f0 =
+                FAMOF[
+                  String(x.t[0])
+                    .replace(/<[^>]*>/g, "")
+                    .trim()
+                ] || "overlap";
+              "n" === FAMR[f0].cq && (x.cq = 0);
+            });
+            var hq = Math.max.apply(
+              null,
+              R.map(function (x) {
+                return x.cq;
+              }),
+            );
+            R.forEach(function (x) {
+              x.ncq = hq > 0 ? x.cq / hq : 0;
+            });
             R.forEach(function (x) {
               var f =
                   FAMOF[
@@ -12425,7 +12443,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v122");
+        t && (t.textContent = "v123");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
