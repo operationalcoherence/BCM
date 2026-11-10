@@ -1,4 +1,4 @@
-/* Bear Canyon Method v111 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v112 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -12311,7 +12311,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v111");
+        t && (t.textContent = "v112");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
