@@ -1,4 +1,4 @@
-/* Bear Canyon Method v105 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v106 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4592,16 +4592,6 @@
               );
             });
             var x = f(/\b(must|needs?|needed|requires?|required)\b/g);
-            x.n &&
-              c(
-                "SOUNDS LIKE A CONDITION",
-                a(x.ids) +
-                  (1 === x.n ? " uses " : " use ") +
-                  p(x.ms) +
-                  ", words that often name what has to be true.",
-                null,
-                x.ids,
-              );
             var T = f(/\b(never|can't|cant|cannot|won't|wont)\b/g);
             T.n &&
               c(
@@ -4622,16 +4612,6 @@
                 S.ids,
               );
             var L = f(/\b(but|although|except)\b/g);
-            L.n &&
-              c(
-                "A NOTE HOLDING BOTH SIDES",
-                a(L.ids) +
-                  (1 === L.n ? " uses " : " use ") +
-                  p(L.ms) +
-                  ", words that often hold two sides in one note.",
-                null,
-                L.ids,
-              );
             var O = [],
               A = [];
             n.forEach(function (t) {
@@ -4693,17 +4673,6 @@
             var j = f(
               /\b\d[\d,.\/-]*\b|\b(january|february|march|april|june|july|august|september|october|november|december)\b/g,
             );
-            j.n &&
-              c(
-                "A FIGURE TO CHECK",
-                a(j.ids) +
-                  (1 === j.n ? " contains " : " contain ") +
-                  p(j.ms) +
-                  (j.ms.length > 3 ? " and more" : "") +
-                  ", a number or a date.",
-                null,
-                j.ids,
-              );
             var F = [];
             (m.forEach(function (t) {
               m.forEach(function (e) {
@@ -12317,7 +12286,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v105");
+        t && (t.textContent = "v106");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {

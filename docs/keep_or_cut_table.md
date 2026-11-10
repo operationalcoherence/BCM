@@ -30,9 +30,9 @@ them**; v105 showed that has to happen before any cut.
 
 | Page | Section | Why it is a candidate |
 | --- | --- | --- |
-| Analysis | SOUNDS LIKE A CONDITION | Fires on "must", "need", "needs", which appear in eight of eight pieces. A signal present everywhere distinguishes nothing. |
-| Analysis | A NOTE HOLDING BOTH SIDES | Fires because the writing contains "but". |
-| Analysis | A FIGURE TO CHECK | Notes contain "10" and "2008". True, and nothing follows from it. |
+| Analysis | SOUNDS LIKE A CONDITION | **Cut in v106.** Fires on "must", "need", "needs", which appear in eight of eight pieces. A signal present everywhere distinguishes nothing. |
+| Analysis | A NOTE HOLDING BOTH SIDES | **Cut in v106.** Fires because the writing contains "but". |
+| Analysis | A FIGURE TO CHECK | **Cut in v106.** Notes contain "10" and "2008". True, and nothing follows from it. |
 | Analysis | A WORD THAT RETURNS | The counts are already in PRESSING NOW and the figure. |
 | Analysis | A WORD THAT CROSSES QUESTIONS | WHAT REPEATS, rendered as a sentence. |
 | Analysis | WHAT REPEATS | 12 entries, each a word plus its dot list. A lookup table the figure already carries, and the figure is tappable. |
