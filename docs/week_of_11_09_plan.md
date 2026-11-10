@@ -4,8 +4,8 @@ Written 2026-11-08, updated 2026-11-10 after v111. Supersedes the ordering in
 `v99_plan.md`, which still holds for anything not listed here. All wording in
 this document is Claude's.
 
-**The build started 2026-11-10.** Three rows have shipped and are struck from
-the table below; see "Shipped" directly under this.
+**The build started 2026-11-10.** The figure clipping and the safe cuts have
+shipped and are struck from the table below; see "Shipped" directly under this.
 
 Read `handoff_v111.md` first.
 
@@ -226,13 +226,13 @@ The four that came first are, in this table: item 1 (shipped), the safe cuts,
 
 | # | Item | Estimate | Note |
 | --- | --- | --- | --- |
-| — | The safe cuts — checklist in `keep_or_cut_table.md`, reasoning in `elegance_screening.md` | ~45 min | Duplicated findings, the two blocks that do not earn their heading, the figure describing itself. No ranking needed. Pair with 5a, which is the same bug class. |
+| ~~—~~ | ~~The safe cuts~~ — **shipped as v105–v111, 2026-11-10**, and well past the original list | — | See `v105_update.md` to `v111_update.md`. |
 | — | Update `tests/tok.js` to the shipped engine, re-baseline both workbooks | 20–30 min | Must precede item 2. See corrections below. |
 | ~~1~~ | ~~Figure clipping~~ — **shipped as v104, 2026-11-10** | — | The frame is now measured from the finished drawing. See `v104_update.md`. |
 | 5a | Duplicate reason in course-of-action cards | 30–45 min | `unanswered === e.c` and `!e.R.act` both fire for any Q.1–Q.4 item whose word is unanswered. Self-contained; the classifier itself is sound and stays as it is. |
 | 4 | PRESENT–FUTURE axis produces findings | 60–90 min | Data already there; the x coordinate is read in exactly one place today. New wording, needs his pass. |
 | — | In Parallel line into Start Here | 10 min | **Blocked on his copy.** |
-| 6a | Layer 1 scoring, built alone | ~2 hr | Score every finding on surprise, reach, consequence and corroboration, with 5b's correlation discount. Change nothing on screen; dump the scores and check the top three or four against human judgement on all four workbooks. Gates everything below. |
+| 6a | Layer 1 scoring, built alone, **in four slices** (see "Layer 1 in slices") | ~2 hr total | Score every finding on surprise, reach, consequence and corroboration, with 5b's correlation discount. Change nothing on screen; dump the scores and check the top three or four against human judgement on all four workbooks. Gates everything below. |
 | 6b | One screen, all three reading pages | 3–6 hr | What remains of item 6 once 6a is done: selection, ordering, folding, cutting, the heavy-overlap-opposite-emotion finding family, and the new wording for his pass. Split across sessions. |
 | 6c | The question mechanism, with one question | ~2 hr | Somewhere for answers to live on `C` that survives combine, plus class 1 from `asking_questions.md`. The first question carries the cost; the rest are cheap. Can run before or after 6b once 6a exists. |
 | 2 + 3 | Proper nouns, and the six subject words, together | 1.75–2.75 hr | Gated by 6a, not by 6b — the ranking is what arbitrates, so these can follow the scoring without waiting for the page rewrite. Do them as one batch, sharing a single verification pass. Both add terms competing for the same named slots. Re-measure the clinic and place-map workbooks alongside his. |
@@ -289,17 +289,12 @@ multi-word *names* still break.
 Unchanged from the handoff unless noted:
 
 - The In Parallel line for Start Here, in his words.
-- Does the figure now close properly on his screen? v104 was verified headless.
 - Whose figure position wins when two people move the same dot on combine?
 - Does the place map's full screen need a note sheet?
 - Change the two older "the problem" sentences to question-number wording?
 - Cut `/gsmlive` over to the hosted file?
-- `keep_or_cut_table.md`: which of the screened sections get cut, which get
-  folded, which stay. It is the per-section checklist; `elegance_screening.md`
-  carries the reasoning and the confidence marks. The five rows marked
-  Duplicate are the only ones Claude would act on with a simple yes. Its section 2 was corrected on 2026-11-08
-  after he asked whether the "meaning of the meaning" heading is earned: block
-  1 on Synthesis holds up and is now marked keep.
+- How the Outliers sentence should read, and whether to keep the two sentences
+  lost in v105 (see `handoff_v111.md`).
 - Does the vocabulary feature jump ahead of item 6? Note that its step 2 —
   asking only about terms that carry a finding — needs 6a, so it leans on the
   scoring whichever way this is answered.
@@ -322,5 +317,5 @@ prior version. Item 2 is the least trustworthy number here.
 
 The handoff's standing lesson applies to estimating as much as to findings:
 offer the cheap version first and give an honest number. **The cheapest useful
-start is now the safe cuts — about 45 minutes, low-risk, and nothing stands in
-front of them.** See "What comes first" above.
+start is now Layer 1, slice 1** — score WHAT STANDS OUT only, change nothing
+on screen, show him the two lists. See "Layer 1 in slices" above.
