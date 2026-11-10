@@ -61,6 +61,25 @@ json.dump(base(goal="Scale access across the county. "+" ".join(words),
 same=[[2,100+i,100,"Tradition.",None,0,None,None,"s%d"%i] for i in range(12)]
 json.dump(base(goal="Tradition.",a=["Tradition."]*7,m=same), open('wb_same.json','w'))
 
+# 10 names on both maps: a place-map workbook whose names are the point.
+# Written for v116 (whole capitalized names as single terms). It is what caught
+# the fragmenting of "Broad Street Clinic" into broad, street and clinic.
+names_a=["Because the Broad Street Clinic closed, people travel further.",
+ "The County Board resists funding. Tradition also resists.",
+ "Yes. The Ember Trust and Broad Street Clinic volunteers already help.",
+ "Funding and staff time are the conditions.",
+ "Design a shuttle with the County Board.",
+ "Redesign outreach letters sent by Broad Street Clinic.",
+ "Reinforce what The Ember Trust volunteers do."]
+names_m=[[2,40,160,"The County Board meets quarterly.",None,0,0,"Mine","p1"],
+ [3,60,80,"Broad Street Clinic outreach works.",None,1,None,"Mine","p2"]]
+names_p=[[3,0,0,"The Ember Trust runs a van from Broad Street.",None,1,None,"Mine","q1",39.5,-98.5],
+ [2,0,0,"Broad Street parking is full.",None,0,None,None,"q2",39.6,-98.4]]
+nb=base(goal="To restore access to the Broad Street Clinic for people in the county.",
+ a=names_a,m=names_m,voices=["Mine"])
+nb['data']['p']={"m":names_p,"c":[39.5,-98.5,9]}
+json.dump(nb, open('wb_places_names.json','w'))
+
 # 9 place map + line map together
 rj=json.load(open('real.json'))['data']  # supplied by him; not stored here
 bv=json.load(open('broadview.json'))['data']

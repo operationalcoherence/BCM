@@ -1,4 +1,4 @@
-/* Bear Canyon Method v115 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v116 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -3736,6 +3736,8 @@
   }
   var Ct = {},
     It = [],
+    NmK = {},
+    NmD = {},
     Dsc = {};
   "good bad new old right wrong big small great true real whole full general specific particular different certain first"
     .split(" ")
@@ -3749,6 +3751,7 @@
     });
   var Mt = {};
   function jt(t) {
+    if (NmD[t]) return NmD[t];
     if (Ct[t]) return "planned-burn" === t ? "planned burn / prescribed fire" : t;
     if (t.indexOf(" ") > 0) return t.split(" ").map(jt).join(" ");
     var e = Mt[t];
@@ -3761,13 +3764,18 @@
   var Ft = {};
   function Ht(t) {
     var e = { k: {}, b: {}, seq: [] },
-      n = (t || "").replace(/[’']/g, "");
+      n = (t || "").replace(/([A-Z][A-Za-z]*)[’']s\b/g, "$1").replace(/[’']/g, "");
     ((n = n.replace(/((?:[.!?;:]\s+|^\s*|\n\s*)(?:["“”\(\-–—]\s*)*)([A-Z])/g, function (t, e, n) {
       return e + n.toLowerCase();
     })),
       It.forEach(function (t) {
         n = n.replace(new RegExp(t[0].source, "gi"), t[1]);
-      }));
+      }),
+      (n = n.replace(/[A-Z][A-Za-z]*(?:\s+[A-Z][A-Za-z]*)+/g, function (m) {
+        var k = m.split(/\s+/).join("-").toLowerCase();
+        if (!/^[a-z][a-z-]*$/.test(k)) return m;
+        return ((NmK[k] = 1), (NmD[k] = m), " , " + k + " , ");
+      })));
     var o = null;
     return (
       n.split(/(\s+|[,.;:!?()"“”\/]+)/).forEach(function (t) {
@@ -3775,23 +3783,31 @@
           if (/^[,.;:!?()"“”\/]+$/.test(t)) return ((o = null), void e.seq.push(null));
           var n = t.replace(/^-+|-+$/g, ""),
             r = n;
-          if (/^[A-Z]/.test(r) && "I" !== r) return ((o = null), void e.seq.push(null));
+          if (
+            /^[A-Z]/.test(r) &&
+            ("I" === r ||
+              /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|January|February|March|April|May|June|July|August|September|October|November|December)$/.test(
+                r,
+              ))
+          )
+            return ((o = null), void e.seq.push(null));
           if (
             (n = n.toLowerCase()).length < 3 ||
             Ot[n] ||
             /^\d/.test(n) ||
             Ft[n] ||
-            (/ly$/.test(n) && !At[n]) ||
+            (/ly$/.test(n) && !At[n] && !NmK[n]) ||
             !/^[a-z-]+$/.test(n)
           ) {
             if (Dsc[n] && !Ft[n])
               return ((o = n), ((Mt[n] = Mt[n] || {})[n] = (Mt[n][n] || 0) + 1), void e.seq.push(null));
             return ((o = null), void e.seq.push(null));
           }
-          var i = Qt[n] || [Nt(n)];
+          var i = Qt[n] || (NmK[n] ? [n] : [Nt(n)]);
           i.forEach(function (t) {
             ((e.k[t] = 1),
               Ct[t] ||
+                NmD[t] ||
                 (function (t, e) {
                   var n = (Mt[t] = Mt[t] || {});
                   n[e] = (n[e] || 0) + 1;
@@ -3819,6 +3835,8 @@
       Te(),
       (Mt = {}),
       (Ft = {}),
+      (NmK = {}),
+      (NmD = {}),
       ((C.p && C.p.loc && C.p.loc.name) || "")
         .toLowerCase()
         .split(/[^a-z]+/)
@@ -12312,7 +12330,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v115");
+        t && (t.textContent = "v116");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
