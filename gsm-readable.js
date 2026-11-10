@@ -1,4 +1,4 @@
-/* Bear Canyon Method v108 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v109 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -9934,14 +9934,6 @@
                 "and decide whether " +
                   o.slice(0, 3).join(", ") +
                   " are outliers worth hearing or ideas to tie in",
-              ),
-            N.length &&
-              T.push(
-                "§Where to look first.§ " +
-                  N.join(", ").replace(/^./, function (t) {
-                    return t.toUpperCase();
-                  }) +
-                  ".",
               ));
           var Q = function (t) {
               return t.map(function (t) {
@@ -12262,7 +12254,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v108");
+        t && (t.textContent = "v109");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
