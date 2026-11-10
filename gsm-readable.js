@@ -1,4 +1,4 @@
-/* Bear Canyon Method v120 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v121 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4581,6 +4581,7 @@
                 rc: rc,
                 cq: cq,
                 cr: cr,
+                ap: { su: bs.length > 0, rc: rs.length > 0, cq: qa.length > 0, cr: na.length > 0 },
               };
             });
             ["su", "rc", "cq", "cr"].forEach(function (k) {
@@ -4592,8 +4593,63 @@
                 x["n" + k] = hi > 0 ? x[k] / hi : 0;
               });
             });
+            var FAMOF = {
+              THREAD: "thread",
+              "RUNS TOGETHER": "thread",
+              "FOR AND AGAINST": "contradiction",
+              "FOR AND AGAINST ON THE MAP": "contradiction",
+              "FOR AND AGAINST, AND ON THE REDESIGN LIST": "contradiction",
+              "CROSSES THE GROUND LINE": "contradiction",
+              "CONDITION IN THE WAY": "contradiction",
+              "OTHER SIDE OF THE LINE": "contradiction",
+              "CONDITION NOT IN Q.5–Q.7": "gap",
+              "OPPOSITION NOT YET ENGAGED": "gap",
+              "SUPPORT NOT YET REINFORCED": "gap",
+              "NOT YET ANSWERED": "gap",
+              "NOT YET ADDRESSED": "gap",
+              "NOT ON THE MAP": "gap",
+              "EMOTION NOT YET READ": "gap",
+              "NOTHING NEAR THE GOAL": "gap",
+              "ONE SIDE ONLY": "gap",
+              "NOTES TO WRITE": "gap",
+              "READY TO REINFORCE": "overlap",
+              "REDESIGN THE RESISTANCE": "overlap",
+              "BUILD OR REBUILD": "overlap",
+              "ROOT CONDITION": "overlap",
+              "BUILD ON WHAT IS HAPPENING": "overlap",
+              "PARTLY ALREADY": "overlap",
+              "ROOTED IN OPPOSITION": "overlap",
+              "SHORT ANSWERS": "structure",
+              "LEADING QUESTIONS": "structure",
+              "STANDS ALONE": "structure",
+              "AT THE CENTER": "structure",
+            };
+            var FAMR = {
+              thread: { su: "c", rc: "c", cq: "c", cr: "e" },
+              contradiction: { su: "c", rc: "e", cq: "c", cr: "e" },
+              gap: { su: "c", rc: "e", cq: "c", cr: "e" },
+              overlap: { su: "c", rc: "c", cq: "c", cr: "e" },
+              structure: { su: "c", rc: "c", cq: "c", cr: "e" },
+            };
+            var FW = { su: 0.35, rc: 0.25, cq: 0.2, cr: 0.2 };
             R.forEach(function (x) {
-              x.bse = 0.35 * x.nsu + 0.25 * x.nrc + 0.2 * x.ncq + 0.2 * x.ncr;
+              var f =
+                  FAMOF[
+                    String(x.t[0])
+                      .replace(/<[^>]*>/g, "")
+                      .trim()
+                  ] || "overlap",
+                r = FAMR[f],
+                tt = 0,
+                ac = 0;
+              ["su", "rc", "cq", "cr"].forEach(function (k) {
+                if (!x.ap[k]) return;
+                if ("c" !== r[k]) return;
+                tt += FW[k];
+                ac += FW[k] * x["n" + k];
+              });
+              x.fam = f;
+              x.bse = tt > 0 ? ac / tt : 0;
             });
             function jc(a, b) {
               var s = {},
@@ -12367,7 +12423,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v120");
+        t && (t.textContent = "v121");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {

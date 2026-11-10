@@ -17,6 +17,7 @@ src = open(JS, encoding='utf-8').read()
 TAIL = 'return P.map(function(x){return x.t})}'
 DUMP = ('window.__SC=P.map(function(x){return{bs:x.bs,rs:x.rs,su:x.su,rc:x.rc,'
         'cq:x.cq,cr:x.cr,nsu:x.nsu,nrc:x.nrc,ncq:x.ncq,ncr:x.ncr,bse:x.bse,'
+        'fam:x.fam,ap:x.ap,'
         'raw:String(x.t[1]),'
         'h:String(x.t[0]).replace(/<[^>]*>/g,"")}});') + TAIL
 assert src.count(TAIL) == 1, 'selection tail: expected 1, got %d' % src.count(TAIL)
@@ -73,10 +74,10 @@ if not sc:
     sys.exit('the engine did not stash a scored array (errors: %r)' % errs[:3])
 
 print('%d candidates, in the engine\'s own order' % len(sc))
-print('%-4s %-36s %5s %5s %5s %5s %6s' % ('', 'finding', 'sur', 'reach', 'cons', 'corr', 'base'))
+print('%-4s %-30s %-14s %5s %5s %5s %5s %6s' % ('', 'finding', 'family', 'sur', 'reach', 'cons', 'corr', 'base'))
 for i, x in enumerate(sc, 1):
-    print('%-4s %-36s %5.2f %5.2f %5.2f %5.2f %6.3f'
-          % (('%d.' % i) + (' *' if i <= 7 else ''), x['h'][:36],
+    print('%-4s %-30s %-14s %5.2f %5.2f %5.2f %5.2f %6.3f'
+          % (('%d.' % i) + (' *' if i <= 7 else ''), x['h'][:30], x.get('fam', ''),
              x['nsu'], x['nrc'], x['ncq'], x['ncr'], x['bse']))
 print('\n* = survives the cap of 7 today\n')
 print('raw values, and what each finding names as resting on')
