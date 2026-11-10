@@ -1,4 +1,4 @@
-/* Bear Canyon Method v121 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v122 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4570,7 +4570,8 @@
                 var v = vo(x);
                 v && (vs[v] = 1);
               });
-              var cr = Object.keys(vs).length + (/both sides|for and against/.test(tx) ? 0.7 : 0);
+              var cr = Object.keys(vs).length,
+                ct = /both sides|for and against/.test(tx) ? 1 : 0;
               return {
                 t: t,
                 bs: bs.map(function (x) {
@@ -4581,10 +4582,11 @@
                 rc: rc,
                 cq: cq,
                 cr: cr,
-                ap: { su: bs.length > 0, rc: rs.length > 0, cq: qa.length > 0, cr: na.length > 0 },
+                ct: ct,
+                ap: { su: bs.length > 0, rc: rs.length > 0, cq: qa.length > 0, cr: na.length > 0, ct: !0 },
               };
             });
-            ["su", "rc", "cq", "cr"].forEach(function (k) {
+            ["su", "rc", "cq", "cr", "ct"].forEach(function (k) {
               var v = R.map(function (x) {
                   return x[k];
                 }),
@@ -4625,13 +4627,13 @@
               "AT THE CENTER": "structure",
             };
             var FAMR = {
-              thread: { su: "c", rc: "c", cq: "c", cr: "e" },
+              thread: { su: "c", rc: "c", cq: "c", cr: "e", ct: "c" },
               contradiction: { su: "c", rc: "e", cq: "c", cr: "e" },
               gap: { su: "c", rc: "e", cq: "c", cr: "e" },
-              overlap: { su: "c", rc: "c", cq: "c", cr: "e" },
+              overlap: { su: "c", rc: "c", cq: "c", cr: "e", ct: "c" },
               structure: { su: "c", rc: "c", cq: "c", cr: "e" },
             };
-            var FW = { su: 0.35, rc: 0.25, cq: 0.2, cr: 0.2 };
+            var FW = { su: 0.35, rc: 0.25, cq: 0.2, cr: 0.2, ct: 0.2 };
             R.forEach(function (x) {
               var f =
                   FAMOF[
@@ -4642,7 +4644,7 @@
                 r = FAMR[f],
                 tt = 0,
                 ac = 0;
-              ["su", "rc", "cq", "cr"].forEach(function (k) {
+              ["su", "rc", "cq", "cr", "ct"].forEach(function (k) {
                 if (!x.ap[k]) return;
                 if ("c" !== r[k]) return;
                 tt += FW[k];
@@ -12423,7 +12425,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v121");
+        t && (t.textContent = "v122");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
