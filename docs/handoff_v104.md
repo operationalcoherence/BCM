@@ -1,6 +1,7 @@
 # Bear Canyon Method web workbook: HANDOFF at v104 (preview, not live)
 
-Written 2026-11-10, updated the same day for v104 and for the PDF decision. Supersedes `handoff_v99.md`. Read this first, then
+Written 2026-11-10, updated the same day for v104 and for the PDF decision.
+Supersedes `handoff_v99.md`. Read this first, then
 `week_of_11_09_plan.md` (what to build and in what order), then
 `keep_or_cut_table.md`, `engine_audit_v98.md`, `asking_questions.md`,
 `vocabulary_architecture.md` and `vocabulary_funnel.md`.
@@ -162,13 +163,14 @@ Then the rest: `tok.js`, 5a, item 4, 6b, 2+3, and the smaller queue.
 
 ### What was known about the figure clipping before v104 fixed it
 
-The hang figure's viewBox is hardcoded `-24 -14 388 348` for every workbook
-while the loops are drawn from where the dots sit.
+Kept because it explains why the fix took the shape it did. Before v104 the
+viewBox was hardcoded `-24 -14 388 348` for every workbook, while the loops are
+drawn from where the dots sit.
 
 - On his workbook the drawing reaches y=349.5 and the frame stops at 334:
   **15.5 units cut off the bottom**, which confirms the handoff's 16.
 - Broadview reaches exactly 334.0. It fits by zero, not by one unit.
-- **Sizing the frame to the dots will not work.** His lowest dot is at y=306.6
+- **Sizing the frame to the dots does not work.** His lowest dot is at y=306.6
   and the drawing reaches 349.5 — loops and labels extend about 43 units past
   the dots. All dot positions are known before the viewBox is written, which
   makes that approach tempting and wrong.
@@ -234,6 +236,9 @@ screen now closes properly, since all of this was measured headless.
 - Leaflet loads from a CDN. The test harness blocks it, which is why place-map
   rendering went untested for so long. `tests/placehover.py` serves it from a
   local copy (`npm install leaflet@1.9.4`).
+- The hang figure's frame is computed at render time since v104, in a hidden
+  off-screen holder, and falls back to the old fixed frame if measurement
+  fails.
 
 ## The word pipeline
 
@@ -256,6 +261,8 @@ actually read what the engine says. `matrix.py` covers every tab of every
 workbook. `coa.py` covers strategy vs program. `mkwb.py` writes the synthetic
 workbooks. `tok.js` is a copy of the tokenizer run outside the page, and is
 stale. `hover.py` and `placehover.py` test the line-map and place-map hovers.
+`measure.py` reports the figure's frame against its drawn extent, and `shot.py`
+screenshots the figure (both added at v104).
 
 **Run a non-wildfire workbook every time.** It is what exposed the domain
 lexicon corrupting other subjects. **Run a place-map workbook every time.**
