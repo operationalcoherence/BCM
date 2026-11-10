@@ -1,4 +1,4 @@
-/* Bear Canyon Method v127 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v128 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4368,6 +4368,94 @@
               1,
             ]));
         !(function () {
+          var SV = [Mt, NmK, NmD].map(function (o) {
+              return JSON.stringify(o);
+            }),
+            A = Q().map(function (t) {
+              return Object.keys(Ht(t || "").k);
+            }),
+            CM = {},
+            CN = {},
+            RW = {},
+            RI = {},
+            U = [],
+            T = [];
+          Object.keys(Ht(C.goal || "").k).forEach(function (k) {
+            CM[k] = 1;
+          });
+          A.forEach(function (a) {
+            a.forEach(function (k) {
+              CN[k] = (CN[k] || 0) + 1;
+            });
+          });
+          for (var k in CN) CN[k] >= 4 && (CM[k] = 1);
+          function rw(txt, lab, id) {
+            Object.keys(Ht(txt || "").k).forEach(function (k) {
+              (RW[k] = RW[k] || []).push(lab);
+            });
+            RI[id] = 1;
+          }
+          [4, 5, 6].forEach(function (i) {
+            (Q()[i] || "").trim() && rw(Q()[i], "Q." + (i + 1), "Q." + (i + 1));
+          });
+          C.m.forEach(function (r, i) {
+            (r[3] || "").trim() && r[0] >= 5 && rw(r[3], "N" + (i + 1), r[8]);
+          });
+          ((C.p && C.p.m) || []).forEach(function (r, i) {
+            (r[3] || "").trim() && r[0] >= 5 && rw(r[3], "N" + (i + 1) + " (place)", r[8]);
+          });
+          function ck(r, hd, lab, ref) {
+            var tx = (r[3] || "").trim();
+            if (!hd || !tx) return;
+            var own = Object.keys(Ht(tx).k).filter(function (k) {
+                return !CM[k] && RW[k];
+              }),
+              lk = (C.links || []).some(function (l) {
+                return (l.f === r[8] && RI[l.t]) || (l.t === r[8] && RI[l.f]);
+              });
+            own.length || lk
+              ? T.push({ lab: lab, w: own[0], by: own.length ? RW[own[0]][0] : "a link you drew", tx: tx })
+              : U.push({
+                  lab: lab,
+                  ref: ref,
+                  tx: tx,
+                  kw: Object.keys(Ht(tx).k)
+                    .filter(function (k) {
+                      return !CM[k];
+                    })
+                    .sort(function (a, b) {
+                      return (CN[a] || 0) - (CN[b] || 0);
+                    })[0],
+                });
+          }
+          C.m.forEach(function (r, i) {
+            ck(r, r[2] > 118, "N" + (i + 1), "note " + (i + 1));
+          });
+          ((C.p && C.p.m) || []).forEach(function (r, i) {
+            ck(r, 2 === r[0], "N" + (i + 1) + " (place)", "P" + (i + 1));
+          });
+          [Mt, NmK, NmD].forEach(function (o, i) {
+            for (var k in o) delete o[k];
+            var v = JSON.parse(SV[i]);
+            for (k in v) o[k] = v[k];
+          });
+          window.gsmNR = { u: U, t: T };
+          if (!U.length) return;
+          function qt(t) {
+            return "“" + Gt(t.length > 70 ? t.slice(0, 70).replace(/\s+\S*$/, "") + "…" : t) + "”";
+          }
+          var L5 = U.slice(0, 4).map(function (u) {
+            return u.lab + " " + qt(u.tx);
+          });
+          window.gsmNR.h =
+            (L5.length > 1 ? L5.slice(0, -1).join(", ") + " and " + L5[L5.length - 1] : L5[0]) +
+            (U.length > 4 ? " and " + (U.length - 4) + " more" : "") +
+            (U.length > 1 ? " hinder" : " hinders") +
+            " the goal, and nothing in Q.5–Q.7 or in your design, redesign and reinforce notes responds to " +
+            (U.length > 1 ? "them" : "it") +
+            " yet.";
+        })();
+        !(function () {
           var SG = { 0: 1, 2: 1, 4: 1 },
             EN = ["aggression", "acceptance", "distrust", "indifference", "defiance"],
             R1 = [],
@@ -7642,6 +7730,11 @@
                     " of your " +
                     ESM.n +
                     " notes. So the emotion and the side are really one judgement, and the cards count them once, not twice.</p></div></details>"
+                  : "") +
+                (window.gsmNR && window.gsmNR.h
+                  ? '<div class="rule"><div class="rl">NO RESPONSE YET</div><div>' +
+                    window.gsmNR.h +
+                    "</div></div>"
                   : "") +
                 Qn +
                 In +
@@ -12570,7 +12663,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v127");
+        t && (t.textContent = "v128");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
