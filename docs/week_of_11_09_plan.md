@@ -1,14 +1,13 @@
 # Week of 2026-11-09 — what to build, in order, with estimates
 
-Written 2026-11-08, updated 2026-11-09. Supersedes the ordering in
+Written 2026-11-08, updated 2026-11-10. Supersedes the ordering in
 `v99_plan.md`, which still holds for anything not listed here. All wording in
 this document is Claude's.
 
-**The build starts 2026-11-10.** Two rows have already shipped and have been
-removed from the table below; see "Shipped" directly under this.
+**The build started 2026-11-10.** Three rows have shipped and are struck from
+the table below; see "Shipped" directly under this.
 
-Read `handoff_v99.md` first. Its "Latest shipped: v99" line predates v100 and
-v101, both of which shipped on 2026-11-08 outside this plan.
+Read `handoff_v104.md` first.
 
 ## Shipped since the handoff
 
@@ -23,18 +22,24 @@ v101, both of which shipped on 2026-11-08 outside this plan.
   duplicates and two entries the tokenizer can never match. No behavior change,
   proved by rendering all three reading pages on both workbooks before and
   after. `v102_update.md`.
-- **v104** (2026-11-10) — the hang figure is no longer cut off at the bottom.
-  The drawing is measured and the frame grows to hold it. Completes item 1.
-  `v104_update.md`.
 - **v103** (2026-11-09) — In Parallel's "Where to start" no longer names the
   same word twice. It nominates a contested word, an unreached cause and a
   bridging thread with no check that they differ; on his workbook `fire` won
   two of the three. `v103_update.md`.
+- **v104** (2026-11-10) — the hang figure is no longer cut off at the bottom.
+  The finished drawing is measured and the frame grows to hold it, never
+  shrinking below the old size. Page text byte-identical. **Completes item 1.**
+  `v104_update.md`.
 
-Both were taken from the queue below on 2026-11-09 with very little usage left,
-on the principle of running the lowest-impact thing available. The first was
-chosen because it cannot change behavior, the second because it is logic rather
-than wording and so needed no pass from him.
+v102 and v103 were taken from the queue on 2026-11-09 with very little usage
+left, on the principle of running the lowest-impact thing available: the first
+because it cannot change behavior, the second because it is logic rather than
+wording and so needed no pass from him.
+
+**Next up is the safe cuts**, and as of 2026-11-10 nothing stands in front of
+them — the figure clipping shipped, and the PDF is uncoupled. They need his
+rulings on `keep_or_cut_table.md`; the five rows marked Duplicate are
+actionable on a plain yes.
 
 ## Decisions Gregory made on 2026-11-08
 
