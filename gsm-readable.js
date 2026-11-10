@@ -1,4 +1,4 @@
-/* Bear Canyon Method v126 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v127 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -6709,41 +6709,37 @@
                     var M = "\u0001",
                       LN = Hn(),
                       EG = es(),
-                      TG =
-                        " In your workbook a note's emotion and its side of the line agree in " +
-                        EG.agree +
-                        " of " +
-                        EG.n +
-                        " notes (acceptance above, the strong emotions below), so here they count as one.",
+                      SD = LN ? "sits on the hindering side of the line" : "mostly hinders the goal",
+                      TG = " Here, those two count as one reason.",
                       i = n.indexOf(M);
+                    i >= 0 && (EG.used = 1);
                     if (0 === i) {
                       var r1 = n.slice(1);
                       return (
-                        "the emotion around it is strong and " +
-                        (LN
-                          ? "it sits below the line, where things hinder the goal"
-                          : "what you wrote about it mostly hinders the goal") +
+                        "it carries a strong emotion and " +
+                        SD +
+                        "." +
+                        TG +
                         (r1.length
-                          ? ", and " +
+                          ? " " +
                             r1.length +
                             (r1.length > 1 ? " other things point" : " other thing points") +
                             " the same way."
-                          : ". That is the only reason that tips it, so a program may suit instead once it settles.") +
-                        TG
+                          : " That is the only reason that tips it, so a program may suit instead once it settles.")
                       );
                     }
                     if (i > 0) {
                       var k = n.length - 2;
                       return (
                         n[0] +
-                        ", and " +
-                        (LN
-                          ? "its strong emotion and its place below the line, where things hinder the goal,"
-                          : "its strong emotion and that it mostly hinders the goal") +
-                        " point the same way" +
                         (k > 0
-                          ? ", as " + (k > 1 ? "do " + k + " other things" : "does 1 other thing")
+                          ? ", and " +
+                            k +
+                            (k > 1 ? " other things point" : " other thing points") +
+                            " the same way"
                           : "") +
+                        ". It also carries a strong emotion and " +
+                        SD +
                         "." +
                         TG
                       );
@@ -7640,6 +7636,13 @@
         var ro =
             In || Zn.length
               ? '<div class="part">4 · COURSES OF ACTION<span>Suggested, area by area: a program where the ground is settled, a strategy where it is not.</span></div><div class="pnote"><b>Prompts, not findings.</b> Each card is built from a template and the words you used. Talk them through with the people involved, and change or drop any that do not fit.</div><div class="meta">Programs work best in contexts where you know what is going to happen, either because you have done it before or can strongly anticipate the outcome. Programs work best when executed in environments where there is order, meaning regularity and stability, and a line can be drawn from action to outcome. Set the sequence and let it run: schedule, roles, repeat.</div><div class="meta">Strategies work best in disorderly environments when you cannot foresee entirely what the outcome will be; there are several outcomes to choose from that are all probable. However, there is no way of knowing which is right before acting. Strategies work best when you cannot draw a straight line from action to outcome, as they enable you to keep a loose structure ideal for ill-defined situations where constant revisions to courses of action are necessary. Hold it loosely: sketch two or three ways forward, start small, and change course as people respond.</div><div class="msub">Sources:</div><div class="msub">Axelrod, R., &amp; Cohen, M. D. (2000). <i>Harnessing complexity: Organizational implications of a scientific frontier</i>. New York, NY: Basic Books.</div><div class="msub">Morin, E. (2008). <i>On complexity</i>. (R. Postel, Trans.). Cresskill, NJ: Hampton Press.</div><div class="msub">Morin, E., &amp; Kern, A. B. (1999). <i>Homeland earth: A manifesto for the new millennium</i>. (S. M. Kelly, &amp; R. LaPointe, Trans.) Cresskill, NJ: Hampton Press.</div><div class="msub">Waldrop, M. M. (1992). <i>The emerging science at the edge of order and chaos</i>. New York, NY: Touchstone.</div>' +
+                (ESM && ESM.used
+                  ? '<details class="fold"><summary>HOW TO READ THIS PAGE</summary><div class="mtext"><p>Each card lists the reasons it calls for a strategy rather than a program. Two of those reasons are the emotion you marked on a note and which side of the line you put it on. In this workbook they almost always match: notes marked acceptance sit above the line, where things help, and notes marked aggression, distrust or defiance sit below it, where things hinder. That is true of ' +
+                    ESM.agree +
+                    " of your " +
+                    ESM.n +
+                    " notes. So the emotion and the side are really one judgement, and the cards count them once, not twice.</p></div></details>"
+                  : "") +
                 Qn +
                 In +
                 qn +
@@ -12567,7 +12570,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v126");
+        t && (t.textContent = "v127");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
