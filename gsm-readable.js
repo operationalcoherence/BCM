@@ -1,4 +1,4 @@
-/* Bear Canyon Method v106 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v107 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4593,24 +4593,7 @@
             });
             var x = f(/\b(must|needs?|needed|requires?|required)\b/g);
             var T = f(/\b(never|can't|cant|cannot|won't|wont)\b/g);
-            T.n &&
-              c(
-                "SOUNDS LIKE A BARRIER",
-                a(T.ids) +
-                  (1 === T.n ? " uses " : " use ") +
-                  p(T.ms) +
-                  ", words that often name something in the way.",
-                null,
-                T.ids,
-              );
             var S = f(/\b(could|maybe|might)\b/g);
-            S.n &&
-              c(
-                "AN OPEN POSSIBILITY",
-                a(S.ids) + (1 === S.n ? " uses " : " use ") + p(S.ms) + ", words that leave something open.",
-                null,
-                S.ids,
-              );
             var L = f(/\b(but|although|except)\b/g);
             var O = [],
               A = [];
@@ -4623,11 +4606,6 @@
                 return e !== t;
               });
             });
-            N &&
-              c(
-                "LOOKING BACK AND FORWARD",
-                a(O.map(o)) + " look back (“used to”, “before”) and " + a(A.map(o)) + " look at now or soon.",
-              );
             var I = {},
               q =
                 /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|January|February|March|April|May|June|July|August|September|October|November|December|I)$/;
@@ -7574,7 +7552,7 @@
                     o = e.filter(function (t) {
                       return t.classList.contains("part") && /LOOKING OUT/.test(t.textContent);
                     })[0];
-                  if (o) {
+                  if (0) {
                     var r = document.createElement("div"),
                       i = document.createElement("div");
                     ((r.className = "plab"),
@@ -9644,17 +9622,6 @@
                       r >= 0.8 * e
                         ? " Because it runs through nearly every dot, it is the subject of the whole picture rather than a link inside it. It ties everything together but does not separate one part from another. The threads shared by fewer dots are the ones that show where the parts differ."
                         : " It ties " + r + " of " + e + " dots, so the picture mostly hangs on it."),
-                  n.length > 1 &&
-                    e &&
-                    (s +=
-                      "\n§The tangle.§ It is made of " +
-                      n.length +
-                      " threads, each tying about " +
-                      a +
-                      " dots. " +
-                      (a >= 0.35 * e
-                        ? "Many threads each tie many dots, so the picture is tightly knit: your answers and notes keep returning to the same ideas."
-                        : "Most threads tie only a few dots, so the picture is loose: your answers and notes cover different ground and few ideas run all the way through.")),
                   s
                 );
               })()),
@@ -9817,25 +9784,17 @@
               return t.up >= 2 && !t.dn;
             }),
             T = [];
-          (g.length > f.length &&
-            T.push(
-              "§Beyond the picture.§ The picture above draws the " +
-                f.length +
-                " strongest threads so it stays readable. These lines read all " +
-                g.length +
-                " of your recurring words and phrases, so they may name something the picture does not show.",
-            ),
-            g.length &&
-              (y.length
-                ? T.push(
-                    "§Bridges.§ " +
-                      m(y) +
-                      (y.length > 1 ? " run" : " runs") +
-                      " from Q.1–Q.4 (and the notes that describe it) into Q.5–Q.7. They carry your logic from cause to action, so Q.5–Q.7 work through them.",
-                  )
-                : T.push(
-                    "§Bridges.§ No thread runs from Q.1–Q.4 into Q.5–Q.7. The two halves use different words, so Q.5–Q.7 may not yet answer Q.1–Q.4.",
-                  )),
+          (g.length &&
+            (y.length
+              ? T.push(
+                  "§Bridges.§ " +
+                    m(y) +
+                    (y.length > 1 ? " run" : " runs") +
+                    " from Q.1–Q.4 (and the notes that describe it) into Q.5–Q.7. They carry your logic from cause to action, so Q.5–Q.7 work through them.",
+                )
+              : T.push(
+                  "§Bridges.§ No thread runs from Q.1–Q.4 into Q.5–Q.7. The two halves use different words, so Q.5–Q.7 may not yet answer Q.1–Q.4.",
+                )),
             w.length &&
               T.push(
                 "§In Q.1–Q.4, not in Q.5–Q.7.§ " +
@@ -12286,7 +12245,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v106");
+        t && (t.textContent = "v107");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {

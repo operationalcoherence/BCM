@@ -1,6 +1,6 @@
 # Keep or look at: the sections of Pattern Analysis and Pattern Synthesis
 
-Revised 2026-11-10 after v105. Originally written 2026-11-09 for Gregory to
+Revised 2026-11-10 after v107. Originally written 2026-11-09 for Gregory to
 rule on, from renders of his real workbook with every fold open.
 `elegance_screening.md` carries the reasoning; this is the checklist.
 
@@ -33,13 +33,13 @@ them**; v105 showed that has to happen before any cut.
 | Analysis | SOUNDS LIKE A CONDITION | **Cut in v106.** Fires on "must", "need", "needs", which appear in eight of eight pieces. A signal present everywhere distinguishes nothing. |
 | Analysis | A NOTE HOLDING BOTH SIDES | **Cut in v106.** Fires because the writing contains "but". |
 | Analysis | A FIGURE TO CHECK | **Cut in v106.** Notes contain "10" and "2008". True, and nothing follows from it. |
-| Analysis | A WORD THAT RETURNS | The counts are already in PRESSING NOW and the figure. |
-| Analysis | A WORD THAT CROSSES QUESTIONS | WHAT REPEATS, rendered as a sentence. |
-| Analysis | WHAT REPEATS | 12 entries, each a word plus its dot list. A lookup table the figure already carries, and the figure is tappable. |
-| Analysis | EACH QUESTION | Seven entries, six led by the same dominant words. |
-| Synthesis | The tangle | "8 threads, each tying about 11 dots" describes the drawing, not his thinking. |
-| Synthesis | Beyond the picture | Explains the method, not the workbook. |
-| Synthesis | FROM THE WORDS, ABOUT THIS MAP | Repeats two Analysis findings on purpose. The one duplicate worth defending. |
+| Analysis | A WORD THAT RETURNS | **Kept in v107:** other findings are built from it. The counts are already in PRESSING NOW and the figure. |
+| Analysis | A WORD THAT CROSSES QUESTIONS | **Kept in v107:** other findings are built from it. WHAT REPEATS, rendered as a sentence. |
+| Analysis | WHAT REPEATS | **Kept in v107:** each word is a button that lights its dots on the figure. 12 entries, each a word plus its dot list. A lookup table the figure already carries, and the figure is tappable. |
+| Analysis | EACH QUESTION | **Not yet checked.** Seven entries, six led by the same dominant words. |
+| Synthesis | The tangle | **Cut in v107.** "8 threads, each tying about 11 dots" describes the drawing, not his thinking. |
+| Synthesis | Beyond the picture | **Cut in v107.** Explains the method, not the workbook. |
+| Synthesis | FROM THE WORDS, ABOUT THIS MAP | **Cut in v107** (the copy; the originals stay on Analysis). Repeats two Analysis findings on purpose. The one duplicate worth defending. |
 
 ## Needs his wording
 
