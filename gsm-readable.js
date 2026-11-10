@@ -1,4 +1,4 @@
-/* Bear Canyon Method v119 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v120 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4260,30 +4260,34 @@
               return (E[3] || {})[t];
             }),
           )).length &&
-            b.push([
-              "FOR AND AGAINST ON THE MAP",
-              uo(w) +
-                ho(w, " is", " are") +
-                " in both an opposition note (✕) and a support note (○)." +
-                (function () {
-                  var o = [],
-                    s = [];
-                  a.forEach(function (z) {
-                    z.t.k[w[0]] && (2 === z.k ? o : 3 === z.k ? s : []).push(z.id);
-                  });
-                  return o.length && s.length
+            (function () {
+              var o = [],
+                s = [];
+              a.forEach(function (z) {
+                z.t.k[w[0]] && (2 === z.k ? o : 3 === z.k ? s : []).push(z.id);
+              });
+              var nm = o.length && s.length,
+                on = nm ? o.slice(0, 4).concat(s.slice(0, 4)) : [];
+              b.push([
+                "FOR AND AGAINST ON THE MAP",
+                uo(w) +
+                  ho(w, " is", " are") +
+                  " in both an opposition note (✕) and a support note (○)." +
+                  (nm
                     ? " For " +
-                        uo([w[0]]) +
-                        ": opposed in " +
-                        o.slice(0, 4).join(", ") +
-                        "; supported in " +
-                        s.slice(0, 4).join(", ") +
-                        "."
-                    : "";
-                })(),
-              0,
-              8,
-            ]));
+                      uo([w[0]]) +
+                      ": opposed in " +
+                      o.slice(0, 4).join(", ") +
+                      "; supported in " +
+                      s.slice(0, 4).join(", ") +
+                      "."
+                    : ""),
+                0,
+                8,
+                on,
+                "contradiction",
+              ]);
+            })());
         var U = (function (t, e, n, o) {
             var r = [];
             C.goal.trim() &&
@@ -4525,17 +4529,20 @@
                 re = /<b>([\s\S]*?)<\/b>/g;
               while ((m = re.exec(t[1]))) bs.push(m[1].replace(/<[^>]*>/g, "").trim());
               var tp = t[1].replace(/<[^>]*>/g, " ");
-              re = /Q\.[1-7]/g;
-              while ((m = re.exec(tp))) rs.push(m[0]);
-              re = /\bN(\d+)\b/g;
-              while ((m = re.exec(tp))) rs.push("note " + m[1]);
-              re = /\bP(\d+)\b/g;
-              while ((m = re.exec(tp))) rs.push("P" + m[1]);
-              var tn = tp.replace(/\bplace note (\d+)\b/gi, function (z, n) {
-                return (rs.push("P" + n), " ");
-              });
-              re = /\bnote (\d+)\b/gi;
-              while ((m = re.exec(tn))) rs.push("note " + m[1]);
+              if (Array.isArray(t[4])) rs = t[4].slice();
+              else {
+                re = /Q\.[1-7]/g;
+                while ((m = re.exec(tp))) rs.push(m[0]);
+                re = /\bN(\d+)\b/g;
+                while ((m = re.exec(tp))) rs.push("note " + m[1]);
+                re = /\bP(\d+)\b/g;
+                while ((m = re.exec(tp))) rs.push("P" + m[1]);
+                var tn = tp.replace(/\bplace note (\d+)\b/gi, function (z, n) {
+                  return (rs.push("P" + n), " ");
+                });
+                re = /\bnote (\d+)\b/gi;
+                while ((m = re.exec(tn))) rs.push("note " + m[1]);
+              }
               var tx = tp.toLowerCase(),
                 su = 0;
               if (bs.length) {
@@ -12360,7 +12367,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v119");
+        t && (t.textContent = "v120");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
