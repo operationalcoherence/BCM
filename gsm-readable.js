@@ -1,4 +1,4 @@
-/* Bear Canyon Method v117 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v118 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4262,7 +4262,25 @@
           )).length &&
             b.push([
               "FOR AND AGAINST ON THE MAP",
-              uo(w) + ho(w, " is", " are") + " in both an opposition note (✕) and a support note (○).",
+              uo(w) +
+                ho(w, " is", " are") +
+                " in both an opposition note (✕) and a support note (○)." +
+                (function () {
+                  var o = [],
+                    s = [];
+                  a.forEach(function (z) {
+                    z.t.k[w[0]] && (2 === z.k ? o : 3 === z.k ? s : []).push(z.id);
+                  });
+                  return o.length && s.length
+                    ? " For " +
+                        uo([w[0]]) +
+                        ": opposed in " +
+                        o.slice(0, 4).join(", ") +
+                        "; supported in " +
+                        s.slice(0, 4).join(", ") +
+                        "."
+                    : "";
+                })(),
               0,
               8,
             ]));
@@ -4513,6 +4531,11 @@
               while ((m = re.exec(tp))) rs.push("note " + m[1]);
               re = /\bP(\d+)\b/g;
               while ((m = re.exec(tp))) rs.push("P" + m[1]);
+              var tn = tp.replace(/\bplace note (\d+)\b/gi, function (z, n) {
+                return (rs.push("P" + n), " ");
+              });
+              re = /\bnote (\d+)\b/gi;
+              while ((m = re.exec(tn))) rs.push("note " + m[1]);
               var tx = tp.toLowerCase(),
                 su = 0;
               if (bs.length) {
@@ -12338,7 +12361,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v117");
+        t && (t.textContent = "v118");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
