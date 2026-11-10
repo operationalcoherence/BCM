@@ -15,8 +15,8 @@ Kept here because every previous harness lived in a sandbox that was lost.
 | `matrix.py WORKBOOK.json …` | Runs every tab of every workbook given. Reports boot time, per-tab time and word count, any uncaught page error, and whether either script-injection probe fired. |
 | `coa.py WORKBOOK.json …` | Counts STRATEGY against PROGRAM in Taking Action and prints the reasons each card gives. |
 | `mkwb.py` | Writes the synthetic test workbooks: empty, goal-only, single-note, a non-wildfire clinic workbook, a legacy 9-element-note one and its 10-element twin, hostile text, 200 notes, 12 identical notes, and one carrying both maps. |
-| `tok.js WORKBOOK.json` | A faithful copy of the tokenizer, run outside the page. Reports what survives, stem collisions, proper nouns dropped, stopwords hit, and -ly words dropped. Uses `stop.txt`. |
-| `stop.txt` | The 362-entry stopword list, lifted from the engine so `tok.js` matches it exactly. Regenerate it if the list changes. |
+| `tok.js WORKBOOK.json` | A faithful copy of the tokenizer, run outside the page. Reports what survives, stem collisions, proper nouns dropped, stopwords hit, and -ly words dropped. Reads the stopword list, the -ly exceptions and the descriptive words straight from `gsm-preview.js`, so it cannot go stale. |
+| `stop.txt` | Obsolete (pre-v102, 362 entries). `tok.js` no longer reads it. |
 
 ## Workbooks the scripts expect
 

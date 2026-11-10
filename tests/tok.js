@@ -1,8 +1,12 @@
 const fs=require('fs');
-const LT=fs.readFileSync('stop.txt','utf8').split(' ');
+// Read the shipped lists straight from the engine so this file cannot go stale again.
+const SRC=fs.readFileSync(__dirname+'/../gsm-preview.js','utf8');
+function grab(re,label){const m=SRC.match(re);if(!m)throw new Error('engine pattern not found: '+label);return m[1];}
+const LT=grab(/Lt="([a-z' ]+)"\.split\(" "\),Ot=\{\}/,'stopword list').split(' ');
 const Ot={}; LT.forEach(t=>Ot[t]=1);
-const At={family:1,supply:1,apply:1,rely:1,early:1,assembly:1,ally:1,july:1,italy:1,anomaly:1,butterfly:1,firefly:1,monopoly:1};
-const Dsc={}; "good bad new old right wrong big small great true real whole full general specific particular different certain first".split(' ').forEach(t=>Dsc[t]=1);
+const At=eval('('+grab(/var At=(\{[^}]*\})/,'-ly exceptions')+')');
+const Dsc={}; grab(/Dsc=\{\};"([a-z ]+)"\.split/,'descriptive words').split(' ').forEach(t=>Dsc[t]=1);
+const Ft={}; // place-name words of the workbook's map location; filled per workbook below
 function Nt(t){let e=t;
  if(/ies$/.test(e)&&e.length>5) e=e.slice(0,-3)+'y';
  else if(/ing$/.test(e)&&e.length>5) e=e.slice(0,-3);
@@ -12,7 +16,7 @@ function Nt(t){let e=t;
 const stats={proper:{},stopHit:{},stems:{},kept:0,total:0,shortDrop:{},numDrop:{},lyDrop:{}};
 function Ht(text){
  let n=(text||'').replace(/[’']/g,'');
- n=n.replace(/([.!?;:]\s+|^\s*|\n\s*)([A-Z])/g,(m,a,b)=>a+b.toLowerCase());
+ n=n.replace(/((?:[.!?;:]\s+|^\s*|\n\s*)(?:["“”\(\-–—]\s*)*)([A-Z])/g,(m,a,b)=>a+b.toLowerCase());
  n.split(/(\s+|[,.;:!?()"“”\/]+)/).forEach(tok=>{
   if(!tok||/^\s+$/.test(tok))return;
   if(/^[,.;:!?()"“”\/]+$/.test(tok))return;
@@ -22,6 +26,7 @@ function Ht(text){
   const low=r.toLowerCase();
   if(low.length<3){stats.shortDrop[low]=(stats.shortDrop[low]||0)+1;return;}
   if(Ot[low]){if(!Dsc[low])stats.stopHit[low]=(stats.stopHit[low]||0)+1;return;}
+  if(Ft[low]){return;}
   if(/^\d/.test(low)){stats.numDrop[low]=(stats.numDrop[low]||0)+1;return;}
   if(/ly$/.test(low)&&!At[low]){stats.lyDrop[low]=(stats.lyDrop[low]||0)+1;return;}
   if(!/^[a-z-]+$/.test(low))return;
@@ -31,6 +36,7 @@ function Ht(text){
  });
 }
 const wb=JSON.parse(fs.readFileSync(process.argv[2],'utf8')).data;
+((wb.p&&wb.p.loc&&wb.p.loc.name)||'').toLowerCase().split(/[^a-z]+/).forEach(t=>{if(t.length>2)Ft[t]=1;});
 const texts=[wb.goal||''].concat(wb.a||[]).concat((wb.m||[]).map(r=>r[3]||'')).concat(((wb.p&&wb.p.m)||[]).map(r=>r[3]||''));
 texts.forEach(Ht);
 const name=process.argv[2];
