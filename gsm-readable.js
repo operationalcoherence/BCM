@@ -1,4 +1,4 @@
-/* Bear Canyon Method v102 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v103 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -8401,6 +8401,17 @@
                     g[0] && at.push("the unreached cause " + h([g[0]])),
                     e.br[0] && at.push("the bridging thread “" + e.br[0].name + "”"),
                     !at.length && e.out[0] && at.push("the unconnected note " + e.out[0]),
+                    (at = at.filter(function (t, n, a) {
+                      var q = /[“"]([^”"]*)[”"]/,
+                        r = q.exec(t);
+                      return (
+                        !r ||
+                        a.findIndex(function (z) {
+                          var y = q.exec(z);
+                          return y && y[1] === r[1];
+                        }) === n
+                      );
+                    })),
                     at.length && E.push(["Where to start", "Start with " + at.join(", then ") + "."]));
                   var st = function (t) {
                       var e = t.cloneNode(!0);
@@ -12280,7 +12291,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v102");
+        t && (t.textContent = "v103");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
