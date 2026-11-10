@@ -1,4 +1,4 @@
-/* Bear Canyon Method v114 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v115 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -9762,52 +9762,6 @@
                   s
                 );
               })()),
-            o.length &&
-              (H +=
-                "\n§Outliers.§ " +
-                o.length +
-                " dot" +
-                (o.length > 1 ? "s share" : " shares") +
-                " no thread yet (" +
-                o.slice(0, 6).join(", ") +
-                ")." +
-                (function () {
-                  var t = {},
-                    e = 0,
-                    n = 0,
-                    r = [
-                      "already doing",
-                      "opposition",
-                      "support",
-                      "conditions",
-                      "design",
-                      "redesign",
-                      "reinforce",
-                    ];
-                  o.forEach(function (o) {
-                    var i = /^N(\d+)$/.exec(o),
-                      a = i && C.m[+i[1] - 1];
-                    a && ((t[r[a[0] - 1]] = (t[r[a[0] - 1]] || 0) + 1), a[2] < 118 ? e++ : n++);
-                  });
-                  var i = Object.keys(t);
-                  return (
-                    " They use words nothing else uses" +
-                    (i.length
-                      ? " (" +
-                        i
-                          .map(function (e) {
-                            return t[e] + " " + e;
-                          })
-                          .join(", ") +
-                        "; " +
-                        e +
-                        " above the line, " +
-                        n +
-                        " below)"
-                      : "") +
-                    ". Each is either an outlier worth hearing or an idea you have not yet tied in."
-                  );
-                })()),
             Kt >= 2)
           ) {
             var s = $t
@@ -12358,7 +12312,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v114");
+        t && (t.textContent = "v115");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
