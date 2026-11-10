@@ -1,6 +1,6 @@
 import json, sys, time, traceback
 from playwright.sync_api import sync_playwright
-SRC=open('gsm-pretty.js','rb').read()
+SRC=open('../gsm-preview.js','rb').read()
 HTML=b'<!doctype html><html><head><meta charset="utf-8"></head><body><div id="gsm-mount">L</div><script>window.GSM_ESRI_KEY="";var t=document.createElement("script");t.src="http://t.local/gsm-preview.js";document.body.appendChild(t);</script></body></html>'
 TABS=[(5,'Start'),(0,'MapCtx'),(1,'MapChg'),(2,'Analysis'),(3,'Synthesis'),(6,'Parallel'),(4,'Action')]
 files=sys.argv[1:]

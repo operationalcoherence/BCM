@@ -1,4 +1,4 @@
-/* Bear Canyon Method v103 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v104 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -10147,6 +10147,50 @@
       })(),
       (L += M.l),
       (L += "</svg>"),
+      (L = (function (h) {
+        var d;
+        try {
+          d = document.createElement("div");
+          d.style.cssText = "position:absolute;left:-9999px;top:0;width:600px;visibility:hidden";
+          d.innerHTML = h;
+          document.body.appendChild(d);
+          var s = d.firstChild,
+            u = null,
+            i,
+            b,
+            r;
+          for (i = 1; i < s.children.length; i++) {
+            b = s.children[i].getBBox();
+            if (b.width || b.height) {
+              r = [b.x, b.y, b.x + b.width, b.y + b.height];
+              u = u
+                ? [Math.min(u[0], r[0]), Math.min(u[1], r[1]), Math.max(u[2], r[2]), Math.max(u[3], r[3])]
+                : r;
+            }
+          }
+          d.parentNode.removeChild(d);
+          d = 0;
+          if (!u) return h;
+          var x0 = Math.min(-24, Math.floor(u[0] - 6)),
+            y0 = Math.min(-14, Math.floor(u[1] - 6)),
+            x1 = Math.max(364, Math.ceil(u[2] + 6)),
+            y1 = Math.max(334, Math.ceil(u[3] + 6));
+          return h
+            .replace(
+              'viewBox="-24 -14 388 348"',
+              'viewBox="' + x0 + " " + y0 + " " + (x1 - x0) + " " + (y1 - y0) + '"',
+            )
+            .replace(
+              '<rect x="-24" y="-14" width="388" height="348"',
+              '<rect x="' + x0 + '" y="' + y0 + '" width="' + (x1 - x0) + '" height="' + (y1 - y0) + '"',
+            );
+        } catch (e) {
+          try {
+            d && d.parentNode && d.parentNode.removeChild(d);
+          } catch (e2) {}
+          return h;
+        }
+      })(L)),
       null != _t
         ? L
         : '<div class="plab">HOW IT HANGS TOGETHER</div>' +
@@ -12291,7 +12335,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v103");
+        t && (t.textContent = "v104");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
