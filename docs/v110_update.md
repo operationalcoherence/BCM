@@ -38,10 +38,10 @@ one go.
 | Page | v104 | v109 | v110 |
 | --- | --- | --- | --- |
 | Pattern Analysis | 1,860 | 1,425 | 1,075 |
-| Pattern Synthesis | 1,957 | 1,425* | 1,395 |
+| Pattern Synthesis | 1,957 | 1,453 | 1,395 |
 | In Parallel | 1,008 | 904 | 791 |
 
-*approximate. Counts include about 150 words of fixed page chrome each.
+Counts include about 150 words of fixed page chrome each.
 About 1,560 words off since v104.
 
 ## Deliberately kept
