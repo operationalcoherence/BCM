@@ -1,4 +1,4 @@
-/* Bear Canyon Method v109 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v110 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -5102,6 +5102,11 @@
                         "SAID, BUT NOT ANSWERED": 1,
                         "A WORD THAT RETURNS": 1,
                         "A WORD THAT CROSSES QUESTIONS": 1,
+                        "RESTING ON WHAT WAS SAID": 1,
+                        "HEARD FROM ONE PERSON ONLY": 1,
+                        "ONE EMOTION THROUGHOUT": 1,
+                        "ONE SIDE OF THE LINE ONLY": 1,
+                        "ANSWERED, WITH NOTHING ON THE MAP": 1,
                       }[t[0]];
                     })
                     .map(yo)
@@ -5229,10 +5234,7 @@
           ut > dt
             ? (lt +=
                 "<p>More of what recurs is missing from Q.5–Q.7 than appears in them, so they may not yet reach the causes and objections you named.</p>")
-            : dt > ut &&
-              dt &&
-              (lt +=
-                "<p>Most of what recurs appears in Q.5–Q.7, so they track the causes and objections you named.</p>");
+            : 0;
           var ht = it.filter(function (t) {
             return wo(t).goal;
           });
@@ -5449,38 +5451,6 @@
             );
           })),
           Bt && At.indexOf(Bt) < 0 && (Bt = null),
-          (Ot += '<div class="plab">WHAT REPEATS</div>'),
-          At.length
-            ? (Ot +=
-                '<div class="words">' +
-                At.slice(0, 12)
-                  .map(function (t) {
-                    return (
-                      '<button type="button" class="wrow' +
-                      (t === Bt ? " on" : "") +
-                      '" data-w="' +
-                      Gt(t) +
-                      '"><span class="w">' +
-                      Gt(jt(t)) +
-                      '</span><span class="wh">' +
-                      (function (t) {
-                        var e = t.indexOf(" ") > 0;
-                        return h
-                          .filter(function (n) {
-                            return e ? n.t.b[t] : n.t.k[t];
-                          })
-                          .map(function (t) {
-                            return t.id;
-                          });
-                      })(t).join(" · ") +
-                      '</span><span class="cl">' +
-                      rt[bo(t)][0] +
-                      "</span></button>"
-                    );
-                  })
-                  .join("") +
-                '</div><div class="phint">Tap a word to see where it runs in the diagram above.</div>')
-            : (Ot += '<div class="pempty">No words repeat across inputs yet.</div>'),
           C.m.length)
         ) {
           var It = {},
@@ -7628,28 +7598,20 @@
                     x = function (t, e, n) {
                       return t.length > 1 ? e : n;
                     };
-                  (E.push([
-                    "Words used here",
-                    "The goal is where you want to get to. Your answers in Q.1–Q.4 (why it has not taken root, the opposition, the support, the conditions) say where things stand now. Your answers in Q.5–Q.7 (what to design, redesign or reinforce) say how you would move toward the goal. The gap between the two is what Taking Action has to cross.",
-                  ]),
-                    E.push([
-                      "What each picture asks",
-                      "Around the goal measures one thing: how many words each answer shares with the goal. How it hangs together measures another: how every answer and note ties to every other through shared words. One looks up at the goal. The other looks across at everything else.",
-                    ]),
-                    E.push([
-                      "Read together",
-                      t.ev && e.tight
-                        ? "The petals are even and the tangle is tight. Every answer speaks the goal's language, and your answers and notes keep returning to the same ideas. Your thinking is consistent, so the risk is not contradiction but a closed circle: the pictures can only show what you wrote, so a view you left out will not show up in either."
-                        : t.ev
-                          ? "The petals are even but the tangle is loose. Every answer speaks the goal's language, yet the answers and notes share few threads with each other. They may be parallel stories that each point at the goal without meeting. Tying them together is the work still to do."
-                          : e.tight
-                            ? "The petals are uneven but the tangle is tight. Some answers sit far from the goal (the farthest is " +
-                              t.fid +
-                              "), yet they are tied closely to the rest. That may be a side conversation: ideas that matter to the people who wrote them but that the goal's wording does not yet carry."
-                            : "The petals are uneven and the tangle is loose. Some answers sit far from the goal (the farthest is " +
-                              t.fid +
-                              ") and few threads tie anything together. The picture is scattered: either the goal is too narrow to hold what you wrote, or what you wrote has not yet been put in one language.",
-                    ]));
+                  E.push([
+                    "Read together",
+                    t.ev && e.tight
+                      ? "The petals are even and the tangle is tight. Every answer speaks the goal's language, and your answers and notes keep returning to the same ideas. Your thinking is consistent, so the risk is not contradiction but a closed circle: the pictures can only show what you wrote, so a view you left out will not show up in either."
+                      : t.ev
+                        ? "The petals are even but the tangle is loose. Every answer speaks the goal's language, yet the answers and notes share few threads with each other. They may be parallel stories that each point at the goal without meeting. Tying them together is the work still to do."
+                        : e.tight
+                          ? "The petals are uneven but the tangle is tight. Some answers sit far from the goal (the farthest is " +
+                            t.fid +
+                            "), yet they are tied closely to the rest. That may be a side conversation: ideas that matter to the people who wrote them but that the goal's wording does not yet carry."
+                          : "The petals are uneven and the tangle is loose. Some answers sit far from the goal (the farthest is " +
+                            t.fid +
+                            ") and few threads tie anything together. The picture is scattered: either the goal is too narrow to hold what you wrote, or what you wrote has not yet been put in one language.",
+                  ]);
                   var k = [];
                   (p.length &&
                     k.push(
@@ -8273,11 +8235,21 @@
                                   "SAID, BUT NOT ANSWERED": 1,
                                   "A WORD THAT RETURNS": 1,
                                   "A WORD THAT CROSSES QUESTIONS": 1,
+                                  "RESTING ON WHAT WAS SAID": 1,
+                                  "HEARD FROM ONE PERSON ONLY": 1,
+                                  "ONE EMOTION THROUGHOUT": 1,
+                                  "ONE SIDE OF THE LINE ONLY": 1,
+                                  "ANSWERED, WITH NOTHING ON THE MAP": 1,
                                 }[t.lab] ||
                                   {
                                     "SAID, BUT NOT ANSWERED": 1,
                                     "A WORD THAT RETURNS": 1,
                                     "A WORD THAT CROSSES QUESTIONS": 1,
+                                    "RESTING ON WHAT WAS SAID": 1,
+                                    "HEARD FROM ONE PERSON ONLY": 1,
+                                    "ONE EMOTION THROUGHOUT": 1,
+                                    "ONE SIDE OF THE LINE ONLY": 1,
+                                    "ANSWERED, WITH NOTHING ON THE MAP": 1,
                                   }[e.lab])) ||
                               tt[s] ||
                               ((tt[s] = 1), Z.push({ t: s, s: a ? 1 : 0, k: i }));
@@ -9703,21 +9675,7 @@
               .sort(function (t, e) {
                 return t[1] - e[1];
               });
-            H +=
-              "\n§Who you heard from.§ Fewest notes come from " +
-              s[0][0] +
-              " (" +
-              s[0][1] +
-              ")" +
-              (s[s.length - 1][1] > s[0][1]
-                ? ", against " +
-                  s[s.length - 1][1] +
-                  " for " +
-                  s[s.length - 1][0] +
-                  ". What the picture says about " +
-                  s[0][0] +
-                  " rests on very little, so treat it as tentative, and add a note from them if you can."
-                : ".");
+            0;
           }
           var l = Object.keys(c).filter(function (t) {
               return "GOAL" !== t;
@@ -11396,13 +11354,7 @@
               "What you would newly design uses the least goal language, so the new ideas may not yet connect to the goal, or are named in other words.",
               "What you would redesign uses the least goal language, so the changes may not yet be tied to the goal.",
               "What you would reinforce uses the least goal language, so the strengths may not yet be tied to the goal.",
-            ][yt.q] +
-            "\n§Program or strategy.§ " +
-            ([2, 6].indexOf(vt.q) >= 0
-              ? "Answers about what already works (Q.3, Q.7) fit a program: set the sequence and run it."
-              : [1, 4, 5].indexOf(vt.q) >= 0
-                ? "Answers about opposition, design or redesign (Q.2, Q.5, Q.6) fit a strategy: sketch a few ways forward and adjust as people respond."
-                : "Answers about causes and conditions (Q.1, Q.4) say what has to be dealt with before choosing between a program and a strategy.")));
+            ][yt.q]));
       }
     }
     j += "</svg>";
@@ -12254,7 +12206,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v109");
+        t && (t.textContent = "v110");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
