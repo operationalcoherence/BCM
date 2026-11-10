@@ -23,6 +23,9 @@ v101, both of which shipped on 2026-11-08 outside this plan.
   duplicates and two entries the tokenizer can never match. No behavior change,
   proved by rendering all three reading pages on both workbooks before and
   after. `v102_update.md`.
+- **v104** (2026-11-10) — the hang figure is no longer cut off at the bottom.
+  The drawing is measured and the frame grows to hold it. Completes item 1.
+  `v104_update.md`.
 - **v103** (2026-11-09) — In Parallel's "Where to start" no longer names the
   same word twice. It nominates a contested word, an unreached cause and a
   bridging thread with no check that they differ; on his workbook `fire` won
@@ -150,7 +153,7 @@ He asked which things come first judged by the two goals he has set — elegance
 and the engine asking better questions. Four, in this order, about six hours
 together.
 
-**0. Figure clipping, 45–75 min.** Added at his instruction. It serves neither
+**0. Figure clipping — shipped as v104 on 2026-11-10.** Added at his instruction. It serves neither
 goal; it is a bug fix. It is here because it is the one thing he sees the
 moment it ships, and it is cheap. Do it first for that reason and no other.
 
@@ -194,7 +197,7 @@ The four that come first are, in this table: item 1, the safe cuts, 6a and 6c.
 | --- | --- | --- | --- |
 | — | The safe cuts — checklist in `keep_or_cut_table.md`, reasoning in `elegance_screening.md` | ~45 min | Duplicated findings, the two blocks that do not earn their heading, the figure describing itself. No ranking needed. Pair with 5a, which is the same bug class. |
 | — | Update `tests/tok.js` to the shipped engine, re-baseline both workbooks | 20–30 min | Must precede item 2. See corrections below. |
-| 1 | Figure clipping | 45–75 min | Most visible payoff. Compute the viewBox from the union of drawn geometry plus a margin. Verify on all three workbooks, line and place map, full screen at more than one window size. |
+| ~~1~~ | ~~Figure clipping~~ — **shipped as v104, 2026-11-10** | — | Most visible payoff. Compute the viewBox from the union of drawn geometry plus a margin. Verify on all three workbooks, line and place map, full screen at more than one window size. |
 | 5a | Duplicate reason in course-of-action cards | 30–45 min | `unanswered === e.c` and `!e.R.act` both fire for any Q.1–Q.4 item whose word is unanswered. Self-contained; the classifier itself is sound and stays as it is. |
 | 4 | PRESENT–FUTURE axis produces findings | 60–90 min | Data already there; the x coordinate is read in exactly one place today. New wording, needs his pass. |
 | — | In Parallel line into Start Here | 10 min | **Blocked on his copy.** |
@@ -259,7 +262,6 @@ Unchanged from the handoff unless noted:
 - Whose figure position wins when two people move the same dot on combine?
 - Does the place map's full screen need a note sheet?
 - Change the two older "the problem" sentences to question-number wording?
-- Should the PDF include the new sections, and the version number?
 - Cut `/gsmlive` over to the hosted file?
 - `keep_or_cut_table.md`: which of the screened sections get cut, which get
   folded, which stay. It is the per-section checklist; `elegance_screening.md`
@@ -270,6 +272,11 @@ Unchanged from the handoff unless noted:
 - Does the vocabulary feature jump ahead of item 6? Note that its step 2 —
   asking only about terms that carry a finding — needs 6a, so it leans on the
   scoring whichever way this is answered.
+
+**The PDF workbook is uncoupled from the website** (2026-11-10). It is a
+simple workbook in its own right, does not track the reading pages, and is not
+expected to match them. So the cuts below have no PDF prerequisite, and the
+older rule about the export matching the online version no longer applies.
 
 No longer open: the six subject words (decided, batched with item 2 behind item
 6), whether the one-screen work covers all three reading pages (yes), and

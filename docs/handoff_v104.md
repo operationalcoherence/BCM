@@ -1,6 +1,6 @@
-# Bear Canyon Method web workbook: HANDOFF at v103 (preview, not live)
+# Bear Canyon Method web workbook: HANDOFF at v104 (preview, not live)
 
-Written 2026-11-10. Supersedes `handoff_v99.md`. Read this first, then
+Written 2026-11-10, updated the same day for v104 and for the PDF decision. Supersedes `handoff_v99.md`. Read this first, then
 `week_of_11_09_plan.md` (what to build and in what order), then
 `keep_or_cut_table.md`, `engine_audit_v98.md`, `asking_questions.md`,
 `vocabulary_architecture.md` and `vocabulary_funnel.md`.
@@ -53,7 +53,7 @@ minifies to something that renders identically, all later work gets easier.
 ## Standing rules (from him)
 
 - PREVIEWS ONLY. Nothing goes live without his explicit go-ahead.
-- One numbered version per batch of his edits. **Latest shipped: v103.**
+- One numbered version per batch of his edits. **Latest shipped: v104.**
 - "Patterns suggests; you decide." Counts only, no scores.
 - Flag any wording Claude wrote. He edits his own text.
 - Keep all features; UI obvious, even, clean, one screen at a time.
@@ -61,7 +61,13 @@ minifies to something that renders identically, all later work gets easier.
 - After each batch: write the update doc.
 - American spelling. He called British spelling in the workbook "the biggest
   error."
-- The exported PDF and print should always match the online version.
+- **The PDF workbook is uncoupled from the website** (decided 2026-11-10,
+  Claude's wording for his decision). It is a simple, easy-to-use workbook in
+  its own right. It does not track changes to the reading pages, and is not
+  expected to match them. This replaces the older rule that the exported PDF
+  and print should always match the online version. Changing what the pages
+  say is therefore not a reason to touch the PDF, and the PDF is not a blocker
+  for any page work.
 - Do not use his own material as a public example or demo in the workbook.
 
 ### Wording rules (carried from v80, still in force)
@@ -107,6 +113,12 @@ JavaScript strings. Keep it to plain top-level statements. See
   same word twice. It nominates a contested word, an unreached cause and a
   bridging thread with no check that they differ; on his workbook `fire` won
   two of the three roles.
+- **v104** (2026-11-10) — the hang figure is no longer cut off at the bottom.
+  The finished drawing is measured and the frame grows to hold it, with 6 units
+  of margin, never shrinking below the old size. Measurement runs in a hidden
+  off-screen holder, so In Parallel works with its tab hidden; if it ever
+  fails, the old frame is used. Page text is byte-identical. `v104_update.md`.
+  **This completes item 1 of the plan.**
 
 Items 5, 6 and 7 of v99 use Claude's wording and still need his pass.
 
@@ -141,15 +153,14 @@ discrepancy it cannot resolve and the person can.
 Full table with estimates in `week_of_11_09_plan.md`. The four that come first,
 about six hours together:
 
-1. **Figure clipping**, 45–75 min. Serves neither goal; it is a bug fix, and it
-   is first only because he sees it immediately.
+1. ~~**Figure clipping**~~ — shipped as v104 on 2026-11-10.
 2. **The safe cuts**, ~45 min, working from `keep_or_cut_table.md`.
 3. **Layer 1 scoring, built alone**, ~2 hr. Gates nearly everything else.
 4. **The question mechanism with one question**, ~2 hr.
 
 Then the rest: `tok.js`, 5a, item 4, 6b, 2+3, and the smaller queue.
 
-### What is known about the figure clipping, measured 2026-11-09
+### What was known about the figure clipping before v104 fixed it
 
 The hang figure's viewBox is hardcoded `-24 -14 388 348` for every workbook
 while the loops are drawn from where the dots sit.
@@ -168,8 +179,8 @@ while the loops are drawn from where the dots sit.
 - Unverified risk: In Parallel draws the same figure, and `getBBox()` returns
   zeros for an element in a hidden tab.
 
-Still open for him: whether the clipping he sees on screen matches 15.5 units,
-which was measured headless at one window size.
+v104 covers it either way, but it is still worth asking whether what he sees on
+screen now closes properly, since all of this was measured headless.
 
 ## Corrections to earlier documents, found by running the code
 
@@ -253,10 +264,12 @@ is the newest example.
 
 ## Unverified
 
-iPad and touch; the live page `/gsmlive`; the PDF export (does not include IN
-THE WORDS, WHO DID WHAT, or the combined reading, and v95–v103 are untested
-against it); Leaflet tiles, since the harness blocks them; combine/merge across
-workbooks.
+iPad and touch; the live page `/gsmlive`; Leaflet tiles, since the harness
+blocks them; combine/merge across workbooks.
+
+The PDF has not been tested since v94 and does not include IN THE WORDS, WHO
+DID WHAT, or the combined reading. Since 2026-11-10 that is by design rather
+than a gap — see the standing rule above.
 
 ## Known limits
 
@@ -279,11 +292,10 @@ decide it with.
   page exists.
 - Which rows in `keep_or_cut_table.md` get cut. The ones marked Duplicate are
   the only ones Claude would act on with a simple yes.
-- Does the bottom clipping he sees match the 15.5 units measured here?
+- Does the figure now close properly on his screen? v104 was verified headless.
 - How the Outliers sentence should read.
 - Whose figure position wins when two people move the same dot on combine?
 - Does the place map's full screen need a note sheet?
-- Should the PDF include the new sections, and the version number?
 - Cut `/gsmlive` over to the hosted file?
 - Does the vocabulary feature jump ahead of item 6? Its second step needs the
   ranking either way.
