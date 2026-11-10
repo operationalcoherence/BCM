@@ -1,4 +1,4 @@
-/* Bear Canyon Method v123 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v124 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -3904,7 +3904,7 @@
           s[e] && h.push({ id: "Q." + (e + 1), t: t, q: e, raw: Q()[e] });
         }),
         a.forEach(function (t) {
-          t.txt.trim() && h.push({ id: t.id, t: t.t, nk: t.k, raw: t.txt });
+          t.txt.trim() && h.push({ id: t.id, t: t.t, nk: t.k, raw: t.txt, ys: t.line ? t.line[2] : null });
         }));
       var g = {},
         p = {},
@@ -6609,6 +6609,22 @@
               return (t[3] || "").trim();
             });
           }
+          var ESM = null;
+          function es() {
+            if (ESM) return ESM;
+            var n = 0,
+              g = 0;
+            a.forEach(function (t) {
+              if (!t.txt.trim()) return;
+              var d = ko({ id: t.id, nk: t.k, ys: t.line ? t.line[2] : null }),
+                e = $t(t);
+              if (!d || null == e) return;
+              n++;
+              d < 0 === !!_t[e] && g++;
+            });
+            return (ESM = { n: n, agree: g, red: n >= 4 && g / n >= 0.9 });
+          }
+          window.gsmRed = es();
           function Rn(t, e) {
             var n = (function (t) {
               var e = ge[t],
@@ -9106,7 +9122,17 @@
       });
     }
     function ko(t) {
-      return "GOAL" === t.id ? 0 : null != t.q ? Pt[t.q] : Wt[t.nk - 1];
+      return "GOAL" === t.id
+        ? 0
+        : null != t.q
+          ? Pt[t.q]
+          : null != t.ys
+            ? t.ys < 118
+              ? 1
+              : t.ys > 118
+                ? -1
+                : 0
+            : Wt[t.nk - 1];
     }
     function To(t) {
       var e = {};
@@ -12443,7 +12469,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v123");
+        t && (t.textContent = "v124");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
