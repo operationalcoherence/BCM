@@ -1,21 +1,38 @@
 # Documents
 
-Design and audit documents for the Bear Canyon Method web workbook, kept
-beside the code so the two travel together. All wording in these documents is
-Claude's unless it quotes Gregory directly.
+Design and audit documents for the Bear Canyon Method web workbook, kept beside
+the code so the two travel together. All wording in these documents is Claude's
+unless it quotes Gregory directly. Gregory edits his own text.
+
+**Latest shipped: v103 (preview only). The live page `/gsmlive` is still on the
+old pasted v92 file and must not be touched without his say-so.**
 
 | File | What it is |
 | --- | --- |
-| `handoff_v103.md` | **Start here.** Current state at v103, the decisions of 2026-11-08, what is known about the figure clipping, and four corrections to earlier documents. Supersedes `handoff_v99.md`. |
-| `handoff_v99.md` | Superseded by `handoff_v103.md`. Kept for its fuller v99 detail. Current state, every change agreed for next week with its evidence, standing rules, architecture notes, and the lessons. |
-| `v99_update.md` | What v99 actually shipped on 2026-11-07. |
-| `engine_audit_v98.md` | A measured audit of the engine at v98: what is sound, nine defects with evidence, and where the advancements are. |
-| `v99_plan.md` | The next batch: figure clipping, the Pattern Synthesis rewrite, "feeling" to "emotion". |
+| `handoff_v103.md` | **Start here.** Current state at v103, the decisions of 2026-11-08, what is known about the figure clipping, four corrections to earlier documents, architecture notes, the word pipeline, and the lessons. Supersedes `handoff_v99.md`. |
+| `week_of_11_09_plan.md` | **The current plan.** What to build next, in order, with estimates. The build starts 2026-11-10. Supersedes `v99_plan.md`'s ordering. |
+| `keep_or_cut_table.md` | Per-section verdict on every part of Pattern Analysis and Pattern Synthesis: keep, or look at for deletion. The checklist to work from for the safe cuts. |
+| `elegance_screening.md` | The reasoning behind that table, with confidence marked: which calls are safe because the content is duplicated, and which are judgment. |
+| `asking_questions.md` | Eight classes of question the engine could ask from structure it already computes, and the rule that governs which findings become questions. Designed, not scheduled. |
 | `vocabulary_architecture.md` | Why a built-in domain lexicon cannot generalize, and why the engine cannot infer synonyms by itself. The reasoning behind v98. |
 | `vocabulary_funnel.md` | How the list of candidate synonyms is narrowed before the person is asked anything. |
+| `engine_audit_v98.md` | A measured audit of the engine at v98: what is sound, nine defects with evidence, and where the advancements are. |
+| `v103_update.md` | "Where to start" no longer names the same word twice. |
+| `v102_update.md` | The stopword list cleaned, with no change in behavior. |
+| `v101_update.md` | The place map's note hover appears at all. Corrects a claim in `v100_update.md`. |
+| `v100_update.md` | The map hover names the note's author. |
+| `v99_update.md` | What v99 shipped on 2026-11-07. |
+| `v99_plan.md` | The batch agreed at v98. Its ordering is superseded; the item detail still stands. |
+| `handoff_v99.md` | Superseded by `handoff_v103.md`. Kept for its fuller detail on the v99 batch. |
 
-The five-screen interface mockup for declaring synonyms is an artifact, not in
-this repository: https://claude.ai/artifact/Vk5rTHDvugvbXGzZ72uG7V
+The repository is public and clones anonymously:
 
-The full per-version history (`groundsmith_web_vNN_update.md`, v36 onward, and
-the handoffs) lives in the Claude project "Wildfire Design Industry".
+    git clone --depth 1 https://github.com/operationalcoherence/bcm
+
+An attach is only needed to push. His two saved workbooks are not in the
+repository — they are in the Claude project "Bear Canyon Method", which also
+holds the full per-version history (`groundsmith_web_vNN_update.md`, v13
+onward, and the earlier handoffs).
+
+The five-screen interface mockup for declaring synonyms is an artifact:
+https://claude.ai/artifact/Vk5rTHDvugvbXGzZ72uG7V
