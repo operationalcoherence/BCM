@@ -1,7 +1,11 @@
 # Week of 2026-11-09 — what to build, in order, with estimates
 
-Written 2026-11-08. Supersedes the ordering in `v99_plan.md`, which still holds
-for anything not listed here. All wording in this document is Claude's.
+Written 2026-11-08, updated 2026-11-09. Supersedes the ordering in
+`v99_plan.md`, which still holds for anything not listed here. All wording in
+this document is Claude's.
+
+**The build starts 2026-11-10.** Two rows have already shipped and have been
+removed from the table below; see "Shipped" directly under this.
 
 Read `handoff_v99.md` first. Its "Latest shipped: v99" line predates v100 and
 v101, both of which shipped on 2026-11-08 outside this plan.
@@ -15,6 +19,19 @@ v101, both of which shipped on 2026-11-08 outside this plan.
   note hovers had never worked. `v101_update.md`. Also adds
   `tests/placehover.py`, which serves Leaflet from a local copy so the place
   map can be tested at all.
+- **v102** (2026-11-09) — the stopword list cleaned: 362 entries to 352, eight
+  duplicates and two entries the tokenizer can never match. No behavior change,
+  proved by rendering all three reading pages on both workbooks before and
+  after. `v102_update.md`.
+- **v103** (2026-11-09) — In Parallel's "Where to start" no longer names the
+  same word twice. It nominates a contested word, an unreached cause and a
+  bridging thread with no check that they differ; on his workbook `fire` won
+  two of the three. `v103_update.md`.
+
+Both were taken from the queue below on 2026-11-09 with very little usage left,
+on the principle of running the lowest-impact thing available. The first was
+chosen because it cannot change behavior, the second because it is logic rather
+than wording and so needed no pass from him.
 
 ## Decisions Gregory made on 2026-11-08
 
@@ -137,9 +154,10 @@ together.
 goal; it is a bug fix. It is here because it is the one thing he sees the
 moment it ships, and it is cheap. Do it first for that reason and no other.
 
-**1. The safe cuts, about an hour.** Screening sections 1, 2 and 5, plus item
-5a. Duplicated findings, the two "meaning of the meaning" blocks that do not
-earn their heading, the paragraph describing the drawing, and the action card
+**1. The safe cuts, about an hour.** `keep_or_cut_table.md` is the checklist to
+work from; `elegance_screening.md` carries the reasoning. Screening sections 1,
+2 and 5, plus item 5a. Duplicated findings, the two "meaning of the meaning"
+blocks that do not earn their heading, the paragraph describing the drawing, and the action card
 giving the same reason twice. 350–450 words off three pages, no finding lost,
 no ranking needed, nothing deferred. The only pure elegance work available
 before anything else is built.
@@ -174,8 +192,7 @@ The four that come first are, in this table: item 1, the safe cuts, 6a and 6c.
 
 | # | Item | Estimate | Note |
 | --- | --- | --- | --- |
-| — | The safe cuts from `elegance_screening.md` (sections 1, 2, 5) | ~45 min | Duplicated findings, the two blocks that do not earn their heading, the figure describing itself. No ranking needed. Pair with 5a, which is the same bug class. |
-| — | Stopword cleanup, the free parts | 10–15 min | 8 duplicates, plus `place's` and `time's`, which the tokenizer can never match. No behavior change. |
+| — | The safe cuts — checklist in `keep_or_cut_table.md`, reasoning in `elegance_screening.md` | ~45 min | Duplicated findings, the two blocks that do not earn their heading, the figure describing itself. No ranking needed. Pair with 5a, which is the same bug class. |
 | — | Update `tests/tok.js` to the shipped engine, re-baseline both workbooks | 20–30 min | Must precede item 2. See corrections below. |
 | 1 | Figure clipping | 45–75 min | Most visible payoff. Compute the viewBox from the union of drawn geometry plus a margin. Verify on all three workbooks, line and place map, full screen at more than one window size. |
 | 5a | Duplicate reason in course-of-action cards | 30–45 min | `unanswered === e.c` and `!e.R.act` both fire for any Q.1–Q.4 item whose word is unanswered. Self-contained; the classifier itself is sound and stays as it is. |
@@ -187,9 +204,8 @@ The four that come first are, in this table: item 1, the safe cuts, 6a and 6c.
 | 2 + 3 | Proper nouns, and the six subject words, together | 1.75–2.75 hr | Gated by 6a, not by 6b — the ranking is what arbitrates, so these can follow the scoring without waiting for the page rewrite. Do them as one batch, sharing a single verification pass. Both add terms competing for the same named slots. Re-measure the clinic and place-map workbooks alongside his. |
 | — | Degenerate workbook says nothing | 20–30 min | Edge case. Low value. Can go anywhere. |
 | — | The Outliers line claims more than its test supports | 20–30 min | Synthesis says "6 dots share no thread yet (N5, N7, N18, N20, N22, N24). **They use words nothing else uses.**" That second sentence is false for N20, whose word `social` also appears in N4 and N23 — the page says so elsewhere. In Parallel says the same note "shares words with 3 places". The test is presumably about the 8 threads drawn in the figure; the prose claims something larger. Fix the sentence, or the test. Found 2026-11-08. |
-| — | "Where to start" can nominate the same word twice | 15–25 min | In Parallel reads: *Start with the contested word "fire", then the unreached cause "tradition", then the bridging thread "fire".* Three roles, no check that they differ. Found 2026-11-08 while screening. |
 
-Roughly **9.5 to 15 hours** for everything above, of which the four that come
+Roughly **9 to 14.5 hours** for everything above, of which the four that come
 first are about six.
 
 Deliberately not scheduled:
@@ -245,8 +261,9 @@ Unchanged from the handoff unless noted:
 - Change the two older "the problem" sentences to question-number wording?
 - Should the PDF include the new sections, and the version number?
 - Cut `/gsmlive` over to the hosted file?
-- `elegance_screening.md`: which of the screened sections get cut, which get
-  folded, which stay. The duplicates in its section 1 are the only ones Claude
+- `keep_or_cut_table.md`: which of the screened sections get cut, which get
+  folded, which stay. It is the per-section checklist; `elegance_screening.md`
+  carries the reasoning and the confidence marks. The duplicates in its section 1 are the only ones Claude
   would act on with a simple yes. Its section 2 was corrected on 2026-11-08
   after he asked whether the "meaning of the meaning" heading is earned: block
   1 on Synthesis holds up and is now marked keep.
@@ -260,8 +277,8 @@ whether item 6 precedes item 2 (yes).
 
 ## On the estimates
 
-Treat them as ranges. Both items shipped on 2026-11-08 came in under what a
-first guess would have been, and v101 only exists because serving Leaflet from
+Treat them as ranges. All four items shipped on 2026-11-08 and 2026-11-09 came
+in under what a first guess would have been, and v101 only exists because serving Leaflet from
 a local copy took ten minutes and exposed a bug that had been invisible for
 every prior version. Item 2 is the least trustworthy number here.
 
