@@ -1,4 +1,4 @@
-/* Bear Canyon Method v116 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v117 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -3765,16 +3765,24 @@
   function Ht(t) {
     var e = { k: {}, b: {}, seq: [] },
       n = (t || "").replace(/([A-Z][A-Za-z]*)[’']s\b/g, "$1").replace(/[’']/g, "");
-    ((n = n.replace(/((?:[.!?;:]\s+|^\s*|\n\s*)(?:["“”\(\-–—]\s*)*)([A-Z])/g, function (t, e, n) {
-      return e + n.toLowerCase();
-    })),
+    ((n = n.replace(
+      /((?:[.!?;:]\s+|^\s*|\n\s*)(?:["“”\(\-–—]\s*)*)([A-Z])(?![A-Za-z]*\s+[A-Z])/g,
+      function (t, e, n) {
+        return e + n.toLowerCase();
+      },
+    )),
       It.forEach(function (t) {
         n = n.replace(new RegExp(t[0].source, "gi"), t[1]);
       }),
       (n = n.replace(/[A-Z][A-Za-z]*(?:\s+[A-Z][A-Za-z]*)+/g, function (m) {
-        var k = m.split(/\s+/).join("-").toLowerCase();
+        var w = m.split(/\s+/);
+        if (w.length > 5) return m;
+        while (w.length && Ot[w[0].toLowerCase()]) w.shift();
+        if (!w.length) return m;
+        if (1 === w.length) return " " + w[0].toLowerCase() + " ";
+        var k = w.join("-").toLowerCase();
         if (!/^[a-z][a-z-]*$/.test(k)) return m;
-        return ((NmK[k] = 1), (NmD[k] = m), " , " + k + " , ");
+        return ((NmK[k] = 1), (NmD[k] = w.join(" ")), " , " + k + " , ");
       })));
     var o = null;
     return (
@@ -12330,7 +12338,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v116");
+        t && (t.textContent = "v117");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
