@@ -1,4 +1,4 @@
-/* Bear Canyon Method v124 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v125 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -6639,27 +6639,75 @@
                 "contested" === e.c && r.push("it is pulled both ways"),
                 "unanswered" === e.c && r.push("nothing in Q.5–Q.7 answers it"),
                 "condition" === e.c && r.push("it is a condition with nothing behind it yet"),
-                null != e.emo && _t[e.emo] && r.push("the emotion around it is strong"),
-                e.R.act || r.push("Q.5–Q.7 do not reach it"),
-                o > n &&
-                  r.push(
-                    Hn()
-                      ? "more of what you wrote about it sits below the line on the change map, where things hinder the goal, than above it, where things help"
-                      : "more of what you wrote about it hinders the goal than helps it",
-                  ),
+                (function () {
+                  var se = null != e.emo && _t[e.emo],
+                    hi = o > n,
+                    mg = se && hi && es().red;
+                  mg ? r.push("\u0001") : se && r.push("the emotion around it is strong");
+                  e.R.act || r.push("Q.5–Q.7 do not reach it");
+                  !mg &&
+                    hi &&
+                    r.push(
+                      Hn()
+                        ? "more of what you wrote about it sits below the line on the change map, where things hinder the goal, than above it, where things help"
+                        : "more of what you wrote about it hinders the goal than helps it",
+                    );
+                })(),
                 r
               );
             })(t);
             return e
               ? n.length
                 ? '<div class="coacall">A <b>strategy</b>, because ' +
-                  n[0] +
-                  (n.length > 1
-                    ? ", and " +
-                      (n.length - 1) +
-                      (n.length > 2 ? " other things point" : " other thing points") +
-                      " the same way."
-                    : ". That is the only one of the six things that tips it, so a program may suit instead once it settles.") +
+                  (function () {
+                    var M = "\u0001",
+                      LN = Hn(),
+                      TG = LN
+                        ? " In your workbook strong emotion and a place below the line always go together, so they count as one."
+                        : " In your workbook strong emotion and hindering the goal always go together, so they count as one.",
+                      i = n.indexOf(M);
+                    if (0 === i) {
+                      var r1 = n.slice(1);
+                      return (
+                        "the emotion around it is strong and " +
+                        (LN
+                          ? "it sits below the line, where things hinder the goal"
+                          : "what you wrote about it mostly hinders the goal") +
+                        (r1.length
+                          ? ", and " +
+                            r1.length +
+                            (r1.length > 1 ? " other things point" : " other thing points") +
+                            " the same way."
+                          : ". That is the only reason that tips it, so a program may suit instead once it settles.") +
+                        TG
+                      );
+                    }
+                    if (i > 0) {
+                      var k = n.length - 2;
+                      return (
+                        n[0] +
+                        ", and " +
+                        (LN
+                          ? "its strong emotion and its place below the line, where things hinder the goal,"
+                          : "its strong emotion and that it mostly hinders the goal") +
+                        " point the same way" +
+                        (k > 0
+                          ? ", as " + (k > 1 ? "do " + k + " other things" : "does 1 other thing")
+                          : "") +
+                        "." +
+                        TG
+                      );
+                    }
+                    return (
+                      n[0] +
+                      (n.length > 1
+                        ? ", and " +
+                          (n.length - 1) +
+                          (n.length > 2 ? " other things point" : " other thing points") +
+                          " the same way."
+                        : ". That is the only one of the six things that tips it, so a program may suit instead once it settles.")
+                    );
+                  })() +
                   "</div>"
                 : ""
               : '<div class="coacall">A <b>program</b>, because none of the things that ask for a strategy hold here: it is not pulled both ways, Q.5–Q.7 answer it, and most of what you wrote about it ' +
@@ -12469,7 +12517,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v124");
+        t && (t.textContent = "v125");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
