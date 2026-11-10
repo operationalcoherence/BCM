@@ -158,15 +158,15 @@ He asked which things come first judged by the two goals he has set — elegance
 and the engine asking better questions. Four, in this order, about six hours
 together.
 
-**0. Figure clipping — shipped as v104 on 2026-11-10.** Added at his instruction. It serves neither
-goal; it is a bug fix. It is here because it is the one thing he sees the
-moment it ships, and it is cheap. Do it first for that reason and no other.
+**0. Figure clipping — shipped as v104 on 2026-11-10.** It served neither
+goal; it was a bug fix, placed first at his instruction because it is the one
+thing he sees the moment it ships.
 
 **1. The safe cuts, about an hour.** `keep_or_cut_table.md` is the checklist to
 work from; `elegance_screening.md` carries the reasoning. Screening sections 1,
 2 and 5, plus item 5a. Duplicated findings, the two "meaning of the meaning"
-blocks that do not earn their heading, the paragraph describing the drawing, and the action card
-giving the same reason twice. 350–450 words off three pages, no finding lost,
+blocks that do not earn their heading, the paragraph describing the drawing,
+and the action card giving the same reason twice. 350–450 words off three pages, no finding lost,
 no ranking needed, nothing deferred. The only pure elegance work available
 before anything else is built.
 
@@ -196,13 +196,14 @@ than merely acknowledging a remark.
 
 Estimates are wall-clock build time at Opus medium, including testing and the
 update doc, excluding his review. Ranges, not promises — see the caveat below.
-The four that come first are, in this table: item 1, the safe cuts, 6a and 6c.
+The four that came first are, in this table: item 1 (shipped), the safe cuts,
+6a and 6c.
 
 | # | Item | Estimate | Note |
 | --- | --- | --- | --- |
 | — | The safe cuts — checklist in `keep_or_cut_table.md`, reasoning in `elegance_screening.md` | ~45 min | Duplicated findings, the two blocks that do not earn their heading, the figure describing itself. No ranking needed. Pair with 5a, which is the same bug class. |
 | — | Update `tests/tok.js` to the shipped engine, re-baseline both workbooks | 20–30 min | Must precede item 2. See corrections below. |
-| ~~1~~ | ~~Figure clipping~~ — **shipped as v104, 2026-11-10** | — | Most visible payoff. Compute the viewBox from the union of drawn geometry plus a margin. Verify on all three workbooks, line and place map, full screen at more than one window size. |
+| ~~1~~ | ~~Figure clipping~~ — **shipped as v104, 2026-11-10** | — | The frame is now measured from the finished drawing. See `v104_update.md`. |
 | 5a | Duplicate reason in course-of-action cards | 30–45 min | `unanswered === e.c` and `!e.R.act` both fire for any Q.1–Q.4 item whose word is unanswered. Self-contained; the classifier itself is sound and stays as it is. |
 | 4 | PRESENT–FUTURE axis produces findings | 60–90 min | Data already there; the x coordinate is read in exactly one place today. New wording, needs his pass. |
 | — | In Parallel line into Start Here | 10 min | **Blocked on his copy.** |
@@ -213,8 +214,8 @@ The four that come first are, in this table: item 1, the safe cuts, 6a and 6c.
 | — | Degenerate workbook says nothing | 20–30 min | Edge case. Low value. Can go anywhere. |
 | — | The Outliers line claims more than its test supports | 20–30 min | Synthesis says "6 dots share no thread yet (N5, N7, N18, N20, N22, N24). **They use words nothing else uses.**" That second sentence is false for N20, whose word `social` also appears in N4 and N23 — the page says so elsewhere. In Parallel says the same note "shares words with 3 places". The test is presumably about the 8 threads drawn in the figure; the prose claims something larger. Fix the sentence, or the test. Found 2026-11-08. |
 
-Roughly **9 to 14.5 hours** for everything above, of which the four that come
-first are about six.
+Roughly **8 to 13.5 hours** for what is left, of which the three still ahead of
+the rest are about five.
 
 Deliberately not scheduled:
 
@@ -263,15 +264,15 @@ multi-word *names* still break.
 Unchanged from the handoff unless noted:
 
 - The In Parallel line for Start Here, in his words.
-- Does the bottom clipping he sees match the 16 units measured here?
+- Does the figure now close properly on his screen? v104 was verified headless.
 - Whose figure position wins when two people move the same dot on combine?
 - Does the place map's full screen need a note sheet?
 - Change the two older "the problem" sentences to question-number wording?
 - Cut `/gsmlive` over to the hosted file?
 - `keep_or_cut_table.md`: which of the screened sections get cut, which get
   folded, which stay. It is the per-section checklist; `elegance_screening.md`
-  carries the reasoning and the confidence marks. The duplicates in its section 1 are the only ones Claude
-  would act on with a simple yes. Its section 2 was corrected on 2026-11-08
+  carries the reasoning and the confidence marks. The five rows marked
+  Duplicate are the only ones Claude would act on with a simple yes. Its section 2 was corrected on 2026-11-08
   after he asked whether the "meaning of the meaning" heading is earned: block
   1 on Synthesis holds up and is now marked keep.
 - Does the vocabulary feature jump ahead of item 6? Note that its step 2 —
@@ -280,8 +281,8 @@ Unchanged from the handoff unless noted:
 
 **The PDF workbook is uncoupled from the website** (2026-11-10). It is a
 simple workbook in its own right, does not track the reading pages, and is not
-expected to match them. So the cuts below have no PDF prerequisite, and the
-older rule about the export matching the online version no longer applies.
+expected to match them. So the cuts have no PDF prerequisite, and the older
+rule about the export matching the online version no longer applies.
 
 No longer open: the six subject words (decided, batched with item 2 behind item
 6), whether the one-screen work covers all three reading pages (yes), and
@@ -289,13 +290,12 @@ whether item 6 precedes item 2 (yes).
 
 ## On the estimates
 
-Treat them as ranges. All four items shipped on 2026-11-08 and 2026-11-09 came
-in under what a first guess would have been, and v101 only exists because serving Leaflet from
-a local copy took ten minutes and exposed a bug that had been invisible for
-every prior version. Item 2 is the least trustworthy number here.
+Treat them as ranges. Every item shipped so far came in under what a first
+guess would have been, and v101 only exists because serving Leaflet from a
+local copy took ten minutes and exposed a bug that had been invisible for every
+prior version. Item 2 is the least trustworthy number here.
 
 The handoff's standing lesson applies to estimating as much as to findings:
 offer the cheap version first and give an honest number. **The cheapest useful
-start is item 1 plus the safe cuts — under two hours, both low-risk, and item 1
-is the one he sees the moment it ships.** See "What comes first" above for the
-full four.
+start is now the safe cuts — about 45 minutes, low-risk, and nothing stands in
+front of them.** See "What comes first" above.
