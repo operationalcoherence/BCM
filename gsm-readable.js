@@ -1,4 +1,4 @@
-/* Bear Canyon Method v112 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v113 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -1005,7 +1005,7 @@
                 r += " " + n.children[i].textContent;
               var a = [],
                 s;
-              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r)); )
+              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r));)
                 a.indexOf(s[1]) < 0 && a.push(s[1]);
               if (a.length) {
                 var c = document.createElement("div");
@@ -4646,7 +4646,7 @@
             i.forEach(function (t, e) {
               s[e] && m.push(e);
             });
-            var v = lo(
+            var v = lf(
               Object.keys(g).filter(function (t) {
                 return g[t] >= 2 && t.indexOf(" ") < 0;
               }),
@@ -8795,10 +8795,70 @@
           }));
       }
     }
-    function lo(t) {
+    function lf(t) {
       return t.slice().sort(function (t, e) {
         return (g[e] || 0) - (g[t] || 0) || t.localeCompare(e);
       });
+    }
+    function lo(t) {
+      var o = t.slice().sort(function (t, e) {
+        return (g[e] || 0) - (g[t] || 0) || t.localeCompare(e);
+      });
+      try {
+        if (lo._g !== g) {
+          lo._g = g;
+          lo._H = {};
+          lo._X = {};
+          a.forEach(function (n) {
+            if (n.line) {
+              var u = n.line[2] < 118 ? lo._H : lo._X;
+              for (var q in n.t.k) u[q] = 1;
+            }
+          });
+        }
+        var ik = function (w, n) {
+            return !!(i[n - 1] && i[n - 1].k[w]);
+          },
+          rg = function (w, x1, y1) {
+            for (var n = x1; n <= y1; n++) if (ik(w, n)) return 1;
+            return 0;
+          },
+          sc = function (w) {
+            var m = !!k[w],
+              y = rg(w, 1, 7),
+              q2 = ik(w, 2),
+              q3 = ik(w, 3),
+              u = 0,
+              d = 0;
+            q2 && !rg(w, 4, 7) && !m && ((u += 0.3), (d = 1));
+            r.k[w] && !y && !m && ((u += 0.3), (d = 1));
+            ik(w, 4) && !rg(w, 5, 7) && !m && ((u += 0.25), (d = 1));
+            q3 && !ik(w, 7) && ((u += 0.22), (d = 1));
+            m && !y && ((u += 0.18), (d = 1));
+            q2 && q3 && (u += 0.15);
+            lo._H[w] && lo._X[w] && (u += 0.15);
+            rg(w, 1, 4) && rg(w, 5, 7) && (u += 0.1);
+            return d ? u : -1;
+          },
+          z = {};
+        o.forEach(function (w) {
+          z[w] = sc(w);
+        });
+        return o
+          .filter(function (w) {
+            return z[w] >= 0;
+          })
+          .sort(function (t, e) {
+            return z[e] - z[t] || (g[e] || 0) - (g[t] || 0) || t.localeCompare(e);
+          })
+          .concat(
+            o.filter(function (w) {
+              return z[w] < 0;
+            }),
+          );
+      } catch (e) {
+        return o;
+      }
     }
     function co(t, e) {
       var n = {};
@@ -9420,14 +9480,14 @@
                   o = [];
                 return (
                   t.forEach(function (t) {
-                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0; ) n.pop();
+                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0;) n.pop();
                     n.push(t);
                   }),
                   t
                     .slice()
                     .reverse()
                     .forEach(function (t) {
-                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0; ) o.pop();
+                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0;) o.pop();
                       o.push(t);
                     }),
                   o.pop(),
@@ -11947,11 +12007,11 @@
             S();
             var n = (function (t) {
               if (Rt.contains(t) && t !== Rt) {
-                for (var e = t; e.parentNode !== Rt; ) e = e.parentNode;
+                for (var e = t; e.parentNode !== Rt;) e = e.parentNode;
                 var n = e.getAttribute("data-pv");
                 return n ? +n : r;
               }
-              for (; t && t.parentNode !== N; ) t = t.parentNode;
+              for (; t && t.parentNode !== N;) t = t.parentNode;
               if (!t || !t.hasAttribute || !t.hasAttribute("data-tab")) return r;
               var o = +t.getAttribute("data-tab");
               return 2 === o ? (r >= 2 ? r : 2) : o;
@@ -12311,7 +12371,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v112");
+        t && (t.textContent = "v113");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -12545,13 +12605,13 @@
                               i = [C.m.length, C.p.m.length, (C.links || []).length];
                             function a(t, e) {
                               t.forEach(function (t) {
-                                for (; t.length < 10; ) t.push(null);
+                                for (; t.length < 10;) t.push(null);
                                 t[9] || ((t[9] = e), t[7] || (t[7] = e));
                               });
                             }
                             function s(t, n, o) {
                               (t || []).forEach(function (t, i) {
-                                for (var a = t.slice(); a.length < 10; ) a.push(null);
+                                for (var a = t.slice(); a.length < 10;) a.push(null);
                                 (a[8] || (a[8] = o + i + "-" + Math.random().toString(36).slice(2, 7)),
                                   r[a[8]] ||
                                     ((r[a[8]] = 1), a[9] || (a[9] = e), a[7] || (a[7] = a[9]), n.push(a)));
