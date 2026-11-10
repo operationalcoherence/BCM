@@ -1005,7 +1005,7 @@
                 r += " " + n.children[i].textContent;
               var a = [],
                 s;
-              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r));)
+              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r)); )
                 a.indexOf(s[1]) < 0 && a.push(s[1]);
               if (a.length) {
                 var c = document.createElement("div");
@@ -4435,13 +4435,144 @@
                 9,
               ]));
         }
-        var X = b
-            .filter(function (t) {
+        var X = (function (L) {
+            if (L.length < 2) return L;
+            var CT = [C.goal || ""]
+                .concat(
+                  (C.a || []).map(function (x) {
+                    return x || "";
+                  }),
+                  (C.m || []).map(function (x) {
+                    return x[3] || "";
+                  }),
+                  (C.p && C.p.m ? C.p.m : []).map(function (x) {
+                    return x[3] || "";
+                  }),
+                )
+                .join(" ")
+                .toLowerCase(),
+              CW = CT.match(/[a-z0-9]+/g) || [],
+              TT = Math.max(CW.length, 1),
+              OC = {};
+            function oc(s) {
+              var t = s.toLowerCase().trim();
+              if (null != OC[t]) return OC[t];
+              var n = 0;
+              if (t.indexOf(" ") >= 0) {
+                for (var i = CT.indexOf(t); i >= 0; i = CT.indexOf(t, i + 1)) n++;
+              } else {
+                var q = t.slice(0, 6);
+                for (var j = 0; j < CW.length; j++) 0 === CW[j].indexOf(q) && n++;
+              }
+              return (OC[t] = n);
+            }
+            function vo(f) {
+              var m = /^note (\d+)$/.exec(f),
+                r;
+              if (m) return (r = C.m[+m[1] - 1]) ? r[7] || "(un)" : null;
+              if ((m = /^P(\d+)$/.exec(f)))
+                return (r = C.p && C.p.m ? C.p.m[+m[1] - 1] : null) ? r[7] || "(un)" : null;
+              return null;
+            }
+            var R = L.map(function (t) {
+              var bs = [],
+                rs = [],
+                m,
+                re = /<b>([\s\S]*?)<\/b>/g;
+              while ((m = re.exec(t[1]))) bs.push(m[1].replace(/<[^>]*>/g, "").trim());
+              var tp = t[1].replace(/<[^>]*>/g, " ");
+              re = /Q\.[1-7]/g;
+              while ((m = re.exec(tp))) rs.push(m[0]);
+              re = /\bN(\d+)\b/g;
+              while ((m = re.exec(tp))) rs.push("note " + m[1]);
+              re = /\bP(\d+)\b/g;
+              while ((m = re.exec(tp))) rs.push("P" + m[1]);
+              var tx = tp.toLowerCase(),
+                su = 0;
+              if (bs.length) {
+                for (var i = 0; i < bs.length; i++) su += -Math.log(Math.max(oc(bs[i]), 1) / TT);
+                su /= bs.length;
+              }
+              var qs = {},
+                ns = {};
+              for (i = 0; i < rs.length; i++) (0 === rs[i].indexOf("Q.") ? qs : ns)[rs[i]] = 1;
+              var qa = Object.keys(qs),
+                na = Object.keys(ns),
+                ld = qa.some(function (x) {
+                  return "Q.1" === x || "Q.2" === x || "Q.3" === x || "Q.4" === x;
+                }),
+                ac = qa.some(function (x) {
+                  return "Q.5" === x || "Q.6" === x || "Q.7" === x;
+                }),
+                rc = Math.log(1 + qa.length + na.length) + (ld && ac ? 0.7 : 0),
+                cq =
+                  (ac ? 1 : 0) +
+                  (tx.indexOf("goal") >= 0 ? 1 : 0) +
+                  (/\bnot yet\b|\bnothing\b|\bstill\b/.test(tx) ? 0.5 : 0),
+                vs = {};
+              rs.forEach(function (x) {
+                var v = vo(x);
+                v && (vs[v] = 1);
+              });
+              var cr = Object.keys(vs).length + (/both sides|for and against/.test(tx) ? 0.7 : 0);
+              return {
+                t: t,
+                bs: bs.map(function (x) {
+                  return x.toLowerCase();
+                }),
+                rs: rs,
+                su: su,
+                rc: rc,
+                cq: cq,
+                cr: cr,
+              };
+            });
+            ["su", "rc", "cq", "cr"].forEach(function (k) {
+              var v = R.map(function (x) {
+                  return x[k];
+                }),
+                lo = Math.min.apply(null, v),
+                hi = Math.max.apply(null, v);
+              R.forEach(function (x) {
+                x["n" + k] = hi === lo ? 0.5 : (x[k] - lo) / (hi - lo);
+              });
+            });
+            R.forEach(function (x) {
+              x.bse = 0.35 * x.nsu + 0.25 * x.nrc + 0.2 * x.ncq + 0.2 * x.ncr;
+            });
+            function jc(a, b) {
+              var s = {},
+                n = 0,
+                d = 0,
+                i;
+              for (i = 0; i < a.length; i++) s[a[i]] = 1;
+              for (i = 0; i < b.length; i++) 1 === s[b[i]] ? ((s[b[i]] = 2), n++) : s[b[i]] || (s[b[i]] = 3);
+              for (i in s) d++;
+              return d ? n / d : 0;
+            }
+            function ov(a, b) {
+              return 0.65 * jc(a.bs, b.bs) + 0.35 * jc(a.rs, b.rs);
+            }
+            var P = [],
+              Q = R.slice().sort(function (a, b) {
+                return b.bse - a.bse;
+              });
+            while (Q.length) {
+              for (var bi = 0, bv = -1, i = 0; i < Q.length; i++) {
+                for (var pn = 0, j = 0; j < P.length; j++) pn = Math.max(pn, ov(Q[i], P[j]));
+                var vv = Q[i].bse * (1 - 0.75 * pn);
+                vv > bv && ((bv = vv), (bi = i));
+              }
+              P.push(Q.splice(bi, 1)[0]);
+            }
+            return P.map(function (x) {
+              return x.t;
+            });
+          })(
+            b.filter(function (t) {
               return !t[2];
-            })
-            .sort(function (t, e) {
-              return (e[3] || 0) - (t[3] || 0);
             }),
+          ),
           Z = b.filter(function (t) {
             return t[2];
           }),
@@ -9289,14 +9420,14 @@
                   o = [];
                 return (
                   t.forEach(function (t) {
-                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0;) n.pop();
+                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0; ) n.pop();
                     n.push(t);
                   }),
                   t
                     .slice()
                     .reverse()
                     .forEach(function (t) {
-                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0;) o.pop();
+                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0; ) o.pop();
                       o.push(t);
                     }),
                   o.pop(),
@@ -11816,11 +11947,11 @@
             S();
             var n = (function (t) {
               if (Rt.contains(t) && t !== Rt) {
-                for (var e = t; e.parentNode !== Rt;) e = e.parentNode;
+                for (var e = t; e.parentNode !== Rt; ) e = e.parentNode;
                 var n = e.getAttribute("data-pv");
                 return n ? +n : r;
               }
-              for (; t && t.parentNode !== N;) t = t.parentNode;
+              for (; t && t.parentNode !== N; ) t = t.parentNode;
               if (!t || !t.hasAttribute || !t.hasAttribute("data-tab")) return r;
               var o = +t.getAttribute("data-tab");
               return 2 === o ? (r >= 2 ? r : 2) : o;
@@ -12414,13 +12545,13 @@
                               i = [C.m.length, C.p.m.length, (C.links || []).length];
                             function a(t, e) {
                               t.forEach(function (t) {
-                                for (; t.length < 10;) t.push(null);
+                                for (; t.length < 10; ) t.push(null);
                                 t[9] || ((t[9] = e), t[7] || (t[7] = e));
                               });
                             }
                             function s(t, n, o) {
                               (t || []).forEach(function (t, i) {
-                                for (var a = t.slice(); a.length < 10;) a.push(null);
+                                for (var a = t.slice(); a.length < 10; ) a.push(null);
                                 (a[8] || (a[8] = o + i + "-" + Math.random().toString(36).slice(2, 7)),
                                   r[a[8]] ||
                                     ((r[a[8]] = 1), a[9] || (a[9] = e), a[7] || (a[7] = a[9]), n.push(a)));
