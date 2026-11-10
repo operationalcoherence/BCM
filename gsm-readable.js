@@ -1,4 +1,4 @@
-/* Bear Canyon Method v107 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v108 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -5094,7 +5094,19 @@
                 })
                 .map(yo)
                 .join("")),
-              t.length ? '<div class="plab">IN THE WORDS</div>' + t.map(yo).join("") : ""
+              t.length
+                ? '<div class="plab">IN THE WORDS</div>' +
+                  t
+                    .filter(function (t) {
+                      return !{
+                        "SAID, BUT NOT ANSWERED": 1,
+                        "A WORD THAT RETURNS": 1,
+                        "A WORD THAT CROSSES QUESTIONS": 1,
+                      }[t[0]];
+                    })
+                    .map(yo)
+                    .join("")
+                : ""
             );
           })()),
           Z.length && (tt += '<div class="plab">STILL OPEN</div>' + Z.map(yo).join("")),
@@ -6241,7 +6253,7 @@
                 "</ul>"),
             (tn.length || en.length || nn.length) &&
               (ye +=
-                '<div class="plab">WHAT TO PAY ATTENTION TO</div><div class="sig"><div><h4>PRESSING NOW</h4>' +
+                '<div class="plab">WHAT TO PAY ATTENTION TO</div><div class="sig"><div style="display:none"><h4>PRESSING NOW</h4>' +
                 (tn.length
                   ? tn
                       .map(function (t) {
@@ -7451,7 +7463,6 @@
           '<div class="part">1 · LOOKING IN<span>Analysis: the pieces, one at a time.</span></div>' +
           we +
           Ot +
-          io +
           (fe ? Oe(U) : Oe(U, "goal")) +
           (ye
             ? '<div class="part">2 · LOOKING OUT<span>Synthesis: the puzzle, all together.</span></div>' + ye
@@ -8257,6 +8268,17 @@
                                   e.lab +
                                   ". That may be one pattern rather than two.";
                             (!a && X[t.t] && X[e.t]) ||
+                              (!a &&
+                                ({
+                                  "SAID, BUT NOT ANSWERED": 1,
+                                  "A WORD THAT RETURNS": 1,
+                                  "A WORD THAT CROSSES QUESTIONS": 1,
+                                }[t.lab] ||
+                                  {
+                                    "SAID, BUT NOT ANSWERED": 1,
+                                    "A WORD THAT RETURNS": 1,
+                                    "A WORD THAT CROSSES QUESTIONS": 1,
+                                  }[e.lab])) ||
                               tt[s] ||
                               ((tt[s] = 1), Z.push({ t: s, s: a ? 1 : 0, k: i }));
                           }
@@ -8317,14 +8339,7 @@
                           ") " +
                           (e.out.length > 1 ? "are" : "is") +
                           " tied to nothing yet",
-                      ),
-                    it.length &&
-                      E.push([
-                        "The meaning of that meaning",
-                        "Put the two pictures together and: " +
-                          it.join("; ") +
-                          ". The pictures show where your thinking is strong and where it is still open. They do not say what to do. That is yours to decide.",
-                      ]));
+                      ));
                   var at = [];
                   (p[0] && at.push("the contested word " + h([p[0]])),
                     g[0] && at.push("the unreached cause " + h([g[0]])),
@@ -8438,7 +8453,9 @@
                   }
                   t.parentNode.insertBefore(e, t.nextSibling);
                   var r = t.textContent.trim(),
-                    i = e.querySelectorAll(".rule,.wrow,.eqr,.coa,.need>div,.metal li,.mean p,.sig p").length,
+                    i = e.querySelectorAll(
+                      ".rule,.wrow,.eqr,.coa,.need>div,.metal li,.mean p,.sig .em p",
+                    ).length,
                     a = e.querySelector(".pnet") ? "figure" : i ? i + (1 === i ? " item" : " items") : "";
                   (t.classList.add("pfold"),
                     (t.innerHTML =
@@ -12245,7 +12262,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v107");
+        t && (t.textContent = "v108");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
