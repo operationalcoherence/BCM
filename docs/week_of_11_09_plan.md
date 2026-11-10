@@ -1,13 +1,13 @@
 # Week of 2026-11-09 — what to build, in order, with estimates
 
-Written 2026-11-08, updated 2026-11-10. Supersedes the ordering in
+Written 2026-11-08, updated 2026-11-10 after v111. Supersedes the ordering in
 `v99_plan.md`, which still holds for anything not listed here. All wording in
 this document is Claude's.
 
 **The build started 2026-11-10.** Three rows have shipped and are struck from
 the table below; see "Shipped" directly under this.
 
-Read `handoff_v104.md` first.
+Read `handoff_v111.md` first.
 
 ## Shipped since the handoff
 
@@ -31,15 +31,21 @@ Read `handoff_v104.md` first.
   shrinking below the old size. Page text byte-identical. **Completes item 1.**
   `v104_update.md`.
 
+- **v105 to v111** (2026-11-10) — the clutter pass, done on his instruction
+  ("if it doesn't add value to a meaningful synthesis or analysis and just makes
+  the page longer, cut it"). Pages on his workbook, every fold open: Analysis
+  1,860 → 1,077 words, Synthesis 1,957 → 1,310, In Parallel 1,008 → 760.
+  **Completes item 1, the safe cuts, and goes well past it.** Details in
+  `v105_update.md` through `v111_update.md`; the checklist history is in
+  `keep_or_cut_table.md`.
+
 v102 and v103 were taken from the queue on 2026-11-09 with very little usage
 left, on the principle of running the lowest-impact thing available: the first
 because it cannot change behavior, the second because it is logic rather than
 wording and so needed no pass from him.
 
-**Next up is the safe cuts**, and as of 2026-11-10 nothing stands in front of
-them — the figure clipping shipped, and the PDF is uncoupled. They need his
-rulings on `keep_or_cut_table.md`; the five rows marked Duplicate are
-actionable on a plain yes.
+**Next up is Layer 1 scoring, slice 1** (see "Layer 1 in slices" below). Start
+it in a fresh session: it costs far less there than at the end of a long one.
 
 ## Decisions Gregory made on 2026-11-08
 
@@ -181,6 +187,25 @@ Built alone it is testable alone: score every finding, change nothing on
 screen, dump the scores, and check across all four workbooks that the top three
 or four are the ones a person would have picked. A wrong ranking is then found
 in two hours rather than six, and everything downstream unblocks at once.
+
+**Layer 1 in slices (decided 2026-11-10).** He wants this built but cannot
+spend two hours of usage on it at once. Usage comes mostly from reading the
+large page file and rendering pages repeatedly, so it is split into four
+slices, each worth having on its own, each shippable or checkable alone:
+
+1. **Score WHAT STANDS OUT only.** Its findings already carry what the score
+   needs: dot count, voices, whether the goal is touched, help and hinder
+   sides. Score them, print the new top seven beside today's for his workbook
+   and Broadview, change nothing on screen. He reads the two lists and says
+   which is better. About a quarter of the job. **Start here.**
+2. **Order WHAT STANDS OUT by that score.** Small, and the first thing he sees.
+3. **Score words**, so capped lists name the telling terms rather than the
+   most frequent. The larger half; this is what surfaces `costly` and
+   `deadly`, and what items 2 + 3 need.
+4. **Let low scorers drop.** Small once 1–3 exist.
+
+The score is never shown. His rule "counts only, no scores" stands; the score
+only decides order and what gets named.
 
 **3. The question mechanism, with one question, about 2 hr.** The first
 question carries the whole cost: answers need somewhere to live (`C.decisions`

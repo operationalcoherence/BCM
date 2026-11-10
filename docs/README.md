@@ -9,7 +9,8 @@ old pasted v92 file and must not be touched without his say-so.**
 
 | File | What it is |
 | --- | --- |
-| `handoff_v104.md` | **Start here.** Current state at v104, the decisions of 2026-11-08, the PDF uncoupling, four corrections to earlier documents, architecture notes, the word pipeline, and the lessons. Supersedes `handoff_v99.md`. |
+| `handoff_v111.md` | **Start here.** Current state at v111: the clutter pass, the 2026-11-10 decisions, Layer 1 in slices as the next step, and what is hidden-but-computed in the engine. Supersedes `handoff_v104.md`. |
+| `handoff_v104.md` | Superseded by `handoff_v111.md`. Current state at v104, the decisions of 2026-11-08, the PDF uncoupling, four corrections to earlier documents, architecture notes, the word pipeline, and the lessons. Supersedes `handoff_v99.md`. |
 | `week_of_11_09_plan.md` | **The current plan.** What to build next, in order, with estimates. The build started 2026-11-10; the safe cuts are next. Supersedes `v99_plan.md`'s ordering. |
 | `keep_or_cut_table.md` | Per-section verdict on every part of Pattern Analysis and Pattern Synthesis: keep, or look at for deletion. The checklist to work from for the safe cuts. |
 | `elegance_screening.md` | The reasoning behind that table, with confidence marked: which calls are safe because the content is duplicated, and which are judgment. |
