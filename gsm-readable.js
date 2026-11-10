@@ -1,4 +1,4 @@
-/* Bear Canyon Method v113 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v114 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4578,673 +4578,660 @@
           }),
           tt =
             '<div class="plab">WHAT STANDS OUT</div>' +
-            (X.length
-              ? (Dt ? X : X.slice(0, 7)).map(yo).join("")
-              : '<div class="pempty">Nothing stands out yet.</div>');
-        (X.length > 7 &&
-          (tt +=
-            '<button type="button" class="lnk morebtn" id="gsm-more">' +
-            (Dt ? "Show fewer \u2212" : "Show all " + X.length + " +") +
-            "</button>"),
-          (tt += (function () {
-            var t = [],
-              e = {},
-              n = [];
-            function o(t) {
-              return "GOAL" === t ? "the goal" : /^P\d+$/.test(t) ? "place note " + t.slice(1) : t;
-            }
-            function a(t, e) {
-              return (
-                (e = e || 4),
-                t
-                  .slice(0, e)
-                  .map(function (t) {
-                    return Gt(t);
-                  })
-                  .join(", ") + (t.length > e ? " and " + (t.length - e) + " more" : "")
-              );
-            }
-            function l(t) {
-              return "<b>" + Gt(jt(t)) + "</b>";
-            }
-            function c(e, n, o, r) {
-              t.push([e, n, 0, o || null, r || null]);
-            }
-            function d(t) {
-              var e = {};
-              return t.filter(function (t) {
-                return !e[t] && (e[t] = 1);
-              });
-            }
-            function f(t) {
-              var e = [],
-                r = [];
-              return (
-                n.forEach(function (n) {
-                  var i = (n.raw || "").replace(/[’]/g, "'").toLowerCase().match(t);
-                  i && (e.push(o(n.id)), (r = r.concat(i)));
-                }),
-                { ids: e, ms: d(r), n: e.length }
-              );
-            }
-            function p(t) {
-              return t
+            (X.length ? X.slice(0, 7).map(yo).join("") : '<div class="pempty">Nothing stands out yet.</div>');
+        ((tt += (function () {
+          var t = [],
+            e = {},
+            n = [];
+          function o(t) {
+            return "GOAL" === t ? "the goal" : /^P\d+$/.test(t) ? "place note " + t.slice(1) : t;
+          }
+          function a(t, e) {
+            return (
+              (e = e || 4),
+              t
+                .slice(0, e)
+                .map(function (t) {
+                  return Gt(t);
+                })
+                .join(", ") + (t.length > e ? " and " + (t.length - e) + " more" : "")
+            );
+          }
+          function l(t) {
+            return "<b>" + Gt(jt(t)) + "</b>";
+          }
+          function c(e, n, o, r) {
+            t.push([e, n, 0, o || null, r || null]);
+          }
+          function d(t) {
+            var e = {};
+            return t.filter(function (t) {
+              return !e[t] && (e[t] = 1);
+            });
+          }
+          function f(t) {
+            var e = [],
+              r = [];
+            return (
+              n.forEach(function (n) {
+                var i = (n.raw || "").replace(/[’]/g, "'").toLowerCase().match(t);
+                i && (e.push(o(n.id)), (r = r.concat(i)));
+              }),
+              { ids: e, ms: d(r), n: e.length }
+            );
+          }
+          function p(t) {
+            return t
+              .slice(0, 3)
+              .map(function (t) {
+                return "“" + Gt(t) + "”";
+              })
+              .join(", ");
+          }
+          h.forEach(function (t) {
+            var o = (t.raw || "")
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, " ")
+              .trim();
+            o && !e[o] && ((e[o] = 1), n.push(t));
+          });
+          var m = [];
+          i.forEach(function (t, e) {
+            s[e] && m.push(e);
+          });
+          var v = lf(
+            Object.keys(g).filter(function (t) {
+              return g[t] >= 2 && t.indexOf(" ") < 0;
+            }),
+          );
+          v.length &&
+            c(
+              "A WORD THAT RETURNS",
+              v
+                .slice(0, 4)
+                .map(function (t) {
+                  return l(t) + " (" + g[t] + ")";
+                })
+                .join(", ") +
+                (v.length > 4 ? " and " + (v.length - 4) + " more" : "") +
+                " come back in your goal, answers and notes.",
+              v,
+              null,
+            );
+          var y = {};
+          m.forEach(function (t) {
+            for (var e in i[t].k) (y[e] = y[e] || []).push("Q." + (t + 1));
+          });
+          var w = lo(
+            Object.keys(y).filter(function (t) {
+              return y[t].length >= 2;
+            }),
+          ).sort(function (t, e) {
+            return y[e].length - y[t].length;
+          });
+          w.length &&
+            c(
+              "A WORD THAT CROSSES QUESTIONS",
+              w
                 .slice(0, 3)
                 .map(function (t) {
-                  return "“" + Gt(t) + "”";
+                  return l(t) + " (" + y[t].join(", ") + ")";
                 })
-                .join(", ");
-            }
-            h.forEach(function (t) {
-              var o = (t.raw || "")
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, " ")
-                .trim();
-              o && !e[o] && ((e[o] = 1), n.push(t));
+                .join("; ") +
+                (w.length > 3 ? "; and " + (w.length - 3) + " more" : "") +
+                ".",
+              w,
+              null,
+            );
+          var b = lo(
+            Object.keys(g).filter(function (t) {
+              return (
+                g[t] >= 2 &&
+                t.indexOf(" ") < 0 &&
+                [0, 1, 2, 3].some(function (e) {
+                  return s[e] && i[e].k[t];
+                }) &&
+                ![4, 5, 6].some(function (e) {
+                  return i[e].k[t];
+                })
+              );
+            }),
+          );
+          b.length &&
+            c(
+              "SAID, BUT NOT ANSWERED",
+              b.slice(0, 4).map(l).join(", ") +
+                (b.length > 4 ? " and " + (b.length - 4) + " more" : "") +
+                (b.length > 1 ? " are" : " is") +
+                " in Q.1–Q.4 but not in Q.5–Q.7.",
+              b,
+              null,
+            );
+          var E = Object.keys(r.k).filter(function (t) {
+            return (
+              !k[t] &&
+              !i.some(function (e) {
+                return e.k[t];
+              })
+            );
+          });
+          var x = f(/\b(must|needs?|needed|requires?|required)\b/g);
+          var T = f(/\b(never|can't|cant|cannot|won't|wont)\b/g);
+          var S = f(/\b(could|maybe|might)\b/g);
+          var L = f(/\b(but|although|except)\b/g);
+          var O = [],
+            A = [];
+          n.forEach(function (t) {
+            var e = (t.raw || "").toLowerCase();
+            (/\b(used to|before)\b/.test(e) && O.push(t.id), /\b(now|soon)\b/.test(e) && A.push(t.id));
+          });
+          var N = O.some(function (t) {
+            return A.some(function (e) {
+              return e !== t;
             });
-            var m = [];
-            i.forEach(function (t, e) {
-              s[e] && m.push(e);
+          });
+          var I = {},
+            q =
+              /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|January|February|March|April|May|June|July|August|September|October|November|December|I)$/;
+          n.forEach(function (t) {
+            var e = {};
+            for (var n in ((t.raw || "").split(/[.!?]\s+|\n/).forEach(function (t) {
+              var n = t.trim().split(/\s+/),
+                o = [],
+                r = function (t) {
+                  ((o.length > 1 || (1 === o.length && !t)) && (e[o.join(" ")] = 1), (o = []));
+                };
+              (n.forEach(function (t, e) {
+                var n = t.replace(/^[^A-Za-z]+|[^A-Za-z]+$/g, "");
+                /^[A-Z][a-z]+$/.test(n) && !q.test(n)
+                  ? (0 === o.length && (o._start = 0 === e), o.push(n))
+                  : r(o._start);
+              }),
+                r(o._start));
+            }),
+            e))
+              (I[n] = I[n] || []).push(o(t.id));
+          });
+          var M = Object.keys(I)
+            .filter(function (t) {
+              return I[t].length >= 2;
+            })
+            .sort(function (t, e) {
+              return I[e].length - I[t].length;
             });
-            var v = lf(
+          M.length &&
+            c(
+              "A NAME THAT RECURS",
+              M.slice(0, 3)
+                .map(function (t) {
+                  return "<b>" + Gt(t) + "</b> (" + I[t].length + " places)";
+                })
+                .join(", ") +
+                (M.length > 3 ? " and " + (M.length - 3) + " more" : "") +
+                ".",
+              M,
+              null,
+            );
+          var j = f(
+            /\b\d[\d,.\/-]*\b|\b(january|february|march|april|june|july|august|september|october|november|december)\b/g,
+          );
+          var F = [];
+          (m.forEach(function (t) {
+            m.forEach(function (e) {
+              if (t < e) {
+                var n = Object.keys(i[t].k),
+                  o = Object.keys(i[e].k);
+                if (n.length >= 3 && o.length >= 3) {
+                  var r = n.filter(function (t) {
+                      return i[e].k[t];
+                    }).length,
+                    a = n.length + o.length - r;
+                  a && r / a >= 0.5 && F.push("Q." + (t + 1) + " and Q." + (e + 1));
+                }
+              }
+            });
+          }),
+            F.length && c("SAME ANSWER TWICE", a(F, 3) + (F.length, " use nearly the same words.")));
+          var H = lo(
               Object.keys(g).filter(function (t) {
                 return g[t] >= 2 && t.indexOf(" ") < 0;
               }),
-            );
-            v.length &&
-              c(
-                "A WORD THAT RETURNS",
-                v
-                  .slice(0, 4)
-                  .map(function (t) {
-                    return l(t) + " (" + g[t] + ")";
-                  })
-                  .join(", ") +
-                  (v.length > 4 ? " and " + (v.length - 4) + " more" : "") +
-                  " come back in your goal, answers and notes.",
-                v,
-                null,
-              );
-            var y = {};
-            m.forEach(function (t) {
-              for (var e in i[t].k) (y[e] = y[e] || []).push("Q." + (t + 1));
-            });
-            var w = lo(
-              Object.keys(y).filter(function (t) {
-                return y[t].length >= 2;
-              }),
-            ).sort(function (t, e) {
-              return y[e].length - y[t].length;
-            });
-            w.length &&
-              c(
-                "A WORD THAT CROSSES QUESTIONS",
-                w
-                  .slice(0, 3)
-                  .map(function (t) {
-                    return l(t) + " (" + y[t].join(", ") + ")";
-                  })
-                  .join("; ") +
-                  (w.length > 3 ? "; and " + (w.length - 3) + " more" : "") +
-                  ".",
-                w,
-                null,
-              );
-            var b = lo(
-              Object.keys(g).filter(function (t) {
-                return (
-                  g[t] >= 2 &&
-                  t.indexOf(" ") < 0 &&
-                  [0, 1, 2, 3].some(function (e) {
-                    return s[e] && i[e].k[t];
-                  }) &&
-                  ![4, 5, 6].some(function (e) {
-                    return i[e].k[t];
-                  })
-                );
-              }),
-            );
-            b.length &&
-              c(
-                "SAID, BUT NOT ANSWERED",
-                b.slice(0, 4).map(l).join(", ") +
-                  (b.length > 4 ? " and " + (b.length - 4) + " more" : "") +
-                  (b.length > 1 ? " are" : " is") +
-                  " in Q.1–Q.4 but not in Q.5–Q.7.",
-                b,
-                null,
-              );
-            var E = Object.keys(r.k).filter(function (t) {
+            ),
+            R = function (t) {
+              return xo(t).filter(function (t) {
+                return t.line;
+              });
+            },
+            B = function (t) {
+              return "number" == typeof t;
+            },
+            D = function (t) {
+              return t.length > Math.max(3, Math.ceil(H.length / 3))
+                ? " That is " +
+                    t.length +
+                    " of your " +
+                    H.length +
+                    " recurring words, so it may be the ordinary state of this workbook rather than a pattern in it."
+                : "";
+            },
+            P = ["aggression", "acceptance", "distrust", "indifference", "defiance"],
+            W = (function () {
+              var t = {};
               return (
-                !k[t] &&
-                !i.some(function (e) {
-                  return e.k[t];
+                C.m.forEach(function (e) {
+                  (e[3] || "").trim() &&
+                    u(e).forEach(function (e) {
+                      t[e] = 1;
+                    });
+                }),
+                Object.keys(t)
+              );
+            })(),
+            G = H.filter(function (t) {
+              var e = R(t).filter(function (t) {
+                return B(t.line[6]);
+              });
+              return (
+                e.length >= 2 &&
+                e.every(function (t) {
+                  return 1 === t.line[6] || 3 === t.line[6];
                 })
               );
             });
-            var x = f(/\b(must|needs?|needed|requires?|required)\b/g);
-            var T = f(/\b(never|can't|cant|cannot|won't|wont)\b/g);
-            var S = f(/\b(could|maybe|might)\b/g);
-            var L = f(/\b(but|although|except)\b/g);
-            var O = [],
-              A = [];
-            n.forEach(function (t) {
-              var e = (t.raw || "").toLowerCase();
-              (/\b(used to|before)\b/.test(e) && O.push(t.id), /\b(now|soon)\b/.test(e) && A.push(t.id));
-            });
-            var N = O.some(function (t) {
-              return A.some(function (e) {
-                return e !== t;
-              });
-            });
-            var I = {},
-              q =
-                /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|January|February|March|April|May|June|July|August|September|October|November|December|I)$/;
-            n.forEach(function (t) {
-              var e = {};
-              for (var n in ((t.raw || "").split(/[.!?]\s+|\n/).forEach(function (t) {
-                var n = t.trim().split(/\s+/),
-                  o = [],
-                  r = function (t) {
-                    ((o.length > 1 || (1 === o.length && !t)) && (e[o.join(" ")] = 1), (o = []));
-                  };
-                (n.forEach(function (t, e) {
-                  var n = t.replace(/^[^A-Za-z]+|[^A-Za-z]+$/g, "");
-                  /^[A-Z][a-z]+$/.test(n) && !q.test(n)
-                    ? (0 === o.length && (o._start = 0 === e), o.push(n))
-                    : r(o._start);
-                }),
-                  r(o._start));
-              }),
-              e))
-                (I[n] = I[n] || []).push(o(t.id));
-            });
-            var M = Object.keys(I)
-              .filter(function (t) {
-                return I[t].length >= 2;
-              })
-              .sort(function (t, e) {
-                return I[e].length - I[t].length;
-              });
-            M.length &&
+          if (
+            (G.length &&
               c(
-                "A NAME THAT RECURS",
-                M.slice(0, 3)
-                  .map(function (t) {
-                    return "<b>" + Gt(t) + "</b> (" + I[t].length + " places)";
-                  })
-                  .join(", ") +
-                  (M.length > 3 ? " and " + (M.length - 3) + " more" : "") +
-                  ".",
-                M,
+                "RESTING ON WHAT WAS SAID",
+                G.slice(0, 4).map(l).join(", ") +
+                  (G.length > 4 ? " and " + (G.length - 4) + " more" : "") +
+                  (G.length > 1 ? " come" : " comes") +
+                  " only from what someone said or what you assumed, with nothing seen firsthand or on record behind " +
+                  (G.length > 1 ? "them" : "it") +
+                  "." +
+                  D(G),
+                G,
+                null,
+              ),
+            W.length >= 2)
+          ) {
+            var U = H.filter(function (t) {
+              var e = {};
+              return (
+                R(t).forEach(function (t) {
+                  u(t.line).forEach(function (t) {
+                    e[t] = 1;
+                  });
+                }),
+                1 === Object.keys(e).length && R(t).length >= 2
+              );
+            });
+            U.length &&
+              c(
+                "HEARD FROM ONE PERSON ONLY",
+                U.slice(0, 4).map(l).join(", ") +
+                  (U.length > 4 ? " and " + (U.length - 4) + " more" : "") +
+                  (U.length > 1 ? " are" : " is") +
+                  " used by one voice and no other. Nobody else has said " +
+                  (U.length > 1 ? "them" : "it") +
+                  " yet." +
+                  D(U),
+                U,
                 null,
               );
-            var j = f(
-              /\b\d[\d,.\/-]*\b|\b(january|february|march|april|june|july|august|september|october|november|december)\b/g,
-            );
-            var F = [];
-            (m.forEach(function (t) {
-              m.forEach(function (e) {
-                if (t < e) {
-                  var n = Object.keys(i[t].k),
-                    o = Object.keys(i[e].k);
-                  if (n.length >= 3 && o.length >= 3) {
-                    var r = n.filter(function (t) {
-                        return i[e].k[t];
-                      }).length,
-                      a = n.length + o.length - r;
-                    a && r / a >= 0.5 && F.push("Q." + (t + 1) + " and Q." + (e + 1));
-                  }
-                }
-              });
-            }),
-              F.length && c("SAME ANSWER TWICE", a(F, 3) + (F.length, " use nearly the same words.")));
-            var H = lo(
-                Object.keys(g).filter(function (t) {
-                  return g[t] >= 2 && t.indexOf(" ") < 0;
-                }),
-              ),
-              R = function (t) {
-                return xo(t).filter(function (t) {
-                  return t.line;
-                });
-              },
-              B = function (t) {
-                return "number" == typeof t;
-              },
-              D = function (t) {
-                return t.length > Math.max(3, Math.ceil(H.length / 3))
-                  ? " That is " +
-                      t.length +
-                      " of your " +
-                      H.length +
-                      " recurring words, so it may be the ordinary state of this workbook rather than a pattern in it."
-                  : "";
-              },
-              P = ["aggression", "acceptance", "distrust", "indifference", "defiance"],
-              W = (function () {
-                var t = {};
-                return (
-                  C.m.forEach(function (e) {
-                    (e[3] || "").trim() &&
-                      u(e).forEach(function (e) {
-                        t[e] = 1;
-                      });
-                  }),
-                  Object.keys(t)
-                );
-              })(),
-              G = H.filter(function (t) {
-                var e = R(t).filter(function (t) {
-                  return B(t.line[6]);
-                });
-                return (
-                  e.length >= 2 &&
-                  e.every(function (t) {
-                    return 1 === t.line[6] || 3 === t.line[6];
-                  })
-                );
-              });
-            if (
-              (G.length &&
-                c(
-                  "RESTING ON WHAT WAS SAID",
-                  G.slice(0, 4).map(l).join(", ") +
-                    (G.length > 4 ? " and " + (G.length - 4) + " more" : "") +
-                    (G.length > 1 ? " come" : " comes") +
-                    " only from what someone said or what you assumed, with nothing seen firsthand or on record behind " +
-                    (G.length > 1 ? "them" : "it") +
-                    "." +
-                    D(G),
-                  G,
-                  null,
-                ),
-              W.length >= 2)
-            ) {
-              var U = H.filter(function (t) {
-                var e = {};
-                return (
-                  R(t).forEach(function (t) {
-                    u(t.line).forEach(function (t) {
-                      e[t] = 1;
-                    });
-                  }),
-                  1 === Object.keys(e).length && R(t).length >= 2
-                );
-              });
-              U.length &&
-                c(
-                  "HEARD FROM ONE PERSON ONLY",
-                  U.slice(0, 4).map(l).join(", ") +
-                    (U.length > 4 ? " and " + (U.length - 4) + " more" : "") +
-                    (U.length > 1 ? " are" : " is") +
-                    " used by one voice and no other. Nobody else has said " +
-                    (U.length > 1 ? "them" : "it") +
-                    " yet." +
-                    D(U),
-                  U,
-                  null,
-                );
-            }
-            var Y = [],
-              z = {};
-            (H.forEach(function (t) {
-              var e = R(t).filter(function (t) {
-                return B(t.line[5]);
-              });
-              if (!(e.length < 2)) {
-                var n = e[0].line[5];
-                e.every(function (t) {
-                  return t.line[5] === n;
-                }) && (Y.push(t), (z[t] = n));
-              }
-            }),
-              Y.length &&
-                c(
-                  "ONE EMOTION THROUGHOUT",
-                  Y.slice(0, 3)
-                    .map(function (t) {
-                      return l(t) + " (" + P[z[t]] + ")";
-                    })
-                    .join(", ") +
-                    (Y.length > 3 ? " and " + (Y.length - 3) + " more" : "") +
-                    (Y.length > 1 ? " carry" : " carries") +
-                    " the same emotion everywhere " +
-                    (Y.length > 1 ? "they appear" : "it appears") +
-                    ". Nothing you wrote has pulled the other way yet." +
-                    D(Y),
-                  Y,
-                  null,
-                ));
-            var V = [],
-              _ = [];
-            (H.forEach(function (t) {
-              var e = R(t),
-                n = 0,
-                o = 0;
-              (e.forEach(function (t) {
-                t.line[2] < 118 ? n++ : o++;
-              }),
-                e.length >= 2 && (n && !o ? V.push(t) : o && !n && _.push(t)));
-            }),
-              (V.length || _.length) &&
-                c(
-                  "ONE SIDE OF THE LINE ONLY",
-                  (V.length
-                    ? V.slice(0, 3).map(l).join(", ") +
-                      (V.length > 3 ? " and " + (V.length - 3) + " more" : "") +
-                      (V.length > 1 ? " sit" : " sits") +
-                      " only above the line"
-                    : "") +
-                    (V.length && _.length ? "; " : "") +
-                    (_.length
-                      ? _.slice(0, 3).map(l).join(", ") +
-                        (_.length > 3 ? " and " + (_.length - 3) + " more" : "") +
-                        (_.length > 1 ? " sit" : " sits") +
-                        " only below it"
-                      : "") +
-                    ". A word that only ever helps, or only ever hinders, may not have been looked at from the other side." +
-                    D(V.concat(_)),
-                  V.concat(_),
-                  null,
-                ));
-            var $ = [];
-            (m.forEach(function (t) {
-              $.push({ q: t, n: (Q()[t] || "").trim().split(/\s+/).length });
-            }),
-              (function () {
-                if (!($.length < 3)) {
-                  var t = 0;
-                  $.forEach(function (e) {
-                    t += e.n;
-                  });
-                  var e = t / $.length,
-                    n = $.slice().sort(function (t, e) {
-                      return e.n - t.n;
-                    })[0],
-                    o = $.slice().sort(function (t, e) {
-                      return t.n - e.n;
-                    })[0];
-                  (n.n >= 2.5 * e &&
-                    c(
-                      "ONE ANSWER CARRYING MOST OF IT",
-                      "Q." +
-                        (n.q + 1) +
-                        " is far longer than your other answers (" +
-                        n.n +
-                        " words against about " +
-                        Math.round(e) +
-                        "). The question you had most to say about may be where the work is, or may be where you went past the question.",
-                    ),
-                    3 * o.n <= e &&
-                      o.q !== n.q &&
-                      c(
-                        "ONE ANSWER LEFT SHORT",
-                        "Q." +
-                          (o.q + 1) +
-                          " is answered in " +
-                          o.n +
-                          " word" +
-                          (1 === o.n ? "" : "s") +
-                          " against about " +
-                          Math.round(e) +
-                          " elsewhere. It may be settled, or it may be the one you have not got to.",
-                      ));
-                }
-              })());
-            var K = m.filter(function (t) {
-              return !C.m.some(function (e) {
-                return e[0] === t + 1 && (e[3] || "").trim();
-              });
+          }
+          var Y = [],
+            z = {};
+          (H.forEach(function (t) {
+            var e = R(t).filter(function (t) {
+              return B(t.line[5]);
             });
-            return (
-              K.length &&
-                K.length < m.length &&
-                c(
-                  "ANSWERED, WITH NOTHING ON THE MAP",
-                  a(
-                    K.map(function (t) {
-                      return "Q." + (t + 1);
-                    }),
-                    4,
-                  ) +
-                    (K.length > 1 ? " are answered but have" : " is answered but has") +
-                    " no note on the map. The answer rests on itself so far.",
-                ),
-              (function () {
-                if (!(C.m.length < 6)) {
-                  var t = {};
-                  (C.m.forEach(function (e) {
-                    (e[3] || "").trim() && (t[e[0]] = (t[e[0]] || 0) + 1);
-                  }),
-                    (function () {
-                      var e = Object.keys(t);
-                      if (!(e.length < 3)) {
-                        var n = 0;
-                        e.forEach(function (e) {
-                          n += t[e];
-                        });
-                        var o = n / e.length,
-                          r = e.sort(function (e, n) {
-                            return t[n] - t[e];
-                          })[0];
-                        t[r] >= 2.5 * o &&
-                          c(
-                            "MOST OF THE MAP ON ONE QUESTION",
-                            "Q." +
-                              r +
-                              " carries " +
-                              t[r] +
-                              " of your " +
-                              C.m.filter(function (t) {
-                                return (t[3] || "").trim();
-                              }).length +
-                              " notes, far more than any other. That question may be where your attention is, and the others may be thinner than they look.",
-                          );
-                      }
-                    })());
-                }
-              })(),
-              (function () {
-                var e = t.map(function (t) {
-                    var e,
-                      n = [],
-                      o = [];
-                    return (
-                      t[3]
-                        ? (n = t[3].map(function (t) {
-                            return jt(t);
-                          }))
-                        : (e = t[1].match(/<b>[^<]+<\/b>/g)) &&
-                          (n = e.map(function (t) {
-                            return t.replace(/<\/?b>/g, "");
-                          })),
-                      t[4]
-                        ? (o = t[4])
-                        : (e = t[1].match(/\b(?:Q\.\d|note \d+|place note \d+)\b/g)) && (o = e),
-                      { lab: t[0], w: d(n), p: d(o) }
-                    );
-                  }),
-                  n = [
-                    [
-                      "A WORD THAT RETURNS",
-                      "SAID, BUT NOT ANSWERED",
-                      function (t) {
-                        return (
-                          t +
-                          " is one of the words you keep coming back to, and nothing in Q.5–Q.7 answers it. What you say most may be what you have planned least."
-                        );
-                      },
-                    ],
-                    [
-                      "SAID, BUT NOT ANSWERED",
-                      "RESTING ON WHAT WAS SAID",
-                      function (t) {
-                        return (
-                          t +
-                          " has nothing in Q.5–Q.7 answering it, and what you wrote about it was told to you or assumed. There may be little underneath it to plan from yet."
-                        );
-                      },
-                    ],
-                    [
-                      "RESTING ON WHAT WAS SAID",
-                      "HEARD FROM ONE PERSON ONLY",
-                      function (t) {
-                        return (
-                          t +
-                          " comes from one voice, and from what that person said rather than anything seen or recorded. One more person's account may change it."
-                        );
-                      },
-                    ],
-                    [
-                      "SOUNDS LIKE A BARRIER",
-                      "ONE EMOTION THROUGHOUT",
-                      function (t) {
-                        return (
-                          t +
-                          " is written about as something that cannot happen, and it carries the same emotion wherever it appears. The emotion and the barrier may be holding each other up."
-                        );
-                      },
-                    ],
-                    [
-                      "A FIGURE TO CHECK",
-                      "RESTING ON WHAT WAS SAID",
-                      function (t) {
-                        return (
-                          "A figure sits beside " +
-                          t +
-                          ", which rests on what was said rather than on anything recorded. Worth checking before anything is built on it."
-                        );
-                      },
-                    ],
-                    [
-                      "A NAME THAT RECURS",
-                      "HEARD FROM ONE PERSON ONLY",
-                      function (t) {
-                        return (
-                          t +
-                          " comes up again and again, and from one voice only. The person named may not have been asked."
-                        );
-                      },
-                    ],
-                    [
-                      "ONE SIDE OF THE LINE ONLY",
-                      "SAID, BUT NOT ANSWERED",
-                      function (t) {
-                        return (
-                          t +
-                          " only ever sits on one side of the line and nothing in Q.5–Q.7 answers it. It may have been settled in your mind before it was planned for."
-                        );
-                      },
-                    ],
-                    [
-                      "A WORD THAT CROSSES QUESTIONS",
-                      "ONE EMOTION THROUGHOUT",
-                      function (t) {
-                        return (
-                          t +
-                          " runs through several questions carrying the same emotion in each. One emotion may be coloring more of the workbook than you meant."
-                        );
-                      },
-                    ],
-                    [
-                      "ANSWERED, WITH NOTHING ON THE MAP",
-                      "MOST OF THE MAP ON ONE QUESTION",
-                      function (t) {
-                        return (
-                          "One question carries most of your notes while " +
-                          t +
-                          " has none. Your attention may be further from even than it feels."
-                        );
-                      },
-                    ],
-                  ],
-                  o = {
-                    "A WORD THAT RETURNS": 1,
-                    "A WORD THAT CROSSES QUESTIONS": 1,
-                    "A NAME THAT RECURS": 1,
-                  },
-                  r = [],
-                  i = {},
-                  a = {};
-                (e.forEach(function (t, a) {
-                  e.slice(a + 1).forEach(function (e) {
-                    var a = t.w.filter(function (t) {
-                        return e.w.indexOf(t) >= 0;
-                      }),
-                      s = t.p.filter(function (t) {
-                        return e.p.indexOf(t) >= 0;
-                      });
-                    if (a.length || s.length) {
-                      var l = null;
-                      if (
-                        (n.forEach(function (n) {
-                          ((n[0] === t.lab && n[1] === e.lab) || (n[0] === e.lab && n[1] === t.lab)) &&
-                            (l = n[2]);
-                        }),
-                        l || !(!a.length || (o[t.lab] && o[e.lab])))
-                      ) {
-                        var c = a.length ? "<b>" + Gt(a[0]) + "</b>" : s[0],
-                          u = (a.length ? "w" : "p") + (a.length ? a[0] : s[0]),
-                          d = l
-                            ? l(c)
-                            : c +
-                              " is behind two findings at once: " +
-                              t.lab +
-                              " and " +
-                              e.lab +
-                              ". They may be one pattern rather than two.";
-                        i[d] || (r.push({ t: d, s: l ? 1 : 0, k: u }), (i[d] = 1));
-                      }
-                    }
-                  });
-                }),
-                  (r = r
-                    .sort(function (t, e) {
-                      return e.s - t.s;
-                    })
-                    .filter(function (t) {
-                      return !a[t.k] && (a[t.k] = 1);
-                    })),
-                  r.length &&
+            if (!(e.length < 2)) {
+              var n = e[0].line[5];
+              e.every(function (t) {
+                return t.line[5] === n;
+              }) && (Y.push(t), (z[t] = n));
+            }
+          }),
+            Y.length &&
+              c(
+                "ONE EMOTION THROUGHOUT",
+                Y.slice(0, 3)
+                  .map(function (t) {
+                    return l(t) + " (" + P[z[t]] + ")";
+                  })
+                  .join(", ") +
+                  (Y.length > 3 ? " and " + (Y.length - 3) + " more" : "") +
+                  (Y.length > 1 ? " carry" : " carries") +
+                  " the same emotion everywhere " +
+                  (Y.length > 1 ? "they appear" : "it appears") +
+                  ". Nothing you wrote has pulled the other way yet." +
+                  D(Y),
+                Y,
+                null,
+              ));
+          var V = [],
+            _ = [];
+          (H.forEach(function (t) {
+            var e = R(t),
+              n = 0,
+              o = 0;
+            (e.forEach(function (t) {
+              t.line[2] < 118 ? n++ : o++;
+            }),
+              e.length >= 2 && (n && !o ? V.push(t) : o && !n && _.push(t)));
+          }),
+            (V.length || _.length) &&
+              c(
+                "ONE SIDE OF THE LINE ONLY",
+                (V.length
+                  ? V.slice(0, 3).map(l).join(", ") +
+                    (V.length > 3 ? " and " + (V.length - 3) + " more" : "") +
+                    (V.length > 1 ? " sit" : " sits") +
+                    " only above the line"
+                  : "") +
+                  (V.length && _.length ? "; " : "") +
+                  (_.length
+                    ? _.slice(0, 3).map(l).join(", ") +
+                      (_.length > 3 ? " and " + (_.length - 3) + " more" : "") +
+                      (_.length > 1 ? " sit" : " sits") +
+                      " only below it"
+                    : "") +
+                  ". A word that only ever helps, or only ever hinders, may not have been looked at from the other side." +
+                  D(V.concat(_)),
+                V.concat(_),
+                null,
+              ));
+          var $ = [];
+          (m.forEach(function (t) {
+            $.push({ q: t, n: (Q()[t] || "").trim().split(/\s+/).length });
+          }),
+            (function () {
+              if (!($.length < 3)) {
+                var t = 0;
+                $.forEach(function (e) {
+                  t += e.n;
+                });
+                var e = t / $.length,
+                  n = $.slice().sort(function (t, e) {
+                    return e.n - t.n;
+                  })[0],
+                  o = $.slice().sort(function (t, e) {
+                    return t.n - e.n;
+                  })[0];
+                (n.n >= 2.5 * e &&
+                  c(
+                    "ONE ANSWER CARRYING MOST OF IT",
+                    "Q." +
+                      (n.q + 1) +
+                      " is far longer than your other answers (" +
+                      n.n +
+                      " words against about " +
+                      Math.round(e) +
+                      "). The question you had most to say about may be where the work is, or may be where you went past the question.",
+                  ),
+                  3 * o.n <= e &&
+                    o.q !== n.q &&
                     c(
-                      "POSSIBLE PATTERNS",
-                      "<ul>" +
-                        r
-                          .slice(0, 3)
-                          .map(function (t) {
-                            return "<li>" + t.t + "</li>";
-                          })
-                          .join("") +
-                        "</ul>",
+                      "ONE ANSWER LEFT SHORT",
+                      "Q." +
+                        (o.q + 1) +
+                        " is answered in " +
+                        o.n +
+                        " word" +
+                        (1 === o.n ? "" : "s") +
+                        " against about " +
+                        Math.round(e) +
+                        " elsewhere. It may be settled, or it may be the one you have not got to.",
                     ));
-              })(),
-              (window.gsmMIR = t
-                .filter(function (t) {
-                  return "ONE SIDE OF THE LINE ONLY" === t[0] || "POSSIBLE PATTERNS" === t[0];
-                })
-                .map(yo)
-                .join("")),
-              t.length
-                ? '<div class="plab">IN THE WORDS</div>' +
-                  t
-                    .filter(function (t) {
-                      return !{
-                        "SAID, BUT NOT ANSWERED": 1,
-                        "A WORD THAT RETURNS": 1,
-                        "A WORD THAT CROSSES QUESTIONS": 1,
-                        "RESTING ON WHAT WAS SAID": 1,
-                        "HEARD FROM ONE PERSON ONLY": 1,
-                        "ONE EMOTION THROUGHOUT": 1,
-                        "ONE SIDE OF THE LINE ONLY": 1,
-                        "ANSWERED, WITH NOTHING ON THE MAP": 1,
-                      }[t[0]];
-                    })
-                    .map(yo)
-                    .join("")
-                : ""
-            );
-          })()),
+              }
+            })());
+          var K = m.filter(function (t) {
+            return !C.m.some(function (e) {
+              return e[0] === t + 1 && (e[3] || "").trim();
+            });
+          });
+          return (
+            K.length &&
+              K.length < m.length &&
+              c(
+                "ANSWERED, WITH NOTHING ON THE MAP",
+                a(
+                  K.map(function (t) {
+                    return "Q." + (t + 1);
+                  }),
+                  4,
+                ) +
+                  (K.length > 1 ? " are answered but have" : " is answered but has") +
+                  " no note on the map. The answer rests on itself so far.",
+              ),
+            (function () {
+              if (!(C.m.length < 6)) {
+                var t = {};
+                (C.m.forEach(function (e) {
+                  (e[3] || "").trim() && (t[e[0]] = (t[e[0]] || 0) + 1);
+                }),
+                  (function () {
+                    var e = Object.keys(t);
+                    if (!(e.length < 3)) {
+                      var n = 0;
+                      e.forEach(function (e) {
+                        n += t[e];
+                      });
+                      var o = n / e.length,
+                        r = e.sort(function (e, n) {
+                          return t[n] - t[e];
+                        })[0];
+                      t[r] >= 2.5 * o &&
+                        c(
+                          "MOST OF THE MAP ON ONE QUESTION",
+                          "Q." +
+                            r +
+                            " carries " +
+                            t[r] +
+                            " of your " +
+                            C.m.filter(function (t) {
+                              return (t[3] || "").trim();
+                            }).length +
+                            " notes, far more than any other. That question may be where your attention is, and the others may be thinner than they look.",
+                        );
+                    }
+                  })());
+              }
+            })(),
+            (function () {
+              var e = t.map(function (t) {
+                  var e,
+                    n = [],
+                    o = [];
+                  return (
+                    t[3]
+                      ? (n = t[3].map(function (t) {
+                          return jt(t);
+                        }))
+                      : (e = t[1].match(/<b>[^<]+<\/b>/g)) &&
+                        (n = e.map(function (t) {
+                          return t.replace(/<\/?b>/g, "");
+                        })),
+                    t[4] ? (o = t[4]) : (e = t[1].match(/\b(?:Q\.\d|note \d+|place note \d+)\b/g)) && (o = e),
+                    { lab: t[0], w: d(n), p: d(o) }
+                  );
+                }),
+                n = [
+                  [
+                    "A WORD THAT RETURNS",
+                    "SAID, BUT NOT ANSWERED",
+                    function (t) {
+                      return (
+                        t +
+                        " is one of the words you keep coming back to, and nothing in Q.5–Q.7 answers it. What you say most may be what you have planned least."
+                      );
+                    },
+                  ],
+                  [
+                    "SAID, BUT NOT ANSWERED",
+                    "RESTING ON WHAT WAS SAID",
+                    function (t) {
+                      return (
+                        t +
+                        " has nothing in Q.5–Q.7 answering it, and what you wrote about it was told to you or assumed. There may be little underneath it to plan from yet."
+                      );
+                    },
+                  ],
+                  [
+                    "RESTING ON WHAT WAS SAID",
+                    "HEARD FROM ONE PERSON ONLY",
+                    function (t) {
+                      return (
+                        t +
+                        " comes from one voice, and from what that person said rather than anything seen or recorded. One more person's account may change it."
+                      );
+                    },
+                  ],
+                  [
+                    "SOUNDS LIKE A BARRIER",
+                    "ONE EMOTION THROUGHOUT",
+                    function (t) {
+                      return (
+                        t +
+                        " is written about as something that cannot happen, and it carries the same emotion wherever it appears. The emotion and the barrier may be holding each other up."
+                      );
+                    },
+                  ],
+                  [
+                    "A FIGURE TO CHECK",
+                    "RESTING ON WHAT WAS SAID",
+                    function (t) {
+                      return (
+                        "A figure sits beside " +
+                        t +
+                        ", which rests on what was said rather than on anything recorded. Worth checking before anything is built on it."
+                      );
+                    },
+                  ],
+                  [
+                    "A NAME THAT RECURS",
+                    "HEARD FROM ONE PERSON ONLY",
+                    function (t) {
+                      return (
+                        t +
+                        " comes up again and again, and from one voice only. The person named may not have been asked."
+                      );
+                    },
+                  ],
+                  [
+                    "ONE SIDE OF THE LINE ONLY",
+                    "SAID, BUT NOT ANSWERED",
+                    function (t) {
+                      return (
+                        t +
+                        " only ever sits on one side of the line and nothing in Q.5–Q.7 answers it. It may have been settled in your mind before it was planned for."
+                      );
+                    },
+                  ],
+                  [
+                    "A WORD THAT CROSSES QUESTIONS",
+                    "ONE EMOTION THROUGHOUT",
+                    function (t) {
+                      return (
+                        t +
+                        " runs through several questions carrying the same emotion in each. One emotion may be coloring more of the workbook than you meant."
+                      );
+                    },
+                  ],
+                  [
+                    "ANSWERED, WITH NOTHING ON THE MAP",
+                    "MOST OF THE MAP ON ONE QUESTION",
+                    function (t) {
+                      return (
+                        "One question carries most of your notes while " +
+                        t +
+                        " has none. Your attention may be further from even than it feels."
+                      );
+                    },
+                  ],
+                ],
+                o = { "A WORD THAT RETURNS": 1, "A WORD THAT CROSSES QUESTIONS": 1, "A NAME THAT RECURS": 1 },
+                r = [],
+                i = {},
+                a = {};
+              (e.forEach(function (t, a) {
+                e.slice(a + 1).forEach(function (e) {
+                  var a = t.w.filter(function (t) {
+                      return e.w.indexOf(t) >= 0;
+                    }),
+                    s = t.p.filter(function (t) {
+                      return e.p.indexOf(t) >= 0;
+                    });
+                  if (a.length || s.length) {
+                    var l = null;
+                    if (
+                      (n.forEach(function (n) {
+                        ((n[0] === t.lab && n[1] === e.lab) || (n[0] === e.lab && n[1] === t.lab)) &&
+                          (l = n[2]);
+                      }),
+                      l || !(!a.length || (o[t.lab] && o[e.lab])))
+                    ) {
+                      var c = a.length ? "<b>" + Gt(a[0]) + "</b>" : s[0],
+                        u = (a.length ? "w" : "p") + (a.length ? a[0] : s[0]),
+                        d = l
+                          ? l(c)
+                          : c +
+                            " is behind two findings at once: " +
+                            t.lab +
+                            " and " +
+                            e.lab +
+                            ". They may be one pattern rather than two.";
+                      i[d] || (r.push({ t: d, s: l ? 1 : 0, k: u }), (i[d] = 1));
+                    }
+                  }
+                });
+              }),
+                (r = r
+                  .sort(function (t, e) {
+                    return e.s - t.s;
+                  })
+                  .filter(function (t) {
+                    return !a[t.k] && (a[t.k] = 1);
+                  })),
+                r.length &&
+                  c(
+                    "POSSIBLE PATTERNS",
+                    "<ul>" +
+                      r
+                        .slice(0, 3)
+                        .map(function (t) {
+                          return "<li>" + t.t + "</li>";
+                        })
+                        .join("") +
+                      "</ul>",
+                  ));
+            })(),
+            (window.gsmMIR = t
+              .filter(function (t) {
+                return "ONE SIDE OF THE LINE ONLY" === t[0] || "POSSIBLE PATTERNS" === t[0];
+              })
+              .map(yo)
+              .join("")),
+            t.length
+              ? '<div class="plab">IN THE WORDS</div>' +
+                t
+                  .filter(function (t) {
+                    return !{
+                      "SAID, BUT NOT ANSWERED": 1,
+                      "A WORD THAT RETURNS": 1,
+                      "A WORD THAT CROSSES QUESTIONS": 1,
+                      "RESTING ON WHAT WAS SAID": 1,
+                      "HEARD FROM ONE PERSON ONLY": 1,
+                      "ONE EMOTION THROUGHOUT": 1,
+                      "ONE SIDE OF THE LINE ONLY": 1,
+                      "ANSWERED, WITH NOTHING ON THE MAP": 1,
+                    }[t[0]];
+                  })
+                  .map(yo)
+                  .join("")
+              : ""
+          );
+        })()),
           Z.length && (tt += '<div class="plab">STILL OPEN</div>' + Z.map(yo).join("")),
           (Ne = function (t) {
             return g[t] || 0;
@@ -12371,7 +12358,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v113");
+        t && (t.textContent = "v114");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
