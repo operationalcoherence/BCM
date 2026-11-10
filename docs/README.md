@@ -4,7 +4,7 @@ Design and audit documents for the Bear Canyon Method web workbook, kept beside
 the code so the two travel together. All wording in these documents is Claude's
 unless it quotes Gregory directly. Gregory edits his own text.
 
-**Latest shipped: v110 (preview only). The live page `/gsmlive` is still on the
+**Latest shipped: v111 (preview only). The live page `/gsmlive` is still on the
 old pasted v92 file and must not be touched without his say-so.**
 
 | File | What it is |
@@ -17,6 +17,7 @@ old pasted v92 file and must not be touched without his say-so.**
 | `vocabulary_architecture.md` | Why a built-in domain lexicon cannot generalize, and why the engine cannot infer synonyms by itself. The reasoning behind v98. |
 | `vocabulary_funnel.md` | How the list of candidate synonyms is narrowed before the person is asked anything. |
 | `engine_audit_v98.md` | A measured audit of the engine at v98: what is sound, nine defects with evidence, and where the advancements are. |
+| `v111_update.md` | The last clutter: NOT YET ADDRESSED, a repeated emotion line, the repeated EMERGING entries, and "How Patterns works" on Analysis only. |
 | `v110_update.md` | The comprehensive clutter pass across all three pattern pages. |
 | `v109_update.md` | "Where to look first" removed from Synthesis; "Where to start" on In Parallel kept. |
 | `v108_update.md` | The big swing: three noise lists hidden, EACH QUESTION, the repeated PRESSING NOW and "The meaning of that meaning" removed. About 1,000 words off since v104. |

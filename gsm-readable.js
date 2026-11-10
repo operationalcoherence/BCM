@@ -1,4 +1,4 @@
-/* Bear Canyon Method v110 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v111 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4421,7 +4421,7 @@
             t && !$[t] ? J.push(t) : (J.length && K.push(J), (J = []));
           }),
             J.length && K.push(J),
-            K.length &&
+            0 &&
               b.push([
                 "NOT YET ADDRESSED",
                 K.slice(0, 4)
@@ -5808,30 +5808,17 @@
             Ze = a.filter(function (t) {
               return t.txt.trim();
             }).length;
-          (Ze &&
-            Fe.push(
-              "<b>Emotion read on " +
-                Xe +
-                " of " +
-                Ze +
-                " notes.</b> " +
-                (Xe === Ze
-                  ? "Every note describes a leading emotion."
-                  : Xe
-                    ? "The rest say what is there but not how people feel about it."
-                    : "None yet say how people feel about it."),
-            ),
-            (ye +=
-              '<div class="plab">ABOUT WHAT YOU COLLECTED</div><div class="meta">' +
-              Me +
-              "</div>" +
-              (Fe.length
-                ? '<div class="msub">The meaning of the meaning: what the patterns say about the data itself.</div><ul class="metal">' +
-                  Fe.map(function (t) {
-                    return "<li>" + t + "</li>";
-                  }).join("") +
-                  "</ul>"
-                : "")),
+          ((ye +=
+            '<div class="plab">ABOUT WHAT YOU COLLECTED</div><div class="meta">' +
+            Me +
+            "</div>" +
+            (Fe.length
+              ? '<div class="msub">The meaning of the meaning: what the patterns say about the data itself.</div><ul class="metal">' +
+                Fe.map(function (t) {
+                  return "<li>" + t + "</li>";
+                }).join("") +
+                "</ul>"
+              : "")),
             (ye += ee(de.slice(0, qe), ge, Eo, de)),
             (ye += lt));
           var tn = de
@@ -6221,7 +6208,7 @@
                   })
                   .join("") +
                 "</ul>"),
-            (tn.length || en.length || nn.length) &&
+            (tn.length || nn.length) &&
               (ye +=
                 '<div class="plab">WHAT TO PAY ATTENTION TO</div><div class="sig"><div style="display:none"><h4>PRESSING NOW</h4>' +
                 (tn.length
@@ -6249,36 +6236,19 @@
                       .join("")
                   : "<p>Nothing presses yet.</p>") +
                 '</div><div class="em"><h4>EMERGING</h4>' +
-                (en
+                (nn
                   .map(function (t) {
                     return (
                       "<p><b>" +
-                      Gt(jt(t)) +
-                      "</b>: " +
-                      Oo(t) +
-                      " places, " +
-                      ("condition" === ge[t].c
-                        ? "a condition with no answer in Q.5–Q.7 yet"
-                        : "plan" === ge[t].c
-                          ? "in what you plan, but not tied to any cause or objection you wrote"
-                          : "not in Q.5–Q.7 yet") +
+                      Gt(jt(t[0])) +
+                      "</b>: once, in Q." +
+                      (t[1] + 1) +
+                      ". Faint, but tied to " +
+                      (t[1] ? "the opposition" : "why the goal has not taken root") +
                       ".</p>"
                     );
                   })
-                  .join("") +
-                  nn
-                    .map(function (t) {
-                      return (
-                        "<p><b>" +
-                        Gt(jt(t[0])) +
-                        "</b>: once, in Q." +
-                        (t[1] + 1) +
-                        ". Faint, but tied to " +
-                        (t[1] ? "the opposition" : "why the goal has not taken root") +
-                        ".</p>"
-                      );
-                    })
-                    .join("") || "<p>Nothing emerging yet.</p>") +
+                  .join("") || "<p>Nothing emerging yet.</p>") +
                 "</div></div>"));
           var kn = [];
           function Tn(t) {
@@ -11964,6 +11934,10 @@
                   : "← Back: " + (L(6) ? n : L(3) ? "Pattern Synthesis" : "Pattern Analysis")),
           (l.textContent = d[i] || c),
           u && u.classList.contains("sub") && (u.style.display = 4 === i ? "none" : ""),
+          (function () {
+            var q = document.getElementById("gsm-pnote");
+            q && (q.style.display = 2 === i ? "" : "none");
+          })(),
           t.querySelectorAll(".jrow:first-child button").forEach(function (t) {
             var e = +t.dataset.v === i;
             (t.classList.toggle("on", e), t.setAttribute("aria-selected", e ? "true" : "false"));
@@ -12206,7 +12180,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v110");
+        t && (t.textContent = "v111");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
