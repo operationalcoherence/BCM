@@ -1,4 +1,4 @@
-/* Bear Canyon Method v125 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v126 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4367,6 +4367,51 @@
                 " no description yet.",
               1,
             ]));
+        !(function () {
+          var SG = { 0: 1, 2: 1, 4: 1 },
+            EN = ["aggression", "acceptance", "distrust", "indifference", "defiance"],
+            R1 = [],
+            X1 = [],
+            ha = 0,
+            hs = 0,
+            rf = [];
+          function ad(r, d, lab, ref) {
+            if (!(r[3] || "").trim() || null == r[5] || !EN[r[5]] || !d) return;
+            var st = !!SG[r[5]];
+            R1.push(1);
+            rf.push(ref);
+            st === d < 0
+              ? d > 0
+                ? ha++
+                : hs++
+              : X1.push(lab + " (" + EN[r[5]] + ", " + (d > 0 ? "above" : "below") + " the line)");
+          }
+          C.m.forEach(function (r, i) {
+            var y = r[2];
+            ad(r, y < 118 ? 1 : y > 118 ? -1 : 0, "N" + (i + 1), "note " + (i + 1));
+          });
+          ((C.p && C.p.m) || []).forEach(function (r, i) {
+            ad(r, Wt[r[0] - 1], "N" + (i + 1) + " (place)", "P" + (i + 1));
+          });
+          var n1 = R1.length,
+            g1 = ha + hs;
+          if (n1 < 4 || g1 / n1 < 0.9 || !ha || !hs) return;
+          b.push([
+            "ONE JUDGEMENT TWICE",
+            "In " +
+              g1 +
+              " of " +
+              n1 +
+              " notes the emotion and the side of the line say the same thing: acceptance sits above the line, where things help, and aggression, distrust or defiance below it, where things hinder. Marking one already tells you the other." +
+              (X1.length
+                ? " The " +
+                  (X1.length > 1 ? X1.length + " that differ: " : "one that differs: ") +
+                  X1.slice(0, 4).join("; ") +
+                  "."
+                : ""),
+            1,
+          ]);
+        })();
         var _ = [];
         (Q().forEach(function (t, e) {
           var n = (t || "").trim().split(/\s+/).filter(Boolean).length;
@@ -4622,6 +4667,7 @@
               "PARTLY ALREADY": "overlap",
               "ROOTED IN OPPOSITION": "overlap",
               "SHORT ANSWERS": "structure",
+              "ONE JUDGEMENT TWICE": "structure",
               "LEADING QUESTIONS": "structure",
               "STANDS ALONE": "structure",
               "AT THE CENTER": "structure",
@@ -6662,9 +6708,13 @@
                   (function () {
                     var M = "\u0001",
                       LN = Hn(),
-                      TG = LN
-                        ? " In your workbook strong emotion and a place below the line always go together, so they count as one."
-                        : " In your workbook strong emotion and hindering the goal always go together, so they count as one.",
+                      EG = es(),
+                      TG =
+                        " In your workbook a note's emotion and its side of the line agree in " +
+                        EG.agree +
+                        " of " +
+                        EG.n +
+                        " notes (acceptance above, the strong emotions below), so here they count as one.",
                       i = n.indexOf(M);
                     if (0 === i) {
                       var r1 = n.slice(1);
@@ -12517,7 +12567,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v125");
+        t && (t.textContent = "v126");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
