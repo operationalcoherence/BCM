@@ -1,4 +1,4 @@
-/* Bear Canyon Method v104 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v105 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4591,16 +4591,6 @@
                 })
               );
             });
-            E.length &&
-              c(
-                "GOAL WORD LEFT BEHIND",
-                E.slice(0, 4).map(l).join(", ") +
-                  (E.length > 4 ? " and " + (E.length - 4) + " more" : "") +
-                  (E.length > 1 ? " are" : " is") +
-                  " in the goal but in no answer or note.",
-                E,
-                null,
-              );
             var x = f(/\b(must|needs?|needed|requires?|required)\b/g);
             x.n &&
               c(
@@ -5464,15 +5454,7 @@
                     : ft.length
                       ? "The rest say what is there but not how people feel about it."
                       : "None yet say how people feel about it."),
-              ),
-            (lt +=
-              '<div class="msub">The meaning of the meaning: what the patterns say about the data itself.</div><ul class="metal">' +
-              wt
-                .map(function (t) {
-                  return "<li>" + t + "</li>";
-                })
-                .join("") +
-              "</ul>"));
+              ));
         }
         lt &&
           ((lt = '<div class="plab">WHAT IT MIGHT MEAN</div><div class="mean">' + lt + "</div>"),
@@ -12335,7 +12317,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v104");
+        t && (t.textContent = "v105");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
