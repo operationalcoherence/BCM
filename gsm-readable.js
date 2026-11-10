@@ -1,4 +1,4 @@
-/* Bear Canyon Method v118 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v119 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4580,10 +4580,9 @@
               var v = R.map(function (x) {
                   return x[k];
                 }),
-                lo = Math.min.apply(null, v),
                 hi = Math.max.apply(null, v);
               R.forEach(function (x) {
-                x["n" + k] = hi === lo ? 0.5 : (x[k] - lo) / (hi - lo);
+                x["n" + k] = hi > 0 ? x[k] / hi : 0;
               });
             });
             R.forEach(function (x) {
@@ -12361,7 +12360,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v118");
+        t && (t.textContent = "v119");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
