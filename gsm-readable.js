@@ -1,4 +1,4 @@
-/* Bear Canyon Method v131 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v132 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4370,6 +4370,7 @@
               1,
             ]));
         window.gsmCE = function () {
+          window.gsmCL = null;
           var SW = {};
           "that this with from have will they their them there these those were been being into onto over under about above below than then when what which while where whose would could should must also only very more most much many some such each every other another same just even still both either neither does done doing make makes made need needs needed like well upon within without between through across around toward towards because since so"
             .split(" ")
@@ -4476,6 +4477,7 @@
             });
             return Object.keys(u).join(", ");
           }
+          window.gsmCL = { k: b.k, w: fw, c: lb(b.c), e: lb(b.e) };
           return (
             '<div class="plab">CAUSE AND EFFECT</div><div class="mean"><p>You write <b>' +
             Gt(fw) +
@@ -7314,6 +7316,16 @@
                         ")"
                     );
                   })(n);
+                  var LP = (window.gsmCE && window.gsmCE(), window.gsmCL),
+                    LM =
+                      !!LP &&
+                      jt(t)
+                        .toLowerCase()
+                        .split(" ")
+                        .some(function (w) {
+                          return w.slice(0, 6) === LP.k;
+                        });
+                  LM && s.push("you write it as both a cause and an effect");
                   u && s.push(u);
                   var d = [],
                     h = n
@@ -7396,6 +7408,10 @@
                       h.length && d.push("Build on " + h.slice(0, 3).join(", ") + "."),
                       r.indexOf(4) >= 0 && d.push("Carry out what Q.5 designs."),
                       d.push("Check back if circumstances change."));
+                  LM &&
+                    d.push(
+                      "You write it as both a cause and an effect, so work out which end you can change first. The sentences are under CAUSE AND EFFECT on Pattern Synthesis.",
+                    );
                   return (
                     '<div class="coa"><div class="hd"><b>' +
                     Gt(jt(t)) +
@@ -12926,7 +12942,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v131");
+        t && (t.textContent = "v132");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
