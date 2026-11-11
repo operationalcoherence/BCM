@@ -1,4 +1,4 @@
-/* Bear Canyon Method v136 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v137 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4893,6 +4893,95 @@
             rows.join("") +
             "</div>";
         })();
+        !(function () {
+          window.gsmOG = "";
+          var g = String(C.goal || "").trim();
+          if (!g) return;
+          var SWO = {};
+          "a an the and or but of to in on at for with from by as is are was were be been it its this that these those there their they them we our you your not no so if than then also more most such into out up down over under can could may might will would should must do does did have has had which who what when where while about across through toward without within between per each all any some many much very how why whether"
+            .split(" ")
+            .forEach(function (w) {
+              SWO[w] = 1;
+            });
+          function st(t) {
+            var h = {};
+            (t.toLowerCase().match(/[a-z]+/g) || []).forEach(function (w) {
+              if (SWO[w] || w.length < 4) return;
+              var k = w.replace(/(?:ing|ed|es|s)$/, "");
+              k.length > 3 && (h[k.slice(0, 6)] = 1);
+            });
+            return h;
+          }
+          var S = (C.m || [])
+            .map(function (r, i) {
+              return ["N" + (i + 1), r[3] || "", r[8]];
+            })
+            .concat(
+              ((C.p && C.p.m) || []).map(function (r, i) {
+                return ["N" + (i + 1) + " (place)", r[3] || "", r[8]];
+              }),
+            );
+          if (
+            S.filter(function (x) {
+              return (x[1] || "").trim();
+            }).length < 5
+          )
+            return;
+          var gs = st(g),
+            AK = C.asks || {},
+            U = [],
+            NO = [];
+          S.forEach(function (x) {
+            if (!(x[1] || "").trim() || !x[2]) return;
+            var a = st(x[1]);
+            if (
+              Object.keys(a).some(function (k) {
+                return gs[k];
+              })
+            )
+              return;
+            var v = AK["goal|" + x[2]];
+            "n" === v ? NO.push(x[0]) : "y" === v || U.push(x);
+          });
+          if (!U.length && !NO.length) return;
+          window.gsmAskG = function (k, v) {
+            (C.asks && "object" == typeof C.asks) || (C.asks = {});
+            C.asks["goal|" + k] = v;
+            P();
+          };
+          var h = '<div class="plab">DOES THIS SERVE THE GOAL?</div><div class="mean">';
+          U.length &&
+            (h +=
+              "<p>" +
+              (U.length > 1 ? "These notes share" : "This note shares") +
+              " no word with your goal. That could mean " +
+              (U.length > 1 ? "they are" : "it is") +
+              " off the goal or only worded differently, and Patterns cannot tell which, so it asks.</p>" +
+              U.slice(0, 3)
+                .map(function (x) {
+                  var id = String(x[2]).replace(/[^A-Za-z0-9_-]/g, ""),
+                    q = x[1].trim().replace(/\s+/g, " ");
+                  return (
+                    '<div style="margin:6px 0 10px">' +
+                    x[0] +
+                    " “" +
+                    Gt(q.length > 120 ? q.slice(0, 120).replace(/\s+\S*$/, "") + "…" : q) +
+                    "” Does it serve the goal?" +
+                    '<div class="emo"><button type="button" class="ech" onclick="gsmAskG(\'' +
+                    id +
+                    '\',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskG(\'' +
+                    id +
+                    "','n')\">No</button></div></div>"
+                  );
+                })
+                .join(""));
+          NO.length &&
+            (h +=
+              '<div class="csl">YOU SAID THESE DO NOT SERVE THE GOAL</div><div class="cq">' +
+              NO.join(", ") +
+              "</div>");
+          window.gsmOG = h + "</div>";
+        })();
         var _ = [];
         (Q().forEach(function (t, e) {
           var n = (t || "").trim().split(/\s+/).filter(Boolean).length;
@@ -6200,6 +6289,7 @@
             window.gsmSC() +
             (window.gsmOJ || "") +
             (window.gsmOQ || "") +
+            (window.gsmOG || "") +
             '<div class="plab">WHAT IT MIGHT MEAN</div><div class="mean">' +
             lt +
             "</div>"),
@@ -13203,7 +13293,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v136");
+        t && (t.textContent = "v137");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
