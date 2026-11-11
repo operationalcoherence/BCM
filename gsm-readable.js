@@ -1,4 +1,4 @@
-/* Bear Canyon Method v132 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v133 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4369,6 +4369,53 @@
                 " no description yet.",
               1,
             ]));
+        window.gsmTM = function () {
+          var mm = C.m || [],
+            H1 = [],
+            K1 = [],
+            H2 = [],
+            K2 = [];
+          mm.forEach(function (r, i) {
+            if (r[1] == null || r[2] == null) return;
+            var id = "N" + (i + 1),
+              f = r[1] < 146,
+              h = r[2] < 118;
+            (f ? (h ? H1 : K1) : h ? H2 : K2).push(id);
+          });
+          var nh = H1.length + H2.length,
+            nk = K1.length + K2.length;
+          if (nh < 4 || nk < 4) return "";
+          var er = K1.length > H1.length && H2.length > K2.length,
+            lt2 = H1.length > K1.length && K2.length > H2.length;
+          if (!er && !lt2) return "";
+          return (
+            '<div class="plab">NOW AND LATER</div><div class="mean"><p>You placed ' +
+            nk +
+            " notes as hindering and " +
+            nh +
+            " as helping on the line map. In the first half, nearer the present, " +
+            K1.length +
+            " hinder and " +
+            H1.length +
+            " help. In the second half, nearer the goal, " +
+            K2.length +
+            " hinder and " +
+            H2.length +
+            " help. " +
+            (er
+              ? "What gets in the way is placed closer to now; what helps is placed further ahead."
+              : "What helps is placed closer to now; what gets in the way is placed further ahead.") +
+            ' Patterns suggests; you decide.</p><div class="csl">' +
+            (er ? "HINDER, NEARER THE PRESENT" : "HELP, NEARER THE PRESENT") +
+            '</div><div class="cq">' +
+            (er ? K1 : H1).join(", ") +
+            '</div><div class="csl">' +
+            (er ? "HELP, NEARER THE GOAL" : "HINDER, NEARER THE GOAL") +
+            '</div><div class="cq">' +
+            (er ? H2 : K2).join(", ") +
+            "</div></div>"
+          );
+        };
         window.gsmCE = function () {
           window.gsmCL = null;
           var SW = {};
@@ -5941,7 +5988,11 @@
         }
         lt &&
           ((lt =
-            window.gsmCE() + '<div class="plab">WHAT IT MIGHT MEAN</div><div class="mean">' + lt + "</div>"),
+            window.gsmCE() +
+            window.gsmTM() +
+            '<div class="plab">WHAT IT MIGHT MEAN</div><div class="mean">' +
+            lt +
+            "</div>"),
           (Z = b.filter(function (t) {
             return t[2];
           })),
@@ -12942,7 +12993,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v132");
+        t && (t.textContent = "v133");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
