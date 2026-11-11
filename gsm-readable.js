@@ -1,4 +1,4 @@
-/* Bear Canyon Method v133 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v134 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4416,6 +4416,129 @@
             "</div></div>"
           );
         };
+        window.gsmSC = function () {
+          var L = [
+              [
+                "individual",
+                "individual individuals person persons resident residents homeowner homeowners owner owners patient patients student students worker workers volunteer volunteers",
+                "person, resident, homeowner",
+              ],
+              [
+                "household",
+                "home homes house houses household households family families property properties yard yards building buildings",
+                "home, house, family",
+              ],
+              [
+                "local",
+                "local locally neighborhood neighborhoods neighbourhood community communities grassroots block street school schools",
+                "local, neighborhood, community",
+              ],
+              [
+                "region",
+                "county counties region regional regions valley watershed metro city cities town towns village villages state states province provinces statewide",
+                "town, county, state or province",
+              ],
+              [
+                "state or national",
+                "national nation nationwide nationally federal country government governments agency agencies policy policies legislation law laws congress",
+                "federal, national, policy",
+              ],
+            ].map(function (x) {
+              var o = {};
+              x[1].split(" ").forEach(function (w) {
+                o[w] = 1;
+              });
+              return { k: x[0], w: o, e: x[2], l: [] };
+            }),
+            S = [["GOAL", C.goal || ""]].concat(
+              Q().map(function (t, i) {
+                return ["Q." + (i + 1), t || ""];
+              }),
+              (C.m || []).map(function (r, i) {
+                return ["N" + (i + 1), r[3] || ""];
+              }),
+              ((C.p && C.p.m) || []).map(function (r, i) {
+                return ["N" + (i + 1) + " (place)", r[3] || ""];
+              }),
+            ),
+            any = 0;
+          S.forEach(function (x) {
+            var t = (x[1] || "")
+                .toLowerCase()
+                .replace(/\bunited states\b/g, " national ")
+                .replace(
+                  /\b(?:a|an|the|healthy|natural|current|desired|this|that|good|bad|poor|same|its|their|our|your|present|final|ideal|future|steady)\s+states?\b/g,
+                  " ",
+                ),
+              st = {},
+              h = 0;
+            (t.match(/[a-z]+/g) || []).forEach(function (w) {
+              st[w] = 1;
+            });
+            /\bu\.s\b/.test(t) && (st.national = 1);
+            L.forEach(function (s) {
+              for (var w in st)
+                if (s.w[w]) {
+                  s.l.push(x[0]);
+                  h = 1;
+                  break;
+                }
+            });
+            any += h;
+          });
+          if (any < 10) return "";
+          var mx = 0;
+          L.forEach(function (s) {
+            s.l.length > mx && (mx = s.l.length);
+          });
+          var th = L.filter(function (s) {
+            return s.l.length <= 1;
+          })
+            .sort(function (a, b) {
+              return a.l.length - b.l.length;
+            })
+            .slice(0, 2);
+          if (mx < 5 || !th.length) return "";
+          var big = L.filter(function (s) {
+            return s.l.length === mx;
+          })[0];
+          return (
+            '<div class="plab">SCALE</div><div class="mean"><p>Places in your goal, answers and notes that use a word at each scale: ' +
+            L.map(function (s) {
+              return s.k + " " + s.l.length;
+            }).join(", ") +
+            ". You write " +
+            th
+              .map(function (s) {
+                return (s.l.length ? "only one place at the " : "nothing at the ") + s.k + " scale";
+              })
+              .join(" and ") +
+            ". Patterns looks for words such as " +
+            th
+              .map(function (s) {
+                return s.e + " (" + s.k + ")";
+              })
+              .join("; ") +
+            ", so a scale you name some other way is missed. Patterns suggests; you decide.</p>" +
+            th
+              .map(function (s) {
+                return (
+                  '<div class="csl">' +
+                  s.k.toUpperCase() +
+                  '</div><div class="cq">' +
+                  (s.l.length ? s.l.join(", ") : "none") +
+                  "</div>"
+                );
+              })
+              .join("") +
+            '<div class="csl">' +
+            big.k.toUpperCase() +
+            ' (MOST)</div><div class="cq">' +
+            big.l.slice(0, 8).join(", ") +
+            (big.l.length > 8 ? ", …" : "") +
+            "</div></div>"
+          );
+        };
         window.gsmCE = function () {
           window.gsmCL = null;
           var SW = {};
@@ -5990,6 +6113,7 @@
           ((lt =
             window.gsmCE() +
             window.gsmTM() +
+            window.gsmSC() +
             '<div class="plab">WHAT IT MIGHT MEAN</div><div class="mean">' +
             lt +
             "</div>"),
@@ -12993,7 +13117,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v133");
+        t && (t.textContent = "v134");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
