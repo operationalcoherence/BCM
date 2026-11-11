@@ -1,4 +1,4 @@
-/* Bear Canyon Method v128 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v129 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -698,6 +698,7 @@
     "string" != typeof C.who && (C.who = ""),
     Array.isArray(C.voices) || (C.voices = []),
     (C.decisions && "object" == typeof C.decisions) || (C.decisions = {}),
+    (C.asks && "object" == typeof C.asks && !Array.isArray(C.asks)) || (C.asks = {}),
     Array.isArray(C.links) || (C.links = []),
     (C.fig && "object" == typeof C.fig) || (C.fig = {}),
     ["goal", "hang"].forEach(function (t) {
@@ -3663,6 +3664,7 @@
         voices: [],
         links: [],
         decisions: {},
+        asks: {},
         others: [],
         who: "",
       }),
@@ -4389,7 +4391,9 @@
             });
           });
           for (var k in CN) CN[k] >= 4 && (CM[k] = 1);
+          var RS = {};
           function rw(txt, lab, id) {
+            RS[lab] = txt;
             Object.keys(Ht(txt || "").k).forEach(function (k) {
               (RW[k] = RW[k] || []).push(lab);
             });
@@ -4407,14 +4411,25 @@
           function ck(r, hd, lab, ref) {
             var tx = (r[3] || "").trim();
             if (!hd || !tx) return;
+            var AK = C.asks || {},
+              ak = AK["resp|" + r[8]];
             var own = Object.keys(Ht(tx).k).filter(function (k) {
                 return !CM[k] && RW[k];
               }),
               lk = (C.links || []).some(function (l) {
                 return (l.f === r[8] && RI[l.t]) || (l.t === r[8] && RI[l.f]);
               });
-            own.length || lk
-              ? T.push({ lab: lab, w: own[0], by: own.length ? RW[own[0]][0] : "a link you drew", tx: tx })
+            "n" !== ak && (own.length || lk)
+              ? T.push({
+                  lab: lab,
+                  w: own[0],
+                  by: own.length ? RW[own[0]][0] : "a link you drew",
+                  tx: tx,
+                  id: r[8],
+                  n: own.length,
+                  lk: lk,
+                  ak: ak,
+                })
               : U.push({
                   lab: lab,
                   ref: ref,
@@ -4439,7 +4454,7 @@
             var v = JSON.parse(SV[i]);
             for (k in v) o[k] = v[k];
           });
-          window.gsmNR = { u: U, t: T };
+          window.gsmNR = { u: U, t: T, rs: RS };
           if (!U.length) return;
           function qt(t) {
             return "“" + Gt(t.length > 70 ? t.slice(0, 70).replace(/\s+\S*$/, "") + "…" : t) + "”";
@@ -7736,6 +7751,81 @@
                     window.gsmNR.h +
                     "</div></div>"
                   : "") +
+                (function () {
+                  var NR = window.gsmNR;
+                  if (!NR) return "";
+                  var qs = NR.t
+                    .filter(function (t) {
+                      return !t.ak && !t.lk && t.n <= 2;
+                    })
+                    .sort(function (a, b) {
+                      return a.n - b.n;
+                    })
+                    .slice(0, 3);
+                  if (!qs.length) return "";
+                  window.gsmAsk = function (k, v) {
+                    (C.asks && "object" == typeof C.asks) || (C.asks = {});
+                    C.asks["resp|" + k] = v;
+                    P();
+                  };
+                  return (
+                    '<div class="rule open"><div class="rl">DOES THIS ANSWER IT?</div>' +
+                    qs
+                      .map(function (t) {
+                        var fw = (new RegExp(
+                            "\\b" + String(t.w).replace(/[^a-z0-9]/gi, "") + "[a-z]*",
+                            "i",
+                          ).exec(t.tx) || [t.w])[0].toLowerCase(),
+                          qx = t.tx,
+                          sn = (
+                            String(NR.rs[t.by] || "")
+                              .split(/(?<=[.!?])\s+|\n+/)
+                              .filter(function (x) {
+                                return new RegExp("\\b" + String(t.w).replace(/[^a-z0-9]/gi, ""), "i").test(
+                                  x,
+                                );
+                              })[0] || ""
+                          ).trim(),
+                          id = String(t.id).replace(/[^A-Za-z0-9_-]/g, "");
+                        return (
+                          '<div style="margin:6px 0 10px">' +
+                          t.lab +
+                          " “" +
+                          Gt(qx) +
+                          "” shares the word “" +
+                          Gt(fw) +
+                          "” with " +
+                          t.by +
+                          (sn
+                            ? ": “" +
+                              Gt(
+                                (function (x) {
+                                  var i = x.search(
+                                      new RegExp("\\b" + String(t.w).replace(/[^a-z0-9]/gi, ""), "i"),
+                                    ),
+                                    a0 = Math.max(0, i - 60),
+                                    b0 = Math.min(x.length, i + 90);
+                                  a0 > 0 && (a0 = x.indexOf(" ", a0) + 1);
+                                  b0 < x.length && (b0 = x.lastIndexOf(" ", b0));
+                                  return (a0 > 0 ? "…" : "") + x.slice(a0, b0) + (b0 < x.length ? "…" : "");
+                                })(sn),
+                              ) +
+                              "”"
+                            : "") +
+                          ". Does " +
+                          t.by +
+                          " respond to it?" +
+                          '<div class="emo"><button type="button" class="ech" onclick="gsmAsk(\'' +
+                          id +
+                          '\',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAsk(\'' +
+                          id +
+                          "','n')\">No</button></div></div>"
+                        );
+                      })
+                      .join("") +
+                    "</div>"
+                  );
+                })() +
                 Qn +
                 In +
                 qn +
@@ -12663,7 +12753,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v128");
+        t && (t.textContent = "v129");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -12933,6 +13023,12 @@
                                   !l[t.f + "|" + t.t + "|" + t.r] &&
                                   ((l[t.f + "|" + t.t + "|" + t.r] = 1), C.links.push(t));
                               }),
+                              (C.asks && "object" == typeof C.asks) || (C.asks = {}),
+                              t.asks &&
+                                "object" == typeof t.asks &&
+                                Object.keys(t.asks).forEach(function (k) {
+                                  null == C.asks[k] && (C.asks[k] = t.asks[k]);
+                                }),
                               o
                                 ? C.others.forEach(function (n) {
                                     n.name === e &&
