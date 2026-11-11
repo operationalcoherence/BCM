@@ -1,4 +1,4 @@
-/* Bear Canyon Method v142 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v143 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -3755,7 +3755,29 @@
   function jt(t) {
     if (NmD[t]) return NmD[t];
     if (Ct[t]) return "planned-burn" === t ? "planned burn / prescribed fire" : t;
-    if (t.indexOf(" ") > 0) return t.split(" ").map(jt).join(" ");
+    if (t.indexOf(" ") > 0) {
+      var ps = t.split(" "),
+        cd = ps.map(function (w) {
+          var mm = Mt[w],
+            ks = mm
+              ? Object.keys(mm).sort(function (a, b) {
+                  return mm[b] - mm[a] || a.length - b.length;
+                })
+              : [];
+          return ks.length ? ks : [jt(w)];
+        }),
+        bi = null;
+      if (GTx)
+        for (var i0 = 0; i0 < cd[0].length && !bi; i0++)
+          for (var i1 = 0; i1 < cd[1].length; i1++) {
+            var cand = cd[0][i0] + " " + cd[1][i1];
+            if (GTx.indexOf(cand) > -1) {
+              bi = cand;
+              break;
+            }
+          }
+      return bi || ps.map(jt).join(" ");
+    }
     var e = Mt[t];
     if (!e) return t;
     var n = t,
@@ -3763,7 +3785,8 @@
     for (var r in e) (e[r] > o || (e[r] === o && r.length < n.length)) && ((n = r), (o = e[r]));
     return n;
   }
-  var Ft = {};
+  var Ft = {},
+    GTx = "";
   function Ht(t) {
     var e = { k: {}, b: {}, seq: [] },
       n = (t || "").replace(/([A-Z][A-Za-z]*)[’']s\b/g, "$1").replace(/[’']/g, "");
@@ -3847,6 +3870,20 @@
       (Ft = {}),
       (NmK = {}),
       (NmD = {}),
+      (GTx = [C.goal || ""]
+        .concat(
+          (C.a || []).map(function (x) {
+            return x || "";
+          }),
+          (C.m || []).map(function (x) {
+            return x[3] || "";
+          }),
+          (C.p && C.p.m ? C.p.m : []).map(function (x) {
+            return x[3] || "";
+          }),
+        )
+        .join(" ")
+        .toLowerCase()),
       ((C.p && C.p.loc && C.p.loc.name) || "")
         .toLowerCase()
         .split(/[^a-z]+/)
@@ -10124,13 +10161,16 @@
       t.forEach(function (t) {
         n[t] = 1;
       });
-      var o = [];
+      var q1 = function (w) {
+          return n[w] || Dsc[w];
+        },
+        o = [];
       return (
         Object.keys(p)
           .filter(function (t) {
             var o = t.split(" ");
             return (
-              n[o[0]] &&
+              q1(o[0]) &&
               n[o[1]] &&
               e.every(function (e) {
                 return e[t];
@@ -10142,7 +10182,7 @@
           })
           .forEach(function (t) {
             var e = t.split(" ");
-            n[e[0]] && n[e[1]] && (o.push(t), delete n[e[0]], delete n[e[1]]);
+            q1(e[0]) && n[e[1]] && (o.push(t), delete n[e[0]], delete n[e[1]]);
           }),
         o.concat(lo(Object.keys(n)))
       );
@@ -13594,7 +13634,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v142");
+        t && (t.textContent = "v143");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
