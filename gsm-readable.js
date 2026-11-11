@@ -1,4 +1,4 @@
-/* Bear Canyon Method v139 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v140 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -5435,6 +5435,49 @@
             function ov(a, b) {
               return 0.65 * jc(a.bs, b.bs) + 0.35 * jc(a.rs, b.rs);
             }
+            R.forEach(function (x) {
+              x.cvf = {};
+            });
+            var CVN = {};
+            function cvk(w) {
+              return w.indexOf(" ") < 0 ? w.slice(0, 6) : w;
+            }
+            R.forEach(function (x) {
+              var u = {};
+              x.bs.forEach(function (w) {
+                u[cvk(w)] = 1;
+              });
+              Object.keys(u).forEach(function (k) {
+                CVN[k] = (CVN[k] || 0) + 1;
+              });
+            });
+            for (var ci = 0; ci < R.length; ci++)
+              for (var cj = ci + 1; cj < R.length; cj++) {
+                var CA = R[ci],
+                  CB = R[cj];
+                if (CA.fam === CB.fam) continue;
+                if (
+                  CA.rs.some(function (r) {
+                    return CB.rs.indexOf(r) > -1;
+                  }) ||
+                  CA.bs.some(function (w) {
+                    var k = cvk(w);
+                    return (
+                      2 * CVN[k] <= R.length &&
+                      CB.bs.some(function (v) {
+                        return cvk(v) === k;
+                      })
+                    );
+                  })
+                ) {
+                  CA.cvf[CB.fam] = 1;
+                  CB.cvf[CA.fam] = 1;
+                }
+              }
+            R.forEach(function (x) {
+              x.cv = Object.keys(x.cvf).length;
+              window.gsmNoCV || (x.bse = x.bse * (1 + 0.4 * x.cv));
+            });
             var P = [],
               Q = R.slice().sort(function (a, b) {
                 return b.bse - a.bse;
@@ -13433,7 +13476,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v139");
+        t && (t.textContent = "v140");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
