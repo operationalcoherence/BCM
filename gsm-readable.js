@@ -1,4 +1,4 @@
-/* Bear Canyon Method v144 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v146 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -3863,6 +3863,8 @@
   }
   function Ut() {
     var t = !1;
+    window.gsmTH = "";
+    window.gsmTHX = null;
     if (
       (ke(),
       Te(),
@@ -4915,6 +4917,9 @@
           var SS = SH.slice(0, 4);
           SS.length &&
             (window.gsmTHX = {
+              k: SS.map(function (c) {
+                return c.key;
+              }),
               w: SS.map(function (c) {
                 return jt(c.key);
               }),
@@ -8149,6 +8154,24 @@
                           return w.slice(0, 6) === LP.k;
                         });
                   LM && s.push("you write it as both a cause and an effect");
+                  var TP = null;
+                  window.gsmTHX &&
+                    window.gsmTHX.w.some(function (p) {
+                      return (
+                        p
+                          .toLowerCase()
+                          .split(" ")
+                          .some(function (w) {
+                            return jt(t)
+                              .toLowerCase()
+                              .split(" ")
+                              .some(function (x) {
+                                return x.slice(0, 6) === w.slice(0, 6);
+                              });
+                          }) && ((TP = p), !0)
+                      );
+                    });
+                  TP && s.push("your answers carry “" + TP + "” and your map barely holds it");
                   u && s.push(u);
                   var d = [],
                     h = n
@@ -8234,6 +8257,12 @@
                   LM &&
                     d.push(
                       "You write it as both a cause and an effect, so work out which end you can change first. The sentences are under CAUSE AND EFFECT on Pattern Synthesis.",
+                    );
+                  TP &&
+                    d.push(
+                      "Your answers carry “" +
+                        TP +
+                        "” and your map barely holds it, so add notes on it to the map. Where it appears is under IN YOUR ANSWERS, NOT ON THE MAP on Pattern Synthesis.",
                     );
                   return (
                     '<div class="coa"><div class="hd"><b>' +
@@ -10692,8 +10721,13 @@
       A = "",
       N = "",
       I = -1;
-    t.forEach(function (t, e) {
-      var n = i(t)
+    var TL = t.length,
+      TXL = (window.gsmTHX ? window.gsmTHX.k : []).filter(function (k) {
+        return r[k] && t.indexOf(k) < 0;
+      });
+    t.concat(TXL).forEach(function (t, e) {
+      var XT = e >= TL,
+        n = i(t)
           .map(function (t) {
             return t.id;
           })
@@ -10701,11 +10735,12 @@
             return c[t];
           }),
         a = n.map(function (t) {
-          return ((O[t] = 1), [c[t].x, c[t].y]);
+          return (XT || (O[t] = 1), [c[t].x, c[t].y]);
         });
       if (!(a.length < 2)) {
         var s = r[t],
           l = !Bt || Bt === t,
+          TH = !!window.gsmTHX && window.gsmTHX.k.indexOf(t) > -1,
           u =
             "<b>" +
             Gt(jt(t)) +
@@ -10713,7 +10748,8 @@
             n.join(", ") +
             "<br>" +
             (s.cl || "") +
-            (null != s.emo ? " · " + o[s.emo][0].toLowerCase() : "");
+            (null != s.emo ? " · " + o[s.emo][0].toLowerCase() : "") +
+            (TH ? "<br>Thin on the map: your answers carry it and your map barely holds it." : "");
         [
           [30, 0.55, 1.2],
           [46, 0.32, 0.8],
@@ -10773,6 +10809,11 @@
           })(a, n[0] + 4 * e);
           (I < 0 && (I = e),
             (A +=
+              (TH
+                ? '<path d="' +
+                  r +
+                  '" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="5" pointer-events="none"/>'
+                : "") +
               "<path" +
               S("w|" + t, "Thread: " + jt(t)) +
               ' data-th="' +
@@ -10780,10 +10821,31 @@
               '" d="' +
               r +
               '" fill="none" stroke="#222" stroke-opacity="' +
-              (l ? n[1] : 0.15 * n[1]).toFixed(2) +
+              (TH ? (l ? 0.95 : 0.3) : l ? n[1] : 0.15 * n[1]).toFixed(2) +
               '" stroke-width="' +
-              (Bt === t ? n[2] + 1 : n[2]) +
-              '"/>'),
+              (TH ? 2.4 : Bt === t ? n[2] + 1 : n[2]) +
+              '"' +
+              (TH ? ' stroke-dasharray="6 3"' : "") +
+              "/>" +
+              (TH && 0 === o && l
+                ? (function () {
+                    var cx = 0,
+                      cy = 0;
+                    a.forEach(function (p) {
+                      cx += p[0];
+                      cy += p[1];
+                    });
+                    return (
+                      '<text x="' +
+                      (cx / a.length).toFixed(1) +
+                      '" y="' +
+                      (cy / a.length).toFixed(1) +
+                      '" font-size="8" font-weight="700" letter-spacing="1" text-anchor="middle" fill="#222" stroke="#fff" stroke-width="3" paint-order="stroke" pointer-events="none" font-family="Questrial,sans-serif">' +
+                      Gt(jt(t)).toUpperCase() +
+                      "</text>"
+                    );
+                  })()
+                : "")),
             (N +=
               "<path" +
               S("w|" + t, "") +
@@ -11661,7 +11723,11 @@
               '" aria-pressed="' +
               (window.gsmVN ? "true" : "false") +
               '">Names on the figure</button></div>') +
-          '<div class="phint hr"><b>How to read this.</b> Each dot is an answer or note (size = how much was written; color = its emotion; hollow = written mostly as possibility; dashed ring = shares no thread yet; P = place note, a note pinned to the place map). Each loop is one thread: a word or phrase running through the dots it touches. Tap a dot or loop for details.</div><div class="walk"><button type="button" class="wbtn">Walk me through it</button><div class="wcard" style="display:none"><div class="wtx"></div><div class="wnv"><button type="button" class="wprev">Back</button><span class="wct"></span><button type="button" class="wnext">Next</button><button type="button" class="wdone">Done</button></div></div></div><div class="pnet tangle' +
+          '<div class="phint hr"><b>How to read this.</b> Each dot is an answer or note (size = how much was written; color = its emotion; hollow = written mostly as possibility; dashed ring = shares no thread yet; P = place note, a note pinned to the place map). Each loop is one thread: a word or phrase running through the dots it touches. Tap a dot or loop for details.' +
+          (window.gsmTHX
+            ? " A dashed loop is a theme your answers carry and your map barely holds; see IN YOUR ANSWERS, NOT ON THE MAP."
+            : "") +
+          '</div><div class="walk"><button type="button" class="wbtn">Walk me through it</button><div class="wcard" style="display:none"><div class="wtx"></div><div class="wnv"><button type="button" class="wprev">Back</button><span class="wct"></span><button type="button" class="wnext">Next</button><button type="button" class="wdone">Done</button></div></div></div><div class="pnet tangle' +
           ge() +
           (window.gsmVN ? " vnames" : "") +
           '" data-fig="hang" data-walk="' +
@@ -13768,7 +13834,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v144");
+        t && (t.textContent = "v146");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
