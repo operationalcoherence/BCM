@@ -1,4 +1,4 @@
-/* Bear Canyon Method v135 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v136 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4810,6 +4810,89 @@
               : "") +
             "</div>";
         })();
+        !(function () {
+          window.gsmOQ = "";
+          var MK =
+              /\b(?:unclear|unknown|unsure|not sure|undecided|to be decided|to be determined|tbd|not known|do not know|don't know|need to find out|need to determine|open question)\b/i,
+            SWO = {};
+          "a an the and or but of to in on at for with from by as is are was were be been it its this that these those there their they them we our you your not no so if than then also more most such into out up down over under can could may might will would should must do does did have has had which who what when where while about across through toward without within between per each all any some many much very how why whether"
+            .split(" ")
+            .forEach(function (w) {
+              SWO[w] = 1;
+            });
+          function st(t) {
+            var h = {};
+            (t.toLowerCase().match(/[a-z]+/g) || []).forEach(function (w) {
+              if (SWO[w] || w.length < 4) return;
+              var k = w.replace(/(?:ing|ed|es|s)$/, "");
+              k.length > 3 && !h[k.slice(0, 6)] && (h[k.slice(0, 6)] = w);
+            });
+            return h;
+          }
+          var S = Q()
+              .map(function (t, i) {
+                return ["Q." + (i + 1), t || ""];
+              })
+              .concat(
+                (C.m || []).map(function (r, i) {
+                  return ["N" + (i + 1), r[3] || ""];
+                }),
+                ((C.p && C.p.m) || []).map(function (r, i) {
+                  return ["N" + (i + 1) + " (place)", r[3] || ""];
+                }),
+              ),
+            O = [];
+          S.forEach(function (x) {
+            (/\?/.test(x[1]) || MK.test(x[1])) && O.push(x);
+          });
+          if (!O.length) return;
+          var rows = O.slice(0, 4).map(function (x) {
+            var a = st(x[1]),
+              b = null;
+            S.forEach(function (y) {
+              if (y === x || O.indexOf(y) > -1) return;
+              var c = st(y[1]),
+                w = Object.keys(a).filter(function (k) {
+                  return c[k];
+                });
+              w.length >= 2 &&
+                (!b || w.length > b.n) &&
+                (b = {
+                  l: y[0],
+                  n: w.length,
+                  w: w.map(function (k) {
+                    return a[k];
+                  }),
+                });
+            });
+            var q = x[1].trim().replace(/\s+/g, " ");
+            return (
+              '<div class="csl">' +
+              x[0] +
+              '</div><div class="cq">“' +
+              Gt(q.length > 70 ? q.slice(0, 70).replace(/\s+\S*$/, "") + "…" : q) +
+              "” " +
+              (b
+                ? "May be answered by " + b.l + " (shares " + b.w.slice(0, 4).join(", ") + ")."
+                : "No other place shares two of its words.") +
+              "</div>"
+            );
+          });
+          window.gsmOQ =
+            '<div class="plab">OPEN QUESTIONS</div><div class="mean"><p>' +
+            O.length +
+            (O.length > 1 ? " places are" : " place is") +
+            " written as a question or marked as unclear or unknown: " +
+            O.map(function (x) {
+              return x[0];
+            })
+              .slice(0, 8)
+              .join(", ") +
+            (O.length > 8 ? ", …" : "") +
+            ". Where another place shares two or more of their words, it may answer them. Patterns matches words only, so it cannot tell whether a question is really answered.</p>" +
+            rows.join("") +
+            "</div>";
+        })();
         var _ = [];
         (Q().forEach(function (t, e) {
           var n = (t || "").trim().split(/\s+/).filter(Boolean).length;
@@ -6116,6 +6199,7 @@
             window.gsmTM() +
             window.gsmSC() +
             (window.gsmOJ || "") +
+            (window.gsmOQ || "") +
             '<div class="plab">WHAT IT MIGHT MEAN</div><div class="mean">' +
             lt +
             "</div>"),
@@ -13119,7 +13203,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v135");
+        t && (t.textContent = "v136");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {

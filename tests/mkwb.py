@@ -81,6 +81,11 @@ nb['data']['p']={"m":names_p,"c":[39.5,-98.5,9]}
 json.dump(nb, open('wb_places_names.json','w'))
 
 # 9 place map + line map together
+# 11 clinic plus three open questions (layer 16, OPEN QUESTIONS)
+_q=json.load(open('wb_clinic.json'))
+_q['data']['m']=_q['data']['m']+[[2,90,190,"Who will pay for the shuttle route with the senior center?",None,3,None,None,"q1"],[2,140,200,"Unclear whether the lease renewal can be made longer than month to month.",None,3,None,None,"q2"],[6,260,95,"Is the hospital board willing to talk?",None,1,None,None,"q3"]]
+json.dump(_q,open('wb_questions.json','w'))
+
 rj=json.load(open('real.json'))['data']  # supplied by him; not stored here
 bv=json.load(open('broadview.json'))['data']
 mix=copy.deepcopy(rj); mix['p']=copy.deepcopy(bv['p'])
