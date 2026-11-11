@@ -86,6 +86,13 @@ _q=json.load(open('wb_clinic.json'))
 _q['data']['m']=_q['data']['m']+[[2,90,190,"Who will pay for the shuttle route with the senior center?",None,3,None,None,"q1"],[2,140,200,"Unclear whether the lease renewal can be made longer than month to month.",None,3,None,None,"q2"],[6,260,95,"Is the hospital board willing to talk?",None,1,None,None,"q3"]]
 json.dump(_q,open('wb_questions.json','w'))
 
+# 12 clinic with a cause-and-effect loop on "visits" (CAUSE AND EFFECT, WHERE THESE MEET)
+_c=json.load(open('wb_clinic.json'))
+_c['data']['a'][0]="Long drives lead to missed visits. Missed visits create worse health, and worse health leads to longer drives. The lease led to the closure."
+_c['data']['a'][1]="The hospital board opposes a satellite site. They say it splits referrals and leads to missed visits."
+_c['data']['m'].append([2,50,160,"Worse health creates more missed visits and drives pressure on the hospital board.",None,0,None,None,"cz1"])
+json.dump(_c,open('wb_cause.json','w'))
+
 rj=json.load(open('real.json'))['data']  # supplied by him; not stored here
 bv=json.load(open('broadview.json'))['data']
 mix=copy.deepcopy(rj); mix['p']=copy.deepcopy(bv['p'])

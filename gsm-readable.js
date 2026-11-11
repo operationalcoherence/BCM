@@ -1,4 +1,4 @@
-/* Bear Canyon Method v137 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v139 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4388,6 +4388,7 @@
           var er = K1.length > H1.length && H2.length > K2.length,
             lt2 = H1.length > K1.length && K2.length > H2.length;
           if (!er && !lt2) return "";
+          (window.gsmTLX = window.gsmTLX || {}).time = { l: (er ? K1 : H1).concat(er ? H2 : K2) };
           return (
             '<div class="plab">NOW AND LATER</div><div class="mean"><p>You placed ' +
             nk +
@@ -4499,6 +4500,11 @@
             })
             .slice(0, 2);
           if (mx < 5 || !th.length) return "";
+          (window.gsmTLX = window.gsmTLX || {}).scale = {
+            l: th.reduce(function (a, s) {
+              return a.concat(s.l);
+            }, []),
+          };
           var big = L.filter(function (s) {
             return s.l.length === mx;
           })[0];
@@ -4655,7 +4661,7 @@
             lb(b.c) +
             ") and as an effect (" +
             lb(b.e) +
-            "). A loop may run through it. The sentences are below; Patterns suggests, you decide.</p>" +
+            "). A loop may run through it. The sentences are below.</p>" +
             '<div class="csl">AS A CAUSE</div>' +
             ls(b.c) +
             '<div class="csl">AS AN EFFECT</div>' +
@@ -4812,6 +4818,7 @@
         })();
         !(function () {
           window.gsmOQ = "";
+          window.gsmOQX = [];
           var MK =
               /\b(?:unclear|unknown|unsure|not sure|undecided|to be decided|to be determined|tbd|not known|do not know|don't know|need to find out|need to determine|open question)\b/i,
             SWO = {};
@@ -4865,6 +4872,8 @@
                   }),
                 });
             });
+            window.gsmOQX.push(x[0]);
+            b && window.gsmOQX.push(b.l);
             var q = x[1].trim().replace(/\s+/g, " ");
             return (
               '<div class="csl">' +
@@ -4895,6 +4904,7 @@
         })();
         !(function () {
           window.gsmOG = "";
+          window.gsmOGX = [];
           var g = String(C.goal || "").trim();
           if (!g) return;
           var SWO = {};
@@ -4943,6 +4953,7 @@
             var v = AK["goal|" + x[2]];
             "n" === v ? NO.push(x[0]) : "y" === v || U.push(x);
           });
+          window.gsmOGX = NO.slice();
           if (!U.length && !NO.length) return;
           window.gsmAskG = function (k, v) {
             (C.asks && "object" == typeof C.asks) || (C.asks = {});
@@ -4982,6 +4993,129 @@
               "</div>");
           window.gsmOG = h + "</div>";
         })();
+        window.gsmTL = function () {
+          var P = (window.gsmTLR || []).slice();
+          if (P.length < 2) return "";
+          window.gsmTLX = {};
+          window.gsmLK = function (l) {
+            var m;
+            return /^Q\.[1-7]$/.test(l)
+              ? l
+              : (m = /^N(\d+) \(place\)$/.exec(l))
+                ? "P" + m[1]
+                : (m = /^N(\d+)$/.exec(l))
+                  ? "note " + m[1]
+                  : null;
+          };
+          function add(h, f, w, ps) {
+            var rs = [];
+            ps.forEach(function (l) {
+              var k = window.gsmLK(l);
+              k && rs.indexOf(k) < 0 && rs.push(k);
+            });
+            (w.length || rs.length) && P.push({ t: [h], fam: f, bs: w, rs: rs });
+          }
+          window.gsmCE && window.gsmCE();
+          var cl = window.gsmCL;
+          cl && add("CAUSE AND EFFECT", "cause", [cl.w], (cl.c + ", " + cl.e).split(", "));
+          window.gsmTM && window.gsmTM();
+          window.gsmSC && window.gsmSC();
+          var XX = window.gsmTLX || {};
+          XX.time && add("NOW AND LATER", "time", [], XX.time.l);
+          XX.scale && add("SCALE", "scale", [], XX.scale.l);
+          add("OPEN QUESTIONS", "question", [], window.gsmOQX || []);
+          add("YOU SAID THESE DO NOT SERVE THE GOAL", "goal", [], window.gsmOGX || []);
+          if (P.length < 3) return "";
+          function hd(x) {
+            var t = String(x.t[0])
+                .replace(/<[^>]*>/g, "")
+                .trim(),
+              w = x.bs
+                .filter(function (k) {
+                  return "fire" !== k;
+                })
+                .slice(0, 2);
+            return t + (w.length ? " (" + w.join(", ") + ")" : "");
+          }
+          var nm = {},
+            K = {};
+          P.forEach(function (x, i) {
+            var seen = {};
+            x.rs.forEach(function (r) {
+              seen["p|" + r] = 1;
+            });
+            x.bs.forEach(function (w) {
+              var q = w.indexOf(" ") < 0 ? w.slice(0, 6) : w;
+              seen["w|" + q] = 1;
+              nm["w|" + q] = nm["w|" + q] || w;
+            });
+            for (var k in seen) ((K[k] = K[k] || { f: {}, k: {} }), (K[k].f[i] = 1), (K[k].k[x.fam] = 1));
+          });
+          var out = [];
+          for (var k in K) {
+            var n = Object.keys(K[k].f).length,
+              f = Object.keys(K[k].k).length,
+              w = 0 === k.indexOf("w|");
+            if (w && n > P.length / 2) continue;
+            if (f >= 2 && n >= (w ? 2 : 3)) out.push({ k: k, n: n, f: f, w: w });
+          }
+          out.sort(function (a, b) {
+            return b.n - a.n || b.f - a.f;
+          });
+          out = out.slice(0, 6);
+          if (!out.length) return "";
+          return (
+            '<div class="plab">WHERE THESE MEET</div><div class="mean"><p>Some of the findings on these pages rest on the same words or places. Where several of them do, and they are not all the same kind of finding, that word or place may be central to your thinking.</p>' +
+            out
+              .map(function (o) {
+                var lab,
+                  tx = "",
+                  r = o.k.slice(2),
+                  m;
+                if (o.w) lab = "THE WORD “" + Gt((nm[o.k] || r).toUpperCase()) + "”";
+                else if ((m = /^note (\d+)$/.exec(r))) {
+                  lab = "N" + m[1];
+                  tx = (C.m[+m[1] - 1] || [])[3] || "";
+                } else if ((m = /^P(\d+)$/.exec(r))) {
+                  lab = "N" + m[1] + " (place)";
+                  tx = (((C.p && C.p.m) || [])[+m[1] - 1] || [])[3] || "";
+                } else if ((m = /^Q\.([1-7])$/.exec(r))) {
+                  lab = r;
+                  tx = Q()[+m[1] - 1] || "";
+                } else lab = r;
+                tx = String(tx).trim().replace(/\s+/g, " ");
+                return (
+                  '<div class="csl">' +
+                  lab +
+                  '</div><div class="cq">' +
+                  (tx
+                    ? "“" + Gt(tx.length > 70 ? tx.slice(0, 70).replace(/\s+\S*$/, "") + "…" : tx) + "” "
+                    : "") +
+                  "Under " +
+                  o.n +
+                  " findings: " +
+                  P.filter(function (x, i) {
+                    return o.w
+                      ? x.bs.some(function (w) {
+                          return (w.indexOf(" ") < 0 ? w.slice(0, 6) : w) === r;
+                        })
+                      : x.rs.indexOf(r) > -1;
+                  })
+                    .map(function (x) {
+                      return o.w
+                        ? String(x.t[0])
+                            .replace(/<[^>]*>/g, "")
+                            .trim()
+                        : hd(x);
+                    })
+                    .join("; ") +
+                  ".</div>"
+                );
+              })
+              .join("") +
+            "</div>"
+          );
+        };
         var _ = [];
         (Q().forEach(function (t, e) {
           var n = (t || "").trim().split(/\s+/).filter(Boolean).length;
@@ -5099,6 +5233,7 @@
               ]));
         }
         var X = (function (L) {
+            window.gsmTLR = [];
             if (L.length < 2) return L;
             var CT = [C.goal || ""]
                 .concat(
@@ -5312,9 +5447,12 @@
               }
               P.push(Q.splice(bi, 1)[0]);
             }
-            return P.map(function (x) {
-              return x.t;
-            });
+            return (
+              (window.gsmTLR = P.slice(0, 7)),
+              P.map(function (x) {
+                return x.t;
+              })
+            );
           })(
             b.filter(function (t) {
               return !t[2];
@@ -5325,7 +5463,9 @@
           }),
           tt =
             '<div class="plab">WHAT STANDS OUT</div>' +
-            (X.length ? X.slice(0, 7).map(yo).join("") : '<div class="pempty">Nothing stands out yet.</div>');
+            (X.length
+              ? X.slice(0, 7).map(yo).join("") + (window.gsmTL ? window.gsmTL() : "")
+              : '<div class="pempty">Nothing stands out yet.</div>');
         ((tt += (function () {
           var t = [],
             e = {},
@@ -13293,7 +13433,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v137");
+        t && (t.textContent = "v139");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
