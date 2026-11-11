@@ -1,4 +1,4 @@
-/* Bear Canyon Method v143 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v144 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -1006,7 +1006,7 @@
                 r += " " + n.children[i].textContent;
               var a = [],
                 s;
-              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r)); )
+              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r));)
                 a.indexOf(s[1]) < 0 && a.push(s[1]);
               if (a.length) {
                 var c = document.createElement("div");
@@ -4853,92 +4853,223 @@
               : "") +
             "</div>";
         })();
-        !(function () {
-          window.gsmOQ = "";
-          window.gsmOQX = [];
-          var MK =
-              /\b(?:unclear|unknown|unsure|not sure|undecided|to be decided|to be determined|tbd|not known|do not know|don't know|need to find out|need to determine|open question)\b/i,
-            SWO = {};
-          "a an the and or but of to in on at for with from by as is are was were be been it its this that these those there their they them we our you your not no so if than then also more most such into out up down over under can could may might will would should must do does did have has had which who what when where while about across through toward without within between per each all any some many much very how why whether"
-            .split(" ")
-            .forEach(function (w) {
-              SWO[w] = 1;
+        (!(function (H) {
+          window.gsmTH = "";
+          window.gsmTHK = [];
+          window.gsmTHX = null;
+          var seen = {},
+            A = [],
+            N = [],
+            G = null;
+          H.forEach(function (it) {
+            if ("GOAL" === it.id) {
+              G = it;
+              return;
+            }
+            var e = (it.raw || "")
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, " ")
+              .trim();
+            if (!e || seen[e]) return;
+            seen[e] = 1;
+            var lab =
+              null != it.q
+                ? it.id
+                : /^note /.test(it.id)
+                  ? "N" + it.id.slice(5)
+                  : "N" + it.id.slice(1) + " (place)";
+            (null != it.q ? A : N).push({ l: lab, b: it.t.b || {} });
+          });
+          var T = A.length + N.length;
+          if (!G || A.length < 3 || N.length < 6) return;
+          var cnt = {};
+          function tally(list, isA) {
+            list.forEach(function (x) {
+              for (var w in x.b) {
+                var c = cnt[w] || (cnt[w] = { key: w, a: [], n: [] });
+                (isA ? c.a : c.n).push(x.l);
+              }
             });
-          function st(t) {
-            var h = {};
-            (t.toLowerCase().match(/[a-z]+/g) || []).forEach(function (w) {
-              if (SWO[w] || w.length < 4) return;
-              var k = w.replace(/(?:ing|ed|es|s)$/, "");
-              k.length > 3 && !h[k.slice(0, 6)] && (h[k.slice(0, 6)] = w);
-            });
-            return h;
           }
-          var S = Q()
-              .map(function (t, i) {
-                return ["Q." + (i + 1), t || ""];
-              })
-              .concat(
-                (C.m || []).map(function (r, i) {
-                  return ["N" + (i + 1), r[3] || ""];
-                }),
-                ((C.p && C.p.m) || []).map(function (r, i) {
-                  return ["N" + (i + 1) + " (place)", r[3] || ""];
-                }),
-              ),
-            O = [];
-          S.forEach(function (x) {
-            (/\?/.test(x[1]) || MK.test(x[1])) && O.push(x);
-          });
-          if (!O.length) return;
-          var rows = O.slice(0, 4).map(function (x) {
-            var a = st(x[1]),
-              b = null;
-            S.forEach(function (y) {
-              if (y === x || O.indexOf(y) > -1) return;
-              var c = st(y[1]),
-                w = Object.keys(a).filter(function (k) {
-                  return c[k];
-                });
-              w.length >= 2 &&
-                (!b || w.length > b.n) &&
-                (b = {
-                  l: y[0],
-                  n: w.length,
-                  w: w.map(function (k) {
-                    return a[k];
-                  }),
-                });
-            });
-            window.gsmOQX.push(x[0]);
-            b && window.gsmOQX.push(b.l);
-            var q = x[1].trim().replace(/\s+/g, " ");
+          tally(A, 1);
+          tally(N, 0);
+          var AK = C.asks || {},
+            SH = [],
+            WQ = [];
+          for (var q in cnt) {
+            var c = cnt[q];
+            if (!(c.a.length >= 3 && c.n.length <= 1 && (c.a.length + c.n.length) / T < 0.4)) continue;
+            var v = AK["theme|" + c.key];
+            (G.t.b || {})[c.key] || "y" === v ? SH.push(c) : "n" === v || WQ.push(c);
+          }
+          if (!SH.length && !WQ.length) return;
+          function srt(x, y) {
             return (
-              '<div class="csl">' +
-              x[0] +
-              '</div><div class="cq">“' +
-              Gt(q.length > 70 ? q.slice(0, 70).replace(/\s+\S*$/, "") + "…" : q) +
-              "” " +
-              (b
-                ? "May be answered by " + b.l + " (shares " + b.w.slice(0, 4).join(", ") + ")."
-                : "No other place shares two of its words.") +
-              "</div>"
+              y.a.length - y.n.length - (x.a.length - x.n.length) ||
+              y.a.length - x.a.length ||
+              (x.key < y.key ? -1 : 1)
             );
-          });
-          window.gsmOQ =
-            '<div class="plab">OPEN QUESTIONS</div><div class="mean"><p>' +
-            O.length +
-            (O.length > 1 ? " places are" : " place is") +
-            " written as a question or marked as unclear or unknown: " +
-            O.map(function (x) {
-              return x[0];
-            })
-              .slice(0, 8)
-              .join(", ") +
-            (O.length > 8 ? ", …" : "") +
-            ". Where another place shares two or more of their words, it may answer them. Patterns matches words only, so it cannot tell whether a question is really answered.</p>" +
-            rows.join("") +
-            "</div>";
-        })();
+          }
+          SH.sort(srt);
+          WQ.sort(srt);
+          var SS = SH.slice(0, 4);
+          SS.length &&
+            (window.gsmTHX = {
+              w: SS.map(function (c) {
+                return jt(c.key);
+              }),
+              ps: SS.reduce(function (a, c) {
+                return a.concat(c.a, c.n);
+              }, []),
+            });
+          function jn(a) {
+            return a.length > 1 ? a.slice(0, -1).join(", ") + " and " + a[a.length - 1] : a[0];
+          }
+          var h = '<div class="plab">IN YOUR ANSWERS, NOT ON THE MAP</div><div class="mean">';
+          if (SH.length) {
+            var s = SH.length > 1;
+            h +=
+              "<p>" +
+              (s ? SH.length + " phrases" : "One phrase") +
+              " " +
+              (s ? "run" : "runs") +
+              " through three or more of your answers but " +
+              (s ? "appear" : "appears") +
+              " in one note at most. Your answers say a good deal about " +
+              (s ? "them" : "it") +
+              ", but your map says little. Patterns matches words only, so a note may cover one in other words. Where one belongs on the map, add a note for it.</p>" +
+              SH.slice(0, 4)
+                .map(function (c) {
+                  return (
+                    '<div class="csl">“' +
+                    Gt(jt(c.key)) +
+                    '”</div><div class="cq">In ' +
+                    jn(c.a) +
+                    ". " +
+                    (c.n.length ? "On the map: " + c.n[0] + " only." : "On the map: no note.") +
+                    "</div>"
+                  );
+                })
+                .join("") +
+              (SH.length > 4 ? '<div class="cq">and ' + (SH.length - 4) + " more.</div>" : "");
+          }
+          if (WQ.length) {
+            window.gsmTHK = WQ.slice(0, 3);
+            window.gsmAskT = function (i, v) {
+              var c = window.gsmTHK[i];
+              c &&
+                ((C.asks && "object" == typeof C.asks) || (C.asks = {}), (C.asks["theme|" + c.key] = v), P());
+            };
+            h +=
+              "<p>" +
+              (WQ.length > 1
+                ? "These phrases are not in your goal but also run"
+                : "This phrase is not in your goal but also runs") +
+              " through three or more of your answers and " +
+              (WQ.length > 1 ? "appear" : "appears") +
+              " in one note at most. A phrase can be a theme or just wording, and Patterns cannot tell which, so it asks.</p>" +
+              window.gsmTHK
+                .map(function (c, i) {
+                  return (
+                    '<div style="margin:6px 0 10px">“' +
+                    Gt(jt(c.key)) +
+                    '” Is it a theme?<div class="emo"><button type="button" class="ech" onclick="gsmAskT(' +
+                    i +
+                    ',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskT(' +
+                    i +
+                    ",'n')\">No</button></div></div>"
+                  );
+                })
+                .join("");
+          }
+          window.gsmTH = h + "</div>";
+        })(h),
+          !(function () {
+            window.gsmOQ = "";
+            window.gsmOQX = [];
+            var MK =
+                /\b(?:unclear|unknown|unsure|not sure|undecided|to be decided|to be determined|tbd|not known|do not know|don't know|need to find out|need to determine|open question)\b/i,
+              SWO = {};
+            "a an the and or but of to in on at for with from by as is are was were be been it its this that these those there their they them we our you your not no so if than then also more most such into out up down over under can could may might will would should must do does did have has had which who what when where while about across through toward without within between per each all any some many much very how why whether"
+              .split(" ")
+              .forEach(function (w) {
+                SWO[w] = 1;
+              });
+            function st(t) {
+              var h = {};
+              (t.toLowerCase().match(/[a-z]+/g) || []).forEach(function (w) {
+                if (SWO[w] || w.length < 4) return;
+                var k = w.replace(/(?:ing|ed|es|s)$/, "");
+                k.length > 3 && !h[k.slice(0, 6)] && (h[k.slice(0, 6)] = w);
+              });
+              return h;
+            }
+            var S = Q()
+                .map(function (t, i) {
+                  return ["Q." + (i + 1), t || ""];
+                })
+                .concat(
+                  (C.m || []).map(function (r, i) {
+                    return ["N" + (i + 1), r[3] || ""];
+                  }),
+                  ((C.p && C.p.m) || []).map(function (r, i) {
+                    return ["N" + (i + 1) + " (place)", r[3] || ""];
+                  }),
+                ),
+              O = [];
+            S.forEach(function (x) {
+              (/\?/.test(x[1]) || MK.test(x[1])) && O.push(x);
+            });
+            if (!O.length) return;
+            var rows = O.slice(0, 4).map(function (x) {
+              var a = st(x[1]),
+                b = null;
+              S.forEach(function (y) {
+                if (y === x || O.indexOf(y) > -1) return;
+                var c = st(y[1]),
+                  w = Object.keys(a).filter(function (k) {
+                    return c[k];
+                  });
+                w.length >= 2 &&
+                  (!b || w.length > b.n) &&
+                  (b = {
+                    l: y[0],
+                    n: w.length,
+                    w: w.map(function (k) {
+                      return a[k];
+                    }),
+                  });
+              });
+              window.gsmOQX.push(x[0]);
+              b && window.gsmOQX.push(b.l);
+              var q = x[1].trim().replace(/\s+/g, " ");
+              return (
+                '<div class="csl">' +
+                x[0] +
+                '</div><div class="cq">“' +
+                Gt(q.length > 70 ? q.slice(0, 70).replace(/\s+\S*$/, "") + "…" : q) +
+                "” " +
+                (b
+                  ? "May be answered by " + b.l + " (shares " + b.w.slice(0, 4).join(", ") + ")."
+                  : "No other place shares two of its words.") +
+                "</div>"
+              );
+            });
+            window.gsmOQ =
+              '<div class="plab">OPEN QUESTIONS</div><div class="mean"><p>' +
+              O.length +
+              (O.length > 1 ? " places are" : " place is") +
+              " written as a question or marked as unclear or unknown: " +
+              O.map(function (x) {
+                return x[0];
+              })
+                .slice(0, 8)
+                .join(", ") +
+              (O.length > 8 ? ", …" : "") +
+              ". Where another place shares two or more of their words, it may answer them. Patterns matches words only, so it cannot tell whether a question is really answered.</p>" +
+              rows.join("") +
+              "</div>";
+          })());
         !(function () {
           window.gsmOG = "";
           window.gsmOGX = [];
@@ -5061,6 +5192,7 @@
           XX.time && add("NOW AND LATER", "time", [], XX.time.l);
           XX.scale && add("SCALE", "scale", [], XX.scale.l);
           add("OPEN QUESTIONS", "question", [], window.gsmOQX || []);
+          window.gsmTHX && add("IN YOUR ANSWERS, NOT ON THE MAP", "theme", window.gsmTHX.w, window.gsmTHX.ps);
           add("YOU SAID THESE DO NOT SERVE THE GOAL", "goal", [], window.gsmOGX || []);
           if (P.length < 3) return "";
           var NUMW = function (n) {
@@ -5104,6 +5236,7 @@
               "NOW AND LATER": "a mix of now and later",
               SCALE: "a mismatch of scale",
               "OPEN QUESTIONS": "an open question",
+              "IN YOUR ANSWERS, NOT ON THE MAP": "a theme your answers carry and your map barely holds",
               "YOU SAID THESE DO NOT SERVE THE GOAL": "a note you said does not serve the goal",
             };
           function PLN(x) {
@@ -6627,6 +6760,7 @@
             window.gsmSC() +
             (window.gsmOJ || "") +
             (window.gsmOQ || "") +
+            (window.gsmTH || "") +
             (window.gsmOG || "") +
             '<div class="plab">WHAT IT MIGHT MEAN</div><div class="mean">' +
             lt +
@@ -10789,14 +10923,14 @@
                   o = [];
                 return (
                   t.forEach(function (t) {
-                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0; ) n.pop();
+                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0;) n.pop();
                     n.push(t);
                   }),
                   t
                     .slice()
                     .reverse()
                     .forEach(function (t) {
-                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0; ) o.pop();
+                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0;) o.pop();
                       o.push(t);
                     }),
                   o.pop(),
@@ -13270,11 +13404,11 @@
             S();
             var n = (function (t) {
               if (Rt.contains(t) && t !== Rt) {
-                for (var e = t; e.parentNode !== Rt; ) e = e.parentNode;
+                for (var e = t; e.parentNode !== Rt;) e = e.parentNode;
                 var n = e.getAttribute("data-pv");
                 return n ? +n : r;
               }
-              for (; t && t.parentNode !== N; ) t = t.parentNode;
+              for (; t && t.parentNode !== N;) t = t.parentNode;
               if (!t || !t.hasAttribute || !t.hasAttribute("data-tab")) return r;
               var o = +t.getAttribute("data-tab");
               return 2 === o ? (r >= 2 ? r : 2) : o;
@@ -13634,7 +13768,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v143");
+        t && (t.textContent = "v144");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -13868,13 +14002,13 @@
                               i = [C.m.length, C.p.m.length, (C.links || []).length];
                             function a(t, e) {
                               t.forEach(function (t) {
-                                for (; t.length < 10; ) t.push(null);
+                                for (; t.length < 10;) t.push(null);
                                 t[9] || ((t[9] = e), t[7] || (t[7] = e));
                               });
                             }
                             function s(t, n, o) {
                               (t || []).forEach(function (t, i) {
-                                for (var a = t.slice(); a.length < 10; ) a.push(null);
+                                for (var a = t.slice(); a.length < 10;) a.push(null);
                                 (a[8] || (a[8] = o + i + "-" + Math.random().toString(36).slice(2, 7)),
                                   r[a[8]] ||
                                     ((r[a[8]] = 1), a[9] || (a[9] = e), a[7] || (a[7] = a[9]), n.push(a)));
