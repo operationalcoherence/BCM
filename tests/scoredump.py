@@ -14,10 +14,10 @@ CAP = int(sys.argv[3]) if len(sys.argv) > 3 else 99
 
 src = open(JS, encoding='utf-8').read()
 
-TAIL = 'return P.map(function(x){return x.t})}'
+TAIL = 'return window.gsmTLR=P.slice(0,7),P.map(function(x){return x.t})}'
 DUMP = ('window.__SC=P.map(function(x){return{bs:x.bs,rs:x.rs,su:x.su,rc:x.rc,'
-        'cq:x.cq,cr:x.cr,nsu:x.nsu,nrc:x.nrc,ncq:x.ncq,ncr:x.ncr,bse:x.bse,'
-        'fam:x.fam,ap:x.ap,'
+        'cq:x.cq,cr:x.cr,ct:x.ct,nsu:x.nsu,nrc:x.nrc,ncq:x.ncq,ncr:x.ncr,nct:x.nct,'
+        'cv:x.cv,bse:x.bse,fam:x.fam,ap:x.ap,'
         'raw:String(x.t[1]),'
         'h:String(x.t[0]).replace(/<[^>]*>/g,"")}});') + TAIL
 assert src.count(TAIL) == 1, 'selection tail: expected 1, got %d' % src.count(TAIL)
@@ -74,18 +74,26 @@ if not sc:
     sys.exit('the engine did not stash a scored array (errors: %r)' % errs[:3])
 
 print('%d candidates, in the engine\'s own order' % len(sc))
-print('%-4s %-30s %-14s %5s %5s %5s %5s %6s' % ('', 'finding', 'family', 'sur', 'reach', 'cons', 'corr', 'base'))
+def pt(x, k):
+    # a part the family does not rank, or that cannot apply, prints as a dash
+    return '    -' if not x.get('ap', {}).get(k) else '%5.2f' % (x.get('n' + k) or 0)
+
+
+print('%-4s %-30s %-14s %5s %5s %5s %5s %5s %5s %6s'
+      % ('', 'finding', 'family', 'sur', 'reach', 'cons', 'corr', 'ct', 'cv', 'base'))
 for i, x in enumerate(sc, 1):
-    print('%-4s %-30s %-14s %5.2f %5.2f %5.2f %5.2f %6.3f'
+    print('%-4s %-30s %-14s %s %s %s %s %s %5.2f %6.3f'
           % (('%d.' % i) + (' *' if i <= 7 else ''), x['h'][:30], x.get('fam', ''),
-             x['nsu'], x['nrc'], x['ncq'], x['ncr'], x['bse']))
+             pt(x, 'su'), pt(x, 'rc'), pt(x, 'cq'), pt(x, 'cr'), pt(x, 'ct'),
+             x.get('cv') or 0, x['bse']))
 print('\n* = survives the cap of 7 today\n')
 print('raw values, and what each finding names as resting on')
 for i, x in enumerate(sc, 1):
     print('%2d %s' % (i, x['h'][:60]))
     print('     terms %r' % (x['bs'],))
     print('     places %r' % (x['rs'],))
-    print('     su=%.3f rc=%.3f cq=%.3f cr=%.3f' % (x['su'], x['rc'], x['cq'], x['cr']))
+    print('     su=%.3f rc=%.3f cq=%.3f cr=%.3f ct=%.3f cv=%.2f'
+          % (x['su'], x['rc'], x['cq'], x['cr'], x.get('ct') or 0, x.get('cv') or 0))
     if not x['rs']:
         print('     RAW HTML THE SCORER READ:')
         print('       %s' % x['raw'][:700].replace('\n', ' '))
