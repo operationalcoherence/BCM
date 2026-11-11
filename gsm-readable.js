@@ -1,4 +1,4 @@
-/* Bear Canyon Method v130 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v131 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4369,6 +4369,128 @@
                 " no description yet.",
               1,
             ]));
+        window.gsmCE = function () {
+          var SW = {};
+          "that this with from have will they their them there these those were been being into onto over under about above below than then when what which while where whose would could should must also only very more most much many some such each every other another same just even still both either neither does done doing make makes made need needs needed like well upon within without between through across around toward towards because since so"
+            .split(" ")
+            .forEach(function (w) {
+              SW[w] = 1;
+            });
+          var CU =
+              /\b(leads? to|led to|creat(?:es|ing|ed)|caus(?:es|ing|ed)|results? in|allows? (?:\w+ ){0,2}to|fuel(?:s|ing|ed)? the|drives?|contributes? (?:to|toward)|worsen\w*|decreasing|increasing)\b/gi,
+            P = [];
+          function tk(t) {
+            var o = {};
+            (t.toLowerCase().match(/[a-z]+/g) || []).forEach(function (w) {
+              w.length > 3 && !SW[w] && (o[w.slice(0, 6)] = 1);
+            });
+            return o;
+          }
+          function sn(t, i, j) {
+            var a = Math.max(0, i - 45),
+              b = Math.min(t.length, j + 45);
+            a > 0 && (a = t.indexOf(" ", a) + 1);
+            b < t.length && (b = t.lastIndexOf(" ", b));
+            return (a > 0 ? "…" : "") + t.slice(a, b).trim() + (b < t.length ? "…" : "");
+          }
+          var S = Q()
+            .map(function (t, i) {
+              return ["Q." + (i + 1), t || ""];
+            })
+            .concat(
+              C.m.map(function (r, i) {
+                return ["N" + (i + 1), r[3] || ""];
+              }),
+              ((C.p && C.p.m) || []).map(function (r, i) {
+                return ["N" + (i + 1) + " (place)", r[3] || ""];
+              }),
+            );
+          S.forEach(function (x) {
+            x[1].split(/(?<=[.!?])\s+|\n+/).forEach(function (t) {
+              var m;
+              CU.lastIndex = 0;
+              while ((m = CU.exec(t))) {
+                var i = m.index,
+                  j = i + m[0].length;
+                P.push({
+                  l: x[0],
+                  c: tk(t.slice(Math.max(0, i - 45), i)),
+                  e: tk(t.slice(j, j + 45)),
+                  s: sn(t, i, j),
+                  t: t,
+                });
+              }
+            });
+          });
+          var K = {};
+          P.forEach(function (p, i) {
+            for (var k in p.c) (K[k] = K[k] || { c: {}, e: {} }).c[i] = 1;
+            for (k in p.e) (K[k] = K[k] || { c: {}, e: {} }).e[i] = 1;
+          });
+          var B = Object.keys(K)
+            .map(function (k) {
+              var c = Object.keys(K[k].c),
+                e = Object.keys(K[k].e),
+                u = {};
+              c.concat(e).forEach(function (i) {
+                u[i] = 1;
+              });
+              return { k: k, c: c, e: e, n: Object.keys(u).length };
+            })
+            .filter(function (x) {
+              return (
+                x.c.length &&
+                x.e.length &&
+                x.n >= 3 &&
+                x.c.some(function (i) {
+                  return x.e.indexOf(i) < 0;
+                }) &&
+                x.e.some(function (i) {
+                  return x.c.indexOf(i) < 0;
+                })
+              );
+            })
+            .sort(function (a, b) {
+              return b.n - a.n;
+            });
+          if (!B.length) return "";
+          var b = B[0],
+            fw = (new RegExp("\\b" + b.k + "[a-z]*", "i").exec(P[b.c[0]].t) || [b.k])[0].toLowerCase();
+          function ls(ix) {
+            var seen = {};
+            return ix
+              .filter(function (i) {
+                var z = P[i].l + P[i].t;
+                return seen[z] ? 0 : (seen[z] = 1);
+              })
+              .slice(0, 3)
+              .map(function (i) {
+                return '<div class="cq">' + P[i].l + ": “" + Gt(P[i].s) + "”</div>";
+              })
+              .join("");
+          }
+          function lb(ix) {
+            var u = {};
+            ix.forEach(function (i) {
+              u[P[i].l] = 1;
+            });
+            return Object.keys(u).join(", ");
+          }
+          return (
+            '<div class="plab">CAUSE AND EFFECT</div><div class="mean"><p>You write <b>' +
+            Gt(fw) +
+            "</b> as a cause (" +
+            lb(b.c) +
+            ") and as an effect (" +
+            lb(b.e) +
+            "). A loop may run through it. The sentences are below; Patterns suggests, you decide.</p>" +
+            '<div class="csl">AS A CAUSE</div>' +
+            ls(b.c) +
+            '<div class="csl">AS AN EFFECT</div>' +
+            ls(b.e) +
+            "</div>"
+          );
+        };
         !(function () {
           var SV = [Mt, NmK, NmD].map(function (o) {
               return JSON.stringify(o);
@@ -5816,7 +5938,8 @@
               ));
         }
         lt &&
-          ((lt = '<div class="plab">WHAT IT MIGHT MEAN</div><div class="mean">' + lt + "</div>"),
+          ((lt =
+            window.gsmCE() + '<div class="plab">WHAT IT MIGHT MEAN</div><div class="mean">' + lt + "</div>"),
           (Z = b.filter(function (t) {
             return t[2];
           })),
@@ -12803,7 +12926,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v130");
+        t && (t.textContent = "v131");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
