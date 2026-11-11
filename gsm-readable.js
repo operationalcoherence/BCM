@@ -1,4 +1,4 @@
-/* Bear Canyon Method v129 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v130 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -7826,6 +7826,56 @@
                     "</div>"
                   );
                 })() +
+                (function () {
+                  var g = String(C.goal || ""),
+                    NR = new RegExp(
+                      "\\b(\\d+(?:[.,]\\d+)?%?|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|hundred|thousand|dozen)\\b",
+                      "i",
+                    ),
+                    TR =
+                      /\b(within|by|before|over the course of)\s+(a|an|one|the next|\d+|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|hundred|thousand|dozen)?\s*(days?|weeks?|months?|seasons?|years?|quarters?)\b/i,
+                    F = [],
+                    re = new RegExp(
+                      "\\b(\\d+(?:[.,]\\d+)?%?|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|hundred|thousand|dozen)\\b((?:\\s+(?!of\\b|in\\b|each\\b|over\\b|a\\b|an\\b|the\\b|per\\b|for\\b|with\\b|to\\b|and\\b|who\\b|that\\b|by\\b|within\\b)[A-Za-z-]+){0,5})",
+                      "gi",
+                    ),
+                    m;
+                  while ((m = re.exec(g))) F.push((m[1] + m[2]).trim());
+                  var tm = TR.exec(g);
+                  tm &&
+                    !F.some(function (f) {
+                      return tm[0].indexOf(f) >= 0;
+                    }) &&
+                    F.push(tm[0].trim());
+                  if (!F.length) return "";
+                  var A = [4, 5, 6]
+                    .map(function (i) {
+                      return Q()[i] || "";
+                    })
+                    .concat(
+                      C.m
+                        .concat((C.p && C.p.m) || [])
+                        .filter(function (r) {
+                          return r[0] >= 5;
+                        })
+                        .map(function (r) {
+                          return r[3] || "";
+                        }),
+                    );
+                  if (
+                    A.some(function (t) {
+                      return NR.test(t) || TR.test(t);
+                    })
+                  )
+                    return "";
+                  var L = F.slice(0, 4).map(Gt),
+                    ls = L.length > 1 ? L.slice(0, -1).join(", ") + " and " + L[L.length - 1] : L[0];
+                  return (
+                    '<div class="rule"><div class="rl">GOAL NUMBERS NOT IN THE ACTIONS</div><div>Your goal sets ' +
+                    ls +
+                    ", but nothing in Q.5–Q.7 or in your design, redesign and reinforce notes carries a number or a time yet.</div></div>"
+                  );
+                })() +
                 Qn +
                 In +
                 qn +
@@ -12753,7 +12803,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v129");
+        t && (t.textContent = "v130");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
