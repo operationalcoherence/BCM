@@ -1,4 +1,4 @@
-/* Bear Canyon Method v140 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v141 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -1006,7 +1006,7 @@
                 r += " " + n.children[i].textContent;
               var a = [],
                 s;
-              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r)); )
+              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r));)
                 a.indexOf(s[1]) < 0 && a.push(s[1]);
               if (a.length) {
                 var c = document.createElement("div");
@@ -5026,6 +5026,63 @@
           add("OPEN QUESTIONS", "question", [], window.gsmOQX || []);
           add("YOU SAID THESE DO NOT SERVE THE GOAL", "goal", [], window.gsmOGX || []);
           if (P.length < 3) return "";
+          var NUMW = function (n) {
+              return (
+                ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"][n] || String(n)
+              );
+            },
+            PLM = {
+              THREAD: "a line of thought running through it",
+              "RUNS TOGETHER": "words that run together",
+              "FOR AND AGAINST": "something you write both for and against",
+              "FOR AND AGAINST ON THE MAP": "something written both for and against, and on your map",
+              "FOR AND AGAINST, AND ON THE REDESIGN LIST":
+                "something written both for and against, and on your redesign list",
+              "CROSSES THE GROUND LINE": "something that sits on both sides of your ground line",
+              "CONDITION IN THE WAY": "a condition standing in the way",
+              "OTHER SIDE OF THE LINE": "the other side of a line you drew",
+              "CONDITION NOT IN Q.5–Q.7": "a condition your actions do not cover",
+              "OPPOSITION NOT YET ENGAGED": "opposition your actions do not respond to",
+              "SUPPORT NOT YET REINFORCED": "support your actions do not build on",
+              "NOT YET ANSWERED": "something nothing answers yet",
+              "NOT YET ADDRESSED": "something not yet addressed",
+              "NOT ON THE MAP": "something missing from your map",
+              "EMOTION NOT YET READ": "an emotion not yet read",
+              "NOTHING NEAR THE GOAL": "notes with nothing to do with your goal",
+              "ONE SIDE ONLY": "something written from one side only",
+              "NOTES TO WRITE": "notes still to write",
+              "READY TO REINFORCE": "something ready to reinforce",
+              "REDESIGN THE RESISTANCE": "resistance you could redesign",
+              "BUILD OR REBUILD": "something to build or rebuild",
+              "ROOT CONDITION": "a root condition",
+              "BUILD ON WHAT IS HAPPENING": "something already happening to build on",
+              "PARTLY ALREADY": "something partly in place already",
+              "ROOTED IN OPPOSITION": "something rooted in opposition",
+              "SHORT ANSWERS": "a short answer",
+              "ONE JUDGEMENT TWICE": "one judgement made twice",
+              "LEADING QUESTIONS": "a leading question",
+              "STANDS ALONE": "something that stands alone",
+              "AT THE CENTER": "something at the center of your notes",
+              "CAUSE AND EFFECT": "a cause-and-effect loop",
+              "NOW AND LATER": "a mix of now and later",
+              SCALE: "a mismatch of scale",
+              "OPEN QUESTIONS": "an open question",
+              "YOU SAID THESE DO NOT SERVE THE GOAL": "a note you said does not serve the goal",
+            };
+          function PLN(x) {
+            var h = String(x.t[0])
+                .replace(/<[^>]*>/g, "")
+                .trim(),
+              p = PLM[h] || h.toLowerCase(),
+              w = x.bs
+                .filter(function (k) {
+                  return "fire" !== k;
+                })
+                .slice(0, 2);
+            return (
+              p + (("THREAD" === h || "RUNS TOGETHER" === h) && w.length ? " (" + w.join(", ") + ")" : "")
+            );
+          }
           function hd(x) {
             var t = String(x.t[0])
                 .replace(/<[^>]*>/g, "")
@@ -5065,14 +5122,14 @@
           out = out.slice(0, 6);
           if (!out.length) return "";
           return (
-            '<div class="plab">WHERE THESE MEET</div><div class="mean"><p>Some of the findings on these pages rest on the same words or places. Where several of them do, and they are not all the same kind of finding, that word or place may be central to your thinking.</p>' +
+            '<div class="plab">WHERE THESE MEET</div><div class="mean"><p>Several of the findings above keep pointing at the same few places. Those may be where your thinking is most connected, so they are a good place to start.</p>' +
             out
               .map(function (o) {
                 var lab,
                   tx = "",
                   r = o.k.slice(2),
                   m;
-                if (o.w) lab = "THE WORD “" + Gt((nm[o.k] || r).toUpperCase()) + "”";
+                if (o.w) lab = "The word “" + Gt(nm[o.k] || r) + "”";
                 else if ((m = /^note (\d+)$/.exec(r))) {
                   lab = "N" + m[1];
                   tx = (C.m[+m[1] - 1] || [])[3] || "";
@@ -5091,9 +5148,9 @@
                   (tx
                     ? "“" + Gt(tx.length > 70 ? tx.slice(0, 70).replace(/\s+\S*$/, "") + "…" : tx) + "” "
                     : "") +
-                  "Under " +
-                  o.n +
-                  " findings: " +
+                  NUMW(o.n) +
+                  " findings " +
+                  (o.w ? "use it: " : /^Q\./.test(r) ? "touch this answer: " : "touch this note: ") +
                   P.filter(function (x, i) {
                     return o.w
                       ? x.bs.some(function (w) {
@@ -5102,11 +5159,10 @@
                       : x.rs.indexOf(r) > -1;
                   })
                     .map(function (x) {
-                      return o.w
-                        ? String(x.t[0])
-                            .replace(/<[^>]*>/g, "")
-                            .trim()
-                        : hd(x);
+                      return PLN(x);
+                    })
+                    .filter(function (v, i, A) {
+                      return A.indexOf(v) === i;
                     })
                     .join("; ") +
                   ".</div>"
@@ -5692,13 +5748,42 @@
           M.length &&
             c(
               "A NAME THAT RECURS",
-              M.slice(0, 3)
-                .map(function (t) {
-                  return "<b>" + Gt(t) + "</b> (" + I[t].length + " places)";
-                })
-                .join(", ") +
-                (M.length > 3 ? " and " + (M.length - 3) + " more" : "") +
-                ".",
+              (function () {
+                var a = M.slice(0, 3),
+                  b = a.map(function (t) {
+                    return "<b>" + Gt(t) + "</b>";
+                  }),
+                  same = a.every(function (t) {
+                    return I[t].length === I[a[0]].length;
+                  }),
+                  nm = b.length > 1 ? b.slice(0, -1).join(", ") + " and " + b[b.length - 1] : b[0],
+                  ex =
+                    M.length > 3
+                      ? " " +
+                        (M.length - 3) +
+                        " more name" +
+                        (M.length > 4 ? "s" : "") +
+                        " also come" +
+                        (M.length > 4 ? "" : "s") +
+                        " back."
+                      : "";
+                return same
+                  ? nm +
+                      (b.length > 1 ? " each appear" : " appears") +
+                      " in " +
+                      (["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"][
+                        I[a[0]].length
+                      ] || I[a[0]].length) +
+                      " places." +
+                      ex
+                  : a
+                      .map(function (t) {
+                        return "<b>" + Gt(t) + "</b> (" + I[t].length + " places)";
+                      })
+                      .join(", ") +
+                      " are the names that come back most." +
+                      ex;
+              })(),
               M,
               null,
             );
@@ -5851,6 +5936,13 @@
               e.length >= 2 && (n && !o ? V.push(t) : o && !n && _.push(t)));
           }),
             (V.length || _.length) &&
+              ((window.gsmSD = {}),
+              V.forEach(function (w) {
+                window.gsmSD[jt(w)] = "above";
+              }),
+              _.forEach(function (w) {
+                window.gsmSD[jt(w)] = "below";
+              }),
               c(
                 "ONE SIDE OF THE LINE ONLY",
                 (V.length
@@ -5870,7 +5962,7 @@
                   D(V.concat(_)),
                 V.concat(_),
                 null,
-              ));
+              )));
           var $ = [];
           (m.forEach(function (t) {
             $.push({ q: t, n: (Q()[t] || "").trim().split(/\s+/).length });
@@ -5956,13 +6048,13 @@
                           "MOST OF THE MAP ON ONE QUESTION",
                           "Q." +
                             r +
-                            " carries " +
+                            " holds " +
                             t[r] +
                             " of your " +
                             C.m.filter(function (t) {
                               return (t[3] || "").trim();
                             }).length +
-                            " notes, far more than any other. That question may be where your attention is, and the others may be thinner than they look.",
+                            " notes, far more than any other question. Your mapping leans on it, and the others may be thinner than they look.",
                         );
                     }
                   })());
@@ -5993,7 +6085,7 @@
                     function (t) {
                       return (
                         t +
-                        " is one of the words you keep coming back to, and nothing in Q.5–Q.7 answers it. What you say most may be what you have planned least."
+                        " comes up often, but none of your actions (Q.5–Q.7) mention it. What you talk about most may be what you have planned least."
                       );
                     },
                   ],
@@ -6002,8 +6094,9 @@
                     "RESTING ON WHAT WAS SAID",
                     function (t) {
                       return (
+                        "None of your actions (Q.5–Q.7) respond to " +
                         t +
-                        " has nothing in Q.5–Q.7 answering it, and what you wrote about it was told to you or assumed. There may be little underneath it to plan from yet."
+                        ", and what you wrote about it was told to you or assumed, not seen. There may not be much underneath it to plan from yet."
                       );
                     },
                   ],
@@ -6013,7 +6106,7 @@
                     function (t) {
                       return (
                         t +
-                        " comes from one voice, and from what that person said rather than anything seen or recorded. One more person's account may change it."
+                        " comes from one person, and from what they said rather than anything seen or recorded. A second account may change it."
                       );
                     },
                   ],
@@ -6023,7 +6116,7 @@
                     function (t) {
                       return (
                         t +
-                        " is written about as something that cannot happen, and it carries the same emotion wherever it appears. The emotion and the barrier may be holding each other up."
+                        " is written about as something that cannot happen, and the same emotion shows up each time. The emotion and the barrier may be feeding each other."
                       );
                     },
                   ],
@@ -6034,7 +6127,7 @@
                       return (
                         "A figure sits beside " +
                         t +
-                        ", which rests on what was said rather than on anything recorded. Worth checking before anything is built on it."
+                        ", but it rests on what you were told, not on anything recorded. Check it before you build on it."
                       );
                     },
                   ],
@@ -6044,7 +6137,7 @@
                     function (t) {
                       return (
                         t +
-                        " comes up again and again, and from one voice only. The person named may not have been asked."
+                        " comes up again and again, but always from one person. The person you name may not have been asked."
                       );
                     },
                   ],
@@ -6052,9 +6145,21 @@
                     "ONE SIDE OF THE LINE ONLY",
                     "SAID, BUT NOT ANSWERED",
                     function (t) {
+                      var sd = (window.gsmSD || {})[t.replace(/<[^>]*>|[“”]/g, "")];
                       return (
                         t +
-                        " only ever sits on one side of the line and nothing in Q.5–Q.7 answers it. It may have been settled in your mind before it was planned for."
+                        " only ever appears " +
+                        ("above" === sd
+                          ? "above the line, where things help"
+                          : "below" === sd
+                            ? "below the line, where things hinder"
+                            : "on one side of the line") +
+                        ", and none of your actions (Q.5–Q.7) respond to it. " +
+                        ("above" === sd
+                          ? "You may be counting on it without having planned for it."
+                          : "below" === sd
+                            ? "You may have written it off without planning for it."
+                            : "You may have settled it in your mind without planning for it.")
                       );
                     },
                   ],
@@ -6064,7 +6169,7 @@
                     function (t) {
                       return (
                         t +
-                        " runs through several questions carrying the same emotion in each. One emotion may be coloring more of the workbook than you meant."
+                        " appears in several answers, with the same emotion each time. That emotion may be coloring more of your workbook than you meant."
                       );
                     },
                   ],
@@ -6073,9 +6178,9 @@
                     "MOST OF THE MAP ON ONE QUESTION",
                     function (t) {
                       return (
-                        "One question carries most of your notes while " +
+                        "One question holds most of your notes, and " +
                         t +
-                        " has none. Your attention may be further from even than it feels."
+                        " has none. Your attention may be less evenly spread than it feels."
                       );
                     },
                   ],
@@ -6101,16 +6206,16 @@
                       }),
                       l || !(!a.length || (o[t.lab] && o[e.lab])))
                     ) {
-                      var c = a.length ? "<b>" + Gt(a[0]) + "</b>" : s[0],
+                      var c = a.length ? "<b>“" + Gt(a[0]) + "”</b>" : s[0],
                         u = (a.length ? "w" : "p") + (a.length ? a[0] : s[0]),
                         d = l
                           ? l(c)
                           : c +
-                            " is behind two findings at once: " +
-                            t.lab +
+                            " sits behind two findings at once (" +
+                            t.lab.toLowerCase() +
                             " and " +
-                            e.lab +
-                            ". They may be one pattern rather than two.";
+                            e.lab.toLowerCase() +
+                            "), so they may be one pattern rather than two.";
                       i[d] || (r.push({ t: d, s: l ? 1 : 0, k: u }), (i[d] = 1));
                     }
                   }
@@ -10631,14 +10736,14 @@
                   o = [];
                 return (
                   t.forEach(function (t) {
-                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0; ) n.pop();
+                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0;) n.pop();
                     n.push(t);
                   }),
                   t
                     .slice()
                     .reverse()
                     .forEach(function (t) {
-                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0; ) o.pop();
+                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0;) o.pop();
                       o.push(t);
                     }),
                   o.pop(),
@@ -13112,11 +13217,11 @@
             S();
             var n = (function (t) {
               if (Rt.contains(t) && t !== Rt) {
-                for (var e = t; e.parentNode !== Rt; ) e = e.parentNode;
+                for (var e = t; e.parentNode !== Rt;) e = e.parentNode;
                 var n = e.getAttribute("data-pv");
                 return n ? +n : r;
               }
-              for (; t && t.parentNode !== N; ) t = t.parentNode;
+              for (; t && t.parentNode !== N;) t = t.parentNode;
               if (!t || !t.hasAttribute || !t.hasAttribute("data-tab")) return r;
               var o = +t.getAttribute("data-tab");
               return 2 === o ? (r >= 2 ? r : 2) : o;
@@ -13476,7 +13581,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v140");
+        t && (t.textContent = "v141");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -13710,13 +13815,13 @@
                               i = [C.m.length, C.p.m.length, (C.links || []).length];
                             function a(t, e) {
                               t.forEach(function (t) {
-                                for (; t.length < 10; ) t.push(null);
+                                for (; t.length < 10;) t.push(null);
                                 t[9] || ((t[9] = e), t[7] || (t[7] = e));
                               });
                             }
                             function s(t, n, o) {
                               (t || []).forEach(function (t, i) {
-                                for (var a = t.slice(); a.length < 10; ) a.push(null);
+                                for (var a = t.slice(); a.length < 10;) a.push(null);
                                 (a[8] || (a[8] = o + i + "-" + Math.random().toString(36).slice(2, 7)),
                                   r[a[8]] ||
                                     ((r[a[8]] = 1), a[9] || (a[9] = e), a[7] || (a[7] = a[9]), n.push(a)));
