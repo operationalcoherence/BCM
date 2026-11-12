@@ -1,4 +1,4 @@
-/* Bear Canyon Method v149 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v150 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -4868,6 +4868,7 @@
         (!(function (H) {
           window.gsmTH = "";
           window.gsmTHK = [];
+          window.gsmTHW = [];
           window.gsmTHX = null;
           var seen = {},
             A = [],
@@ -4890,7 +4891,7 @@
                 : /^note /.test(it.id)
                   ? "N" + it.id.slice(5)
                   : "N" + it.id.slice(1) + " (place)";
-            (null != it.q ? A : N).push({ l: lab, b: it.t.b || {} });
+            (null != it.q ? A : N).push({ l: lab, b: it.t.b || {}, k: it.t.k || {} });
           });
           var T = A.length + N.length;
           if (!G || A.length < 3 || N.length < 6) return;
@@ -4905,6 +4906,17 @@
           }
           tally(A, 1);
           tally(N, 0);
+          var cw = {};
+          function tw(list, isA) {
+            list.forEach(function (x) {
+              for (var w in x.k) {
+                var c = cw[w] || (cw[w] = { key: w, a: [], n: [] });
+                (isA ? c.a : c.n).push(x.l);
+              }
+            });
+          }
+          tw(A, 1);
+          tw(N, 0);
           var AK = C.asks || {},
             SH = [],
             WQ = [];
@@ -4914,7 +4926,14 @@
             var v = AK["theme|" + c.key];
             (G.t.b || {})[c.key] || "y" === v ? SH.push(c) : "n" === v || WQ.push(c);
           }
-          if (!SH.length && !WQ.length) return;
+          var WD = [];
+          for (var q2 in cw) {
+            var c2 = cw[q2];
+            if (!(c2.a.length >= 3 && c2.n.length <= 1 && (c2.a.length + c2.n.length) / T < 0.4)) continue;
+            var v2 = AK["theme|" + c2.key];
+            "y" === v2 ? SH.push(c2) : "n" === v2 || WD.push(c2);
+          }
+          if (!SH.length && !WQ.length && !WD.length) return;
           function srt(x, y) {
             return (
               y.a.length - y.n.length - (x.a.length - x.n.length) ||
@@ -4924,6 +4943,13 @@
           }
           SH.sort(srt);
           WQ.sort(srt);
+          WD.sort(function (x, y) {
+            return (
+              jt(y.key).length - jt(x.key).length ||
+              y.a.length - y.n.length - (x.a.length - x.n.length) ||
+              (x.key < y.key ? -1 : 1)
+            );
+          });
           var SS = SH.slice(0, 4);
           SS.length &&
             (window.gsmTHX = {
@@ -4942,10 +4968,15 @@
           }
           var h = '<div class="plab">IN YOUR ANSWERS, NOT ON THE MAP</div><div class="mean">';
           if (SH.length) {
-            var s = SH.length > 1;
+            var s = SH.length > 1,
+              nw = SH.filter(function (c) {
+                return c.key.indexOf(" ") < 0;
+              }).length,
+              nn = nw && nw < SH.length ? "phrases and words" : nw ? "words" : "phrases",
+              n1 = nw ? "word" : "phrase";
             h +=
               "<p>" +
-              (s ? SH.length + " phrases" : "One phrase") +
+              (s ? SH.length + " " + nn : "One " + n1) +
               " " +
               (s ? "run" : "runs") +
               " through three or more of your answers but " +
@@ -4991,6 +5022,33 @@
                     '” Is it a theme?<div class="emo"><button type="button" class="ech" onclick="gsmAskT(' +
                     i +
                     ',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskT(' +
+                    i +
+                    ",'n')\">No</button></div></div>"
+                  );
+                })
+                .join("");
+          }
+          if (WD.length) {
+            window.gsmTHW = WD.slice(0, 3);
+            window.gsmAskW = function (i, v) {
+              var c = window.gsmTHW[i];
+              c &&
+                ((C.asks && "object" == typeof C.asks) || (C.asks = {}), (C.asks["theme|" + c.key] = v), P());
+            };
+            h +=
+              "<p>" +
+              (WD.length > 1 ? "These single words also run" : "This single word also runs") +
+              " through three or more of your answers and " +
+              (WD.length > 1 ? "appear" : "appears") +
+              " in one note at most. A word can be a theme or just wording, and Patterns cannot tell which, so it asks.</p>" +
+              window.gsmTHW
+                .map(function (c, i) {
+                  return (
+                    '<div style="margin:6px 0 10px">“' +
+                    Gt(jt(c.key)) +
+                    '” Is it a theme?<div class="emo"><button type="button" class="ech" onclick="gsmAskW(' +
+                    i +
+                    ',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskW(' +
                     i +
                     ",'n')\">No</button></div></div>"
                   );
@@ -13955,7 +14013,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v149");
+        t && (t.textContent = "v150");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
