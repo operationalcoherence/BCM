@@ -33,6 +33,14 @@
   .row b{letter-spacing:.05em}
   .small{font-size:12px;color:var(--mute)}
   .msg{color:#a33;font-size:13px;margin:6px 0}
+  .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}
+  .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}
+  .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}
+  .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}
+  .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}
+  .legbox.hide{display:none}
+  .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}
+  .cbtn.on{background:#111;color:#fff;border-color:#111}
   .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}
   .rd.on{background:#f6efe9;border-left-color:#7a1d12}
   .rd b{display:block;margin-bottom:2px}
@@ -79,21 +87,16 @@
   <div class="stage" id="stage">
     <canvas id="cv"></canvas>
     <div class="tip" id="tip"></div>
+    <button type="button" id="legbtn" class="legbtn">Legend</button>
+    <div class="legbox" id="legbox"></div>
   </div>
 
-  <div class="sec" style="margin-top:12px">WHAT THE GROUND SAYS</div>
+  <div class="sec" style="margin-top:12px">MODEL A COURSE OF ACTION</div>
+  <div id="courses"></div>
+  <div id="coursebox"></div>
+  <div class="sec" id="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>
   <div id="readings"></div>
   <div id="selnote" class="row"></div>
-  <div class="legend" id="legend"></div>
-  <div class="terr">
-    <span id="t1">▲ raised: acceptance</span>
-    <span>≈ rolling: indifference</span>
-    <span id="t3">▼ sunk: aggression, distrust, defiance</span>
-    <span>level: no notes nearby</span>
-    <span>rough ground: emotions meet, or the slope is steep</span>
-    <span>trail: present to future</span>
-    <span>Q.1–Q.7 markers: the middle of each question's notes</span>
-  </div>
   <div class="note" id="count"></div>
 
   <div class="sec" id="pith">WHERE IT IS EASY TO GET STUCK</div>
@@ -147,11 +150,7 @@ SAMPLES.wild={name:"Wildfire-style (synthetic, 33 notes)",goal:"A fire-adapted c
 ]};
 SAMPLES.surprise={name:"Same, plus aggression on a note that helps (synthetic)",goal:"A fire-adapted community.",
  notes:SAMPLES.wild.notes.concat([N(3,160,74,"Furious that the help comes with strings attached.",0,"s"),N(3,172,86,"Resents being told what the grant requires.",0,"s")])};
-SAMPLES.clinic={name:"Clinic (synthetic, 8 notes)",goal:"Keep the Broad Street clinic open five days a week.",notes:[
- N(2,30,150,"Hospital board sees the satellite clinic as a threat to referrals.",2,"c1"),N(2,70,170,"Residents distrust a clinic that may close again.",4,"c2"),
- N(3,60,60,"School nurse refers families already.",1,"c3"),N(3,120,70,"Pharmacy owner offers space.",1,"c4"),
- N(4,180,80,"A stable lease would let staff be hired.",1,"c5"),N(5,220,70,"Design a shuttle route with the senior center.",1,"c6"),
- N(6,250,90,"Redesign intake so the school nurse books directly.",1,"c7"),N(2,200,180,"Lease renewal is month to month.",3,"c8")]};
+SAMPLES.clinic={name:"Clinic (synthetic, 8 notes, 7 answers)",goal:"To have the Broad Street clinic open five days a week within a year, with primary care for residents who now drive 40 minutes.",a:["The clinic lost its anchor tenant and the lease rose. Residents drive 40 minutes for primary care.", "The hospital board opposes a satellite site. They say it splits referrals.", "The school nurse already refers families and that works.", "A stable lease and a standing shuttle would change it.", "Design a shuttle route and a shared intake form.", "Redesign the referral path so the school nurse can book directly.", "Reinforce the school nurse relationship with paid hours."],notes:[[2, 30, 150, "Hospital board sees the satellite clinic as a threat to referrals.", null, 3, 0, null, "c1"], [2, 70, 170, "Residents distrust a clinic that may close again.", null, 4, null, null, "c2"], [3, 60, 60, "School nurse refers families already.", null, 1, 0, "Mine", "c3"], [3, 120, 70, "Pharmacy owner offers space.", null, 1, null, null, "c4"], [4, 180, 80, "A stable lease would let staff be hired.", null, 1, null, null, "c5"], [5, 220, 70, "Design a shuttle route with the senior center.", null, 1, null, "Mine", "c6"], [6, 250, 90, "Redesign intake so the school nurse books directly.", null, 1, null, null, "c7"], [2, 200, 180, "Lease renewal is month to month.", null, 3, null, null, "c8"]],cards:[{"w": "clinic", "mode": "STRATEGY", "why": "Why: not in Q.5–Q.7 yet, below the line on the change map, where things hinder the goal, rests on 2 notes (1 seen, 1 unmarked).", "steps": ["Engage the opposition where it is named (N1, N2).", "Watch the defiance in N2.", "Decide what needs designing (Q.5) before fixing a sequence."], "ids": ["N1", "N2"], "cross": "Crosses the help and hinder line 0 times; 1.0× the length of a straight run to the goal. It is marked a strategy, but the way through it is almost straight. It may be nearer a program than the words suggest.", "named": "Named above, not on the map: Q.5"}, {"w": "lease", "mode": "STRATEGY", "why": "Why: not in Q.5–Q.7 yet, on both sides of the line on the change map, helping and hindering.", "steps": ["Engage the opposition where it is named (N8).", "Decide what needs designing (Q.5) before fixing a sequence."], "ids": ["N5", "N8"], "cross": "Crosses the help and hinder line 1 time; 1.4× the length of a straight run to the goal.", "named": "Named above, not on the map: Q.5"}, {"w": "residents", "mode": "STRATEGY", "why": "Why: not in Q.5–Q.7 yet, below the line on the change map, where things hinder the goal, the map notes that mention it lean defiance (1 of 1: N2).", "steps": ["Engage the opposition where it is named (N2).", "Watch the defiance in N2.", "Decide what needs designing (Q.5) before fixing a sequence."], "ids": ["N2"], "cross": "Crosses the help and hinder line 0 times; 1.0× the length of a straight run to the goal. It is marked a strategy, but the way through it is almost straight. It may be nearer a program than the words suggest.", "named": "Named above, not on the map: Q.5"}, {"w": "school nurse", "mode": "PROGRAM", "why": "Why: supported or already happening, in Q.5–Q.7, the map notes that mention it lean acceptance (2 of 2: N3, N7), rests on 2 notes (1 seen, 1 unmarked).", "steps": ["Reinforce what Q.7 describes.", "Build on N3.", "Check back if circumstances change."], "ids": ["N3", "N7"], "cross": "Crosses the help and hinder line 1 time; 1.1× the length of a straight run to the goal.", "named": "Named above, not on the map: Q.7"}, {"w": "shuttle", "mode": "PROGRAM", "why": "Why: in Q.5–Q.7, the map notes that mention it lean acceptance (1 of 1: N6).", "steps": ["Carry out what Q.5 designs.", "Check back if circumstances change."], "ids": ["N6"], "cross": "Crosses the help and hinder line 1 time; 1.0× the length of a straight run to the goal.", "named": "Named above, not on the map: Q.5"}, {"w": "shared intake", "mode": "PROGRAM", "why": "Why: named in Q.5 (what needs to be designed), concrete enough to plan.", "steps": ["Build what Q.5 names.", "Set who does what and when.", "Check back if circumstances change.", "See N6 on the map."], "ids": ["N6"], "cross": "Crosses the help and hinder line 1 time; 1.0× the length of a straight run to the goal.", "named": "Named above, not on the map: Q.5"}, {"w": "referrals path", "mode": "PROGRAM", "why": "Why: named in Q.6 (what needs to be redesigned), concrete enough to plan.", "steps": ["Redesign what Q.6 names with the people who use it.", "Set who does what and when.", "Check back if circumstances change.", "See N7 on the map."], "ids": ["N7"], "cross": "Crosses the help and hinder line 1 time; 1.0× the length of a straight run to the goal.", "named": "Named above, not on the map: Q.6"}]};
 (function(){
   var s=12345; function rnd(){s=(s*1664525+1013904223)%4294967296;return s/4294967296;}
   function gau(){return (rnd()+rnd()+rnd()+rnd()-2)*1.7;}
@@ -369,6 +368,55 @@ function buildReadings(){
   R.forEach(function(r){if(r.kind==="cause")r.rank=0;});
   R.sort(function(a,b){return a.rank-b.rank;});READ=R.filter(function(r){return r.at;}).slice(0,8);
 }
+/* ---------- a course of action modelled on the ground ---------- */
+function firmPath(ax,ay,bx,by){ /* cheapest way across, where sunk ground costs more */
+  var n=VX*VY,H=terr.hs,dist=new Float64Array(n).fill(1e18),par=new Int32Array(n).fill(-1),hp=new Heap();
+  var s0=cellOf(ax,ay),g0=cellOf(bx,by);dist[s0]=0;hp.push(0,s0);
+  var NB=[[-1,-1],[0,-1],[1,-1],[-1,0],[1,0],[-1,1],[0,1],[1,1]];
+  while(hp.k.length){var t=hp.pop(),v=t[1];if(t[0]>dist[v]+1e-9)continue;if(v===g0)break;var vi=v%VX,vj=(v/VX)|0;
+    for(var d=0;d<8;d++){var ni=vi+NB[d][0],nj=vj+NB[d][1];if(ni<0||nj<0||ni>=VX||nj>=VY)continue;var u=nj*VX+ni,st=(d===0||d===2||d===5||d===7)?1.414:1;
+      var c=st*(1+9*Math.max(0,-H[u])+2*Math.max(0,H[u]-H[v])),nd=dist[v]+c;if(nd<dist[u]){dist[u]=nd;par[u]=v;hp.push(nd,u);}}}
+  var out=[],cur=g0,g=0;while(cur>=0&&g++<30000){out.push([(cur%VX)*CX,((cur/VX)|0)*CY]);if(cur===s0)break;cur=par[cur];}
+  out.reverse();var sm=[];for(var i=0;i<out.length;i++){var a=Math.max(0,i-3),b=Math.min(out.length-1,i+3),x=0,y=0;for(var k=a;k<=b;k++){x+=out[k][0];y+=out[k][1];}sm.push([x/(b-a+1),y/(b-a+1)]);}
+  return sm;}
+function viaPts(pts){var out=[];for(var i=0;i+1<pts.length;i++){var A0=pts[i],B0=pts[i+1],L=Math.hypot(B0[0]-A0[0],B0[1]-A0[1]),N=Math.max(2,Math.ceil(L/2));for(var k=0;k<N;k++)out.push([A0[0]+(B0[0]-A0[0])*k/N,A0[1]+(B0[1]-A0[1])*k/N]);}out.push(pts[pts.length-1]);return out;}
+function routeStats(R){var L=0,sunk=0,raised=0,pits={},deep=0;
+  for(var i=1;i<R.length;i++){var dl=Math.hypot(R[i][0]-R[i-1][0],R[i][1]-R[i-1][1]);L+=dl;var h=hAt(R[i][0],R[i][1]);if(h<-0.1){sunk+=dl;var c=terr.pitTgt[cellOf(R[i][0],R[i][1])];terr.pits.forEach(function(p,k){if(p.idx===c)pits[k]=1;});}else if(h>0.1)raised+=dl;if(h<deep)deep=h;}
+  var straight=Math.hypot(GOAL.x-START.x,GOAL.y-START.y);return {L:L,ratio:L/straight,sunk:sunk/L,raised:raised/L,pits:Object.keys(pits).map(Number),deep:deep};}
+function pitName(k){var i=-1;READ.forEach(function(r,j){if(r.kind==="pit"&&r.pit===k)i=j;});return i>=0?"reading "+(i+1)+" ("+READ[i].title.toLowerCase()+")":"a place where it is easy to get stuck";}
+function pct(v){return Math.round(v*100)+"%";}
+function describeRoute(st){var o=[];o.push("About "+pct(st.raised)+" of it is on raised ground"+(st.sunk>0.02?" and "+pct(st.sunk)+" in sunk ground":"")+"; it is "+st.ratio.toFixed(1)+"× a straight run to the goal.");
+  if(st.pits.length)o.push("It passes through "+list(st.pits.map(pitName))+".");return o.join(" ");}
+function buildCourse(i){
+  ROUTES=[];if(i==null)return;var cd=CARDS[i],ns=cd.ids.map(noteById).filter(Boolean).sort(function(a,b){return a.x-b.x;});
+  var own=viaPts([[START.x,START.y]].concat(ns.map(function(n){return [n.x,n.y];})).concat([[GOAL.x,GOAL.y]]));
+  ROUTES.push({key:"A",name:"Its way through its notes",pts:own,st:routeStats(own),dash:[]});
+  if(cd.mode==="STRATEGY"){
+    function legs(stops){var out=[];for(var j=0;j+1<stops.length;j++){var seg=firmPath(stops[j][0],stops[j][1],stops[j+1][0],stops[j+1][1]);out=out.concat(j?seg.slice(1):seg);}return out;}
+    var firmNs=ns.filter(function(n){return hAt(n.x,n.y)>0.1;});
+    if(firmNs.length){var fb=legs([[START.x,START.y]].concat(firmNs.map(function(n){return [n.x,n.y];})).concat([[GOAL.x,GOAL.y]]));
+      ROUTES.push({key:"B",name:"Through its notes on firm ground only ("+list(firmNs.map(function(n){return "N"+n.k;}))+")",pts:fb,st:routeStats(fb),dash:[7,4]});}
+    var sup=[],supStep=cd.steps.filter(function(t){return /support/i.test(t);})[0]||"";supStep.replace(/N(\d+)/g,function(m,k){var n=noteById("N"+k);if(n)sup.push(n);});
+    if(sup.length){sup.sort(function(a,b){return a.x-b.x;});var first=viaPts([[START.x,START.y]].concat(sup.map(function(n){return [n.x,n.y];})));var last=sup[sup.length-1];
+      var rest=firmPath(last.x,last.y,GOAL.x,GOAL.y),r3=first.concat(rest);ROUTES.push({key:ROUTES.length===1?"B":"C",name:"Starting from the support ("+list(sup.map(function(n){return "N"+n.k;}))+")",pts:r3,st:routeStats(r3),dash:[2,4]});}
+  }
+}
+function courseReadings(i){
+  var cd=CARDS[i],out=[],A=ROUTES[0];
+  if(cd.mode==="PROGRAM"){
+    var holds=A.st.sunk<0.15&&!A.st.pits.length&&A.st.ratio<1.6;
+    out.push({k:"A",title:"Its way through its notes",text:describeRoute(A.st)+" "+(holds?"The ground holds along the way, so a line can be drawn from action to outcome: that suits a program.":"A program needs ground that holds from start to finish. This way "+(A.st.pits.length?"runs through a place where it is easy to get stuck":"crosses sunk ground")+", so as a program it may stall there. It may need to be held more loosely.")});
+  }else{
+    ROUTES.forEach(function(R){out.push({k:R.key,title:R.name,text:describeRoute(R.st)});});
+    if(ROUTES.length===1)out.push({k:"",title:"No firmer way",text:"None of this card's notes sits on raised ground, so the ground offers no firmer way through it. Start small where the ground sinks least, and expect to change course."});
+    if(ROUTES.length>1){var best=ROUTES.slice().sort(function(a,b){return (a.st.sunk-b.st.sunk)||(a.st.ratio-b.st.ratio);})[0],short=ROUTES.slice().sort(function(a,b){return a.st.ratio-b.st.ratio;})[0];
+      var t="Sketched side by side: "+best.key+" stays out of sunk ground the most";t+=best===short?" and is also the shortest. It is the one to try first, small.":", while "+short.key+" is the shortest. Try "+best.key+" first, small, and keep "+short.key+" in mind if the ground changes.";
+      var crossing=ROUTES.filter(function(R){return R.st.pits.length;});if(crossing.length===ROUTES.length)t+=" Every way passes through a stuck place, so what happens there decides the strategy.";
+      var skipped=cd.ids.map(noteById).filter(function(n){return n&&hAt(n.x,n.y)<-0.1;}).map(function(n){return "N"+n.k;});
+      if(skipped.length&&best!==ROUTES[0])t+=" The firmer way goes around "+list(skipped)+". Going around leaves them as they are; the card's own steps ask you to work with them, so the firm way is a place to start, not the whole strategy.";
+      out.push({k:"",title:"Comparing the ways",text:t});}
+  }
+  return out;}
 function readCause(ce){
   var entry=ce.e.filter(function(id){return ce.c.indexOf(id)<0;}),exit=ce.c.filter(function(id){return ce.e.indexOf(id)<0;}),both=ce.c.filter(function(id){return ce.e.indexOf(id)>=0;});
   var o=["What "+list(entry)+" describe"+(entry.length>1?"":"s")+" leads to "+ce.w+", and in "+list(exit)+" "+ce.w+" leads on to something else."+(both.length?" "+list(both)+" write"+(both.length>1?"":"s")+" it both ways.":"")+" If that is right, it keeps itself going."];
@@ -494,7 +542,7 @@ function zAt(x,y){
 var P={}; /* projection */
 function setProj(){
   P.ca=Math.cos(view.az);P.sa=Math.sin(view.az);P.ct=Math.cos(view.tilt);P.st=Math.sin(view.tilt);
-  P.base=Math.min(cssW/(W*1.3),cssH/(HH*1.6))*view.zoom;P.cx=cssW/2;P.cy=cssH*0.5;P.D=900;
+  P.base=Math.min(cssW/(W*1.3),cssH/(HH*1.6))*view.zoom;P.cx=(LEGON&&cssW>760)?(cssW-240)/2:cssW/2;P.cy=cssH*0.5;P.D=900;
 }
 function pr(X,Y,Z,out){
   var X2=X*P.ca+Z*P.sa,Z2=-X*P.sa+Z*P.ca;
@@ -512,7 +560,7 @@ function decals(){
   if(showEasy&&terr.path.length>1){var pp=terr.path.map(function(v){return [(v%VX)*CX,((v/VX)|0)*CY];});add(pp,"easy",1.6);}
   return D;
 }
-var SELTH=null,CAUSE_LBL=null,thOn={},TRAIL=[],SEL=null,showCause=true;
+var LEGON=true,SELTH=null,CAUSE_LBL=null,thOn={},TRAIL=[],SEL=null,showCause=true;
 var STYLE={route:[["#4a3826",5.2],["#d9c49b",3.2],["#b89a6a",0.8]],loop:[["rgba(255,255,255,.85)",3],["#141414",1.3]],ring:[["#fff",3.4],["#222",1.4]],easy:[["#fff",5.5],["#d77a00",2.4]]};
 
 var SXA=null,SYA=null;
@@ -583,13 +631,17 @@ function render(st){
     var e1=o[N],e0=o[N-3],ang=Math.atan2(e1[1]-e0[1],e1[0]-e0[0]);ctx.beginPath();ctx.moveTo(e1[0],e1[1]);ctx.lineTo(e1[0]-9*Math.cos(ang-0.42),e1[1]-9*Math.sin(ang-0.42));ctx.lineTo(e1[0]-9*Math.cos(ang+0.42),e1[1]-9*Math.sin(ang+0.42));ctx.closePath();ctx.fillStyle="#7a1d12";ctx.fill();
     if(!CAUSE_LBL)CAUSE_LBL={p:o[N>>1],w:ce.w};});});});
   if(SEL){var sp=posOf(SEL);if(sp){var c0=pr(wx(sp[0]),zAt(sp[0],sp[1])+2,wz(sp[1]),[0,0]);ctx.beginPath();ctx.arc(c0[0],c0[1],11,0,6.283);ctx.strokeStyle="#111";ctx.lineWidth=2;ctx.setLineDash([3,2]);ctx.stroke();ctx.setLineDash([]);}}
+  var tr0=null;if(COURSE!=null){ROUTES.forEach(function(R){var o=drape(R.pts,1.2,1);stroke(o,"rgba(255,255,255,.95)",5.2);stroke(o,"#111",2.6,R.dash);});
+    CARDS[COURSE].ids.forEach(function(id){var n=noteById(id);if(!n)return;var c0=pr(wx(n.x),zAt(n.x,n.y)+2,wz(n.y),[0,0]);ctx.beginPath();ctx.arc(c0[0],c0[1],8,0,6.283);ctx.strokeStyle="#111";ctx.lineWidth=2;ctx.stroke();});}
   var tr=drape(TRAIL,0.6);stroke(tr,"rgba(60,44,28,.9)",5.6);stroke(tr,"#dcc79e",3.4);stroke(tr,"rgba(150,120,80,.8)",0.9,[2,5]);
   terr.qpos.forEach(function(Q){if(!Q)return;var zq=zAt(Q.x,Q.y),b0=pr(wx(Q.x),zq,wz(Q.y),[0,0]),b1=pr(wx(Q.x),zq+14,wz(Q.y),[0,0]);
     ctx.beginPath();ctx.moveTo(b0[0],b0[1]);ctx.lineTo(b1[0],b1[1]);ctx.strokeStyle="#111";ctx.lineWidth=1.6;ctx.stroke();
     ctx.fillStyle="#111";ctx.fillRect(b1[0]-11,b1[1]-8,22,12);ctx.font="bold 9px Questrial,sans-serif";ctx.textAlign="center";ctx.fillStyle="#fff";ctx.fillText("Q."+Q.q,b1[0],b1[1]+1);
     qScr.push({Q:Q,x:b1[0],y:b1[1]-2});});
   /* numbered readings on the ground */
-  markScr=[];READ.forEach(function(r,i){var z=zAt(r.at[0],r.at[1]),b0=pr(wx(r.at[0]),z,wz(r.at[1]),[0,0]),b1=pr(wx(r.at[0]),z+20,wz(r.at[1]),[0,0]);
+  markScr=[];if(COURSE!=null)ROUTES.forEach(function(R){var q=R.pts[Math.floor(R.pts.length*(R.key==="A"?0.3:R.key==="B"?0.55:0.75))],z=zAt(q[0],q[1]),b1=pr(wx(q[0]),z+4,wz(q[1]),[0,0]);
+    ctx.beginPath();ctx.arc(b1[0],b1[1],9,0,6.283);ctx.fillStyle="#fff";ctx.fill();ctx.strokeStyle="#111";ctx.lineWidth=2;ctx.stroke();ctx.font="bold 11px Questrial,sans-serif";ctx.textAlign="center";ctx.fillStyle="#111";ctx.fillText(R.key,b1[0],b1[1]+4);});
+  if(COURSE==null)READ.forEach(function(r,i){var z=zAt(r.at[0],r.at[1]),b0=pr(wx(r.at[0]),z,wz(r.at[1]),[0,0]),b1=pr(wx(r.at[0]),z+20,wz(r.at[1]),[0,0]);
     var on=HL===i;ctx.beginPath();ctx.moveTo(b0[0],b0[1]);ctx.lineTo(b1[0],b1[1]);ctx.strokeStyle="#111";ctx.lineWidth=1.4;ctx.stroke();
     ctx.beginPath();ctx.arc(b1[0],b1[1],on?11:9,0,6.283);ctx.fillStyle=on?"#7a1d12":"#111";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();
     ctx.font="bold "+(on?12:11)+"px Questrial,sans-serif";ctx.textAlign="center";ctx.fillStyle="#fff";ctx.fillText(String(i+1),b1[0],b1[1]+4);
@@ -619,12 +671,12 @@ var DESC={
  above:"Emotion ground seen straight down, like a shaded relief map."};
 function ks(a){return a.length?a.map(function(k){return "N"+k;}).join(", "):"no single note stands out";}
 function fillText(){
-  buildReadings();fillReadings();
+  buildReadings();fillReadings();fillCourses();fillCourseBox();fillLegendBox();
   fillThreads();fillCause();fillSel();var T=terr,withE=T.pts.length,none=T.notes.length-withE;
   document.getElementById("verdesc").textContent=DESC[ver];
   var R=ver==="ridge";
-  document.getElementById("t1").textContent=R?"▲ walls: aggression, distrust, defiance":"▲ raised: acceptance";
-  document.getElementById("t3").textContent=R?"▼ channels: acceptance":"▼ sunk: aggression, distrust, defiance";
+  
+  
   document.getElementById("hillh").textContent=R?"WHERE THE WALLS STAND":"WHERE THE GROUND HOLDS UP";
   document.getElementById("pith").textContent=R?"CHANNELS THAT STOP SHORT OF THE GOAL":"WHERE IT IS EASY TO GET STUCK";
   document.getElementById("count").textContent=T.notes.length+" notes"+(ver==="grow"?" so far":"")+" on the line map; "+withE+" have an emotion marked and build the ground"+(none?"; "+none+" have none yet and sit on bare ground.":".");
@@ -673,6 +725,42 @@ function fillReadings(){var el=document.getElementById("readings");el.innerHTML=
     d.onmouseleave=function(){if(!HLSTICK){HL=null;markList();render();}};
     d.onclick=function(ev){if(ev.target.tagName==="BUTTON")return;if(HLSTICK&&HL===i){HLSTICK=false;HL=null;}else{HLSTICK=true;HL=i;}markList();render();};
     el.appendChild(d);});}
+function fillCourses(){var el=document.getElementById("courses");el.innerHTML="";
+  if(!CARDS.length){el.className="row";el.textContent=sel.value==="user"?"Courses of action come from Taking Action. In this mock-up they are built in only for the sample workbooks; once this is part of the workbook, every card will be here.":"This workbook has no courses of action yet. Taking Action opens once all seven questions are answered.";return;}
+  el.className="";var none=document.createElement("button");none.type="button";none.textContent="None";none.className="cbtn"+(COURSE==null?" on":"");none.onclick=function(){setCourse(null);};el.appendChild(none);
+  CARDS.forEach(function(cd,i){var b=document.createElement("button");b.type="button";b.className="cbtn"+(COURSE===i?" on":"");b.textContent=cd.w+" · "+cd.mode.toLowerCase();b.onclick=function(){setCourse(i);};el.appendChild(b);});}
+function setCourse(i){COURSE=i;buildCourse(i);HL=null;HLSTICK=false;fillCourses();fillCourseBox();fillLegendBox();document.getElementById("readings").style.display=i==null?"":"none";document.getElementById("rdhead").style.display=i==null?"":"none";render();}
+function fillCourseBox(){var el=document.getElementById("coursebox");el.innerHTML="";if(COURSE==null)return;var cd=CARDS[COURSE];
+  var box=document.createElement("div");box.className="selbox";var h=document.createElement("b");h.textContent="“"+cd.w+"” · "+cd.mode;box.appendChild(h);
+  var w=document.createElement("div");w.className="small";w.textContent=cd.why;box.appendChild(w);
+  var ul=document.createElement("ul");ul.style.margin="6px 0 6px 18px";ul.style.padding="0";cd.steps.forEach(function(t){var li=document.createElement("li");li.textContent=t;ul.appendChild(li);});box.appendChild(ul);
+  var hd=document.createElement("div");hd.className="sec";hd.style.margin="8px 0 4px";hd.textContent=cd.mode==="PROGRAM"?"WHAT THE GROUND SAYS ABOUT THIS PROGRAM":"THE WAYS FORWARD, SKETCHED ON THE GROUND";box.appendChild(hd);
+  courseReadings(COURSE).forEach(function(r){var d=document.createElement("div");d.className="rd";var n=document.createElement("span");n.className="rn";n.style.background=r.k?"#fff":"#7a1d12";n.style.color=r.k?"#111":"#fff";n.style.border="2px solid #111";n.textContent=r.k||"→";d.appendChild(n);
+    var b=document.createElement("div");var t=document.createElement("b");t.textContent=r.title;b.appendChild(t);var p=document.createElement("div");p.textContent=r.text;b.appendChild(p);d.appendChild(b);box.appendChild(d);});
+  var f=document.createElement("div");f.className="small";f.style.marginTop="4px";f.textContent="The card itself is on Taking Action. "+(cd.mode==="STRATEGY"&&ROUTES.length>1?"The other lettered ways are ways forward the ground suggests from the same card; they are sketches to try small, not instructions.":"");box.appendChild(f);
+  el.appendChild(box);}
+
+function fillLegendBox(){var el=document.getElementById("legbox");el.innerHTML="";el.classList.toggle("hide",!LEGON);
+  function row(svg,txt){var r=document.createElement("div");r.className="lr";var g=document.createElement("span");g.className="lg";g.innerHTML=svg;r.appendChild(g);var t=document.createElement("span");t.textContent=txt;r.appendChild(t);el.appendChild(r);}
+  function head(t){var h=document.createElement("h5");h.textContent=t;el.appendChild(h);}
+  head("LEGEND");
+  var R=ver==="ridge";
+  EMO.forEach(function(e,i){var role=R?(i===1?"cuts a channel":i===3?"rolls":"rises as a wall"):(i===1?"raises the ground":i===3?"rolls the ground":"sinks the ground");
+    row('<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb('+boost(e[1][0],e[1][1],e[1][2]).map(function(v){return v|0;}).join(",")+')"></span>',e[0]+": "+role);});
+  row('<svg width="30" height="14"><path d="M1 12 Q8 2 15 9 T29 6" fill="none" stroke="#555" stroke-width="1" stroke-dasharray="1 1.5"/></svg>',"Rough ground: emotions meet, or steep");
+  row('<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',"Level: no notes nearby");
+  row('<svg width="30" height="14"><path d="M1 9 Q8 4 15 8 T29 6" fill="none" stroke="#3c2c1c" stroke-width="5"/><path d="M1 9 Q8 4 15 8 T29 6" fill="none" stroke="#dcc79e" stroke-width="3"/></svg>',"Trail: present to future");
+  row('<svg width="30" height="14"><polygon points="15,1 17.4,5.4 22,5.6 18.4,8.6 19.6,13 15,10.4 10.4,13 11.6,8.6 8,5.6 12.6,5.4" fill="#111"/></svg>',"Goal (hover for the full goal)");
+  row('<svg width="30" height="14"><rect x="4" y="2" width="22" height="10" fill="#111"/><text x="15" y="10" font-size="7" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">Q.1</text></svg>',"Question: at the middle of its notes");
+  row('<svg width="30" height="14"><line x1="15" y1="13" x2="15" y2="7" stroke="#555"/><circle cx="15" cy="5" r="3.6" fill="#2a9d8f" stroke="#111"/></svg>',"Note (white: no emotion marked)");
+  if(COURSE==null)row('<svg width="30" height="14"><circle cx="15" cy="7" r="6" fill="#111"/><text x="15" y="10" font-size="8" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">1</text></svg>',"What stands out, read below");
+  if(showCause&&terr.cause.length)row('<svg width="30" height="14"><path d="M2 12 Q15 -2 26 10" fill="none" stroke="#7a1d12" stroke-width="2"/><path d="M26 10 l-5 -1 l2 -4z" fill="#7a1d12"/></svg>',"Cause and effect: leads to");
+  row('<svg width="30" height="14"><ellipse cx="15" cy="7" rx="13" ry="5" fill="none" stroke="#2b1a0e" stroke-width="1.6"/></svg>',"Phrase loop (when highlighted)");
+  if(COURSE!=null){head("COURSE OF ACTION");
+    row('<svg width="30" height="14"><line x1="1" y1="7" x2="29" y2="7" stroke="#111" stroke-width="2.6"/></svg>',"A: its way through its notes");
+    ROUTES.slice(1).forEach(function(R){row('<svg width="30" height="14"><line x1="1" y1="7" x2="29" y2="7" stroke="#111" stroke-width="2.6" stroke-dasharray="'+R.dash.join(" ")+'"/></svg>',R.key+": "+R.name.replace(/ \(.*$/,"").toLowerCase());});
+    row('<svg width="30" height="14"><circle cx="15" cy="7" r="5" fill="none" stroke="#111" stroke-width="2"/></svg>',"A note this course rests on");}
+}
 function fillThreads(){var el=document.getElementById("threads");el.innerHTML="";
   if(!terr.threads.length){el.textContent="No two-word phrase is used in more than one note or answer yet.";return;}
   terr.threads.forEach(function(th){var row=document.createElement("label");row.className="row";row.style.display="flex";row.style.gap="8px";row.style.alignItems="baseline";
@@ -683,14 +771,15 @@ function fillLegend(){var l=document.getElementById("legend");l.innerHTML="";EMO
   var s=document.createElement("span"),sw=document.createElement("i");sw.className="sw";sw.style.background="rgb("+BARE.join(",")+")";s.appendChild(sw);s.appendChild(document.createTextNode("No emotion marked"));l.appendChild(s);}
 
 /* ---------- loading ---------- */
-function setModel(raw,goal,ans){GOALTEXT=String(goal||"").trim();ANSWERS=(Array.isArray(ans)?ans:[]).concat(["","","","","","",""]).slice(0,7).map(function(t){return String(t||"");});thOn=null;
+var CARDS=[],COURSE=null,ROUTES=[];
+function setModel(raw,goal,ans,cards){CARDS=Array.isArray(cards)?cards:[];COURSE=null;ROUTES=[];GOALTEXT=String(goal||"").trim();ANSWERS=(Array.isArray(ans)?ans:[]).concat(["","","","","","",""]).slice(0,7).map(function(t){return String(t||"");});thOn=null;
   var notes=prep(raw);document.getElementById("msg").textContent="";
   if(!notes.length){document.getElementById("msg").textContent="No notes with text were found on the line map in that workbook. The model is built from line map notes.";}
   curRaw=raw;if(ver==="grow"){var gr=document.getElementById("gr");gr.max=notes.length;growK=Math.min(growK,notes.length);gr.value=growK;document.getElementById("grv").textContent=growK+" of "+notes.length;}
   SEL=null;HL=null;HLSTICK=false;terr=buildTerrain(notes);thOn={};prepare();fillText();resize();
 }
 var curRaw=null;
-function rebuild(){terr=buildTerrain(prep(curRaw));var keep=thOn||{};thOn={};terr.threads.forEach(function(t){if(keep[t.w])thOn[t.w]=1;});prepare();fillText();render();}
+function rebuild(){terr=buildTerrain(prep(curRaw));if(COURSE!=null)buildCourse(COURSE);var keep=thOn||{};thOn={};terr.threads.forEach(function(t){if(keep[t.w])thOn[t.w]=1;});prepare();fillText();render();}
 document.getElementById("ver").onchange=function(e){var old=ver;ver=e.target.value;
   document.getElementById("grw").style.display=ver==="grow"?"":"none";
   if(ver==="grow"){var gr=document.getElementById("gr"),tot=prep(curRaw).length;gr.max=tot;gr.value=Math.max(1,Math.round(tot/2));growK=+gr.value;document.getElementById("grv").textContent=growK+" of "+tot;}else growK=1e9;
@@ -700,16 +789,17 @@ var grT=0;document.getElementById("gr").oninput=function(e){growK=+e.target.valu
 var sel=document.getElementById("sel");
 Object.keys(SAMPLES).forEach(function(k){var o=document.createElement("option");o.value=k;o.textContent=SAMPLES[k].name;sel.appendChild(o);});
 var userOpt=null;
-sel.onchange=function(){if(sel.value==="user"&&userOpt){setModel(userOpt.m,userOpt.g,userOpt.a);}else setModel(SAMPLES[sel.value].notes,SAMPLES[sel.value].goal,SAMPLES[sel.value].a);};
+sel.onchange=function(){if(sel.value==="user"&&userOpt){setModel(userOpt.m,userOpt.g,userOpt.a,null);}else setModel(SAMPLES[sel.value].notes,SAMPLES[sel.value].goal,SAMPLES[sel.value].a,SAMPLES[sel.value].cards);};
 document.getElementById("load").onclick=function(){document.getElementById("file").click();};
 document.getElementById("file").onchange=function(ev){var f=ev.target.files[0];if(!f)return;var rd=new FileReader();
   rd.onload=function(){try{var j=JSON.parse(rd.result),d=j&&j.data?j.data:j,m=d&&d.m;if(!Array.isArray(m))throw 0;
     if(!userOpt){var o=document.createElement("option");o.value="user";sel.appendChild(o);userOpt={o:o};}
-    userOpt.m=m;userOpt.g=d.goal;userOpt.a=d.a;userOpt.o.textContent="Your workbook: "+f.name;sel.value="user";setModel(m,d.goal,d.a);}
+    userOpt.m=m;userOpt.g=d.goal;userOpt.a=d.a;userOpt.o.textContent="Your workbook: "+f.name;sel.value="user";setModel(m,d.goal,d.a,null);}
     catch(e){document.getElementById("msg").textContent="That file did not look like a saved BCM workbook.";}};rd.readAsText(f);};
 document.getElementById("exag").oninput=function(e){exag=+e.target.value;prepare();fast();};
 document.getElementById("gm").onchange=function(e){clay=e.target.value==="clay";prepare();render();};
-document.getElementById("cz").onchange=function(e){showCause=e.target.checked;render();};
+document.getElementById("cz").onchange=function(e){showCause=e.target.checked;fillLegendBox();render();};
+document.getElementById("legbtn").onclick=function(){LEGON=!LEGON;fillLegendBox();render();};
 document.getElementById("pins").onchange=function(e){showPins=e.target.checked;render();};
 document.getElementById("easy").onchange=function(e){showEasy=e.target.checked;fillText();render();};
 document.getElementById("reset").onclick=function(){view=ver==="above"?{az:0,tilt:1.55,zoom:1.05}:{az:0.4,tilt:1.0,zoom:1};render();};
@@ -751,7 +841,7 @@ function hover(e){var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.client
 function resize(){var w=document.getElementById("stage").clientWidth;cssW=w;cssH=Math.round(Math.max(380,Math.min(620,w*0.62)));
   dpr=Math.min(2,window.devicePixelRatio||1);cv.width=cssW*dpr;cv.height=cssH*dpr;cv.style.height=cssH+"px";render();}
 window.addEventListener("resize",resize);
-fillLegend();view={az:0.05,tilt:0.6,zoom:1.1};setModel(SAMPLES.wild.notes,SAMPLES.wild.goal,SAMPLES.wild.a);
+view={az:0.05,tilt:0.6,zoom:1.1};sel.value="clinic";setModel(SAMPLES.clinic.notes,SAMPLES.clinic.goal,SAMPLES.clinic.a,SAMPLES.clinic.cards);
 </script>
 </body>
 </html>
