@@ -41,6 +41,19 @@
   .legbox.hide{display:none}
   .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}
   .cbtn.on{background:#111;color:#fff;border-color:#111}
+  .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}
+  .gfold summary{cursor:pointer;list-style:none}
+  .gfold summary::-webkit-details-marker{display:none}
+  .gfold summary::before{content:"+ ";font-weight:700}
+  .gfold[open] summary::before{content:"− "}
+  .gfold .sec{display:inline;margin:0}
+  .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}
+  .more{color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}
+  .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}
+  .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}
+  .stage.full .fsx{display:block}
+  .stage:fullscreen .fsx{display:block}
+  .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}
   .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}
   .rd.on{background:#f6efe9;border-left-color:#7a1d12}
   .rd b{display:block;margin-bottom:2px}
@@ -56,7 +69,7 @@
 <div class="wrap">
   <div class="kick">THE BEAR CANYON METHOD · MOCK-UP, NOT IN THE ENGINE</div>
   <h1>Pattern Synthesis: the ground ahead</h1>
-  <div class="sub">A relief model built from the notes on the line map. The numbers on the ground are what stands out, explained below. Drag to turn it; scroll or pinch to zoom.</div>
+  <div class="sub">The lay of the land your notes describe, before Taking Action leads you across it. The numbers on the ground are explained below. Drag to turn it; scroll or pinch to zoom.</div>
 
   <div class="bar">
     <label>Workbook
@@ -64,56 +77,48 @@
     </label>
     <button id="load" type="button">Load your saved workbook…</button>
     <input id="file" type="file" accept=".json,application/json" style="display:none">
-    <label>Height <input id="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>
-    <label>Ground <select id="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>
-    <label><input id="pins" type="checkbox" checked> Notes</label>
-    <label><input id="cz" type="checkbox" checked> Cause and effect</label>
-    <label><input id="easy" type="checkbox"> Easiest way across</label>
-    <button id="reset" type="button">Reset view</button>
   </div>
   <div class="bar">
-    <label>Version <select id="ver">
-      <option value="emo">1 · Emotion ground</option>
-      <option value="down">2 · Downhill to the goal</option>
-      <option value="ridge">3 · Walls and channels</option>
-      <option value="grow">4 · As the map was made</option>
-      <option value="above">5 · From above</option>
+    <label>View <select id="ver">
+      <option value="emo">Emotion ground</option>
+      <option value="down">Downhill to the goal</option>
+      <option value="ridge">Walls and channels</option>
+      <option value="grow">As the map was made</option>
+      <option value="above">From above</option>
     </select></label>
     <label id="grw" style="display:none">Notes <input id="gr" type="range" min="1" max="1" step="1" value="1"> <span id="grv"></span></label>
+    <label>Ground <select id="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>
+    <label>Height <input id="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>
+    <label><input id="pins" type="checkbox" checked> Notes</label>
+    <label><input id="cz" type="checkbox" checked> Cause and effect</label>
+    <button id="reset" type="button">Reset view</button>
+    <button id="fs" type="button">Full screen</button>
   </div>
-  <div class="note" id="verdesc" style="margin:0 0 8px"></div>
   <div class="msg" id="msg"></div>
 
   <div class="stage" id="stage">
     <canvas id="cv"></canvas>
     <div class="tip" id="tip"></div>
     <button type="button" id="legbtn" class="legbtn">Legend</button>
+    <button type="button" id="fsx" class="fsx">Close full screen</button>
     <div class="legbox" id="legbox"></div>
   </div>
 
-  <div class="sec" style="margin-top:12px">MODEL A COURSE OF ACTION</div>
+  <div class="sec" id="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>
   <div id="courses"></div>
   <div id="coursebox"></div>
   <div class="sec" id="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>
   <div id="readings"></div>
   <div id="selnote" class="row"></div>
+  <details class="gfold"><summary><span class="sec" id="phhead">PHRASES THAT RUN THROUGH</span></summary>
+  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map.</div>
+  <div id="threads"></div></details>
+  <details class="gfold"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>
   <div class="note" id="count"></div>
-
-  <div class="sec" id="pith">WHERE IT IS EASY TO GET STUCK</div>
-  <div id="pits"></div>
-  <div class="sec" id="hillh">WHERE THE GROUND HOLDS UP</div>
-  <div id="hills"></div>
-  <div class="sec">CAUSE AND EFFECT</div>
-  <div id="cause"></div>
-  <div class="sec">PHRASES THAT RUN THROUGH</div>
-  <div class="small" style="margin-bottom:4px">Two words used together in more than one note or answer. Every phrase used in more than one note or answer, with what it means. Tick one to draw its loop.</div>
-  <div id="threads"></div>
-  <div class="sec" id="easyhead" style="display:none">EASIEST WAY ACROSS</div>
-  <div id="easytxt"></div>
-
-  <div class="note" style="margin-top:18px">
-    How it is built: each note with an emotion raises or lowers the ground around it, and the more notes pile up in one place, the higher or deeper it gets. Heights are relative to your own map, not a measurement. Ground is rougher where different emotions meet and on steep slopes; the fine texture itself is added for the look and carries no data. Notes with no emotion marked sit on bare ground. The route is the line from your line map; the star and rings are the goal. The wording on this page is a placeholder.
-  </div>
+  <div class="note">Each note with an emotion shapes the ground around it, and notes piled in one place shape it more. Acceptance raises the ground. Aggression sinks it, distrust sinks it further, and defiance sinks it furthest: the deepest ground and the longest way back to acceptance. Indifference is a narrow, flat-backed bench between the high ground and the low, the ground most moves between emotions pass over, and a place people can stay, precariously. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet; its fine texture is for the look. Heights are relative to your own map, not a measurement.</div>
+  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it makes with the others: accepting the wrong thing, or distrusting someone who has earned it, can lead away from the goal as surely as aggression can.</div>
+  <div class="note">Map idea: Vigneaux (2026); Juarrero (2023). Emotions not good or bad in themselves: after Maturana and Pörksen (2011). Where it is easiest to get to: after Thompson (2007).</div>
+  </details>
 </div>
 
 <script>
@@ -196,19 +201,14 @@ function buildTerrain(notes){
   for(var j=0;j<VY;j++)for(var i=0;i<VX;i++){
     var x=i*CX,y=j*CY,sw=[0,0,0,0,0];
     for(var p=0;p<pts.length;p++){var dx=x-pts[p].x,dy=y-pts[p].y,d2=dx*dx+dy*dy;if(d2>cut*cut)continue;sw[pts[p].e]+=Math.exp(-d2/s2);}
-    var roll=Math.min(sw[3],1.5)*0.3*Math.sin(x/(1.6*sigma))*Math.cos(y/(2*sigma)+1);
-    var bad=sw[0]+sw[2]+sw[4],h=(ver==="ridge"?bad-sw[1]:sw[1]-bad)+roll, idx=j*VX+i;
+    var bad=sw[0]+1.5*sw[2]+2*sw[4],h=(ver==="ridge"?bad-sw[1]:sw[1]-bad), idx=j*VX+i;
     raw[idx]=h; if(Math.abs(h)>maxAbs)maxAbs=Math.abs(h);
     var M=sw[0]+sw[1]+sw[2]+sw[3]+sw[4],mx=Math.max(sw[0],sw[1],sw[2],sw[3],sw[4]);
-    mix[idx]=M>0?1-mx/M:0;
-    var wsum=0,r=0,g=0,b=0;
-    for(var e=0;e<5;e++){var w=sw[e]*sw[e]*sw[e];wsum+=w;r+=w*EMO[e][1][0];g+=w*EMO[e][1][1];b+=w*EMO[e][1][2];}
-    var a=1-Math.exp(-1.8*M);cov[idx]=a;
-    if(pts.length){var ws2=0,r2=0,g2=0,b2=0,s3=2*(2.6*sigma)*(2.6*sigma);var wd=[0,0,0,0,0];
-      for(var p2=0;p2<pts.length;p2++){var ex=x-pts[p2].x,ey=y-pts[p2].y;wd[pts[p2].e]+=Math.exp(-(ex*ex+ey*ey)/s3);}
-      for(var e2=0;e2<5;e2++){var w2=sw[e2]*sw[e2]*sw[e2]+0.04*wd[e2]*wd[e2]*wd[e2];ws2+=w2;r2+=w2*EMO[e2][1][0];g2+=w2*EMO[e2][1][1];b2+=w2*EMO[e2][1][2];}
-      if(ws2>0){r=r2/ws2;g=g2/ws2;b=b2/ws2;a=1;wsum=1;}}
-    if(wsum>0&&a===1){}else if(wsum>0){r/=wsum;g/=wsum;b/=wsum;}else{r=BARE[0];g=BARE[1];b=BARE[2];}
+    var up=sw[1]+0.5*sw[3],dn=sw[0]+sw[2]+sw[4];mix[idx]=M>0.15?Math.min(1,(1-mx/M)*0.6+(up>0&&dn>0?2*Math.min(up,dn)/(up+dn):0)*0.7):0;
+    var a=1-Math.exp(-1.8*M);cov[idx]=a;var r=BARE[0],g=BARE[1],b=BARE[2];
+    if(pts.length){var nearL=Math.exp(-Math.pow((y-118)/40,2)),sc=sigma*(1.05+0.95*nearL),s3=2*sc*sc,ws2=0,r2=0,g2=0,b2=0;
+      for(var p2=0;p2<pts.length;p2++){var ex=x-pts[p2].x,ey=y-pts[p2].y,w2=Math.exp(-(ex*ex+ey*ey)/s3)+1e-4*Math.exp(-(ex*ex+ey*ey)/(s3*25));var ec=EMO[pts[p2].e][1];ws2+=w2;r2+=w2*ec[0];g2+=w2*ec[1];b2+=w2*ec[2];}
+      if(ws2>0){r=r2/ws2;g=g2/ws2;b=b2/ws2;a=1;}}
     col[idx*3]=BARE[0]*(1-a)+r*a;col[idx*3+1]=BARE[1]*(1-a)+g*a;col[idx*3+2]=BARE[2]*(1-a)+b*a;
   }
   var hs=new Float32Array(n),hmin=1e9,hmax=-1e9;
@@ -216,23 +216,35 @@ function buildTerrain(notes){
   for(var q=0;q<n;q++){hs[q]=raw[q]/maxAbs;
     if(tilt){var qx=(q%VX)*CX,qy=((q/VX)|0)*CY;hs[q]+=1.4*(Math.hypot(qx-GOAL.x,qy-GOAL.y)/dmax)-0.7;}
     if(hs[q]<hmin)hmin=hs[q];if(hs[q]>hmax)hmax=hs[q];}
+  /* indifference: a narrow, flat-backed bench joining the indifference notes, standing between the high ground and the low */
+  var bench=new Float32Array(n),ind=pts.filter(function(p){return p.e===3;});
+  if(ind.length&&ver!=="ridge"){var segs=[];
+    if(ind.length===1)segs.push([[ind[0].x-0.7*sigma,ind[0].y],[ind[0].x+0.7*sigma,ind[0].y]]);
+    else{var inT=[0],used={0:1};while(inT.length<ind.length){var bst=null;inT.forEach(function(i3){ind.forEach(function(q4,j3){if(used[j3])return;var d4=Math.hypot(ind[i3].x-q4.x,ind[i3].y-q4.y);if(!bst||d4<bst[2])bst=[i3,j3,d4];});});used[bst[1]]=1;inT.push(bst[1]);
+      if(bst[2]<3*sigma)segs.push([[ind[bst[0]].x,ind[bst[0]].y],[ind[bst[1]].x,ind[bst[1]].y]]);else segs.push([[ind[bst[1]].x-0.6*sigma,ind[bst[1]].y],[ind[bst[1]].x+0.6*sigma,ind[bst[1]].y]]);}}
+    var BL=0.2,hw=0.32*sigma,fw=0.75*sigma;
+    for(var qb=0;qb<n;qb++){var bx=(qb%VX)*CX,by=((qb/VX)|0)*CY,dm=1e9;
+      segs.forEach(function(sg){var A=sg[0],B=sg[1],vx=B[0]-A[0],vy=B[1]-A[1],L=vx*vx+vy*vy,t=L?Math.max(0,Math.min(1,((bx-A[0])*vx+(by-A[1])*vy)/L)):0,d5=Math.hypot(bx-A[0]-t*vx,by-A[1]-t*vy);if(d5<dm)dm=d5;});
+      var tb=dm<=hw?1:dm>=fw?0:1-(dm-hw)/(fw-hw);tb=tb*tb*(3-2*tb);bench[qb]=tb;
+      if(tb>0){var lvl=BL+0.06*(dm<=hw?1:0);hs[qb]=hs[qb]*(1-tb)+lvl*tb;var yc=EMO[3][1],tc=Math.min(1,tb*1.2);col[qb*3]=col[qb*3]*(1-tc)+yc[0]*tc;col[qb*3+1]=col[qb*3+1]*(1-tc)+yc[1]*tc;col[qb*3+2]=col[qb*3+2]*(1-tc)+yc[2]*tc;}}
+    hmin=1e9;hmax=-1e9;for(var qc=0;qc<n;qc++){if(hs[qc]<hmin)hmin=hs[qc];if(hs[qc]>hmax)hmax=hs[qc];}}
   /* the goal sits on a flat pad: level with the smooth ground at its centre, blending out from r=24 to r=38 */
   var gi0=Math.round(GOAL.x/CX),gj0=Math.round(GOAL.y/CY),gl=hs[gj0*VX+gi0],pad=new Float32Array(n);
   for(var q2=0;q2<n;q2++){var px=(q2%VX)*CX,py=((q2/VX)|0)*CY,dd=Math.hypot(px-GOAL.x,py-GOAL.y);
     var t=dd<=24?1:dd>=38?0:1-(dd-24)/14;t=t*t*(3-2*t);pad[q2]=t;hs[q2]=hs[q2]*(1-t)+gl*t;}
   hmin=1e9;hmax=-1e9;for(var q3=0;q3<n;q3++){if(hs[q3]<hmin)hmin=hs[q3];if(hs[q3]>hmax)hmax=hs[q3];}
   /* ruggedness: ridged detail, stronger where emotions meet and on steep ground; none on unmapped ground */
-  var hn=new Float32Array(n),rmin=1e9;
+  var hn=new Float32Array(n),tal=new Float32Array(n),rmin=1e9;
   for(var j2=0;j2<VY;j2++)for(var i2=0;i2<VX;i2++){
     var k=j2*VX+i2,il=Math.max(0,i2-1),ir=Math.min(VX-1,i2+1),jt=Math.max(0,j2-1),jb=Math.min(VY-1,j2+1);
     var gx=(hs[j2*VX+ir]-hs[j2*VX+il])/((ir-il)*CX),gy=(hs[jb*VX+i2]-hs[jt*VX+i2])/((jb-jt)*CY);
     var slope=Math.min(1,Math.hypot(gx,gy)*sigma*0.8);
-    var amp=Math.min(0.4,0.22*cov[k]*(0.3+2.2*mix[k]+1.1*slope));
-    hn[k]=hs[k]+(ridged(i2*CX,j2*CY)-0.42)*2*amp*(1-pad[k]);
+    var amp=Math.min(0.55,cov[k]*(0.035+1.1*Math.pow(Math.max(0,mix[k]-0.3),2)+0.1*slope));
+    hn[k]=hs[k]+(ridged(i2*CX,j2*CY)-0.42)*2*amp*(1-pad[k])*(1-0.9*bench[k]);tal[k]=Math.max(0,Math.min(1,(mix[k]-0.45)*2.2))*(1-bench[k]);
     if(hn[k]<rmin)rmin=hn[k];
   }
   var qpos=placeQuestions(notes);
-  var T={hn:hn,hs:hs,col:col,sigma:sigma,hmin:hmin,hmax:hmax,rmin:rmin,notes:notes,pts:pts,qpos:qpos,threads:findThreads(notes,qpos),cause:findCause(notes,qpos)};
+  var T={bench:bench,tal:tal,hn:hn,hs:hs,col:col,sigma:sigma,hmin:hmin,hmax:hmax,rmin:rmin,notes:notes,pts:pts,qpos:qpos,threads:findThreads(notes,qpos),cause:findCause(notes,qpos)};
   analyse(T); return T;
 }
 
@@ -313,14 +325,14 @@ function chain(segs){var key=function(p){return Math.round(p[0]*20)+","+Math.rou
   return out;}
 var THREAD_DASH=[[],[5,3],[1.5,2.5],[8,3,2,3],[3,3],[10,4],[2,2,6,2],[6,2]];
 
-/* ---------- what it means: every layer read against the ground, the trail and the goal ---------- */
+/* ---------- what it means: every layer read against the ground and the goal ---------- */
 var QSHORT=["why it has not taken root","opposition","support","conditions","what to design","what to redesign","what to reinforce"];
 var ASK={};  /* one-tap answers: "N15|aggressive suppression" -> "away" or "for" */
 function hAt(x,y){var i=Math.max(0,Math.min(VX-1,Math.round(x/CX))),j=Math.max(0,Math.min(VY-1,Math.round(y/CY)));return terr.hs[j*VX+i];}
 function cellOf(x,y){return Math.max(0,Math.min(VY-1,Math.round(y/CY)))*VX+Math.max(0,Math.min(VX-1,Math.round(x/CX)));}
 function ground(v){return v>0.1?"raised":v<-0.1?"sunk":"level";}
-function trailY(x){return 118+3.2*Math.sin(x/21)+1.6*Math.sin(x/7.3+1);}
-function along(x,y){var d=Math.abs(y-trailY(x));return d<28?(x>230?"on the way, close to the goal":x<90?"on the way, near the present":"on the way"):x>230?"off the trail, near the goal":"off the trail";}
+function trailY(x){return 118;}
+function along(x,y){var d=Math.abs(y-trailY(x));return d<28?(x>230?"on the line to the goal, close to it":x<90?"on the line to the goal, near the present":"on the line to the goal"):x>230?"off to the side, near the goal":"off to the side of the line to the goal";}
 function noteById(id){return terr.notes.filter(function(n){return "N"+n.k===id;})[0];}
 function pitOf(n){var c=terr.pitTgt?terr.pitTgt[cellOf(n.x,n.y)]:-1;for(var i=0;i<terr.pits.length;i++)if(terr.pits[i].idx===c)return i;return -1;}
 function list(a){if(a.length>6)return a.slice(0,5).join(", ")+" and "+(a.length-5)+" more";return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1];}
@@ -334,7 +346,7 @@ function readPhrase(th){
     if(ASK[k]==="away")return;
     if(m.id[0]==="N"){var n=noteById(m.id);if(n)ns.push(n);}else answersOnly.push(m.id);});
   var out=[];
-  if(!ns.length){out.push("It is in "+list(answersOnly)+" but no note carries it, so the ground cannot say yet what it means. Adding a note on it would place it.");return {t:out.join(" "),ask:ask,cat:"answers",grp:[]};}
+  if(!ns.length){out.push("Only in "+list(answersOnly)+"; no note places it on the ground yet (see IN YOUR ANSWERS, NOT ON THE MAP).");return {t:out.join(" "),ask:ask,cat:"answers",grp:[]};}
   var g={raised:[],sunk:[],level:[]};ns.forEach(function(n){g[ground(hAt(n.x,n.y))].push("N"+n.k);});
   var R=g.raised.length,S=g.sunk.length,T=ns.length,cat=R&&!S?"footing":S&&!R?"stuck":R&&S?"contested":"level";
   if(R&&!S)out.push((T===1?"Its only note ("+g.raised[0]+") sits":(R===T?"All":"Most")+" of its notes ("+list(g.raised)+") sit")+" on raised ground, where things hold up. The idea already has footing: a place to build from.");
@@ -343,30 +355,61 @@ function readPhrase(th){
   else if(R&&S)out.push("Its notes sit on both kinds of ground: raised at "+list(g.raised)+", sunk at "+list(g.sunk)+". The same words may mean different things in different places, or the idea is contested. Worth a closer look.");
   else out.push("Its notes sit on level ground, so no emotion pulls it either way yet.");
   var near=ns.filter(function(n){return Math.abs(n.y-trailY(n.x))<28;}).length;
-  if(near)out.push(near===T?"It lies along the trail, so the way forward passes through it.":"Part of it lies along the trail.");
-  else out.push("It lies off the trail, beside the way forward rather than on it.");
+  if(near)out.push(near===T?"It lies on the line between present and goal, so getting there means passing through it.":"Part of it lies on the line between present and goal.");
+  else out.push("It lies off to the side of the line between present and goal.");
   if(ask.length)out.unshift("Until you answer the question below, this counts "+list(ask.map(function(a){return a.id;}))+" as standing for it.");
   return {t:out.join(" "),ask:ask,cat:cat,grp:ns};
 }
+function climbPath(fromIdx,okTarget){ /* gentlest way up: climbing costs, the indifference bench is easy going */
+  var n=VX*VY,H=terr.hs,B=terr.bench,dist=new Float64Array(n).fill(1e18),par=new Int32Array(n).fill(-1),hp=new Heap(),NB=[[-1,-1],[0,-1],[1,-1],[-1,0],[1,0],[-1,1],[0,1],[1,1]],end=-1;
+  dist[fromIdx]=0;hp.push(0,fromIdx);
+  while(hp.k.length){var t=hp.pop(),v=t[1];if(t[0]>dist[v]+1e-9)continue;if(okTarget(v)){end=v;break;}var vi=v%VX,vj=(v/VX)|0;
+    for(var d=0;d<8;d++){var ni=vi+NB[d][0],nj=vj+NB[d][1];if(ni<0||nj<0||ni>=VX||nj>=VY)continue;var u=nj*VX+ni,st=(d===0||d===2||d===5||d===7)?1.414:1;
+      var c=st*(1+60*Math.max(0,H[u]-H[v])/st)*(1-0.6*B[u]),nd=dist[v]+c;if(nd<dist[u]){dist[u]=nd;par[u]=v;hp.push(nd,u);}}}
+  if(end<0)return null;var out=[],cur=end,g=0;while(cur>=0&&g++<40000){out.push(cur);if(cur===fromIdx)break;cur=par[cur];}return out.reverse();}
+function notesNear(path,emos,r){var hit=[],seen={};path.forEach(function(c,k){if(k%3)return;var x=(c%VX)*CX,y=((c/VX)|0)*CY;terr.pts.forEach(function(p){if(emos.indexOf(p.e)>=0&&!seen[p.k]&&Math.hypot(p.x-x,p.y-y)<r){seen[p.k]=1;hit.push(p);}});});return hit;}
+function nn(x,y,emos){var b=null,bd=1e9;terr.pts.forEach(function(p){if(emos.indexOf(p.e)<0)return;var d=Math.hypot(p.x-x,p.y-y);if(d<bd){bd=d;b=p;}});return b;}
+function moreReadings(R){
+  var T=terr,span=Math.max(1e-6,T.hmax-T.hmin),H=T.hs,hiT=T.hmin+0.75*span;
+  var best=null;for(var j=2;j<VY-2;j+=2)for(var i=2;i<VX-2;i+=2){var k=j*VX+i;if(H[k]<0.12)continue;
+    var gx=(H[k+2]-H[k-2])/(4*CX),gy=(H[k+2*VX]-H[k-2*VX])/(4*CY),g=Math.hypot(gx,gy);if(!g)continue;
+    var x=i*CX,y=j*CY,lx=x-gx/g*22,ly=y-gy/g*22;if(lx<0||ly<0||lx>W||ly>HH||hAt(lx,ly)>-0.1)continue;if(!best||g>best.g)best={g:g,x:x,y:y,lx:lx,ly:ly};}
+  if(best){var top=nn(best.x,best.y,[1]),low=nn(best.lx,best.ly,PIT_E),onB=T.bench[cellOf((best.x+best.lx)/2,(best.y+best.ly)/2)]>0.3;
+    if(top&&low)R.push({grp:0,title:"Where it is easiest to fall from",short:"The ground drops away fastest from N"+top.k+" ("+EMO[top.e][0].toLowerCase()+") toward N"+low.k+" ("+EMO[low.e][0].toLowerCase()+").",
+      more:(onB?"An indifference bench breaks the fall partway down.":"There is no indifference between them to stand on, so a step the wrong way goes straight down.")+" What N"+top.k+" describes could slip toward what N"+low.k+" describes with little in between. This is high ground worth tending first.",at:[best.x,best.y]});}
+  var ind=T.pts.filter(function(p){return p.e===3;});
+  if(ind.length){R.push({grp:2,title:"Where people can stand a while",short:list(ind.map(function(p){return "N"+p.k;}))+" form"+(ind.length>1?"":"s")+" a narrow, flat bench of indifference between the high ground and the low.",
+    more:"Most moves between emotions pass over ground like this. People can stay here, but it is precarious: no one here is for or against the goal yet, so the right step lifts them toward acceptance and the wrong one drops them. Moving from here to acceptance takes less than any other climb on the map.",at:[ind[0].x,ind[0].y]});}
+  function up(fromP){var c0=cellOf(fromP.x,fromP.y),path=climbPath(c0,function(v){return H[v]>=hiT;});if(!path)return null;
+    var gain=Math.max(0,H[path[path.length-1]]-H[c0]),via=notesNear(path,[3],14),v=path[path.length-1],dest=nn((v%VX)*CX,((v/VX)|0)*CY,[1]);return {path:path,gain:gain/span,via:via,dest:dest};}
+  if(T.pits.length){var pk=T.pits[0],px=(pk.idx%VX)*CX,py=((pk.idx/VX)|0)*CY,start=nn(px,py,PIT_E);
+    if(start){var u=up(start);if(u&&u.dest)R.push({grp:2,title:"Where it is easiest to get to",short:"From N"+start.k+", in the largest low ground, the gentlest way up to acceptance reaches N"+u.dest.k+(u.via.length?" by way of the indifference at "+list(u.via.map(function(p){return "N"+p.k;})):"")+".",
+      more:"It climbs "+pct(u.gain)+" of the map's height. "+(u.via.length?"It goes by indifference, the way most moves between emotions go.":"No indifference lies on the way, so the climb is direct and steep.")+" Like a cell turning toward what feeds it, this is the direction the ground already favors: the way up is easiest toward N"+u.dest.k+".",at:[start.x,start.y],path:u.path});}}
+  var def=T.pts.filter(function(p){return p.e===4;});
+  if(def.length){var dp=def.slice().sort(function(a,b){return hAt(a.x,a.y)-hAt(b.x,b.y);})[0],ud=up(dp);
+    if(ud&&ud.dest)R.push({grp:1,title:"The longest way back",short:"N"+dp.k+" is defiance, the deepest ground on the map. The way from there up to acceptance at N"+ud.dest.k+" climbs "+pct(ud.gain)+" of the map's height.",
+      more:(ud.via.length?"The gentlest way goes by the indifference at "+list(ud.via.map(function(p){return "N"+p.k;}))+"; going straight up without it is steeper still.":"No indifference lies on the way, so the climb is the steepest on the map.")+" Moves from defiance to acceptance are rare and take the most energy. Expect to start elsewhere and come back here once acceptance is moving on its own.",at:[dp.x,dp.y],path:ud.path});}
+}
 var READ=[],HL=null,HLSTICK=false,markScr=[];
 function cen(ns){var x=0,y=0;ns.forEach(function(n){x+=n.x;y+=n.y;});return [x/ns.length,y/ns.length];}
+var GROUPS=["THE HIGH GROUND","THE LOW GROUND","BETWEEN THEM","WHAT KEEPS IT THIS WAY"];
+function firstSentence(t){var m=/^(.*?[.!?])\s+([A-Z“"].*)$/.exec(t);return m?[m[1],m[2]]:[t,""];}
 function buildReadings(){
   var R=[],T=terr;
-  T.cause.forEach(function(ce){var ent=ce.e.filter(function(id){return ce.c.indexOf(id)<0;}).map(noteById).filter(Boolean);
-    R.push({title:"Where the "+ce.w+" loop is fed",text:readCause(ce),at:ent.length?[ent[0].x,ent[0].y]:null,kind:"cause"});});
-  T.pits.forEach(function(pt,k){var x=(pt.idx%VX)*CX,y=((pt.idx/VX)|0)*CY,nearGoal=x>230,onTrail=Math.abs(y-trailY(x))<35;
-    R.push({title:nearGoal&&onTrail?"A drop just before the goal":k===0?"Where it is easiest to get stuck":"Another place to get stuck",
-      text:ks(pt.ks)+". About "+Math.round(pt.share*100)+"% of the ground slopes down into here; getting out toward the goal is a climb of "+Math.round(pt.pct*100)+"% of the map's height. "+readPit(pt,k),
-      at:[x,y],kind:"pit",pit:k,rank:nearGoal&&onTrail?1:k===0?2:6});});
-  var seen={};T.threads.forEach(function(th){var r=readPhrase(th);if(seen[r.cat]||r.cat==="level")return;seen[r.cat]=1;
-    var title={footing:"“"+th.w+"” has footing",stuck:"“"+th.w+"” holds the process down",contested:"“"+th.w+"” may be contested",answers:"“"+th.w+"” is not on the map yet"}[r.cat];
-    var sunkN=r.grp.filter(function(n){return hAt(n.x,n.y)<-0.1;});
-    var at=r.cat==="contested"&&sunkN.length?[sunkN[0].x,sunkN[0].y]:r.grp.length?cen(r.grp):(function(){var qs=th.ms.map(function(m){return /^Q/.test(m.id)?T.qpos[+m.id.slice(2)-1]:null;}).filter(Boolean);return qs.length?cen(qs):null;})();
-    R.push({title:title,text:r.t,at:at,kind:"phrase",w:th.w,ask:r.ask,th:th,rank:{contested:3,stuck:4,footing:5,answers:8}[r.cat]});});
-  T.hills.slice(0,1).forEach(function(h){var x=(h.idx%VX)*CX,y=((h.idx/VX)|0)*CY,off=Math.abs(y-trailY(x))>=45;
-    R.push({title:off?"Firm ground the way forward does not use yet":"Firm ground the way forward can lean on",text:ks(h.ks)+". "+readHill(h,0),at:[x,y],kind:"hill",rank:7});});
-  R.forEach(function(r){if(r.kind==="cause")r.rank=0;});
-  R.sort(function(a,b){return a.rank-b.rank;});READ=R.filter(function(r){return r.at;}).slice(0,8);
+  T.cause.forEach(function(ce){var ent=ce.e.filter(function(id){return ce.c.indexOf(id)<0;}).map(noteById).filter(Boolean);var f=firstSentence(readCause(ce));
+    R.push({grp:3,title:"Where the "+ce.w+" loop is fed",short:f[0],more:f[1],at:ent.length?[ent[0].x,ent[0].y]:null});});
+  T.pits.forEach(function(pt,k){var x=(pt.idx%VX)*CX,y=((pt.idx/VX)|0)*CY,nearGoal=x>230,onLine=Math.abs(y-trailY(x))<35;
+    R.push({grp:1,title:nearGoal&&onLine?"A drop just before the goal":k===0?"Where it is easiest to get stuck":"Another place to get stuck",
+      short:ks(pt.ks)+". About "+Math.round(pt.share*100)+"% of the ground slopes down into here.",
+      more:"Getting out toward the goal means a climb of "+Math.round(pt.pct*100)+"% of the map's height. "+readPit(pt,k),at:[x,y],pit:k,kind:"pit"});});
+  var seen={};T.threads.forEach(function(th){var r=readPhrase(th);if(seen[r.cat]||r.cat==="level"||r.cat==="answers")return;seen[r.cat]=1;
+    var title={footing:"“"+th.w+"” has footing",stuck:"“"+th.w+"” holds the ground down",contested:"“"+th.w+"” stands on both kinds of ground"}[r.cat];
+    var sunkN=r.grp.filter(function(n){return hAt(n.x,n.y)<-0.1;}),at=r.cat==="contested"&&sunkN.length?[sunkN[0].x,sunkN[0].y]:r.grp.length?cen(r.grp):null;
+    var f=firstSentence(r.t);R.push({grp:{footing:0,stuck:1,contested:3}[r.cat],title:title,short:f[0],more:f[1],at:at,kind:"phrase",w:th.w,ask:r.ask,th:th});});
+  T.hills.slice(0,1).forEach(function(h){var x=(h.idx%VX)*CX,y=((h.idx/VX)|0)*CY,off=Math.abs(y-trailY(x))>=45,f=firstSentence(readHill(h,0));
+    R.push({grp:0,title:off?"High ground off to the side":"High ground near the line to the goal",short:ks(h.ks)+". "+f[0],more:f[1],at:[x,y]});});
+  moreReadings(R);
+  R=R.filter(function(r){return r.at;});R.forEach(function(r,i){r.o=i;});R.sort(function(a,b){return (a.grp-b.grp)||(a.o-b.o);});READ=R.slice(0,12);
 }
 /* ---------- a course of action modelled on the ground ---------- */
 function firmPath(ax,ay,bx,by){ /* cheapest way across, where sunk ground costs more */
@@ -435,7 +478,7 @@ function readPit(p,k){
   var des=ns.filter(function(n){return n.q===5||n.q===6;}).map(function(n){return "N"+n.k;});
   if(des.length)o.push(list(des)+" name"+(des.length>1?"":"s")+" something to design or redesign, and "+(des.length>1?"they sit":"it sits")+" here. This is where design work would lift the ground.");
   if(odd.length)o.push(list(odd)+(odd.length>1?" were":" was")+" written as support or something to reinforce, yet "+(odd.length>1?"they sit":"it sits")+" here in sunk ground. Something meant to help may be working against the goal.");
-  o.push(d<35?"The trail runs right past it, so the way forward has to get by this place.":"It lies off the trail: it holds people who drift into it more than it blocks the way.");
+  o.push(d<35?"It sits on the line between present and goal, so getting to the goal means getting past it.":"It lies off to the side: it holds those who drift into it more than it blocks the way to the goal.");
   if(x>230)o.push("It sits close to the goal, so it can stop the process near the end.");
   return o.join(" ");
 }
@@ -446,7 +489,7 @@ function readHill(h,k){
   var o=[];if(qn.length)o.push("Its notes come from "+list(qn)+".");
   var odd=ns.filter(function(n){return n.q===2;}).map(function(n){return "N"+n.k;});
   if(odd.length)o.push(list(odd)+(odd.length>1?" were":" was")+" written as opposition, yet "+(odd.length>1?"they sit":"it sits")+" on raised ground. That opposition may be easier to work with than it looks.");
-  o.push(d<45?"The trail runs beside it, so the way forward can lean on it.":"It is away from the trail: support the way forward does not use yet.");
+  o.push(d<45?"It sits beside the line to the goal, so the way there can lean on it.":"It lies off to the side: high ground the way to the goal does not use yet.");
   return o.join(" ");
 }
 function readNote(n){
@@ -523,6 +566,7 @@ function prepare(){
     var dzx=(zArr[b]+zArr[d]-zArr[a]-zArr[c])/(2*CX),dzz=(zArr[c]+zArr[d]-zArr[a]-zArr[b])/(2*CY);
     var nl=Math.hypot(dzx,1,dzz),lam=Math.max(0,(-dzx*L[0]+L[1]-dzz*L[2])/nl);
     var hh=(T.hn[a]+T.hn[b]+T.hn[c]+T.hn[d])/4,sh=0.62+0.5*lam;
+    var tl=(T.tal[a]+T.tal[b]+T.tal[c]+T.tal[d])/4;if(tl>0.15){var sp=hash2(i*7,j*13);if(sp<0.35*tl)sh*=0.72;else if(sp>1-0.2*tl)sh*=1.12;}
     if(clay){var cv0=(250*(0.72+0.36*lam))|0;cellCol[j*NX+i]="rgb("+Math.min(255,cv0)+","+Math.min(255,(cv0*0.985)|0)+","+Math.min(255,(cv0*0.96)|0)+")";continue;}
     var r=(T.col[a*3]+T.col[b*3]+T.col[c*3]+T.col[d*3])/4*sh,g=(T.col[a*3+1]+T.col[b*3+1]+T.col[c*3+1]+T.col[d*3+1])/4*sh,bl=(T.col[a*3+2]+T.col[b*3+2]+T.col[c*3+2]+T.col[d*3+2])/4*sh;
     var sat=boost(r/sh,g/sh,bl/sh);r=sat[0]*sh;g=sat[1]*sh;bl=sat[2]*sh;
@@ -557,7 +601,7 @@ function decals(){
   var line=[];for(var x=START.x;x<=GOAL.x-20.01;x+=2)line.push([x,118+3.2*Math.sin(x/21)+1.6*Math.sin(x/7.3+1)]);line.push([GOAL.x-20,118]);
   function add(pts,style,lift){for(var k=0;k<pts.length-1;k++)D.push({a:pts[k],b:pts[k+1],s:style,lift:lift||0});}
   TRAIL=line;[20,12,4].forEach(function(r){add(ring(r),"ring",1.2);});
-  if(showEasy&&terr.path.length>1){var pp=terr.path.map(function(v){return [(v%VX)*CX,((v/VX)|0)*CY];});add(pp,"easy",1.6);}
+  if(false){var pp=terr.path.map(function(v){return [(v%VX)*CX,((v/VX)|0)*CY];});add(pp,"easy",1.6);}
   return D;
 }
 var LEGON=true,SELTH=null,CAUSE_LBL=null,thOn={},TRAIL=[],SEL=null,showCause=true;
@@ -615,7 +659,7 @@ function render(st){
         ctx.beginPath();ctx.moveTo(q0[0],q0[1]);ctx.lineTo(q1[0],q1[1]);ctx.strokeStyle="#111";ctx.lineWidth=1.6;ctx.stroke();
         ctx.beginPath();ctx.arc(q1[0],q1[1],2.6,0,6.283);ctx.fillStyle="#111";ctx.fill();}
   }
-  /* loops, then the trail, then question markers: drawn over the ground */
+  /* loops, then question markers: drawn over the ground */
   function drape(pts,lift,step){var o=[];for(var k=0;k<pts.length;k+=step||1){var q=pts[k];o.push(pr(wx(q[0]),zAt(q[0],q[1])+lift,wz(q[1]),[0,0]));}if(step>1){var q2=pts[pts.length-1];o.push(pr(wx(q2[0]),zAt(q2[0],q2[1])+lift,wz(q2[1]),[0,0]));}return o;}
   function stroke(o,col,wid,dash){ctx.beginPath();o.forEach(function(p,k){k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);});ctx.setLineDash(dash||[]);ctx.strokeStyle=col;ctx.lineWidth=wid;ctx.lineJoin="round";ctx.lineCap="round";ctx.stroke();ctx.setLineDash([]);}
   var HLR=HL!=null?READ[HL]:null;
@@ -633,11 +677,12 @@ function render(st){
   if(SEL){var sp=posOf(SEL);if(sp){var c0=pr(wx(sp[0]),zAt(sp[0],sp[1])+2,wz(sp[1]),[0,0]);ctx.beginPath();ctx.arc(c0[0],c0[1],11,0,6.283);ctx.strokeStyle="#111";ctx.lineWidth=2;ctx.setLineDash([3,2]);ctx.stroke();ctx.setLineDash([]);}}
   var tr0=null;if(COURSE!=null){ROUTES.forEach(function(R){var o=drape(R.pts,1.2,1);stroke(o,"rgba(255,255,255,.95)",5.2);stroke(o,"#111",2.6,R.dash);});
     CARDS[COURSE].ids.forEach(function(id){var n=noteById(id);if(!n)return;var c0=pr(wx(n.x),zAt(n.x,n.y)+2,wz(n.y),[0,0]);ctx.beginPath();ctx.arc(c0[0],c0[1],8,0,6.283);ctx.strokeStyle="#111";ctx.lineWidth=2;ctx.stroke();});}
-  var tr=drape(TRAIL,0.6);stroke(tr,"rgba(60,44,28,.9)",5.6);stroke(tr,"#dcc79e",3.4);stroke(tr,"rgba(150,120,80,.8)",0.9,[2,5]);
+
   terr.qpos.forEach(function(Q){if(!Q)return;var zq=zAt(Q.x,Q.y),b0=pr(wx(Q.x),zq,wz(Q.y),[0,0]),b1=pr(wx(Q.x),zq+14,wz(Q.y),[0,0]);
     ctx.beginPath();ctx.moveTo(b0[0],b0[1]);ctx.lineTo(b1[0],b1[1]);ctx.strokeStyle="#111";ctx.lineWidth=1.6;ctx.stroke();
     ctx.fillStyle="#111";ctx.fillRect(b1[0]-11,b1[1]-8,22,12);ctx.font="bold 9px Questrial,sans-serif";ctx.textAlign="center";ctx.fillStyle="#fff";ctx.fillText("Q."+Q.q,b1[0],b1[1]+1);
     qScr.push({Q:Q,x:b1[0],y:b1[1]-2});});
+  if(HL!=null&&READ[HL]&&READ[HL].path){var pp=READ[HL].path.filter(function(v,k){return k%2===0;}).map(function(v){return [(v%VX)*CX,((v/VX)|0)*CY];});var o2=drape(pp,1.2);stroke(o2,"rgba(255,255,255,.95)",5);stroke(o2,"#7a1d12",2.4,[6,4]);}
   /* numbered readings on the ground */
   markScr=[];if(COURSE!=null)ROUTES.forEach(function(R){var q=R.pts[Math.floor(R.pts.length*(R.key==="A"?0.3:R.key==="B"?0.55:0.75))],z=zAt(q[0],q[1]),b1=pr(wx(q[0]),z+4,wz(q[1]),[0,0]);
     ctx.beginPath();ctx.arc(b1[0],b1[1],9,0,6.283);ctx.fillStyle="#fff";ctx.fill();ctx.strokeStyle="#111";ctx.lineWidth=2;ctx.stroke();ctx.font="bold 11px Questrial,sans-serif";ctx.textAlign="center";ctx.fillStyle="#111";ctx.fillText(R.key,b1[0],b1[1]+4);});
@@ -655,7 +700,7 @@ function render(st){
   text("HELP",0,zAt(HALF_X,0)+4,-bz,{size:11,color:"#555"});text("HINDER",0,zAt(HALF_X,HH)+4,bz+6,{size:11,color:"#555"});
   text("PRESENT",wx(START.x),zAt(START.x,START.y)+23,wz(START.y),{size:10});
   text("GOAL",wx(GOAL.x),zAt(GOAL.x,GOAL.y)+16,wz(GOAL.y),{size:10});
-  text("FUTURE →",wx(GOAL.x-46),zAt(GOAL.x-46,128)+6,wz(130),{size:10});
+  text("FUTURE",wx(GOAL.x-30),zAt(GOAL.x-30,138)+6,wz(140),{size:10});
   terr.threads.forEach(function(th,ti){if(!(thOn[th.w]||(SEL&&SELTH===th.w)||(HL!=null&&READ[HL]&&READ[HL].w===th.w))||!th.segs||!th.segs.length)return;var top=th.segs[0][0];th.segs.forEach(function(sg){if(sg[0][1]<top[1])top=sg[0];});
     text(th.w.toUpperCase(),wx(top[0]),zAt(top[0],top[1])+5,wz(top[1]),{size:10,color:"#4a2e18"});});
 }
@@ -672,27 +717,9 @@ var DESC={
 function ks(a){return a.length?a.map(function(k){return "N"+k;}).join(", "):"no single note stands out";}
 function fillText(){
   buildReadings();fillReadings();fillCourses();fillCourseBox();fillLegendBox();
-  fillThreads();fillCause();fillSel();var T=terr,withE=T.pts.length,none=T.notes.length-withE;
-  document.getElementById("verdesc").textContent=DESC[ver];
-  var R=ver==="ridge";
-  
-  
-  document.getElementById("hillh").textContent=R?"WHERE THE WALLS STAND":"WHERE THE GROUND HOLDS UP";
-  document.getElementById("pith").textContent=R?"CHANNELS THAT STOP SHORT OF THE GOAL":"WHERE IT IS EASY TO GET STUCK";
-  document.getElementById("count").textContent=T.notes.length+" notes"+(ver==="grow"?" so far":"")+" on the line map; "+withE+" have an emotion marked and build the ground"+(none?"; "+none+" have none yet and sit on bare ground.":".");
-  var pits=document.getElementById("pits");pits.innerHTML="";
-  if(!T.pits.length){var d=document.createElement("div");d.className="row";d.textContent="Nowhere. No low place is deep enough to hold the process short of the goal.";pits.appendChild(d);}
-  T.pits.forEach(function(p){var d=document.createElement("div");d.className="row";var b=document.createElement("b");b.textContent=ks(p.ks)+" · ";d.appendChild(b);
-    d.appendChild(document.createTextNode("About "+Math.round(p.share*100)+"% of the ground slopes down into here, and getting out toward the goal means a climb of "+Math.round(p.pct*100)+"% of the map's full height. "));mean(d,readPit(p,T.pits.indexOf(p)));pits.appendChild(d);});
-  var hl=document.getElementById("hills");hl.innerHTML="";
-  if(!T.hills.length){var e=document.createElement("div");e.className="row";e.textContent="Nowhere yet.";hl.appendChild(e);}
-  T.hills.forEach(function(p){var d=document.createElement("div");d.className="row";var b=document.createElement("b");b.textContent=ks(p.ks)+" · ";d.appendChild(b);mean(d,readHill(p,T.hills.indexOf(p)));hl.appendChild(d);});
-  var et=document.getElementById("easytxt"),eh=document.getElementById("easyhead");
-  eh.style.display=showEasy?"block":"none";et.style.display=showEasy?"block":"none";
-  var span=Math.max(1e-6,T.hmax-T.hmin),climb=Math.max(0,T.barrier-T.hs[Math.round(START.y/CY)*VX+Math.round(START.x/CX)]),pct=Math.round(climb/span*100);
-  et.innerHTML="";var r=document.createElement("div");r.className="row";
-  r.textContent=pct<2?"The lowest way from the present to the goal never has to climb.":"The lowest way from the present to the goal still climbs "+pct+"% of the map's full height on the way.";
-  et.appendChild(r);
+  fillThreads();fillSel();var T=terr,withE=T.pts.length,none=T.notes.length-withE;
+  document.getElementById("phhead").textContent="PHRASES THAT RUN THROUGH ("+T.threads.length+")";
+  document.getElementById("count").textContent=T.notes.length+" notes"+(ver==="grow"?" so far":"")+" on the line map; "+withE+" have an emotion marked and shape the ground"+(none?"; "+none+" have none yet and sit on level ground.":".");
 }
 function fillSel(){var el=document.getElementById("selnote");if(!el)return;el.innerHTML="";if(!SEL)return;
   var box=document.createElement("div");box.className="selbox";var b=document.createElement("b");b.textContent=SEL;box.appendChild(b);
@@ -714,16 +741,22 @@ function mean(el,t){var sp=document.createElement("span");sp.className="mn";var 
 function askRow(el,a,th){var d=document.createElement("div");d.className="ask";d.appendChild(document.createTextNode(a.id+" says “"+a.q+"”. Does "+a.id+" stand for “"+th.w+"” or turn away from it? "));
   [["Stands for it","for"],["Turns away","away"]].forEach(function(o){var b=document.createElement("button");b.type="button";b.textContent=o[0];b.onclick=function(){ASK[a.k]=o[1];fillText();render();};d.appendChild(b);});el.appendChild(d);}
 function markList(){document.querySelectorAll(".rd").forEach(function(el,i){el.classList.toggle("on",HL===i);});}
+var OPEN={};
 function fillReadings(){var el=document.getElementById("readings");el.innerHTML="";
   if(!READ.length){el.className="row";el.textContent="Nothing stands out on this ground yet. Mark emotions on more notes to build it.";return;}
-  READ.forEach(function(r,i){var d=document.createElement("div");d.className="rd";
+  var lastG=-1;READ.forEach(function(r,i){if(r.grp!==lastG){lastG=r.grp;var g=document.createElement("div");g.className="grp";g.textContent=GROUPS[r.grp];el.appendChild(g);}
+    var d=document.createElement("div");d.className="rd";
     var n=document.createElement("span");n.className="rn";n.textContent=String(i+1);d.appendChild(n);
     var body=document.createElement("div");var t=document.createElement("b");t.textContent=r.title;body.appendChild(t);
-    var p=document.createElement("div");p.textContent=r.text;body.appendChild(p);
-    (r.ask||[]).forEach(function(a){askRow(body,a,r.th);});d.appendChild(body);
+    var p=document.createElement("div");p.appendChild(document.createTextNode(r.short));body.appendChild(p);
+    if(r.more||(r.ask&&r.ask.length)){var key=r.title;var m=document.createElement("span");m.className="more";m.textContent=OPEN[key]?"less":"read more…";p.appendChild(m);
+      var extra=document.createElement("div");extra.style.display=OPEN[key]?"":"none";extra.appendChild(document.createTextNode(r.more||""));(r.ask||[]).forEach(function(a){askRow(extra,a,r.th);});
+      m.onclick=function(ev){ev.stopPropagation();OPEN[key]=!OPEN[key];extra.style.display=OPEN[key]?"":"none";m.textContent=OPEN[key]?"less":"read more…";};
+      body.appendChild(extra);}
+    d.appendChild(body);
     d.onmouseenter=function(){if(!HLSTICK){HL=i;markList();render();}};
     d.onmouseleave=function(){if(!HLSTICK){HL=null;markList();render();}};
-    d.onclick=function(ev){if(ev.target.tagName==="BUTTON")return;if(HLSTICK&&HL===i){HLSTICK=false;HL=null;}else{HLSTICK=true;HL=i;}markList();render();};
+    d.onclick=function(ev){if(ev.target.tagName==="BUTTON"||ev.target.className==="more")return;if(HLSTICK&&HL===i){HLSTICK=false;HL=null;}else{HLSTICK=true;HL=i;}markList();render();};
     el.appendChild(d);});}
 function fillCourses(){var el=document.getElementById("courses");el.innerHTML="";
   if(!CARDS.length){el.className="row";el.textContent=sel.value==="user"?"Courses of action come from Taking Action. In this mock-up they are built in only for the sample workbooks; once this is part of the workbook, every card will be here.":"This workbook has no courses of action yet. Taking Action opens once all seven questions are answered.";return;}
@@ -745,11 +778,12 @@ function fillLegendBox(){var el=document.getElementById("legbox");el.innerHTML="
   function head(t){var h=document.createElement("h5");h.textContent=t;el.appendChild(h);}
   head("LEGEND");
   var R=ver==="ridge";
-  EMO.forEach(function(e,i){var role=R?(i===1?"cuts a channel":i===3?"rolls":"rises as a wall"):(i===1?"raises the ground":i===3?"rolls the ground":"sinks the ground");
+  EMO.forEach(function(e,i){var role=R?(i===1?"cuts a channel":i===3?"a bench":"rises as a wall"):["sinks the ground","raises the ground","sinks it further","a bench between","sinks it furthest"][i];
     row('<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb('+boost(e[1][0],e[1][1],e[1][2]).map(function(v){return v|0;}).join(",")+')"></span>',e[0]+": "+role);});
-  row('<svg width="30" height="14"><path d="M1 12 Q8 2 15 9 T29 6" fill="none" stroke="#555" stroke-width="1" stroke-dasharray="1 1.5"/></svg>',"Rough ground: emotions meet, or steep");
+  row('<svg width="30" height="14"><path d="M1 11 L4 6 L6 9 L9 3 L12 8 L14 5 L17 10 L20 4 L23 9 L26 6 L29 10" fill="none" stroke="#333" stroke-width="1.3"/></svg>',"Broken ground (talus): emotions meet");
+  row('<svg width="30" height="14"><path d="M1 12 L8 12 L10 5 L22 5 L24 12 L29 12" fill="#e6be4f" stroke="#555" stroke-width="1"/></svg>',"Bench: indifference, flat and narrow");
   row('<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',"Level: no notes nearby");
-  row('<svg width="30" height="14"><path d="M1 9 Q8 4 15 8 T29 6" fill="none" stroke="#3c2c1c" stroke-width="5"/><path d="M1 9 Q8 4 15 8 T29 6" fill="none" stroke="#dcc79e" stroke-width="3"/></svg>',"Trail: present to future");
+  row('<svg width="30" height="14"><text x="15" y="10" font-size="6.5" text-anchor="middle" font-family="sans-serif">PRESENT</text></svg>',"Present at the left; the future runs to the goal");
   row('<svg width="30" height="14"><polygon points="15,1 17.4,5.4 22,5.6 18.4,8.6 19.6,13 15,10.4 10.4,13 11.6,8.6 8,5.6 12.6,5.4" fill="#111"/></svg>',"Goal (hover for the full goal)");
   row('<svg width="30" height="14"><rect x="4" y="2" width="22" height="10" fill="#111"/><text x="15" y="10" font-size="7" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">Q.1</text></svg>',"Question: at the middle of its notes");
   row('<svg width="30" height="14"><line x1="15" y1="13" x2="15" y2="7" stroke="#555"/><circle cx="15" cy="5" r="3.6" fill="#2a9d8f" stroke="#111"/></svg>',"Note (white: no emotion marked)");
@@ -766,7 +800,7 @@ function fillThreads(){var el=document.getElementById("threads");el.innerHTML=""
   terr.threads.forEach(function(th){var row=document.createElement("label");row.className="row";row.style.display="flex";row.style.gap="8px";row.style.alignItems="baseline";
     var cb=document.createElement("input");cb.type="checkbox";cb.checked=!!thOn[th.w];cb.onchange=function(){if(cb.checked)thOn[th.w]=1;else delete thOn[th.w];render();};
     var b=document.createElement("b");b.textContent="“"+th.w+"”";var sp=document.createElement("span");sp.textContent=th.ms.map(function(m){return m.id;}).join(", ");
-    row.appendChild(cb);row.appendChild(b);row.appendChild(sp);var wrap=document.createElement("div");wrap.style.margin="2px 0 10px";wrap.appendChild(row);var r=readPhrase(th),md=document.createElement("div");md.className="row";mean(md,r.t);wrap.appendChild(md);r.ask.forEach(function(a){askRow(wrap,a,th);});el.appendChild(wrap);});}
+    row.appendChild(cb);row.appendChild(b);row.appendChild(sp);var wrap=document.createElement("div");wrap.style.margin="2px 0 6px";wrap.appendChild(row);var r=readPhrase(th),f=firstSentence(r.t),md=document.createElement("div");md.className="row";md.style.margin="0 0 0 22px";md.appendChild(document.createTextNode(f[0]));if(f[1]){var mm=document.createElement("span");mm.className="more";mm.textContent="read more…";var ex=document.createElement("span");ex.style.display="none";ex.textContent=" "+f[1];mm.onclick=function(){var o=ex.style.display==="none";ex.style.display=o?"":"none";mm.textContent=o?"less":"read more…";};md.appendChild(ex);md.appendChild(mm);}wrap.appendChild(md);r.ask.forEach(function(a){askRow(wrap,a,th);});el.appendChild(wrap);});}
 function fillLegend(){var l=document.getElementById("legend");l.innerHTML="";EMO.forEach(function(e){var s=document.createElement("span"),sw=document.createElement("i");sw.className="sw";sw.style.background="rgb("+e[1].join(",")+")";s.appendChild(sw);s.appendChild(document.createTextNode(e[0]));l.appendChild(s);});
   var s=document.createElement("span"),sw=document.createElement("i");sw.className="sw";sw.style.background="rgb("+BARE.join(",")+")";s.appendChild(sw);s.appendChild(document.createTextNode("No emotion marked"));l.appendChild(s);}
 
@@ -799,9 +833,14 @@ document.getElementById("file").onchange=function(ev){var f=ev.target.files[0];i
 document.getElementById("exag").oninput=function(e){exag=+e.target.value;prepare();fast();};
 document.getElementById("gm").onchange=function(e){clay=e.target.value==="clay";prepare();render();};
 document.getElementById("cz").onchange=function(e){showCause=e.target.checked;fillLegendBox();render();};
+function $S(){return document.getElementById("stage");}
+function isFull(){return document.fullscreenElement===$S()||$S().classList.contains("full");}
+document.getElementById("fs").onclick=function(){var st=$S();if(st.requestFullscreen){st.requestFullscreen().catch(function(){st.classList.add("full");resize();});}else{st.classList.add("full");resize();}};
+document.getElementById("fsx").onclick=function(){if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen();$S().classList.remove("full");resize();};
+document.addEventListener("fullscreenchange",function(){setTimeout(resize,50);});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&$S().classList.contains("full")){$S().classList.remove("full");resize();}});
 document.getElementById("legbtn").onclick=function(){LEGON=!LEGON;fillLegendBox();render();};
 document.getElementById("pins").onchange=function(e){showPins=e.target.checked;render();};
-document.getElementById("easy").onchange=function(e){showEasy=e.target.checked;fillText();render();};
 document.getElementById("reset").onclick=function(){view=ver==="above"?{az:0,tilt:1.55,zoom:1.05}:{az:0.4,tilt:1.0,zoom:1};render();};
 
 /* ---------- interaction ---------- */
@@ -820,14 +859,14 @@ function pick(e){var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY
   SEL=(id&&id!==SEL)?id:null;SELTH=null;if(SEL){var th=terr.threads.filter(function(t){return t.ms.some(function(m){return m.id===SEL;});});if(th.length)SELTH=th[0].w;}fillSel();render();}
 function hover(e){var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,best=null,bd=18;
   var mk=null;markScr.forEach(function(m){if(Math.hypot(m.x-x,m.y-y)<12)mk=m;});
-  if(mk){var R0=READ[mk.i];tip.innerHTML="";var tb=document.createElement("b");tb.textContent=(mk.i+1)+" · "+R0.title;tip.appendChild(tb);tip.appendChild(document.createTextNode(R0.text));
+  if(mk){var R0=READ[mk.i];tip.innerHTML="";var tb=document.createElement("b");tb.textContent=(mk.i+1)+" · "+R0.title;tip.appendChild(tb);tip.appendChild(document.createTextNode(R0.short+(R0.more?" "+R0.more:"")));
     tip.style.maxWidth="420px";tip.style.display="block";tip.style.left=Math.min(cssW-430,Math.max(4,x+14))+"px";tip.style.top=Math.max(4,y-8-tip.offsetHeight)+"px";
     if(!HLSTICK&&HL!==mk.i){HL=mk.i;markList();render();}return;}
   if(!HLSTICK&&HL!=null){HL=null;markList();render();}
   var qh=null;qScr.forEach(function(p){if(Math.abs(p.x-x)<12&&Math.abs(p.y-y)<9)qh=p;});
   if(qh){var Q=qh.Q;tip.innerHTML="";var qb=document.createElement("b");qb.textContent="Q."+Q.q+" · "+QT[Q.q-1];tip.appendChild(qb);
     var ans=(ANSWERS[Q.q-1]||"").trim();tip.appendChild(document.createTextNode(ans||"No answer written yet."));
-    var qn=document.createElement("div");qn.className="small";qn.style.marginTop="4px";qn.textContent=Q.n?"Placed at the middle of its "+Q.n+" note"+(Q.n>1?"s":"")+".":"No notes yet; placed on the trail.";tip.appendChild(qn);
+    var qn=document.createElement("div");qn.className="small";qn.style.marginTop="4px";qn.textContent=Q.n?"Placed at the middle of its "+Q.n+" note"+(Q.n>1?"s":"")+".":"No notes yet; placed on the line between present and goal.";tip.appendChild(qn);
     tip.style.display="block";tip.style.maxWidth="420px";tip.style.left=Math.min(cssW-430,Math.max(4,x+12))+"px";tip.style.top=Math.max(4,y-8-tip.offsetHeight)+"px";return;}
   tip.style.maxWidth="";
   if(goalScr&&Math.hypot(goalScr[0]-x,goalScr[1]-y)<26){tip.innerHTML="";var gb=document.createElement("b");gb.textContent="GOAL";tip.appendChild(gb);
@@ -838,7 +877,7 @@ function hover(e){var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.client
   var n=best.n;tip.innerHTML="";var b=document.createElement("b");b.textContent="N"+n.k+" · "+(n.e==null?"no emotion marked":EMO[n.e][0].toUpperCase())+" · Q."+n.q;tip.appendChild(b);tip.appendChild(document.createTextNode(n.t));
   tip.style.display="block";var st=document.getElementById("stage").getBoundingClientRect();
   tip.style.left=Math.min(cssW-290,Math.max(4,x+12))+"px";tip.style.top=Math.max(4,y-8-tip.offsetHeight)+"px";}
-function resize(){var w=document.getElementById("stage").clientWidth;cssW=w;cssH=Math.round(Math.max(380,Math.min(620,w*0.62)));
+function resize(){var w=document.getElementById("stage").clientWidth;cssW=w;cssH=isFull()?window.innerHeight:Math.round(Math.max(380,Math.min(620,w*0.62)));
   dpr=Math.min(2,window.devicePixelRatio||1);cv.width=cssW*dpr;cv.height=cssH*dpr;cv.style.height=cssH+"px";render();}
 window.addEventListener("resize",resize);
 view={az:0.05,tilt:0.6,zoom:1.1};sel.value="clinic";setModel(SAMPLES.clinic.notes,SAMPLES.clinic.goal,SAMPLES.clinic.a,SAMPLES.clinic.cards);
