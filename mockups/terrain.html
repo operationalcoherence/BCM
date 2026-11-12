@@ -115,7 +115,7 @@
   <div id="threads"></div></details>
   <details class="gfold"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>
   <div class="note" id="count"></div>
-  <div class="note">Each note with an emotion shapes the ground around it, and notes piled in one place shape it more. Acceptance raises the ground. Aggression sinks it, distrust sinks it further, and defiance sinks it furthest: the deepest ground and the longest way back to acceptance. Indifference is a narrow, flat-backed bench between the high ground and the low, the ground most moves between emotions pass over, and a place people can stay, precariously. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet; its fine texture is for the look. Heights are relative to your own map, not a measurement.</div>
+  <div class="note">Each note with an emotion shapes the ground around it, and notes piled in one place shape it more. Acceptance raises the ground. Aggression sinks it, distrust sinks it further, and defiance sinks it furthest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet; its fine texture is for the look. Heights are relative to your own map, not a measurement.</div>
   <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it makes with the others: accepting the wrong thing, or distrusting someone who has earned it, can lead away from the goal as surely as aggression can.</div>
   <div class="note">Map idea: Vigneaux (2026); Juarrero (2023). Emotions not good or bad in themselves: after Maturana and Pörksen (2011). Where it is easiest to get to: after Thompson (2007).</div>
   </details>
@@ -216,17 +216,31 @@ function buildTerrain(notes){
   for(var q=0;q<n;q++){hs[q]=raw[q]/maxAbs;
     if(tilt){var qx=(q%VX)*CX,qy=((q/VX)|0)*CY;hs[q]+=1.4*(Math.hypot(qx-GOAL.x,qy-GOAL.y)/dmax)-0.7;}
     if(hs[q]<hmin)hmin=hs[q];if(hs[q]>hmax)hmax=hs[q];}
-  /* indifference: a narrow, flat-backed bench joining the indifference notes, standing between the high ground and the low */
+  /* indifference: a narrow ridge that climbs from the low ground (aggression, distrust, defiance) up into acceptance */
   var bench=new Float32Array(n),ind=pts.filter(function(p){return p.e===3;});
-  if(ind.length&&ver!=="ridge"){var segs=[];
-    if(ind.length===1)segs.push([[ind[0].x-0.7*sigma,ind[0].y],[ind[0].x+0.7*sigma,ind[0].y]]);
-    else{var inT=[0],used={0:1};while(inT.length<ind.length){var bst=null;inT.forEach(function(i3){ind.forEach(function(q4,j3){if(used[j3])return;var d4=Math.hypot(ind[i3].x-q4.x,ind[i3].y-q4.y);if(!bst||d4<bst[2])bst=[i3,j3,d4];});});used[bst[1]]=1;inT.push(bst[1]);
-      if(bst[2]<3*sigma)segs.push([[ind[bst[0]].x,ind[bst[0]].y],[ind[bst[1]].x,ind[bst[1]].y]]);else segs.push([[ind[bst[1]].x-0.6*sigma,ind[bst[1]].y],[ind[bst[1]].x+0.6*sigma,ind[bst[1]].y]]);}}
-    var BL=0.2,hw=0.32*sigma,fw=0.75*sigma;
-    for(var qb=0;qb<n;qb++){var bx=(qb%VX)*CX,by=((qb/VX)|0)*CY,dm=1e9;
-      segs.forEach(function(sg){var A=sg[0],B=sg[1],vx=B[0]-A[0],vy=B[1]-A[1],L=vx*vx+vy*vy,t=L?Math.max(0,Math.min(1,((bx-A[0])*vx+(by-A[1])*vy)/L)):0,d5=Math.hypot(bx-A[0]-t*vx,by-A[1]-t*vy);if(d5<dm)dm=d5;});
-      var tb=dm<=hw?1:dm>=fw?0:1-(dm-hw)/(fw-hw);tb=tb*tb*(3-2*tb);bench[qb]=tb;
-      if(tb>0){var lvl=BL+0.06*(dm<=hw?1:0);hs[qb]=hs[qb]*(1-tb)+lvl*tb;var yc=EMO[3][1],tc=Math.min(1,tb*1.2);col[qb*3]=col[qb*3]*(1-tc)+yc[0]*tc;col[qb*3+1]=col[qb*3+1]*(1-tc)+yc[1]*tc;col[qb*3+2]=col[qb*3+2]*(1-tc)+yc[2]*tc;}}
+  if(ind.length&&ver!=="ridge"){
+    var sinkP=pts.filter(function(p){return p.e===0||p.e===2||p.e===4;}),accP=pts.filter(function(p){return p.e===1;});
+    /* group indifference notes that sit close together */
+    var grp=[],gi=ind.map(function(){return -1;});
+    ind.forEach(function(p,i){if(gi[i]>=0)return;var g=[p];gi[i]=grp.length;var k=0;while(k<g.length){var c=g[k++];ind.forEach(function(q,j){if(gi[j]<0&&Math.hypot(c.x-q.x,c.y-q.y)<3*sigma){gi[j]=grp.length;g.push(q);}});}grp.push(g);});
+    function near(list,x,y){var b=null,bd=1e9;list.forEach(function(q){var d=Math.hypot(q.x-x,q.y-y);if(d<bd){bd=d;b=q;}});return b;}
+    var spines=[];
+    grp.forEach(function(g){var cx=0,cy=0;g.forEach(function(p){cx+=p.x;cy+=p.y;});cx/=g.length;cy/=g.length;
+      var S=near(sinkP,cx,cy),A=near(accP,cx,cy);
+      var lo=S?[cx+(S.x-cx)*0.7,cy+(S.y-cy)*0.7]:[cx,cy+0.8*sigma],hi=A?[A.x,A.y]:[cx,cy-0.8*sigma];
+      var dx=hi[0]-lo[0],dy=hi[1]-lo[1],L2=dx*dx+dy*dy||1;
+      var mid=g.slice().sort(function(p,q){return ((p.x-lo[0])*dx+(p.y-lo[1])*dy)-((q.x-lo[0])*dx+(q.y-lo[1])*dy);}).map(function(p){return [p.x,p.y];});
+      var pl=[lo].concat(mid).concat([hi]),cum=[0];for(var i=1;i<pl.length;i++)cum.push(cum[i-1]+Math.hypot(pl[i][0]-pl[i-1][0],pl[i][1]-pl[i-1][1]));
+      spines.push({pl:pl,cum:cum,len:cum[cum.length-1]||1,hLo:hAtRaw(lo),hHi:hAtRaw(hi)});});
+    function hAtRaw(pt){var i=Math.max(0,Math.min(VX-1,Math.round(pt[0]/CX))),j=Math.max(0,Math.min(VY-1,Math.round(pt[1]/CY)));return hs[j*VX+i];}
+    spines.forEach(function(sp){sp.hLo=hAtRaw(sp.pl[0]);sp.hHi=hAtRaw(sp.pl[sp.pl.length-1]);});
+    var flat=0.12*sigma,steep=0.55/(0.55*sigma),PROM=0.14;
+    for(var qb=0;qb<n;qb++){var bx=(qb%VX)*CX,by=((qb/VX)|0)*CY,best=-1e9,bt=0;
+      spines.forEach(function(sp){var dm=1e9,tt=0;for(var i=0;i+1<sp.pl.length;i++){var A=sp.pl[i],B=sp.pl[i+1],vx=B[0]-A[0],vy=B[1]-A[1],L=vx*vx+vy*vy,t=L?Math.max(0,Math.min(1,((bx-A[0])*vx+(by-A[1])*vy)/L)):0,d=Math.hypot(bx-A[0]-t*vx,by-A[1]-t*vy);if(d<dm){dm=d;tt=(sp.cum[i]+t*Math.sqrt(L))/sp.len;}}
+        var e=tt*tt*(3-2*tt),crest=sp.hLo+(sp.hHi-sp.hLo)*e+PROM*Math.sin(Math.PI*Math.min(1,tt*1.15)),hgt=crest-steep*Math.max(0,dm-flat);
+        if(hgt>best){best=hgt;bt=dm;}});
+      if(best>hs[qb]){var rise=best-hs[qb];hs[qb]=best;var tb=Math.min(1,rise/0.1)*Math.max(0,Math.min(1,(0.6*sigma-bt)/(0.25*sigma)));bench[qb]=tb;
+        var yc=EMO[3][1];col[qb*3]=col[qb*3]*(1-tb)+yc[0]*tb;col[qb*3+1]=col[qb*3+1]*(1-tb)+yc[1]*tb;col[qb*3+2]=col[qb*3+2]*(1-tb)+yc[2]*tb;}}
     hmin=1e9;hmax=-1e9;for(var qc=0;qc<n;qc++){if(hs[qc]<hmin)hmin=hs[qc];if(hs[qc]>hmax)hmax=hs[qc];}}
   /* the goal sits on a flat pad: level with the smooth ground at its centre, blending out from r=24 to r=38 */
   var gi0=Math.round(GOAL.x/CX),gj0=Math.round(GOAL.y/CY),gl=hs[gj0*VX+gi0],pad=new Float32Array(n);
@@ -240,7 +254,7 @@ function buildTerrain(notes){
     var gx=(hs[j2*VX+ir]-hs[j2*VX+il])/((ir-il)*CX),gy=(hs[jb*VX+i2]-hs[jt*VX+i2])/((jb-jt)*CY);
     var slope=Math.min(1,Math.hypot(gx,gy)*sigma*0.8);
     var amp=Math.min(0.55,cov[k]*(0.035+1.1*Math.pow(Math.max(0,mix[k]-0.3),2)+0.1*slope));
-    hn[k]=hs[k]+(ridged(i2*CX,j2*CY)-0.42)*2*amp*(1-pad[k])*(1-0.9*bench[k]);tal[k]=Math.max(0,Math.min(1,(mix[k]-0.45)*2.2))*(1-bench[k]);
+    hn[k]=hs[k]+(ridged(i2*CX,j2*CY)-0.42)*2*amp*(1-pad[k])*(1-0.5*bench[k]);tal[k]=Math.max(Math.max(0,Math.min(1,(mix[k]-0.45)*2.2))*(1-bench[k]),0.45*bench[k]);
     if(hn[k]<rmin)rmin=hn[k];
   }
   var qpos=placeQuestions(notes);
@@ -360,7 +374,7 @@ function readPhrase(th){
   if(ask.length)out.unshift("Until you answer the question below, this counts "+list(ask.map(function(a){return a.id;}))+" as standing for it.");
   return {t:out.join(" "),ask:ask,cat:cat,grp:ns};
 }
-function climbPath(fromIdx,okTarget){ /* gentlest way up: climbing costs, the indifference bench is easy going */
+function climbPath(fromIdx,okTarget){ /* gentlest way up: climbing costs, the indifference ridge is easy going */
   var n=VX*VY,H=terr.hs,B=terr.bench,dist=new Float64Array(n).fill(1e18),par=new Int32Array(n).fill(-1),hp=new Heap(),NB=[[-1,-1],[0,-1],[1,-1],[-1,0],[1,0],[-1,1],[0,1],[1,1]],end=-1;
   dist[fromIdx]=0;hp.push(0,fromIdx);
   while(hp.k.length){var t=hp.pop(),v=t[1];if(t[0]>dist[v]+1e-9)continue;if(okTarget(v)){end=v;break;}var vi=v%VX,vj=(v/VX)|0;
@@ -376,10 +390,10 @@ function moreReadings(R){
     var x=i*CX,y=j*CY,lx=x-gx/g*22,ly=y-gy/g*22;if(lx<0||ly<0||lx>W||ly>HH||hAt(lx,ly)>-0.1)continue;if(!best||g>best.g)best={g:g,x:x,y:y,lx:lx,ly:ly};}
   if(best){var top=nn(best.x,best.y,[1]),low=nn(best.lx,best.ly,PIT_E),onB=T.bench[cellOf((best.x+best.lx)/2,(best.y+best.ly)/2)]>0.3;
     if(top&&low)R.push({grp:0,title:"Where it is easiest to fall from",short:"The ground drops away fastest from N"+top.k+" ("+EMO[top.e][0].toLowerCase()+") toward N"+low.k+" ("+EMO[low.e][0].toLowerCase()+").",
-      more:(onB?"An indifference bench breaks the fall partway down.":"There is no indifference between them to stand on, so a step the wrong way goes straight down.")+" What N"+top.k+" describes could slip toward what N"+low.k+" describes with little in between. This is high ground worth tending first.",at:[best.x,best.y]});}
+      more:(onB?"An indifference ridge runs between them, something to stand on partway down.":"There is no indifference between them to stand on, so a step the wrong way goes straight down.")+" What N"+top.k+" describes could slip toward what N"+low.k+" describes with little in between. This is high ground worth tending first.",at:[best.x,best.y]});}
   var ind=T.pts.filter(function(p){return p.e===3;});
-  if(ind.length){R.push({grp:2,title:"Where people can stand a while",short:list(ind.map(function(p){return "N"+p.k;}))+" form"+(ind.length>1?"":"s")+" a narrow, flat bench of indifference between the high ground and the low.",
-    more:"Most moves between emotions pass over ground like this. People can stay here, but it is precarious: no one here is for or against the goal yet, so the right step lifts them toward acceptance and the wrong one drops them. Moving from here to acceptance takes less than any other climb on the map.",at:[ind[0].x,ind[0].y]});}
+  if(ind.length){R.push({grp:2,title:"The ridge between",short:list(ind.map(function(p){return "N"+p.k;}))+" form"+(ind.length>1?"":"s")+" a narrow ridge of indifference that climbs from the low ground up into acceptance.",
+    more:"Most moves between emotions go along a ridge like this. People can stay on it a while, but it is precarious: no one here is for or against the goal yet, and the ground falls away on both sides. Followed up its length it leads to acceptance; a step off the wrong side drops them back down. It is the easiest climb on the map.",at:[ind[0].x,ind[0].y]});}
   function up(fromP){var c0=cellOf(fromP.x,fromP.y),path=climbPath(c0,function(v){return H[v]>=hiT;});if(!path)return null;
     var gain=Math.max(0,H[path[path.length-1]]-H[c0]),via=notesNear(path,[3],14),v=path[path.length-1],dest=nn((v%VX)*CX,((v/VX)|0)*CY,[1]);return {path:path,gain:gain/span,via:via,dest:dest};}
   if(T.pits.length){var pk=T.pits[0],px=(pk.idx%VX)*CX,py=((pk.idx/VX)|0)*CY,start=nn(px,py,PIT_E);
@@ -778,10 +792,10 @@ function fillLegendBox(){var el=document.getElementById("legbox");el.innerHTML="
   function head(t){var h=document.createElement("h5");h.textContent=t;el.appendChild(h);}
   head("LEGEND");
   var R=ver==="ridge";
-  EMO.forEach(function(e,i){var role=R?(i===1?"cuts a channel":i===3?"a bench":"rises as a wall"):["sinks the ground","raises the ground","sinks it further","a bench between","sinks it furthest"][i];
+  EMO.forEach(function(e,i){var role=R?(i===1?"cuts a channel":i===3?"a ridge":"rises as a wall"):["sinks the ground","raises the ground","sinks it further","a ridge between","sinks it furthest"][i];
     row('<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb('+boost(e[1][0],e[1][1],e[1][2]).map(function(v){return v|0;}).join(",")+')"></span>',e[0]+": "+role);});
   row('<svg width="30" height="14"><path d="M1 11 L4 6 L6 9 L9 3 L12 8 L14 5 L17 10 L20 4 L23 9 L26 6 L29 10" fill="none" stroke="#333" stroke-width="1.3"/></svg>',"Broken ground (talus): emotions meet");
-  row('<svg width="30" height="14"><path d="M1 12 L8 12 L10 5 L22 5 L24 12 L29 12" fill="#e6be4f" stroke="#555" stroke-width="1"/></svg>',"Bench: indifference, flat and narrow");
+  row('<svg width="30" height="14"><path d="M1 13 L12 9 L22 3 L29 2 L29 13 Z" fill="#e6be4f" stroke="#555" stroke-width="1"/></svg>',"Ridge: indifference, climbing into acceptance");
   row('<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',"Level: no notes nearby");
   row('<svg width="30" height="14"><text x="15" y="10" font-size="6.5" text-anchor="middle" font-family="sans-serif">PRESENT</text></svg>',"Present at the left; the future runs to the goal");
   row('<svg width="30" height="14"><polygon points="15,1 17.4,5.4 22,5.6 18.4,8.6 19.6,13 15,10.4 10.4,13 11.6,8.6 8,5.6 12.6,5.4" fill="#111"/></svg>',"Goal (hover for the full goal)");
