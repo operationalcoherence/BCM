@@ -1,4 +1,4 @@
-/* Bear Canyon Method v147 - boot: fonts, styles and page, then the workbook. */
+/* Bear Canyon Method v148 - boot: fonts, styles and page, then the workbook. */
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -8596,6 +8596,7 @@
                 }),
                   (!a || o > a.n || (o === a.n && n.st && !a.c.st)) && (a = { c: n, n: o }));
               }),
+                (window.gsmWS = a && a.n ? { h: n(a.c), st: !!a.c.st } : null),
                 a &&
                   a.n &&
                   (Qn =
@@ -8739,7 +8740,113 @@
         }
         var ro =
             In || Zn.length
-              ? '<div class="part">4 · COURSES OF ACTION<span>Suggested, area by area: a program where the ground is settled, a strategy where it is not.</span></div><div class="pnote"><b>Prompts, not findings.</b> Each card is built from a template and the words you used. Talk them through with the people involved, and change or drop any that do not fit.</div><div class="meta">Programs work best in contexts where you know what is going to happen, either because you have done it before or can strongly anticipate the outcome. Programs work best when executed in environments where there is order, meaning regularity and stability, and a line can be drawn from action to outcome. Set the sequence and let it run: schedule, roles, repeat.</div><div class="meta">Strategies work best in disorderly environments when you cannot foresee entirely what the outcome will be; there are several outcomes to choose from that are all probable. However, there is no way of knowing which is right before acting. Strategies work best when you cannot draw a straight line from action to outcome, as they enable you to keep a loose structure ideal for ill-defined situations where constant revisions to courses of action are necessary. Hold it loosely: sketch two or three ways forward, start small, and change course as people respond.</div><div class="msub">Sources:</div><div class="msub">Axelrod, R., &amp; Cohen, M. D. (2000). <i>Harnessing complexity: Organizational implications of a scientific frontier</i>. New York, NY: Basic Books.</div><div class="msub">Morin, E. (2008). <i>On complexity</i>. (R. Postel, Trans.). Cresskill, NJ: Hampton Press.</div><div class="msub">Morin, E., &amp; Kern, A. B. (1999). <i>Homeland earth: A manifesto for the new millennium</i>. (S. M. Kelly, &amp; R. LaPointe, Trans.) Cresskill, NJ: Hampton Press.</div><div class="msub">Waldrop, M. M. (1992). <i>The emerging science at the edge of order and chaos</i>. New York, NY: Touchstone.</div>' +
+              ? '<div class="part">4 · COURSES OF ACTION<span>Suggested, area by area: a program where the ground is settled, a strategy where it is not.</span></div><div class="pnote"><b>Prompts, not findings.</b> Each card is built from a template and the words you used. Talk them through with the people involved, and change or drop any that do not fit.</div>' +
+                (function () {
+                  var A = Q(),
+                    G = String(C.goal || "").trim(),
+                    NR = window.gsmNR || { u: [], t: [] },
+                    byId = {},
+                    notes = [];
+                  NR.t.forEach(function (x) {
+                    byId[x.id] = x;
+                  });
+                  C.m.forEach(function (r, i) {
+                    notes.push({ r: r, lab: "N" + (i + 1) });
+                  });
+                  ((C.p && C.p.m) || []).forEach(function (r, i) {
+                    notes.push({ r: r, lab: "N" + (i + 1) + " (place)" });
+                  });
+                  function cut(x) {
+                    return x.length > 140 ? x.slice(0, 140).replace(/\s+\S*$/, "") + "…" : x;
+                  }
+                  function pk(t) {
+                    var s = String(t || "")
+                        .replace(/\s+/g, " ")
+                        .trim(),
+                      p,
+                      i;
+                    if (!s || /^(yes|no)\W*$/i.test(s)) return "";
+                    if (s.split(" ").length <= 14) return cut(s);
+                    p = s.split(/(?<=[.!?])\s+/);
+                    for (i = 0; i < p.length; i++) if (p[i].split(" ").length >= 6) return cut(p[i]);
+                    return cut(s);
+                  }
+                  function row(l, t, x) {
+                    var q = pk(t);
+                    return q
+                      ? '<div style="margin:4px 0"><b>' +
+                          Gt(l) +
+                          "</b> “" +
+                          Gt(q) +
+                          "”" +
+                          (x || "") +
+                          "</div>"
+                      : "";
+                  }
+                  function nl(ks, cap) {
+                    var seen = {},
+                      L = [];
+                    notes.forEach(function (o) {
+                      var t = String(o.r[3] || "").trim();
+                      if (!t || ks.indexOf(o.r[0]) < 0 || seen[t]) return;
+                      seen[t] = 1;
+                      L.push(o);
+                    });
+                    return (
+                      L.slice(0, cap)
+                        .map(function (o) {
+                          var b = byId[o.r[8]],
+                            x = "";
+                          "y" === (b && b.ak)
+                            ? (x = " (you said " + Gt(b.by) + " responds to it)")
+                            : b && b.lk && (x = " (you linked it to a response)");
+                          return row(o.lab, o.r[3], x);
+                        })
+                        .join("") +
+                      (L.length > cap ? '<div class="msub">…and ' + (L.length - cap) + " more</div>" : "")
+                    );
+                  }
+                  var g1 = pk(G),
+                    h2 = row("Q.1", A[0]) + row("Q.2", A[1]) + nl([2], 3),
+                    h3 = row("Q.3", A[2]) + nl([3], 2),
+                    h4 = row("Q.4", A[3]) + nl([4], 2),
+                    h5 =
+                      row("Q.5 (design)", A[4]) +
+                      row("Q.6 (redesign)", A[5]) +
+                      row("Q.7 (reinforce)", A[6]) +
+                      nl([5, 6, 7], 2);
+                  if (!g1 || !h2 || !h5) return "";
+                  var W = window.gsmWS,
+                    h6 = W
+                      ? '<div style="margin:4px 0">' +
+                        W.h +
+                        (W.st ? " (a strategy)" : " (a program)") +
+                        ": the card that shares notes with the most others, so what you decide about it carries furthest.</div>"
+                      : "",
+                    U = NR.u,
+                    h7 =
+                      U.slice(0, 4)
+                        .map(function (u) {
+                          return row(u.lab, u.tx);
+                        })
+                        .join("") +
+                      (U.length > 4 ? '<div class="msub">…and ' + (U.length - 4) + " more</div>" : "");
+                  function sec(l, h) {
+                    return h ? '<div class="csl" style="margin-top:14px">' + l + "</div>" + h : "";
+                  }
+                  return (
+                    '<details class="fold" open><summary>YOUR STORY SO FAR</summary><div class="mtext"><p>Your answers and notes in the order the method asks them, each in your own words. This only puts them in order; it does not say what they mean. A note is shown as answered only where you said so or drew the link.</p>' +
+                    sec("THE GOAL", '<div style="margin:4px 0">“' + Gt(g1) + "”</div>") +
+                    sec("WHAT STANDS IN THE WAY", h2) +
+                    sec("WHAT IS ALREADY HELPING", h3) +
+                    sec("WHAT HAS TO BE TRUE", h4) +
+                    sec("WHAT YOU WOULD DO", h5) +
+                    sec("WHERE TO START", h6) +
+                    sec("NOT YET ANSWERED", h7) +
+                    "</div></details>"
+                  );
+                })() +
+                '<div class="meta">Programs work best in contexts where you know what is going to happen, either because you have done it before or can strongly anticipate the outcome. Programs work best when executed in environments where there is order, meaning regularity and stability, and a line can be drawn from action to outcome. Set the sequence and let it run: schedule, roles, repeat.</div><div class="meta">Strategies work best in disorderly environments when you cannot foresee entirely what the outcome will be; there are several outcomes to choose from that are all probable. However, there is no way of knowing which is right before acting. Strategies work best when you cannot draw a straight line from action to outcome, as they enable you to keep a loose structure ideal for ill-defined situations where constant revisions to courses of action are necessary. Hold it loosely: sketch two or three ways forward, start small, and change course as people respond.</div><div class="msub">Sources:</div><div class="msub">Axelrod, R., &amp; Cohen, M. D. (2000). <i>Harnessing complexity: Organizational implications of a scientific frontier</i>. New York, NY: Basic Books.</div><div class="msub">Morin, E. (2008). <i>On complexity</i>. (R. Postel, Trans.). Cresskill, NJ: Hampton Press.</div><div class="msub">Morin, E., &amp; Kern, A. B. (1999). <i>Homeland earth: A manifesto for the new millennium</i>. (S. M. Kelly, &amp; R. LaPointe, Trans.) Cresskill, NJ: Hampton Press.</div><div class="msub">Waldrop, M. M. (1992). <i>The emerging science at the edge of order and chaos</i>. New York, NY: Touchstone.</div>' +
                 (ESM && ESM.used
                   ? '<details class="fold"><summary>HOW TO READ THIS PAGE</summary><div class="mtext"><p>Each card lists the reasons it calls for a strategy rather than a program. Two of those reasons are the emotion you marked on a note and which side of the line you put it on. In this workbook they almost always match: notes marked acceptance sit above the line, where things help, and notes marked aggression, distrust or defiance sit below it, where things hinder. That is true of ' +
                     ESM.agree +
@@ -13844,7 +13951,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v147");
+        t && (t.textContent = "v148");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
