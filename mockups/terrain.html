@@ -33,6 +33,11 @@
   .row b{letter-spacing:.05em}
   .small{font-size:12px;color:var(--mute)}
   .msg{color:#a33;font-size:13px;margin:6px 0}
+  .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}
+  .rd.on{background:#f6efe9;border-left-color:#7a1d12}
+  .rd b{display:block;margin-bottom:2px}
+  .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .rd.on .rn{background:#7a1d12}
   .mn i{font-style:normal;font-weight:700;color:#7a1d12}
   .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}
   .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}
@@ -43,7 +48,7 @@
 <div class="wrap">
   <div class="kick">THE BEAR CANYON METHOD · MOCK-UP, NOT IN THE ENGINE</div>
   <h1>Pattern Synthesis: the ground ahead</h1>
-  <div class="sub">A relief model built from the notes on the line map. Drag to turn it. Scroll or pinch to zoom.</div>
+  <div class="sub">A relief model built from the notes on the line map. The numbers on the ground are what stands out, explained below. Drag to turn it; scroll or pinch to zoom.</div>
 
   <div class="bar">
     <label>Workbook
@@ -76,6 +81,8 @@
     <div class="tip" id="tip"></div>
   </div>
 
+  <div class="sec" style="margin-top:12px">WHAT THE GROUND SAYS</div>
+  <div id="readings"></div>
   <div id="selnote" class="row"></div>
   <div class="legend" id="legend"></div>
   <div class="terr">
@@ -96,7 +103,7 @@
   <div class="sec">CAUSE AND EFFECT</div>
   <div id="cause"></div>
   <div class="sec">PHRASES THAT RUN THROUGH</div>
-  <div class="small" style="margin-bottom:4px">Two words used together in more than one note or answer. Tap a note or a question marker on the ground to see what it means and the phrases through it, or tick a phrase here.</div>
+  <div class="small" style="margin-bottom:4px">Two words used together in more than one note or answer. Every phrase used in more than one note or answer, with what it means. Tick one to draw its loop.</div>
   <div id="threads"></div>
   <div class="sec" id="easyhead" style="display:none">EASIEST WAY ACROSS</div>
   <div id="easytxt"></div>
@@ -317,7 +324,7 @@ function trailY(x){return 118+3.2*Math.sin(x/21)+1.6*Math.sin(x/7.3+1);}
 function along(x,y){var d=Math.abs(y-trailY(x));return d<28?(x>230?"on the way, close to the goal":x<90?"on the way, near the present":"on the way"):x>230?"off the trail, near the goal":"off the trail";}
 function noteById(id){return terr.notes.filter(function(n){return "N"+n.k===id;})[0];}
 function pitOf(n){var c=terr.pitTgt?terr.pitTgt[cellOf(n.x,n.y)]:-1;for(var i=0;i<terr.pits.length;i++)if(terr.pits[i].idx===c)return i;return -1;}
-function list(a){return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1];}
+function list(a){if(a.length>6)return a.slice(0,5).join(", ")+" and "+(a.length-5)+" more";return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1];}
 var NEG=/\b(away from|not|no|without|instead of|against|stop\w*|less|reduc\w*|opposite of|rather than|end\w*|beyond|abandon\w*|move off)\s+(?:[a-z]+\s+){0,2}$/i;
 function phraseRe(w){var a=w.split(" ");return new RegExp("\\b"+a[0]+"\\w*\\s+"+a[1]+"\\w*","i");}
 function negated(text,w){var m=phraseRe(w).exec(text);if(!m)return null;var before=text.slice(Math.max(0,m.index-40),m.index);var n=NEG.exec(before);return n?(n[0]+m[0]).trim():null;}
@@ -328,9 +335,9 @@ function readPhrase(th){
     if(ASK[k]==="away")return;
     if(m.id[0]==="N"){var n=noteById(m.id);if(n)ns.push(n);}else answersOnly.push(m.id);});
   var out=[];
-  if(!ns.length){out.push("It is in "+list(answersOnly)+" but no note carries it, so the ground cannot say yet what it means. Adding a note on it would place it.");return {t:out.join(" "),ask:ask};}
+  if(!ns.length){out.push("It is in "+list(answersOnly)+" but no note carries it, so the ground cannot say yet what it means. Adding a note on it would place it.");return {t:out.join(" "),ask:ask,cat:"answers",grp:[]};}
   var g={raised:[],sunk:[],level:[]};ns.forEach(function(n){g[ground(hAt(n.x,n.y))].push("N"+n.k);});
-  var R=g.raised.length,S=g.sunk.length,T=ns.length;
+  var R=g.raised.length,S=g.sunk.length,T=ns.length,cat=R&&!S?"footing":S&&!R?"stuck":R&&S?"contested":"level";
   if(R&&!S)out.push((T===1?"Its only note ("+g.raised[0]+") sits":(R===T?"All":"Most")+" of its notes ("+list(g.raised)+") sit")+" on raised ground, where things hold up. The idea already has footing: a place to build from.");
   else if(S&&!R){var pi={};ns.forEach(function(n){var k=pitOf(n);if(k>=0)pi[k]=1;});
     out.push((T===1?"Its only note ("+g.sunk[0]+") sits":(S===T?"All":"Most")+" of its notes ("+list(g.sunk)+") sit")+" in sunk ground."+(Object.keys(pi).length?" They are in the place where it is easiest to get stuck, so this phrase is part of what holds the process there.":" Where this phrase is, the process tends to get stuck."));}
@@ -340,7 +347,27 @@ function readPhrase(th){
   if(near)out.push(near===T?"It lies along the trail, so the way forward passes through it.":"Part of it lies along the trail.");
   else out.push("It lies off the trail, beside the way forward rather than on it.");
   if(ask.length)out.unshift("Until you answer the question below, this counts "+list(ask.map(function(a){return a.id;}))+" as standing for it.");
-  return {t:out.join(" "),ask:ask};
+  return {t:out.join(" "),ask:ask,cat:cat,grp:ns};
+}
+var READ=[],HL=null,HLSTICK=false,markScr=[];
+function cen(ns){var x=0,y=0;ns.forEach(function(n){x+=n.x;y+=n.y;});return [x/ns.length,y/ns.length];}
+function buildReadings(){
+  var R=[],T=terr;
+  T.cause.forEach(function(ce){var ent=ce.e.filter(function(id){return ce.c.indexOf(id)<0;}).map(noteById).filter(Boolean);
+    R.push({title:"Where the "+ce.w+" loop is fed",text:readCause(ce),at:ent.length?[ent[0].x,ent[0].y]:null,kind:"cause"});});
+  T.pits.forEach(function(pt,k){var x=(pt.idx%VX)*CX,y=((pt.idx/VX)|0)*CY,nearGoal=x>230,onTrail=Math.abs(y-trailY(x))<35;
+    R.push({title:nearGoal&&onTrail?"A drop just before the goal":k===0?"Where it is easiest to get stuck":"Another place to get stuck",
+      text:ks(pt.ks)+". About "+Math.round(pt.share*100)+"% of the ground slopes down into here; getting out toward the goal is a climb of "+Math.round(pt.pct*100)+"% of the map's height. "+readPit(pt,k),
+      at:[x,y],kind:"pit",pit:k,rank:nearGoal&&onTrail?1:k===0?2:6});});
+  var seen={};T.threads.forEach(function(th){var r=readPhrase(th);if(seen[r.cat]||r.cat==="level")return;seen[r.cat]=1;
+    var title={footing:"“"+th.w+"” has footing",stuck:"“"+th.w+"” holds the process down",contested:"“"+th.w+"” may be contested",answers:"“"+th.w+"” is not on the map yet"}[r.cat];
+    var sunkN=r.grp.filter(function(n){return hAt(n.x,n.y)<-0.1;});
+    var at=r.cat==="contested"&&sunkN.length?[sunkN[0].x,sunkN[0].y]:r.grp.length?cen(r.grp):(function(){var qs=th.ms.map(function(m){return /^Q/.test(m.id)?T.qpos[+m.id.slice(2)-1]:null;}).filter(Boolean);return qs.length?cen(qs):null;})();
+    R.push({title:title,text:r.t,at:at,kind:"phrase",w:th.w,ask:r.ask,th:th,rank:{contested:3,stuck:4,footing:5,answers:8}[r.cat]});});
+  T.hills.slice(0,1).forEach(function(h){var x=(h.idx%VX)*CX,y=((h.idx/VX)|0)*CY,off=Math.abs(y-trailY(x))>=45;
+    R.push({title:off?"Firm ground the way forward does not use yet":"Firm ground the way forward can lean on",text:ks(h.ks)+". "+readHill(h,0),at:[x,y],kind:"hill",rank:7});});
+  R.forEach(function(r){if(r.kind==="cause")r.rank=0;});
+  R.sort(function(a,b){return a.rank-b.rank;});READ=R.filter(function(r){return r.at;}).slice(0,8);
 }
 function readCause(ce){
   var entry=ce.e.filter(function(id){return ce.c.indexOf(id)<0;}),exit=ce.c.filter(function(id){return ce.e.indexOf(id)<0;}),both=ce.c.filter(function(id){return ce.e.indexOf(id)>=0;});
@@ -543,7 +570,8 @@ function render(st){
   /* loops, then the trail, then question markers: drawn over the ground */
   function drape(pts,lift,step){var o=[];for(var k=0;k<pts.length;k+=step||1){var q=pts[k];o.push(pr(wx(q[0]),zAt(q[0],q[1])+lift,wz(q[1]),[0,0]));}if(step>1){var q2=pts[pts.length-1];o.push(pr(wx(q2[0]),zAt(q2[0],q2[1])+lift,wz(q2[1]),[0,0]));}return o;}
   function stroke(o,col,wid,dash){ctx.beginPath();o.forEach(function(p,k){k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);});ctx.setLineDash(dash||[]);ctx.strokeStyle=col;ctx.lineWidth=wid;ctx.lineJoin="round";ctx.lineCap="round";ctx.stroke();ctx.setLineDash([]);}
-  function isOn(th){return thOn[th.w]||(SEL&&SELTH===th.w);}
+  var HLR=HL!=null?READ[HL]:null;
+  function isOn(th){return thOn[th.w]||(SEL&&SELTH===th.w)||(HLR&&HLR.w===th.w);}
   terr.threads.forEach(function(th){if(!isOn(th))return;th.rings.forEach(function(lines,ri){var w=1.8,a=0.95;
     lines.forEach(function(L){var o=drape(L,0.9);stroke(o,"rgba(255,255,255,.8)",w+2);});
     lines.forEach(function(L){var o=drape(L,0.9);stroke(o,"#2b1a0e",w);});});});
@@ -560,6 +588,13 @@ function render(st){
     ctx.beginPath();ctx.moveTo(b0[0],b0[1]);ctx.lineTo(b1[0],b1[1]);ctx.strokeStyle="#111";ctx.lineWidth=1.6;ctx.stroke();
     ctx.fillStyle="#111";ctx.fillRect(b1[0]-11,b1[1]-8,22,12);ctx.font="bold 9px Questrial,sans-serif";ctx.textAlign="center";ctx.fillStyle="#fff";ctx.fillText("Q."+Q.q,b1[0],b1[1]+1);
     qScr.push({Q:Q,x:b1[0],y:b1[1]-2});});
+  /* numbered readings on the ground */
+  markScr=[];READ.forEach(function(r,i){var z=zAt(r.at[0],r.at[1]),b0=pr(wx(r.at[0]),z,wz(r.at[1]),[0,0]),b1=pr(wx(r.at[0]),z+20,wz(r.at[1]),[0,0]);
+    var on=HL===i;ctx.beginPath();ctx.moveTo(b0[0],b0[1]);ctx.lineTo(b1[0],b1[1]);ctx.strokeStyle="#111";ctx.lineWidth=1.4;ctx.stroke();
+    ctx.beginPath();ctx.arc(b1[0],b1[1],on?11:9,0,6.283);ctx.fillStyle=on?"#7a1d12":"#111";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();
+    ctx.font="bold "+(on?12:11)+"px Questrial,sans-serif";ctx.textAlign="center";ctx.fillStyle="#fff";ctx.fillText(String(i+1),b1[0],b1[1]+4);
+    if(on){ctx.beginPath();ctx.ellipse(b0[0],b0[1],22,10,0,0,6.283);ctx.strokeStyle="#7a1d12";ctx.lineWidth=2;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);}
+    markScr.push({i:i,x:b1[0],y:b1[1]});});
   /* labels on top */
   if(CAUSE_LBL){ctx.font="bold 10px Questrial,sans-serif";ctx.textAlign="center";ctx.lineWidth=3.4;ctx.strokeStyle="#fff";var lt=CAUSE_LBL.w.toUpperCase()+" ⟳";ctx.strokeText(lt,CAUSE_LBL.p[0],CAUSE_LBL.p[1]-6);ctx.fillStyle="#7a1d12";ctx.fillText(lt,CAUSE_LBL.p[0],CAUSE_LBL.p[1]-6);}
   if(labelPins){ctx.font="9px Questrial,sans-serif";ctx.textAlign="left";ctx.lineWidth=2.6;ctx.lineJoin="round";pinScreen.forEach(function(p){ctx.strokeStyle="rgba(255,255,255,.9)";ctx.strokeText("N"+p.n.k,p.x+5,p.y+3);ctx.fillStyle="#222";ctx.fillText("N"+p.n.k,p.x+5,p.y+3);});}
@@ -569,7 +604,7 @@ function render(st){
   text("PRESENT",wx(START.x),zAt(START.x,START.y)+23,wz(START.y),{size:10});
   text("GOAL",wx(GOAL.x),zAt(GOAL.x,GOAL.y)+16,wz(GOAL.y),{size:10});
   text("FUTURE →",wx(GOAL.x-46),zAt(GOAL.x-46,128)+6,wz(130),{size:10});
-  terr.threads.forEach(function(th,ti){if(!(thOn[th.w]||(SEL&&SELTH===th.w))||!th.segs||!th.segs.length)return;var top=th.segs[0][0];th.segs.forEach(function(sg){if(sg[0][1]<top[1])top=sg[0];});
+  terr.threads.forEach(function(th,ti){if(!(thOn[th.w]||(SEL&&SELTH===th.w)||(HL!=null&&READ[HL]&&READ[HL].w===th.w))||!th.segs||!th.segs.length)return;var top=th.segs[0][0];th.segs.forEach(function(sg){if(sg[0][1]<top[1])top=sg[0];});
     text(th.w.toUpperCase(),wx(top[0]),zAt(top[0],top[1])+5,wz(top[1]),{size:10,color:"#4a2e18"});});
 }
 function fast(){if(!raf)raf=requestAnimationFrame(function(){raf=0;render(2);clearTimeout(fullT);fullT=setTimeout(function(){render(1);},170);});}
@@ -584,6 +619,7 @@ var DESC={
  above:"Emotion ground seen straight down, like a shaded relief map."};
 function ks(a){return a.length?a.map(function(k){return "N"+k;}).join(", "):"no single note stands out";}
 function fillText(){
+  buildReadings();fillReadings();
   fillThreads();fillCause();fillSel();var T=terr,withE=T.pts.length,none=T.notes.length-withE;
   document.getElementById("verdesc").textContent=DESC[ver];
   var R=ver==="ridge";
@@ -625,6 +661,18 @@ function fillCause(){var el=document.getElementById("cause");el.innerHTML="";
 function mean(el,t){var sp=document.createElement("span");sp.className="mn";var i=document.createElement("i");i.textContent="What it means: ";sp.appendChild(i);sp.appendChild(document.createTextNode(t));el.appendChild(sp);}
 function askRow(el,a,th){var d=document.createElement("div");d.className="ask";d.appendChild(document.createTextNode(a.id+" says “"+a.q+"”. Does "+a.id+" stand for “"+th.w+"” or turn away from it? "));
   [["Stands for it","for"],["Turns away","away"]].forEach(function(o){var b=document.createElement("button");b.type="button";b.textContent=o[0];b.onclick=function(){ASK[a.k]=o[1];fillText();render();};d.appendChild(b);});el.appendChild(d);}
+function markList(){document.querySelectorAll(".rd").forEach(function(el,i){el.classList.toggle("on",HL===i);});}
+function fillReadings(){var el=document.getElementById("readings");el.innerHTML="";
+  if(!READ.length){el.className="row";el.textContent="Nothing stands out on this ground yet. Mark emotions on more notes to build it.";return;}
+  READ.forEach(function(r,i){var d=document.createElement("div");d.className="rd";
+    var n=document.createElement("span");n.className="rn";n.textContent=String(i+1);d.appendChild(n);
+    var body=document.createElement("div");var t=document.createElement("b");t.textContent=r.title;body.appendChild(t);
+    var p=document.createElement("div");p.textContent=r.text;body.appendChild(p);
+    (r.ask||[]).forEach(function(a){askRow(body,a,r.th);});d.appendChild(body);
+    d.onmouseenter=function(){if(!HLSTICK){HL=i;markList();render();}};
+    d.onmouseleave=function(){if(!HLSTICK){HL=null;markList();render();}};
+    d.onclick=function(ev){if(ev.target.tagName==="BUTTON")return;if(HLSTICK&&HL===i){HLSTICK=false;HL=null;}else{HLSTICK=true;HL=i;}markList();render();};
+    el.appendChild(d);});}
 function fillThreads(){var el=document.getElementById("threads");el.innerHTML="";
   if(!terr.threads.length){el.textContent="No two-word phrase is used in more than one note or answer yet.";return;}
   terr.threads.forEach(function(th){var row=document.createElement("label");row.className="row";row.style.display="flex";row.style.gap="8px";row.style.alignItems="baseline";
@@ -639,7 +687,7 @@ function setModel(raw,goal,ans){GOALTEXT=String(goal||"").trim();ANSWERS=(Array.
   var notes=prep(raw);document.getElementById("msg").textContent="";
   if(!notes.length){document.getElementById("msg").textContent="No notes with text were found on the line map in that workbook. The model is built from line map notes.";}
   curRaw=raw;if(ver==="grow"){var gr=document.getElementById("gr");gr.max=notes.length;growK=Math.min(growK,notes.length);gr.value=growK;document.getElementById("grv").textContent=growK+" of "+notes.length;}
-  SEL=null;terr=buildTerrain(notes);thOn={};prepare();fillText();resize();
+  SEL=null;HL=null;HLSTICK=false;terr=buildTerrain(notes);thOn={};prepare();fillText();resize();
 }
 var curRaw=null;
 function rebuild(){terr=buildTerrain(prep(curRaw));var keep=thOn||{};thOn={};terr.threads.forEach(function(t){if(keep[t.w])thOn[t.w]=1;});prepare();fillText();render();}
@@ -681,6 +729,11 @@ function pick(e){var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY
   qScr.forEach(function(p){if(Math.abs(p.x-x)<12&&Math.abs(p.y-y)<9)id="Q."+p.Q.q;});
   SEL=(id&&id!==SEL)?id:null;SELTH=null;if(SEL){var th=terr.threads.filter(function(t){return t.ms.some(function(m){return m.id===SEL;});});if(th.length)SELTH=th[0].w;}fillSel();render();}
 function hover(e){var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,best=null,bd=18;
+  var mk=null;markScr.forEach(function(m){if(Math.hypot(m.x-x,m.y-y)<12)mk=m;});
+  if(mk){var R0=READ[mk.i];tip.innerHTML="";var tb=document.createElement("b");tb.textContent=(mk.i+1)+" · "+R0.title;tip.appendChild(tb);tip.appendChild(document.createTextNode(R0.text));
+    tip.style.maxWidth="420px";tip.style.display="block";tip.style.left=Math.min(cssW-430,Math.max(4,x+14))+"px";tip.style.top=Math.max(4,y-8-tip.offsetHeight)+"px";
+    if(!HLSTICK&&HL!==mk.i){HL=mk.i;markList();render();}return;}
+  if(!HLSTICK&&HL!=null){HL=null;markList();render();}
   var qh=null;qScr.forEach(function(p){if(Math.abs(p.x-x)<12&&Math.abs(p.y-y)<9)qh=p;});
   if(qh){var Q=qh.Q;tip.innerHTML="";var qb=document.createElement("b");qb.textContent="Q."+Q.q+" · "+QT[Q.q-1];tip.appendChild(qb);
     var ans=(ANSWERS[Q.q-1]||"").trim();tip.appendChild(document.createTextNode(ans||"No answer written yet."));
