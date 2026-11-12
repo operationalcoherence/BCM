@@ -33,6 +33,10 @@
   .row b{letter-spacing:.05em}
   .small{font-size:12px;color:var(--mute)}
   .msg{color:#a33;font-size:13px;margin:6px 0}
+  .mn i{font-style:normal;font-weight:700;color:#7a1d12}
+  .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}
+  .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}
+  .ask button{margin-left:6px;font-size:12px;padding:3px 8px}
 </style>
 </head>
 <body>
@@ -72,6 +76,7 @@
     <div class="tip" id="tip"></div>
   </div>
 
+  <div id="selnote" class="row"></div>
   <div class="legend" id="legend"></div>
   <div class="terr">
     <span id="t1">▲ raised: acceptance</span>
@@ -91,8 +96,7 @@
   <div class="sec">CAUSE AND EFFECT</div>
   <div id="cause"></div>
   <div class="sec">PHRASES THAT RUN THROUGH</div>
-  <div class="small" style="margin-bottom:4px">Two words used together in more than one note or answer. Tap a note or a question marker on the ground to see the phrases through it, or tick one here.</div>
-  <div id="selnote" class="row"></div>
+  <div class="small" style="margin-bottom:4px">Two words used together in more than one note or answer. Tap a note or a question marker on the ground to see what it means and the phrases through it, or tick a phrase here.</div>
   <div id="threads"></div>
   <div class="sec" id="easyhead" style="display:none">EASIEST WAY ACROSS</div>
   <div id="easytxt"></div>
@@ -251,7 +255,10 @@ function findThreads(notes,qpos){
   var M=members(notes,qpos);M.forEach(function(m){m.w=phrases(m.t);});
   var cnt={};M.forEach(function(m){Object.keys(m.w).forEach(function(w){cnt[w]=(cnt[w]||0)+1;});});
   var list=Object.keys(cnt).filter(function(w){return cnt[w]>=2;}).sort(function(a,b){return cnt[b]-cnt[a]||(a<b?-1:1);}).slice(0,10);
-  return list.map(function(w){var ms=M.filter(function(m){return m.w[w];});var rs=loopSegs(ms,1);return {w:w,ms:ms,segs:rs[0],rings:rs.map(chain)};});
+  var kept=[];list.forEach(function(w){var ms=M.filter(function(m){return m.w[w];}).map(function(m){return m.id;}),ws=w.split(" ");
+    var frag=kept.some(function(k){var kw=k.w.split(" ");return (kw.indexOf(ws[0])>=0||kw.indexOf(ws[1])>=0)&&ms.every(function(id){return k.ids.indexOf(id)>=0;});});
+    if(!frag)kept.push({w:w,ids:ms});});
+  return kept.map(function(k){var w=k.w,ms=M.filter(function(m){return m.w[w];});var rs=loopSegs(ms,1);return {w:w,ms:ms,segs:rs[0],rings:rs.map(chain)};});
 }
 /* cause and effect: the engine's layer 26 rule, run here on the same notes and answers */
 function findCause(notes,qpos){
@@ -265,7 +272,8 @@ function findCause(notes,qpos){
     .sort(function(a,b){return b.n-a.n;});
   return B.slice(0,1).map(function(b){var fw=(new RegExp("\\b"+b.k+"[a-z]*","i").exec(P[b.c[0]].t)||[b.k])[0].toLowerCase();
     function ids(ix){var u=[];ix.forEach(function(i){if(u.indexOf(P[i].l)<0)u.push(P[i].l);});return u;}
-    return {w:fw,c:ids(b.c),e:ids(b.e)};});
+    var sent={};b.c.concat(b.e).forEach(function(i){(sent[P[i].l]=sent[P[i].l]||[]).indexOf(P[i].t)<0&&(sent[P[i].l]=sent[P[i].l]||[]).push(P[i].t);});
+    return {w:fw,c:ids(b.c),e:ids(b.e),sent:sent};});
 }
 /* the loop: an outline kept a fixed distance from the notes and the shortest lines joining them */
 function loopSegs(ms,maxRings){
@@ -298,6 +306,80 @@ function chain(segs){var key=function(p){return Math.round(p[0]*20)+","+Math.rou
     out.push(line);}
   return out;}
 var THREAD_DASH=[[],[5,3],[1.5,2.5],[8,3,2,3],[3,3],[10,4],[2,2,6,2],[6,2]];
+
+/* ---------- what it means: every layer read against the ground, the trail and the goal ---------- */
+var QSHORT=["why it has not taken root","opposition","support","conditions","what to design","what to redesign","what to reinforce"];
+var ASK={};  /* one-tap answers: "N15|aggressive suppression" -> "away" or "for" */
+function hAt(x,y){var i=Math.max(0,Math.min(VX-1,Math.round(x/CX))),j=Math.max(0,Math.min(VY-1,Math.round(y/CY)));return terr.hs[j*VX+i];}
+function cellOf(x,y){return Math.max(0,Math.min(VY-1,Math.round(y/CY)))*VX+Math.max(0,Math.min(VX-1,Math.round(x/CX)));}
+function ground(v){return v>0.1?"raised":v<-0.1?"sunk":"level";}
+function trailY(x){return 118+3.2*Math.sin(x/21)+1.6*Math.sin(x/7.3+1);}
+function along(x,y){var d=Math.abs(y-trailY(x));return d<28?(x>230?"on the way, close to the goal":x<90?"on the way, near the present":"on the way"):x>230?"off the trail, near the goal":"off the trail";}
+function noteById(id){return terr.notes.filter(function(n){return "N"+n.k===id;})[0];}
+function pitOf(n){var c=terr.pitTgt?terr.pitTgt[cellOf(n.x,n.y)]:-1;for(var i=0;i<terr.pits.length;i++)if(terr.pits[i].idx===c)return i;return -1;}
+function list(a){return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1];}
+var NEG=/\b(away from|not|no|without|instead of|against|stop\w*|less|reduc\w*|opposite of|rather than|end\w*|beyond|abandon\w*|move off)\s+(?:[a-z]+\s+){0,2}$/i;
+function phraseRe(w){var a=w.split(" ");return new RegExp("\\b"+a[0]+"\\w*\\s+"+a[1]+"\\w*","i");}
+function negated(text,w){var m=phraseRe(w).exec(text);if(!m)return null;var before=text.slice(Math.max(0,m.index-40),m.index);var n=NEG.exec(before);return n?(n[0]+m[0]).trim():null;}
+function readPhrase(th){
+  var ask=[],ns=[],answersOnly=[];
+  th.ms.forEach(function(m){var k=m.id+"|"+th.w;var ng=negated(m.t,th.w);
+    if(ng&&!ASK[k])ask.push({id:m.id,k:k,q:ng});
+    if(ASK[k]==="away")return;
+    if(m.id[0]==="N"){var n=noteById(m.id);if(n)ns.push(n);}else answersOnly.push(m.id);});
+  var out=[];
+  if(!ns.length){out.push("It is in "+list(answersOnly)+" but no note carries it, so the ground cannot say yet what it means. Adding a note on it would place it.");return {t:out.join(" "),ask:ask};}
+  var g={raised:[],sunk:[],level:[]};ns.forEach(function(n){g[ground(hAt(n.x,n.y))].push("N"+n.k);});
+  var R=g.raised.length,S=g.sunk.length,T=ns.length;
+  if(R&&!S)out.push((T===1?"Its only note ("+g.raised[0]+") sits":(R===T?"All":"Most")+" of its notes ("+list(g.raised)+") sit")+" on raised ground, where things hold up. The idea already has footing: a place to build from.");
+  else if(S&&!R){var pi={};ns.forEach(function(n){var k=pitOf(n);if(k>=0)pi[k]=1;});
+    out.push((T===1?"Its only note ("+g.sunk[0]+") sits":(S===T?"All":"Most")+" of its notes ("+list(g.sunk)+") sit")+" in sunk ground."+(Object.keys(pi).length?" They are in the place where it is easiest to get stuck, so this phrase is part of what holds the process there.":" Where this phrase is, the process tends to get stuck."));}
+  else if(R&&S)out.push("Its notes sit on both kinds of ground: raised at "+list(g.raised)+", sunk at "+list(g.sunk)+". The same words may mean different things in different places, or the idea is contested. Worth a closer look.");
+  else out.push("Its notes sit on level ground, so no emotion pulls it either way yet.");
+  var near=ns.filter(function(n){return Math.abs(n.y-trailY(n.x))<28;}).length;
+  if(near)out.push(near===T?"It lies along the trail, so the way forward passes through it.":"Part of it lies along the trail.");
+  else out.push("It lies off the trail, beside the way forward rather than on it.");
+  if(ask.length)out.unshift("Until you answer the question below, this counts "+list(ask.map(function(a){return a.id;}))+" as standing for it.");
+  return {t:out.join(" "),ask:ask};
+}
+function readCause(ce){
+  var entry=ce.e.filter(function(id){return ce.c.indexOf(id)<0;}),exit=ce.c.filter(function(id){return ce.e.indexOf(id)<0;}),both=ce.c.filter(function(id){return ce.e.indexOf(id)>=0;});
+  var o=["What "+list(entry)+" describe"+(entry.length>1?"":"s")+" leads to "+ce.w+", and in "+list(exit)+" "+ce.w+" leads on to something else."+(both.length?" "+list(both)+" write"+(both.length>1?"":"s")+" it both ways.":"")+" If that is right, it keeps itself going."];
+  var ent=entry.map(noteById).filter(Boolean);
+  if(ent.length){var n=ent[0],gw=ground(hAt(n.x,n.y));
+    o.push("N"+n.k+" is where the loop is fed on the ground, and it sits in "+gw+" ground"+(n.y>118?", on the hinder side":"")+". Changing what N"+n.k+" describes is the end you can act on; the other end is the consequence.");}
+  else o.push("Where the loop is fed is only in your answers, not on the map, so the ground cannot show which end to start from.");
+  return o.join(" ");
+}
+function readPit(p,k){
+  var ns=terr.notes.filter(function(n){return pitOf(n)===k&&hAt(n.x,n.y)<-0.1;});
+  var qs={};ns.forEach(function(n){qs[n.q]=1;});var qn=Object.keys(qs).map(function(q){return "Q."+q+" ("+QSHORT[q-1]+")";});
+  var x=(p.idx%VX)*CX,y=((p.idx/VX)|0)*CY,d=Math.abs(y-trailY(x));
+  var o=[];if(qn.length)o.push("Its notes come from "+list(qn)+".");
+  var odd=ns.filter(function(n){return n.q===3||n.q===7;}).map(function(n){return "N"+n.k;});
+  var des=ns.filter(function(n){return n.q===5||n.q===6;}).map(function(n){return "N"+n.k;});
+  if(des.length)o.push(list(des)+" name"+(des.length>1?"":"s")+" something to design or redesign, and "+(des.length>1?"they sit":"it sits")+" here. This is where design work would lift the ground.");
+  if(odd.length)o.push(list(odd)+(odd.length>1?" were":" was")+" written as support or something to reinforce, yet "+(odd.length>1?"they sit":"it sits")+" here in sunk ground. Something meant to help may be working against the goal.");
+  o.push(d<35?"The trail runs right past it, so the way forward has to get by this place.":"It lies off the trail: it holds people who drift into it more than it blocks the way.");
+  if(x>230)o.push("It sits close to the goal, so it can stop the process near the end.");
+  return o.join(" ");
+}
+function readHill(h,k){
+  var tg=terr.hillTgt,ns=terr.notes.filter(function(n){return tg&&tg[cellOf(n.x,n.y)]===h.idx&&hAt(n.x,n.y)>0.1;});
+  var qs={};ns.forEach(function(n){qs[n.q]=1;});var qn=Object.keys(qs).map(function(q){return "Q."+q+" ("+QSHORT[q-1]+")";});
+  var x=(h.idx%VX)*CX,y=((h.idx/VX)|0)*CY,d=Math.abs(y-trailY(x));
+  var o=[];if(qn.length)o.push("Its notes come from "+list(qn)+".");
+  var odd=ns.filter(function(n){return n.q===2;}).map(function(n){return "N"+n.k;});
+  if(odd.length)o.push(list(odd)+(odd.length>1?" were":" was")+" written as opposition, yet "+(odd.length>1?"they sit":"it sits")+" on raised ground. That opposition may be easier to work with than it looks.");
+  o.push(d<45?"The trail runs beside it, so the way forward can lean on it.":"It is away from the trail: support the way forward does not use yet.");
+  return o.join(" ");
+}
+function readNote(n){
+  var o=[],gw=ground(hAt(n.x,n.y));o.push("It sits on "+gw+" ground, "+along(n.x,n.y)+".");
+  var k=pitOf(n);if(k>=0)o.push("It is inside a place where it is easy to get stuck.");
+  terr.cause.forEach(function(ce){var id="N"+n.k;if(ce.e.indexOf(id)>=0&&ce.c.indexOf(id)<0)o.push("It feeds the "+ce.w+" loop: the end you can act on.");else if(ce.c.indexOf(id)>=0)o.push("It is where the "+ce.w+" loop leads.");});
+  return o.join(" ");
+}
 
 /* heap for the minimax flood */
 function Heap(){this.k=[];this.v=[];}
@@ -338,6 +420,7 @@ function analyse(T){
       var root=tgt[c]; chain.forEach(function(x){tgt[x]=root;});
     }
     var cnt={}; for(var q=0;q<n;q++)cnt[tgt[q]]=(cnt[tgt[q]]||0)+1;
+    if(sign>0)T.pitTgt=tgt;else T.hillTgt=tgt;
     return cnt;
   }
   var span=Math.max(1e-6,T.hmax-T.hmin);
@@ -512,10 +595,10 @@ function fillText(){
   var pits=document.getElementById("pits");pits.innerHTML="";
   if(!T.pits.length){var d=document.createElement("div");d.className="row";d.textContent="Nowhere. No low place is deep enough to hold the process short of the goal.";pits.appendChild(d);}
   T.pits.forEach(function(p){var d=document.createElement("div");d.className="row";var b=document.createElement("b");b.textContent=ks(p.ks)+" · ";d.appendChild(b);
-    d.appendChild(document.createTextNode("About "+Math.round(p.share*100)+"% of the ground slopes down into here, and getting out toward the goal means a climb of "+Math.round(p.pct*100)+"% of the map's full height."));pits.appendChild(d);});
+    d.appendChild(document.createTextNode("About "+Math.round(p.share*100)+"% of the ground slopes down into here, and getting out toward the goal means a climb of "+Math.round(p.pct*100)+"% of the map's full height. "));mean(d,readPit(p,T.pits.indexOf(p)));pits.appendChild(d);});
   var hl=document.getElementById("hills");hl.innerHTML="";
   if(!T.hills.length){var e=document.createElement("div");e.className="row";e.textContent="Nowhere yet.";hl.appendChild(e);}
-  T.hills.forEach(function(p){var d=document.createElement("div");d.className="row";var b=document.createElement("b");b.textContent=ks(p.ks);d.appendChild(b);hl.appendChild(d);});
+  T.hills.forEach(function(p){var d=document.createElement("div");d.className="row";var b=document.createElement("b");b.textContent=ks(p.ks)+" · ";d.appendChild(b);mean(d,readHill(p,T.hills.indexOf(p)));hl.appendChild(d);});
   var et=document.getElementById("easytxt"),eh=document.getElementById("easyhead");
   eh.style.display=showEasy?"block":"none";et.style.display=showEasy?"block":"none";
   var span=Math.max(1e-6,T.hmax-T.hmin),climb=Math.max(0,T.barrier-T.hs[Math.round(START.y/CY)*VX+Math.round(START.x/CX)]),pct=Math.round(climb/span*100);
@@ -524,23 +607,30 @@ function fillText(){
   et.appendChild(r);
 }
 function fillSel(){var el=document.getElementById("selnote");if(!el)return;el.innerHTML="";if(!SEL)return;
+  var box=document.createElement("div");box.className="selbox";var b=document.createElement("b");b.textContent=SEL;box.appendChild(b);
+  var n=noteById(SEL);if(n){var t=document.createElement("div");t.className="small";t.textContent="“"+n.t+"”";box.appendChild(t);var r=document.createElement("div");mean(r,readNote(n));box.appendChild(r);}
+  else{var t2=document.createElement("div");t2.className="small";t2.textContent=QT[+SEL.slice(2)-1];box.appendChild(t2);}
   var th=terr.threads.filter(function(t){return t.ms.some(function(m){return m.id===SEL;});});
-  var b=document.createElement("b");b.textContent=SEL+" · ";el.appendChild(b);
-  if(!th.length){el.appendChild(document.createTextNode("shares no phrase with another note or answer."));return;}
-  el.appendChild(document.createTextNode("phrases through it (one shown at a time): "));
-  th.forEach(function(t,i){var bt=document.createElement("button");bt.type="button";bt.textContent="“"+t.w+"”";bt.style.margin="2px 4px 2px 0";
-    if(t.w===SELTH){bt.style.background="#222";bt.style.color="#fff";}
-    bt.onclick=function(){SELTH=t.w;fillSel();render();};el.appendChild(bt);});}
+  if(!th.length){var x=document.createElement("div");x.textContent="It shares no phrase with another note or answer.";box.appendChild(x);el.appendChild(box);return;}
+  var pl=document.createElement("div");pl.style.marginTop="6px";pl.appendChild(document.createTextNode("Phrases through it: "));
+  th.forEach(function(t){var bt=document.createElement("button");bt.type="button";bt.textContent="“"+t.w+"”";bt.style.margin="2px 4px 2px 0";
+    if(t.w===SELTH){bt.style.background="#222";bt.style.color="#fff";}bt.onclick=function(){SELTH=t.w;fillSel();render();};pl.appendChild(bt);});box.appendChild(pl);
+  var cur=th.filter(function(t){return t.w===SELTH;})[0];if(cur){var rr=readPhrase(cur),md=document.createElement("div");md.style.marginTop="4px";mean(md,"“"+cur.w+"”: "+rr.t);box.appendChild(md);rr.ask.forEach(function(a){askRow(box,a,cur);});}
+  el.appendChild(box);}
 function fillCause(){var el=document.getElementById("cause");el.innerHTML="";
   if(!terr.cause.length){el.className="row";el.textContent="No word is written as both a cause and an effect yet.";return;}
   terr.cause.forEach(function(ce){var d=document.createElement("div");d.className="row";var b=document.createElement("b");b.textContent=ce.w.toUpperCase();d.appendChild(b);
-    d.appendChild(document.createTextNode(" is written as a cause in "+ce.c.join(", ")+" and as an effect in "+ce.e.join(", ")+". A loop may run through it. Each red arrow runs from where something leads to "+ce.w+" to where "+ce.w+" leads to something else."));el.appendChild(d);});}
+    d.appendChild(document.createTextNode(" is written as a cause in "+ce.c.join(", ")+" and as an effect in "+ce.e.join(", ")+". Each red arrow runs from where something leads to "+ce.w+" to where "+ce.w+" leads to something else. "));mean(d,readCause(ce));el.appendChild(d);
+    Object.keys(ce.sent).forEach(function(id){var q=document.createElement("div");q.className="small";q.style.margin="2px 0 2px 14px";q.textContent=id+": “"+ce.sent[id][0]+"”";el.appendChild(q);});});}
+function mean(el,t){var sp=document.createElement("span");sp.className="mn";var i=document.createElement("i");i.textContent="What it means: ";sp.appendChild(i);sp.appendChild(document.createTextNode(t));el.appendChild(sp);}
+function askRow(el,a,th){var d=document.createElement("div");d.className="ask";d.appendChild(document.createTextNode(a.id+" says “"+a.q+"”. Does "+a.id+" stand for “"+th.w+"” or turn away from it? "));
+  [["Stands for it","for"],["Turns away","away"]].forEach(function(o){var b=document.createElement("button");b.type="button";b.textContent=o[0];b.onclick=function(){ASK[a.k]=o[1];fillText();render();};d.appendChild(b);});el.appendChild(d);}
 function fillThreads(){var el=document.getElementById("threads");el.innerHTML="";
   if(!terr.threads.length){el.textContent="No two-word phrase is used in more than one note or answer yet.";return;}
   terr.threads.forEach(function(th){var row=document.createElement("label");row.className="row";row.style.display="flex";row.style.gap="8px";row.style.alignItems="baseline";
     var cb=document.createElement("input");cb.type="checkbox";cb.checked=!!thOn[th.w];cb.onchange=function(){if(cb.checked)thOn[th.w]=1;else delete thOn[th.w];render();};
     var b=document.createElement("b");b.textContent="“"+th.w+"”";var sp=document.createElement("span");sp.textContent=th.ms.map(function(m){return m.id;}).join(", ");
-    row.appendChild(cb);row.appendChild(b);row.appendChild(sp);el.appendChild(row);});}
+    row.appendChild(cb);row.appendChild(b);row.appendChild(sp);var wrap=document.createElement("div");wrap.style.margin="2px 0 10px";wrap.appendChild(row);var r=readPhrase(th),md=document.createElement("div");md.className="row";mean(md,r.t);wrap.appendChild(md);r.ask.forEach(function(a){askRow(wrap,a,th);});el.appendChild(wrap);});}
 function fillLegend(){var l=document.getElementById("legend");l.innerHTML="";EMO.forEach(function(e){var s=document.createElement("span"),sw=document.createElement("i");sw.className="sw";sw.style.background="rgb("+e[1].join(",")+")";s.appendChild(sw);s.appendChild(document.createTextNode(e[0]));l.appendChild(s);});
   var s=document.createElement("span"),sw=document.createElement("i");sw.className="sw";sw.style.background="rgb("+BARE.join(",")+")";s.appendChild(sw);s.appendChild(document.createTextNode("No emotion marked"));l.appendChild(s);}
 
