@@ -1006,7 +1006,7 @@
                 r += " " + n.children[i].textContent;
               var a = [],
                 s;
-              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r)); )
+              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r));)
                 a.indexOf(s[1]) < 0 && a.push(s[1]);
               if (a.length) {
                 var c = document.createElement("div");
@@ -7238,7 +7238,14 @@
                 }).join("") +
                 "</ul>"
               : "")),
-            (ye += ee(de.slice(0, qe), ge, Eo, de)),
+            (ye += C.m.some(function (t) {
+              return (t[3] || "").trim();
+            })
+              ? ((window.gsmTD = { m: C.m, a: Q(), goal: C.goal }),
+                '<div class="gterr-host"></div><details class="fold gtold"><summary>THE EARLIER FIGURE</summary>' +
+                  ee(de.slice(0, qe), ge, Eo, de) +
+                  "</details>")
+              : ee(de.slice(0, qe), ge, Eo, de)),
             (ye += lt));
           var tn = de
               .filter(function (t) {
@@ -11164,14 +11171,14 @@
                   o = [];
                 return (
                   t.forEach(function (t) {
-                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0; ) n.pop();
+                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0;) n.pop();
                     n.push(t);
                   }),
                   t
                     .slice()
                     .reverse()
                     .forEach(function (t) {
-                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0; ) o.pop();
+                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0;) o.pop();
                       o.push(t);
                     }),
                   o.pop(),
@@ -13649,11 +13656,11 @@
             S();
             var n = (function (t) {
               if (Rt.contains(t) && t !== Rt) {
-                for (var e = t; e.parentNode !== Rt; ) e = e.parentNode;
+                for (var e = t; e.parentNode !== Rt;) e = e.parentNode;
                 var n = e.getAttribute("data-pv");
                 return n ? +n : r;
               }
-              for (; t && t.parentNode !== N; ) t = t.parentNode;
+              for (; t && t.parentNode !== N;) t = t.parentNode;
               if (!t || !t.hasAttribute || !t.hasAttribute("data-tab")) return r;
               var o = +t.getAttribute("data-tab");
               return 2 === o ? (r >= 2 ? r : 2) : o;
@@ -14013,7 +14020,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v150");
+        t && (t.textContent = "v151");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -14247,13 +14254,13 @@
                               i = [C.m.length, C.p.m.length, (C.links || []).length];
                             function a(t, e) {
                               t.forEach(function (t) {
-                                for (; t.length < 10; ) t.push(null);
+                                for (; t.length < 10;) t.push(null);
                                 t[9] || ((t[9] = e), t[7] || (t[7] = e));
                               });
                             }
                             function s(t, n, o) {
                               (t || []).forEach(function (t, i) {
-                                for (var a = t.slice(); a.length < 10; ) a.push(null);
+                                for (var a = t.slice(); a.length < 10;) a.push(null);
                                 (a[8] || (a[8] = o + i + "-" + Math.random().toString(36).slice(2, 7)),
                                   r[a[8]] ||
                                     ((r[a[8]] = 1), a[9] || (a[9] = e), a[7] || (a[7] = a[9]), n.push(a)));
@@ -14515,4 +14522,3211 @@
         }
       }
     }));
+})();
+
+/* ---- Pattern Synthesis terrain (layer: the ground ahead) ---- */
+!(function () {
+  var CSS =
+      ".gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}",
+    TPL =
+      '<div class="plab">THE GROUND AHEAD</div><div class="sub">A relief model built from your notes on the line map. The numbers on the ground are what stands out, explained below the model. Drag to turn it; scroll or pinch to zoom.</div>\n  <div class="bar">\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <label><input data-gt="easy" type="checkbox"> Easiest way across</label>\n    <button data-gt="reset" type="button">Reset view</button>\n  </div>\n  <div class="bar">\n    <label>Version <select data-gt="ver">\n      <option value="emo">1 \u00b7 Emotion ground</option>\n      <option value="down">2 \u00b7 Downhill to the goal</option>\n      <option value="ridge">3 \u00b7 Walls and channels</option>\n      <option value="grow">4 \u00b7 As the map was made</option>\n      <option value="above">5 \u00b7 From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n  </div>\n  <div class="note" data-gt="verdesc" style="margin:0 0 8px"></div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div class="sec" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div data-gt="selnote" class="row"></div>\n  <div class="note" data-gt="count"></div>\n  <div class="sec" data-gt="pith">WHERE IT IS EASY TO GET STUCK</div>\n  <div data-gt="pits"></div>\n  <div class="sec" data-gt="hillh">WHERE THE GROUND HOLDS UP</div>\n  <div data-gt="hills"></div>\n  <div class="sec">CAUSE AND EFFECT</div>\n  <div data-gt="cause"></div>\n  <div class="sec">PHRASES THAT RUN THROUGH</div>\n  <div class="small" style="margin-bottom:4px">Two words used together in more than one note or answer. Every phrase used in more than one note or answer, with what it means. Tick one to draw its loop.</div>\n  <div data-gt="threads"></div>\n  <div class="sec" data-gt="easyhead" style="display:none">EASIEST WAY ACROSS</div>\n  <div data-gt="easytxt"></div>\n  <div class="note" style="margin-top:18px">\n    How it is built: each note with an emotion raises or lowers the ground around it, and the more notes pile up in one place, the higher or deeper it gets. Heights are relative to your own map, not a measurement. Ground is rougher where different emotions meet and on steep slopes; the fine texture itself is added for the look and carries no data. Notes with no emotion marked sit on bare ground. The route is the line from your line map; the star and rings are the goal.\n  </div>';
+  function mount(host, data) {
+    "use strict";
+    host.className += " gterr";
+    host.innerHTML = TPL;
+    function $(id) {
+      return host.querySelector('[data-gt="' + id + '"]');
+    }
+
+    /* ---------- constants (same map as the line map: 340 x 230, line at y=118, goal at 305,118) ---------- */
+    var EMO = [
+      ["Aggression", [200, 53, 46]],
+      ["Acceptance", [42, 157, 143]],
+      ["Distrust", [164, 143, 208]],
+      ["Indifference", [230, 190, 79]],
+      ["Defiance", [29, 53, 87]],
+    ];
+    var QT = [
+      "Within the community, why has the goal not already taken root?",
+      "Is there opposition to the goal?",
+      "Is there support for the goal?",
+      "In order for the goal to take root and grow, what conditions need to be established?",
+      "What needs to be designed?",
+      "What needs to be redesigned?",
+      "What needs to be reinforced?",
+    ];
+    var ANSWERS = ["", "", "", "", "", "", ""],
+      QPOS = [];
+    var PIT_E = [0, 2, 4],
+      BARE = [238, 235, 227];
+    var W = 340,
+      HH = 230,
+      NX = 240,
+      NY = 162,
+      CX = W / NX,
+      CY = HH / NY,
+      VX = NX + 1,
+      VY = NY + 1;
+    var GOAL = { x: 305, y: 118 },
+      START = { x: 10, y: 118 };
+    var HALF_X = W / 2,
+      HALF_Z = HH / 2;
+
+    /* ---------- sample workbooks (synthetic; not his) ---------- */
+    function N(q, x, y, t, e, id) {
+      return [q, x, y, t, null, e, 0, null, id];
+    }
+    /* ---------- state ---------- */
+    var GOALTEXT = "",
+      goalScr = null,
+      qScr = [],
+      ver = "emo",
+      growK = 1e9,
+      clay = false,
+      fullT = 0,
+      model = null,
+      terr = null,
+      view = { az: 0.4, tilt: 1.0, zoom: 1 },
+      exag = 1.9,
+      showPins = true,
+      showEasy = false;
+    var cv = $("cv"),
+      ctx = cv.getContext("2d"),
+      tip = $("tip");
+    var cssW = 900,
+      cssH = 560,
+      dpr = 1,
+      pinScreen = [];
+
+    /* ---------- build the ground from the notes ---------- */
+    function prep(raw) {
+      var notes = [];
+      raw.forEach(function (n, i) {
+        if (!Array.isArray(n) || !String(n[3] || "").trim()) return;
+        var x = +n[1],
+          y = +n[2];
+        if (!isFinite(x) || !isFinite(y)) return;
+        var e = n[5] != null && EMO[n[5]] ? n[5] : null;
+        notes.push({
+          k: i + 1,
+          q: n[0],
+          x: Math.max(0, Math.min(W, x)),
+          y: Math.max(0, Math.min(HH, y)),
+          t: String(n[3]),
+          e: e,
+        });
+      });
+      return notes;
+    }
+    function hash2(ix, iy) {
+      var h = Math.imul(ix, 374761393) ^ Math.imul(iy, 668265263);
+      h = Math.imul(h ^ (h >>> 13), 1274126177);
+      return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+    }
+    function vnoise(x, y) {
+      var ix = Math.floor(x),
+        iy = Math.floor(y),
+        fx = x - ix,
+        fy = y - iy,
+        u = fx * fx * (3 - 2 * fx),
+        v = fy * fy * (3 - 2 * fy);
+      var a = hash2(ix, iy),
+        b = hash2(ix + 1, iy),
+        c = hash2(ix, iy + 1),
+        d = hash2(ix + 1, iy + 1);
+      return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+    }
+    function ridged(x, y) {
+      var s = 0,
+        amp = 1,
+        f = 1 / 46,
+        tot = 0;
+      for (var o = 0; o < 5; o++) {
+        var an = 0.62 + o * 1.13,
+          ca = Math.cos(an),
+          sa = Math.sin(an),
+          u = (x * ca - y * sa) * f + o * 17.3,
+          v = (x * sa + y * ca) * f + o * 9.1;
+        var n = 1 - Math.abs(2 * vnoise(u, v) - 1);
+        s += amp * Math.pow(n, 1.6);
+        tot += amp;
+        amp *= 0.5;
+        f *= 2.05;
+      }
+      return s / tot;
+    }
+    function buildTerrain(notes) {
+      notes = notes.slice(0, growK);
+      var pts = notes.filter(function (n) {
+        return n.e != null;
+      });
+      var sigma = 22;
+      if (pts.length > 1) {
+        var nn = pts
+          .map(function (p) {
+            var m = 1e9;
+            pts.forEach(function (q) {
+              if (q !== p) {
+                var d = Math.hypot(p.x - q.x, p.y - q.y);
+                if (d < m) m = d;
+              }
+            });
+            return m;
+          })
+          .sort(function (a, b) {
+            return a - b;
+          });
+        sigma = Math.max(13, Math.min(30, nn[Math.floor(nn.length / 2)] * 0.9));
+      }
+      var n = VX * VY,
+        raw = new Float32Array(n),
+        col = new Float32Array(n * 3),
+        cov = new Float32Array(n),
+        mix = new Float32Array(n);
+      var cut = 4 * sigma,
+        s2 = 2 * sigma * sigma,
+        maxAbs = 1e-6;
+      for (var j = 0; j < VY; j++)
+        for (var i = 0; i < VX; i++) {
+          var x = i * CX,
+            y = j * CY,
+            sw = [0, 0, 0, 0, 0];
+          for (var p = 0; p < pts.length; p++) {
+            var dx = x - pts[p].x,
+              dy = y - pts[p].y,
+              d2 = dx * dx + dy * dy;
+            if (d2 > cut * cut) continue;
+            sw[pts[p].e] += Math.exp(-d2 / s2);
+          }
+          var roll = Math.min(sw[3], 1.5) * 0.3 * Math.sin(x / (1.6 * sigma)) * Math.cos(y / (2 * sigma) + 1);
+          var bad = sw[0] + sw[2] + sw[4],
+            h = (ver === "ridge" ? bad - sw[1] : sw[1] - bad) + roll,
+            idx = j * VX + i;
+          raw[idx] = h;
+          if (Math.abs(h) > maxAbs) maxAbs = Math.abs(h);
+          var M = sw[0] + sw[1] + sw[2] + sw[3] + sw[4],
+            mx = Math.max(sw[0], sw[1], sw[2], sw[3], sw[4]);
+          mix[idx] = M > 0 ? 1 - mx / M : 0;
+          var wsum = 0,
+            r = 0,
+            g = 0,
+            b = 0;
+          for (var e = 0; e < 5; e++) {
+            var w = sw[e] * sw[e] * sw[e];
+            wsum += w;
+            r += w * EMO[e][1][0];
+            g += w * EMO[e][1][1];
+            b += w * EMO[e][1][2];
+          }
+          var a = 1 - Math.exp(-1.8 * M);
+          cov[idx] = a;
+          if (pts.length) {
+            var ws2 = 0,
+              r2 = 0,
+              g2 = 0,
+              b2 = 0,
+              s3 = 2 * (2.6 * sigma) * (2.6 * sigma);
+            var wd = [0, 0, 0, 0, 0];
+            for (var p2 = 0; p2 < pts.length; p2++) {
+              var ex = x - pts[p2].x,
+                ey = y - pts[p2].y;
+              wd[pts[p2].e] += Math.exp(-(ex * ex + ey * ey) / s3);
+            }
+            for (var e2 = 0; e2 < 5; e2++) {
+              var w2 = sw[e2] * sw[e2] * sw[e2] + 0.04 * wd[e2] * wd[e2] * wd[e2];
+              ws2 += w2;
+              r2 += w2 * EMO[e2][1][0];
+              g2 += w2 * EMO[e2][1][1];
+              b2 += w2 * EMO[e2][1][2];
+            }
+            if (ws2 > 0) {
+              r = r2 / ws2;
+              g = g2 / ws2;
+              b = b2 / ws2;
+              a = 1;
+              wsum = 1;
+            }
+          }
+          if (wsum > 0 && a === 1) {
+          } else if (wsum > 0) {
+            r /= wsum;
+            g /= wsum;
+            b /= wsum;
+          } else {
+            r = BARE[0];
+            g = BARE[1];
+            b = BARE[2];
+          }
+          col[idx * 3] = BARE[0] * (1 - a) + r * a;
+          col[idx * 3 + 1] = BARE[1] * (1 - a) + g * a;
+          col[idx * 3 + 2] = BARE[2] * (1 - a) + b * a;
+        }
+      var hs = new Float32Array(n),
+        hmin = 1e9,
+        hmax = -1e9;
+      var tilt = ver === "down" || ver === "ridge",
+        dmax = Math.hypot(GOAL.x, HH);
+      for (var q = 0; q < n; q++) {
+        hs[q] = raw[q] / maxAbs;
+        if (tilt) {
+          var qx = (q % VX) * CX,
+            qy = ((q / VX) | 0) * CY;
+          hs[q] += 1.4 * (Math.hypot(qx - GOAL.x, qy - GOAL.y) / dmax) - 0.7;
+        }
+        if (hs[q] < hmin) hmin = hs[q];
+        if (hs[q] > hmax) hmax = hs[q];
+      }
+      /* the goal sits on a flat pad: level with the smooth ground at its centre, blending out from r=24 to r=38 */
+      var gi0 = Math.round(GOAL.x / CX),
+        gj0 = Math.round(GOAL.y / CY),
+        gl = hs[gj0 * VX + gi0],
+        pad = new Float32Array(n);
+      for (var q2 = 0; q2 < n; q2++) {
+        var px = (q2 % VX) * CX,
+          py = ((q2 / VX) | 0) * CY,
+          dd = Math.hypot(px - GOAL.x, py - GOAL.y);
+        var t = dd <= 24 ? 1 : dd >= 38 ? 0 : 1 - (dd - 24) / 14;
+        t = t * t * (3 - 2 * t);
+        pad[q2] = t;
+        hs[q2] = hs[q2] * (1 - t) + gl * t;
+      }
+      hmin = 1e9;
+      hmax = -1e9;
+      for (var q3 = 0; q3 < n; q3++) {
+        if (hs[q3] < hmin) hmin = hs[q3];
+        if (hs[q3] > hmax) hmax = hs[q3];
+      }
+      /* ruggedness: ridged detail, stronger where emotions meet and on steep ground; none on unmapped ground */
+      var hn = new Float32Array(n),
+        rmin = 1e9;
+      for (var j2 = 0; j2 < VY; j2++)
+        for (var i2 = 0; i2 < VX; i2++) {
+          var k = j2 * VX + i2,
+            il = Math.max(0, i2 - 1),
+            ir = Math.min(VX - 1, i2 + 1),
+            jt = Math.max(0, j2 - 1),
+            jb = Math.min(VY - 1, j2 + 1);
+          var gx = (hs[j2 * VX + ir] - hs[j2 * VX + il]) / ((ir - il) * CX),
+            gy = (hs[jb * VX + i2] - hs[jt * VX + i2]) / ((jb - jt) * CY);
+          var slope = Math.min(1, Math.hypot(gx, gy) * sigma * 0.8);
+          var amp = Math.min(0.4, 0.22 * cov[k] * (0.3 + 2.2 * mix[k] + 1.1 * slope));
+          hn[k] = hs[k] + (ridged(i2 * CX, j2 * CY) - 0.42) * 2 * amp * (1 - pad[k]);
+          if (hn[k] < rmin) rmin = hn[k];
+        }
+      var qpos = placeQuestions(notes);
+      var T = {
+        hn: hn,
+        hs: hs,
+        col: col,
+        sigma: sigma,
+        hmin: hmin,
+        hmax: hmax,
+        rmin: rmin,
+        notes: notes,
+        pts: pts,
+        qpos: qpos,
+        threads: findThreads(notes, qpos),
+        cause: findCause(notes, qpos),
+      };
+      analyse(T);
+      return T;
+    }
+
+    /* ---------- threads: a word shared by several notes and answers ---------- */
+    var STOP =
+      "a,an,and,are,as,at,be,been,being,but,by,can,for,from,has,have,how,if,in,into,is,it,its,of,on,or,so,that,the,their,them,then,there,these,they,this,those,to,too,was,we,were,what,when,where,which,while,who,why,will,with,would,should,could,also,about,above,across,after,again,against,all,allow,allows,allowing,already,always,among,another,any,around,away,back,because,before,both,does,done,each,even,ever,every,first,from,further,here,itself,just,less,like,many,more,most,much,must,need,needs,needed,never,only,other,others,over,same,some,such,than,through,toward,towards,under,until,upon,very,well,within,without,make,made,making,used,using,often,sometimes,large,larger,lots,still,ones,thing,things,way,ways,able,being,doing,order,part,particular,place,really,said,says,seen,since,take,taken,though,used,yes,whole,whose,our,your,you,not,no,nor,one,two,three,yet,want,get,got,new,old,good,bad,right,left,lot,etc,i,me,my,he,she,his,her".split(
+        ",",
+      );
+    var STOPS = {};
+    STOP.forEach(function (w) {
+      STOPS[w] = 1;
+    });
+    function words(t) {
+      var o = {};
+      String(t || "")
+        .toLowerCase()
+        .replace(/[^a-z\s-]/g, " ")
+        .split(/[\s-]+/)
+        .forEach(function (w) {
+          if (w.length < 4 || STOPS[w]) return;
+          if (/[^s]s$/.test(w) && w.length > 4) w = w.slice(0, -1);
+          if (!STOPS[w]) o[w] = 1;
+        });
+      return o;
+    }
+    function placeQuestions(notes) {
+      var out = [];
+      for (var q = 1; q <= 7; q++) {
+        var mine = notes.filter(function (n) {
+            return n.q === q;
+          }),
+          has = (ANSWERS[q - 1] || "").trim();
+        if (!mine.length && !has) {
+          out.push(null);
+          continue;
+        }
+        var x, y;
+        if (mine.length) {
+          x = 0;
+          y = 0;
+          mine.forEach(function (n) {
+            x += n.x;
+            y += n.y;
+          });
+          x /= mine.length;
+          y /= mine.length;
+        } else {
+          x = 30 + (q - 1) * 38;
+          y = 118;
+        }
+        out.push({ q: q, x: x, y: y, n: mine.length });
+      }
+      /* push apart markers that land on top of one another */
+      for (var it = 0; it < 20; it++)
+        for (var i = 0; i < 7; i++)
+          for (var j = i + 1; j < 7; j++) {
+            var A = out[i],
+              B = out[j];
+            if (!A || !B) continue;
+            var dx = B.x - A.x,
+              dy = B.y - A.y,
+              d = Math.hypot(dx, dy) || 0.01;
+            if (d < 16) {
+              var m = (16 - d) / 2;
+              A.x -= (dx / d) * m;
+              A.y -= (dy / d) * m;
+              B.x += (dx / d) * m;
+              B.y += (dy / d) * m;
+            }
+          }
+      out.forEach(function (Q) {
+        if (Q) {
+          Q.x = Math.max(8, Math.min(W - 8, Q.x));
+          Q.y = Math.max(8, Math.min(HH - 8, Q.y));
+        }
+      });
+      return out;
+    }
+    var SW2 = {};
+    "that this with from have will they their them there these those were been being into onto over under about above below than then when what which while where whose would could should must also only very more most much many some such each every other another same just even still both either neither does done doing make makes made need needs needed like well upon within without between through across around toward towards because since so"
+      .split(" ")
+      .forEach(function (w) {
+        SW2[w] = 1;
+      });
+    var PSTOP = { back: 1 };
+    function stem(w) {
+      return /[^s]s$/.test(w) && w.length > 4 ? w.slice(0, -1) : w;
+    }
+    function phrases(t) {
+      var o = {};
+      String(t || "")
+        .toLowerCase()
+        .split(/[^a-z\s'-]+|\n/)
+        .forEach(function (ch) {
+          var ws = ch.split(/[\s-]+/).filter(Boolean);
+          for (var i = 0; i + 1 < ws.length; i++) {
+            var a = ws[i].replace(/'s?$/, ""),
+              b = ws[i + 1].replace(/'s?$/, "");
+            if (a.length > 3 && b.length > 3 && !SW2[a] && !SW2[b] && !PSTOP[a] && !PSTOP[b])
+              o[stem(a) + " " + stem(b)] = 1;
+          }
+        });
+      return o;
+    }
+    function members(notes, qpos) {
+      var M = [];
+      notes.forEach(function (n) {
+        M.push({ id: "N" + n.k, x: n.x, y: n.y, t: n.t });
+      });
+      qpos.forEach(function (Q) {
+        if (Q && (ANSWERS[Q.q - 1] || "").trim())
+          M.push({ id: "Q." + Q.q, x: Q.x, y: Q.y, t: ANSWERS[Q.q - 1] });
+      });
+      return M;
+    }
+    function findThreads(notes, qpos) {
+      var M = members(notes, qpos);
+      M.forEach(function (m) {
+        m.w = phrases(m.t);
+      });
+      var cnt = {};
+      M.forEach(function (m) {
+        Object.keys(m.w).forEach(function (w) {
+          cnt[w] = (cnt[w] || 0) + 1;
+        });
+      });
+      var list = Object.keys(cnt)
+        .filter(function (w) {
+          return cnt[w] >= 2;
+        })
+        .sort(function (a, b) {
+          return cnt[b] - cnt[a] || (a < b ? -1 : 1);
+        })
+        .slice(0, 10);
+      var kept = [];
+      list.forEach(function (w) {
+        var ms = M.filter(function (m) {
+            return m.w[w];
+          }).map(function (m) {
+            return m.id;
+          }),
+          ws = w.split(" ");
+        var frag = kept.some(function (k) {
+          var kw = k.w.split(" ");
+          return (
+            (kw.indexOf(ws[0]) >= 0 || kw.indexOf(ws[1]) >= 0) &&
+            ms.every(function (id) {
+              return k.ids.indexOf(id) >= 0;
+            })
+          );
+        });
+        if (!frag) kept.push({ w: w, ids: ms });
+      });
+      return kept.map(function (k) {
+        var w = k.w,
+          ms = M.filter(function (m) {
+            return m.w[w];
+          });
+        var rs = loopSegs(ms, 1);
+        return { w: w, ms: ms, segs: rs[0], rings: rs.map(chain) };
+      });
+    }
+    /* cause and effect: the engine's layer 26 rule, run here on the same notes and answers */
+    function findCause(notes, qpos) {
+      var CU =
+          /\b(leads? to|led to|creat(?:es|ing|ed)|caus(?:es|ing|ed)|results? in|allows? (?:\w+ ){0,2}to|fuel(?:s|ing|ed)? the|drives?|contributes? (?:to|toward)|worsen\w*|decreasing|increasing)\b/gi,
+        P = [];
+      function tk(t) {
+        var o = {};
+        (t.toLowerCase().match(/[a-z]+/g) || []).forEach(function (w) {
+          if (w.length > 3 && !SW2[w]) o[w.slice(0, 6)] = 1;
+        });
+        return o;
+      }
+      members(notes, qpos).forEach(function (x) {
+        x.t.split(/(?<=[.!?])\s+|\n+/).forEach(function (t) {
+          var m;
+          CU.lastIndex = 0;
+          while ((m = CU.exec(t))) {
+            var i = m.index,
+              j = i + m[0].length;
+            P.push({ l: x.id, c: tk(t.slice(Math.max(0, i - 45), i)), e: tk(t.slice(j, j + 45)), t: t });
+          }
+        });
+      });
+      var K = {};
+      P.forEach(function (p, i) {
+        for (var k in p.c) (K[k] = K[k] || { c: {}, e: {} }).c[i] = 1;
+        for (k in p.e) (K[k] = K[k] || { c: {}, e: {} }).e[i] = 1;
+      });
+      var B = Object.keys(K)
+        .map(function (k) {
+          var c = Object.keys(K[k].c),
+            e = Object.keys(K[k].e),
+            u = {};
+          c.concat(e).forEach(function (i) {
+            u[i] = 1;
+          });
+          return { k: k, c: c, e: e, n: Object.keys(u).length };
+        })
+        .filter(function (x) {
+          return (
+            x.c.length &&
+            x.e.length &&
+            x.n >= 3 &&
+            x.c.some(function (i) {
+              return x.e.indexOf(i) < 0;
+            }) &&
+            x.e.some(function (i) {
+              return x.c.indexOf(i) < 0;
+            })
+          );
+        })
+        .sort(function (a, b) {
+          return b.n - a.n;
+        });
+      return B.slice(0, 1).map(function (b) {
+        var fw = (new RegExp("\\b" + b.k + "[a-z]*", "i").exec(P[b.c[0]].t) || [b.k])[0].toLowerCase();
+        function ids(ix) {
+          var u = [];
+          ix.forEach(function (i) {
+            if (u.indexOf(P[i].l) < 0) u.push(P[i].l);
+          });
+          return u;
+        }
+        var sent = {};
+        b.c.concat(b.e).forEach(function (i) {
+          (sent[P[i].l] = sent[P[i].l] || []).indexOf(P[i].t) < 0 &&
+            (sent[P[i].l] = sent[P[i].l] || []).push(P[i].t);
+        });
+        return { w: fw, c: ids(b.c), e: ids(b.e), sent: sent };
+      });
+    }
+    /* the loop: an outline kept a fixed distance from the notes and the shortest lines joining them */
+    function loopSegs(ms, maxRings) {
+      var n = ms.length,
+        inT = [0],
+        edges = [],
+        used = { 0: 1 };
+      while (inT.length < n) {
+        var best = null;
+        inT.forEach(function (i) {
+          for (var j = 0; j < n; j++) {
+            if (used[j]) continue;
+            var d = Math.hypot(ms[i].x - ms[j].x, ms[i].y - ms[j].y);
+            if (!best || d < best[2]) best = [i, j, d];
+          }
+        });
+        used[best[1]] = 1;
+        inT.push(best[1]);
+        edges.push(best);
+      }
+      var R = 7,
+        G = 2,
+        MX = Math.round(W / G),
+        MY = Math.round(HH / G),
+        f = new Float32Array((MX + 1) * (MY + 1));
+      function dseg(px, py, a, b) {
+        var vx = b.x - a.x,
+          vy = b.y - a.y,
+          L = vx * vx + vy * vy,
+          t = L ? Math.max(0, Math.min(1, ((px - a.x) * vx + (py - a.y) * vy) / L)) : 0;
+        return Math.hypot(px - a.x - t * vx, py - a.y - t * vy);
+      }
+      for (var j = 0; j <= MY; j++)
+        for (var i = 0; i <= MX; i++) {
+          var px = i * G,
+            py = j * G,
+            m = 1e9;
+          for (var k = 0; k < n; k++) {
+            var d = Math.hypot(px - ms[k].x, py - ms[k].y);
+            if (d < m) m = d;
+          }
+          for (var e = 0; e < edges.length; e++) {
+            var d2 = dseg(px, py, ms[edges[e][0]], ms[edges[e][1]]);
+            if (d2 < m) m = d2;
+          }
+          f[j * (MX + 1) + i] = m;
+        }
+      var rings = maxRings || Math.min(4, 1 + Math.floor(n / 3)),
+        all = [];
+      for (var rg = 0; rg < rings; rg++) {
+        var lev = R + rg * 4.5;
+        var segs = [];
+        function lerp(a, b, va, vb) {
+          var t = va / (va - vb);
+          return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+        }
+        for (var j2 = 0; j2 < MY; j2++)
+          for (var i2 = 0; i2 < MX; i2++) {
+            var P0 = [i2 * G, j2 * G],
+              P1 = [(i2 + 1) * G, j2 * G],
+              P2 = [(i2 + 1) * G, (j2 + 1) * G],
+              P3 = [i2 * G, (j2 + 1) * G];
+            var v0 = f[j2 * (MX + 1) + i2] - lev,
+              v1 = f[j2 * (MX + 1) + i2 + 1] - lev,
+              v2 = f[(j2 + 1) * (MX + 1) + i2 + 1] - lev,
+              v3 = f[(j2 + 1) * (MX + 1) + i2] - lev;
+            var c = (v0 < 0 ? 1 : 0) | (v1 < 0 ? 2 : 0) | (v2 < 0 ? 4 : 0) | (v3 < 0 ? 8 : 0);
+            if (c === 0 || c === 15) continue;
+            var e0 = function () {
+                return lerp(P0, P1, v0, v1);
+              },
+              e1 = function () {
+                return lerp(P1, P2, v1, v2);
+              },
+              e2 = function () {
+                return lerp(P2, P3, v2, v3);
+              },
+              e3 = function () {
+                return lerp(P3, P0, v3, v0);
+              };
+            var T = {
+              1: [[e3, e0]],
+              2: [[e0, e1]],
+              3: [[e3, e1]],
+              4: [[e1, e2]],
+              5: [
+                [e3, e0],
+                [e1, e2],
+              ],
+              6: [[e0, e2]],
+              7: [[e3, e2]],
+              8: [[e2, e3]],
+              9: [[e0, e2]],
+              10: [
+                [e0, e1],
+                [e2, e3],
+              ],
+              11: [[e1, e2]],
+              12: [[e1, e3]],
+              13: [[e0, e1]],
+              14: [[e3, e0]],
+            }[c];
+            T.forEach(function (pq) {
+              segs.push([pq[0](), pq[1]()]);
+            });
+          }
+        all.push(segs);
+      }
+      return all;
+    }
+    function chain(segs) {
+      var key = function (p) {
+          return Math.round(p[0] * 20) + "," + Math.round(p[1] * 20);
+        },
+        adj = {},
+        used = new Array(segs.length);
+      segs.forEach(function (sg, i) {
+        [0, 1].forEach(function (e) {
+          var k = key(sg[e]);
+          (adj[k] || (adj[k] = [])).push([i, e]);
+        });
+      });
+      var out = [];
+      for (var i = 0; i < segs.length; i++) {
+        if (used[i]) continue;
+        used[i] = 1;
+        var line = [segs[i][0], segs[i][1]];
+        [1, 0].forEach(function (dir) {
+          for (;;) {
+            var end = dir ? line[line.length - 1] : line[0],
+              nx = null;
+            (adj[key(end)] || []).some(function (c) {
+              if (!used[c[0]]) {
+                nx = c;
+                return true;
+              }
+            });
+            if (!nx) break;
+            used[nx[0]] = 1;
+            var other = segs[nx[0]][1 - nx[1]];
+            if (dir) line.push(other);
+            else line.unshift(other);
+          }
+        });
+        out.push(line);
+      }
+      return out;
+    }
+    var THREAD_DASH = [[], [5, 3], [1.5, 2.5], [8, 3, 2, 3], [3, 3], [10, 4], [2, 2, 6, 2], [6, 2]];
+
+    /* ---------- what it means: every layer read against the ground, the trail and the goal ---------- */
+    var QSHORT = [
+      "why it has not taken root",
+      "opposition",
+      "support",
+      "conditions",
+      "what to design",
+      "what to redesign",
+      "what to reinforce",
+    ];
+    var ASK = {}; /* one-tap answers: "N15|aggressive suppression" -> "away" or "for" */
+    function hAt(x, y) {
+      var i = Math.max(0, Math.min(VX - 1, Math.round(x / CX))),
+        j = Math.max(0, Math.min(VY - 1, Math.round(y / CY)));
+      return terr.hs[j * VX + i];
+    }
+    function cellOf(x, y) {
+      return (
+        Math.max(0, Math.min(VY - 1, Math.round(y / CY))) * VX +
+        Math.max(0, Math.min(VX - 1, Math.round(x / CX)))
+      );
+    }
+    function ground(v) {
+      return v > 0.1 ? "raised" : v < -0.1 ? "sunk" : "level";
+    }
+    function trailY(x) {
+      return 118 + 3.2 * Math.sin(x / 21) + 1.6 * Math.sin(x / 7.3 + 1);
+    }
+    function along(x, y) {
+      var d = Math.abs(y - trailY(x));
+      return d < 28
+        ? x > 230
+          ? "on the way, close to the goal"
+          : x < 90
+            ? "on the way, near the present"
+            : "on the way"
+        : x > 230
+          ? "off the trail, near the goal"
+          : "off the trail";
+    }
+    function noteById(id) {
+      return terr.notes.filter(function (n) {
+        return "N" + n.k === id;
+      })[0];
+    }
+    function pitOf(n) {
+      var c = terr.pitTgt ? terr.pitTgt[cellOf(n.x, n.y)] : -1;
+      for (var i = 0; i < terr.pits.length; i++) if (terr.pits[i].idx === c) return i;
+      return -1;
+    }
+    function list(a) {
+      if (a.length > 6) return a.slice(0, 5).join(", ") + " and " + (a.length - 5) + " more";
+      return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+    }
+    var NEG =
+      /\b(away from|not|no|without|instead of|against|stop\w*|less|reduc\w*|opposite of|rather than|end\w*|beyond|abandon\w*|move off)\s+(?:[a-z]+\s+){0,2}$/i;
+    function phraseRe(w) {
+      var a = w.split(" ");
+      return new RegExp("\\b" + a[0] + "\\w*\\s+" + a[1] + "\\w*", "i");
+    }
+    function negated(text, w) {
+      var m = phraseRe(w).exec(text);
+      if (!m) return null;
+      var before = text.slice(Math.max(0, m.index - 40), m.index);
+      var n = NEG.exec(before);
+      return n ? (n[0] + m[0]).trim() : null;
+    }
+    function readPhrase(th) {
+      var ask = [],
+        ns = [],
+        answersOnly = [];
+      th.ms.forEach(function (m) {
+        var k = m.id + "|" + th.w;
+        var ng = negated(m.t, th.w);
+        if (ng && !ASK[k]) ask.push({ id: m.id, k: k, q: ng });
+        if (ASK[k] === "away") return;
+        if (m.id[0] === "N") {
+          var n = noteById(m.id);
+          if (n) ns.push(n);
+        } else answersOnly.push(m.id);
+      });
+      var out = [];
+      if (!ns.length) {
+        out.push(
+          "It is in " +
+            list(answersOnly) +
+            " but no note carries it, so the ground cannot say yet what it means. Adding a note on it would place it.",
+        );
+        return { t: out.join(" "), ask: ask, cat: "answers", grp: [] };
+      }
+      var g = { raised: [], sunk: [], level: [] };
+      ns.forEach(function (n) {
+        g[ground(hAt(n.x, n.y))].push("N" + n.k);
+      });
+      var R = g.raised.length,
+        S = g.sunk.length,
+        T = ns.length,
+        cat = R && !S ? "footing" : S && !R ? "stuck" : R && S ? "contested" : "level";
+      if (R && !S)
+        out.push(
+          (T === 1
+            ? "Its only note (" + g.raised[0] + ") sits"
+            : (R === T ? "All" : "Most") + " of its notes (" + list(g.raised) + ") sit") +
+            " on raised ground, where things hold up. The idea already has footing: a place to build from.",
+        );
+      else if (S && !R) {
+        var pi = {};
+        ns.forEach(function (n) {
+          var k = pitOf(n);
+          if (k >= 0) pi[k] = 1;
+        });
+        out.push(
+          (T === 1
+            ? "Its only note (" + g.sunk[0] + ") sits"
+            : (S === T ? "All" : "Most") + " of its notes (" + list(g.sunk) + ") sit") +
+            " in sunk ground." +
+            (Object.keys(pi).length
+              ? " They are in the place where it is easiest to get stuck, so this phrase is part of what holds the process there."
+              : " Where this phrase is, the process tends to get stuck."),
+        );
+      } else if (R && S)
+        out.push(
+          "Its notes sit on both kinds of ground: raised at " +
+            list(g.raised) +
+            ", sunk at " +
+            list(g.sunk) +
+            ". The same words may mean different things in different places, or the idea is contested. Worth a closer look.",
+        );
+      else out.push("Its notes sit on level ground, so no emotion pulls it either way yet.");
+      var near = ns.filter(function (n) {
+        return Math.abs(n.y - trailY(n.x)) < 28;
+      }).length;
+      if (near)
+        out.push(
+          near === T
+            ? "It lies along the trail, so the way forward passes through it."
+            : "Part of it lies along the trail.",
+        );
+      else out.push("It lies off the trail, beside the way forward rather than on it.");
+      if (ask.length)
+        out.unshift(
+          "Until you answer the question below, this counts " +
+            list(
+              ask.map(function (a) {
+                return a.id;
+              }),
+            ) +
+            " as standing for it.",
+        );
+      return { t: out.join(" "), ask: ask, cat: cat, grp: ns };
+    }
+    var READ = [],
+      HL = null,
+      HLSTICK = false,
+      markScr = [];
+    function cen(ns) {
+      var x = 0,
+        y = 0;
+      ns.forEach(function (n) {
+        x += n.x;
+        y += n.y;
+      });
+      return [x / ns.length, y / ns.length];
+    }
+    function buildReadings() {
+      var R = [],
+        T = terr;
+      T.cause.forEach(function (ce) {
+        var ent = ce.e
+          .filter(function (id) {
+            return ce.c.indexOf(id) < 0;
+          })
+          .map(noteById)
+          .filter(Boolean);
+        R.push({
+          title: "Where the " + ce.w + " loop is fed",
+          text: readCause(ce),
+          at: ent.length ? [ent[0].x, ent[0].y] : null,
+          kind: "cause",
+        });
+      });
+      T.pits.forEach(function (pt, k) {
+        var x = (pt.idx % VX) * CX,
+          y = ((pt.idx / VX) | 0) * CY,
+          nearGoal = x > 230,
+          onTrail = Math.abs(y - trailY(x)) < 35;
+        R.push({
+          title:
+            nearGoal && onTrail
+              ? "A drop just before the goal"
+              : k === 0
+                ? "Where it is easiest to get stuck"
+                : "Another place to get stuck",
+          text:
+            ks(pt.ks) +
+            ". About " +
+            Math.round(pt.share * 100) +
+            "% of the ground slopes down into here; getting out toward the goal is a climb of " +
+            Math.round(pt.pct * 100) +
+            "% of the map's height. " +
+            readPit(pt, k),
+          at: [x, y],
+          kind: "pit",
+          pit: k,
+          rank: nearGoal && onTrail ? 1 : k === 0 ? 2 : 6,
+        });
+      });
+      var seen = {};
+      T.threads.forEach(function (th) {
+        var r = readPhrase(th);
+        if (seen[r.cat] || r.cat === "level") return;
+        seen[r.cat] = 1;
+        var title = {
+          footing: "“" + th.w + "” has footing",
+          stuck: "“" + th.w + "” holds the process down",
+          contested: "“" + th.w + "” may be contested",
+          answers: "“" + th.w + "” is not on the map yet",
+        }[r.cat];
+        var sunkN = r.grp.filter(function (n) {
+          return hAt(n.x, n.y) < -0.1;
+        });
+        var at =
+          r.cat === "contested" && sunkN.length
+            ? [sunkN[0].x, sunkN[0].y]
+            : r.grp.length
+              ? cen(r.grp)
+              : (function () {
+                  var qs = th.ms
+                    .map(function (m) {
+                      return /^Q/.test(m.id) ? T.qpos[+m.id.slice(2) - 1] : null;
+                    })
+                    .filter(Boolean);
+                  return qs.length ? cen(qs) : null;
+                })();
+        R.push({
+          title: title,
+          text: r.t,
+          at: at,
+          kind: "phrase",
+          w: th.w,
+          ask: r.ask,
+          th: th,
+          rank: { contested: 3, stuck: 4, footing: 5, answers: 8 }[r.cat],
+        });
+      });
+      T.hills.slice(0, 1).forEach(function (h) {
+        var x = (h.idx % VX) * CX,
+          y = ((h.idx / VX) | 0) * CY,
+          off = Math.abs(y - trailY(x)) >= 45;
+        R.push({
+          title: off
+            ? "Firm ground the way forward does not use yet"
+            : "Firm ground the way forward can lean on",
+          text: ks(h.ks) + ". " + readHill(h, 0),
+          at: [x, y],
+          kind: "hill",
+          rank: 7,
+        });
+      });
+      R.forEach(function (r) {
+        if (r.kind === "cause") r.rank = 0;
+      });
+      R.sort(function (a, b) {
+        return a.rank - b.rank;
+      });
+      READ = R.filter(function (r) {
+        return r.at;
+      }).slice(0, 8);
+    }
+    /* ---------- a course of action modelled on the ground ---------- */
+    function firmPath(ax, ay, bx, by) {
+      /* cheapest way across, where sunk ground costs more */
+      var n = VX * VY,
+        H = terr.hs,
+        dist = new Float64Array(n).fill(1e18),
+        par = new Int32Array(n).fill(-1),
+        hp = new Heap();
+      var s0 = cellOf(ax, ay),
+        g0 = cellOf(bx, by);
+      dist[s0] = 0;
+      hp.push(0, s0);
+      var NB = [
+        [-1, -1],
+        [0, -1],
+        [1, -1],
+        [-1, 0],
+        [1, 0],
+        [-1, 1],
+        [0, 1],
+        [1, 1],
+      ];
+      while (hp.k.length) {
+        var t = hp.pop(),
+          v = t[1];
+        if (t[0] > dist[v] + 1e-9) continue;
+        if (v === g0) break;
+        var vi = v % VX,
+          vj = (v / VX) | 0;
+        for (var d = 0; d < 8; d++) {
+          var ni = vi + NB[d][0],
+            nj = vj + NB[d][1];
+          if (ni < 0 || nj < 0 || ni >= VX || nj >= VY) continue;
+          var u = nj * VX + ni,
+            st = d === 0 || d === 2 || d === 5 || d === 7 ? 1.414 : 1;
+          var c = st * (1 + 9 * Math.max(0, -H[u]) + 2 * Math.max(0, H[u] - H[v])),
+            nd = dist[v] + c;
+          if (nd < dist[u]) {
+            dist[u] = nd;
+            par[u] = v;
+            hp.push(nd, u);
+          }
+        }
+      }
+      var out = [],
+        cur = g0,
+        g = 0;
+      while (cur >= 0 && g++ < 30000) {
+        out.push([(cur % VX) * CX, ((cur / VX) | 0) * CY]);
+        if (cur === s0) break;
+        cur = par[cur];
+      }
+      out.reverse();
+      var sm = [];
+      for (var i = 0; i < out.length; i++) {
+        var a = Math.max(0, i - 3),
+          b = Math.min(out.length - 1, i + 3),
+          x = 0,
+          y = 0;
+        for (var k = a; k <= b; k++) {
+          x += out[k][0];
+          y += out[k][1];
+        }
+        sm.push([x / (b - a + 1), y / (b - a + 1)]);
+      }
+      return sm;
+    }
+    function viaPts(pts) {
+      var out = [];
+      for (var i = 0; i + 1 < pts.length; i++) {
+        var A0 = pts[i],
+          B0 = pts[i + 1],
+          L = Math.hypot(B0[0] - A0[0], B0[1] - A0[1]),
+          N = Math.max(2, Math.ceil(L / 2));
+        for (var k = 0; k < N; k++)
+          out.push([A0[0] + ((B0[0] - A0[0]) * k) / N, A0[1] + ((B0[1] - A0[1]) * k) / N]);
+      }
+      out.push(pts[pts.length - 1]);
+      return out;
+    }
+    function routeStats(R) {
+      var L = 0,
+        sunk = 0,
+        raised = 0,
+        pits = {},
+        deep = 0;
+      for (var i = 1; i < R.length; i++) {
+        var dl = Math.hypot(R[i][0] - R[i - 1][0], R[i][1] - R[i - 1][1]);
+        L += dl;
+        var h = hAt(R[i][0], R[i][1]);
+        if (h < -0.1) {
+          sunk += dl;
+          var c = terr.pitTgt[cellOf(R[i][0], R[i][1])];
+          terr.pits.forEach(function (p, k) {
+            if (p.idx === c) pits[k] = 1;
+          });
+        } else if (h > 0.1) raised += dl;
+        if (h < deep) deep = h;
+      }
+      var straight = Math.hypot(GOAL.x - START.x, GOAL.y - START.y);
+      return {
+        L: L,
+        ratio: L / straight,
+        sunk: sunk / L,
+        raised: raised / L,
+        pits: Object.keys(pits).map(Number),
+        deep: deep,
+      };
+    }
+    function pitName(k) {
+      var i = -1;
+      READ.forEach(function (r, j) {
+        if (r.kind === "pit" && r.pit === k) i = j;
+      });
+      return i >= 0
+        ? "reading " + (i + 1) + " (" + READ[i].title.toLowerCase() + ")"
+        : "a place where it is easy to get stuck";
+    }
+    function pct(v) {
+      return Math.round(v * 100) + "%";
+    }
+    function describeRoute(st) {
+      var o = [];
+      o.push(
+        "About " +
+          pct(st.raised) +
+          " of it is on raised ground" +
+          (st.sunk > 0.02 ? " and " + pct(st.sunk) + " in sunk ground" : "") +
+          "; it is " +
+          st.ratio.toFixed(1) +
+          "× a straight run to the goal.",
+      );
+      if (st.pits.length) o.push("It passes through " + list(st.pits.map(pitName)) + ".");
+      return o.join(" ");
+    }
+    function buildCourse(i) {
+      ROUTES = [];
+      if (i == null) return;
+      var cd = CARDS[i],
+        ns = cd.ids
+          .map(noteById)
+          .filter(Boolean)
+          .sort(function (a, b) {
+            return a.x - b.x;
+          });
+      var own = viaPts(
+        [[START.x, START.y]]
+          .concat(
+            ns.map(function (n) {
+              return [n.x, n.y];
+            }),
+          )
+          .concat([[GOAL.x, GOAL.y]]),
+      );
+      ROUTES.push({ key: "A", name: "Its way through its notes", pts: own, st: routeStats(own), dash: [] });
+      if (cd.mode === "STRATEGY") {
+        function legs(stops) {
+          var out = [];
+          for (var j = 0; j + 1 < stops.length; j++) {
+            var seg = firmPath(stops[j][0], stops[j][1], stops[j + 1][0], stops[j + 1][1]);
+            out = out.concat(j ? seg.slice(1) : seg);
+          }
+          return out;
+        }
+        var firmNs = ns.filter(function (n) {
+          return hAt(n.x, n.y) > 0.1;
+        });
+        if (firmNs.length) {
+          var fb = legs(
+            [[START.x, START.y]]
+              .concat(
+                firmNs.map(function (n) {
+                  return [n.x, n.y];
+                }),
+              )
+              .concat([[GOAL.x, GOAL.y]]),
+          );
+          ROUTES.push({
+            key: "B",
+            name:
+              "Through its notes on firm ground only (" +
+              list(
+                firmNs.map(function (n) {
+                  return "N" + n.k;
+                }),
+              ) +
+              ")",
+            pts: fb,
+            st: routeStats(fb),
+            dash: [7, 4],
+          });
+        }
+        var sup = [],
+          supStep =
+            cd.steps.filter(function (t) {
+              return /support/i.test(t);
+            })[0] || "";
+        supStep.replace(/N(\d+)/g, function (m, k) {
+          var n = noteById("N" + k);
+          if (n) sup.push(n);
+        });
+        if (sup.length) {
+          sup.sort(function (a, b) {
+            return a.x - b.x;
+          });
+          var first = viaPts(
+            [[START.x, START.y]].concat(
+              sup.map(function (n) {
+                return [n.x, n.y];
+              }),
+            ),
+          );
+          var last = sup[sup.length - 1];
+          var rest = firmPath(last.x, last.y, GOAL.x, GOAL.y),
+            r3 = first.concat(rest);
+          ROUTES.push({
+            key: ROUTES.length === 1 ? "B" : "C",
+            name:
+              "Starting from the support (" +
+              list(
+                sup.map(function (n) {
+                  return "N" + n.k;
+                }),
+              ) +
+              ")",
+            pts: r3,
+            st: routeStats(r3),
+            dash: [2, 4],
+          });
+        }
+      }
+    }
+    function courseReadings(i) {
+      var cd = CARDS[i],
+        out = [],
+        A = ROUTES[0];
+      if (cd.mode === "PROGRAM") {
+        var holds = A.st.sunk < 0.15 && !A.st.pits.length && A.st.ratio < 1.6;
+        out.push({
+          k: "A",
+          title: "Its way through its notes",
+          text:
+            describeRoute(A.st) +
+            " " +
+            (holds
+              ? "The ground holds along the way, so a line can be drawn from action to outcome: that suits a program."
+              : "A program needs ground that holds from start to finish. This way " +
+                (A.st.pits.length
+                  ? "runs through a place where it is easy to get stuck"
+                  : "crosses sunk ground") +
+                ", so as a program it may stall there. It may need to be held more loosely."),
+        });
+      } else {
+        ROUTES.forEach(function (R) {
+          out.push({ k: R.key, title: R.name, text: describeRoute(R.st) });
+        });
+        if (ROUTES.length === 1)
+          out.push({
+            k: "",
+            title: "No firmer way",
+            text: "None of this card's notes sits on raised ground, so the ground offers no firmer way through it. Start small where the ground sinks least, and expect to change course.",
+          });
+        if (ROUTES.length > 1) {
+          var best = ROUTES.slice().sort(function (a, b) {
+              return a.st.sunk - b.st.sunk || a.st.ratio - b.st.ratio;
+            })[0],
+            short = ROUTES.slice().sort(function (a, b) {
+              return a.st.ratio - b.st.ratio;
+            })[0];
+          var t = "Sketched side by side: " + best.key + " stays out of sunk ground the most";
+          t +=
+            best === short
+              ? " and is also the shortest. It is the one to try first, small."
+              : ", while " +
+                short.key +
+                " is the shortest. Try " +
+                best.key +
+                " first, small, and keep " +
+                short.key +
+                " in mind if the ground changes.";
+          var crossing = ROUTES.filter(function (R) {
+            return R.st.pits.length;
+          });
+          if (crossing.length === ROUTES.length)
+            t += " Every way passes through a stuck place, so what happens there decides the strategy.";
+          var skipped = cd.ids
+            .map(noteById)
+            .filter(function (n) {
+              return n && hAt(n.x, n.y) < -0.1;
+            })
+            .map(function (n) {
+              return "N" + n.k;
+            });
+          if (skipped.length && best !== ROUTES[0])
+            t +=
+              " The firmer way goes around " +
+              list(skipped) +
+              ". Going around leaves them as they are; the card's own steps ask you to work with them, so the firm way is a place to start, not the whole strategy.";
+          out.push({ k: "", title: "Comparing the ways", text: t });
+        }
+      }
+      return out;
+    }
+    function readCause(ce) {
+      var entry = ce.e.filter(function (id) {
+          return ce.c.indexOf(id) < 0;
+        }),
+        exit = ce.c.filter(function (id) {
+          return ce.e.indexOf(id) < 0;
+        }),
+        both = ce.c.filter(function (id) {
+          return ce.e.indexOf(id) >= 0;
+        });
+      var o = [
+        "What " +
+          list(entry) +
+          " describe" +
+          (entry.length > 1 ? "" : "s") +
+          " leads to " +
+          ce.w +
+          ", and in " +
+          list(exit) +
+          " " +
+          ce.w +
+          " leads on to something else." +
+          (both.length ? " " + list(both) + " write" + (both.length > 1 ? "" : "s") + " it both ways." : "") +
+          " If that is right, it keeps itself going.",
+      ];
+      var ent = entry.map(noteById).filter(Boolean);
+      if (ent.length) {
+        var n = ent[0],
+          gw = ground(hAt(n.x, n.y));
+        o.push(
+          "N" +
+            n.k +
+            " is where the loop is fed on the ground, and it sits in " +
+            gw +
+            " ground" +
+            (n.y > 118 ? ", on the hinder side" : "") +
+            ". Changing what N" +
+            n.k +
+            " describes is the end you can act on; the other end is the consequence.",
+        );
+      } else
+        o.push(
+          "Where the loop is fed is only in your answers, not on the map, so the ground cannot show which end to start from.",
+        );
+      return o.join(" ");
+    }
+    function readPit(p, k) {
+      var ns = terr.notes.filter(function (n) {
+        return pitOf(n) === k && hAt(n.x, n.y) < -0.1;
+      });
+      var qs = {};
+      ns.forEach(function (n) {
+        qs[n.q] = 1;
+      });
+      var qn = Object.keys(qs).map(function (q) {
+        return "Q." + q + " (" + QSHORT[q - 1] + ")";
+      });
+      var x = (p.idx % VX) * CX,
+        y = ((p.idx / VX) | 0) * CY,
+        d = Math.abs(y - trailY(x));
+      var o = [];
+      if (qn.length) o.push("Its notes come from " + list(qn) + ".");
+      var odd = ns
+        .filter(function (n) {
+          return n.q === 3 || n.q === 7;
+        })
+        .map(function (n) {
+          return "N" + n.k;
+        });
+      var des = ns
+        .filter(function (n) {
+          return n.q === 5 || n.q === 6;
+        })
+        .map(function (n) {
+          return "N" + n.k;
+        });
+      if (des.length)
+        o.push(
+          list(des) +
+            " name" +
+            (des.length > 1 ? "" : "s") +
+            " something to design or redesign, and " +
+            (des.length > 1 ? "they sit" : "it sits") +
+            " here. This is where design work would lift the ground.",
+        );
+      if (odd.length)
+        o.push(
+          list(odd) +
+            (odd.length > 1 ? " were" : " was") +
+            " written as support or something to reinforce, yet " +
+            (odd.length > 1 ? "they sit" : "it sits") +
+            " here in sunk ground. Something meant to help may be working against the goal.",
+        );
+      o.push(
+        d < 35
+          ? "The trail runs right past it, so the way forward has to get by this place."
+          : "It lies off the trail: it holds people who drift into it more than it blocks the way.",
+      );
+      if (x > 230) o.push("It sits close to the goal, so it can stop the process near the end.");
+      return o.join(" ");
+    }
+    function readHill(h, k) {
+      var tg = terr.hillTgt,
+        ns = terr.notes.filter(function (n) {
+          return tg && tg[cellOf(n.x, n.y)] === h.idx && hAt(n.x, n.y) > 0.1;
+        });
+      var qs = {};
+      ns.forEach(function (n) {
+        qs[n.q] = 1;
+      });
+      var qn = Object.keys(qs).map(function (q) {
+        return "Q." + q + " (" + QSHORT[q - 1] + ")";
+      });
+      var x = (h.idx % VX) * CX,
+        y = ((h.idx / VX) | 0) * CY,
+        d = Math.abs(y - trailY(x));
+      var o = [];
+      if (qn.length) o.push("Its notes come from " + list(qn) + ".");
+      var odd = ns
+        .filter(function (n) {
+          return n.q === 2;
+        })
+        .map(function (n) {
+          return "N" + n.k;
+        });
+      if (odd.length)
+        o.push(
+          list(odd) +
+            (odd.length > 1 ? " were" : " was") +
+            " written as opposition, yet " +
+            (odd.length > 1 ? "they sit" : "it sits") +
+            " on raised ground. That opposition may be easier to work with than it looks.",
+        );
+      o.push(
+        d < 45
+          ? "The trail runs beside it, so the way forward can lean on it."
+          : "It is away from the trail: support the way forward does not use yet.",
+      );
+      return o.join(" ");
+    }
+    function readNote(n) {
+      var o = [],
+        gw = ground(hAt(n.x, n.y));
+      o.push("It sits on " + gw + " ground, " + along(n.x, n.y) + ".");
+      var k = pitOf(n);
+      if (k >= 0) o.push("It is inside a place where it is easy to get stuck.");
+      terr.cause.forEach(function (ce) {
+        var id = "N" + n.k;
+        if (ce.e.indexOf(id) >= 0 && ce.c.indexOf(id) < 0)
+          o.push("It feeds the " + ce.w + " loop: the end you can act on.");
+        else if (ce.c.indexOf(id) >= 0) o.push("It is where the " + ce.w + " loop leads.");
+      });
+      return o.join(" ");
+    }
+
+    /* heap for the minimax flood */
+    function Heap() {
+      this.k = [];
+      this.v = [];
+    }
+    Heap.prototype.push = function (key, val) {
+      var k = this.k,
+        v = this.v,
+        i = k.length;
+      k.push(key);
+      v.push(val);
+      while (i > 0) {
+        var p = (i - 1) >> 1;
+        if (k[p] <= k[i]) break;
+        var tk = k[p];
+        k[p] = k[i];
+        k[i] = tk;
+        var tv = v[p];
+        v[p] = v[i];
+        v[i] = tv;
+        i = p;
+      }
+    };
+    Heap.prototype.pop = function () {
+      var k = this.k,
+        v = this.v,
+        top = [k[0], v[0]],
+        lk = k.pop(),
+        lv = v.pop();
+      if (k.length) {
+        k[0] = lk;
+        v[0] = lv;
+        var i = 0,
+          n = k.length;
+        for (;;) {
+          var l = 2 * i + 1,
+            r = l + 1,
+            m = i;
+          if (l < n && k[l] < k[m]) m = l;
+          if (r < n && k[r] < k[m]) m = r;
+          if (m === i) break;
+          var tk = k[m];
+          k[m] = k[i];
+          k[i] = tk;
+          var tv = v[m];
+          v[m] = v[i];
+          v[i] = tv;
+          i = m;
+        }
+      }
+      return top;
+    };
+
+    function analyse(T) {
+      var n = VX * VY,
+        H = T.hs;
+      var NB = [
+        [-1, -1],
+        [0, -1],
+        [1, -1],
+        [-1, 0],
+        [1, 0],
+        [-1, 1],
+        [0, 1],
+        [1, 1],
+      ];
+      /* minimax flood from the goal: the least height you must cross to reach the goal from anywhere */
+      var gi = Math.round(GOAL.x / CX),
+        gj = Math.round(GOAL.y / CY),
+        g0 = gj * VX + gi;
+      var best = new Float64Array(n).fill(1e9),
+        par = new Int32Array(n).fill(-1),
+        hp = new Heap();
+      best[g0] = H[g0];
+      hp.push(best[g0], g0);
+      while (hp.k.length) {
+        var t = hp.pop(),
+          key = t[0],
+          v = t[1];
+        if (key > best[v] + 1e-9) continue;
+        var vi = v % VX,
+          vj = (v / VX) | 0;
+        for (var d = 0; d < 8; d++) {
+          var ni = vi + NB[d][0],
+            nj = vj + NB[d][1];
+          if (ni < 0 || nj < 0 || ni >= VX || nj >= VY) continue;
+          var u = nj * VX + ni,
+            step = d === 0 || d === 2 || d === 5 || d === 7 ? 1.414 : 1,
+            nk = Math.max(key, H[u]) + 1e-5 * step;
+          if (nk < best[u]) {
+            best[u] = nk;
+            par[u] = v;
+            hp.push(nk, u);
+          }
+        }
+      }
+      T.best = best;
+      T.par = par;
+      /* easiest way across: from the present end to the goal */
+      var si = Math.round(START.x / CX),
+        sj = Math.round(START.y / CY),
+        path = [],
+        cur = sj * VX + si,
+        guard = 0;
+      while (cur >= 0 && guard++ < 20000) {
+        path.push(cur);
+        if (cur === g0) break;
+        cur = par[cur];
+      }
+      T.path = path;
+      T.barrier = best[sj * VX + si];
+      /* descent / ascent basins */
+      function basins(sign) {
+        var tgt = new Int32Array(n).fill(-1);
+        for (var v = 0; v < n; v++) {
+          if (tgt[v] >= 0) continue;
+          var chain = [],
+            c = v;
+          for (;;) {
+            if (tgt[c] >= 0) {
+              break;
+            }
+            chain.push(c);
+            var ci = c % VX,
+              cj = (c / VX) | 0,
+              bv = c,
+              bh = sign * H[c];
+            for (var d = 0; d < 8; d++) {
+              var ni = ci + NB[d][0],
+                nj = cj + NB[d][1];
+              if (ni < 0 || nj < 0 || ni >= VX || nj >= VY) continue;
+              var u = nj * VX + ni;
+              if (sign * H[u] < bh - 1e-7) {
+                bh = sign * H[u];
+                bv = u;
+              }
+            }
+            if (bv === c) {
+              tgt[c] = c;
+              break;
+            }
+            c = bv;
+          }
+          var root = tgt[c];
+          chain.forEach(function (x) {
+            tgt[x] = root;
+          });
+        }
+        var cnt = {};
+        for (var q = 0; q < n; q++) cnt[tgt[q]] = (cnt[tgt[q]] || 0) + 1;
+        if (sign > 0) T.pitTgt = tgt;
+        else T.hillTgt = tgt;
+        return cnt;
+      }
+      var span = Math.max(1e-6, T.hmax - T.hmin);
+      function near(idx, emos, r) {
+        var x = (idx % VX) * CX,
+          y = ((idx / VX) | 0) * CY;
+        return T.pts
+          .filter(function (p) {
+            return emos.indexOf(p.e) >= 0 && Math.hypot(p.x - x, p.y - y) < r;
+          })
+          .sort(function (a, b) {
+            return Math.hypot(a.x - x, a.y - y) - Math.hypot(b.x - x, b.y - y);
+          })
+          .slice(0, 6)
+          .map(function (p) {
+            return p.k;
+          })
+          .sort(function (a, b) {
+            return a - b;
+          });
+      }
+      var pc = basins(1),
+        pits = [];
+      Object.keys(pc).forEach(function (k) {
+        k = +k;
+        var share = pc[k] / n;
+        if (share < 0.012) return;
+        var climb = Math.max(0, best[k] - H[k]);
+        if (climb / span < 0.05) return;
+        var kk = near(k, ver === "ridge" ? [1, 3] : PIT_E, 1.8 * T.sigma);
+        if (!kk.length) return;
+        pits.push({
+          idx: k,
+          h: H[k],
+          share: share,
+          climb: climb,
+          pct: climb / span,
+          ks: kk,
+          score: climb * Math.sqrt(share),
+        });
+      });
+      pits.sort(function (a, b) {
+        return b.score - a.score;
+      });
+      T.pits = pits.slice(0, 3);
+      var hc = basins(-1),
+        hills = [];
+      Object.keys(hc).forEach(function (k) {
+        k = +k;
+        if (H[k] < T.hmin + 0.6 * span) return;
+        var share = hc[k] / n;
+        if (share < 0.012) return;
+        var kh = near(k, ver === "ridge" ? PIT_E : [1], 1.8 * T.sigma);
+        if (!kh.length) return;
+        hills.push({ idx: k, h: H[k], share: share, ks: kh, score: H[k] * Math.sqrt(share) });
+      });
+      hills.sort(function (a, b) {
+        return b.score - a.score;
+      });
+      T.hills = hills.slice(0, 2);
+    }
+
+    /* ---------- rendering ---------- */
+    var A = 45,
+      YB = -60,
+      cellCol = [],
+      cellCache = null,
+      zArr = null;
+    function prepare() {
+      var T = terr,
+        n = VX * VY;
+      A = 40 * exag;
+      YB = Math.min(0, T.rmin * A) - 14;
+      zArr = new Float32Array(n);
+      for (var q = 0; q < n; q++) zArr[q] = T.hn[q] * A;
+      var L = [-0.6, 0.5, -0.6],
+        ln = Math.hypot(L[0], L[1], L[2]);
+      L = [L[0] / ln, L[1] / ln, L[2] / ln];
+      cellCol = new Array(NX * NY);
+      for (var j = 0; j < NY; j++)
+        for (var i = 0; i < NX; i++) {
+          var a = j * VX + i,
+            b = a + 1,
+            c = a + VX,
+            d = c + 1;
+          var dzx = (zArr[b] + zArr[d] - zArr[a] - zArr[c]) / (2 * CX),
+            dzz = (zArr[c] + zArr[d] - zArr[a] - zArr[b]) / (2 * CY);
+          var nl = Math.hypot(dzx, 1, dzz),
+            lam = Math.max(0, (-dzx * L[0] + L[1] - dzz * L[2]) / nl);
+          var hh = (T.hn[a] + T.hn[b] + T.hn[c] + T.hn[d]) / 4,
+            sh = 0.62 + 0.5 * lam;
+          if (clay) {
+            var cv0 = (250 * (0.72 + 0.36 * lam)) | 0;
+            cellCol[j * NX + i] =
+              "rgb(" +
+              Math.min(255, cv0) +
+              "," +
+              Math.min(255, (cv0 * 0.985) | 0) +
+              "," +
+              Math.min(255, (cv0 * 0.96) | 0) +
+              ")";
+            continue;
+          }
+          var r = ((T.col[a * 3] + T.col[b * 3] + T.col[c * 3] + T.col[d * 3]) / 4) * sh,
+            g = ((T.col[a * 3 + 1] + T.col[b * 3 + 1] + T.col[c * 3 + 1] + T.col[d * 3 + 1]) / 4) * sh,
+            bl = ((T.col[a * 3 + 2] + T.col[b * 3 + 2] + T.col[c * 3 + 2] + T.col[d * 3 + 2]) / 4) * sh;
+          var sat = boost(r / sh, g / sh, bl / sh);
+          r = sat[0] * sh;
+          g = sat[1] * sh;
+          bl = sat[2] * sh;
+          cellCol[j * NX + i] =
+            "rgb(" + Math.min(255, r | 0) + "," + Math.min(255, g | 0) + "," + Math.min(255, bl | 0) + ")";
+        }
+    }
+    function boost(r, g, b) {
+      r /= 255;
+      g /= 255;
+      b /= 255;
+      var mx = Math.max(r, g, b),
+        mn = Math.min(r, g, b),
+        l = (mx + mn) / 2,
+        h = 0,
+        s = 0,
+        d = mx - mn;
+      if (d > 1e-6) {
+        s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+        h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+        h /= 6;
+      }
+      s = Math.min(1, s * 1.55 + 0.08);
+      l = Math.min(0.62, Math.max(0.3, l));
+      function f(p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      }
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s,
+        p = 2 * l - q;
+      return [f(p, q, h + 1 / 3) * 255, f(p, q, h) * 255, f(p, q, h - 1 / 3) * 255];
+    }
+    function zAt(x, y) {
+      var fx = Math.max(0, Math.min(NX - 0.001, x / CX)),
+        fy = Math.max(0, Math.min(NY - 0.001, y / CY)),
+        i = fx | 0,
+        j = fy | 0,
+        u = fx - i,
+        v = fy - j;
+      var a = zArr[j * VX + i],
+        b = zArr[j * VX + i + 1],
+        c = zArr[(j + 1) * VX + i],
+        d = zArr[(j + 1) * VX + i + 1];
+      return a * (1 - u) * (1 - v) + b * u * (1 - v) + c * (1 - u) * v + d * u * v;
+    }
+    var P = {}; /* projection */
+    function setProj() {
+      P.ca = Math.cos(view.az);
+      P.sa = Math.sin(view.az);
+      P.ct = Math.cos(view.tilt);
+      P.st = Math.sin(view.tilt);
+      P.base = Math.min(cssW / (W * 1.3), cssH / (HH * 1.6)) * view.zoom;
+      P.cx = LEGON && cssW > 760 ? (cssW - 240) / 2 : cssW / 2;
+      P.cy = cssH * 0.5;
+      P.D = 900;
+    }
+    function pr(X, Y, Z, out) {
+      var X2 = X * P.ca + Z * P.sa,
+        Z2 = -X * P.sa + Z * P.ca;
+      var depth = Y * P.st + Z2 * P.ct,
+        s = (P.base * P.D) / (P.D - depth);
+      out[0] = P.cx + s * X2;
+      out[1] = P.cy - s * (Y * P.ct - Z2 * P.st);
+      return out;
+    }
+    var tmp = [0, 0],
+      tmp2 = [0, 0];
+    function wx(x) {
+      return x - HALF_X;
+    }
+    function wz(y) {
+      return y - HALF_Z;
+    }
+
+    function decals() {
+      var D = [],
+        ring = function (r) {
+          var pts = [];
+          for (var k = 0; k <= 36; k++) {
+            var a = (k / 36) * Math.PI * 2;
+            pts.push([GOAL.x + Math.cos(a) * r, GOAL.y + Math.sin(a) * r]);
+          }
+          return pts;
+        };
+      var line = [];
+      for (var x = START.x; x <= GOAL.x - 20.01; x += 2)
+        line.push([x, 118 + 3.2 * Math.sin(x / 21) + 1.6 * Math.sin(x / 7.3 + 1)]);
+      line.push([GOAL.x - 20, 118]);
+      function add(pts, style, lift) {
+        for (var k = 0; k < pts.length - 1; k++)
+          D.push({ a: pts[k], b: pts[k + 1], s: style, lift: lift || 0 });
+      }
+      TRAIL = line;
+      [20, 12, 4].forEach(function (r) {
+        add(ring(r), "ring", 1.2);
+      });
+      if (showEasy && terr.path.length > 1) {
+        var pp = terr.path.map(function (v) {
+          return [(v % VX) * CX, ((v / VX) | 0) * CY];
+        });
+        add(pp, "easy", 1.6);
+      }
+      return D;
+    }
+    var LEGON = true,
+      SELTH = null,
+      CAUSE_LBL = null,
+      thOn = {},
+      TRAIL = [],
+      SEL = null,
+      showCause = true;
+    var STYLE = {
+      route: [
+        ["#4a3826", 5.2],
+        ["#d9c49b", 3.2],
+        ["#b89a6a", 0.8],
+      ],
+      loop: [
+        ["rgba(255,255,255,.85)", 3],
+        ["#141414", 1.3],
+      ],
+      ring: [
+        ["#fff", 3.4],
+        ["#222", 1.4],
+      ],
+      easy: [
+        ["#fff", 5.5],
+        ["#d77a00", 2.4],
+      ],
+    };
+
+    var SXA = null,
+      SYA = null;
+    function render(st) {
+      st = st || 1;
+      if (!terr) return;
+      setProj();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, cssW, cssH);
+      var n = VX * VY,
+        o = [0, 0],
+        i,
+        j;
+      if (!SXA || SXA.length !== n) {
+        SXA = new Float32Array(n);
+        SYA = new Float32Array(n);
+      }
+      var sx = SXA,
+        sy = SYA;
+      for (j = 0; j < VY; j++)
+        for (i = 0; i < VX; i++) {
+          pr(wx(i * CX), zArr[j * VX + i], wz(j * CY), o);
+          sx[j * VX + i] = o[0];
+          sy[j * VX + i] = o[1];
+        }
+      function poly(pts, fill, stroke) {
+        ctx.beginPath();
+        pts.forEach(function (p, k) {
+          k ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]);
+        });
+        ctx.closePath();
+        ctx.fillStyle = fill;
+        ctx.fill();
+        if (stroke) {
+          ctx.strokeStyle = stroke;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+      function P3(X, Y, Z) {
+        return pr(X, Y, Z, [0, 0]).slice();
+      }
+      var bx = HALF_X + 16,
+        bz = HALF_Z + 16,
+        YT = 0;
+      /* items bucketed by block */
+      var NXB = NX / st,
+        buckets = {};
+      function put(ci, cj, it) {
+        ci = Math.min(NX - 1, Math.max(0, ci));
+        cj = Math.min(NY - 1, Math.max(0, cj));
+        var k = ((cj / st) | 0) * NXB + ((ci / st) | 0);
+        (buckets[k] || (buckets[k] = [])).push(it);
+      }
+      decals().forEach(function (d) {
+        var mx = (d.a[0] + d.b[0]) / 2,
+          my = (d.a[1] + d.b[1]) / 2;
+        put((mx / CX) | 0, (my / CY) | 0, { k: "seg", d: d });
+      });
+      if (showPins)
+        terr.notes.forEach(function (nt) {
+          put((nt.x / CX) | 0, (nt.y / CY) | 0, { k: "pin", n: nt });
+        });
+      put((GOAL.x / CX) | 0, (GOAL.y / CY) | 0, { k: "star", x: GOAL.x, y: GOAL.y });
+      qScr = [];
+      put((START.x / CX) | 0, (START.y / CY) | 0, { k: "flag", x: START.x, y: START.y });
+      pinScreen = [];
+      var NB = NX / st,
+        MB = NY / st,
+        sxd = -P.sa,
+        szd = P.ca,
+        b0 = sxd > 0 ? 0 : NB - 1,
+        b1 = sxd > 0 ? NB : -1,
+        bs = sxd > 0 ? 1 : -1,
+        c0 = szd > 0 ? 0 : MB - 1,
+        c1 = szd > 0 ? MB : -1,
+        cs = szd > 0 ? 1 : -1;
+      var labelPins = terr.notes.length <= 45,
+        bi,
+        bj;
+      ctx.lineWidth = st > 1 ? 1.1 : 0.6;
+      for (bi = b0; bi !== b1; bi += bs)
+        for (bj = c0; bj !== c1; bj += cs) {
+          i = bi * st;
+          j = bj * st;
+          var a = j * VX + i,
+            b = a + st,
+            c = a + st * VX,
+            d = c + st,
+            cc = cellCol[j * NX + i];
+          ctx.beginPath();
+          ctx.moveTo(sx[a], sy[a]);
+          ctx.lineTo(sx[b], sy[b]);
+          ctx.lineTo(sx[d], sy[d]);
+          ctx.lineTo(sx[c], sy[c]);
+          ctx.closePath();
+          ctx.fillStyle = cc;
+          ctx.fill();
+          ctx.strokeStyle = cc;
+          ctx.stroke();
+          var bk = buckets[bj * NXB + bi];
+          if (bk) {
+            bk.forEach(drawItem);
+            ctx.lineWidth = st > 1 ? 1.1 : 0.6;
+          }
+        }
+      function drawItem(it) {
+        if (it.k === "seg") {
+          var d2 = it.d,
+            za = zAt(d2.a[0], d2.a[1]) + d2.lift,
+            zb = zAt(d2.b[0], d2.b[1]) + d2.lift,
+            p1 = pr(wx(d2.a[0]), za, wz(d2.a[1]), [0, 0]),
+            p2 = pr(wx(d2.b[0]), zb, wz(d2.b[1]), [0, 0]);
+          STYLE[d2.s].forEach(function (stl, si) {
+            ctx.beginPath();
+            ctx.moveTo(p1[0], p1[1]);
+            ctx.lineTo(p2[0], p2[1]);
+            ctx.strokeStyle = stl[0];
+            ctx.lineWidth = stl[1];
+            ctx.lineCap = d2.s === "loop" ? "butt" : "round";
+            ctx.stroke();
+          });
+        } else if (it.k === "pin") {
+          var nt = it.n,
+            z = zAt(nt.x, nt.y),
+            p0 = pr(wx(nt.x), z, wz(nt.y), [0, 0]),
+            p1 = pr(wx(nt.x), z + 9, wz(nt.y), [0, 0]);
+          ctx.beginPath();
+          ctx.moveTo(p0[0], p0[1]);
+          ctx.lineTo(p1[0], p1[1]);
+          ctx.strokeStyle = "rgba(0,0,0,.6)";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(p1[0], p1[1], 3.8, 0, 6.283);
+          ctx.fillStyle = nt.e == null ? "#fff" : "rgb(" + EMO[nt.e][1].join(",") + ")";
+          ctx.fill();
+          ctx.strokeStyle = "#fff";
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(p1[0], p1[1], 3.8, 0, 6.283);
+          ctx.strokeStyle = "#111";
+          ctx.lineWidth = 1.1;
+          ctx.stroke();
+          pinScreen.push({ n: nt, x: p1[0], y: p1[1] });
+        } else if (it.k === "star") {
+          var zs = zAt(it.x, it.y) + 1.5,
+            pts = [];
+          goalScr = pr(wx(it.x), zs, wz(it.y), [0, 0]);
+          for (var k = 0; k < 10; k++) {
+            var ang = -Math.PI / 2 + (k * Math.PI) / 5,
+              rr = k % 2 ? 3.4 : 8;
+            pts.push(pr(wx(it.x + Math.cos(ang) * rr), zs, wz(it.y + Math.sin(ang) * rr), [0, 0]));
+          }
+          ctx.beginPath();
+          pts.forEach(function (p, k2) {
+            k2 ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]);
+          });
+          ctx.closePath();
+          ctx.fillStyle = "#111";
+          ctx.fill();
+          ctx.strokeStyle = "rgba(255,255,255,.85)";
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        } else if (it.k === "q") {
+          var Q = it.Q,
+            zq = zAt(Q.x, Q.y),
+            b0 = pr(wx(Q.x), zq, wz(Q.y), [0, 0]),
+            b1 = pr(wx(Q.x), zq + 14, wz(Q.y), [0, 0]);
+          ctx.beginPath();
+          ctx.moveTo(b0[0], b0[1]);
+          ctx.lineTo(b1[0], b1[1]);
+          ctx.strokeStyle = "#111";
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+          ctx.fillStyle = "#111";
+          ctx.fillRect(b1[0] - 10, b1[1] - 8, 20, 12);
+          ctx.font = "bold 9px Questrial,sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#fff";
+          ctx.fillText("Q." + Q.q, b1[0], b1[1] + 1);
+          qScr.push({ Q: Q, x: b1[0], y: b1[1] - 2 });
+        } else if (it.k === "flag") {
+          var z2 = zAt(it.x, it.y),
+            q0 = pr(wx(it.x), z2, wz(it.y), [0, 0]),
+            q1 = pr(wx(it.x), z2 + 16, wz(it.y), [0, 0]);
+          ctx.beginPath();
+          ctx.moveTo(q0[0], q0[1]);
+          ctx.lineTo(q1[0], q1[1]);
+          ctx.strokeStyle = "#111";
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(q1[0], q1[1], 2.6, 0, 6.283);
+          ctx.fillStyle = "#111";
+          ctx.fill();
+        }
+      }
+      /* loops, then the trail, then question markers: drawn over the ground */
+      function drape(pts, lift, step) {
+        var o = [];
+        for (var k = 0; k < pts.length; k += step || 1) {
+          var q = pts[k];
+          o.push(pr(wx(q[0]), zAt(q[0], q[1]) + lift, wz(q[1]), [0, 0]));
+        }
+        if (step > 1) {
+          var q2 = pts[pts.length - 1];
+          o.push(pr(wx(q2[0]), zAt(q2[0], q2[1]) + lift, wz(q2[1]), [0, 0]));
+        }
+        return o;
+      }
+      function stroke(o, col, wid, dash) {
+        ctx.beginPath();
+        o.forEach(function (p, k) {
+          k ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]);
+        });
+        ctx.setLineDash(dash || []);
+        ctx.strokeStyle = col;
+        ctx.lineWidth = wid;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+      var HLR = HL != null ? READ[HL] : null;
+      function isOn(th) {
+        return thOn[th.w] || (SEL && SELTH === th.w) || (HLR && HLR.w === th.w);
+      }
+      terr.threads.forEach(function (th) {
+        if (!isOn(th)) return;
+        th.rings.forEach(function (lines, ri) {
+          var w = 1.8,
+            a = 0.95;
+          lines.forEach(function (L) {
+            var o = drape(L, 0.9);
+            stroke(o, "rgba(255,255,255,.8)", w + 2);
+          });
+          lines.forEach(function (L) {
+            var o = drape(L, 0.9);
+            stroke(o, "#2b1a0e", w);
+          });
+        });
+      });
+      function posOf(id) {
+        if (/^Q\./.test(id)) {
+          var Q = terr.qpos[+id.slice(2) - 1];
+          return Q ? [Q.x, Q.y] : null;
+        }
+        var n = terr.notes.filter(function (n) {
+          return "N" + n.k === id;
+        })[0];
+        return n ? [n.x, n.y] : null;
+      }
+      CAUSE_LBL = null;
+      if (showCause)
+        terr.cause.forEach(function (ce) {
+          ce.e.forEach(function (from) {
+            ce.c.forEach(function (to) {
+              if (from === to) return;
+              var A0 = posOf(from),
+                B0 = posOf(to);
+              if (!A0 || !B0) return;
+              var o = [],
+                N = 40;
+              for (var k = 0; k <= N; k++) {
+                var t = k / N,
+                  x = A0[0] + (B0[0] - A0[0]) * t,
+                  y = A0[1] + (B0[1] - A0[1]) * t;
+                o.push(pr(wx(x), zAt(x, y) + 4 + 22 * Math.sin(Math.PI * t), wz(y), [0, 0]));
+              }
+              stroke(o, "rgba(255,255,255,.9)", 4.2);
+              stroke(o, "#7a1d12", 2);
+              var e1 = o[N],
+                e0 = o[N - 3],
+                ang = Math.atan2(e1[1] - e0[1], e1[0] - e0[0]);
+              ctx.beginPath();
+              ctx.moveTo(e1[0], e1[1]);
+              ctx.lineTo(e1[0] - 9 * Math.cos(ang - 0.42), e1[1] - 9 * Math.sin(ang - 0.42));
+              ctx.lineTo(e1[0] - 9 * Math.cos(ang + 0.42), e1[1] - 9 * Math.sin(ang + 0.42));
+              ctx.closePath();
+              ctx.fillStyle = "#7a1d12";
+              ctx.fill();
+              if (!CAUSE_LBL) CAUSE_LBL = { p: o[N >> 1], w: ce.w };
+            });
+          });
+        });
+      if (SEL) {
+        var sp = posOf(SEL);
+        if (sp) {
+          var c0 = pr(wx(sp[0]), zAt(sp[0], sp[1]) + 2, wz(sp[1]), [0, 0]);
+          ctx.beginPath();
+          ctx.arc(c0[0], c0[1], 11, 0, 6.283);
+          ctx.strokeStyle = "#111";
+          ctx.lineWidth = 2;
+          ctx.setLineDash([3, 2]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+      }
+      var tr0 = null;
+      if (COURSE != null) {
+        ROUTES.forEach(function (R) {
+          var o = drape(R.pts, 1.2, 1);
+          stroke(o, "rgba(255,255,255,.95)", 5.2);
+          stroke(o, "#111", 2.6, R.dash);
+        });
+        CARDS[COURSE].ids.forEach(function (id) {
+          var n = noteById(id);
+          if (!n) return;
+          var c0 = pr(wx(n.x), zAt(n.x, n.y) + 2, wz(n.y), [0, 0]);
+          ctx.beginPath();
+          ctx.arc(c0[0], c0[1], 8, 0, 6.283);
+          ctx.strokeStyle = "#111";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        });
+      }
+      var tr = drape(TRAIL, 0.6);
+      stroke(tr, "rgba(60,44,28,.9)", 5.6);
+      stroke(tr, "#dcc79e", 3.4);
+      stroke(tr, "rgba(150,120,80,.8)", 0.9, [2, 5]);
+      terr.qpos.forEach(function (Q) {
+        if (!Q) return;
+        var zq = zAt(Q.x, Q.y),
+          b0 = pr(wx(Q.x), zq, wz(Q.y), [0, 0]),
+          b1 = pr(wx(Q.x), zq + 14, wz(Q.y), [0, 0]);
+        ctx.beginPath();
+        ctx.moveTo(b0[0], b0[1]);
+        ctx.lineTo(b1[0], b1[1]);
+        ctx.strokeStyle = "#111";
+        ctx.lineWidth = 1.6;
+        ctx.stroke();
+        ctx.fillStyle = "#111";
+        ctx.fillRect(b1[0] - 11, b1[1] - 8, 22, 12);
+        ctx.font = "bold 9px Questrial,sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#fff";
+        ctx.fillText("Q." + Q.q, b1[0], b1[1] + 1);
+        qScr.push({ Q: Q, x: b1[0], y: b1[1] - 2 });
+      });
+      /* numbered readings on the ground */
+      markScr = [];
+      if (COURSE != null)
+        ROUTES.forEach(function (R) {
+          var q = R.pts[Math.floor(R.pts.length * (R.key === "A" ? 0.3 : R.key === "B" ? 0.55 : 0.75))],
+            z = zAt(q[0], q[1]),
+            b1 = pr(wx(q[0]), z + 4, wz(q[1]), [0, 0]);
+          ctx.beginPath();
+          ctx.arc(b1[0], b1[1], 9, 0, 6.283);
+          ctx.fillStyle = "#fff";
+          ctx.fill();
+          ctx.strokeStyle = "#111";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.font = "bold 11px Questrial,sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#111";
+          ctx.fillText(R.key, b1[0], b1[1] + 4);
+        });
+      if (COURSE == null)
+        READ.forEach(function (r, i) {
+          var z = zAt(r.at[0], r.at[1]),
+            b0 = pr(wx(r.at[0]), z, wz(r.at[1]), [0, 0]),
+            b1 = pr(wx(r.at[0]), z + 20, wz(r.at[1]), [0, 0]);
+          var on = HL === i;
+          ctx.beginPath();
+          ctx.moveTo(b0[0], b0[1]);
+          ctx.lineTo(b1[0], b1[1]);
+          ctx.strokeStyle = "#111";
+          ctx.lineWidth = 1.4;
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(b1[0], b1[1], on ? 11 : 9, 0, 6.283);
+          ctx.fillStyle = on ? "#7a1d12" : "#111";
+          ctx.fill();
+          ctx.strokeStyle = "#fff";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.font = "bold " + (on ? 12 : 11) + "px Questrial,sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#fff";
+          ctx.fillText(String(i + 1), b1[0], b1[1] + 4);
+          if (on) {
+            ctx.beginPath();
+            ctx.ellipse(b0[0], b0[1], 22, 10, 0, 0, 6.283);
+            ctx.strokeStyle = "#7a1d12";
+            ctx.lineWidth = 2;
+            ctx.setLineDash([4, 3]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+          }
+          markScr.push({ i: i, x: b1[0], y: b1[1] });
+        });
+      /* labels on top */
+      if (CAUSE_LBL) {
+        ctx.font = "bold 10px Questrial,sans-serif";
+        ctx.textAlign = "center";
+        ctx.lineWidth = 3.4;
+        ctx.strokeStyle = "#fff";
+        var lt = CAUSE_LBL.w.toUpperCase() + " ⟳";
+        ctx.strokeText(lt, CAUSE_LBL.p[0], CAUSE_LBL.p[1] - 6);
+        ctx.fillStyle = "#7a1d12";
+        ctx.fillText(lt, CAUSE_LBL.p[0], CAUSE_LBL.p[1] - 6);
+      }
+      if (labelPins) {
+        ctx.font = "9px Questrial,sans-serif";
+        ctx.textAlign = "left";
+        ctx.lineWidth = 2.6;
+        ctx.lineJoin = "round";
+        pinScreen.forEach(function (p) {
+          ctx.strokeStyle = "rgba(255,255,255,.9)";
+          ctx.strokeText("N" + p.n.k, p.x + 5, p.y + 3);
+          ctx.fillStyle = "#222";
+          ctx.fillText("N" + p.n.k, p.x + 5, p.y + 3);
+        });
+      }
+      function text(str, X, Y, Z, opt) {
+        opt = opt || {};
+        var p = pr(X, Y, Z, [0, 0]);
+        ctx.font = (opt.size || 11) + "px Questrial,sans-serif";
+        ctx.textAlign = opt.align || "center";
+        ctx.lineWidth = 3.2;
+        ctx.strokeStyle = "rgba(255,255,255,.92)";
+        ctx.strokeText(str, p[0], p[1]);
+        ctx.fillStyle = opt.color || "#222";
+        ctx.fillText(str, p[0], p[1]);
+      }
+      text("HELP", 0, zAt(HALF_X, 0) + 4, -bz, { size: 11, color: "#555" });
+      text("HINDER", 0, zAt(HALF_X, HH) + 4, bz + 6, { size: 11, color: "#555" });
+      text("PRESENT", wx(START.x), zAt(START.x, START.y) + 23, wz(START.y), { size: 10 });
+      text("GOAL", wx(GOAL.x), zAt(GOAL.x, GOAL.y) + 16, wz(GOAL.y), { size: 10 });
+      text("FUTURE →", wx(GOAL.x - 46), zAt(GOAL.x - 46, 128) + 6, wz(130), { size: 10 });
+      terr.threads.forEach(function (th, ti) {
+        if (
+          !(thOn[th.w] || (SEL && SELTH === th.w) || (HL != null && READ[HL] && READ[HL].w === th.w)) ||
+          !th.segs ||
+          !th.segs.length
+        )
+          return;
+        var top = th.segs[0][0];
+        th.segs.forEach(function (sg) {
+          if (sg[0][1] < top[1]) top = sg[0];
+        });
+        text(th.w.toUpperCase(), wx(top[0]), zAt(top[0], top[1]) + 5, wz(top[1]), {
+          size: 10,
+          color: "#4a2e18",
+        });
+      });
+    }
+    function fast() {
+      if (!raf)
+        raf = requestAnimationFrame(function () {
+          raf = 0;
+          render(2);
+          clearTimeout(fullT);
+          fullT = setTimeout(function () {
+            render(1);
+          }, 170);
+        });
+    }
+
+    /* ---------- page text ---------- */
+    function ks(a) {
+      return a.length
+        ? a
+            .map(function (k) {
+              return "N" + k;
+            })
+            .join(", ")
+        : "no single note stands out";
+    }
+    var DESC = {
+      emo: "Acceptance raises the ground, aggression, distrust and defiance sink it, indifference rolls. Flat where nothing is marked.",
+      down: "Same ground, but the whole map runs downhill to the goal, so the goal pulls like a valley. Sunk places on the way are where the process can settle short of it.",
+      ridge:
+        "Turned around: aggression, distrust and defiance rise as walls in the way; acceptance cuts channels that carry you. The map still runs downhill to the goal.",
+      grow: "Emotion ground built note by note, in the order the notes were made. Slide to watch it form.",
+      above: "Emotion ground seen straight down, like a shaded relief map.",
+    };
+    function ks(a) {
+      return a.length
+        ? a
+            .map(function (k) {
+              return "N" + k;
+            })
+            .join(", ")
+        : "no single note stands out";
+    }
+    function fillText() {
+      buildReadings();
+      fillReadings();
+      fillCourses();
+      fillCourseBox();
+      fillLegendBox();
+      fillThreads();
+      fillCause();
+      fillSel();
+      var T = terr,
+        withE = T.pts.length,
+        none = T.notes.length - withE;
+      $("verdesc").textContent = DESC[ver];
+      var R = ver === "ridge";
+
+      $("hillh").textContent = R ? "WHERE THE WALLS STAND" : "WHERE THE GROUND HOLDS UP";
+      $("pith").textContent = R ? "CHANNELS THAT STOP SHORT OF THE GOAL" : "WHERE IT IS EASY TO GET STUCK";
+      $("count").textContent =
+        T.notes.length +
+        " notes" +
+        (ver === "grow" ? " so far" : "") +
+        " on the line map; " +
+        withE +
+        " have an emotion marked and build the ground" +
+        (none ? "; " + none + " have none yet and sit on bare ground." : ".");
+      var pits = $("pits");
+      pits.innerHTML = "";
+      if (!T.pits.length) {
+        var d = document.createElement("div");
+        d.className = "row";
+        d.textContent = "Nowhere. No low place is deep enough to hold the process short of the goal.";
+        pits.appendChild(d);
+      }
+      T.pits.forEach(function (p) {
+        var d = document.createElement("div");
+        d.className = "row";
+        var b = document.createElement("b");
+        b.textContent = ks(p.ks) + " · ";
+        d.appendChild(b);
+        d.appendChild(
+          document.createTextNode(
+            "About " +
+              Math.round(p.share * 100) +
+              "% of the ground slopes down into here, and getting out toward the goal means a climb of " +
+              Math.round(p.pct * 100) +
+              "% of the map's full height. ",
+          ),
+        );
+        mean(d, readPit(p, T.pits.indexOf(p)));
+        pits.appendChild(d);
+      });
+      var hl = $("hills");
+      hl.innerHTML = "";
+      if (!T.hills.length) {
+        var e = document.createElement("div");
+        e.className = "row";
+        e.textContent = "Nowhere yet.";
+        hl.appendChild(e);
+      }
+      T.hills.forEach(function (p) {
+        var d = document.createElement("div");
+        d.className = "row";
+        var b = document.createElement("b");
+        b.textContent = ks(p.ks) + " · ";
+        d.appendChild(b);
+        mean(d, readHill(p, T.hills.indexOf(p)));
+        hl.appendChild(d);
+      });
+      var et = $("easytxt"),
+        eh = $("easyhead");
+      eh.style.display = showEasy ? "block" : "none";
+      et.style.display = showEasy ? "block" : "none";
+      var span = Math.max(1e-6, T.hmax - T.hmin),
+        climb = Math.max(0, T.barrier - T.hs[Math.round(START.y / CY) * VX + Math.round(START.x / CX)]),
+        pct = Math.round((climb / span) * 100);
+      et.innerHTML = "";
+      var r = document.createElement("div");
+      r.className = "row";
+      r.textContent =
+        pct < 2
+          ? "The lowest way from the present to the goal never has to climb."
+          : "The lowest way from the present to the goal still climbs " +
+            pct +
+            "% of the map's full height on the way.";
+      et.appendChild(r);
+    }
+    function fillSel() {
+      var el = $("selnote");
+      if (!el) return;
+      el.innerHTML = "";
+      if (!SEL) return;
+      var box = document.createElement("div");
+      box.className = "selbox";
+      var b = document.createElement("b");
+      b.textContent = SEL;
+      box.appendChild(b);
+      var n = noteById(SEL);
+      if (n) {
+        var t = document.createElement("div");
+        t.className = "small";
+        t.textContent = "“" + n.t + "”";
+        box.appendChild(t);
+        var r = document.createElement("div");
+        mean(r, readNote(n));
+        box.appendChild(r);
+      } else {
+        var t2 = document.createElement("div");
+        t2.className = "small";
+        t2.textContent = QT[+SEL.slice(2) - 1];
+        box.appendChild(t2);
+      }
+      var th = terr.threads.filter(function (t) {
+        return t.ms.some(function (m) {
+          return m.id === SEL;
+        });
+      });
+      if (!th.length) {
+        var x = document.createElement("div");
+        x.textContent = "It shares no phrase with another note or answer.";
+        box.appendChild(x);
+        el.appendChild(box);
+        return;
+      }
+      var pl = document.createElement("div");
+      pl.style.marginTop = "6px";
+      pl.appendChild(document.createTextNode("Phrases through it: "));
+      th.forEach(function (t) {
+        var bt = document.createElement("button");
+        bt.type = "button";
+        bt.textContent = "“" + t.w + "”";
+        bt.style.margin = "2px 4px 2px 0";
+        if (t.w === SELTH) {
+          bt.style.background = "#222";
+          bt.style.color = "#fff";
+        }
+        bt.onclick = function () {
+          SELTH = t.w;
+          fillSel();
+          render();
+        };
+        pl.appendChild(bt);
+      });
+      box.appendChild(pl);
+      var cur = th.filter(function (t) {
+        return t.w === SELTH;
+      })[0];
+      if (cur) {
+        var rr = readPhrase(cur),
+          md = document.createElement("div");
+        md.style.marginTop = "4px";
+        mean(md, "“" + cur.w + "”: " + rr.t);
+        box.appendChild(md);
+        rr.ask.forEach(function (a) {
+          askRow(box, a, cur);
+        });
+      }
+      el.appendChild(box);
+    }
+    function fillCause() {
+      var el = $("cause");
+      el.innerHTML = "";
+      if (!terr.cause.length) {
+        el.className = "row";
+        el.textContent = "No word is written as both a cause and an effect yet.";
+        return;
+      }
+      terr.cause.forEach(function (ce) {
+        var d = document.createElement("div");
+        d.className = "row";
+        var b = document.createElement("b");
+        b.textContent = ce.w.toUpperCase();
+        d.appendChild(b);
+        d.appendChild(
+          document.createTextNode(
+            " is written as a cause in " +
+              ce.c.join(", ") +
+              " and as an effect in " +
+              ce.e.join(", ") +
+              ". Each red arrow runs from where something leads to " +
+              ce.w +
+              " to where " +
+              ce.w +
+              " leads to something else. ",
+          ),
+        );
+        mean(d, readCause(ce));
+        el.appendChild(d);
+        Object.keys(ce.sent).forEach(function (id) {
+          var q = document.createElement("div");
+          q.className = "small";
+          q.style.margin = "2px 0 2px 14px";
+          q.textContent = id + ": “" + ce.sent[id][0] + "”";
+          el.appendChild(q);
+        });
+      });
+    }
+    function mean(el, t) {
+      var sp = document.createElement("span");
+      sp.className = "mn";
+      var i = document.createElement("i");
+      i.textContent = "What it means: ";
+      sp.appendChild(i);
+      sp.appendChild(document.createTextNode(t));
+      el.appendChild(sp);
+    }
+    function askRow(el, a, th) {
+      var d = document.createElement("div");
+      d.className = "ask";
+      d.appendChild(
+        document.createTextNode(
+          a.id + " says “" + a.q + "”. Does " + a.id + " stand for “" + th.w + "” or turn away from it? ",
+        ),
+      );
+      [
+        ["Stands for it", "for"],
+        ["Turns away", "away"],
+      ].forEach(function (o) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.textContent = o[0];
+        b.onclick = function () {
+          ASK[a.k] = o[1];
+          fillText();
+          render();
+        };
+        d.appendChild(b);
+      });
+      el.appendChild(d);
+    }
+    function markList() {
+      host.querySelectorAll(".rd").forEach(function (el, i) {
+        el.classList.toggle("on", HL === i);
+      });
+    }
+    function fillReadings() {
+      var el = $("readings");
+      el.innerHTML = "";
+      if (!READ.length) {
+        el.className = "row";
+        el.textContent = "Nothing stands out on this ground yet. Mark emotions on more notes to build it.";
+        return;
+      }
+      READ.forEach(function (r, i) {
+        var d = document.createElement("div");
+        d.className = "rd";
+        var n = document.createElement("span");
+        n.className = "rn";
+        n.textContent = String(i + 1);
+        d.appendChild(n);
+        var body = document.createElement("div");
+        var t = document.createElement("b");
+        t.textContent = r.title;
+        body.appendChild(t);
+        var p = document.createElement("div");
+        p.textContent = r.text;
+        body.appendChild(p);
+        (r.ask || []).forEach(function (a) {
+          askRow(body, a, r.th);
+        });
+        d.appendChild(body);
+        d.onmouseenter = function () {
+          if (!HLSTICK) {
+            HL = i;
+            markList();
+            render();
+          }
+        };
+        d.onmouseleave = function () {
+          if (!HLSTICK) {
+            HL = null;
+            markList();
+            render();
+          }
+        };
+        d.onclick = function (ev) {
+          if (ev.target.tagName === "BUTTON") return;
+          if (HLSTICK && HL === i) {
+            HLSTICK = false;
+            HL = null;
+          } else {
+            HLSTICK = true;
+            HL = i;
+          }
+          markList();
+          render();
+        };
+        el.appendChild(d);
+      });
+    }
+    function fillCourses() {
+      var el = $("courses");
+      el.innerHTML = "";
+      if (!CARDS.length) {
+        el.className = "row";
+        el.textContent = "";
+        el.style.display = "none";
+        var sh = el.previousElementSibling;
+        if (sh) sh.style.display = "none";
+        return;
+      }
+      el.className = "";
+      var none = document.createElement("button");
+      none.type = "button";
+      none.textContent = "None";
+      none.className = "cbtn" + (COURSE == null ? " on" : "");
+      none.onclick = function () {
+        setCourse(null);
+      };
+      el.appendChild(none);
+      CARDS.forEach(function (cd, i) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "cbtn" + (COURSE === i ? " on" : "");
+        b.textContent = cd.w + " · " + cd.mode.toLowerCase();
+        b.onclick = function () {
+          setCourse(i);
+        };
+        el.appendChild(b);
+      });
+    }
+    function setCourse(i) {
+      COURSE = i;
+      buildCourse(i);
+      HL = null;
+      HLSTICK = false;
+      fillCourses();
+      fillCourseBox();
+      fillLegendBox();
+      $("readings").style.display = i == null ? "" : "none";
+      $("rdhead").style.display = i == null ? "" : "none";
+      render();
+    }
+    function fillCourseBox() {
+      var el = $("coursebox");
+      el.innerHTML = "";
+      if (COURSE == null) return;
+      var cd = CARDS[COURSE];
+      var box = document.createElement("div");
+      box.className = "selbox";
+      var h = document.createElement("b");
+      h.textContent = "“" + cd.w + "” · " + cd.mode;
+      box.appendChild(h);
+      var w = document.createElement("div");
+      w.className = "small";
+      w.textContent = cd.why;
+      box.appendChild(w);
+      var ul = document.createElement("ul");
+      ul.style.margin = "6px 0 6px 18px";
+      ul.style.padding = "0";
+      cd.steps.forEach(function (t) {
+        var li = document.createElement("li");
+        li.textContent = t;
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+      var hd = document.createElement("div");
+      hd.className = "sec";
+      hd.style.margin = "8px 0 4px";
+      hd.textContent =
+        cd.mode === "PROGRAM"
+          ? "WHAT THE GROUND SAYS ABOUT THIS PROGRAM"
+          : "THE WAYS FORWARD, SKETCHED ON THE GROUND";
+      box.appendChild(hd);
+      courseReadings(COURSE).forEach(function (r) {
+        var d = document.createElement("div");
+        d.className = "rd";
+        var n = document.createElement("span");
+        n.className = "rn";
+        n.style.background = r.k ? "#fff" : "#7a1d12";
+        n.style.color = r.k ? "#111" : "#fff";
+        n.style.border = "2px solid #111";
+        n.textContent = r.k || "→";
+        d.appendChild(n);
+        var b = document.createElement("div");
+        var t = document.createElement("b");
+        t.textContent = r.title;
+        b.appendChild(t);
+        var p = document.createElement("div");
+        p.textContent = r.text;
+        b.appendChild(p);
+        d.appendChild(b);
+        box.appendChild(d);
+      });
+      var f = document.createElement("div");
+      f.className = "small";
+      f.style.marginTop = "4px";
+      f.textContent =
+        "The card itself is on Taking Action. " +
+        (cd.mode === "STRATEGY" && ROUTES.length > 1
+          ? "The other lettered ways are ways forward the ground suggests from the same card; they are sketches to try small, not instructions."
+          : "");
+      box.appendChild(f);
+      el.appendChild(box);
+    }
+
+    function fillLegendBox() {
+      var el = $("legbox");
+      el.innerHTML = "";
+      el.classList.toggle("hide", !LEGON);
+      var nar = $("stage").clientWidth < 760;
+      el.style.position = nar ? "static" : "";
+      el.style.width = nar ? "auto" : "";
+      el.style.margin = nar ? "6px 0 0" : "";
+      el.style.columnCount = nar ? "2" : "";
+      if (nar && el.parentNode === $("stage")) $("stage").parentNode.insertBefore(el, $("stage").nextSibling);
+      function row(svg, txt) {
+        var r = document.createElement("div");
+        r.className = "lr";
+        var g = document.createElement("span");
+        g.className = "lg";
+        g.innerHTML = svg;
+        r.appendChild(g);
+        var t = document.createElement("span");
+        t.textContent = txt;
+        r.appendChild(t);
+        el.appendChild(r);
+      }
+      function head(t) {
+        var h = document.createElement("h5");
+        h.textContent = t;
+        el.appendChild(h);
+      }
+      head("LEGEND");
+      var R = ver === "ridge";
+      EMO.forEach(function (e, i) {
+        var role = R
+          ? i === 1
+            ? "cuts a channel"
+            : i === 3
+              ? "rolls"
+              : "rises as a wall"
+          : i === 1
+            ? "raises the ground"
+            : i === 3
+              ? "rolls the ground"
+              : "sinks the ground";
+        row(
+          '<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb(' +
+            boost(e[1][0], e[1][1], e[1][2])
+              .map(function (v) {
+                return v | 0;
+              })
+              .join(",") +
+            ')"></span>',
+          e[0] + ": " + role,
+        );
+      });
+      row(
+        '<svg width="30" height="14"><path d="M1 12 Q8 2 15 9 T29 6" fill="none" stroke="#555" stroke-width="1" stroke-dasharray="1 1.5"/></svg>',
+        "Rough ground: emotions meet, or steep",
+      );
+      row(
+        '<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',
+        "Level: no notes nearby",
+      );
+      row(
+        '<svg width="30" height="14"><path d="M1 9 Q8 4 15 8 T29 6" fill="none" stroke="#3c2c1c" stroke-width="5"/><path d="M1 9 Q8 4 15 8 T29 6" fill="none" stroke="#dcc79e" stroke-width="3"/></svg>',
+        "Trail: present to future",
+      );
+      row(
+        '<svg width="30" height="14"><polygon points="15,1 17.4,5.4 22,5.6 18.4,8.6 19.6,13 15,10.4 10.4,13 11.6,8.6 8,5.6 12.6,5.4" fill="#111"/></svg>',
+        "Goal (hover for the full goal)",
+      );
+      row(
+        '<svg width="30" height="14"><rect x="4" y="2" width="22" height="10" fill="#111"/><text x="15" y="10" font-size="7" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">Q.1</text></svg>',
+        "Question: at the middle of its notes",
+      );
+      row(
+        '<svg width="30" height="14"><line x1="15" y1="13" x2="15" y2="7" stroke="#555"/><circle cx="15" cy="5" r="3.6" fill="#2a9d8f" stroke="#111"/></svg>',
+        "Note (white: no emotion marked)",
+      );
+      if (COURSE == null)
+        row(
+          '<svg width="30" height="14"><circle cx="15" cy="7" r="6" fill="#111"/><text x="15" y="10" font-size="8" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">1</text></svg>',
+          "What stands out, read below",
+        );
+      if (showCause && terr.cause.length)
+        row(
+          '<svg width="30" height="14"><path d="M2 12 Q15 -2 26 10" fill="none" stroke="#7a1d12" stroke-width="2"/><path d="M26 10 l-5 -1 l2 -4z" fill="#7a1d12"/></svg>',
+          "Cause and effect: leads to",
+        );
+      row(
+        '<svg width="30" height="14"><ellipse cx="15" cy="7" rx="13" ry="5" fill="none" stroke="#2b1a0e" stroke-width="1.6"/></svg>',
+        "Phrase loop (when highlighted)",
+      );
+      if (COURSE != null) {
+        head("COURSE OF ACTION");
+        row(
+          '<svg width="30" height="14"><line x1="1" y1="7" x2="29" y2="7" stroke="#111" stroke-width="2.6"/></svg>',
+          "A: its way through its notes",
+        );
+        ROUTES.slice(1).forEach(function (R) {
+          row(
+            '<svg width="30" height="14"><line x1="1" y1="7" x2="29" y2="7" stroke="#111" stroke-width="2.6" stroke-dasharray="' +
+              R.dash.join(" ") +
+              '"/></svg>',
+            R.key + ": " + R.name.replace(/ \(.*$/, "").toLowerCase(),
+          );
+        });
+        row(
+          '<svg width="30" height="14"><circle cx="15" cy="7" r="5" fill="none" stroke="#111" stroke-width="2"/></svg>',
+          "A note this course rests on",
+        );
+      }
+    }
+    function fillThreads() {
+      var el = $("threads");
+      el.innerHTML = "";
+      if (!terr.threads.length) {
+        el.textContent = "No two-word phrase is used in more than one note or answer yet.";
+        return;
+      }
+      terr.threads.forEach(function (th) {
+        var row = document.createElement("label");
+        row.className = "row";
+        row.style.display = "flex";
+        row.style.gap = "8px";
+        row.style.alignItems = "baseline";
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!thOn[th.w];
+        cb.onchange = function () {
+          if (cb.checked) thOn[th.w] = 1;
+          else delete thOn[th.w];
+          render();
+        };
+        var b = document.createElement("b");
+        b.textContent = "“" + th.w + "”";
+        var sp = document.createElement("span");
+        sp.textContent = th.ms
+          .map(function (m) {
+            return m.id;
+          })
+          .join(", ");
+        row.appendChild(cb);
+        row.appendChild(b);
+        row.appendChild(sp);
+        var wrap = document.createElement("div");
+        wrap.style.margin = "2px 0 10px";
+        wrap.appendChild(row);
+        var r = readPhrase(th),
+          md = document.createElement("div");
+        md.className = "row";
+        mean(md, r.t);
+        wrap.appendChild(md);
+        r.ask.forEach(function (a) {
+          askRow(wrap, a, th);
+        });
+        el.appendChild(wrap);
+      });
+    }
+    function fillLegend() {
+      var l = $("legend");
+      l.innerHTML = "";
+      EMO.forEach(function (e) {
+        var s = document.createElement("span"),
+          sw = document.createElement("i");
+        sw.className = "sw";
+        sw.style.background = "rgb(" + e[1].join(",") + ")";
+        s.appendChild(sw);
+        s.appendChild(document.createTextNode(e[0]));
+        l.appendChild(s);
+      });
+      var s = document.createElement("span"),
+        sw = document.createElement("i");
+      sw.className = "sw";
+      sw.style.background = "rgb(" + BARE.join(",") + ")";
+      s.appendChild(sw);
+      s.appendChild(document.createTextNode("No emotion marked"));
+      l.appendChild(s);
+    }
+
+    /* ---------- loading ---------- */
+    var CARDS = [],
+      COURSE = null,
+      ROUTES = [];
+    function setModel(raw, goal, ans, cards) {
+      CARDS = Array.isArray(cards) ? cards : [];
+      COURSE = null;
+      ROUTES = [];
+      GOALTEXT = String(goal || "").trim();
+      ANSWERS = (Array.isArray(ans) ? ans : [])
+        .concat(["", "", "", "", "", "", ""])
+        .slice(0, 7)
+        .map(function (t) {
+          return String(t || "");
+        });
+      thOn = null;
+      var notes = prep(raw);
+      $("msg").textContent = "";
+      if (!notes.length) {
+        $("msg").textContent =
+          "No notes with text were found on the line map in that workbook. The model is built from line map notes.";
+      }
+      curRaw = raw;
+      if (ver === "grow") {
+        var gr = $("gr");
+        gr.max = notes.length;
+        growK = Math.min(growK, notes.length);
+        gr.value = growK;
+        $("grv").textContent = growK + " of " + notes.length;
+      }
+      SEL = null;
+      HL = null;
+      HLSTICK = false;
+      terr = buildTerrain(notes);
+      thOn = {};
+      prepare();
+      fillText();
+      resize();
+    }
+    var curRaw = null;
+    function rebuild() {
+      terr = buildTerrain(prep(curRaw));
+      if (COURSE != null) buildCourse(COURSE);
+      var keep = thOn || {};
+      thOn = {};
+      terr.threads.forEach(function (t) {
+        if (keep[t.w]) thOn[t.w] = 1;
+      });
+      prepare();
+      fillText();
+      render();
+    }
+    $("ver").onchange = function (e) {
+      var old = ver;
+      ver = e.target.value;
+      $("grw").style.display = ver === "grow" ? "" : "none";
+      if (ver === "grow") {
+        var gr = $("gr"),
+          tot = prep(curRaw).length;
+        gr.max = tot;
+        gr.value = Math.max(1, Math.round(tot / 2));
+        growK = +gr.value;
+        $("grv").textContent = growK + " of " + tot;
+      } else growK = 1e9;
+      if (ver === "above") {
+        view = { az: 0, tilt: 1.55, zoom: 1.05 };
+      } else if (old === "above") {
+        view = { az: 0.4, tilt: 1.0, zoom: 1 };
+      }
+      rebuild();
+    };
+    var grT = 0;
+    $("gr").oninput = function (e) {
+      growK = +e.target.value;
+      $("grv").textContent = growK + " of " + prep(curRaw).length;
+      clearTimeout(grT);
+      grT = setTimeout(rebuild, 30);
+    };
+
+    $("exag").oninput = function (e) {
+      exag = +e.target.value;
+      prepare();
+      fast();
+    };
+    $("gm").onchange = function (e) {
+      clay = e.target.value === "clay";
+      prepare();
+      render();
+    };
+    $("cz").onchange = function (e) {
+      showCause = e.target.checked;
+      fillLegendBox();
+      render();
+    };
+    $("legbtn").onclick = function () {
+      LEGON = !LEGON;
+      fillLegendBox();
+      render();
+    };
+    $("pins").onchange = function (e) {
+      showPins = e.target.checked;
+      render();
+    };
+    $("easy").onchange = function (e) {
+      showEasy = e.target.checked;
+      fillText();
+      render();
+    };
+    $("reset").onclick = function () {
+      view = ver === "above" ? { az: 0, tilt: 1.55, zoom: 1.05 } : { az: 0.4, tilt: 1.0, zoom: 1 };
+      render();
+    };
+
+    /* ---------- interaction ---------- */
+    var drag = null,
+      raf = 0;
+    function later() {
+      if (!raf)
+        raf = requestAnimationFrame(function () {
+          raf = 0;
+          render();
+        });
+    }
+    cv.addEventListener("pointerdown", function (e) {
+      cv.setPointerCapture(e.pointerId);
+      drag = { x: e.clientX, y: e.clientY, moved: 0 };
+      cv.classList.add("drag");
+      tip.style.display = "none";
+    });
+    cv.addEventListener("pointermove", function (e) {
+      if (drag) {
+        var dx = e.clientX - drag.x,
+          dy = e.clientY - drag.y;
+        drag.moved += Math.abs(dx) + Math.abs(dy);
+        drag.x = e.clientX;
+        drag.y = e.clientY;
+        view.az += dx * 0.008;
+        view.tilt = Math.max(0.22, Math.min(1.55, view.tilt + dy * 0.006));
+        fast();
+      } else hover(e);
+    });
+    cv.addEventListener("pointerup", function (e) {
+      var wasTap = drag && drag.moved < 5;
+      drag = null;
+      cv.classList.remove("drag");
+      if (wasTap) {
+        pick(e);
+        hover(e);
+      }
+    });
+    cv.addEventListener("pointerleave", function () {
+      if (!drag) tip.style.display = "none";
+    });
+    cv.addEventListener(
+      "wheel",
+      function (e) {
+        e.preventDefault();
+        view.zoom = Math.max(0.6, Math.min(3, view.zoom * (e.deltaY < 0 ? 1.1 : 0.91)));
+        fast();
+      },
+      { passive: false },
+    );
+    function pick(e) {
+      var r = cv.getBoundingClientRect(),
+        x = e.clientX - r.left,
+        y = e.clientY - r.top,
+        id = null,
+        bd = 14;
+      pinScreen.forEach(function (p) {
+        var d = Math.hypot(p.x - x, p.y - y);
+        if (d < bd) {
+          bd = d;
+          id = "N" + p.n.k;
+        }
+      });
+      qScr.forEach(function (p) {
+        if (Math.abs(p.x - x) < 12 && Math.abs(p.y - y) < 9) id = "Q." + p.Q.q;
+      });
+      SEL = id && id !== SEL ? id : null;
+      SELTH = null;
+      if (SEL) {
+        var th = terr.threads.filter(function (t) {
+          return t.ms.some(function (m) {
+            return m.id === SEL;
+          });
+        });
+        if (th.length) SELTH = th[0].w;
+      }
+      fillSel();
+      render();
+    }
+    function hover(e) {
+      var r = cv.getBoundingClientRect(),
+        x = e.clientX - r.left,
+        y = e.clientY - r.top,
+        best = null,
+        bd = 18;
+      var mk = null;
+      markScr.forEach(function (m) {
+        if (Math.hypot(m.x - x, m.y - y) < 12) mk = m;
+      });
+      if (mk) {
+        var R0 = READ[mk.i];
+        tip.innerHTML = "";
+        var tb = document.createElement("b");
+        tb.textContent = mk.i + 1 + " · " + R0.title;
+        tip.appendChild(tb);
+        tip.appendChild(document.createTextNode(R0.text));
+        tip.style.maxWidth = "420px";
+        tip.style.display = "block";
+        tip.style.left = Math.min(cssW - 430, Math.max(4, x + 14)) + "px";
+        tip.style.top = Math.max(4, y - 8 - tip.offsetHeight) + "px";
+        if (!HLSTICK && HL !== mk.i) {
+          HL = mk.i;
+          markList();
+          render();
+        }
+        return;
+      }
+      if (!HLSTICK && HL != null) {
+        HL = null;
+        markList();
+        render();
+      }
+      var qh = null;
+      qScr.forEach(function (p) {
+        if (Math.abs(p.x - x) < 12 && Math.abs(p.y - y) < 9) qh = p;
+      });
+      if (qh) {
+        var Q = qh.Q;
+        tip.innerHTML = "";
+        var qb = document.createElement("b");
+        qb.textContent = "Q." + Q.q + " · " + QT[Q.q - 1];
+        tip.appendChild(qb);
+        var ans = (ANSWERS[Q.q - 1] || "").trim();
+        tip.appendChild(document.createTextNode(ans || "No answer written yet."));
+        var qn = document.createElement("div");
+        qn.className = "small";
+        qn.style.marginTop = "4px";
+        qn.textContent = Q.n
+          ? "Placed at the middle of its " + Q.n + " note" + (Q.n > 1 ? "s" : "") + "."
+          : "No notes yet; placed on the trail.";
+        tip.appendChild(qn);
+        tip.style.display = "block";
+        tip.style.maxWidth = "420px";
+        tip.style.left = Math.min(cssW - 430, Math.max(4, x + 12)) + "px";
+        tip.style.top = Math.max(4, y - 8 - tip.offsetHeight) + "px";
+        return;
+      }
+      tip.style.maxWidth = "";
+      if (goalScr && Math.hypot(goalScr[0] - x, goalScr[1] - y) < 26) {
+        tip.innerHTML = "";
+        var gb = document.createElement("b");
+        gb.textContent = "GOAL";
+        tip.appendChild(gb);
+        tip.appendChild(document.createTextNode(GOALTEXT || "No goal written yet."));
+        tip.style.display = "block";
+        tip.style.left = Math.min(cssW - 290, Math.max(4, x - 290)) + "px";
+        tip.style.top = Math.max(4, y - 8 - tip.offsetHeight) + "px";
+        return;
+      }
+      pinScreen.forEach(function (p) {
+        var d = Math.hypot(p.x - x, p.y - y);
+        if (d < bd) {
+          bd = d;
+          best = p;
+        }
+      });
+      if (!best) {
+        tip.style.display = "none";
+        return;
+      }
+      var n = best.n;
+      tip.innerHTML = "";
+      var b = document.createElement("b");
+      b.textContent =
+        "N" + n.k + " · " + (n.e == null ? "no emotion marked" : EMO[n.e][0].toUpperCase()) + " · Q." + n.q;
+      tip.appendChild(b);
+      tip.appendChild(document.createTextNode(n.t));
+      tip.style.display = "block";
+      var st = $("stage").getBoundingClientRect();
+      tip.style.left = Math.min(cssW - 290, Math.max(4, x + 12)) + "px";
+      tip.style.top = Math.max(4, y - 8 - tip.offsetHeight) + "px";
+    }
+    function resize() {
+      var w = $("stage").clientWidth;
+      if (!w) return;
+      cssW = w;
+      cssH = Math.round(Math.max(380, Math.min(620, w * 0.62)));
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      cv.width = cssW * dpr;
+      cv.height = cssH * dpr;
+      cv.style.height = cssH + "px";
+      render();
+    }
+    function onR() {
+      if (!host.isConnected) {
+        window.removeEventListener("resize", onR);
+        if (ro) ro.disconnect();
+        return;
+      }
+      resize();
+    }
+    window.addEventListener("resize", onR);
+    var ro = window.ResizeObserver
+      ? new ResizeObserver(function () {
+          onR();
+        })
+      : null;
+    if (ro) ro.observe($("stage"));
+    view = { az: 0.05, tilt: 0.6, zoom: 1.1 };
+    setModel(data.m || [], data.goal || "", data.a || [], data.cards || null);
+  }
+  window.gsmTerrainMount = mount;
+  function scan() {
+    document.querySelectorAll(".gterr-host:not([data-on])").forEach(function (h) {
+      h.setAttribute("data-on", "1");
+      try {
+        mount(h, window.gsmTD || {});
+      } catch (e) {
+        h.textContent = "";
+        h.style.display = "none";
+        if (window.console) console.warn("terrain", e);
+      }
+    });
+  }
+  function start() {
+    if (!document.getElementById("gsm-tcss")) {
+      var s = document.createElement("style");
+      s.id = "gsm-tcss";
+      s.textContent = CSS;
+      document.head.appendChild(s);
+    }
+    new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+    scan();
+  }
+  document.body ? start() : document.addEventListener("DOMContentLoaded", start);
 })();
