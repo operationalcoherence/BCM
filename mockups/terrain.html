@@ -115,7 +115,7 @@
   <div id="threads"></div></details>
   <details class="gfold"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>
   <div class="note" id="count"></div>
-  <div class="note">Each note with an emotion shapes the ground around it, and notes piled in one place shape it more. Acceptance raises the ground. Aggression sinks it, distrust sinks it further, and defiance sinks it furthest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet; its fine texture is for the look. Heights are relative to your own map, not a measurement.</div>
+  <div class="note">Each note with an emotion shapes the ground around it, and notes piled in one place shape it more. Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet; its fine texture is for the look. Heights are relative to your own map, not a measurement.</div>
   <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it makes with the others: accepting the wrong thing, or distrusting someone who has earned it, can lead away from the goal as surely as aggression can.</div>
   <div class="note">Map idea: Vigneaux (2026); Juarrero (2023). Emotions not good or bad in themselves: after Maturana and Pörksen (2011). Where it is easiest to get to: after Thompson (2007).</div>
   </details>
@@ -201,7 +201,7 @@ function buildTerrain(notes){
   for(var j=0;j<VY;j++)for(var i=0;i<VX;i++){
     var x=i*CX,y=j*CY,sw=[0,0,0,0,0];
     for(var p=0;p<pts.length;p++){var dx=x-pts[p].x,dy=y-pts[p].y,d2=dx*dx+dy*dy;if(d2>cut*cut)continue;sw[pts[p].e]+=Math.exp(-d2/s2);}
-    var bad=sw[0]+1.5*sw[2]+2*sw[4],h=(ver==="ridge"?bad-sw[1]:sw[1]-bad), idx=j*VX+i;
+    var bad=1.5*sw[0]+sw[2]+2*sw[4],h=(ver==="ridge"?bad-sw[1]:sw[1]-bad), idx=j*VX+i;
     raw[idx]=h; if(Math.abs(h)>maxAbs)maxAbs=Math.abs(h);
     var M=sw[0]+sw[1]+sw[2]+sw[3]+sw[4],mx=Math.max(sw[0],sw[1],sw[2],sw[3],sw[4]);
     var up=sw[1]+0.5*sw[3],dn=sw[0]+sw[2]+sw[4];mix[idx]=M>0.15?Math.min(1,(1-mx/M)*0.6+(up>0&&dn>0?2*Math.min(up,dn)/(up+dn):0)*0.7):0;
@@ -792,10 +792,10 @@ function fillLegendBox(){var el=document.getElementById("legbox");el.innerHTML="
   function head(t){var h=document.createElement("h5");h.textContent=t;el.appendChild(h);}
   head("LEGEND");
   var R=ver==="ridge";
-  EMO.forEach(function(e,i){var role=R?(i===1?"cuts a channel":i===3?"a ridge":"rises as a wall"):["sinks the ground","raises the ground","sinks it further","a ridge between","sinks it furthest"][i];
-    row('<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb('+boost(e[1][0],e[1][1],e[1][2]).map(function(v){return v|0;}).join(",")+')"></span>',e[0]+": "+role);});
+  [[1,"Acceptance: the highest ground"],[3,"Indifference: a ridge"],[2,"Distrust: low ground"],[0,"Aggression: lower ground"],[4,"Defiance: lowest ground"]].forEach(function(o){var e=EMO[o[0]],i=o[0];var txt=R?e[0]+": "+(i===1?"cuts a channel":i===3?"a ridge":"rises as a wall"):o[1];
+    row('<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb('+boost(e[1][0],e[1][1],e[1][2]).map(function(v){return v|0;}).join(",")+')"></span>',txt);});
   row('<svg width="30" height="14"><path d="M1 11 L4 6 L6 9 L9 3 L12 8 L14 5 L17 10 L20 4 L23 9 L26 6 L29 10" fill="none" stroke="#333" stroke-width="1.3"/></svg>',"Broken ground (talus): emotions meet");
-  row('<svg width="30" height="14"><path d="M1 13 L12 9 L22 3 L29 2 L29 13 Z" fill="#e6be4f" stroke="#555" stroke-width="1"/></svg>',"Ridge: indifference, climbing into acceptance");
+  
   row('<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',"Level: no notes nearby");
   row('<svg width="30" height="14"><text x="15" y="10" font-size="6.5" text-anchor="middle" font-family="sans-serif">PRESENT</text></svg>',"Present at the left; the future runs to the goal");
   row('<svg width="30" height="14"><polygon points="15,1 17.4,5.4 22,5.6 18.4,8.6 19.6,13 15,10.4 10.4,13 11.6,8.6 8,5.6 12.6,5.4" fill="#111"/></svg>',"Goal (hover for the full goal)");
