@@ -63,15 +63,40 @@ j=j.replace('document.addEventListener("fullscreenchange",function(){setTimeout(
 j=j.replace('$S().classList.add("full");resize();','$S().classList.add("full");resize();fillLegendBox();render();')
 j=j.replace('$S().classList.remove("full");resize();','$S().classList.remove("full");resize();fillLegendBox();render();')
 assert 'if(!w)return;' in j and 'ResizeObserver' in j and 'var nar=' in j
+# on a card the numbered readings are not shown, so name stuck places plainly
+_o='if(st.pits.length)o.push("It passes through "+list(st.pits.map(pitName))+".");'
+assert j.count(_o)==1
+j=j.replace(_o,'if(st.pits.length)o.push(CARDH?"It passes through "+(st.pits.length===1?"a place":st.pits.length+" places")+" where it is easy to get stuck.":"It passes through "+list(st.pits.map(pitName))+".");')
+# one terrain per workbook, shared by Pattern Synthesis and every Taking Action card
+assert j.count('terr=buildTerrain(prep(curRaw));')==1
+j=j.replace('terr=buildTerrain(prep(curRaw));','var tk=ver+"|"+growK+"|"+JSON.stringify(curRaw);terr=TC[tk]||(TC[tk]=buildTerrain(prep(curRaw)));')
+assert j.count('terr=buildTerrain(notes);')==1
+j=j.replace('terr=buildTerrain(notes);','var tk0=ver+"|"+growK+"|"+JSON.stringify(raw);terr=TC[tk0]||(TC[tk0]=buildTerrain(notes));')
+assert j.count('buildTerrain(')==3
+assert j.count('Math.round(Math.max(380,Math.min(620,w*0.62)))')==1
+j=j.replace('Math.round(Math.max(380,Math.min(620,w*0.62)))','Math.round(CARDH?Math.max(260,Math.min(440,w*0.5)):Math.max(380,Math.min(620,w*0.62)))')
 
 MOD='''
 /* ---- Pattern Synthesis terrain (layer: the ground ahead) ---- */
-!function(){var CSS=%s,TPL=%s;
-function mount(host,data){"use strict";host.className+=" gterr";host.innerHTML=TPL;function $(id){return host.querySelector('[data-gt="'+id+'"]');}
+!function(){var CSS=%s,TPL=%s,TC={},QU=[],QB=0;function pump(){var f=QU.shift();if(!f){QB=0;return;}f();setTimeout(pump,16);}
+function mount(host,data){"use strict";host.className+=" gterr";host.innerHTML=TPL;function $(id){return host.querySelector('[data-gt="'+id+'"]');}var CARDH=!!data.card;
 %s
+if(CARDH){host.classList.add("gtcard");
+  host.querySelectorAll(".plab,.sub,.bar,.gfold").forEach(function(e){e.style.display="none";});
+  ["crshead","courses","rdhead","readings","selnote","msg"].forEach(function(id){var e=$(id);if(e)e.style.display="none";});
+  LEGON=false;showCause=false;var cw0=host.clientWidth||600;view={az:0.05,tilt:0.72,zoom:cw0<520?0.95:cw0<700?1.3:1.55};setCourse(0);
+  var bx=$("coursebox").querySelector(".selbox");if(bx){var kids=[].slice.call(bx.children);kids.slice(0,3).forEach(function(e){e.remove();});var last=bx.lastElementChild;if(last&&last.classList.contains("small"))last.remove();}
+}
 }
 window.gsmTerrainMount=mount;
-function scan(){document.querySelectorAll(".gterr-host:not([data-on])").forEach(function(h){h.setAttribute("data-on","1");try{mount(h,window.gsmTD||{})}catch(e){h.textContent="";h.style.display="none";if(window.console)console.warn("terrain",e)}})}
+function scan(){document.querySelectorAll(".gterr-host:not([data-on])").forEach(function(h){h.setAttribute("data-on","1");try{mount(h,window.gsmData?window.gsmData():(window.gsmTD||{}))}catch(e){h.textContent="";h.style.display="none";if(window.console)console.warn("terrain",e)}});
+document.querySelectorAll(".gterr-card:not([data-on])").forEach(function(h){h.setAttribute("data-on","1");
+  function go(){QU.push(go1);if(!QB){QB=1;setTimeout(pump,0);}}
+  function go1(){if(h.getAttribute("data-m")||!h.isConnected)return;h.setAttribute("data-m","1");var fb=h.innerHTML,cls=h.className;
+    try{var d=window.gsmData?window.gsmData():(window.gsmTD||{}),st=[];try{st=JSON.parse(h.getAttribute("data-steps")||"[]")}catch(e){}
+      mount(h,{m:d.m||[],a:d.a||[],goal:d.goal||"",card:1,cards:[{w:"",why:"",mode:h.getAttribute("data-mode")==="PROGRAM"?"PROGRAM":"STRATEGY",ids:(h.getAttribute("data-ids")||"").split(",").map(function(x){x=x.trim();var m=/^(?:note\\s*|N)(\\d+)$/i.exec(x);return m?"N"+m[1]:x;}).filter(Boolean),steps:st}]})}
+    catch(e){h.innerHTML=fb;h.className=cls;if(window.console)console.warn("terrain card",e)}}
+  if(window.IntersectionObserver){var io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting})){io.disconnect();go();}},{rootMargin:"400px"});io.observe(h);}else go();});}
 function start(){if(!document.getElementById("gsm-tcss")){var s=document.createElement("style");s.id="gsm-tcss";s.textContent=CSS;document.head.appendChild(s)}new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan()}
 document.body?start():document.addEventListener("DOMContentLoaded",start)}();
 '''%(json.dumps(CSS),TPL,j)

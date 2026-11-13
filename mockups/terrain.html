@@ -189,7 +189,7 @@ function prep(raw){
 function hash2(ix,iy){var h=Math.imul(ix,374761393)^Math.imul(iy,668265263);h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296;}
 function vnoise(x,y){var ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy,u=fx*fx*(3-2*fx),v=fy*fy*(3-2*fy);
   var a=hash2(ix,iy),b=hash2(ix+1,iy),c=hash2(ix,iy+1),d=hash2(ix+1,iy+1);return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v;}
-function ridged(x,y){var s=0,amp=1,f=1/46,tot=0;for(var o=0;o<5;o++){var an=0.62+o*1.13,ca=Math.cos(an),sa=Math.sin(an),u=(x*ca-y*sa)*f+o*17.3,v=(x*sa+y*ca)*f+o*9.1;var n=1-Math.abs(2*vnoise(u,v)-1);s+=amp*Math.pow(n,1.6);tot+=amp;amp*=0.5;f*=2.05;}return s/tot;}
+function ridged(x,y){var s=0,amp=1,f=1/50,tot=0;for(var o=0;o<4;o++){var an=0.62+o*0.22,ca=Math.cos(an),sa=Math.sin(an),u=(x*ca-y*sa)*f*0.5+o*17.3,v=(x*sa+y*ca)*f+o*9.1;var nv=2*vnoise(u,v)-1,n=Math.max(0,1-Math.sqrt(nv*nv+0.012));s+=amp*Math.pow(n,1.6);tot+=amp;amp*=0.5;f*=2.05;}return s/tot;}
 function buildTerrain(notes){
   notes=notes.slice(0,growK);
   var pts=notes.filter(function(n){return n.e!=null;});
@@ -210,7 +210,7 @@ function buildTerrain(notes){
     var a=1-Math.exp(-1.8*M);cov[idx]=a;var r=BARE[0],g=BARE[1],b=BARE[2];
     if(pts.length){var nearL=Math.exp(-Math.pow((y-118)/40,2)),sc=sigma*(1.05+0.95*nearL),s3=2*sc*sc,ws2=0,r2=0,g2=0,b2=0;
       for(var p2=0;p2<pts.length;p2++){var ex=x-pts[p2].x,ey=y-pts[p2].y,w2=Math.exp(-(ex*ex+ey*ey)/s3)+1e-4*Math.exp(-(ex*ex+ey*ey)/(s3*25));var ec=EMO[pts[p2].e][1];ws2+=w2;r2+=w2*ec[0];g2+=w2*ec[1];b2+=w2*ec[2];}
-      if(ws2>0){r=r2/ws2;g=g2/ws2;b=b2/ws2;a=1;}}
+      if(ws2>0){r=r2/ws2;g=g2/ws2;b=b2/ws2;a=Math.min(1,1.6*a);}}
     col[idx*3]=BARE[0]*(1-a)+r*a;col[idx*3+1]=BARE[1]*(1-a)+g*a;col[idx*3+2]=BARE[2]*(1-a)+b*a;
   }
   var hs=new Float32Array(n),hmin=1e9,hmax=-1e9;
@@ -244,6 +244,10 @@ function buildTerrain(notes){
       if(best>hs[qb]){var rise=best-hs[qb];hs[qb]=best;var tb=Math.min(1,rise/0.1)*Math.max(0,Math.min(1,(0.6*sigma-bt)/(0.25*sigma)));bench[qb]=tb;
         var yc=EMO[3][1];col[qb*3]=col[qb*3]*(1-tb)+yc[0]*tb;col[qb*3+1]=col[qb*3+1]*(1-tb)+yc[1]*tb;col[qb*3+2]=col[qb*3+2]*(1-tb)+yc[2]*tb;}}
     hmin=1e9;hmax=-1e9;for(var qc=0;qc<n;qc++){if(hs[qc]<hmin)hmin=hs[qc];if(hs[qc]>hmax)hmax=hs[qc];}}
+  /* feather the ridge's color edge so it doesn't step cell by cell */
+  for(var ch=0;ch<3;ch++){var cc0=new Float32Array(n);for(var q5=0;q5<n;q5++)cc0[q5]=col[q5*3+ch];blur3(cc0,2);
+    for(var q6=0;q6<n;q6++){var nearB=bench[q6]>0.02||(q6>0&&bench[q6-1]>0.02)||(q6+1<n&&bench[q6+1]>0.02)||(q6>=VX&&bench[q6-VX]>0.02)||(q6+VX<n&&bench[q6+VX]>0.02);if(nearB)col[q6*3+ch]=cc0[q6];}}
+  var bb0=new Float32Array(bench);blur3(bb0,1);bench=bb0;
   /* the goal sits on a flat pad: level with the smooth ground at its centre, blending out from r=24 to r=38 */
   var gi0=Math.round(GOAL.x/CX),gj0=Math.round(GOAL.y/CY),gl=hs[gj0*VX+gi0],pad=new Float32Array(n);
   for(var q2=0;q2<n;q2++){var px=(q2%VX)*CX,py=((q2/VX)|0)*CY,dd=Math.hypot(px-GOAL.x,py-GOAL.y);
@@ -255,12 +259,40 @@ function buildTerrain(notes){
     var k=j2*VX+i2,il=Math.max(0,i2-1),ir=Math.min(VX-1,i2+1),jt=Math.max(0,j2-1),jb=Math.min(VY-1,j2+1);
     var gx=(hs[j2*VX+ir]-hs[j2*VX+il])/((ir-il)*CX),gy=(hs[jb*VX+i2]-hs[jt*VX+i2])/((jb-jt)*CY);
     var slope=Math.min(1,Math.hypot(gx,gy)*sigma*0.8);
-    var amp=Math.min(0.06,cov[k]*(0.01+0.25*Math.pow(Math.max(0,mix[k]-0.3),2)+0.02*slope));
+    var amp=Math.min(0.72,cov[k]*(0.03+0.9*Math.pow(Math.max(0,mix[k]-0.3),2)+0.08*slope));
     hn[k]=hs[k]+(ridged(i2*CX,j2*CY)-0.42)*2*amp*(1-pad[k])*(1-0.5*bench[k]);tal[k]=Math.max(Math.max(0,Math.min(1,(mix[k]-0.45)*2.2))*(1-bench[k]),0.45*bench[k]);
     if(hn[k]<rmin)rmin=hn[k];
   }
-  for(var pass=0;pass<3;pass++){var tmpH=new Float32Array(hn);for(var bj=1;bj<VY-1;bj++)for(var bi=1;bi<VX-1;bi++){var bk=bj*VX+bi;
+  for(var pass=0;pass<1;pass++){var tmpH=new Float32Array(hn);for(var bj=1;bj<VY-1;bj++)for(var bi=1;bi<VX-1;bi++){var bk=bj*VX+bi;
       hn[bk]=(tmpH[bk]*4+tmpH[bk-1]+tmpH[bk+1]+tmpH[bk-VX]+tmpH[bk+VX]+0.5*(tmpH[bk-VX-1]+tmpH[bk-VX+1]+tmpH[bk+VX-1]+tmpH[bk+VX+1]))/10;}}
+  /* weathering: steep spikes shed material downhill (talus), then drainage carves branching gullies */
+  var th=0.16,shed=0.3;
+  for(var ep=0;ep<4;ep++){var dH=new Float32Array(n);
+    for(var ej=1;ej<VY-1;ej++)for(var ei=1;ei<VX-1;ei++){var ek=ej*VX+ei,bmax=0,bn=-1;
+      var e4=[ek-1,ek+1,ek-VX,ek+VX];
+      for(var en=0;en<4;en++){var dta=hn[ek]-hn[e4[en]];if(dta>bmax){bmax=dta;bn=e4[en];}}
+      if(bmax>th){var mv=shed*(bmax-th)*0.5;dH[ek]-=mv;dH[bn]+=mv;}}
+    for(var eq=0;eq<n;eq++)hn[eq]+=dH[eq];}
+  var order=new Array(n);for(var oi=0;oi<n;oi++)order[oi]=oi;order.sort(function(a,b){return hn[b]-hn[a];});
+  var acc=new Float32Array(n);for(var ai=0;ai<n;ai++)acc[ai]=1;
+  var D8=[1,-1,VX,-VX,VX+1,VX-1,-VX+1,-VX-1],DW=[1,1,1,1,0.7071,0.7071,0.7071,0.7071];
+  order.forEach(function(k9){var ki=k9%VX,kj=(k9/VX)|0;if(ki<1||kj<1||ki>=VX-1||kj>=VY-1)return;
+    var bs=0,bk9=-1;for(var d8=0;d8<8;d8++){var nk=k9+D8[d8],ddf=(hn[k9]-hn[nk])*DW[d8];if(ddf>bs){bs=ddf;bk9=nk;}}
+    if(bk9>=0)acc[bk9]+=acc[k9];});
+  var am=0;for(var a2=0;a2<n;a2++)if(acc[a2]>am)am=acc[a2];
+  var carve=new Float32Array(n),lgm=Math.log(1+am)||1;
+  for(var c2=0;c2<n;c2++){var cf=Math.pow(Math.log(1+acc[c2])/lgm,1.6);
+    carve[c2]=0.18*cf*cov[c2]*(1-pad[c2])*(1-0.6*bench[c2]);}
+  function blur3(arr,k){for(var bp=0;bp<k;bp++){var cw=new Float32Array(arr);
+    for(var wj=1;wj<VY-1;wj++)for(var wi=1;wi<VX-1;wi++){var wk=wj*VX+wi;
+      arr[wk]=(cw[wk]*4+2*(cw[wk-1]+cw[wk+1]+cw[wk-VX]+cw[wk+VX])+cw[wk-VX-1]+cw[wk-VX+1]+cw[wk+VX-1]+cw[wk+VX+1])/16;}}}
+  blur3(carve,3);
+  for(var c3=0;c3<n;c3++)hn[c3]-=carve[c3];
+  /* remove only grid-scale stepping: half-strength 3x3 pass keeps rough forms, drops the sawtooth */
+  var hb=new Float32Array(hn);blur3(hb,2);
+  for(var c4=0;c4<n;c4++){var ci=c4%VX,cj=(c4/VX)|0,il4=Math.max(0,ci-1),ir4=Math.min(VX-1,ci+1),jt4=Math.max(0,cj-1),jb4=Math.min(VY-1,cj+1);
+    var g4=Math.hypot((hb[cj*VX+ir4]-hb[cj*VX+il4])/((ir4-il4)*CX),(hb[jb4*VX+ci]-hb[jt4*VX+ci])/((jb4-jt4)*CY));
+    var w4=Math.min(0.92,0.5+5*g4);hn[c4]=(1-w4)*hn[c4]+w4*hb[c4];}
   rmin=1e9;for(var bq=0;bq<n;bq++)if(hn[bq]<rmin)rmin=hn[bq];
   var qpos=placeQuestions(notes);
   var T={bench:bench,tal:tal,hn:hn,hs:hs,col:col,sigma:sigma,hmin:hmin,hmax:hmax,rmin:rmin,notes:notes,pts:pts,qpos:qpos,threads:findThreads(notes,qpos),cause:findCause(notes,qpos)};
@@ -574,18 +606,26 @@ function analyse(T){
 }
 
 /* ---------- rendering ---------- */
-var A=45,YB=-60,cellCol=[],cellCache=null,zArr=null;
+var A=45,YB=-60,cellCol=[],cellCache=null,zArr=null,zSm=null;
 function prepare(){
   var T=terr,n=VX*VY; A=40*exag; YB=Math.min(0,T.rmin*A)-14;
   zArr=new Float32Array(n);for(var q=0;q<n;q++)zArr[q]=T.hn[q]*A;
+  zSm=new Float32Array(zArr);for(var sp0=0;sp0<6;sp0++){var zc=new Float32Array(zSm);for(var sj=1;sj<VY-1;sj++)for(var si=1;si<VX-1;si++){var sk=sj*VX+si;zSm[sk]=(zc[sk]*4+2*(zc[sk-1]+zc[sk+1]+zc[sk-VX]+zc[sk+VX])+zc[sk-VX-1]+zc[sk-VX+1]+zc[sk+VX-1]+zc[sk+VX+1])/16;}}
   var L=[-0.6,0.5,-0.6],ln=Math.hypot(L[0],L[1],L[2]);L=[L[0]/ln,L[1]/ln,L[2]/ln];
+  var lamA=new Float32Array(NX*NY),lamB=new Float32Array(NX*NY);
+  for(var j0=0;j0<NY;j0++)for(var i0=0;i0<NX;i0++){var a0=j0*VX+i0,b0=a0+1,c0=a0+VX,d0=c0+1;
+    var gx=(zArr[b0]+zArr[d0]-zArr[a0]-zArr[c0])/(2*CX),gz=(zArr[c0]+zArr[d0]-zArr[a0]-zArr[b0])/(2*CY);
+    lamA[j0*NX+i0]=Math.max(0,(-gx*L[0]+L[1]-gz*L[2])/Math.hypot(gx,1,gz));}
+  for(var j1=0;j1<NY;j1++)for(var i1=0;i1<NX;i1++){var sm=0,wt=0;
+    for(var dj=-1;dj<=1;dj++)for(var di=-1;di<=1;di++){var jj=j1+dj,ii=i1+di;if(jj<0||ii<0||jj>=NY||ii>=NX)continue;var w=di===0&&dj===0?4:1;sm+=lamA[jj*NX+ii]*w;wt+=w;}
+    lamB[j1*NX+i1]=sm/wt;}
   cellCol=new Array(NX*NY);
   for(var j=0;j<NY;j++)for(var i=0;i<NX;i++){
     var a=j*VX+i,b=a+1,c=a+VX,d=c+1;
     var dzx=(zArr[b]+zArr[d]-zArr[a]-zArr[c])/(2*CX),dzz=(zArr[c]+zArr[d]-zArr[a]-zArr[b])/(2*CY);
-    var nl=Math.hypot(dzx,1,dzz),lam=Math.max(0,(-dzx*L[0]+L[1]-dzz*L[2])/nl);
+    var nl=Math.hypot(dzx,1,dzz),lam=lamB[j*NX+i];
     var hh=(T.hn[a]+T.hn[b]+T.hn[c]+T.hn[d])/4,sh=0.62+0.5*lam;
-    var tl=(T.tal[a]+T.tal[b]+T.tal[c]+T.tal[d])/4;if(tl>0.15){var sp=hash2(i*7,j*13);if(sp<0.2*tl)sh*=0.93;}
+    var tl=(T.tal[a]+T.tal[b]+T.tal[c]+T.tal[d])/4;if(tl>0.15){var sp=vnoise(i/2.5+3.1,j/2.5+7.7);sh*=1-0.12*tl*sp;}
     if(clay){var cv0=(250*(0.72+0.36*lam))|0;cellCol[j*NX+i]="rgb("+Math.min(255,cv0)+","+Math.min(255,(cv0*0.985)|0)+","+Math.min(255,(cv0*0.96)|0)+")";continue;}
     var r=(T.col[a*3]+T.col[b*3]+T.col[c*3]+T.col[d*3])/4*sh,g=(T.col[a*3+1]+T.col[b*3+1]+T.col[c*3+1]+T.col[d*3+1])/4*sh,bl=(T.col[a*3+2]+T.col[b*3+2]+T.col[c*3+2]+T.col[d*3+2])/4*sh;
     var sat=boost(r/sh,g/sh,bl/sh);r=sat[0]*sh;g=sat[1]*sh;bl=sat[2]*sh;
@@ -597,6 +637,11 @@ function boost(r,g,b){r/=255;g/=255;b/=255;var mx=Math.max(r,g,b),mn=Math.min(r,
   s=Math.min(1,s*1.55+0.08);l=Math.min(0.62,Math.max(0.3,l));
   function f(p,q,t){if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;}
   var q=l<0.5?l*(1+s):l+s-l*s,p=2*l-q;return [f(p,q,h+1/3)*255,f(p,q,h)*255,f(p,q,h-1/3)*255];}
+function zSmAt(x,y){
+  var fx=Math.max(0,Math.min(NX-.001,x/CX)),fy=Math.max(0,Math.min(NY-.001,y/CY)),i=fx|0,j=fy|0,u=fx-i,v=fy-j;
+  var a=zSm[j*VX+i],b=zSm[j*VX+i+1],c=zSm[(j+1)*VX+i],d=zSm[(j+1)*VX+i+1],zs=a*(1-u)*(1-v)+b*u*(1-v)+c*(1-u)*v+d*u*v;
+  return zs;
+}
 function zAt(x,y){
   var fx=Math.max(0,Math.min(NX-.001,x/CX)),fy=Math.max(0,Math.min(NY-.001,y/CY)),i=fx|0,j=fy|0,u=fx-i,v=fy-j;
   var a=zArr[j*VX+i],b=zArr[j*VX+i+1],c=zArr[(j+1)*VX+i],d=zArr[(j+1)*VX+i+1];
@@ -651,16 +696,18 @@ function render(st){
   var NB=NX/st,MB=NY/st,sxd=-P.sa,szd=P.ca,b0=sxd>0?0:NB-1,b1=sxd>0?NB:-1,bs=sxd>0?1:-1,c0=szd>0?0:MB-1,c1=szd>0?MB:-1,cs=szd>0?1:-1;
   var labelPins=terr.notes.length<=45,bi,bj;
   ctx.lineWidth=st>1?1.1:0.6;
-  for(bi=b0;bi!==b1;bi+=bs)for(bj=c0;bj!==c1;bj+=cs){
+  var zOut=Math.abs(szd)>=Math.abs(sxd),nOut=zOut?MB:NB,nIn=zOut?NB:MB;
+  for(var oo=0;oo<nOut;oo++)for(var ii2=0;ii2<nIn;ii2++){
+    if(zOut){bj=cs>0?oo:MB-1-oo;bi=bs>0?ii2:NB-1-ii2;}else{bi=bs>0?oo:NB-1-oo;bj=cs>0?ii2:MB-1-ii2;}
     i=bi*st;j=bj*st;
     var a=j*VX+i,b=a+st,c=a+st*VX,d=c+st,cc=cellCol[j*NX+i];
-    ctx.beginPath();ctx.moveTo(sx[a],sy[a]);ctx.lineTo(sx[b],sy[b]);ctx.lineTo(sx[d],sy[d]);ctx.lineTo(sx[c],sy[c]);ctx.closePath();
+    ctx.beginPath();ctx.moveTo(sx[a],sy[a]);ctx.lineTo(sx[b],sy[b]);ctx.lineTo(sx[d],sy[d]);ctx.closePath();ctx.moveTo(sx[a],sy[a]);ctx.lineTo(sx[d],sy[d]);ctx.lineTo(sx[c],sy[c]);ctx.closePath();
     ctx.fillStyle=cc;ctx.fill();ctx.strokeStyle=cc;ctx.stroke();
     var bk=buckets[bj*NXB+bi];
     if(bk){bk.forEach(drawItem);ctx.lineWidth=st>1?1.1:0.6;}
   }
   function drawItem(it){
-      if(it.k==="seg"){var d2=it.d,za=zAt(d2.a[0],d2.a[1])+d2.lift,zb=zAt(d2.b[0],d2.b[1])+d2.lift,p1=pr(wx(d2.a[0]),za,wz(d2.a[1]),[0,0]),p2=pr(wx(d2.b[0]),zb,wz(d2.b[1]),[0,0]);
+      if(it.k==="seg"){var d2=it.d,za=zSmAt(d2.a[0],d2.a[1])+d2.lift,zb=zSmAt(d2.b[0],d2.b[1])+d2.lift,p1=pr(wx(d2.a[0]),za,wz(d2.a[1]),[0,0]),p2=pr(wx(d2.b[0]),zb,wz(d2.b[1]),[0,0]);
         STYLE[d2.s].forEach(function(stl,si){ctx.beginPath();ctx.moveTo(p1[0],p1[1]);ctx.lineTo(p2[0],p2[1]);ctx.strokeStyle=stl[0];ctx.lineWidth=stl[1];ctx.lineCap=d2.s==="loop"?"butt":"round";ctx.stroke();});}
       else if(it.k==="pin"){var nt=it.n,z=zAt(nt.x,nt.y),p0=pr(wx(nt.x),z,wz(nt.y),[0,0]),p1=pr(wx(nt.x),z+9,wz(nt.y),[0,0]);
         ctx.beginPath();ctx.moveTo(p0[0],p0[1]);ctx.lineTo(p1[0],p1[1]);ctx.strokeStyle="rgba(0,0,0,.6)";ctx.lineWidth=1;ctx.stroke();
@@ -679,7 +726,7 @@ function render(st){
         ctx.beginPath();ctx.arc(q1[0],q1[1],2.6,0,6.283);ctx.fillStyle="#111";ctx.fill();}
   }
   /* loops, then question markers: drawn over the ground */
-  function drape(pts,lift,step){var o=[];for(var k=0;k<pts.length;k+=step||1){var q=pts[k];o.push(pr(wx(q[0]),zAt(q[0],q[1])+lift,wz(q[1]),[0,0]));}if(step>1){var q2=pts[pts.length-1];o.push(pr(wx(q2[0]),zAt(q2[0],q2[1])+lift,wz(q2[1]),[0,0]));}return o;}
+  function drape(pts,lift,step){var o=[];for(var k=0;k<pts.length;k+=step||1){var q=pts[k];o.push(pr(wx(q[0]),zSmAt(q[0],q[1])+lift,wz(q[1]),[0,0]));}if(step>1){var q2=pts[pts.length-1];o.push(pr(wx(q2[0]),zSmAt(q2[0],q2[1])+lift,wz(q2[1]),[0,0]));}return o;}
   function stroke(o,col,wid,dash){ctx.beginPath();o.forEach(function(p,k){k?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);});ctx.setLineDash(dash||[]);ctx.strokeStyle=col;ctx.lineWidth=wid;ctx.lineJoin="round";ctx.lineCap="round";ctx.stroke();ctx.setLineDash([]);}
   var HLR=HL!=null?READ[HL]:null;
   function isOn(th){return thOn[th.w]||(SEL&&SELTH===th.w)||(HLR&&HLR.w===th.w);}
@@ -804,7 +851,7 @@ function fillLegendBox(){var el=document.getElementById("legbox");el.innerHTML="
     row('<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb('+boost(e[1][0],e[1][1],e[1][2]).map(function(v){return v|0;}).join(",")+')"></span>',txt);});
   row('<svg width="30" height="14"><path d="M1 11 L4 6 L6 9 L9 3 L12 8 L14 5 L17 10 L20 4 L23 9 L26 6 L29 10" fill="none" stroke="#333" stroke-width="1.3"/></svg>',"Broken ground (talus): emotions meet");
   
-  row('<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',"Level: no information nearby");
+  row('<svg width="30" height="14"><rect x="1" y="2" width="28" height="10" rx="2" fill="rgb(238,235,227)" stroke="#bbb"/></svg>',"Pale, level ground: no notes nearby");
   row('<svg width="30" height="14"><text x="15" y="10" font-size="6.5" text-anchor="middle" font-family="sans-serif">PRESENT</text></svg>',"Present on the left; the future runs to the goal");
   row('<svg width="30" height="14"><polygon points="15,1 17.4,5.4 22,5.6 18.4,8.6 19.6,13 15,10.4 10.4,13 11.6,8.6 8,5.6 12.6,5.4" fill="#111"/></svg>',"Goal (hover for the full goal)");
   row('<svg width="30" height="14"><rect x="4" y="2" width="22" height="10" fill="#111"/><text x="15" y="10" font-size="7" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">Q.1</text></svg>',"Question: at the middle of its notes");

@@ -443,6 +443,9 @@
     var I = JSON.parse(localStorage.getItem(S));
     I && I.a && (C = I);
   } catch (t) {}
+  window.gsmData = function () {
+    return { m: C.m, a: Q(), goal: C.goal };
+  };
   function Q() {
     return C.a.map(function (t, e) {
       return q(e);
@@ -7944,7 +7947,7 @@
                     "</ul>"
                   : '<div class="csn">Nothing in your answers says yet what the first move is.</div>') +
                 "</div>" +
-                (function (t, e) {
+                (function (t, e, stp) {
                   var n = e
                     .filter(function (t) {
                       return t.line;
@@ -8012,7 +8015,28 @@
                           " times across the line. It may not run straight through as a program needs to."
                         : "";
                   return (
-                    '<div class="csec"><div class="csl">THE WAY THROUGH IT</div><svg class="cpath" viewBox="0 0 340 76" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="0" y1="' +
+                    '<div class="csec"><div class="csl">THE WAY THROUGH IT</div><div class="gterr-card" data-mode="' +
+                    (t ? "STRATEGY" : "PROGRAM") +
+                    '" data-ids="' +
+                    Gt(
+                      e
+                        .filter(function (x) {
+                          return x.line;
+                        })
+                        .map(function (x) {
+                          return x.id;
+                        })
+                        .join(","),
+                    ) +
+                    '" data-steps="' +
+                    Gt(
+                      JSON.stringify(
+                        (stp || []).map(function (x) {
+                          return String(x).replace(/<[^>]*>/g, "");
+                        }),
+                      ),
+                    ) +
+                    '"><svg class="cpath" viewBox="0 0 340 76" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="0" y1="' +
                     Pn(Bn).toFixed(0) +
                     '" x2="340" y2="' +
                     Pn(Bn).toFixed(0) +
@@ -8025,9 +8049,9 @@
                     '</svg><div class="csn">' +
                     f +
                     g +
-                    "</div></div>"
+                    "</div></div></div>"
                   );
-                })(t, s || []),
+                })(t, s || [], e),
               c = t
                 ? Wn("WHAT YOU ALREADY HAVE", "", n) +
                   Wn("WHAT STANDS IN THE WAY", "", o) +
@@ -14020,7 +14044,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v163");
+        t && (t.textContent = "v164");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -14529,7 +14553,19 @@
   var CSS =
       '.gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}.gterr .gfold summary{cursor:pointer;list-style:none}.gterr .gfold summary::-webkit-details-marker{display:none}.gterr .gfold summary::before{content:"+ ";font-weight:700}.gterr .gfold[open] summary::before{content:"\u2212 "}.gterr .gfold .sec{display:inline;margin:0}.gterr .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}.gterr .more{color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}.gterr .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}.gterr .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}.gterr .stage.full .fsx{display:block}.gterr .stage:fullscreen .fsx{display:block}.gterr .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}',
     TPL =
-      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. The numbers on the ground are explained below the map. Drag to turn it; scroll or pinch to zoom.</div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold"><summary><span class="sec" data-gt="phhead">PHRASES THAT RUN THROUGH</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map.</div>\n  <div data-gt="threads"></div></details>\n  <details class="gfold"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>';
+      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. The numbers on the ground are explained below the map. Drag to turn it; scroll or pinch to zoom.</div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold"><summary><span class="sec" data-gt="phhead">PHRASES THAT RUN THROUGH</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map.</div>\n  <div data-gt="threads"></div></details>\n  <details class="gfold"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>',
+    TC = {},
+    QU = [],
+    QB = 0;
+  function pump() {
+    var f = QU.shift();
+    if (!f) {
+      QB = 0;
+      return;
+    }
+    f();
+    setTimeout(pump, 16);
+  }
   function mount(host, data) {
     "use strict";
     host.className += " gterr";
@@ -14537,6 +14573,7 @@
     function $(id) {
       return host.querySelector('[data-gt="' + id + '"]');
     }
+    var CARDH = !!data.card;
 
     /* ---------- constants (same map as the line map: 340 x 230, line at y=118, goal at 305,118) ---------- */
     var EMO = [
@@ -14639,15 +14676,16 @@
     function ridged(x, y) {
       var s = 0,
         amp = 1,
-        f = 1 / 46,
+        f = 1 / 50,
         tot = 0;
-      for (var o = 0; o < 5; o++) {
-        var an = 0.62 + o * 1.13,
+      for (var o = 0; o < 4; o++) {
+        var an = 0.62 + o * 0.22,
           ca = Math.cos(an),
           sa = Math.sin(an),
-          u = (x * ca - y * sa) * f + o * 17.3,
+          u = (x * ca - y * sa) * f * 0.5 + o * 17.3,
           v = (x * sa + y * ca) * f + o * 9.1;
-        var n = 1 - Math.abs(2 * vnoise(u, v) - 1);
+        var nv = 2 * vnoise(u, v) - 1,
+          n = Math.max(0, 1 - Math.sqrt(nv * nv + 0.012));
         s += amp * Math.pow(n, 1.6);
         tot += amp;
         amp *= 0.5;
@@ -14741,7 +14779,7 @@
               r = r2 / ws2;
               g = g2 / ws2;
               b = b2 / ws2;
-              a = 1;
+              a = Math.min(1, 1.6 * a);
             }
           }
           col[idx * 3] = BARE[0] * (1 - a) + r * a;
@@ -14902,6 +14940,24 @@
           if (hs[qc] > hmax) hmax = hs[qc];
         }
       }
+      /* feather the ridge's color edge so it doesn't step cell by cell */
+      for (var ch = 0; ch < 3; ch++) {
+        var cc0 = new Float32Array(n);
+        for (var q5 = 0; q5 < n; q5++) cc0[q5] = col[q5 * 3 + ch];
+        blur3(cc0, 2);
+        for (var q6 = 0; q6 < n; q6++) {
+          var nearB =
+            bench[q6] > 0.02 ||
+            (q6 > 0 && bench[q6 - 1] > 0.02) ||
+            (q6 + 1 < n && bench[q6 + 1] > 0.02) ||
+            (q6 >= VX && bench[q6 - VX] > 0.02) ||
+            (q6 + VX < n && bench[q6 + VX] > 0.02);
+          if (nearB) col[q6 * 3 + ch] = cc0[q6];
+        }
+      }
+      var bb0 = new Float32Array(bench);
+      blur3(bb0, 1);
+      bench = bb0;
       /* the goal sits on a flat pad: level with the smooth ground at its centre, blending out from r=24 to r=38 */
       var gi0 = Math.round(GOAL.x / CX),
         gj0 = Math.round(GOAL.y / CY),
@@ -14937,8 +14993,8 @@
             gy = (hs[jb * VX + i2] - hs[jt * VX + i2]) / ((jb - jt) * CY);
           var slope = Math.min(1, Math.hypot(gx, gy) * sigma * 0.8);
           var amp = Math.min(
-            0.06,
-            cov[k] * (0.01 + 0.25 * Math.pow(Math.max(0, mix[k] - 0.3), 2) + 0.02 * slope),
+            0.72,
+            cov[k] * (0.03 + 0.9 * Math.pow(Math.max(0, mix[k] - 0.3), 2) + 0.08 * slope),
           );
           hn[k] = hs[k] + (ridged(i2 * CX, j2 * CY) - 0.42) * 2 * amp * (1 - pad[k]) * (1 - 0.5 * bench[k]);
           tal[k] = Math.max(
@@ -14947,7 +15003,7 @@
           );
           if (hn[k] < rmin) rmin = hn[k];
         }
-      for (var pass = 0; pass < 3; pass++) {
+      for (var pass = 0; pass < 1; pass++) {
         var tmpH = new Float32Array(hn);
         for (var bj = 1; bj < VY - 1; bj++)
           for (var bi = 1; bi < VX - 1; bi++) {
@@ -14961,6 +15017,101 @@
                 0.5 * (tmpH[bk - VX - 1] + tmpH[bk - VX + 1] + tmpH[bk + VX - 1] + tmpH[bk + VX + 1])) /
               10;
           }
+      }
+      /* weathering: steep spikes shed material downhill (talus), then drainage carves branching gullies */
+      var th = 0.16,
+        shed = 0.3;
+      for (var ep = 0; ep < 4; ep++) {
+        var dH = new Float32Array(n);
+        for (var ej = 1; ej < VY - 1; ej++)
+          for (var ei = 1; ei < VX - 1; ei++) {
+            var ek = ej * VX + ei,
+              bmax = 0,
+              bn = -1;
+            var e4 = [ek - 1, ek + 1, ek - VX, ek + VX];
+            for (var en = 0; en < 4; en++) {
+              var dta = hn[ek] - hn[e4[en]];
+              if (dta > bmax) {
+                bmax = dta;
+                bn = e4[en];
+              }
+            }
+            if (bmax > th) {
+              var mv = shed * (bmax - th) * 0.5;
+              dH[ek] -= mv;
+              dH[bn] += mv;
+            }
+          }
+        for (var eq = 0; eq < n; eq++) hn[eq] += dH[eq];
+      }
+      var order = new Array(n);
+      for (var oi = 0; oi < n; oi++) order[oi] = oi;
+      order.sort(function (a, b) {
+        return hn[b] - hn[a];
+      });
+      var acc = new Float32Array(n);
+      for (var ai = 0; ai < n; ai++) acc[ai] = 1;
+      var D8 = [1, -1, VX, -VX, VX + 1, VX - 1, -VX + 1, -VX - 1],
+        DW = [1, 1, 1, 1, 0.7071, 0.7071, 0.7071, 0.7071];
+      order.forEach(function (k9) {
+        var ki = k9 % VX,
+          kj = (k9 / VX) | 0;
+        if (ki < 1 || kj < 1 || ki >= VX - 1 || kj >= VY - 1) return;
+        var bs = 0,
+          bk9 = -1;
+        for (var d8 = 0; d8 < 8; d8++) {
+          var nk = k9 + D8[d8],
+            ddf = (hn[k9] - hn[nk]) * DW[d8];
+          if (ddf > bs) {
+            bs = ddf;
+            bk9 = nk;
+          }
+        }
+        if (bk9 >= 0) acc[bk9] += acc[k9];
+      });
+      var am = 0;
+      for (var a2 = 0; a2 < n; a2++) if (acc[a2] > am) am = acc[a2];
+      var carve = new Float32Array(n),
+        lgm = Math.log(1 + am) || 1;
+      for (var c2 = 0; c2 < n; c2++) {
+        var cf = Math.pow(Math.log(1 + acc[c2]) / lgm, 1.6);
+        carve[c2] = 0.18 * cf * cov[c2] * (1 - pad[c2]) * (1 - 0.6 * bench[c2]);
+      }
+      function blur3(arr, k) {
+        for (var bp = 0; bp < k; bp++) {
+          var cw = new Float32Array(arr);
+          for (var wj = 1; wj < VY - 1; wj++)
+            for (var wi = 1; wi < VX - 1; wi++) {
+              var wk = wj * VX + wi;
+              arr[wk] =
+                (cw[wk] * 4 +
+                  2 * (cw[wk - 1] + cw[wk + 1] + cw[wk - VX] + cw[wk + VX]) +
+                  cw[wk - VX - 1] +
+                  cw[wk - VX + 1] +
+                  cw[wk + VX - 1] +
+                  cw[wk + VX + 1]) /
+                16;
+            }
+        }
+      }
+      blur3(carve, 3);
+      for (var c3 = 0; c3 < n; c3++) hn[c3] -= carve[c3];
+      /* remove only grid-scale stepping: half-strength 3x3 pass keeps rough forms, drops the sawtooth */
+      var hb = new Float32Array(hn);
+      blur3(hb, 2);
+      for (var c4 = 0; c4 < n; c4++) {
+        var ci = c4 % VX,
+          cj = (c4 / VX) | 0,
+          il4 = Math.max(0, ci - 1),
+          ir4 = Math.min(VX - 1, ci + 1),
+          jt4 = Math.max(0, cj - 1),
+          jb4 = Math.min(VY - 1, cj + 1);
+        var g4 = Math.hypot(
+          (hb[cj * VX + ir4] - hb[cj * VX + il4]) / ((ir4 - il4) * CX),
+          (hb[jb4 * VX + ci] - hb[jt4 * VX + ci]) / ((jb4 - jt4) * CY),
+        );
+        var w4 = Math.min(0.92, 0.5 + 5 * g4);
+        hn[c4] = (1 - w4) * hn[c4] + w4 * hb[c4];
       }
       rmin = 1e9;
       for (var bq = 0; bq < n; bq++) if (hn[bq] < rmin) rmin = hn[bq];
@@ -16012,7 +16163,14 @@
           st.ratio.toFixed(1) +
           "× a straight run to the goal.",
       );
-      if (st.pits.length) o.push("It passes through " + list(st.pits.map(pitName)) + ".");
+      if (st.pits.length)
+        o.push(
+          CARDH
+            ? "It passes through " +
+                (st.pits.length === 1 ? "a place" : st.pits.length + " places") +
+                " where it is easy to get stuck."
+            : "It passes through " + list(st.pits.map(pitName)) + ".",
+        );
       return o.join(" ");
     }
     function buildCourse(i) {
@@ -16557,7 +16715,8 @@
       YB = -60,
       cellCol = [],
       cellCache = null,
-      zArr = null;
+      zArr = null,
+      zSm = null;
     function prepare() {
       var T = terr,
         n = VX * VY;
@@ -16565,9 +16724,52 @@
       YB = Math.min(0, T.rmin * A) - 14;
       zArr = new Float32Array(n);
       for (var q = 0; q < n; q++) zArr[q] = T.hn[q] * A;
+      zSm = new Float32Array(zArr);
+      for (var sp0 = 0; sp0 < 6; sp0++) {
+        var zc = new Float32Array(zSm);
+        for (var sj = 1; sj < VY - 1; sj++)
+          for (var si = 1; si < VX - 1; si++) {
+            var sk = sj * VX + si;
+            zSm[sk] =
+              (zc[sk] * 4 +
+                2 * (zc[sk - 1] + zc[sk + 1] + zc[sk - VX] + zc[sk + VX]) +
+                zc[sk - VX - 1] +
+                zc[sk - VX + 1] +
+                zc[sk + VX - 1] +
+                zc[sk + VX + 1]) /
+              16;
+          }
+      }
       var L = [-0.6, 0.5, -0.6],
         ln = Math.hypot(L[0], L[1], L[2]);
       L = [L[0] / ln, L[1] / ln, L[2] / ln];
+      var lamA = new Float32Array(NX * NY),
+        lamB = new Float32Array(NX * NY);
+      for (var j0 = 0; j0 < NY; j0++)
+        for (var i0 = 0; i0 < NX; i0++) {
+          var a0 = j0 * VX + i0,
+            b0 = a0 + 1,
+            c0 = a0 + VX,
+            d0 = c0 + 1;
+          var gx = (zArr[b0] + zArr[d0] - zArr[a0] - zArr[c0]) / (2 * CX),
+            gz = (zArr[c0] + zArr[d0] - zArr[a0] - zArr[b0]) / (2 * CY);
+          lamA[j0 * NX + i0] = Math.max(0, (-gx * L[0] + L[1] - gz * L[2]) / Math.hypot(gx, 1, gz));
+        }
+      for (var j1 = 0; j1 < NY; j1++)
+        for (var i1 = 0; i1 < NX; i1++) {
+          var sm = 0,
+            wt = 0;
+          for (var dj = -1; dj <= 1; dj++)
+            for (var di = -1; di <= 1; di++) {
+              var jj = j1 + dj,
+                ii = i1 + di;
+              if (jj < 0 || ii < 0 || jj >= NY || ii >= NX) continue;
+              var w = di === 0 && dj === 0 ? 4 : 1;
+              sm += lamA[jj * NX + ii] * w;
+              wt += w;
+            }
+          lamB[j1 * NX + i1] = sm / wt;
+        }
       cellCol = new Array(NX * NY);
       for (var j = 0; j < NY; j++)
         for (var i = 0; i < NX; i++) {
@@ -16578,13 +16780,13 @@
           var dzx = (zArr[b] + zArr[d] - zArr[a] - zArr[c]) / (2 * CX),
             dzz = (zArr[c] + zArr[d] - zArr[a] - zArr[b]) / (2 * CY);
           var nl = Math.hypot(dzx, 1, dzz),
-            lam = Math.max(0, (-dzx * L[0] + L[1] - dzz * L[2]) / nl);
+            lam = lamB[j * NX + i];
           var hh = (T.hn[a] + T.hn[b] + T.hn[c] + T.hn[d]) / 4,
             sh = 0.62 + 0.5 * lam;
           var tl = (T.tal[a] + T.tal[b] + T.tal[c] + T.tal[d]) / 4;
           if (tl > 0.15) {
-            var sp = hash2(i * 7, j * 13);
-            if (sp < 0.2 * tl) sh *= 0.93;
+            var sp = vnoise(i / 2.5 + 3.1, j / 2.5 + 7.7);
+            sh *= 1 - 0.12 * tl * sp;
           }
           if (clay) {
             var cv0 = (250 * (0.72 + 0.36 * lam)) | 0;
@@ -16637,6 +16839,20 @@
       var q = l < 0.5 ? l * (1 + s) : l + s - l * s,
         p = 2 * l - q;
       return [f(p, q, h + 1 / 3) * 255, f(p, q, h) * 255, f(p, q, h - 1 / 3) * 255];
+    }
+    function zSmAt(x, y) {
+      var fx = Math.max(0, Math.min(NX - 0.001, x / CX)),
+        fy = Math.max(0, Math.min(NY - 0.001, y / CY)),
+        i = fx | 0,
+        j = fy | 0,
+        u = fx - i,
+        v = fy - j;
+      var a = zSm[j * VX + i],
+        b = zSm[j * VX + i + 1],
+        c = zSm[(j + 1) * VX + i],
+        d = zSm[(j + 1) * VX + i + 1],
+        zs = a * (1 - u) * (1 - v) + b * u * (1 - v) + c * (1 - u) * v + d * u * v;
+      return zs;
     }
     function zAt(x, y) {
       var fx = Math.max(0, Math.min(NX - 0.001, x / CX)),
@@ -16817,8 +17033,18 @@
         bi,
         bj;
       ctx.lineWidth = st > 1 ? 1.1 : 0.6;
-      for (bi = b0; bi !== b1; bi += bs)
-        for (bj = c0; bj !== c1; bj += cs) {
+      var zOut = Math.abs(szd) >= Math.abs(sxd),
+        nOut = zOut ? MB : NB,
+        nIn = zOut ? NB : MB;
+      for (var oo = 0; oo < nOut; oo++)
+        for (var ii2 = 0; ii2 < nIn; ii2++) {
+          if (zOut) {
+            bj = cs > 0 ? oo : MB - 1 - oo;
+            bi = bs > 0 ? ii2 : NB - 1 - ii2;
+          } else {
+            bi = bs > 0 ? oo : NB - 1 - oo;
+            bj = cs > 0 ? ii2 : MB - 1 - ii2;
+          }
           i = bi * st;
           j = bj * st;
           var a = j * VX + i,
@@ -16829,6 +17055,9 @@
           ctx.beginPath();
           ctx.moveTo(sx[a], sy[a]);
           ctx.lineTo(sx[b], sy[b]);
+          ctx.lineTo(sx[d], sy[d]);
+          ctx.closePath();
+          ctx.moveTo(sx[a], sy[a]);
           ctx.lineTo(sx[d], sy[d]);
           ctx.lineTo(sx[c], sy[c]);
           ctx.closePath();
@@ -16845,8 +17074,8 @@
       function drawItem(it) {
         if (it.k === "seg") {
           var d2 = it.d,
-            za = zAt(d2.a[0], d2.a[1]) + d2.lift,
-            zb = zAt(d2.b[0], d2.b[1]) + d2.lift,
+            za = zSmAt(d2.a[0], d2.a[1]) + d2.lift,
+            zb = zSmAt(d2.b[0], d2.b[1]) + d2.lift,
             p1 = pr(wx(d2.a[0]), za, wz(d2.a[1]), [0, 0]),
             p2 = pr(wx(d2.b[0]), zb, wz(d2.b[1]), [0, 0]);
           STYLE[d2.s].forEach(function (stl, si) {
@@ -16940,11 +17169,11 @@
         var o = [];
         for (var k = 0; k < pts.length; k += step || 1) {
           var q = pts[k];
-          o.push(pr(wx(q[0]), zAt(q[0], q[1]) + lift, wz(q[1]), [0, 0]));
+          o.push(pr(wx(q[0]), zSmAt(q[0], q[1]) + lift, wz(q[1]), [0, 0]));
         }
         if (step > 1) {
           var q2 = pts[pts.length - 1];
-          o.push(pr(wx(q2[0]), zAt(q2[0], q2[1]) + lift, wz(q2[1]), [0, 0]));
+          o.push(pr(wx(q2[0]), zSmAt(q2[0], q2[1]) + lift, wz(q2[1]), [0, 0]));
         }
         return o;
       }
@@ -17675,8 +17904,8 @@
       );
 
       row(
-        '<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',
-        "Level: no information nearby",
+        '<svg width="30" height="14"><rect x="1" y="2" width="28" height="10" rx="2" fill="rgb(238,235,227)" stroke="#bbb"/></svg>',
+        "Pale, level ground: no notes nearby",
       );
       row(
         '<svg width="30" height="14"><text x="15" y="10" font-size="6.5" text-anchor="middle" font-family="sans-serif">PRESENT</text></svg>',
@@ -17845,7 +18074,8 @@
       SEL = null;
       HL = null;
       HLSTICK = false;
-      terr = buildTerrain(notes);
+      var tk0 = ver + "|" + growK + "|" + JSON.stringify(raw);
+      terr = TC[tk0] || (TC[tk0] = buildTerrain(notes));
       thOn = {};
       prepare();
       fillText();
@@ -17853,7 +18083,8 @@
     }
     var curRaw = null;
     function rebuild() {
-      terr = buildTerrain(prep(curRaw));
+      var tk = ver + "|" + growK + "|" + JSON.stringify(curRaw);
+      terr = TC[tk] || (TC[tk] = buildTerrain(prep(curRaw)));
       if (COURSE != null) buildCourse(COURSE);
       var keep = thOn || {};
       thOn = {};
@@ -18135,7 +18366,9 @@
       var w = $("stage").clientWidth;
       if (!w) return;
       cssW = w;
-      cssH = isFull() ? window.innerHeight : Math.round(Math.max(380, Math.min(620, w * 0.62)));
+      cssH = isFull()
+        ? window.innerHeight
+        : Math.round(CARDH ? Math.max(260, Math.min(440, w * 0.5)) : Math.max(380, Math.min(620, w * 0.62)));
       dpr = Math.min(2, window.devicePixelRatio || 1);
       cv.width = cssW * dpr;
       cv.height = cssH * dpr;
@@ -18159,18 +18392,108 @@
     if (ro) ro.observe($("stage"));
     view = { az: 0.05, tilt: 0.6, zoom: 1.1 };
     setModel(data.m || [], data.goal || "", data.a || [], data.cards || null);
+
+    if (CARDH) {
+      host.classList.add("gtcard");
+      host.querySelectorAll(".plab,.sub,.bar,.gfold").forEach(function (e) {
+        e.style.display = "none";
+      });
+      ["crshead", "courses", "rdhead", "readings", "selnote", "msg"].forEach(function (id) {
+        var e = $(id);
+        if (e) e.style.display = "none";
+      });
+      LEGON = false;
+      showCause = false;
+      var cw0 = host.clientWidth || 600;
+      view = { az: 0.05, tilt: 0.72, zoom: cw0 < 520 ? 0.95 : cw0 < 700 ? 1.3 : 1.55 };
+      setCourse(0);
+      var bx = $("coursebox").querySelector(".selbox");
+      if (bx) {
+        var kids = [].slice.call(bx.children);
+        kids.slice(0, 3).forEach(function (e) {
+          e.remove();
+        });
+        var last = bx.lastElementChild;
+        if (last && last.classList.contains("small")) last.remove();
+      }
+    }
   }
   window.gsmTerrainMount = mount;
   function scan() {
     document.querySelectorAll(".gterr-host:not([data-on])").forEach(function (h) {
       h.setAttribute("data-on", "1");
       try {
-        mount(h, window.gsmTD || {});
+        mount(h, window.gsmData ? window.gsmData() : window.gsmTD || {});
       } catch (e) {
         h.textContent = "";
         h.style.display = "none";
         if (window.console) console.warn("terrain", e);
       }
+    });
+    document.querySelectorAll(".gterr-card:not([data-on])").forEach(function (h) {
+      h.setAttribute("data-on", "1");
+      function go() {
+        QU.push(go1);
+        if (!QB) {
+          QB = 1;
+          setTimeout(pump, 0);
+        }
+      }
+      function go1() {
+        if (h.getAttribute("data-m") || !h.isConnected) return;
+        h.setAttribute("data-m", "1");
+        var fb = h.innerHTML,
+          cls = h.className;
+        try {
+          var d = window.gsmData ? window.gsmData() : window.gsmTD || {},
+            st = [];
+          try {
+            st = JSON.parse(h.getAttribute("data-steps") || "[]");
+          } catch (e) {}
+          mount(h, {
+            m: d.m || [],
+            a: d.a || [],
+            goal: d.goal || "",
+            card: 1,
+            cards: [
+              {
+                w: "",
+                why: "",
+                mode: h.getAttribute("data-mode") === "PROGRAM" ? "PROGRAM" : "STRATEGY",
+                ids: (h.getAttribute("data-ids") || "")
+                  .split(",")
+                  .map(function (x) {
+                    x = x.trim();
+                    var m = /^(?:note\s*|N)(\d+)$/i.exec(x);
+                    return m ? "N" + m[1] : x;
+                  })
+                  .filter(Boolean),
+                steps: st,
+              },
+            ],
+          });
+        } catch (e) {
+          h.innerHTML = fb;
+          h.className = cls;
+          if (window.console) console.warn("terrain card", e);
+        }
+      }
+      if (window.IntersectionObserver) {
+        var io = new IntersectionObserver(
+          function (es) {
+            if (
+              es.some(function (x) {
+                return x.isIntersecting;
+              })
+            ) {
+              io.disconnect();
+              go();
+            }
+          },
+          { rootMargin: "400px" },
+        );
+        io.observe(h);
+      } else go();
     });
   }
   function start() {
