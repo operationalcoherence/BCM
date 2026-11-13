@@ -138,7 +138,8 @@ function mount(host, D) {
     const hd = new THREE.Mesh(new THREE.SphereGeometry(2.8, 18, 12), new THREE.MeshStandardMaterial({ color: n.e == null ? 0xffffff : new THREE.Color(`rgb(${D.emo[n.e][1].join(',')})`), roughness: 0.5 }));
     hd.position.set(X(n.x), h + 11, Z(n.y)); hd.castShadow = true; scene.add(hd);
     lab('N' + n.k, 'nl', n.x, n.y, 11, 1, 6, -8, { head: 'N' + n.k + ' · ' + (n.e == null ? 'no emotion marked' : D.emo[n.e][0].toUpperCase()) + (n.q ? ' · Q.' + n.q : ''), body: n.t || '' }); });
-  D.qpos.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 19, 2, -14, -20, { head: 'Q.' + Q.q + (Q.title ? ' · ' + Q.title : ''), body: Q.ans || 'No answer written yet.', sm: Q.n ? 'Placed at the middle of its ' + Q.n + ' note' + (Q.n > 1 ? 's' : '') + '.' : 'No notes yet; placed on the line between present and goal.' }); });
+  D.qpos.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st);
+    const fl = new THREE.Mesh(new THREE.BoxGeometry(7, 4.2, 0.6), blk); fl.position.set(X(Q.x) + 3.2, h + 16.4, Z(Q.y)); fl.castShadow = true; scene.add(fl); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 16.4, 2, -4, -10, { head: 'Q.' + Q.q + (Q.title ? ' · ' + Q.title : ''), body: Q.ans || 'No answer written yet.', sm: Q.n ? 'Placed at the middle of its ' + Q.n + ' note' + (Q.n > 1 ? 's' : '') + '.' : 'No notes yet; placed on the line between present and goal.' }); });
   { const s = D.START, h = gH(s.x, s.y), p = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 22, 6), blk); p.position.set(X(s.x), h + 11, Z(s.y)); p.castShadow = true; scene.add(p);
     const f = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7, 11), blk); f.position.set(X(s.x), h + 18.5, Z(s.y) + 5.5); scene.add(f); lab('PRESENT', 'pl', s.x, s.y, 25, 3, -30, -18); }
   const ringAt = (cx, cy, r) => { const p = []; for (let k = 0; k <= 64; k++) { const a = k / 64 * Math.PI * 2, x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r; p.push(new THREE.Vector3(X(x), gH(x, y) + 0.5, Z(y))); } return p; };
@@ -147,8 +148,10 @@ function mount(host, D) {
     const st = new THREE.Mesh(new THREE.OctahedronGeometry(4), blk); st.position.set(X(g.x), hh + 17, Z(g.y)); st.castShadow = true; scene.add(st); lab('GOAL', 'pl', g.x, g.y, 18, 3, -22, -22, { head: 'GOAL', body: D.goalText || 'No goal written yet.' }); }
   { let nm = -1e9; for (let k = 0; k <= 60; k++) nm = Math.max(nm, gH(0, k / 60 * 20)); const o = lab('↑ HELP', 'side', 0, 2, 0, 4, -104, -10); o.v.set(X(-6), nm + 4, Z(2));
     const o2 = lab('↓ HINDER', 'side hd', 0, H - 2, 0, 4, -128, -10); o2.v.set(X(-6), (gH(0, H - 2) + BASE) / 2, Z(H)); }
-  const RD = (D.read || []).map((r, i) => { const o = lab(String(i + 1), 'rdm', r.at[0], r.at[1], 22, 5, -11, -11, { head: (i + 1) + ' · ' + (r.title || ''), body: r.text || '', rd: i }); const h = gH(r.at[0], r.at[1]);
-    const st = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 20, 6), blk); st.position.set(X(r.at[0]), h + 10, Z(r.at[1])); scene.add(st); return o; });
+  const RD = (D.read || []).map((r, i) => { const o = lab(String(i + 1), 'rdm', r.at[0], r.at[1], 21, 5, -11, -11, { head: (i + 1) + ' · ' + (r.title || ''), body: r.text || '', rd: i }); const h = gH(r.at[0], r.at[1]);
+    const st = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 20, 6), blk); st.position.set(X(r.at[0]), h + 10, Z(r.at[1])); st.castShadow = true; scene.add(st);
+    const bl = new THREE.Mesh(new THREE.SphereGeometry(2.6, 16, 12), blk); bl.position.set(X(r.at[0]), h + 21, Z(r.at[1])); bl.castShadow = true; scene.add(bl);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.35, 6, 24), new THREE.MeshStandardMaterial({ color: 0xffffff })); rim.position.copy(bl.position); scene.add(rim); o.rim = rim; return o; });
 
   const tip = document.createElement('div'); tip.className = 'tip'; wrap.appendChild(tip); let pinned = null;
   function showTip(o, ev) { tip.innerHTML = ''; const b = document.createElement('b'); b.textContent = o.info.head; tip.appendChild(b); const bd = String(o.info.body || ''); tip.appendChild(document.createTextNode(bd.length > 420 ? bd.slice(0, 400).replace(/\s+\S*$/, '') + '\u2026' : bd));
@@ -206,7 +209,7 @@ function mount(host, D) {
        for (const [dx, dy] of tries) { const hit = boxes.some(b => p.x + dx < b[0] + b[2] && p.x + dx + bw > b[0] && p.y + dy < b[1] + b[3] && p.y + dy + bh > b[1]); x = p.x + dx; y = p.y + dy; if (!hit) break; }
        x = Math.max(2, Math.min(w - bw - 2, x)); boxes.push([x, y, bw, bh]); p.o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`; }); }
   function loop() { if (!alive) return; if (!host.isConnected) { dispose(); return; } controls.update();
-    if (dirty && wrap.clientWidth) { if (wrap.clientWidth !== lastW && !wrap.classList.contains('fs')) size(); renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
+    if (dirty && wrap.clientWidth) { RD.forEach(o => o.rim && o.rim.quaternion.copy(camera.quaternion)); if (wrap.clientWidth !== lastW && !wrap.classList.contains('fs')) size(); renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
   function dispose() { alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); }
   size(); home(); loop();
   return { hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, dispose };
