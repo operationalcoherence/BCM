@@ -181,7 +181,7 @@ function ringAt(cx, cy, r) { const pts = []; for (let k = 0; k <= 64; k++) { con
 [24, 15, 6].forEach(r => { const c = new THREE.CatmullRomCurve3(ringAt(D.GOAL.x, D.GOAL.y, r), true); data.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 1.1, 6, true), new THREE.MeshStandardMaterial({ color: 0xffffff }))); data.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 0.6, 6, true), blk)); });
 addLabel('GOAL', 'pl', D.GOAL.x, D.GOAL.y, 20, null);
 { const g = D.GOAL, hh = gH(g.x, g.y); const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 18, 6), blk); pole.position.set(X(g.x), hh + 9, Z(g.y)); data.add(pole); const st = new THREE.Mesh(new THREE.OctahedronGeometry(4.5), new THREE.MeshStandardMaterial({ color: 0x111111 })); st.position.set(X(g.x), hh + 19, Z(g.y)); st.castShadow = true; data.add(st); }
-{ const el = addLabel('↑ HELP', 'side', W / 2, 0, 0, null); let nm = -1e9; for (let k = 0; k <= 100; k++) nm = Math.max(nm, gH(k / 100 * W, 0)); L[L.length - 1].v.set(0, nm + 6, Z(0) - 4); }
+{ const el = addLabel('↑ HELP', 'side', W / 2, 0, 0, null); let nm = -1e9; for (let k = 0; k <= 100; k++) nm = Math.max(nm, gH(k / 100 * W, 0)); L[L.length - 1].v.set(X(-8), gH(0, 2) + 6, Z(2)); }
 // ways
 const RC = { A: '#111111', B: '#1450ff', C: '#d6007a' }, wayMesh = {};
 D.routes.forEach((R, ri) => {

@@ -112,6 +112,7 @@ j=j[:a]+('markScr=[];if(COURSE!=null)ROUTES.forEach(function(R){if(ROUTESEL&&R.k
  'ctx.beginPath();ctx.arc(b1[0],b1[1],10*TS,0,6.283);ctx.fillStyle=RCOL[R.key]||"#111";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2.4;ctx.stroke();ctx.font="bold "+(12*TS)+"px Questrial,sans-serif";ctx.textAlign="center";ctx.fillStyle="#fff";ctx.fillText(R.key,b1[0],b1[1]+4*TS);});});')+j[b:]
 rep('n.style.background=r.k?"#fff":"#7a1d12";n.style.color=r.k?"#111":"#fff";n.style.border="2px solid #111";','n.style.background=r.k?(RCOL[r.k]||"#111"):"#7a1d12";n.style.color="#fff";n.style.border="2px solid #fff";n.style.boxShadow="0 0 0 1px "+(r.k?(RCOL[r.k]||"#111"):"#7a1d12");')
 
+exec(open(os.path.join(R,'tools/terrain/patch_v167.py')).read())
 MOD='''
 /* ---- Pattern Synthesis terrain (layer: the ground ahead) ---- */
 !function(){var CSS=%s,TPL=%s,TC={},QU=[],QB=0;function pump(){var f=QU.shift();if(!f){QB=0;return;}f();setTimeout(pump,16);}
@@ -122,7 +123,7 @@ if(CARDH){host.classList.add("gtcard");
   ["crshead","courses","rdhead","readings","selnote","msg"].forEach(function(id){var e=$(id);if(e)e.style.display="none";});
   host._gtRe=function(){resize();render();};LEGON=false;showCause=false;var cw0=host.clientWidth||600;view={az:0.05,tilt:0.72,zoom:1};setCourse(0);
   if(ROUTES.length>1){var rb=document.createElement("div");rb.className="gtrb";rb.innerHTML="<span>Show</span>";function rbtn(key,label,col){var b=document.createElement("button");b.type="button";b.textContent=label;if(col)b.style.borderColor=col;b.onclick=function(){ROUTESEL=key;[].slice.call(rb.querySelectorAll("button")).forEach(function(x){x.classList.toggle("on",x===b)});render();};if(!key)b.classList.add("on");rb.appendChild(b);}
-    rbtn(null,"All ways","#111");ROUTES.forEach(function(R){rbtn(R.key,R.key+": "+(/firm ground/.test(R.name)?"firm ground only":/support/.test(R.name)?"from the support":"through its notes"),RCOL[R.key]);});$("stage").parentNode.insertBefore(rb,$("stage"));}
+    rbtn(null,"All ways","#111");ROUTES.forEach(function(R){rbtn(R.key,R.key+": "+(/firm ground/.test(R.name)?"firm ground only":/support/.test(R.name)?"from the support":"through its notes"),(R.key==="B"?"#111":RCOL[R.key]));});$("stage").parentNode.insertBefore(rb,$("stage"));}
   var bx=$("coursebox").querySelector(".selbox");if(bx){var kids=[].slice.call(bx.children);kids.slice(0,3).forEach(function(e){e.remove();});var last=bx.lastElementChild;if(last&&last.classList.contains("small"))last.remove();}
 }
 }
