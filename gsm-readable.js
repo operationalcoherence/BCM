@@ -14020,7 +14020,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v159");
+        t && (t.textContent = "v160");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -14547,13 +14547,14 @@
         canyon: {
           name: "Canyon",
           p: 1.0,
-          pUp: 1.5,
-          pDn: 0.5,
-          sg: 1.0,
-          sgDn: 0.62,
-          rough: 1.1,
+          pUp: 0.9,
+          pDn: 1.0,
+          sg: 1.15,
+          lowW: 0.3,
+          rough: 1.35,
           prom: 0.16,
           cut: 1,
+          block: 0.3,
         },
       },
       SHAPE = "canyon";
@@ -14674,6 +14675,39 @@
       return s / tot;
     }
     function buildTerrain(notes) {
+      /* readings always come from the same ground (Foothills); the shape only changes the look */
+      if (SHAPE !== "foot") {
+        var keep = SHAPE;
+        SHAPE = "foot";
+        var T0;
+        try {
+          T0 = buildTerrainOne(notes);
+        } finally {
+          SHAPE = keep;
+        }
+        var T1 = buildTerrainOne(notes, true);
+        [
+          "hs",
+          "hmin",
+          "hmax",
+          "pits",
+          "hills",
+          "pitTgt",
+          "hillTgt",
+          "best",
+          "par",
+          "path",
+          "barrier",
+          "bench",
+        ].forEach(function (k) {
+          T1["v_" + k] = T1[k];
+          T1[k] = T0[k];
+        });
+        return T1;
+      }
+      return buildTerrainOne(notes);
+    }
+    function buildTerrainOne(notes, lookOnly) {
       notes = notes.slice(0, growK);
       var pts = notes.filter(function (n) {
         return n.e != null;
@@ -14716,10 +14750,9 @@
               dy = y - pts[p].y,
               d2 = dx * dx + dy * dy;
             if (d2 > cut * cut) continue;
-            var dn = SH.sgDn && (pts[p].e === 0 || pts[p].e === 2 || pts[p].e === 4);
-            sw[pts[p].e] += dn ? 1.25 * Math.exp(-d2 / (s2 * SH.sgDn * SH.sgDn)) : Math.exp(-d2 / s2);
+            sw[pts[p].e] += Math.exp(-d2 / s2);
           }
-          var bad = 1.5 * sw[0] + sw[2] + 2 * sw[4],
+          var bad = (1.5 * sw[0] + sw[2] + 2 * sw[4]) * (SH.lowW || 1),
             h = ver === "ridge" ? bad - sw[1] : sw[1] - bad,
             idx = j * VX + i;
           raw[idx] = h;
@@ -14788,15 +14821,21 @@
         if (hs[q] < hmin) hmin = hs[q];
         if (hs[q] > hmax) hmax = hs[q];
       }
-      /* canyon: the low notes joined by one continuous cut with steep walls */
+      /* canyon: the whole map is a mountain block; the low notes cut one V-shaped canyon through it that opens at the hinder edge */
       if (SH.cut && ver !== "ridge") {
+        for (var qa = 0; qa < n; qa++) {
+          var ax = (qa % VX) * CX,
+            ay = ((qa / VX) | 0) * CY;
+          hs[qa] = SH.block + 0.75 * hs[qa] + 0.3 * (ridged(ax * 0.55 + 300, ay * 0.55 + 300) - 0.45);
+        }
         var lowP = pts.filter(function (p) {
-          return p.e === 0 || p.e === 2 || p.e === 4;
-        });
-        if (lowP.length > 1) {
+            return p.e === 0 || p.e === 2 || p.e === 4;
+          }),
+          DEP = { 0: -0.55, 2: -0.42, 4: -0.75 },
+          cuts = [];
+        if (lowP.length) {
           var used2 = { 0: 1 },
-            inT2 = [0],
-            cuts = [];
+            inT2 = [0];
           while (inT2.length < lowP.length) {
             var bb = null;
             inT2.forEach(function (i3) {
@@ -14808,18 +14847,23 @@
             });
             used2[bb[1]] = 1;
             inT2.push(bb[1]);
-            if (bb[2] < 4.5 * sigma) cuts.push([lowP[bb[0]], lowP[bb[1]]]);
+            if (bb[2] < 4.5 * sigma)
+              cuts.push([
+                [lowP[bb[0]].x, lowP[bb[0]].y],
+                [lowP[bb[1]].x, lowP[bb[1]].y],
+                DEP[lowP[bb[0]].e],
+                DEP[lowP[bb[1]].e],
+              ]);
           }
-          function hAtP(pt) {
-            var i = Math.max(0, Math.min(VX - 1, Math.round(pt.x / CX))),
-              j = Math.max(0, Math.min(VY - 1, Math.round(pt.y / CY)));
-            return hs[j * VX + i];
-          }
-          cuts.forEach(function (c) {
-            c.push(hAtP(c[0]), hAtP(c[1]));
-          });
-          var fw = 0.22 * sigma,
-            wall = 0.9 / (0.5 * sigma);
+          /* the mouth: from the low note nearest the hinder edge, out to the edge */
+          var m0 = lowP.slice().sort(function (a, b) {
+            return HH - a.y - (HH - b.y);
+          })[0];
+          cuts.push([[m0.x, m0.y], [m0.x + 0.4 * (HH - m0.y), HH + 2], DEP[m0.e], DEP[m0.e] - 0.15]);
+          if (lowP.length === 1)
+            cuts.push([[m0.x, m0.y], [m0.x - 0.5 * sigma, m0.y - 1.2 * sigma], DEP[m0.e], DEP[m0.e] + 0.3]);
+          var fw = 0.06 * sigma,
+            wall = 0.85 / (0.55 * sigma);
           for (var qx = 0; qx < n; qx++) {
             var bx2 = (qx % VX) * CX,
               by2 = ((qx / VX) | 0) * CY,
@@ -14827,27 +14871,30 @@
             cuts.forEach(function (c) {
               var A = c[0],
                 B = c[1],
-                vx = B.x - A.x,
-                vy = B.y - A.y,
+                vx = B[0] - A[0],
+                vy = B[1] - A[1],
                 L = vx * vx + vy * vy,
-                t = L ? Math.max(0, Math.min(1, ((bx2 - A.x) * vx + (by2 - A.y) * vy) / L)) : 0;
-              var wig = Math.sin(t * Math.PI * 2.2 + A.x * 0.05) * 0.35 * sigma * Math.sin(t * Math.PI);
-              var nx = -vy / Math.sqrt(L || 1),
-                ny = vx / Math.sqrt(L || 1);
-              var d = Math.hypot(bx2 - (A.x + t * vx + nx * wig), by2 - (A.y + t * vy + ny * wig));
-              var floor = c[2] + (c[3] - c[2]) * t;
-              floor = Math.min(floor, c[2] * 0.6 + c[3] * 0.6);
-              var h = floor + wall * Math.max(0, d - fw);
+                Ls = Math.sqrt(L || 1),
+                t = L ? Math.max(0, Math.min(1, ((bx2 - A[0]) * vx + (by2 - A[1]) * vy) / L)) : 0;
+              var wig = Math.sin(t * Math.PI * 2.2 + A[0] * 0.05) * 0.3 * sigma * Math.sin(t * Math.PI),
+                nx = -vy / Ls,
+                ny = vx / Ls;
+              var d = Math.hypot(bx2 - (A[0] + t * vx + nx * wig), by2 - (A[1] + t * vy + ny * wig)),
+                floor = c[2] + (c[3] - c[2]) * t;
+              var h =
+                floor +
+                wall * Math.max(0, d - fw) +
+                0.05 * Math.sin(d * 0.9 + t * 20) * Math.min(1, d / (0.5 * sigma));
               if (h < lowest) lowest = h;
             });
             if (lowest < hs[qx]) hs[qx] = lowest;
           }
-          hmin = 1e9;
-          hmax = -1e9;
-          for (var qy = 0; qy < n; qy++) {
-            if (hs[qy] < hmin) hmin = hs[qy];
-            if (hs[qy] > hmax) hmax = hs[qy];
-          }
+        }
+        hmin = 1e9;
+        hmax = -1e9;
+        for (var qy = 0; qy < n; qy++) {
+          if (hs[qy] < hmin) hmin = hs[qy];
+          if (hs[qy] > hmax) hmax = hs[qy];
         }
       }
       /* indifference: a narrow ridge that climbs from the low ground (aggression, distrust, defiance) up into acceptance */
@@ -15051,7 +15098,7 @@
         threads: findThreads(notes, qpos),
         cause: findCause(notes, qpos),
       };
-      analyse(T);
+      if (!lookOnly) analyse(T);
       return T;
     }
 
