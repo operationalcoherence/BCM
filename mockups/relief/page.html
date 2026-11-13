@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BCM ground: relief model mock-ups</title>
+<style>
+body{margin:0;font-family:Questrial,Helvetica,Arial,sans-serif;color:#222;background:#fff}
+.top{padding:12px 20px 6px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:13px}
+.top h1{font-size:15px;letter-spacing:.14em;margin:0 12px 0 0;font-weight:700}
+.top button{background:#fff;border:1.5px solid #111;border-radius:14px;padding:5px 12px;font:13px Questrial,Helvetica,Arial,sans-serif;cursor:pointer}
+.top button.on{background:#111;color:#fff}
+.top label{display:inline-flex;gap:6px;align-items:center}
+#stage{position:relative;width:100%;height:calc(100vh - 128px);min-height:420px;overflow:hidden}
+#labels{position:absolute;inset:0;pointer-events:none}
+.lb{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform}
+.nl{font:bold 17px Helvetica,Arial,sans-serif;margin:-11px 0 0 11px;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
+.ql{font:bold 17px Helvetica,Arial,sans-serif;background:#111;color:#fff;padding:3px 7px;margin:-28px 0 0 -20px}
+.pl{font:bold 19px Helvetica,Arial,sans-serif;letter-spacing:.1em;margin:-18px 0 0 -30px;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 4px #fff}
+.wl{font:bold 18px Helvetica,Arial,sans-serif;color:#fff;width:34px;height:34px;line-height:31px;text-align:center;border-radius:50%;border:2px solid #fff;margin:-17px 0 0 -17px;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.side{font:bold 20px Helvetica,Arial,sans-serif;letter-spacing:.16em;color:#555;margin:-10px 0 0 -40px}
+.key{padding:6px 20px 12px;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:#444}
+.key i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.key b{letter-spacing:.12em;font-size:11px;color:#111;margin-right:4px}
+</style></head><body>
+<div class="top"><h1>THE LAY OF THE LAND · MOCK-UP</h1>
+<span>Base</span><button data-style="field" class="on">Field model</button><button data-style="plaster">Plaster model</button>
+<label>Emotion color <input id="alpha" type="range" min="0" max="90" value="45"><span id="alv">45%</span></label>
+<label><input id="t_notes" type="checkbox" checked>Notes</label><label><input id="t_qs" type="checkbox" checked>Questions</label><label><input id="t_ways" type="checkbox" checked>Ways</label>
+<span id="waybtns" style="display:inline-flex;gap:6px"></span><button id="home">Reset view</button></div>
+<div id="stage"><div id="labels"></div></div>
+<div class="key"><b>EMOTION</b><span id="emokey" style="display:contents"></span><span>· Drag to turn, scroll to zoom. Grass, bare soil and rock come from the shape of the ground; color shows the emotion that built it.</span></div>
+<script>window.DATA=__DATA__;</script>
+<script>__JS__</script>
+</body></html>
