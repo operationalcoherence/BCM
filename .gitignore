@@ -1,3 +1,4 @@
 # never let the key reach this repository
 .keyliteral
 *.key
+tools/terrain/module.js
