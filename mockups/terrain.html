@@ -127,7 +127,7 @@
 <script>
 "use strict";
 /* ---------- constants (same map as the line map: 340 x 230, line at y=118, goal at 305,118) ---------- */
-var SHAPES={foot:{name:"Foothills",p:0.8,sg:1.1,rough:0.8,prom:0.12},roll:{name:"Rolling hills",p:1.0,sg:1.4,rough:0.35,prom:0.08},mount:{name:"Mountains",p:1.3,sg:0.85,rough:1.4,prom:0.2},mesa:{name:"Mesa and canyon",p:0.55,sg:1.0,rough:1.0,prom:0.14},canyon:{name:"Canyon",p:1.0,pUp:0.9,pDn:1.0,sg:1.15,lowW:0.3,rough:1.35,prom:0.16,cut:1,block:0.3}},SHAPE="canyon";
+var SHAPES={foot:{name:"Foothills",p:0.8,sg:1.1,rough:0.8,prom:0.12},roll:{name:"Rolling hills",p:1.0,sg:1.4,rough:0.35,prom:0.08},mount:{name:"Mountains",p:1.3,sg:0.85,rough:1.4,prom:0.2},mesa:{name:"Mesa and canyon",p:0.55,sg:1.0,rough:1.0,prom:0.14},canyon:{name:"Canyon",p:1.0,pUp:0.9,pDn:1.0,sg:1.15,lowW:0.3,rough:0.8,prom:0.16,cut:1,block:0.3}},SHAPE="canyon";
 var EMO=[["Aggression",[200,53,46]],["Acceptance",[42,157,143]],["Distrust",[164,143,208]],["Indifference",[230,190,79]],["Defiance",[29,53,87]]];
 var QT=["Within the community, why has the goal not already taken root?","Is there opposition to the goal?","Is there support for the goal?","In order for the goal to take root and grow, what conditions need to be established?","What needs to be designed?","What needs to be redesigned?","What needs to be reinforced?"];
 var ANSWERS=["","","","","","",""],QPOS=[];
@@ -231,7 +231,7 @@ function buildTerrainOne(notes,lookOnly){
     if(hs[q]<hmin)hmin=hs[q];if(hs[q]>hmax)hmax=hs[q];}
   /* canyon: the whole map is a mountain block; the low notes cut one V-shaped canyon through it that opens at the hinder edge */
   if(SH.cut&&ver!=="ridge"){
-    for(var qa=0;qa<n;qa++){var ax=(qa%VX)*CX,ay=((qa/VX)|0)*CY;hs[qa]=SH.block+0.75*hs[qa]+0.3*(ridged(ax*0.55+300,ay*0.55+300)-0.45);}
+    for(var qa=0;qa<n;qa++){var ax=(qa%VX)*CX,ay=((qa/VX)|0)*CY;hs[qa]=SH.block+0.75*hs[qa]+0.16*(vnoise(ax/70+3,ay/70+7)*0.7+vnoise(ax/32+11,ay/32+5)*0.3-0.5);}
     var lowP=pts.filter(function(p){return p.e===0||p.e===2||p.e===4;}),DEP={0:-0.55,2:-0.42,4:-0.75},cuts=[];
     if(lowP.length){var used2={0:1},inT2=[0];
       while(inT2.length<lowP.length){var bb=null;inT2.forEach(function(i3){lowP.forEach(function(q4,j3){if(used2[j3])return;var d4=Math.hypot(lowP[i3].x-q4.x,lowP[i3].y-q4.y);if(!bb||d4<bb[2])bb=[i3,j3,d4];});});used2[bb[1]]=1;inT2.push(bb[1]);
@@ -244,7 +244,7 @@ function buildTerrainOne(notes,lookOnly){
         cuts.forEach(function(c){var A=c[0],B=c[1],vx=B[0]-A[0],vy=B[1]-A[1],L=vx*vx+vy*vy,Ls=Math.sqrt(L||1),t=L?Math.max(0,Math.min(1,((bx2-A[0])*vx+(by2-A[1])*vy)/L)):0;
           var wig=Math.sin(t*Math.PI*2.2+A[0]*0.05)*0.3*sigma*Math.sin(t*Math.PI),nx=-vy/Ls,ny=vx/Ls;
           var d=Math.hypot(bx2-(A[0]+t*vx+nx*wig),by2-(A[1]+t*vy+ny*wig)),floor=c[2]+(c[3]-c[2])*t;
-          var h=floor+wall*Math.max(0,d-fw)+0.05*Math.sin(d*0.9+t*20)*Math.min(1,d/(0.5*sigma));if(h<lowest)lowest=h;});
+          var h=floor+wall*Math.max(0,d-fw);if(h<lowest)lowest=h;});
         if(lowest<hs[qx])hs[qx]=lowest;}}
     hmin=1e9;hmax=-1e9;for(var qy=0;qy<n;qy++){if(hs[qy]<hmin)hmin=hs[qy];if(hs[qy]>hmax)hmax=hs[qy];}}
   /* indifference: a narrow ridge that climbs from the low ground (aggression, distrust, defiance) up into acceptance */
@@ -284,7 +284,7 @@ function buildTerrainOne(notes,lookOnly){
     var k=j2*VX+i2,il=Math.max(0,i2-1),ir=Math.min(VX-1,i2+1),jt=Math.max(0,j2-1),jb=Math.min(VY-1,j2+1);
     var gx=(hs[j2*VX+ir]-hs[j2*VX+il])/((ir-il)*CX),gy=(hs[jb*VX+i2]-hs[jt*VX+i2])/((jb-jt)*CY);
     var slope=Math.min(1,Math.hypot(gx,gy)*sigma*0.8);
-    var amp=Math.min(0.55,SH.rough*cov[k]*(0.035+1.1*Math.pow(Math.max(0,mix[k]-0.3),2)+0.1*slope));
+    var amp=Math.min(0.2,0.45*SH.rough*cov[k]*(0.02+0.9*Math.pow(Math.max(0,mix[k]-0.3),2)+0.06*slope));
     hn[k]=hs[k]+(ridged(i2*CX,j2*CY)-0.42)*2*amp*(1-pad[k])*(1-0.5*bench[k]);tal[k]=Math.max(Math.max(0,Math.min(1,(mix[k]-0.45)*2.2))*(1-bench[k]),0.45*bench[k]);
     if(hn[k]<rmin)rmin=hn[k];
   }
@@ -611,7 +611,7 @@ function prepare(){
     var dzx=(zArr[b]+zArr[d]-zArr[a]-zArr[c])/(2*CX),dzz=(zArr[c]+zArr[d]-zArr[a]-zArr[b])/(2*CY);
     var nl=Math.hypot(dzx,1,dzz),lam=Math.max(0,(-dzx*L[0]+L[1]-dzz*L[2])/nl);
     var hh=(T.hn[a]+T.hn[b]+T.hn[c]+T.hn[d])/4,sh=0.62+0.5*lam;
-    var tl=(T.tal[a]+T.tal[b]+T.tal[c]+T.tal[d])/4;if(tl>0.15){var sp=hash2(i*7,j*13);if(sp<0.35*tl)sh*=0.72;else if(sp>1-0.2*tl)sh*=1.12;}
+    var tl=(T.tal[a]+T.tal[b]+T.tal[c]+T.tal[d])/4;if(tl>0.15){var sp=hash2(i*7,j*13);if(sp<0.25*tl)sh*=0.88;else if(sp>1-0.15*tl)sh*=1.05;}
     if(clay){var cv0=(250*(0.72+0.36*lam))|0;cellCol[j*NX+i]="rgb("+Math.min(255,cv0)+","+Math.min(255,(cv0*0.985)|0)+","+Math.min(255,(cv0*0.96)|0)+")";continue;}
     var r=(T.col[a*3]+T.col[b*3]+T.col[c*3]+T.col[d*3])/4*sh,g=(T.col[a*3+1]+T.col[b*3+1]+T.col[c*3+1]+T.col[d*3+1])/4*sh,bl=(T.col[a*3+2]+T.col[b*3+2]+T.col[c*3+2]+T.col[d*3+2])/4*sh;
     var sat=boost(r/sh,g/sh,bl/sh);r=sat[0]*sh;g=sat[1]*sh;bl=sat[2]*sh;

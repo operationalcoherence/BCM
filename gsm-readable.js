@@ -14020,7 +14020,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v161");
+        t && (t.textContent = "v162");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -14551,7 +14551,7 @@
           pDn: 1.0,
           sg: 1.15,
           lowW: 0.3,
-          rough: 1.35,
+          rough: 0.8,
           prom: 0.16,
           cut: 1,
           block: 0.3,
@@ -14826,7 +14826,10 @@
         for (var qa = 0; qa < n; qa++) {
           var ax = (qa % VX) * CX,
             ay = ((qa / VX) | 0) * CY;
-          hs[qa] = SH.block + 0.75 * hs[qa] + 0.3 * (ridged(ax * 0.55 + 300, ay * 0.55 + 300) - 0.45);
+          hs[qa] =
+            SH.block +
+            0.75 * hs[qa] +
+            0.16 * (vnoise(ax / 70 + 3, ay / 70 + 7) * 0.7 + vnoise(ax / 32 + 11, ay / 32 + 5) * 0.3 - 0.5);
         }
         var lowP = pts.filter(function (p) {
             return p.e === 0 || p.e === 2 || p.e === 4;
@@ -14881,10 +14884,7 @@
                 ny = vx / Ls;
               var d = Math.hypot(bx2 - (A[0] + t * vx + nx * wig), by2 - (A[1] + t * vy + ny * wig)),
                 floor = c[2] + (c[3] - c[2]) * t;
-              var h =
-                floor +
-                wall * Math.max(0, d - fw) +
-                0.05 * Math.sin(d * 0.9 + t * 20) * Math.min(1, d / (0.5 * sigma));
+              var h = floor + wall * Math.max(0, d - fw);
               if (h < lowest) lowest = h;
             });
             if (lowest < hs[qx]) hs[qx] = lowest;
@@ -15071,8 +15071,8 @@
             gy = (hs[jb * VX + i2] - hs[jt * VX + i2]) / ((jb - jt) * CY);
           var slope = Math.min(1, Math.hypot(gx, gy) * sigma * 0.8);
           var amp = Math.min(
-            0.55,
-            SH.rough * cov[k] * (0.035 + 1.1 * Math.pow(Math.max(0, mix[k] - 0.3), 2) + 0.1 * slope),
+            0.2,
+            0.45 * SH.rough * cov[k] * (0.02 + 0.9 * Math.pow(Math.max(0, mix[k] - 0.3), 2) + 0.06 * slope),
           );
           hn[k] = hs[k] + (ridged(i2 * CX, j2 * CY) - 0.42) * 2 * amp * (1 - pad[k]) * (1 - 0.5 * bench[k]);
           tal[k] = Math.max(
@@ -16701,8 +16701,8 @@
           var tl = (T.tal[a] + T.tal[b] + T.tal[c] + T.tal[d]) / 4;
           if (tl > 0.15) {
             var sp = hash2(i * 7, j * 13);
-            if (sp < 0.35 * tl) sh *= 0.72;
-            else if (sp > 1 - 0.2 * tl) sh *= 1.12;
+            if (sp < 0.25 * tl) sh *= 0.88;
+            else if (sp > 1 - 0.15 * tl) sh *= 1.05;
           }
           if (clay) {
             var cv0 = (250 * (0.72 + 0.36 * lam)) | 0;
