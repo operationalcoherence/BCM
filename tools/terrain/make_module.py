@@ -17,7 +17,7 @@ for m in re.finditer(r'([^{}]+)\{([^}]*)\}',css):
     rules.append(sels+'{'+decl+'}')
 rules.append('.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}')
 rules.append('.gtold{margin:10px 0 18px}')
-rules.append("#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 max(14px,calc((100vw - 920px)/2)) 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}")
+rules.append("#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 2vw 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .selbox,#gsm .coa.gtfs-on .csn,#gsm .coa.gtfs-on .coacall,#gsm .coa.gtfs-on .cq{max-width:960px}.gtrb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px;font:12px 'Questrial',sans-serif}.gtrb span{letter-spacing:.1em;color:#555;margin-right:2px}.gtrb button{background:#fff;color:#111;border:2px solid #111;border-radius:14px;padding:4px 11px;font:12.5px 'Questrial',sans-serif;cursor:pointer}.gtrb button.on{background:#111;color:#fff}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}")
 CSS=''.join(rules)
 
 # ---- template
@@ -75,7 +75,42 @@ assert j.count('terr=buildTerrain(notes);')==1
 j=j.replace('terr=buildTerrain(notes);','var tk0=ver+"|"+growK+"|"+JSON.stringify(raw);terr=TC[tk0]||(TC[tk0]=buildTerrain(notes));')
 assert j.count('buildTerrain(')==3
 assert j.count('Math.round(Math.max(380,Math.min(620,w*0.62)))')==1
-j=j.replace('Math.round(Math.max(380,Math.min(620,w*0.62)))','Math.round(CARDH?(host.closest(".gtfs-on")?Math.max(340,Math.min(window.innerHeight*0.7,780,w*0.75)):Math.max(260,Math.min(440,w*0.5))):Math.max(380,Math.min(620,w*0.62)))')
+j=j.replace('Math.round(Math.max(380,Math.min(620,w*0.62)))','Math.round(CARDH?(host.closest(".gtfs-on")?Math.max(420,window.innerHeight*0.8):Math.max(300,Math.min(520,w*0.62))):Math.max(380,Math.min(620,w*0.62)))')
+
+
+# ---- v166: card map fills its frame, readable labels, colored routes with a one-at-a-time selector
+def rep(a,b,n=1):
+    global j
+    assert j.count(a)==n,(j.count(a),a[:70])
+    j=j.replace(a,b)
+rep('var P={}; /* projection */','var P={},FIT=null,TS=1,TL=1,ROUTESEL=null,RCOL={A:"#111111",B:"#0a4fff",C:"#e0007a"}; /* projection */')
+rep('P.cy=cssH*0.5;P.D=900;\n}',
+ 'P.cy=cssH*0.5;P.D=900;\n'
+ '  TS=CARDH?Math.max(1,Math.min(1.9,cssW/620)):1;TL=1+(TS-1)*0.6;\n'
+ '  if(CARDH&&terr&&zArr){var fk=cssW+"|"+cssH+"|"+view.az+"|"+view.tilt+"|"+VX+"|"+VY+"|"+exag;\n'
+ '    if(!FIT||FIT.k!==fk){var z0=view.zoom;view.zoom=1;P.base=Math.min(cssW/(W*1.3),cssH/(HH*1.6));P.cx=0;P.cy=0;var o9=[0,0],x0=1e9,x1=-1e9,y0=1e9,y1=-1e9,i9,j9,sp9=Math.max(1,Math.floor(VX/70));\n'
+ '      for(j9=0;j9<VY;j9+=sp9)for(i9=0;i9<VX;i9+=sp9){pr(wx(i9*CX),zArr[j9*VX+i9],wz(j9*CY),o9);if(o9[0]<x0)x0=o9[0];if(o9[0]>x1)x1=o9[0];if(o9[1]<y0)y0=o9[1];if(o9[1]>y1)y1=o9[1];}\n'
+ '      view.zoom=z0;FIT={k:fk,z:Math.min(0.9*cssW/(x1-x0||1),0.84*cssH/(y1-y0||1)),dx:-(x0+x1)/2,dy:-(y0+y1)/2};}\n'
+ '    var zz=view.zoom*FIT.z;P.base=Math.min(cssW/(W*1.3),cssH/(HH*1.6))*zz;P.cx=cssW/2+FIT.dx*zz;P.cy=cssH*0.53+FIT.dy*zz;}\n}')
+# fonts and sizes scale with the map
+rep('ctx.font="9px Questrial,sans-serif";ctx.textAlign="left";ctx.lineWidth=2.6;','ctx.font=(9*TS)+"px Questrial,sans-serif";ctx.textAlign="left";ctx.lineWidth=2.6;')
+rep('ctx.strokeText("N"+p.n.k,p.x+5,p.y+3);','ctx.strokeText("N"+p.n.k,p.x+5*TS,p.y+3*TS);')
+rep('ctx.fillText("N"+p.n.k,p.x+5,p.y+3);','ctx.fillText("N"+p.n.k,p.x+5*TS,p.y+3*TS);')
+rep('ctx.fillRect(b1[0]-11,b1[1]-8,22,12);ctx.font="bold 9px','ctx.fillRect(b1[0]-11*TS,b1[1]-8*TS,22*TS,12*TS);ctx.font="bold "+(9*TS)+"px')
+rep('ctx.fillRect(b1[0]-10,b1[1]-8,20,12);ctx.font="bold 9px','ctx.fillRect(b1[0]-10*TS,b1[1]-8*TS,20*TS,12*TS);ctx.font="bold "+(9*TS)+"px')
+rep('ctx.font=(opt.size||11)+"px Questrial,sans-serif"','ctx.font=((opt.size||11)*TS)+"px Questrial,sans-serif"')
+rep('ctx.font="bold 15px Questrial,sans-serif";ctx.textAlign="center";var w=ctx.measureText(str).width+22;','ctx.font="bold "+(15*TS)+"px Questrial,sans-serif";ctx.textAlign="center";var w=ctx.measureText(str).width+22*TS;')
+rep('var labelPins=terr.notes.length<=45,','var labelPins=terr.notes.length<=(CARDH&&host.closest(".gtfs-on")?100:45),')
+# routes: own colors, one at a time
+rep('stroke(o,"rgba(255,255,255,.95)",5.2);stroke(o,"#111",2.6,R.dash);});',
+    'var dm=ROUTESEL&&R.key!==ROUTESEL;ctx.globalAlpha=dm?0.16:1;stroke(o,"rgba(255,255,255,.95)",5.6*TL);stroke(o,RCOL[R.key]||"#111",3.2*TL,R.dash);ctx.globalAlpha=1;});')
+rep('ctx.arc(c0[0],c0[1],8,0,6.283);ctx.strokeStyle="#111";ctx.lineWidth=2;ctx.stroke();});}','ctx.arc(c0[0],c0[1],8*TL,0,6.283);ctx.strokeStyle="#111";ctx.lineWidth=2;ctx.stroke();});}')
+a=j.index('markScr=[];if(COURSE!=null)ROUTES.forEach(function(R){var q=R.pts[Math.floor(R.pts.length*(R.key==="A"?0.3')
+E='ctx.fillText(R.key,b1[0],b1[1]+4);});'
+b=j.index(E,a)+len(E)
+j=j[:a]+('markScr=[];if(COURSE!=null)ROUTES.forEach(function(R){if(ROUTESEL&&R.key!==ROUTESEL)return;var off=R.key==="B"?0.05:R.key==="C"?0.1:0;[0.2,0.5,0.8].forEach(function(f){var q=R.pts[Math.min(R.pts.length-1,Math.floor(R.pts.length*(f+off)))],z=zAt(q[0],q[1]),b1=pr(wx(q[0]),z+4,wz(q[1]),[0,0]);'
+ 'ctx.beginPath();ctx.arc(b1[0],b1[1],10*TS,0,6.283);ctx.fillStyle=RCOL[R.key]||"#111";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2.4;ctx.stroke();ctx.font="bold "+(12*TS)+"px Questrial,sans-serif";ctx.textAlign="center";ctx.fillStyle="#fff";ctx.fillText(R.key,b1[0],b1[1]+4*TS);});});')+j[b:]
+rep('n.style.background=r.k?"#fff":"#7a1d12";n.style.color=r.k?"#111":"#fff";n.style.border="2px solid #111";','n.style.background=r.k?(RCOL[r.k]||"#111"):"#7a1d12";n.style.color="#fff";n.style.border="2px solid #fff";n.style.boxShadow="0 0 0 1px "+(r.k?(RCOL[r.k]||"#111"):"#7a1d12");')
 
 MOD='''
 /* ---- Pattern Synthesis terrain (layer: the ground ahead) ---- */
@@ -85,7 +120,9 @@ function mount(host,data){"use strict";host.className+=" gterr";host.innerHTML=T
 if(CARDH){host.classList.add("gtcard");
   host.querySelectorAll(".plab,.sub,.bar,.gfold").forEach(function(e){e.style.display="none";});
   ["crshead","courses","rdhead","readings","selnote","msg"].forEach(function(id){var e=$(id);if(e)e.style.display="none";});
-  host._gtRe=function(on){if(on!==undefined&&on!==!!host._gtF){view.zoom*=on?1.15:1/1.15;host._gtF=!!on;}resize();render();};LEGON=false;showCause=false;var cw0=host.clientWidth||600;view={az:0.05,tilt:0.72,zoom:cw0<520?0.95:cw0<700?1.3:1.55};setCourse(0);
+  host._gtRe=function(){resize();render();};LEGON=false;showCause=false;var cw0=host.clientWidth||600;view={az:0.05,tilt:0.72,zoom:1};setCourse(0);
+  if(ROUTES.length>1){var rb=document.createElement("div");rb.className="gtrb";rb.innerHTML="<span>Show</span>";function rbtn(key,label,col){var b=document.createElement("button");b.type="button";b.textContent=label;if(col)b.style.borderColor=col;b.onclick=function(){ROUTESEL=key;[].slice.call(rb.querySelectorAll("button")).forEach(function(x){x.classList.toggle("on",x===b)});render();};if(!key)b.classList.add("on");rb.appendChild(b);}
+    rbtn(null,"All ways","#111");ROUTES.forEach(function(R){rbtn(R.key,R.key+": "+(/firm ground/.test(R.name)?"firm ground only":/support/.test(R.name)?"from the support":"through its notes"),RCOL[R.key]);});$("stage").parentNode.insertBefore(rb,$("stage"));}
   var bx=$("coursebox").querySelector(".selbox");if(bx){var kids=[].slice.call(bx.children);kids.slice(0,3).forEach(function(e){e.remove();});var last=bx.lastElementChild;if(last&&last.classList.contains("small"))last.remove();}
 }
 }
