@@ -113,6 +113,7 @@ j=j[:a]+('markScr=[];if(COURSE!=null)ROUTES.forEach(function(R){if(ROUTESEL&&R.k
 rep('n.style.background=r.k?"#fff":"#7a1d12";n.style.color=r.k?"#111":"#fff";n.style.border="2px solid #111";','n.style.background=r.k?(RCOL[r.k]||"#111"):"#7a1d12";n.style.color="#fff";n.style.border="2px solid #fff";n.style.boxShadow="0 0 0 1px "+(r.k?(RCOL[r.k]||"#111"):"#7a1d12");')
 
 exec(open(os.path.join(R,'tools/terrain/patch_v167.py')).read())
+exec(open(os.path.join(R,'tools/terrain/patch_relief.py')).read())
 MOD='''
 /* ---- Pattern Synthesis terrain (layer: the ground ahead) ---- */
 !function(){var CSS=%s,TPL=%s,TC={},QU=[],QB=0;function pump(){var f=QU.shift();if(!f){QB=0;return;}f();setTimeout(pump,16);}
@@ -126,6 +127,15 @@ if(CARDH){host.classList.add("gtcard");
     rbtn(null,"All ways","#111");ROUTES.forEach(function(R){rbtn(R.key,R.key+": "+(/firm ground/.test(R.name)?"firm ground only":/support/.test(R.name)?"from the support":"through its notes"),(R.key==="B"?"#111":RCOL[R.key]));});$("stage").parentNode.insertBefore(rb,$("stage"));}
   var bx=$("coursebox").querySelector(".selbox");if(bx){var kids=[].slice.call(bx.children);kids.slice(0,3).forEach(function(e){e.remove();});var last=bx.lastElementChild;if(last&&last.classList.contains("small"))last.remove();}
 }
+if(!CARDH)(function(){var stg=$("stage"),box=document.createElement("div");stg.parentNode.insertBefore(box,stg);
+  function go(){(window.__gsmRelP||(window.__gsmRelP=new Promise(function(ok,no){if(window.gsmRelief)return ok();var sc=document.querySelector('script[src*="gsm-preview.js"]'),src=sc?sc.src.replace(/gsm-preview\\.js/,"gsm-relief.js"):"gsm-relief.js",s=document.createElement("script");s.src=src;s.onload=function(){window.gsmRelief?ok():no();};s.onerror=no;document.head.appendChild(s);}))).then(function(){
+    if(!host.isConnected||host._rel)return;var c=document.createElement("canvas");if(!(c.getContext("webgl2")||c.getContext("webgl")))return;
+    var D={VX:VX,VY:VY,CX:CX,CY:CY,hn:terr.hn,START:START,GOAL:GOAL,emo:EMO,qpos:terr.qpos.map(function(Q){return Q?{q:Q.q,x:Q.x,y:Q.y}:null;}),notes:terr.notes.map(function(n){return {k:n.k,x:n.x,y:n.y,e:n.e};}),read:READ.map(function(r){return {at:r.at};})};
+    try{host._rel=window.gsmRelief.mount(box,D);}catch(e){box.innerHTML="";host._rel=null;if(window.console)console.warn("relief",e);return;}
+    stg.style.display="none";var lb=$("legbox");if(lb)lb.style.display="none";host.querySelectorAll(".bar").forEach(function(e){e.style.display="none";});
+  }).catch(function(){});}
+  if(window.IntersectionObserver){var io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;})){io.disconnect();go();}},{rootMargin:"300px"});io.observe(box.parentNode);}else go();
+})();
 }
 window.gsmTerrainMount=mount;
 function addFS(h){var coa=h.closest(".coa"),lab=h.previousElementSibling;if(!coa||!lab||lab.querySelector(".gtfsb"))return;
