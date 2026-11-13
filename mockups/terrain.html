@@ -117,7 +117,7 @@
   <div class="note" id="count"></div>
   <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>
   <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>
-  <div class="note">Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>
+  <div class="note">Where high ground meets low ground directly, the edge is steep: a big move in either direction takes energy. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>
   <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>
   <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and Pörksen (2011). Where it is easiest to get to: after Thompson (2007).</div>
   </details>
@@ -215,7 +215,7 @@ function buildTerrain(notes){
   }
   var hs=new Float32Array(n),hmin=1e9,hmax=-1e9;
   var tilt=(ver==="down"||ver==="ridge"),dmax=Math.hypot(GOAL.x,HH);
-  for(var q=0;q<n;q++){hs[q]=raw[q]/maxAbs;
+  for(var q=0;q<n;q++){hs[q]=raw[q]/maxAbs;if(ver!=="ridge"){var hv=hs[q];hs[q]=(hv<0?-1:1)*Math.pow(Math.abs(hv),0.55);}
     if(tilt){var qx=(q%VX)*CX,qy=((q/VX)|0)*CY;hs[q]+=1.4*(Math.hypot(qx-GOAL.x,qy-GOAL.y)/dmax)-0.7;}
     if(hs[q]<hmin)hmin=hs[q];if(hs[q]>hmax)hmax=hs[q];}
   /* indifference: a narrow ridge that climbs from the low ground (aggression, distrust, defiance) up into acceptance */
@@ -391,20 +391,20 @@ function moreReadings(R){
     var gx=(H[k+2]-H[k-2])/(4*CX),gy=(H[k+2*VX]-H[k-2*VX])/(4*CY),g=Math.hypot(gx,gy);if(!g)continue;
     var x=i*CX,y=j*CY,lx=x-gx/g*22,ly=y-gy/g*22;if(lx<0||ly<0||lx>W||ly>HH||hAt(lx,ly)>-0.1)continue;if(!best||g>best.g)best={g:g,x:x,y:y,lx:lx,ly:ly};}
   if(best){var top=nn(best.x,best.y,[1]),low=nn(best.lx,best.ly,PIT_E),onB=T.bench[cellOf((best.x+best.lx)/2,(best.y+best.ly)/2)]>0.3;
-    if(top&&low)R.push({grp:0,title:"Where it is easiest to fall from",short:"The ground drops away fastest from N"+top.k+" ("+EMO[top.e][0].toLowerCase()+") toward N"+low.k+" ("+EMO[low.e][0].toLowerCase()+").",
-      more:(onB?"An indifference ridge runs between them, something to stand on partway down.":"There is no indifference between them to stand on, so a step the wrong way goes straight down.")+" What N"+top.k+" describes could slip toward what N"+low.k+" describes with little in between. This is high ground worth tending first.",at:[best.x,best.y]});}
+    if(top&&low)R.push({grp:0,title:"Where it is easiest to fall from",short:"N"+top.k+" ("+EMO[top.e][0].toLowerCase()+") sits closest to N"+low.k+" ("+EMO[low.e][0].toLowerCase()+"), at the steepest edge of the high ground.",
+      more:"A straight move between "+EMO[top.e][0].toLowerCase()+" and "+EMO[low.e][0].toLowerCase()+" takes energy in either direction, as any big jump between emotions does; here it would be shortest. "+(onB?"An indifference ridge runs between them, the easier way across.":"No indifference ridge runs between them, so nothing breaks the drop.")+" This is high ground worth tending first.",at:[best.x,best.y]});}
   var ind=T.pts.filter(function(p){return p.e===3;});
   if(ind.length){R.push({grp:2,title:"The ridge between",short:list(ind.map(function(p){return "N"+p.k;}))+" form"+(ind.length>1?"":"s")+" a narrow ridge of indifference that climbs from the low ground up into acceptance.",
     more:"Most moves between emotions go along a ridge like this. People can stay on it a while, but it is precarious: no one here is for or against the goal yet, and the ground falls away on both sides. Followed up its length, it leads to acceptance; a step off the wrong side drops them back down. Moving up the ridge from the lower ground to the higher ground requires energy, much more than moving down it, or falling off one of the sides.",at:[ind[0].x,ind[0].y]});}
   function up(fromP){var c0=cellOf(fromP.x,fromP.y),path=climbPath(c0,function(v){return H[v]>=hiT;});if(!path)return null;
     var gain=Math.max(0,H[path[path.length-1]]-H[c0]),via=notesNear(path,[3],14),v=path[path.length-1],dest=nn((v%VX)*CX,((v/VX)|0)*CY,[1]);return {path:path,gain:gain/span,via:via,dest:dest};}
   if(T.pits.length){var pk=T.pits[0],px=(pk.idx%VX)*CX,py=((pk.idx/VX)|0)*CY,start=nn(px,py,PIT_E);
-    if(start){var u=up(start);if(u&&u.dest)R.push({grp:2,title:"Where it is easiest to get to",short:"From N"+start.k+", in the largest low ground, the gentlest way up to acceptance reaches N"+u.dest.k+(u.via.length?" by way of the indifference at "+list(u.via.map(function(p){return "N"+p.k;})):"")+".",
-      more:"It climbs "+pct(u.gain)+" of the map's height. "+(u.via.length?"It goes by indifference, the way most moves between emotions go.":"No indifference lies on the way, so the climb is direct and steep.")+" Like a cell turning toward what feeds it, this is the direction the ground already favors: the way up is easiest toward N"+u.dest.k+".",at:[start.x,start.y],path:u.path});}}
+    if(start){var u=up(start);if(u&&u.dest)R.push({grp:2,title:"Where it is easiest to get to",short:"From N"+start.k+", in the largest low ground, the least costly way up to acceptance reaches N"+u.dest.k+(u.via.length?" by way of the indifference at "+list(u.via.map(function(p){return "N"+p.k;})):"")+".",
+      more:"It climbs "+pct(u.gain)+" of the map's height. "+(u.via.length?"The climb takes energy either way, but going by indifference costs less than going straight up the steep edge: most moves between emotions go this way.":"No indifference lies on the way, so the climb goes straight up the steep edge and costs the most.")+" Like a cell turning toward what feeds it, this is the direction the ground already favors: the least costly way up leads toward N"+u.dest.k+".",at:[start.x,start.y],path:u.path});}}
   var def=T.pts.filter(function(p){return p.e===4;});
   if(def.length){var dp=def.slice().sort(function(a,b){return hAt(a.x,a.y)-hAt(b.x,b.y);})[0],ud=up(dp);
     if(ud&&ud.dest)R.push({grp:1,title:"The longest way back",short:"N"+dp.k+" is defiance, the deepest ground on the map. The way from there up to acceptance at N"+ud.dest.k+" climbs "+pct(ud.gain)+" of the map's height.",
-      more:(ud.via.length?"The gentlest way goes by the indifference at "+list(ud.via.map(function(p){return "N"+p.k;}))+"; going straight up without it is steeper still.":"No indifference lies on the way, so the climb is the steepest on the map.")+" Moves from defiance to acceptance are rare and take the most energy. Expect to start elsewhere and come back here once acceptance is moving on its own.",at:[dp.x,dp.y],path:ud.path});}
+      more:(ud.via.length?"The least costly way goes by the indifference at "+list(ud.via.map(function(p){return "N"+p.k;}))+"; going straight up without it is steeper still.":"No indifference lies on the way, so the climb is the steepest on the map.")+" Moves from defiance to acceptance are rare and take the most energy. Expect to start elsewhere and come back here once acceptance is moving on its own.",at:[dp.x,dp.y],path:ud.path});}
 }
 var READ=[],HL=null,HLSTICK=false,markScr=[];
 function cen(ns){var x=0,y=0;ns.forEach(function(n){x+=n.x;y+=n.y;});return [x/ns.length,y/ns.length];}
@@ -798,7 +798,7 @@ function fillLegendBox(){var el=document.getElementById("legbox");el.innerHTML="
     row('<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb('+boost(e[1][0],e[1][1],e[1][2]).map(function(v){return v|0;}).join(",")+')"></span>',txt);});
   row('<svg width="30" height="14"><path d="M1 11 L4 6 L6 9 L9 3 L12 8 L14 5 L17 10 L20 4 L23 9 L26 6 L29 10" fill="none" stroke="#333" stroke-width="1.3"/></svg>',"Broken ground (talus): emotions meet");
   
-  row('<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',"Level: no information nearby");
+  row('<svg width="30" height="14"><path d="M1 3 L13 3 L16 12 L29 12" fill="none" stroke="#333" stroke-width="1.6"/></svg>',"Steep edge: a big move either way takes energy"); row('<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',"Level: no information nearby");
   row('<svg width="30" height="14"><text x="15" y="10" font-size="6.5" text-anchor="middle" font-family="sans-serif">PRESENT</text></svg>',"Present on the left; the future runs to the goal");
   row('<svg width="30" height="14"><polygon points="15,1 17.4,5.4 22,5.6 18.4,8.6 19.6,13 15,10.4 10.4,13 11.6,8.6 8,5.6 12.6,5.4" fill="#111"/></svg>',"Goal (hover for the full goal)");
   row('<svg width="30" height="14"><rect x="4" y="2" width="22" height="10" fill="#111"/><text x="15" y="10" font-size="7" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">Q.1</text></svg>',"Question: at the middle of its notes");
