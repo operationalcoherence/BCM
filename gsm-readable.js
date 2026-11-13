@@ -14020,7 +14020,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v162");
+        t && (t.textContent = "v163");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -14529,7 +14529,7 @@
   var CSS =
       '.gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}.gterr .gfold summary{cursor:pointer;list-style:none}.gterr .gfold summary::-webkit-details-marker{display:none}.gterr .gfold summary::before{content:"+ ";font-weight:700}.gterr .gfold[open] summary::before{content:"\u2212 "}.gterr .gfold .sec{display:inline;margin:0}.gterr .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}.gterr .more{color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}.gterr .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}.gterr .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}.gterr .stage.full .fsx{display:block}.gterr .stage:fullscreen .fsx{display:block}.gterr .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}',
     TPL =
-      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. The numbers on the ground are explained below the map. Drag to turn it; scroll or pinch to zoom.</div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Shape <select data-gt="shp"><option value="canyon">Canyon</option><option value="foot">Foothills</option><option value="roll">Rolling hills</option><option value="mount">Mountains</option><option value="mesa">Mesa and canyon</option></select></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold"><summary><span class="sec" data-gt="phhead">PHRASES THAT RUN THROUGH</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map.</div>\n  <div data-gt="threads"></div></details>\n  <details class="gfold"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>';
+      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. The numbers on the ground are explained below the map. Drag to turn it; scroll or pinch to zoom.</div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold"><summary><span class="sec" data-gt="phhead">PHRASES THAT RUN THROUGH</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map.</div>\n  <div data-gt="threads"></div></details>\n  <details class="gfold"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>';
   function mount(host, data) {
     "use strict";
     host.className += " gterr";
@@ -14539,25 +14539,6 @@
     }
 
     /* ---------- constants (same map as the line map: 340 x 230, line at y=118, goal at 305,118) ---------- */
-    var SHAPES = {
-        foot: { name: "Foothills", p: 0.8, sg: 1.1, rough: 0.8, prom: 0.12 },
-        roll: { name: "Rolling hills", p: 1.0, sg: 1.4, rough: 0.35, prom: 0.08 },
-        mount: { name: "Mountains", p: 1.3, sg: 0.85, rough: 1.4, prom: 0.2 },
-        mesa: { name: "Mesa and canyon", p: 0.55, sg: 1.0, rough: 1.0, prom: 0.14 },
-        canyon: {
-          name: "Canyon",
-          p: 1.0,
-          pUp: 0.9,
-          pDn: 1.0,
-          sg: 1.15,
-          lowW: 0.3,
-          rough: 0.8,
-          prom: 0.16,
-          cut: 1,
-          block: 0.3,
-        },
-      },
-      SHAPE = "canyon";
     var EMO = [
       ["Aggression", [200, 53, 46]],
       ["Acceptance", [42, 157, 143]],
@@ -14675,39 +14656,6 @@
       return s / tot;
     }
     function buildTerrain(notes) {
-      /* readings always come from the same ground (Foothills); the shape only changes the look */
-      if (SHAPE !== "foot") {
-        var keep = SHAPE;
-        SHAPE = "foot";
-        var T0;
-        try {
-          T0 = buildTerrainOne(notes);
-        } finally {
-          SHAPE = keep;
-        }
-        var T1 = buildTerrainOne(notes, true);
-        [
-          "hs",
-          "hmin",
-          "hmax",
-          "pits",
-          "hills",
-          "pitTgt",
-          "hillTgt",
-          "best",
-          "par",
-          "path",
-          "barrier",
-          "bench",
-        ].forEach(function (k) {
-          T1["v_" + k] = T1[k];
-          T1[k] = T0[k];
-        });
-        return T1;
-      }
-      return buildTerrainOne(notes);
-    }
-    function buildTerrainOne(notes, lookOnly) {
       notes = notes.slice(0, growK);
       var pts = notes.filter(function (n) {
         return n.e != null;
@@ -14730,8 +14678,6 @@
           });
         sigma = Math.max(13, Math.min(30, nn[Math.floor(nn.length / 2)] * 0.9));
       }
-      var SH = SHAPES[SHAPE];
-      sigma *= SH.sg;
       var n = VX * VY,
         raw = new Float32Array(n),
         col = new Float32Array(n * 3),
@@ -14752,7 +14698,7 @@
             if (d2 > cut * cut) continue;
             sw[pts[p].e] += Math.exp(-d2 / s2);
           }
-          var bad = (1.5 * sw[0] + sw[2] + 2 * sw[4]) * (SH.lowW || 1),
+          var bad = 1.5 * sw[0] + sw[2] + 2 * sw[4],
             h = ver === "ridge" ? bad - sw[1] : sw[1] - bad,
             idx = j * VX + i;
           raw[idx] = h;
@@ -14809,10 +14755,6 @@
         dmax = Math.hypot(GOAL.x, HH);
       for (var q = 0; q < n; q++) {
         hs[q] = raw[q] / maxAbs;
-        if (ver !== "ridge") {
-          var hv = hs[q];
-          hs[q] = hv < 0 ? -Math.pow(-hv, SH.pDn || SH.p) : Math.pow(hv, SH.pUp || SH.p);
-        }
         if (tilt) {
           var qx = (q % VX) * CX,
             qy = ((q / VX) | 0) * CY;
@@ -14820,82 +14762,6 @@
         }
         if (hs[q] < hmin) hmin = hs[q];
         if (hs[q] > hmax) hmax = hs[q];
-      }
-      /* canyon: the whole map is a mountain block; the low notes cut one V-shaped canyon through it that opens at the hinder edge */
-      if (SH.cut && ver !== "ridge") {
-        for (var qa = 0; qa < n; qa++) {
-          var ax = (qa % VX) * CX,
-            ay = ((qa / VX) | 0) * CY;
-          hs[qa] =
-            SH.block +
-            0.75 * hs[qa] +
-            0.16 * (vnoise(ax / 70 + 3, ay / 70 + 7) * 0.7 + vnoise(ax / 32 + 11, ay / 32 + 5) * 0.3 - 0.5);
-        }
-        var lowP = pts.filter(function (p) {
-            return p.e === 0 || p.e === 2 || p.e === 4;
-          }),
-          DEP = { 0: -0.55, 2: -0.42, 4: -0.75 },
-          cuts = [];
-        if (lowP.length) {
-          var used2 = { 0: 1 },
-            inT2 = [0];
-          while (inT2.length < lowP.length) {
-            var bb = null;
-            inT2.forEach(function (i3) {
-              lowP.forEach(function (q4, j3) {
-                if (used2[j3]) return;
-                var d4 = Math.hypot(lowP[i3].x - q4.x, lowP[i3].y - q4.y);
-                if (!bb || d4 < bb[2]) bb = [i3, j3, d4];
-              });
-            });
-            used2[bb[1]] = 1;
-            inT2.push(bb[1]);
-            if (bb[2] < 4.5 * sigma)
-              cuts.push([
-                [lowP[bb[0]].x, lowP[bb[0]].y],
-                [lowP[bb[1]].x, lowP[bb[1]].y],
-                DEP[lowP[bb[0]].e],
-                DEP[lowP[bb[1]].e],
-              ]);
-          }
-          /* the mouth: from the low note nearest the hinder edge, out to the edge */
-          var m0 = lowP.slice().sort(function (a, b) {
-            return HH - a.y - (HH - b.y);
-          })[0];
-          cuts.push([[m0.x, m0.y], [m0.x + 0.4 * (HH - m0.y), HH + 2], DEP[m0.e], DEP[m0.e] - 0.15]);
-          if (lowP.length === 1)
-            cuts.push([[m0.x, m0.y], [m0.x - 0.5 * sigma, m0.y - 1.2 * sigma], DEP[m0.e], DEP[m0.e] + 0.3]);
-          var fw = 0.06 * sigma,
-            wall = 0.85 / (0.55 * sigma);
-          for (var qx = 0; qx < n; qx++) {
-            var bx2 = (qx % VX) * CX,
-              by2 = ((qx / VX) | 0) * CY,
-              lowest = 1e9;
-            cuts.forEach(function (c) {
-              var A = c[0],
-                B = c[1],
-                vx = B[0] - A[0],
-                vy = B[1] - A[1],
-                L = vx * vx + vy * vy,
-                Ls = Math.sqrt(L || 1),
-                t = L ? Math.max(0, Math.min(1, ((bx2 - A[0]) * vx + (by2 - A[1]) * vy) / L)) : 0;
-              var wig = Math.sin(t * Math.PI * 2.2 + A[0] * 0.05) * 0.3 * sigma * Math.sin(t * Math.PI),
-                nx = -vy / Ls,
-                ny = vx / Ls;
-              var d = Math.hypot(bx2 - (A[0] + t * vx + nx * wig), by2 - (A[1] + t * vy + ny * wig)),
-                floor = c[2] + (c[3] - c[2]) * t;
-              var h = floor + wall * Math.max(0, d - fw);
-              if (h < lowest) lowest = h;
-            });
-            if (lowest < hs[qx]) hs[qx] = lowest;
-          }
-        }
-        hmin = 1e9;
-        hmax = -1e9;
-        for (var qy = 0; qy < n; qy++) {
-          if (hs[qy] < hmin) hmin = hs[qy];
-          if (hs[qy] > hmax) hmax = hs[qy];
-        }
       }
       /* indifference: a narrow ridge that climbs from the low ground (aggression, distrust, defiance) up into acceptance */
       var bench = new Float32Array(n),
@@ -14984,7 +14850,7 @@
         });
         var flat = 0.1 * sigma,
           steep = 0.55 / (0.55 * sigma),
-          PROM = SH.prom;
+          PROM = 0.12;
         for (var qb = 0; qb < n; qb++) {
           var bx = (qb % VX) * CX,
             by = ((qb / VX) | 0) * CY,
@@ -15071,8 +14937,8 @@
             gy = (hs[jb * VX + i2] - hs[jt * VX + i2]) / ((jb - jt) * CY);
           var slope = Math.min(1, Math.hypot(gx, gy) * sigma * 0.8);
           var amp = Math.min(
-            0.2,
-            0.45 * SH.rough * cov[k] * (0.02 + 0.9 * Math.pow(Math.max(0, mix[k] - 0.3), 2) + 0.06 * slope),
+            0.06,
+            cov[k] * (0.01 + 0.25 * Math.pow(Math.max(0, mix[k] - 0.3), 2) + 0.02 * slope),
           );
           hn[k] = hs[k] + (ridged(i2 * CX, j2 * CY) - 0.42) * 2 * amp * (1 - pad[k]) * (1 - 0.5 * bench[k]);
           tal[k] = Math.max(
@@ -15081,6 +14947,23 @@
           );
           if (hn[k] < rmin) rmin = hn[k];
         }
+      for (var pass = 0; pass < 3; pass++) {
+        var tmpH = new Float32Array(hn);
+        for (var bj = 1; bj < VY - 1; bj++)
+          for (var bi = 1; bi < VX - 1; bi++) {
+            var bk = bj * VX + bi;
+            hn[bk] =
+              (tmpH[bk] * 4 +
+                tmpH[bk - 1] +
+                tmpH[bk + 1] +
+                tmpH[bk - VX] +
+                tmpH[bk + VX] +
+                0.5 * (tmpH[bk - VX - 1] + tmpH[bk - VX + 1] + tmpH[bk + VX - 1] + tmpH[bk + VX + 1])) /
+              10;
+          }
+      }
+      rmin = 1e9;
+      for (var bq = 0; bq < n; bq++) if (hn[bq] < rmin) rmin = hn[bq];
       var qpos = placeQuestions(notes);
       var T = {
         bench: bench,
@@ -15098,7 +14981,7 @@
         threads: findThreads(notes, qpos),
         cause: findCause(notes, qpos),
       };
-      if (!lookOnly) analyse(T);
+      analyse(T);
       return T;
     }
 
@@ -15756,7 +15639,7 @@
               low.k +
               " (" +
               EMO[low.e][0].toLowerCase() +
-              "), at the steepest edge of the high ground.",
+              "), where the high ground drops away fastest.",
             more:
               "A straight move between " +
               EMO[top.e][0].toLowerCase() +
@@ -15832,8 +15715,8 @@
                 pct(u.gain) +
                 " of the map's height. " +
                 (u.via.length
-                  ? "The climb takes energy either way, but going by indifference costs less than going straight up the steep edge: most moves between emotions go this way."
-                  : "No indifference lies on the way, so the climb goes straight up the steep edge and costs the most.") +
+                  ? "The climb takes energy either way, but going by indifference costs less than going straight up: most moves between emotions go this way."
+                  : "No indifference lies on the way, so the climb goes straight up and costs the most.") +
                 " Like a cell turning toward what feeds it, this is the direction the ground already favors: the least costly way up leads toward N" +
                 u.dest.k +
                 ".",
@@ -16701,8 +16584,7 @@
           var tl = (T.tal[a] + T.tal[b] + T.tal[c] + T.tal[d]) / 4;
           if (tl > 0.15) {
             var sp = hash2(i * 7, j * 13);
-            if (sp < 0.25 * tl) sh *= 0.88;
-            else if (sp > 1 - 0.15 * tl) sh *= 1.05;
+            if (sp < 0.2 * tl) sh *= 0.93;
           }
           if (clay) {
             var cv0 = (250 * (0.72 + 0.36 * lam)) | 0;
@@ -17307,7 +17189,7 @@
         ctx.fillStyle = "#fff";
         ctx.fillText(str, p[0], p[1] + 5);
       }
-      [0.2, 0.8].forEach(function (f) {
+      [0.5].forEach(function (f) {
         var x = W * f;
         badge("↑ HELP", wx(x), zAt(x, 4) + 10, wz(-6), "#1f6f66");
         badge("↓ HINDER", wx(x), zAt(x, HH - 4) + 10, wz(HH + 8), "#8a2a22");
@@ -17793,10 +17675,6 @@
       );
 
       row(
-        '<svg width="30" height="14"><path d="M1 3 L13 3 L16 12 L29 12" fill="none" stroke="#333" stroke-width="1.6"/></svg>',
-        "Edge of the high ground: a big move either way takes energy",
-      );
-      row(
         '<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',
         "Level: no information nearby",
       );
@@ -18017,10 +17895,6 @@
       exag = +e.target.value;
       prepare();
       fast();
-    };
-    $("shp").onchange = function (e) {
-      SHAPE = e.target.value;
-      rebuild();
     };
     $("gm").onchange = function (e) {
       clay = e.target.value === "clay";

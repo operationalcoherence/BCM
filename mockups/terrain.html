@@ -87,7 +87,6 @@
       <option value="above">From above</option>
     </select></label>
     <label id="grw" style="display:none">Notes <input id="gr" type="range" min="1" max="1" step="1" value="1"> <span id="grv"></span></label>
-    <label>Shape <select id="shp"><option value="canyon">Canyon</option><option value="foot">Foothills</option><option value="roll">Rolling hills</option><option value="mount">Mountains</option><option value="mesa">Mesa and canyon</option></select></label>
     <label>Ground <select id="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>
     <label>Height <input id="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>
     <label><input id="pins" type="checkbox" checked> Notes</label>
@@ -127,7 +126,6 @@
 <script>
 "use strict";
 /* ---------- constants (same map as the line map: 340 x 230, line at y=118, goal at 305,118) ---------- */
-var SHAPES={foot:{name:"Foothills",p:0.8,sg:1.1,rough:0.8,prom:0.12},roll:{name:"Rolling hills",p:1.0,sg:1.4,rough:0.35,prom:0.08},mount:{name:"Mountains",p:1.3,sg:0.85,rough:1.4,prom:0.2},mesa:{name:"Mesa and canyon",p:0.55,sg:1.0,rough:1.0,prom:0.14},canyon:{name:"Canyon",p:1.0,pUp:0.9,pDn:1.0,sg:1.15,lowW:0.3,rough:0.8,prom:0.16,cut:1,block:0.3}},SHAPE="canyon";
 var EMO=[["Aggression",[200,53,46]],["Acceptance",[42,157,143]],["Distrust",[164,143,208]],["Indifference",[230,190,79]],["Defiance",[29,53,87]]];
 var QT=["Within the community, why has the goal not already taken root?","Is there opposition to the goal?","Is there support for the goal?","In order for the goal to take root and grow, what conditions need to be established?","What needs to be designed?","What needs to be redesigned?","What needs to be reinforced?"];
 var ANSWERS=["","","","","","",""],QPOS=[];
@@ -193,14 +191,6 @@ function vnoise(x,y){var ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy,u=fx*
   var a=hash2(ix,iy),b=hash2(ix+1,iy),c=hash2(ix,iy+1),d=hash2(ix+1,iy+1);return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v;}
 function ridged(x,y){var s=0,amp=1,f=1/46,tot=0;for(var o=0;o<5;o++){var an=0.62+o*1.13,ca=Math.cos(an),sa=Math.sin(an),u=(x*ca-y*sa)*f+o*17.3,v=(x*sa+y*ca)*f+o*9.1;var n=1-Math.abs(2*vnoise(u,v)-1);s+=amp*Math.pow(n,1.6);tot+=amp;amp*=0.5;f*=2.05;}return s/tot;}
 function buildTerrain(notes){
-  /* readings always come from the same ground (Foothills); the shape only changes the look */
-  if(SHAPE!=="foot"){var keep=SHAPE;SHAPE="foot";var T0;try{T0=buildTerrainOne(notes);}finally{SHAPE=keep;}
-    var T1=buildTerrainOne(notes,true);
-    ["hs","hmin","hmax","pits","hills","pitTgt","hillTgt","best","par","path","barrier","bench"].forEach(function(k){T1["v_"+k]=T1[k];T1[k]=T0[k];});
-    return T1;}
-  return buildTerrainOne(notes);
-}
-function buildTerrainOne(notes,lookOnly){
   notes=notes.slice(0,growK);
   var pts=notes.filter(function(n){return n.e!=null;});
   var sigma=22;
@@ -208,13 +198,12 @@ function buildTerrainOne(notes,lookOnly){
     var nn=pts.map(function(p){var m=1e9;pts.forEach(function(q){if(q!==p){var d=Math.hypot(p.x-q.x,p.y-q.y);if(d<m)m=d;}});return m;}).sort(function(a,b){return a-b;});
     sigma=Math.max(13,Math.min(30,nn[Math.floor(nn.length/2)]*0.9));
   }
-  var SH=SHAPES[SHAPE];sigma*=SH.sg;
   var n=VX*VY, raw=new Float32Array(n), col=new Float32Array(n*3), cov=new Float32Array(n), mix=new Float32Array(n);
   var cut=4*sigma, s2=2*sigma*sigma, maxAbs=1e-6;
   for(var j=0;j<VY;j++)for(var i=0;i<VX;i++){
     var x=i*CX,y=j*CY,sw=[0,0,0,0,0];
     for(var p=0;p<pts.length;p++){var dx=x-pts[p].x,dy=y-pts[p].y,d2=dx*dx+dy*dy;if(d2>cut*cut)continue;sw[pts[p].e]+=Math.exp(-d2/s2);}
-    var bad=(1.5*sw[0]+sw[2]+2*sw[4])*(SH.lowW||1),h=(ver==="ridge"?bad-sw[1]:sw[1]-bad), idx=j*VX+i;
+    var bad=1.5*sw[0]+sw[2]+2*sw[4],h=(ver==="ridge"?bad-sw[1]:sw[1]-bad), idx=j*VX+i;
     raw[idx]=h; if(Math.abs(h)>maxAbs)maxAbs=Math.abs(h);
     var M=sw[0]+sw[1]+sw[2]+sw[3]+sw[4],mx=Math.max(sw[0],sw[1],sw[2],sw[3],sw[4]);
     var up=sw[1]+0.5*sw[3],dn=sw[0]+sw[2]+sw[4];mix[idx]=M>0.15?Math.min(1,(1-mx/M)*0.6+(up>0&&dn>0?2*Math.min(up,dn)/(up+dn):0)*0.7):0;
@@ -226,27 +215,9 @@ function buildTerrainOne(notes,lookOnly){
   }
   var hs=new Float32Array(n),hmin=1e9,hmax=-1e9;
   var tilt=(ver==="down"||ver==="ridge"),dmax=Math.hypot(GOAL.x,HH);
-  for(var q=0;q<n;q++){hs[q]=raw[q]/maxAbs;if(ver!=="ridge"){var hv=hs[q];hs[q]=hv<0?-Math.pow(-hv,SH.pDn||SH.p):Math.pow(hv,SH.pUp||SH.p);}
+  for(var q=0;q<n;q++){hs[q]=raw[q]/maxAbs;
     if(tilt){var qx=(q%VX)*CX,qy=((q/VX)|0)*CY;hs[q]+=1.4*(Math.hypot(qx-GOAL.x,qy-GOAL.y)/dmax)-0.7;}
     if(hs[q]<hmin)hmin=hs[q];if(hs[q]>hmax)hmax=hs[q];}
-  /* canyon: the whole map is a mountain block; the low notes cut one V-shaped canyon through it that opens at the hinder edge */
-  if(SH.cut&&ver!=="ridge"){
-    for(var qa=0;qa<n;qa++){var ax=(qa%VX)*CX,ay=((qa/VX)|0)*CY;hs[qa]=SH.block+0.75*hs[qa]+0.16*(vnoise(ax/70+3,ay/70+7)*0.7+vnoise(ax/32+11,ay/32+5)*0.3-0.5);}
-    var lowP=pts.filter(function(p){return p.e===0||p.e===2||p.e===4;}),DEP={0:-0.55,2:-0.42,4:-0.75},cuts=[];
-    if(lowP.length){var used2={0:1},inT2=[0];
-      while(inT2.length<lowP.length){var bb=null;inT2.forEach(function(i3){lowP.forEach(function(q4,j3){if(used2[j3])return;var d4=Math.hypot(lowP[i3].x-q4.x,lowP[i3].y-q4.y);if(!bb||d4<bb[2])bb=[i3,j3,d4];});});used2[bb[1]]=1;inT2.push(bb[1]);
-        if(bb[2]<4.5*sigma)cuts.push([[lowP[bb[0]].x,lowP[bb[0]].y],[lowP[bb[1]].x,lowP[bb[1]].y],DEP[lowP[bb[0]].e],DEP[lowP[bb[1]].e]]);}
-      /* the mouth: from the low note nearest the hinder edge, out to the edge */
-      var m0=lowP.slice().sort(function(a,b){return (HH-a.y)-(HH-b.y);})[0];cuts.push([[m0.x,m0.y],[m0.x+0.4*(HH-m0.y),HH+2],DEP[m0.e],DEP[m0.e]-0.15]);
-      if(lowP.length===1)cuts.push([[m0.x,m0.y],[m0.x-0.5*sigma,m0.y-1.2*sigma],DEP[m0.e],DEP[m0.e]+0.3]);
-      var fw=0.06*sigma,wall=0.85/(0.55*sigma);
-      for(var qx=0;qx<n;qx++){var bx2=(qx%VX)*CX,by2=((qx/VX)|0)*CY,lowest=1e9;
-        cuts.forEach(function(c){var A=c[0],B=c[1],vx=B[0]-A[0],vy=B[1]-A[1],L=vx*vx+vy*vy,Ls=Math.sqrt(L||1),t=L?Math.max(0,Math.min(1,((bx2-A[0])*vx+(by2-A[1])*vy)/L)):0;
-          var wig=Math.sin(t*Math.PI*2.2+A[0]*0.05)*0.3*sigma*Math.sin(t*Math.PI),nx=-vy/Ls,ny=vx/Ls;
-          var d=Math.hypot(bx2-(A[0]+t*vx+nx*wig),by2-(A[1]+t*vy+ny*wig)),floor=c[2]+(c[3]-c[2])*t;
-          var h=floor+wall*Math.max(0,d-fw);if(h<lowest)lowest=h;});
-        if(lowest<hs[qx])hs[qx]=lowest;}}
-    hmin=1e9;hmax=-1e9;for(var qy=0;qy<n;qy++){if(hs[qy]<hmin)hmin=hs[qy];if(hs[qy]>hmax)hmax=hs[qy];}}
   /* indifference: a narrow ridge that climbs from the low ground (aggression, distrust, defiance) up into acceptance */
   var bench=new Float32Array(n),ind=pts.filter(function(p){return p.e===3;});
   if(ind.length&&ver!=="ridge"){
@@ -265,7 +236,7 @@ function buildTerrainOne(notes,lookOnly){
       spines.push({pl:pl,cum:cum,len:cum[cum.length-1]||1,hLo:hAtRaw(lo),hHi:hAtRaw(hi)});});
     function hAtRaw(pt){var i=Math.max(0,Math.min(VX-1,Math.round(pt[0]/CX))),j=Math.max(0,Math.min(VY-1,Math.round(pt[1]/CY)));return hs[j*VX+i];}
     spines.forEach(function(sp){sp.hLo=hAtRaw(sp.pl[0]);sp.hHi=hAtRaw(sp.pl[sp.pl.length-1]);});
-    var flat=0.1*sigma,steep=0.55/(0.55*sigma),PROM=SH.prom;
+    var flat=0.1*sigma,steep=0.55/(0.55*sigma),PROM=0.12;
     for(var qb=0;qb<n;qb++){var bx=(qb%VX)*CX,by=((qb/VX)|0)*CY,best=-1e9,bt=0;
       spines.forEach(function(sp){var dm=1e9,tt=0;for(var i=0;i+1<sp.pl.length;i++){var A=sp.pl[i],B=sp.pl[i+1],vx=B[0]-A[0],vy=B[1]-A[1],L=vx*vx+vy*vy,t=L?Math.max(0,Math.min(1,((bx-A[0])*vx+(by-A[1])*vy)/L)):0,d=Math.hypot(bx-A[0]-t*vx,by-A[1]-t*vy);if(d<dm){dm=d;tt=(sp.cum[i]+t*Math.sqrt(L))/sp.len;}}
         var e=tt*tt*(3-2*tt),rise=Math.min(1,tt/0.35),rs=rise*rise*(3-2*rise),top=1-Math.max(0,(tt-0.85)/0.15),crest=sp.hLo+(sp.hHi-sp.hLo)*e+PROM*rs*top,st=steep*(0.35+0.65*rs),hgt=crest-st*Math.max(0,dm-flat*rs);
@@ -284,13 +255,16 @@ function buildTerrainOne(notes,lookOnly){
     var k=j2*VX+i2,il=Math.max(0,i2-1),ir=Math.min(VX-1,i2+1),jt=Math.max(0,j2-1),jb=Math.min(VY-1,j2+1);
     var gx=(hs[j2*VX+ir]-hs[j2*VX+il])/((ir-il)*CX),gy=(hs[jb*VX+i2]-hs[jt*VX+i2])/((jb-jt)*CY);
     var slope=Math.min(1,Math.hypot(gx,gy)*sigma*0.8);
-    var amp=Math.min(0.2,0.45*SH.rough*cov[k]*(0.02+0.9*Math.pow(Math.max(0,mix[k]-0.3),2)+0.06*slope));
+    var amp=Math.min(0.06,cov[k]*(0.01+0.25*Math.pow(Math.max(0,mix[k]-0.3),2)+0.02*slope));
     hn[k]=hs[k]+(ridged(i2*CX,j2*CY)-0.42)*2*amp*(1-pad[k])*(1-0.5*bench[k]);tal[k]=Math.max(Math.max(0,Math.min(1,(mix[k]-0.45)*2.2))*(1-bench[k]),0.45*bench[k]);
     if(hn[k]<rmin)rmin=hn[k];
   }
+  for(var pass=0;pass<3;pass++){var tmpH=new Float32Array(hn);for(var bj=1;bj<VY-1;bj++)for(var bi=1;bi<VX-1;bi++){var bk=bj*VX+bi;
+      hn[bk]=(tmpH[bk]*4+tmpH[bk-1]+tmpH[bk+1]+tmpH[bk-VX]+tmpH[bk+VX]+0.5*(tmpH[bk-VX-1]+tmpH[bk-VX+1]+tmpH[bk+VX-1]+tmpH[bk+VX+1]))/10;}}
+  rmin=1e9;for(var bq=0;bq<n;bq++)if(hn[bq]<rmin)rmin=hn[bq];
   var qpos=placeQuestions(notes);
   var T={bench:bench,tal:tal,hn:hn,hs:hs,col:col,sigma:sigma,hmin:hmin,hmax:hmax,rmin:rmin,notes:notes,pts:pts,qpos:qpos,threads:findThreads(notes,qpos),cause:findCause(notes,qpos)};
-  if(!lookOnly)analyse(T); return T;
+  analyse(T); return T;
 }
 
 /* ---------- threads: a word shared by several notes and answers ---------- */
@@ -420,7 +394,7 @@ function moreReadings(R){
     var gx=(H[k+2]-H[k-2])/(4*CX),gy=(H[k+2*VX]-H[k-2*VX])/(4*CY),g=Math.hypot(gx,gy);if(!g)continue;
     var x=i*CX,y=j*CY,lx=x-gx/g*22,ly=y-gy/g*22;if(lx<0||ly<0||lx>W||ly>HH||hAt(lx,ly)>-0.1)continue;if(!best||g>best.g)best={g:g,x:x,y:y,lx:lx,ly:ly};}
   if(best){var top=nn(best.x,best.y,[1]),low=nn(best.lx,best.ly,PIT_E),onB=T.bench[cellOf((best.x+best.lx)/2,(best.y+best.ly)/2)]>0.3;
-    if(top&&low)R.push({grp:0,title:"Where it is easiest to fall from",short:"N"+top.k+" ("+EMO[top.e][0].toLowerCase()+") sits closest to N"+low.k+" ("+EMO[low.e][0].toLowerCase()+"), at the steepest edge of the high ground.",
+    if(top&&low)R.push({grp:0,title:"Where it is easiest to fall from",short:"N"+top.k+" ("+EMO[top.e][0].toLowerCase()+") sits closest to N"+low.k+" ("+EMO[low.e][0].toLowerCase()+"), where the high ground drops away fastest.",
       more:"A straight move between "+EMO[top.e][0].toLowerCase()+" and "+EMO[low.e][0].toLowerCase()+" takes energy in either direction, as any big jump between emotions does; here it would be shortest. "+(onB?"An indifference ridge runs between them, the easier way across.":"No indifference ridge runs between them, so nothing breaks the drop.")+" This is high ground worth tending first.",at:[best.x,best.y]});}
   var ind=T.pts.filter(function(p){return p.e===3;});
   if(ind.length){R.push({grp:2,title:"The ridge between",short:list(ind.map(function(p){return "N"+p.k;}))+" form"+(ind.length>1?"":"s")+" a narrow ridge of indifference that climbs from the low ground up into acceptance.",
@@ -429,7 +403,7 @@ function moreReadings(R){
     var gain=Math.max(0,H[path[path.length-1]]-H[c0]),via=notesNear(path,[3],14),v=path[path.length-1],dest=nn((v%VX)*CX,((v/VX)|0)*CY,[1]);return {path:path,gain:gain/span,via:via,dest:dest};}
   if(T.pits.length){var pk=T.pits[0],px=(pk.idx%VX)*CX,py=((pk.idx/VX)|0)*CY,start=nn(px,py,PIT_E);
     if(start){var u=up(start);if(u&&u.dest)R.push({grp:2,title:"Where it is easiest to get to",short:"From N"+start.k+", in the largest low ground, the least costly way up to acceptance reaches N"+u.dest.k+(u.via.length?" by way of the indifference at "+list(u.via.map(function(p){return "N"+p.k;})):"")+".",
-      more:"It climbs "+pct(u.gain)+" of the map's height. "+(u.via.length?"The climb takes energy either way, but going by indifference costs less than going straight up the steep edge: most moves between emotions go this way.":"No indifference lies on the way, so the climb goes straight up the steep edge and costs the most.")+" Like a cell turning toward what feeds it, this is the direction the ground already favors: the least costly way up leads toward N"+u.dest.k+".",at:[start.x,start.y],path:u.path});}}
+      more:"It climbs "+pct(u.gain)+" of the map's height. "+(u.via.length?"The climb takes energy either way, but going by indifference costs less than going straight up: most moves between emotions go this way.":"No indifference lies on the way, so the climb goes straight up and costs the most.")+" Like a cell turning toward what feeds it, this is the direction the ground already favors: the least costly way up leads toward N"+u.dest.k+".",at:[start.x,start.y],path:u.path});}}
   var def=T.pts.filter(function(p){return p.e===4;});
   if(def.length){var dp=def.slice().sort(function(a,b){return hAt(a.x,a.y)-hAt(b.x,b.y);})[0],ud=up(dp);
     if(ud&&ud.dest)R.push({grp:1,title:"The longest way back",short:"N"+dp.k+" is defiance, the deepest ground on the map. The way from there up to acceptance at N"+ud.dest.k+" climbs "+pct(ud.gain)+" of the map's height.",
@@ -611,7 +585,7 @@ function prepare(){
     var dzx=(zArr[b]+zArr[d]-zArr[a]-zArr[c])/(2*CX),dzz=(zArr[c]+zArr[d]-zArr[a]-zArr[b])/(2*CY);
     var nl=Math.hypot(dzx,1,dzz),lam=Math.max(0,(-dzx*L[0]+L[1]-dzz*L[2])/nl);
     var hh=(T.hn[a]+T.hn[b]+T.hn[c]+T.hn[d])/4,sh=0.62+0.5*lam;
-    var tl=(T.tal[a]+T.tal[b]+T.tal[c]+T.tal[d])/4;if(tl>0.15){var sp=hash2(i*7,j*13);if(sp<0.25*tl)sh*=0.88;else if(sp>1-0.15*tl)sh*=1.05;}
+    var tl=(T.tal[a]+T.tal[b]+T.tal[c]+T.tal[d])/4;if(tl>0.15){var sp=hash2(i*7,j*13);if(sp<0.2*tl)sh*=0.93;}
     if(clay){var cv0=(250*(0.72+0.36*lam))|0;cellCol[j*NX+i]="rgb("+Math.min(255,cv0)+","+Math.min(255,(cv0*0.985)|0)+","+Math.min(255,(cv0*0.96)|0)+")";continue;}
     var r=(T.col[a*3]+T.col[b*3]+T.col[c*3]+T.col[d*3])/4*sh,g=(T.col[a*3+1]+T.col[b*3+1]+T.col[c*3+1]+T.col[d*3+1])/4*sh,bl=(T.col[a*3+2]+T.col[b*3+2]+T.col[c*3+2]+T.col[d*3+2])/4*sh;
     var sat=boost(r/sh,g/sh,bl/sh);r=sat[0]*sh;g=sat[1]*sh;bl=sat[2]*sh;
@@ -745,7 +719,7 @@ function render(st){
   function badge(str,X,Y,Z,bg){var p=pr(X,Y,Z,[0,0]);ctx.font="bold 15px Questrial,sans-serif";ctx.textAlign="center";var w=ctx.measureText(str).width+22;
     ctx.fillStyle=bg;ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(p[0]-w/2,p[1]-13,w,24,4);else ctx.rect(p[0]-w/2,p[1]-13,w,24);ctx.fill();ctx.stroke();
     ctx.fillStyle="#fff";ctx.fillText(str,p[0],p[1]+5);}
-  [0.2,0.8].forEach(function(f){var x=W*f;badge("↑ HELP",wx(x),zAt(x,4)+10,wz(-6),"#1f6f66");badge("↓ HINDER",wx(x),zAt(x,HH-4)+10,wz(HH+8),"#8a2a22");});
+  [0.5].forEach(function(f){var x=W*f;badge("↑ HELP",wx(x),zAt(x,4)+10,wz(-6),"#1f6f66");badge("↓ HINDER",wx(x),zAt(x,HH-4)+10,wz(HH+8),"#8a2a22");});
   text("PRESENT",wx(START.x),zAt(START.x,START.y)+23,wz(START.y),{size:10});
   text("GOAL",wx(GOAL.x),zAt(GOAL.x,GOAL.y)+16,wz(GOAL.y),{size:10});
   text("FUTURE",wx(GOAL.x-30),zAt(GOAL.x-30,138)+6,wz(140),{size:10});
@@ -830,7 +804,7 @@ function fillLegendBox(){var el=document.getElementById("legbox");el.innerHTML="
     row('<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb('+boost(e[1][0],e[1][1],e[1][2]).map(function(v){return v|0;}).join(",")+')"></span>',txt);});
   row('<svg width="30" height="14"><path d="M1 11 L4 6 L6 9 L9 3 L12 8 L14 5 L17 10 L20 4 L23 9 L26 6 L29 10" fill="none" stroke="#333" stroke-width="1.3"/></svg>',"Broken ground (talus): emotions meet");
   
-  row('<svg width="30" height="14"><path d="M1 3 L13 3 L16 12 L29 12" fill="none" stroke="#333" stroke-width="1.6"/></svg>',"Edge of the high ground: a big move either way takes energy"); row('<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',"Level: no information nearby");
+  row('<svg width="30" height="14"><rect x="1" y="5" width="28" height="4" fill="#ccc"/></svg>',"Level: no information nearby");
   row('<svg width="30" height="14"><text x="15" y="10" font-size="6.5" text-anchor="middle" font-family="sans-serif">PRESENT</text></svg>',"Present on the left; the future runs to the goal");
   row('<svg width="30" height="14"><polygon points="15,1 17.4,5.4 22,5.6 18.4,8.6 19.6,13 15,10.4 10.4,13 11.6,8.6 8,5.6 12.6,5.4" fill="#111"/></svg>',"Goal (hover for the full goal)");
   row('<svg width="30" height="14"><rect x="4" y="2" width="22" height="10" fill="#111"/><text x="15" y="10" font-size="7" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">Q.1</text></svg>',"Question: at the middle of its notes");
@@ -879,7 +853,6 @@ document.getElementById("file").onchange=function(ev){var f=ev.target.files[0];i
     userOpt.m=m;userOpt.g=d.goal;userOpt.a=d.a;userOpt.o.textContent="Your workbook: "+f.name;sel.value="user";setModel(m,d.goal,d.a,null);}
     catch(e){document.getElementById("msg").textContent="That file did not look like a saved BCM workbook.";}};rd.readAsText(f);};
 document.getElementById("exag").oninput=function(e){exag=+e.target.value;prepare();fast();};
-document.getElementById("shp").onchange=function(e){SHAPE=e.target.value;rebuild();};
 document.getElementById("gm").onchange=function(e){clay=e.target.value==="clay";prepare();render();};
 document.getElementById("cz").onchange=function(e){showCause=e.target.checked;fillLegendBox();render();};
 function $S(){return document.getElementById("stage");}
