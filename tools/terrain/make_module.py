@@ -17,6 +17,7 @@ for m in re.finditer(r'([^{}]+)\{([^}]*)\}',css):
     rules.append(sels+'{'+decl+'}')
 rules.append('.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}')
 rules.append('.gtold{margin:10px 0 18px}')
+rules.append("#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 max(14px,calc((100vw - 920px)/2)) 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}")
 CSS=''.join(rules)
 
 # ---- template
@@ -74,7 +75,7 @@ assert j.count('terr=buildTerrain(notes);')==1
 j=j.replace('terr=buildTerrain(notes);','var tk0=ver+"|"+growK+"|"+JSON.stringify(raw);terr=TC[tk0]||(TC[tk0]=buildTerrain(notes));')
 assert j.count('buildTerrain(')==3
 assert j.count('Math.round(Math.max(380,Math.min(620,w*0.62)))')==1
-j=j.replace('Math.round(Math.max(380,Math.min(620,w*0.62)))','Math.round(CARDH?Math.max(260,Math.min(440,w*0.5)):Math.max(380,Math.min(620,w*0.62)))')
+j=j.replace('Math.round(Math.max(380,Math.min(620,w*0.62)))','Math.round(CARDH?(host.closest(".gtfs-on")?Math.max(340,Math.min(window.innerHeight*0.7,780,w*0.75)):Math.max(260,Math.min(440,w*0.5))):Math.max(380,Math.min(620,w*0.62)))')
 
 MOD='''
 /* ---- Pattern Synthesis terrain (layer: the ground ahead) ---- */
@@ -84,17 +85,23 @@ function mount(host,data){"use strict";host.className+=" gterr";host.innerHTML=T
 if(CARDH){host.classList.add("gtcard");
   host.querySelectorAll(".plab,.sub,.bar,.gfold").forEach(function(e){e.style.display="none";});
   ["crshead","courses","rdhead","readings","selnote","msg"].forEach(function(id){var e=$(id);if(e)e.style.display="none";});
-  LEGON=false;showCause=false;var cw0=host.clientWidth||600;view={az:0.05,tilt:0.72,zoom:cw0<520?0.95:cw0<700?1.3:1.55};setCourse(0);
+  host._gtRe=function(on){if(on!==undefined&&on!==!!host._gtF){view.zoom*=on?1.15:1/1.15;host._gtF=!!on;}resize();render();};LEGON=false;showCause=false;var cw0=host.clientWidth||600;view={az:0.05,tilt:0.72,zoom:cw0<520?0.95:cw0<700?1.3:1.55};setCourse(0);
   var bx=$("coursebox").querySelector(".selbox");if(bx){var kids=[].slice.call(bx.children);kids.slice(0,3).forEach(function(e){e.remove();});var last=bx.lastElementChild;if(last&&last.classList.contains("small"))last.remove();}
 }
 }
 window.gsmTerrainMount=mount;
+function addFS(h){var coa=h.closest(".coa"),lab=h.previousElementSibling;if(!coa||!lab||lab.querySelector(".gtfsb"))return;
+  var b=document.createElement("button");b.type="button";b.className="gtfsb";b.textContent="Full screen";lab.insertBefore(b,lab.firstChild);
+  function set(on){coa.classList.toggle("gtfs-on",on);b.textContent=on?"Close full screen":"Full screen";document.documentElement.style.overflow=on?"hidden":"";
+    if(on)coa.scrollTop=0;if(h._gtRe)h._gtRe(on);setTimeout(function(){if(h._gtRe)h._gtRe()},300)}
+  b.addEventListener("click",function(){set(!coa.classList.contains("gtfs-on"))});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&coa.classList.contains("gtfs-on"))set(false)})}
 function scan(){document.querySelectorAll(".gterr-host:not([data-on])").forEach(function(h){h.setAttribute("data-on","1");try{mount(h,window.gsmData?window.gsmData():(window.gsmTD||{}))}catch(e){h.textContent="";h.style.display="none";if(window.console)console.warn("terrain",e)}});
 document.querySelectorAll(".gterr-card:not([data-on])").forEach(function(h){h.setAttribute("data-on","1");
   function go(){QU.push(go1);if(!QB){QB=1;setTimeout(pump,0);}}
   function go1(){if(h.getAttribute("data-m")||!h.isConnected)return;h.setAttribute("data-m","1");var fb=h.innerHTML,cls=h.className;
     try{var d=window.gsmData?window.gsmData():(window.gsmTD||{}),st=[];try{st=JSON.parse(h.getAttribute("data-steps")||"[]")}catch(e){}
-      mount(h,{m:d.m||[],a:d.a||[],goal:d.goal||"",card:1,cards:[{w:"",why:"",mode:h.getAttribute("data-mode")==="PROGRAM"?"PROGRAM":"STRATEGY",ids:(h.getAttribute("data-ids")||"").split(",").map(function(x){x=x.trim();var m=/^(?:note\\s*|N)(\\d+)$/i.exec(x);return m?"N"+m[1]:x;}).filter(Boolean),steps:st}]})}
+      mount(h,{m:d.m||[],a:d.a||[],goal:d.goal||"",card:1,cards:[{w:"",why:"",mode:h.getAttribute("data-mode")==="PROGRAM"?"PROGRAM":"STRATEGY",ids:(h.getAttribute("data-ids")||"").split(",").map(function(x){x=x.trim();var m=/^(?:note\\s*|N)(\\d+)$/i.exec(x);return m?"N"+m[1]:x;}).filter(Boolean),steps:st}]});addFS(h)}
     catch(e){h.innerHTML=fb;h.className=cls;if(window.console)console.warn("terrain card",e)}}
   if(window.IntersectionObserver){var io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting})){io.disconnect();go();}},{rootMargin:"400px"});io.observe(h);}else go();});}
 function start(){if(!document.getElementById("gsm-tcss")){var s=document.createElement("style");s.id="gsm-tcss";s.textContent=CSS;document.head.appendChild(s)}new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan()}
