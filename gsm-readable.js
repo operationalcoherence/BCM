@@ -14020,7 +14020,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v160");
+        t && (t.textContent = "v161");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -17291,8 +17291,27 @@
         ctx.fillStyle = opt.color || "#222";
         ctx.fillText(str, p[0], p[1]);
       }
-      text("HELP", 0, zAt(HALF_X, 0) + 4, -bz, { size: 11, color: "#555" });
-      text("HINDER", 0, zAt(HALF_X, HH) + 4, bz + 6, { size: 11, color: "#555" });
+      function badge(str, X, Y, Z, bg) {
+        var p = pr(X, Y, Z, [0, 0]);
+        ctx.font = "bold 15px Questrial,sans-serif";
+        ctx.textAlign = "center";
+        var w = ctx.measureText(str).width + 22;
+        ctx.fillStyle = bg;
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(p[0] - w / 2, p[1] - 13, w, 24, 4);
+        else ctx.rect(p[0] - w / 2, p[1] - 13, w, 24);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "#fff";
+        ctx.fillText(str, p[0], p[1] + 5);
+      }
+      [0.2, 0.8].forEach(function (f) {
+        var x = W * f;
+        badge("↑ HELP", wx(x), zAt(x, 4) + 10, wz(-6), "#1f6f66");
+        badge("↓ HINDER", wx(x), zAt(x, HH - 4) + 10, wz(HH + 8), "#8a2a22");
+      });
       text("PRESENT", wx(START.x), zAt(START.x, START.y) + 23, wz(START.y), { size: 10 });
       text("GOAL", wx(GOAL.x), zAt(GOAL.x, GOAL.y) + 16, wz(GOAL.y), { size: 10 });
       text("FUTURE", wx(GOAL.x - 30), zAt(GOAL.x - 30, 138) + 6, wz(140), { size: 10 });
