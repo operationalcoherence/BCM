@@ -17,6 +17,7 @@ for m in re.finditer(r'([^{}]+)\{([^}]*)\}',css):
     rules.append(sels+'{'+decl+'}')
 rules.append('.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}')
 rules.append('.gtold{margin:10px 0 18px}')
+rules.append('#gsm .rd[data-way]{cursor:default;transition:background .15s}#gsm .rd.gtwon{background:#f1f0ea;box-shadow:inset 3px 0 0 #111}')
 rules.append("#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 2vw 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .selbox,#gsm .coa.gtfs-on .csn,#gsm .coa.gtfs-on .coacall,#gsm .coa.gtfs-on .cq{max-width:960px}.gtrb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px;font:12px 'Questrial',sans-serif}.gtrb span{letter-spacing:.1em;color:#555;margin-right:2px}.gtrb button{background:#fff;color:#111;border:2px solid #111;border-radius:14px;padding:4px 11px;font:12.5px 'Questrial',sans-serif;cursor:pointer}.gtrb button.on{background:#111;color:#fff}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}")
 CSS=''.join(rules)
 
@@ -127,14 +128,24 @@ if(CARDH){host.classList.add("gtcard");
     rbtn(null,"All ways","#111");ROUTES.forEach(function(R){rbtn(R.key,R.key+": "+(/firm ground/.test(R.name)?"firm ground only":/support/.test(R.name)?"from the support":"through its notes"),(R.key==="B"?"#111":RCOL[R.key]));});$("stage").parentNode.insertBefore(rb,$("stage"));}
   var bx=$("coursebox").querySelector(".selbox");if(bx){var kids=[].slice.call(bx.children);kids.slice(0,3).forEach(function(e){e.remove();});var last=bx.lastElementChild;if(last&&last.classList.contains("small"))last.remove();}
 }
-if(!CARDH)(function(){var stg=$("stage"),box=document.createElement("div");stg.parentNode.insertBefore(box,stg);
-  function go(){(window.__gsmRelP||(window.__gsmRelP=new Promise(function(ok,no){if(window.gsmRelief)return ok();var sc=document.querySelector('script[src*="gsm-preview.js"]'),src=sc?sc.src.replace(/gsm-preview\\.js/,"gsm-relief.js"):"gsm-relief.js",s=document.createElement("script");s.src=src;s.onload=function(){window.gsmRelief?ok():no();};s.onerror=no;document.head.appendChild(s);}))).then(function(){
+(function(){var stg=$("stage"),box=document.createElement("div");stg.parentNode.insertBefore(box,stg);var snapImg=null;
+  function relLoad(){return window.__gsmRelP||(window.__gsmRelP=new Promise(function(ok,no){if(window.gsmRelief)return ok();var sc=document.querySelector('script[src*="gsm-preview.js"]'),src=sc?sc.src.replace(/gsm-preview\\.js/,"gsm-relief.js"):"gsm-relief.js",s=document.createElement("script");s.src=src;s.onload=function(){window.gsmRelief?ok():no();};s.onerror=no;document.head.appendChild(s);}));}
+  function wayRows(){return [].slice.call(host.querySelectorAll("[data-way]"));}
+  function data(){var D={VX:VX,VY:VY,CX:CX,CY:CY,hn:terr.hn,START:START,GOAL:GOAL,emo:EMO,qpos:terr.qpos.map(function(Q){return Q?{q:Q.q,x:Q.x,y:Q.y,n:Q.n,title:QT[Q.q-1]||"",ans:String(ANSWERS[Q.q-1]||"").trim()}:null;}),notes:terr.notes.map(function(n){return {k:n.k,x:n.x,y:n.y,e:n.e,q:n.q,t:n.t};}),goalText:GOALTEXT};
+    if(CARDH){var rd={};try{courseReadings(COURSE).forEach(function(r){if(r.k)rd[r.k]=r.text;});}catch(e){}D.card=true;D.read=[];D.routes=ROUTES.map(function(R){return {key:R.key,name:R.name,pts:R.pts,text:rd[R.key]||""};});
+      D.onWay=function(k){wayRows().forEach(function(el){el.classList.toggle("gtwon",!!k&&el.getAttribute("data-way")===k);});};}
+    else{D.read=READ.map(function(r){return {at:r.at,title:r.title,text:r.short+(r.more?" "+r.more:"")};});D.onHL=function(i){if(!HLSTICK){HL=i;markList();}};}
+    return D;}
+  function go(){relLoad().then(function(){
     if(!host.isConnected||host._rel)return;var c=document.createElement("canvas");if(!(c.getContext("webgl2")||c.getContext("webgl")))return;
-    var D={VX:VX,VY:VY,CX:CX,CY:CY,hn:terr.hn,START:START,GOAL:GOAL,emo:EMO,qpos:terr.qpos.map(function(Q){return Q?{q:Q.q,x:Q.x,y:Q.y,n:Q.n,title:QT[Q.q-1]||"",ans:String(ANSWERS[Q.q-1]||"").trim()}:null;}),notes:terr.notes.map(function(n){return {k:n.k,x:n.x,y:n.y,e:n.e,q:n.q,t:n.t};}),read:READ.map(function(r){return {at:r.at,title:r.title,text:r.short+(r.more?" "+r.more:"")};}),goalText:GOALTEXT,onHL:function(i){if(!HLSTICK){HL=i;markList();}}};
-    try{host._rel=window.gsmRelief.mount(box,D);}catch(e){box.innerHTML="";host._rel=null;if(window.console)console.warn("relief",e);return;}
+    if(snapImg){snapImg.remove();snapImg=null;}
+    try{host._rel=window.gsmRelief.mount(box,data());}catch(e){box.innerHTML="";host._rel=null;if(window.console)console.warn("relief",e);return;}
     stg.style.display="none";var lb=$("legbox");if(lb)lb.style.display="none";host.querySelectorAll(".bar").forEach(function(e){e.style.display="none";});
+    if(CARDH){host._rel.setWay(ROUTESEL);wayRows().forEach(function(el){if(el._gtw)return;el._gtw=1;var k=el.getAttribute("data-way");el.addEventListener("mouseenter",function(){if(host._rel)host._rel.hoverWay(k);el.classList.add("gtwon");});el.addEventListener("mouseleave",function(){if(host._rel)host._rel.hoverWay(null);el.classList.remove("gtwon");});});}
   }).catch(function(){});}
-  if(window.IntersectionObserver){var io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;})){io.disconnect();go();}},{rootMargin:"300px"});io.observe(box.parentNode);}else go();
+  function park(){if(!host._rel)return;var url="",hgt=host._rel.height();try{url=host._rel.snap();}catch(e){}host._rel.dispose();host._rel=null;box.innerHTML="";
+    if(url){snapImg=document.createElement("img");snapImg.src=url;snapImg.alt="";snapImg.style.cssText="display:block;width:100%%;height:"+hgt+"px;object-fit:cover;border:1px solid #e4e4e4";box.appendChild(snapImg);}}
+  if(window.IntersectionObserver){var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting)go();else if(CARDH)park();});},{rootMargin:CARDH?"500px 0px":"300px"});io.observe(box.parentNode);}else go();
 })();
 }
 window.gsmTerrainMount=mount;

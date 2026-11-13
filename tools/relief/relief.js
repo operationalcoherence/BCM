@@ -11,10 +11,10 @@ const CSS = `
 .grel .nl{font:bold 12.5px Helvetica,Arial,sans-serif;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
 .grel .ql{font:bold 12px Helvetica,Arial,sans-serif;background:#111;color:#fff;padding:2px 5px}
 .grel .pl{font:bold 13px Helvetica,Arial,sans-serif;letter-spacing:.1em;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 4px #fff}
-.grel .side{font:bold 17.5px Helvetica,Arial,sans-serif;letter-spacing:.14em;color:#1f6f66;text-shadow:0 0 3px #fff,0 0 3px #fff}.grel .side.hd{color:#8a2a22}.grel .lb.hit{pointer-events:auto;cursor:pointer}.grel .tip{position:absolute;display:none;z-index:4;max-width:340px;max-height:60%;overflow:auto;background:#222;color:#fff;font:13px/1.45 Questrial,Helvetica,Arial,sans-serif;padding:8px 10px;border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.3)}.grel .tip b{display:block;margin-bottom:3px}.grel .tip .sm{opacity:.75;font-size:12px;margin-top:4px}
+.grel .side{font:bold 17.5px Helvetica,Arial,sans-serif;letter-spacing:.14em;color:#1f6f66;text-shadow:0 0 3px #fff,0 0 3px #fff}.grel .side.hd{color:#8a2a22}.grel .side.ax{color:#333}.grel .lb.hit{pointer-events:auto;cursor:pointer}.grel .tip{position:absolute;display:none;z-index:4;max-width:340px;max-height:60%;overflow:auto;background:#222;color:#fff;font:13px/1.45 Questrial,Helvetica,Arial,sans-serif;padding:8px 10px;border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.3)}.grel .tip b{display:block;margin-bottom:3px}.grel .tip .sm{opacity:.75;font-size:12px;margin-top:4px}
 .grel .rdm{font:bold 12px Helvetica,Arial,sans-serif;color:#fff;background:#111;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
 .grel .rdm.on{background:#7a1d12;transform:scale(1.25)}
-.grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
+.grel .wl{font:bold 14px Helvetica,Arial,sans-serif;width:26px;height:26px;line-height:22px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)}.grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
 .grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}
 .grel .busy{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#888;font:13px Questrial,Helvetica,Arial,sans-serif}
 .grleg{margin:8px 0 2px;font-size:12.5px;line-height:1.45;color:#333}
@@ -36,6 +36,8 @@ function vivid(c) { let [r, g, b] = c.map(v => v / 255); const mx = Math.max(r, 
   const q = l < 0.5 ? l * (1 + sa) : l + sa - l * sa, p = 2 * l - q, f = t => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; };
   return [f(h + 1 / 3) * 255, f(h) * 255, f(h - 1 / 3) * 255]; }
 
+const CACHE = new Map();
+function landKey(D) { let s = 0; for (let q = 0; q < D.hn.length; q += 97) s += D.hn[q] * (q + 1); return D.VX + ',' + D.VY + ',' + D.notes.length + ',' + s.toFixed(4) + ',' + D.notes.map(n => n.k + ':' + n.e + ':' + Math.round(n.x) + ':' + Math.round(n.y)).join(';'); }
 function mount(host, D) {
   if (!document.getElementById('gsm-relcss')) { const s = document.createElement('style'); s.id = 'gsm-relcss'; s.textContent = CSS; document.head.appendChild(s); }
   const VX = D.VX, VY = D.VY, CX = D.CX, CY = D.CY, W = (VX - 1) * CX, H = (VY - 1) * CY, HS = 58, ALPHA = 0.6;
@@ -52,8 +54,11 @@ function mount(host, D) {
     const k = sstep(0.25, 1.1, s), ux = s > 1e-4 ? -gy / s : 1, uy = s > 1e-4 ? gx / s : 0, across = x * ux + y * uy, along = (x * gx + y * gy) / (s || 1);
     const gul = (ridged(across * 0.18 + vn(x * 0.04, y * 0.04) * 2, along * 0.025, 3) - 0.4) * 2.4 * k;
     return hRaw(x, y) + gul + (ridged(x * 0.11 + 3, y * 0.11 + 7) - 0.35) * 0.9 * (1 - 0.6 * k) + (fbm(x * 0.35, y * 0.35, 3) - 0.5) * 0.5; }
-  const MX = 2 * VX - 1, MY = 2 * VY - 1, hGrid = new Float32Array(MX * MY); let hMin = 1e9;
-  for (let j = 0; j < MY; j++) for (let i = 0; i < MX; i++) { const h = hAt(i / (MX - 1) * W, j / (MY - 1) * H); hGrid[j * MX + i] = h; if (h < hMin) hMin = h; }
+  const MX = 2 * VX - 1, MY = 2 * VY - 1, CK = landKey(D), CH = CACHE.get(CK) || {};
+  const hGrid = CH.hGrid || new Float32Array(MX * MY); let hMin = 1e9;
+  if (!CH.hGrid) for (let j = 0; j < MY; j++) for (let i = 0; i < MX; i++) { const h = hAt(i / (MX - 1) * W, j / (MY - 1) * H); hGrid[j * MX + i] = h; }
+  for (let q = 0; q < hGrid.length; q++) if (hGrid[q] < hMin) hMin = hGrid[q];
+  CH.hGrid = hGrid; CACHE.set(CK, CH);
   const BASE = hMin - 7;
   function gH(x, y) { const fx = Math.max(0, Math.min(MX - 1.001, x / W * (MX - 1))), fy = Math.max(0, Math.min(MY - 1.001, y / H * (MY - 1))), i = fx | 0, j = fy | 0, u = fx - i, v = fy - j;
     const g = (a, b) => hGrid[b * MX + a]; return g(i, j) * (1 - u) * (1 - v) + g(i + 1, j) * u * (1 - v) + g(i, j + 1) * (1 - u) * v + g(i + 1, j + 1) * u * v; }
@@ -77,8 +82,8 @@ function mount(host, D) {
     let c = [0, 0, 0]; for (let k = 0; k < K; k++) { const w = b(k); c = [c[0] + EMOC[k][0] * w, c[1] + EMOC[k][1] * w, c[2] + EMOC[k][2] * w]; } return [c, b(K), b(K + 1)]; }
 
   /* ---------- ground texture: grass, soil, rock by slope; emotion hue at 60% ---------- */
-  const TW = 1600, TH = Math.round(TW * H / W), tcv = document.createElement('canvas'); tcv.width = TW; tcv.height = TH;
-  (function paint() {
+  const TW = 1600, TH = Math.round(TW * H / W), tcv = CH.tcv || document.createElement('canvas'); if (!CH.tcv) { tcv.width = TW; tcv.height = TH; }
+  if (!CH.tcv) (function paint() {
     const ctx = tcv.getContext('2d'), img = ctx.createImageData(TW, TH), px = img.data;
     const GR = [98, 108, 62], GR2 = [140, 134, 86], SO = [124, 96, 66], SO2 = [86, 68, 50], RK = [122, 118, 112], RK2 = [168, 160, 148], lum = q => 0.3 * q[0] + 0.59 * q[1] + 0.11 * q[2];
     for (let py = 0; py < TH; py++) for (let pxx = 0; pxx < TW; pxx++) {
@@ -98,6 +103,7 @@ function mount(host, D) {
     }
     ctx.putImageData(img, 0, 0);
   })();
+  CH.tcv = tcv;
 
   /* ---------- scene ---------- */
   const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -141,13 +147,15 @@ function mount(host, D) {
   D.qpos.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st);
     const fl = new THREE.Mesh(new THREE.BoxGeometry(7, 4.2, 0.6), blk); fl.position.set(X(Q.x) + 3.2, h + 16.4, Z(Q.y)); fl.castShadow = true; scene.add(fl); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 16.4, 2, -4, -10, { head: 'Q.' + Q.q + (Q.title ? ' · ' + Q.title : ''), body: Q.ans || 'No answer written yet.', sm: Q.n ? 'Placed at the middle of its ' + Q.n + ' note' + (Q.n > 1 ? 's' : '') + '.' : 'No notes yet; placed on the line between present and goal.' }); });
   { const s = D.START, h = gH(s.x, s.y), p = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 22, 6), blk); p.position.set(X(s.x), h + 11, Z(s.y)); p.castShadow = true; scene.add(p);
-    const f = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7, 11), blk); f.position.set(X(s.x), h + 18.5, Z(s.y) + 5.5); scene.add(f); lab('PRESENT', 'pl', s.x, s.y, 25, 3, -30, -18); }
+    const f = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7, 11), blk); f.position.set(X(s.x), h + 18.5, Z(s.y) + 5.5); scene.add(f); }
   const ringAt = (cx, cy, r) => { const p = []; for (let k = 0; k <= 64; k++) { const a = k / 64 * Math.PI * 2, x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r; p.push(new THREE.Vector3(X(x), gH(x, y) + 0.5, Z(y))); } return p; };
   [22, 14, 6].forEach(r => { const c = new THREE.CatmullRomCurve3(ringAt(D.GOAL.x, D.GOAL.y, r), true); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 1.0, 6, true), new THREE.MeshStandardMaterial({ color: 0xffffff }))); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 0.5, 6, true), blk)); });
   { const g = D.GOAL, hh = gH(g.x, g.y), pole = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 16, 6), blk); pole.position.set(X(g.x), hh + 8, Z(g.y)); scene.add(pole);
     const st = new THREE.Mesh(new THREE.OctahedronGeometry(4), blk); st.position.set(X(g.x), hh + 17, Z(g.y)); st.castShadow = true; scene.add(st); lab('GOAL', 'pl', g.x, g.y, 18, 3, -22, -22, { head: 'GOAL', body: D.goalText || 'No goal written yet.' }); }
   { let nm = -1e9; for (let k = 0; k <= 60; k++) nm = Math.max(nm, gH(0, k / 60 * 20)); const o = lab('↑ HELP', 'side', 0, 2, 0, 4, -104, -10); o.v.set(X(-6), nm + 4, Z(2));
-    const o2 = lab('↓ HINDER', 'side hd', 0, H - 2, 0, 4, -128, -10); o2.v.set(X(-6), (gH(0, H - 2) + BASE) / 2, Z(H)); }
+    const o2 = lab('↓ HINDER', 'side hd', 0, H - 2, 0, 4, -128, -10); o2.v.set(X(-6), (gH(0, H - 2) + BASE) / 2, Z(H));
+    const o3 = lab('← PRESENT', 'side ax', 0, H, 0, 4, 0, 10); o3.v.set(X(0), BASE, Z(H) + 4);
+    const o4 = lab('FUTURE →', 'side ax', W, H, 0, 4, -120, 10); o4.v.set(X(W), BASE, Z(H) + 4); }
   const RD = (D.read || []).map((r, i) => { const o = lab(String(i + 1), 'rdm', r.at[0], r.at[1], 21, 5, -11, -11, { head: (i + 1) + ' · ' + (r.title || ''), body: r.text || '', rd: i }); const h = gH(r.at[0], r.at[1]);
     const st = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 20, 6), blk); st.position.set(X(r.at[0]), h + 10, Z(r.at[1])); st.castShadow = true; scene.add(st);
     const bl = new THREE.Mesh(new THREE.SphereGeometry(2.6, 16, 12), blk); bl.position.set(X(r.at[0]), h + 21, Z(r.at[1])); bl.castShadow = true; scene.add(bl);
@@ -158,42 +166,68 @@ function mount(host, D) {
     if (o.info.sm) { const d = document.createElement('div'); d.className = 'sm'; d.textContent = o.info.sm; tip.appendChild(d); }
     dirty = true; tip.style.display = 'block'; const r = wrap.getBoundingClientRect(), x = (ev ? ev.clientX : r.left) - r.left, y = (ev ? ev.clientY : r.top) - r.top;
     tip.style.left = Math.max(4, Math.min(r.width - tip.offsetWidth - 4, x + 12)) + 'px'; tip.style.top = Math.max(4, y - 10 - tip.offsetHeight) + 'px';
-    RD.forEach((q, k) => q.el.classList.toggle('on', k === o.info.rd)); if (D.onHL) D.onHL(o.info.rd == null ? null : o.info.rd); }
-  function hideTip() { dirty = true; tip.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); }
+    RD.forEach((q, k) => q.el.classList.toggle('on', k === o.info.rd)); if (D.onHL) D.onHL(o.info.rd == null ? null : o.info.rd); if (o.info.way) hoverWay(o.info.way); }
+  function hideTip() { dirty = true; if (!pinned) hoverWay(null); tip.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); }
   function nearest(ev) { const r = wrap.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top; let best = null, bd = 20;
     L.forEach(o => { if (!o.info || o.sx == null) return; const d = Math.hypot(o.sx - x, o.sy - y); if (d < bd) { bd = d; best = o; } }); return best; }
-  const offClick = ev => { if (pinned && !wrap.contains(ev.target)) { pinned = null; hideTip(); } }; document.addEventListener('click', offClick, true);
+  const offClick = ev => { if (pinned && !wrap.contains(ev.target)) { pinned = null; hoverWay(null); hideTip(); } }; document.addEventListener('click', offClick, true);
   let downAt = null;
-  renderer.domElement.addEventListener('pointermove', ev => { if (ev.buttons || pinned) return; const o = nearest(ev); if (o) showTip(o, ev); else if (tip.style.display !== 'none') hideTip(); });
+  renderer.domElement.addEventListener('pointermove', ev => { if (ev.buttons || pinned) return; const o = nearest(ev); if (o) { showTip(o, ev); return; }
+    const k = wayAt(ev); hoverWay(k); if (k) { const R = D.routes.find(q => q.key === k); showTip({ info: { head: k + ' · ' + R.name, body: R.text || '' } }, ev); } else if (tip.style.display !== 'none') hideTip(); });
   renderer.domElement.addEventListener('pointerdown', ev => { downAt = [ev.clientX, ev.clientY]; });
   renderer.domElement.addEventListener('pointerup', ev => { if (!downAt || Math.hypot(ev.clientX - downAt[0], ev.clientY - downAt[1]) > 5) return; const o = nearest(ev);
-    if (o) { pinned = o; showTip(o, ev); } else { pinned = null; hideTip(); } });
-  renderer.domElement.addEventListener('pointerleave', () => { if (!pinned && tip.style.display !== 'none') hideTip(); });
+    if (o) { pinned = o; showTip(o, ev); return; } const k = wayAt(ev); if (k) { const R = D.routes.find(q => q.key === k); pinned = { info: { head: k + ' · ' + R.name, body: R.text || '' } }; hoverWay(k); showTip(pinned, ev); } else { pinned = null; hoverWay(null); hideTip(); } });
+  renderer.domElement.addEventListener('pointerleave', () => { if (!pinned) { hoverWay(null); if (tip.style.display !== 'none') hideTip(); } });
+  const RC = { A: '#111111', B: '#f4f4f4', C: '#e0007a' }, WAYS = {}, PICK = [];
+  (D.routes || []).forEach((R, ri) => {
+    const pts = R.pts.filter((p, k) => k % 2 === 0 || k === R.pts.length - 1).map(p => new THREE.Vector3(X(p[0]), gH(p[0], p[1]) + 1.6 + ri * 0.4, Z(p[1])));
+    if (pts.length < 2) return; const c = new THREE.CatmullRomCurve3(pts);
+    const mat = new THREE.MeshStandardMaterial({ color: RC[R.key] || '#111', roughness: 0.45, emissive: R.key === 'B' ? '#ffffff' : '#000000', emissiveIntensity: R.key === 'B' ? 0.35 : 0, transparent: true });
+    const tube = new THREE.Mesh(new THREE.TubeGeometry(c, 700, 1.5, 8), mat); tube.castShadow = true; scene.add(tube);
+    const edge = R.key === 'B' ? new THREE.Mesh(new THREE.TubeGeometry(c, 700, 1.9, 8), new THREE.MeshStandardMaterial({ color: '#222', transparent: true, opacity: 0.9, side: THREE.BackSide })) : null; if (edge) scene.add(edge);
+    const fat = new THREE.Mesh(new THREE.TubeGeometry(c, 200, 5, 6), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })); fat.userData.key = R.key; scene.add(fat); PICK.push(fat);
+    const info = { head: R.key + ' · ' + R.name, body: R.text || '', way: R.key };
+    const badges = [0.22, 0.58].map(f => { const p = R.pts[Math.min(R.pts.length - 1, Math.floor(R.pts.length * (f + ri * 0.06)))]; const o = lab(R.key, 'wl', p[0], p[1], 5, 6, -13, -13, info);
+      o.el.style.background = RC[R.key]; o.el.style.color = R.key === 'B' ? '#111' : '#fff'; o.el.style.borderColor = R.key === 'B' ? '#111' : '#fff'; return o; });
+    WAYS[R.key] = { tube, edge, badges, mat };
+  });
+  let selWay = null, hovWay = null;
+  function showWays() { const k = hovWay || selWay; Object.keys(WAYS).forEach(q => { const w = WAYS[q], on = !k || q === k; w.mat.opacity = on ? 1 : 0.15; if (w.edge) w.edge.material.opacity = on ? 0.9 : 0.1; w.badges.forEach(b => { b.el.style.opacity = on ? 1 : 0.25; }); }); dirty = true; }
+  const ray = new THREE.Raycaster(), mv = new THREE.Vector2();
+  function wayAt(ev) { if (!PICK.length) return null; const r = renderer.domElement.getBoundingClientRect(); mv.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(mv, camera); const hit = ray.intersectObjects(PICK, false)[0]; return hit ? hit.object.userData.key : null; }
+  function hoverWay(k) { if (k === hovWay) return; hovWay = k; showWays(); if (D.onWay) D.onWay(k); }
   /* ---------- legend ---------- */
   const sw = c => `rgb(${c.map(v => v | 0).join(',')})`, order = [[0, 'the highest ground'], [1, 'a ridge'], [2, 'low ground'], [3, 'lower ground'], [4, 'the lowest ground']];
   leg.innerHTML = '<b>LEGEND</b>' + order.map(([rk, t]) => { const k = RANK.indexOf(rk); return k < 0 ? '' : `<div class="r"><i style="background:${sw(EMOC[k])}"></i><span>${D.emo[k][0]}: ${t}</span></div>`; }).join('') +
     '<div class="r"><i style="background:rgb(140,135,127)"></i><span>Bare rock face: two distant emotions meet with no ridge of indifference between them, so getting across is a climb. A big move takes energy either way; most moves go through indifference.</span></div>' +
     '<div class="r"><i style="background:rgb(116,122,74)"></i><span>Plain grass, soil or rock, no color: no notes nearby, so no information here.</span></div>' +
-    '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Numbered: what stands out, read below. Pins are notes in their emotion’s color; black tags are questions.</span></div>' +
-    '<div class="r"><span style="color:#666">Drag to turn, scroll or pinch to zoom. Hover or tap a note, question, the goal or a number to read it.</span></div>';
+    (D.routes && D.routes.length ? D.routes.map(R => `<div class="r"><i style="background:${RC[R.key]};border-color:#111;height:6px;margin-top:5px"></i><span><b style="display:inline;letter-spacing:0;font-size:12.5px">${R.key}</b> · ${R.name.replace(/[<>&]/g, '')}</span></div>`).join('') : '') +
+    ((D.read || []).length ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Numbered: what stands out, read below.</span></div>' : '') +
+    '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color; black flags are questions. ← PRESENT and FUTURE → run along the front; ↑ HELP and ↓ HINDER run back to front.</span></div>' +
+    '<div class="r"><span style="color:#666">Drag to turn, scroll or pinch to zoom. Hover or tap a note, question, the goal, a number or a way to read it.</span></div>';
 
   /* ---------- buttons ---------- */
   const bReset = document.createElement('button'), bFs = document.createElement('button');
   bReset.className = bFs.className = 'bt'; bReset.textContent = 'Reset view'; bFs.textContent = 'Full screen';
-  const bar = document.createElement('div'); bar.style.cssText = 'position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3'; [bReset, bFs].forEach(b => { b.style.position = 'static'; bar.appendChild(b); }); wrap.appendChild(bar);
+  const bar = document.createElement('div'); bar.style.cssText = 'position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3'; [bReset, bFs].forEach(b => { b.style.position = 'static'; bar.appendChild(b); }); if (D.card) bFs.style.display = 'none'; wrap.appendChild(bar);
   let hMax = -1e9; for (let q = 0; q < hGrid.length; q++) if (hGrid[q] > hMax) hMax = hGrid[q];
-  const corners = []; [-W / 2 - 16, W / 2].forEach(x => [BASE, hMax + 14].forEach(y => [-H / 2, H / 2].forEach(z => corners.push(new THREE.Vector3(x, y, z)))));
+  const corners = []; [-W / 2 - 16, W / 2].forEach(x => [BASE - 30, hMax + 14].forEach(y => [-H / 2, H / 2].forEach(z => corners.push(new THREE.Vector3(x, y, z)))));
   function home() { const tgt = new THREE.Vector3(0, (BASE + hMax) / 2 - 6, 8), dir = new THREE.Vector3(0, 290, 330).normalize(); let d = 440;
     for (let it = 0; it < 6; it++) { camera.position.copy(tgt).addScaledVector(dir, d); camera.lookAt(tgt); camera.updateMatrixWorld(); let m = 0;
       corners.forEach(c => { const q = c.clone().project(camera); m = Math.max(m, Math.abs(q.x), Math.abs(q.y)); }); d *= m / 0.99; }
+    camera.position.copy(tgt).addScaledVector(dir, d); camera.lookAt(tgt); camera.updateMatrixWorld();
+    // centre the block in the frame
+    let y0 = 1, y1 = -1, x0 = 1, x1 = -1; corners.forEach(c => { const q = c.clone().project(camera); y0 = Math.min(y0, q.y); y1 = Math.max(y1, q.y); x0 = Math.min(x0, q.x); x1 = Math.max(x1, q.x); });
+    const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion), rt = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion), th = Math.tan(camera.fov * Math.PI / 360) * d;
+    const sh = up.multiplyScalar((y0 + y1) / 2 * th).add(rt.multiplyScalar((x0 + x1) / 2 * th * camera.aspect)); tgt.add(sh);
     camera.position.copy(tgt).addScaledVector(dir, d); controls.target.copy(tgt); controls.update(); dirty = true; }
   bReset.onclick = () => { moved = false; home(); };
   bFs.onclick = () => { const on = !wrap.classList.contains('fs'); wrap.classList.toggle('fs', on); bFs.textContent = on ? 'Close full screen' : 'Full screen'; document.documentElement.style.overflow = on ? 'hidden' : ''; size(); };
   const onKey = e => { if (e.key === 'Escape' && wrap.classList.contains('fs')) bFs.onclick(); }; document.addEventListener('keydown', onKey);
 
   /* ---------- sizing, labels, loop ---------- */
-  let dirty = true, alive = true, lastW = 0;
-  function size() { const fs = wrap.classList.contains('fs'), w = fs ? window.innerWidth : wrap.clientWidth; if (!w) return; const h = fs ? window.innerHeight : Math.round(Math.max(300, Math.min(620, w * 0.56)));
+  let dirty = true, alive = true, lastW = 0, lastCfs = false;
+  function size() { const fs = wrap.classList.contains('fs'), w = fs ? window.innerWidth : wrap.clientWidth; if (!w) return; const cfs = D.card && host.closest('.gtfs-on'), h = fs ? window.innerHeight : cfs ? Math.round(Math.max(420, window.innerHeight * 0.78)) : Math.round(Math.max(300, Math.min(D.card ? 520 : 620, w * (D.card ? 0.62 : 0.56))));
     wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(w, h); camera.aspect = w / h;
     // keep the whole block in frame
     camera.fov = 30; camera.updateProjectionMatrix(); lastW = w; if (typeof home === 'function' && !moved) home(); dirty = true; }
@@ -209,10 +243,11 @@ function mount(host, D) {
        for (const [dx, dy] of tries) { const hit = boxes.some(b => p.x + dx < b[0] + b[2] && p.x + dx + bw > b[0] && p.y + dy < b[1] + b[3] && p.y + dy + bh > b[1]); x = p.x + dx; y = p.y + dy; if (!hit) break; }
        x = Math.max(2, Math.min(w - bw - 2, x)); boxes.push([x, y, bw, bh]); p.o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`; }); }
   function loop() { if (!alive) return; if (!host.isConnected) { dispose(); return; } controls.update();
-    if (dirty && wrap.clientWidth) { RD.forEach(o => o.rim && o.rim.quaternion.copy(camera.quaternion)); if (wrap.clientWidth !== lastW && !wrap.classList.contains('fs')) size(); renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
-  function dispose() { alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); }
+    if (dirty && wrap.clientWidth) { RD.forEach(o => o.rim && o.rim.quaternion.copy(camera.quaternion)); if ((wrap.clientWidth !== lastW || !!(D.card && host.closest('.gtfs-on')) !== lastCfs) && !wrap.classList.contains('fs')) { lastCfs = !!(D.card && host.closest('.gtfs-on')); size(); } renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
+  function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
   size(); home(); loop();
-  return { hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, dispose };
+  return { hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
+    snap() { renderer.render(scene, camera); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
 }
 
 window.gsmRelief = { mount, version: 'r1' };
