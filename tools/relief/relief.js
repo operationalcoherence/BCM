@@ -11,7 +11,7 @@ const CSS = `
 .grel .nl{font:bold 12.5px Helvetica,Arial,sans-serif;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
 .grel .ql{font:bold 12px Helvetica,Arial,sans-serif;background:#111;color:#fff;padding:2px 5px}
 .grel .pl{font:bold 13px Helvetica,Arial,sans-serif;letter-spacing:.1em;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 4px #fff}
-.grel .side{font:bold 14px Helvetica,Arial,sans-serif;letter-spacing:.14em;color:#1f6f66;text-shadow:0 0 3px #fff,0 0 3px #fff}
+.grel .side{font:bold 17.5px Helvetica,Arial,sans-serif;letter-spacing:.14em;color:#1f6f66;text-shadow:0 0 3px #fff,0 0 3px #fff}.grel .side.hd{color:#8a2a22}.grel .lb.hit{pointer-events:auto;cursor:pointer}.grel .tip{position:absolute;display:none;z-index:4;max-width:340px;max-height:60%;overflow:auto;background:#222;color:#fff;font:13px/1.45 Questrial,Helvetica,Arial,sans-serif;padding:8px 10px;border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.3)}.grel .tip b{display:block;margin-bottom:3px}.grel .tip .sm{opacity:.75;font-size:12px;margin-top:4px}
 .grel .rdm{font:bold 12px Helvetica,Arial,sans-serif;color:#fff;background:#111;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
 .grel .rdm.on{background:#7a1d12;transform:scale(1.25)}
 .grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
@@ -39,7 +39,7 @@ function vivid(c) { let [r, g, b] = c.map(v => v / 255); const mx = Math.max(r, 
 function mount(host, D) {
   if (!document.getElementById('gsm-relcss')) { const s = document.createElement('style'); s.id = 'gsm-relcss'; s.textContent = CSS; document.head.appendChild(s); }
   const VX = D.VX, VY = D.VY, CX = D.CX, CY = D.CY, W = (VX - 1) * CX, H = (VY - 1) * CY, HS = 58, ALPHA = 0.6;
-  const wrap = document.createElement('div'); wrap.className = 'grel'; host.appendChild(wrap);
+  const wrap = document.createElement('div'); wrap.className = 'grel pnet'; host.appendChild(wrap);
   const lbs = document.createElement('div'); lbs.className = 'lbs'; wrap.appendChild(lbs);
   const busy = document.createElement('div'); busy.className = 'busy'; busy.textContent = 'Building the land…'; wrap.appendChild(busy);
   const leg = document.createElement('div'); leg.className = 'grleg'; host.appendChild(leg);
@@ -100,7 +100,7 @@ function mount(host, D) {
   })();
 
   /* ---------- scene ---------- */
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.3;
@@ -126,36 +126,53 @@ function mount(host, D) {
   const sideMat = new THREE.MeshStandardMaterial({ color: 0x1d1c1a, roughness: 1, side: THREE.DoubleSide }), N = 200, ed = { s: [], n: [], w: [], e: [] };
   for (let k = 0; k <= N; k++) { const t = k / N; ed.s.push([t * W, H]); ed.n.push([W - t * W, 0]); ed.w.push([0, t * H]); ed.e.push([W, H - t * H]); }
   Object.values(ed).forEach(p => { const m = new THREE.Mesh(wallStrip(p), sideMat); m.receiveShadow = true; scene.add(m); });
-  { const c = document.createElement('canvas'); c.width = 1024; c.height = 128; const x = c.getContext('2d'); x.font = 'bold 64px Helvetica, Arial, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = 'rgba(255,255,255,.9)'; x.fillText('↓  HINDER', 512, 66);
-    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; const hgt = Math.max(5, (gH(W / 2, H) - BASE) * 0.8);
-    const pl = new THREE.Mesh(new THREE.PlaneGeometry(hgt * 8, hgt), new THREE.MeshBasicMaterial({ map: t, transparent: true })); pl.position.set(0, (gH(W / 2, H) + BASE) / 2, H / 2 + 0.3); scene.add(pl); }
+
   const slab = new THREE.Mesh(new THREE.BoxGeometry(W + 30, 4, H + 30), new THREE.MeshStandardMaterial({ color: 0xeeeeec, roughness: 0.9 })); slab.position.y = BASE - 2; slab.receiveShadow = true; scene.add(slab);
 
   /* ---------- notes, questions, goal, things to notice ---------- */
   const L = [], blk = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.6 });
-  function lab(text, cls, x, y, lift, pri, ax, ay) { const el = document.createElement('div'); el.className = 'lb ' + cls; el.textContent = text; lbs.appendChild(el); const o = { el, v: new THREE.Vector3(X(x), gH(x, y) + lift, Z(y)), pri, ax: ax || 0, ay: ay || 0 }; L.push(o); return o; }
+  function lab(text, cls, x, y, lift, pri, ax, ay, info) { const el = document.createElement('div'); el.className = 'lb ' + cls + (info ? ' hit' : ''); el.textContent = text; lbs.appendChild(el); const o = { el, v: new THREE.Vector3(X(x), gH(x, y) + lift, Z(y)), pri, ax: ax || 0, ay: ay || 0, info }; L.push(o);
+    if (info) { el.addEventListener('mouseenter', ev => { if (!pinned) showTip(o, ev); }); el.addEventListener('mouseleave', () => { if (!pinned) hideTip(); }); el.addEventListener('click', ev => { ev.stopPropagation(); pinned = pinned === o ? null : o; pinned ? showTip(o, ev) : hideTip(); }); } return o; }
   D.notes.forEach(n => { const h = gH(n.x, n.y);
     const st = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 10, 6), blk); st.position.set(X(n.x), h + 5, Z(n.y)); st.castShadow = true; scene.add(st);
     const hd = new THREE.Mesh(new THREE.SphereGeometry(2.8, 18, 12), new THREE.MeshStandardMaterial({ color: n.e == null ? 0xffffff : new THREE.Color(`rgb(${D.emo[n.e][1].join(',')})`), roughness: 0.5 }));
-    hd.position.set(X(n.x), h + 11, Z(n.y)); hd.castShadow = true; scene.add(hd); lab('N' + n.k, 'nl', n.x, n.y, 11, 1, 6, -8); });
-  D.qpos.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 19, 2, -14, -20); });
+    hd.position.set(X(n.x), h + 11, Z(n.y)); hd.castShadow = true; scene.add(hd);
+    lab('N' + n.k, 'nl', n.x, n.y, 11, 1, 6, -8, { head: 'N' + n.k + ' · ' + (n.e == null ? 'no emotion marked' : D.emo[n.e][0].toUpperCase()) + (n.q ? ' · Q.' + n.q : ''), body: n.t || '' }); });
+  D.qpos.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 19, 2, -14, -20, { head: 'Q.' + Q.q + (Q.title ? ' · ' + Q.title : ''), body: Q.ans || 'No answer written yet.', sm: Q.n ? 'Placed at the middle of its ' + Q.n + ' note' + (Q.n > 1 ? 's' : '') + '.' : 'No notes yet; placed on the line between present and goal.' }); });
   { const s = D.START, h = gH(s.x, s.y), p = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 22, 6), blk); p.position.set(X(s.x), h + 11, Z(s.y)); p.castShadow = true; scene.add(p);
     const f = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7, 11), blk); f.position.set(X(s.x), h + 18.5, Z(s.y) + 5.5); scene.add(f); lab('PRESENT', 'pl', s.x, s.y, 25, 3, -30, -18); }
   const ringAt = (cx, cy, r) => { const p = []; for (let k = 0; k <= 64; k++) { const a = k / 64 * Math.PI * 2, x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r; p.push(new THREE.Vector3(X(x), gH(x, y) + 0.5, Z(y))); } return p; };
   [22, 14, 6].forEach(r => { const c = new THREE.CatmullRomCurve3(ringAt(D.GOAL.x, D.GOAL.y, r), true); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 1.0, 6, true), new THREE.MeshStandardMaterial({ color: 0xffffff }))); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 0.5, 6, true), blk)); });
   { const g = D.GOAL, hh = gH(g.x, g.y), pole = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 16, 6), blk); pole.position.set(X(g.x), hh + 8, Z(g.y)); scene.add(pole);
-    const st = new THREE.Mesh(new THREE.OctahedronGeometry(4), blk); st.position.set(X(g.x), hh + 17, Z(g.y)); st.castShadow = true; scene.add(st); lab('GOAL', 'pl', g.x, g.y, 18, 3, -22, -22); }
-  { let nm = -1e9; for (let k = 0; k <= 60; k++) nm = Math.max(nm, gH(0, k / 60 * 20)); const o = lab('↑ HELP', 'side', 0, 2, 0, 4, -84, -8); o.v.set(X(-6), nm + 4, Z(2)); }
-  const RD = (D.read || []).map((r, i) => { const o = lab(String(i + 1), 'rdm', r.at[0], r.at[1], 22, 5, -11, -11); const h = gH(r.at[0], r.at[1]);
+    const st = new THREE.Mesh(new THREE.OctahedronGeometry(4), blk); st.position.set(X(g.x), hh + 17, Z(g.y)); st.castShadow = true; scene.add(st); lab('GOAL', 'pl', g.x, g.y, 18, 3, -22, -22, { head: 'GOAL', body: D.goalText || 'No goal written yet.' }); }
+  { let nm = -1e9; for (let k = 0; k <= 60; k++) nm = Math.max(nm, gH(0, k / 60 * 20)); const o = lab('↑ HELP', 'side', 0, 2, 0, 4, -104, -10); o.v.set(X(-6), nm + 4, Z(2));
+    const o2 = lab('↓ HINDER', 'side hd', 0, H - 2, 0, 4, -128, -10); o2.v.set(X(-6), (gH(0, H - 2) + BASE) / 2, Z(H)); }
+  const RD = (D.read || []).map((r, i) => { const o = lab(String(i + 1), 'rdm', r.at[0], r.at[1], 22, 5, -11, -11, { head: (i + 1) + ' · ' + (r.title || ''), body: r.text || '', rd: i }); const h = gH(r.at[0], r.at[1]);
     const st = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 20, 6), blk); st.position.set(X(r.at[0]), h + 10, Z(r.at[1])); scene.add(st); return o; });
 
+  const tip = document.createElement('div'); tip.className = 'tip'; wrap.appendChild(tip); let pinned = null;
+  function showTip(o, ev) { tip.innerHTML = ''; const b = document.createElement('b'); b.textContent = o.info.head; tip.appendChild(b); const bd = String(o.info.body || ''); tip.appendChild(document.createTextNode(bd.length > 420 ? bd.slice(0, 400).replace(/\s+\S*$/, '') + '\u2026' : bd));
+    if (o.info.sm) { const d = document.createElement('div'); d.className = 'sm'; d.textContent = o.info.sm; tip.appendChild(d); }
+    dirty = true; tip.style.display = 'block'; const r = wrap.getBoundingClientRect(), x = (ev ? ev.clientX : r.left) - r.left, y = (ev ? ev.clientY : r.top) - r.top;
+    tip.style.left = Math.max(4, Math.min(r.width - tip.offsetWidth - 4, x + 12)) + 'px'; tip.style.top = Math.max(4, y - 10 - tip.offsetHeight) + 'px';
+    RD.forEach((q, k) => q.el.classList.toggle('on', k === o.info.rd)); if (D.onHL) D.onHL(o.info.rd == null ? null : o.info.rd); }
+  function hideTip() { dirty = true; tip.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); }
+  function nearest(ev) { const r = wrap.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top; let best = null, bd = 20;
+    L.forEach(o => { if (!o.info || o.sx == null) return; const d = Math.hypot(o.sx - x, o.sy - y); if (d < bd) { bd = d; best = o; } }); return best; }
+  const offClick = ev => { if (pinned && !wrap.contains(ev.target)) { pinned = null; hideTip(); } }; document.addEventListener('click', offClick, true);
+  let downAt = null;
+  renderer.domElement.addEventListener('pointermove', ev => { if (ev.buttons || pinned) return; const o = nearest(ev); if (o) showTip(o, ev); else if (tip.style.display !== 'none') hideTip(); });
+  renderer.domElement.addEventListener('pointerdown', ev => { downAt = [ev.clientX, ev.clientY]; });
+  renderer.domElement.addEventListener('pointerup', ev => { if (!downAt || Math.hypot(ev.clientX - downAt[0], ev.clientY - downAt[1]) > 5) return; const o = nearest(ev);
+    if (o) { pinned = o; showTip(o, ev); } else { pinned = null; hideTip(); } });
+  renderer.domElement.addEventListener('pointerleave', () => { if (!pinned && tip.style.display !== 'none') hideTip(); });
   /* ---------- legend ---------- */
   const sw = c => `rgb(${c.map(v => v | 0).join(',')})`, order = [[0, 'the highest ground'], [1, 'a ridge'], [2, 'low ground'], [3, 'lower ground'], [4, 'the lowest ground']];
   leg.innerHTML = '<b>LEGEND</b>' + order.map(([rk, t]) => { const k = RANK.indexOf(rk); return k < 0 ? '' : `<div class="r"><i style="background:${sw(EMOC[k])}"></i><span>${D.emo[k][0]}: ${t}</span></div>`; }).join('') +
     '<div class="r"><i style="background:rgb(140,135,127)"></i><span>Bare rock face: two distant emotions meet with no ridge of indifference between them, so getting across is a climb. A big move takes energy either way; most moves go through indifference.</span></div>' +
     '<div class="r"><i style="background:rgb(116,122,74)"></i><span>Plain grass, soil or rock, no color: no notes nearby, so no information here.</span></div>' +
     '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Numbered: what stands out, read below. Pins are notes in their emotion’s color; black tags are questions.</span></div>' +
-    '<div class="r"><span style="color:#666">Drag to turn, scroll or pinch to zoom.</span></div>';
+    '<div class="r"><span style="color:#666">Drag to turn, scroll or pinch to zoom. Hover or tap a note, question, the goal or a number to read it.</span></div>';
 
   /* ---------- buttons ---------- */
   const bReset = document.createElement('button'), bFs = document.createElement('button');
@@ -178,10 +195,10 @@ function mount(host, D) {
     // keep the whole block in frame
     camera.fov = 30; camera.updateProjectionMatrix(); lastW = w; if (typeof home === 'function' && !moved) home(); dirty = true; }
   const ro = window.ResizeObserver ? new ResizeObserver(size) : null; if (ro) ro.observe(wrap); window.addEventListener('resize', size);
-  let moved = false; controls.addEventListener('start', () => { moved = true; }); controls.addEventListener('change', () => { dirty = true; });
+  let moved = false; controls.addEventListener('start', () => { moved = true; }); controls.addEventListener('change', () => { dirty = true; if (!pinned) tip.style.display = 'none'; });
   const v = new THREE.Vector3();
   function place() { const w = renderer.domElement.clientWidth, h = renderer.domElement.clientHeight, boxes = [];
-    L.map(o => { v.copy(o.v).project(camera); return { o, x: (v.x * 0.5 + 0.5) * w + o.ax, y: (-v.y * 0.5 + 0.5) * h + o.ay, off: v.z > 1 }; })
+    L.map(o => { v.copy(o.v).project(camera); o.sx = (v.x * 0.5 + 0.5) * w; o.sy = (-v.y * 0.5 + 0.5) * h; return { o, x: o.sx + o.ax, y: o.sy + o.ay, off: v.z > 1 }; })
      .sort((a, b) => b.o.pri - a.o.pri)
      .forEach(p => { if (p.off) { p.o.el.style.display = 'none'; return; } p.o.el.style.display = '';
        const bw = p.o.el.offsetWidth || 30, bh = p.o.el.offsetHeight || 16; let y = p.y;
@@ -190,9 +207,9 @@ function mount(host, D) {
        x = Math.max(2, Math.min(w - bw - 2, x)); boxes.push([x, y, bw, bh]); p.o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`; }); }
   function loop() { if (!alive) return; if (!host.isConnected) { dispose(); return; } controls.update();
     if (dirty && wrap.clientWidth) { if (wrap.clientWidth !== lastW && !wrap.classList.contains('fs')) size(); renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
-  function dispose() { alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); renderer.dispose(); }
+  function dispose() { alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); }
   size(); home(); loop();
-  return { hl(i) { RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, dispose };
+  return { hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, dispose };
 }
 
 window.gsmRelief = { mount, version: 'r1' };

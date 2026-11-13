@@ -130,7 +130,7 @@ if(CARDH){host.classList.add("gtcard");
 if(!CARDH)(function(){var stg=$("stage"),box=document.createElement("div");stg.parentNode.insertBefore(box,stg);
   function go(){(window.__gsmRelP||(window.__gsmRelP=new Promise(function(ok,no){if(window.gsmRelief)return ok();var sc=document.querySelector('script[src*="gsm-preview.js"]'),src=sc?sc.src.replace(/gsm-preview\\.js/,"gsm-relief.js"):"gsm-relief.js",s=document.createElement("script");s.src=src;s.onload=function(){window.gsmRelief?ok():no();};s.onerror=no;document.head.appendChild(s);}))).then(function(){
     if(!host.isConnected||host._rel)return;var c=document.createElement("canvas");if(!(c.getContext("webgl2")||c.getContext("webgl")))return;
-    var D={VX:VX,VY:VY,CX:CX,CY:CY,hn:terr.hn,START:START,GOAL:GOAL,emo:EMO,qpos:terr.qpos.map(function(Q){return Q?{q:Q.q,x:Q.x,y:Q.y}:null;}),notes:terr.notes.map(function(n){return {k:n.k,x:n.x,y:n.y,e:n.e};}),read:READ.map(function(r){return {at:r.at};})};
+    var D={VX:VX,VY:VY,CX:CX,CY:CY,hn:terr.hn,START:START,GOAL:GOAL,emo:EMO,qpos:terr.qpos.map(function(Q){return Q?{q:Q.q,x:Q.x,y:Q.y,n:Q.n,title:QT[Q.q-1]||"",ans:String(ANSWERS[Q.q-1]||"").trim()}:null;}),notes:terr.notes.map(function(n){return {k:n.k,x:n.x,y:n.y,e:n.e,q:n.q,t:n.t};}),read:READ.map(function(r){return {at:r.at,title:r.title,text:r.short+(r.more?" "+r.more:"")};}),goalText:GOALTEXT,onHL:function(i){if(!HLSTICK){HL=i;markList();}}};
     try{host._rel=window.gsmRelief.mount(box,D);}catch(e){box.innerHTML="";host._rel=null;if(window.console)console.warn("relief",e);return;}
     stg.style.display="none";var lb=$("legbox");if(lb)lb.style.display="none";host.querySelectorAll(".bar").forEach(function(e){e.style.display="none";});
   }).catch(function(){});}
