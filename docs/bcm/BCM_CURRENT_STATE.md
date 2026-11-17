@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v183** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 3 · 2026-11-17 · Preview at **v184** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v184** (2026-11-17, preview): maps load once (no flat chart or blurry canvas first); strategy cards keep a legend, programs none; action grid shows every note, hoverable. See `docs/v184_update.md`.
 - **v183** (2026-11-17, preview): POSSIBLE PATTERNS names the emotion (N3); voices weighted evenly on the ground (V5). See `docs/v183_update.md`.
 - **v182** (2026-11-17, preview): tap to inspect on touch (U7); long lists fold into View details (U8); WHAT STANDS OUT findings say what they mean (N3). See `docs/v182_update.md`.
 - **v181** (2026-11-17, preview): MOVES, IN ORDER on strategy cards (T6). See `docs/v181_update.md`.
@@ -23,6 +24,9 @@ Rev 3 · 2026-11-17 · Preview at **v183** · Basis: 11-17 review, export 2026-1
 - Pattern Synthesis: 3D terrain, routes A/B, "Where it is easiest to get to" (strong insight, but descriptive only).
 - Taking Action: "The Ways Forward, Sketched on the Ground" is the most valuable element.
 - "Possible patterns": the "management" line works. "For and against" and "Unused support" are useful.
+
+## Known gaps
+- Place-map-only workbooks (e.g. Broadview) get no 3D landscape; the Esri place ground is the next build (see BCM_HANDOFF.md).
 
 ## Known bugs
 | ID | Bug | Page |
