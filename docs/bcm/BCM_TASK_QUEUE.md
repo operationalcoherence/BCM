@@ -66,9 +66,9 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 |---|---|---|---|---|
 | F1 | Per-instance 3D map generated from ESRI spatial output; same visual features as the line-map terrain; keep place names | FUT/VIZ | MAP, PA, PS | D1 |
 | F2 | Topological anchoring + local semantic relaxation (goal, axes, Q flags fixed) | ENG | terrain | F1 (applies to the current terrain too) |
-| F3 | Action friction vector field: dynamic energetic ROI across emotional terrain; boomerang risk | ENG | TA, PS | T1, T6 |
+| ✔v192 F3 | Action friction vector field: dynamic energetic ROI across emotional terrain; boomerang risk | ENG | TA, PS | T1, T6 |
 | F4 | Reflexive loop: logging/adjusting an action flags affected Q.1–Q.4 nodes and contours, prompts re-synthesis | FUT/ENG | TA → PA/PS | T1, A2 |
-| F5 | Synthetic bridging cost across bare rock faces | ENG | PS, TA | F3 |
+| ✔v192 F5 | Synthetic bridging cost across bare rock faces | ENG | PS, TA | F3 |
 | F6 | Hysteresis: historical friction from emotional lineage (uses the edit log) | ENG | PS, TA | F3 |
 | F7 | Lexical world-making prompts + perturbation audit mode (only if clutter-free) | FUT/RES | engine, MAP, PA | E2, D10 |
 | F8 | Project administrator dashboards | FUT | new | A2 |

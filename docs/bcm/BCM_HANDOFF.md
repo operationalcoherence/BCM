@@ -1,5 +1,5 @@
 # BCM_HANDOFF.md
-2026-11-17 · Preview at **v191** · Live `/gsmlive` untouched (old v92; never touch without Gregory's go-ahead)
+2026-11-17 · Preview at **v192** · Live `/gsmlive` untouched (old v92; never touch without Gregory's go-ahead)
 
 ## Start here
 - Repo `operationalcoherence/BCM` (public; attach with push to publish). `main` feeds the preview page through GitHub Pages.
