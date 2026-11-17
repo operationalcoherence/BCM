@@ -1,5 +1,5 @@
 # BCM_HANDOFF.md
-2026-11-17 · Preview at **v192** · Live `/gsmlive` untouched (old v92; never touch without Gregory's go-ahead)
+2026-11-17 · Preview at **v193** · Live `/gsmlive` untouched (old v92; never touch without Gregory's go-ahead)
 
 ## Start here
 - Repo `operationalcoherence/BCM` (public; attach with push to publish). `main` feeds the preview page through GitHub Pages.
@@ -42,3 +42,5 @@ Word engine:
 - D8: voice weighting on by default, or a switch?
 - D1: the discussion about a per-instance 3D Esri map.
 - His pass on all Claude wording (v171–v184 update docs).
+
+Reminder (his request, 11-17): F8 (project administrator dashboards) is saved for the end. Remind Gregory when F4, F6 and F7 are done.

@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v192** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 3 · 2026-11-17 · Preview at **v193** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v193** (2026-11-17, preview): F6 hysteresis, emotion history per note (eh); held opposition costs more to cross. See `docs/v193_update.md`.
 - **v192** (2026-11-17, preview): F3 + F5, ways weigh friction, boomerang risk and bare rock faces; effort and chart updated. See `docs/v192_update.md`.
 - **v191** (2026-11-17, preview): A2, coworking-ready schema (sv 2, wid, mt, gone); Combine takes newer edits and their own deletions. See `docs/v191_update.md`.
 - **v190** (2026-11-17, preview): Open workbook (and Combine) work from every tab; the Replace question was showing on a hidden tab. See `docs/v190_update.md`.

@@ -443,6 +443,47 @@
     var I = JSON.parse(localStorage.getItem(S));
     I && I.a && (C = I);
   } catch (t) {}
+  function gsmEHrec() {
+    (C.eh && "object" == typeof C.eh && !Array.isArray(C.eh)) || (C.eh = {});
+    var now = new Date().toISOString(),
+      LT = null;
+    C.m.concat((C.p && C.p.m) || []).forEach(function (r) {
+      if (!Array.isArray(r) || !r[8]) return;
+      var id = String(r[8]),
+        e = null != r[5] ? r[5] : null,
+        H = C.eh[id];
+      if (!Array.isArray(H) || !H.length) {
+        LT ||
+          ((LT = {}),
+          (C.log || []).forEach(function (l) {
+            l && l.i && ("note+" === l.k || "noteemo" === l.k) && (LT[l.i] = l.t);
+          }));
+        C.eh[id] = [[LT[id] || null, e]];
+        return;
+      }
+      H[H.length - 1][1] !== e && H.push([now, e]);
+    });
+  }
+  window.gsmHy = function (id) {
+    var H = C.eh && C.eh[id];
+    if (!Array.isArray(H) || !H.length) return null;
+    var hard = function (e) {
+        return 0 === e || 2 === e || 4 === e;
+      },
+      cur = H[H.length - 1][1];
+    if (!hard(cur)) return { hy: 1 };
+    var i = H.length - 1;
+    for (; i > 0 && H[i - 1][1] === cur; ) i--;
+    var since = H[i][0],
+      days = since ? Math.max(0, (Date.now() - Date.parse(since)) / 864e5) : 0,
+      back = 0,
+      seen = !1,
+      soft = !1;
+    H.forEach(function (h) {
+      hard(h[1]) ? (seen && soft && back++, (seen = !0), (soft = !1)) : seen && (soft = !0);
+    });
+    return { hy: 1 + 0.5 * Math.min(1, days / 180) + 0.25 * Math.min(2, back), since: since, back: back, days: days, e: cur };
+  };
   function gsmPlaceView() {
     var has = function (t) {
       return Array.isArray(t) && String(t[3] || "").trim();
@@ -951,7 +992,7 @@
     });
   }
   function P() {
-    (B(), clearTimeout(j), (j = setTimeout(D, 400)), C.links && C.links.length && (C.links = y()));
+    (B(), gsmEHrec(), clearTimeout(j), (j = setTimeout(D, 400)), C.links && C.links.length && (C.links = y()));
     try {
       localStorage.setItem(S, JSON.stringify(C));
     } catch (t) {}
@@ -964,6 +1005,7 @@
     (C.mt && "object" == typeof C.mt && !Array.isArray(C.mt)) || (C.mt = {}),
     (C.gone && "object" == typeof C.gone && !Array.isArray(C.gone)) || (C.gone = {}),
     (C.sv = 2),
+    gsmEHrec(),
     "string" != typeof C.who && (C.who = ""),
     Array.isArray(C.voices) || (C.voices = []),
     (C.decisions && "object" == typeof C.decisions) || (C.decisions = {}),
@@ -15048,7 +15090,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v192");
+        t && (t.textContent = "v193");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -15333,6 +15375,14 @@
                               a(C.p.m, n),
                               s(t.m, C.m, e + "-L"),
                               s(t.p && t.p.m, C.p.m, e + "-P"),
+                              t.eh &&
+                                "object" == typeof t.eh &&
+                                ((C.eh && "object" == typeof C.eh) || (C.eh = {}),
+                                Object.keys(t.eh).forEach(function (id) {
+                                  var a = C.eh[id],
+                                    b = t.eh[id];
+                                  Array.isArray(b) && b.length && (!Array.isArray(a) || b.length > a.length) && (C.eh[id] = b);
+                                })),
                               [C.m, C.p.m].forEach(function (L) {
                                 for (var k = L.length - 1; k >= 0; k--) {
                                   var id = L[k] && L[k][8];
@@ -15732,6 +15782,8 @@
           e: e,
           v: n[7] ? String(n[7]) : "",
           hd: null != n.hd ? !!n.hd : y > 118,
+          id: n[8] ? String(n[8]) : "",
+          hyi: n[8] && window.gsmHy ? window.gsmHy(String(n[8])) : null,
         });
       });
       return notes;
@@ -17260,7 +17312,7 @@
             var dx = n.x - x,
               dy = n.y - y,
               d2 = dx * dx + dy * dy;
-            d2 < 10816 && (ws[n.e] += Math.exp(-d2 / 1352));
+            d2 < 10816 && (ws[n.e] += Math.exp(-d2 / 1352) * (n.hyi && n.hyi.hy ? n.hyi.hy : 1));
           });
           var k1 = 0,
             k2 = -1,
@@ -17612,7 +17664,37 @@
                       }),
                     ) +
                     " without passing indifference first, so pushing there can turn people further against the goal."
-                  : "");
+                  : "") +
+                (function () {
+                  var ent = (S.hard || [])
+                    .map(function (k) {
+                      return NSK[k];
+                    })
+                    .filter(function (n) {
+                      return n && n.hyi && n.hyi.hy > 1.05;
+                    })
+                    .sort(function (a, b) {
+                      return b.hyi.hy - a.hyi.hy;
+                    })
+                    .slice(0, 3);
+                  return ent.length
+                    ? " Entrenched: " +
+                        ent
+                          .map(function (n) {
+                            var h = n.hyi;
+                            return (
+                              "N" +
+                              n.k +
+                              " has held " +
+                              en3(n.e) +
+                              (h.since ? " since " + String(h.since).slice(0, 10) : "") +
+                              (h.back ? (h.since ? " and " : " and ") + "came back " + (1 === h.back ? "once" : "twice") + " after changing" : "")
+                            );
+                          })
+                          .join("; ") +
+                        ". Opposition held this long costs more to cross."
+                    : "";
+                })();
             out.push({ k: "", title: R.key + ": why choose it", text: R.key + " is " + why + xtra });
           });
           out.push({
