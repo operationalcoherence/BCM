@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 3 · 2026-11-17 (v173) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 4 · 2026-11-17 (v177) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -122,6 +122,9 @@ Required behavior [D] (status):
 7. **Perturbation audit** (optional): treat incoming notes, especially other voices, as perturbations to test against the terrain, not as instructions.
 
 ## 10. Action model (Taking Action)
+Shipped v177: each way's route stats carry climb (energy), notes met by emotion, and effort / impact / benefit / return on effort (formulas in `docs/v177_update.md`). Readings per way say why to choose it; plus "Why take the harder way?", "When to stop and readjust" (Morin, 2008, p. 55) and an expandable bar chart.
+Terrain module modes (one `mount`): Synthesis (default: readings, phrase loops, course model), `card` (Taking Action), `an` (Pattern Analysis: question filter + WHAT THIS SUGGESTS), `an`+`par` (In Parallel: question filter, no paragraph).
+
 - 2–3 toggleable pathways to the same goal by different routes. Each has its rationale, how it differs, when to choose it, impact, benefit, effort (energy) and ROI, plus a comparison chart.
 - **Strategy vs. program** (Morin): programs suit stable sequences; strategy is needed where the environment shifts. Actions escape their intent (ecology of action), so each pathway needs *watch signals* and a *stop-and-readjust point*.
 - **Action friction field**: an action's energy cost depends on the emotional terrain it crosses.

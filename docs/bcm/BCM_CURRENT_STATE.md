@@ -1,7 +1,10 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v174** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 3 · 2026-11-17 · Preview at **v177** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v177** (2026-11-17, preview): Taking Action ways compared (why choose each, why the harder way, when to stop and readjust per Morin, chart of effort/impact/benefit/return). See `docs/v177_update.md`.
+- **v176** (2026-11-17, preview): In Parallel shows one 3D landscape for both pictures; readings no longer mention petals or the tangle. See `docs/v176_update.md`.
+- **v175** (2026-11-17, preview): Pattern Analysis opens with the 3D landscape, one question at a time, and WHAT THIS SUGGESTS read from it. See `docs/v175_update.md`.
 - **v174** (2026-11-17, preview): Taking Action cards show their 3D again (a v171 regression had dropped every card to the flat fallback); Juarrero and Waldrop references corrected. See `docs/v174_update.md`.
 - **v173** (2026-11-17, preview): story-form YOUR STORY SO FAR (N1), BIGGEST GAP sentence (N2), THE SAME THING? question (E3), symbol explainers (U2), ridge through other emotions (B3), 3D full-screen fix. See `docs/v173_update.md`.
 - **v172** (2026-11-17, preview): saturation filter (E1), ONE WORD, SEVERAL MEANINGS (E2), stopwords (E4). See `docs/v172_update.md`.
@@ -23,15 +26,14 @@ Rev 3 · 2026-11-17 · Preview at **v174** · Basis: 11-17 review, export 2026-1
 | B10 | Hover-only tooltips unusable on touch; canvas gestures fight page scroll | All 3D/hover |
 
 ## Active issues (quality)
-- Most analysis is lists of data points without context. Story over list is the top-level fix.
+- Story over list: done for YOUR STORY SO FAR, BIGGEST GAP and WHAT THIS SUGGESTS; still lists in WHAT STANDS OUT, Possible patterns and In Parallel's patterns.
 - Engine granularity: "fire" is never split into prescribed / unplanned / managed / mitigated / vilified, and stemming loses phrase context.
 - "Thread" is used everywhere but never defined.
 - Unclear findings: "Not in Q.5–Q.7 yet (30)", "Condition (3)", "Q.5–Q.7 only (9)", "Areas to reinforce", "Grounded across the board", "Spread out", "Placed one way, tied the other", "The emotion changes", "Where they differ", the In Parallel "Tradition/reduce/involved" paragraph.
 - Low-value sections: Top strategy, Top program, What it rests on (keep Source and Voices), What stands out, In the words, Condition.
-- About 4 seconds of scrolling before the first visual on Pattern Analysis.
 - "Behaviors first" is referenced without being explained.
 - The minority voice (Other wildfire professionals, 5 notes) risks being flattened visually.
-- Synthesis→Action gap: terrain insights don't turn into moves.
+- Synthesis→Action gap: ways are now costed and compared (v177), but terrain readings still don't become sequenced moves (T6).
 - Instructions are out of date across pages.
 
 ## Work in progress
@@ -58,6 +60,6 @@ Rev 3 · 2026-11-17 · Preview at **v174** · Basis: 11-17 review, export 2026-1
 | D11 | Resolved: the 7 symbols are the seven question symbols |
 
 ## Current priorities
-3. Remaining Priority 1: U5 (his approval of redlines), A1 engine side (threads that cross question boundaries). Then Priority 2: V1/V2 new visuals on Analysis and In Parallel, Taking Action pathways (T1–T6), touch (U7), progressive disclosure (U8), N3/N4 story rewrites.
+3. Remaining Priority 1: U5 (his approval of redlines), A1 engine side (threads that cross question boundaries). Priority 2 remaining: N4 (In Parallel story rewrite), N3 (Analysis stories), T4 (act-here/anywhere grid), T5 (constraint prompt), T6 (terrain→moves handoff), U7 (touch), U8 (progressive disclosure), V5 (voice normalization), A2 (coworking schema), G1 (glossary popovers), V1 place-map version (waits on D1).
 4. Carry the new visuals to Analysis and In Parallel; fullscreen legend and branding; touch support.
 5. Taking Action pathways + Morin integration.
