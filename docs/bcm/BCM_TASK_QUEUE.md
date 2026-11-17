@@ -58,7 +58,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v187 T5 | Constraint prompt on TA: "What constraint or rule keeps this note in the low ground, and how do we change it?"; distinguish trajectory optimization from constraint reconfiguration (Juarrero), linked to Q.4–Q.7 | ENG/NARR | TA, PS | — |
 | ✔v181 T6 | Synthesis→Action handoff rule: terrain vector (cost, height, transition) → sequenced moves | ENG | PS, TA | T1 |
 | A2 | Coworking-ready schema: per-note authorship, multi-perspective merge, `others` structure (no dashboards yet) | ARCH | schema, export | — |
-| G1 | Glossary/term popovers for every major term (thread, ridge, bare rock face, voice, low ground…) | UI/CONTENT | GLB | A1 |
+| ✔v188 G1 | Glossary/term popovers for every major term (thread, ridge, bare rock face, voice, low ground…) | UI/CONTENT | GLB | A1 |
 
 ## Priority 3
 

@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v187** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 3 · 2026-11-17 · Preview at **v188** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v188** (2026-11-17, preview): G1, glossary popovers on the first use of 12 terms per section and card; definitions reuse on-screen wording. See `docs/v188_update.md`.
 - **v187** (2026-11-17, preview): T5, WHAT HOLDS IT IN THE LOW GROUND on Taking Action cards, his constraint question per low-ground note, answers saved in the workbook. See `docs/v187_update.md`.
 - **v186** (2026-11-17, preview): place-map-only workbooks get the 3D ground on Esri imagery (Analysis, Synthesis, In Parallel, cards); areas as patches; START = note farthest from the goal. See `docs/v186_update.md`.
 - **v185** (2026-11-17, preview): Taking Action legends back as before v184 (under every card map, programs too); card full screen gets the Pattern Synthesis legend drawer. See `docs/v185_update.md`.
