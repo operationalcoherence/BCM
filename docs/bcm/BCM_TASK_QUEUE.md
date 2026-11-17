@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 4 · 2026-11-17 · Source: 11-17 review · ✔ = shipped (version)
+Rev 5 · 2026-11-17 (v195) · Source: 11-17 review · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)

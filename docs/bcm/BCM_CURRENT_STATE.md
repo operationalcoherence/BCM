@@ -1,5 +1,5 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v195** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 4 · 2026-11-17 · Preview at **v195** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
 - **v195** (2026-11-17, preview): F7, WORDS THAT MAKE THE WORLD on Pattern Analysis (bare saturated words; other voices tested as perturbations). D10 answered yes. See `docs/v195_update.md`.
@@ -68,7 +68,7 @@ Rev 3 · 2026-11-17 · Preview at **v195** · Basis: 11-17 review, export 2026-1
 ## Pending decisions
 | ID | Decision |
 |---|---|
-| D1 | Per-instance 3D spatial map from ESRI output: approach, generator, anchoring (user wants to discuss) |
+| D1 | Partly resolved v186/v189: place maps get a 3D ground (Esri imagery on real terrain, true to scale; emotion as color only). Still to discuss: the fuller per-instance Esri map with topological anchoring (F1/F2) |
 | D2 | Resolved v172–v173: medium words are split by the person's own phrases; fire ≡ wildfire only on his Yes to THE SAME THING? |
 | D3 | Formal IP statement: now a footer fold (v171). Move it to its own off-nav website page? |
 | D4 | Resolved v174: "How constraints create coherence" |
@@ -77,10 +77,11 @@ Rev 3 · 2026-11-17 · Preview at **v195** · Basis: 11-17 review, export 2026-1
 | D7 | 2 or 3 pathways by default on Taking Action |
 | D8 | Saturation 40% (min 10 pieces, 2+ phrases); voice weighting √(mean/size) clamped 0.6–1.8, on by default (v183): on, or a switch? |
 | D9 | Resolved v171: the per-question lines in WHAT IT RESTS ON were removed |
-| D10 | Whether to include the optional lexical world-making / perturbation audit (only if clutter-free) |
+| D10 | Resolved v195: yes, as one folded item on Pattern Analysis |
 | D11 | Resolved: the 7 symbols are the seven question symbols |
 
 ## Current priorities
-3. Remaining Priority 1: U5 (his approval of redlines), A1 engine side (threads that cross question boundaries). Priority 2 remaining: T5 (constraint prompt), A2 (coworking schema), G1 (glossary popovers), V1 place-map version (waits on D1).
-4. Carry the new visuals to Analysis and In Parallel; fullscreen legend and branding; touch support.
-5. Taking Action pathways + Morin integration.
+1. His pass on Claude's wording, v171–v195 (each update doc ends with the list); U5 redlines (`docs/v173_update.md`).
+2. Open questions from v186–v195: Combine and PDF for WHAT YOU DID (v194); the friction and hysteresis weights (v192, v193); coworker deletions and answers on Combine (v191); whether a place map should word "high/low ground" differently (he said: keep it, it means the emotion ground).
+3. Remaining from the queue: A1 engine side (threads across question boundaries), D8 (voice weighting on or a switch), F1/F2 (per-instance Esri map, anchoring).
+4. **F8, project administrator dashboards: LAST. Remind Gregory.**

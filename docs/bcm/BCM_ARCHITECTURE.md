@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 6 · 2026-11-17 (v191) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 7 · 2026-11-17 (v195) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -152,6 +152,9 @@ Terrain module modes (one `mount`): Synthesis (default: readings, phrase loops, 
   wid: string,                         // workbook id, made once (v191)
   mt: { <noteId>: ISO },               // last edit per note, from the log (v191)
   gone: { <noteId>: ISO },             // deletions (v191)
+  eh: { <noteId>: [[ISO|null, emotion], ...] },  // emotion history (v193)
+  acts: [{k, t, w, x, n, l}],          // WHAT YOU DID per card (v194)
+  remap: { <noteId>: ISO },            // notes flagged to re-map after acting (v194)
   // others: [{name, goal, a[7], at, wid}]  (at, wid since v191); lastCombine: {name, at, notes, places, links, upd, edits, gone}
   // p: { m: Marker[], c:[lat,lon,zoom], loc:{name,lat,lng,bb}, name }; Marker = [q, lat, lng, text, polygon[[lat,lng]]|null, emotion, source, voice, id, author?, extraVoices?]
   // links: [{f, t, r, w, src?, by?, at?}]

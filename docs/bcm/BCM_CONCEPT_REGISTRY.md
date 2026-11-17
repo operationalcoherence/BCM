@@ -1,5 +1,5 @@
 # BCM_CONCEPT_REGISTRY.md
-Rev 3 · 2026-11-17 (v173) · One line per concept: definition → where it shows up in BCM. Paraphrased; cite the source in the UI.
+Rev 4 · 2026-11-17 (v195) · One line per concept: definition → where it shows up in BCM. Paraphrased; cite the source in the UI.
 
 ## A. Core theory — Vigneaux (2026), JEM 24(7)
 | Concept | Definition (BCM usage) | In BCM |
@@ -31,7 +31,7 @@ Rev 3 · 2026-11-17 (v173) · One line per concept: definition → where it show
 | Link | User-made connection from a note to an answer, the goal or another note (supports, contradicts, reinforces), made with + Link on Mapping Landscape | App | MAP, PS (WHAT YOU LINKED) |
 | Voice | A perspective/stakeholder group that authored notes | App | Normalization, coworking |
 | Indifference ridge | Raised terrain wherever indifferent notes sit, crossing other emotions | Review | PS |
-| Bare rock face | Two distant emotions meeting with no indifference between them; a costly climb, treated as a design challenge | Review | PS legend, synthetic bridging |
+| Bare rock face | Two distant emotions meeting with no indifference between them; a costly climb, treated as a design challenge | Review | PS legend; synthetic bridging built v192 (F5: rock faces named and costed on the ways) |
 | Low ground | Distrust (low), aggression (lower), defiance (lowest) | Review | PS legend |
 | Background-noise paradox / medium word | A term present everywhere is the medium, not a signal ("water in the fishbowl"). In the engine: in ≥40% of answers and notes and split into 2+ recurring phrases | Review; v172 | Saturation filter, ONE WORD, SEVERAL MEANINGS |
 | Same-meaning declaration | The person says two words mean the same; only then does Patterns read them as one (split by default, never merge on its own) | v173 (THE SAME THING?) | Tokenizer |
@@ -43,14 +43,14 @@ Rev 3 · 2026-11-17 (v173) · One line per concept: definition → where it show
 | Sense-making in complexity | Different domains (known, knowable, complex, chaos) call for different ways of deciding | Kurtz & Snowden (2003) | TA reference; pathway choice [use TBD] |
 | Attractor basin / constraints | Habits and institutions form wells that constraints hold in place; change the constraints, not just the path | Juarrero (2023) | T5 |
 | Trajectory optimization vs. constraint reconfiguration | Cheapest path within the rules vs. changing the rules | Review / Juarrero | T5, Q.4–Q.7 |
-| Hysteresis | A note's state depends on its history; entrenched opposition costs more to cross | Review | F6 |
-| Action friction field | An action's energy cost varies with the terrain it crosses | Review | F3 |
+| Hysteresis | A note's state depends on its history; entrenched opposition costs more to cross | Built v193 | F6: emotion history (eh), Entrenched line on the ways |
+| Action friction field | An action's energy cost varies with the terrain it crosses | Built v192 | F3: Friction and boomerang risk on the ways |
 | Act here / act anywhere × easy / difficult | Plots actions by reach (context-specific vs. universal) and by energy | axis.png | T4 |
 | Synthesis→Action handoff | Rule that turns a terrain vector into sequenced moves | Review | T6 |
-| Reflexive (autopoietic) loop | Acting changes the terrain, so map → act → re-map | Review; Morin, Varela | F4 |
+| Reflexive (autopoietic) loop | Acting changes the terrain, so map → act → re-map | Built v194; Morin, Varela | F4: WHAT YOU DID on cards, SINCE YOU ACTED on Mapping Landscape |
 | Relational meaning (sense-making) | Value is not in the thing but in how an organism couples with it (sucrose is a nutrient only to the cell that uses it) | Thompson (2007) | "Where it is easiest to get to"; meaning is relational |
-| Lexical world-making | Track and prompt reframing of generic terms | Review / Vigneaux | F7 |
-| Perturbation audit | Treat incoming notes as perturbations to test, not instructions | Review / Vigneaux | F7 |
+| Lexical world-making | Track and prompt reframing of generic terms | Built v195 / Vigneaux | F7: WORDS THAT MAKE THE WORLD (Pattern Analysis) |
+| Perturbation audit | Treat incoming notes as perturbations to test, not instructions | Built v195 / Vigneaux | F7: other voices tested against his nearby notes |
 
 ## C. Reference list (canonical; see D4/D5 in CURRENT_STATE)
 Ackoff (1999) · Juarrero (2023) · Kurtz & Snowden (2003) · Morin (2008) · Morin & Kern (1999) · Paci-Green, Vigneaux, Jensen & Petal (2016) · Thompson (2007) · Vigneaux (2026), doi:10.5055/jem.0952 · Waldrop (1992). Full entries are in the 11-17 review, with corrections pending D4/D5.
