@@ -70,5 +70,5 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v194 F4 | Reflexive loop: logging/adjusting an action flags affected Q.1–Q.4 nodes and contours, prompts re-synthesis | FUT/ENG | TA → PA/PS | T1, A2 |
 | ✔v192 F5 | Synthetic bridging cost across bare rock faces | ENG | PS, TA | F3 |
 | ✔v193 F6 | Hysteresis: historical friction from emotional lineage (uses the edit log) | ENG | PS, TA | F3 |
-| F7 | Lexical world-making prompts + perturbation audit mode (only if clutter-free) | FUT/RES | engine, MAP, PA | E2, D10 |
+| ✔v195 F7 | Lexical world-making prompts + perturbation audit mode (only if clutter-free) | FUT/RES | engine, MAP, PA | E2, D10 |
 | F8 (LAST — remind Gregory) | Project administrator dashboards | FUT | new | A2 |
