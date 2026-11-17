@@ -7,6 +7,6 @@ From his note on v184: "put the legends back as they were in Taking Action; put 
 
 Files: `tools/patches/v185_legends_back_fullscreen_drawer.py` (engine), `tools/relief/relief.js` (drawer in card full screen) → `gsm-preview.js`, `gsm-relief.js`.
 
-Checked: matrix on the 11 synthetic workbooks (the 2 built from his real workbook need it attached); with 3D loaded (swiftshader), all 7 clinic cards show their legend under the map; card full screen opens the drawer (legend text present, map shifted 340px), Hide legend closes it, Close full screen restores the inline legend; Pattern Synthesis full screen unchanged. His two workbooks were not in this session, so they were not run.
+Checked: matrix on the 11 synthetic workbooks (the 2 built from his real workbook need it attached); with 3D loaded (swiftshader), all 7 clinic cards show their legend under the map; card full screen opens the drawer (legend text present, map shifted 340px), Hide legend closes it, Close full screen restores the inline legend; Pattern Synthesis full screen unchanged. Also run on his 11-13 workbook: matrix clean; all 8 card maps show their legend; card full screen opens the drawer.
 
 No new wording.
