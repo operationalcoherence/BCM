@@ -9,7 +9,7 @@
   - `tests/matrix.py` on his workbooks plus `mkwb.py`'s synthetic ones (always the clinic one);
   - with the 3D loaded: Playwright with `--use-angle=swiftshader`, serving `gsm-relief.js`, scroll the cards into view (matrix blocks 3D and cannot see card failures — v174 lesson);
   - `grep -c 'AAPK\|AIza'` = 0.
-- His workbooks: `bear-canyon-workbook-2026-11-13.json` (line map, 31 notes) and `…-11-05.json` (Broadview, place map, 14 notes). They are not in the repo: ask him to attach both at the start, and test every version on BOTH (11-13 first). He asked for this.
+- His workbooks: `bear-canyon-workbook-2026-11-13.json` (line map, 31 notes) and `…-11-05.json` (Broadview, place map, 14 notes). They are not in the repo. They are saved in the Claude project as `workbooks/bear-canyon-workbook-2026-11-13.json` and `workbooks/bear-canyon-workbook-2026-11-05.json` (see `workbooks/README.md`): read them with the project tool, don't ask him. Test every version on BOTH (11-13 first). He asked for this.
 - Esri and AWS tiles can't be reached from the sandbox. Test with stand-in tiles served by Playwright (imagery, reference layers, and Terrarium elevation PNGs), and ask him to check the real ones on the preview.
 - Project memory: `docs/bcm/` (ARCHITECTURE, CURRENT_STATE, TASK_QUEUE, CONCEPT_REGISTRY, this file).
 
