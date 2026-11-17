@@ -9832,14 +9832,14 @@
                   E.push([
                     "Read together",
                     t.ev && e.tight
-                      ? "The petals are even and the tangle is tight. Every answer speaks the goal's language, and your answers and notes keep returning to the same ideas. Your thinking is consistent, so the risk is not contradiction but a closed circle: the pictures can only show what you wrote, so a view you left out will not show up in either."
+                      ? "Every answer shares words with the goal, and many threads tie your answers and notes to the same ideas. Your thinking is consistent, so the risk is not contradiction but a closed circle: the pictures can only show what you wrote, so a view you left out will not show up in either."
                       : t.ev
-                        ? "The petals are even but the tangle is loose. Every answer speaks the goal's language, yet the answers and notes share few threads with each other. They may be parallel stories that each point at the goal without meeting. Tying them together is the work still to do."
+                        ? "Every answer shares words with the goal, yet the answers and notes share few threads with each other. They may be parallel stories that each point at the goal without meeting. Tying them together is the work still to do."
                         : e.tight
-                          ? "The petals are uneven but the tangle is tight. Some answers sit far from the goal (the farthest is " +
+                          ? "Some answers share few words with the goal (the fewest: " +
                             t.fid +
                             "), yet they are tied closely to the rest. That may be a side conversation: ideas that matter to the people who wrote them but that the goal's wording does not yet carry."
-                          : "The petals are uneven and the tangle is loose. Some answers sit far from the goal (the farthest is " +
+                          : "Some answers share few words with the goal (the fewest: " +
                             t.fid +
                             ") and few threads tie anything together. The picture is scattered: either the goal is too narrow to hold what you wrote, or what you wrote has not yet been put in one language.",
                   ]);
@@ -9849,8 +9849,8 @@
                       h(p) +
                         ": Analysis finds " +
                         x(p, "them", "it") +
-                        " both resisted and supported, and the tangle shows " +
-                        x(p, "them", "it") +
+                        " both resisted and supported, and on the landscape " +
+                        x(p, "their notes sit", "its notes sit") +
                         " on both sides of the line. This is where the work is decided.",
                     ),
                     g.length &&
@@ -9858,14 +9858,14 @@
                         h(g) +
                           ": Analysis puts " +
                           x(g, "them", "it") +
-                          " among the causes or conditions Q.5–Q.7 do not reach, and the tangle keeps " +
+                          " among the causes or conditions Q.5–Q.7 do not reach, and the threads keep " +
                           x(g, "them", "it") +
                           " in Q.1–Q.4 only. Two views, one finding: the clearest gap.",
                       ),
                     m.length &&
                       k.push(
                         h(m) +
-                          ": support not yet used (Analysis) that sits only above the line (tangle). Support that nothing opposes and nothing builds on, so the easiest place to build.",
+                          ": support already at work that Q.5–Q.7 do not use yet, and whose notes sit only above the line. Support that nothing opposes and nothing builds on, so the easiest place to build.",
                       ),
                     v.length &&
                       k.push(
@@ -9879,24 +9879,24 @@
                       "Where both pictures agree",
                       k.length
                         ? k
-                        : "The two pictures flag different words. Analysis reads where a word sits among your answers. The tangle reads how it runs between dots. A word can look settled in one and open in the other, so the differences below deserve the same attention.",
+                        : "The two pictures flag different words. Analysis reads where a word sits among your answers. The threads show how it runs between answers and notes. A word can look settled in one and open in the other, so the differences below deserve the same attention.",
                     ]));
                   var T = [];
                   (y.length &&
                     T.push(
                       "Analysis flags " +
                         h(y) +
-                        " as not reached by Q.5–Q.7, but the tangle does not keep " +
+                        " as not reached by Q.5–Q.7, but the threads do not keep " +
                         x(y, "them", "it") +
                         " in Q.1–Q.4 only. " +
                         (y.length > 1 ? "They run" : "It runs") +
-                        " through dots that carry Q.5–Q.7 too, so " +
+                        " through answers and notes in Q.5–Q.7 too, so " +
                         x(y, "they", "it") +
                         " may be reached more than the word counts suggest.",
                     ),
                     w.length &&
                       T.push(
-                        "The tangle keeps " +
+                        "The threads keep " +
                           h(w) +
                           " in Q.1–Q.4 only, though Analysis does not list " +
                           x(w, "them", "it") +
@@ -9914,20 +9914,20 @@
                   });
                   var L = S[t.cid]
                     ? t.cid +
-                      " is the closest answer to the goal and it also sits on a thread that runs from Q.1–Q.4 into Q.5–Q.7. It is both the most goal-like answer and a hinge between cause and action, a strong place to start."
+                      " shares the most words with the goal and it also sits on a thread that runs from Q.1–Q.4 into Q.5–Q.7. It is both the most goal-like answer and a hinge between cause and action, a strong place to start."
                     : t.cid +
-                      " is the closest answer to the goal but it is not on a thread that carries Q.1–Q.4 into Q.5–Q.7. It speaks the goal's language without yet connecting to the causes you named.";
+                      " shares the most words with the goal but it is not on a thread that carries Q.1–Q.4 into Q.5–Q.7. It speaks the goal's language without yet connecting to the causes you named.";
                   if (
                     (e.all[t.fid]
                       ? (L +=
                           " " +
                           t.fid +
-                          ", the farthest, still shares threads with other answers, so it is distant from the goal but not cut off from your thinking.")
+                          ", which shares the fewest, still shares threads with other answers, so it is far from the goal's wording but not cut off from your thinking.")
                       : (L +=
                           " " +
                           t.fid +
-                          ", the farthest from the goal, also sits on no thread the other answers share. It is detached in both pictures: either it says something new, or it needs to be tied in."),
-                    E.push(["Closest and farthest, in the tangle", L]),
+                          ", which shares the fewest words with the goal, also sits on no thread the other answers share. It is detached in both pictures: either it says something new, or it needs to be tied in."),
+                    E.push(["Closest and farthest from the goal", L]),
                     n.emo && e.brLead)
                   ) {
                     var O = Math.max.apply(null, n.emo),
@@ -10580,11 +10580,15 @@
                     (ut.textContent = "THE TWO PICTURES TOGETHER"),
                     (lt.className = "intbox"),
                     (lt.innerHTML =
-                      '<div class="int2"><div class="intfig"><div class="intcap">AROUND THE GOAL</div>' +
-                      st(r) +
-                      '<div class="intsub">How far each answer is from the goal</div></div><div class="intfig"><div class="intcap">HOW IT HANGS TOGETHER</div>' +
-                      st(i) +
-                      '<div class="intsub">How everything ties to everything</div></div></div>' +
+                      ((window.gsmData ? window.gsmData().m || [] : []).some(function (z) {
+                        return (z[3] || "").trim();
+                      })
+                        ? '<div class="intsub" style="margin:4px 0 8px">One map for both pictures: the buttons show each question’s notes on the ground (Analysis); the ground itself, its heights, colors and ridges, is what the notes say together (Synthesis).</div><div class="gterr-host" data-an="1" data-par="1"></div>'
+                        : '<div class="int2"><div class="intfig"><div class="intcap">AROUND THE GOAL</div>' +
+                          st(r) +
+                          '<div class="intsub">How far each answer is from the goal</div></div><div class="intfig"><div class="intcap">HOW IT HANGS TOGETHER</div>' +
+                          st(i) +
+                          '<div class="intsub">How everything ties to everything</div></div></div>') +
                       E.map(function (t) {
                         return (
                           '<div class="intl"><b>' +
@@ -14520,7 +14524,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v175");
+        t && (t.textContent = "v176");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -17676,7 +17680,7 @@
       if (host._rel) {
         if (ANH) {
           host._rel.focusQ && host._rel.focusQ(AQ);
-          return;
+          if (!data.par) return;
         }
         host._rel.hl(HL);
         if (CARDH) host._rel.setWay(ROUTESEL);
@@ -19229,7 +19233,7 @@
             x.classList.toggle("on", x === b);
           });
           var t = host.querySelector(".gtansay");
-          t && (t.innerHTML = say(q));
+          t && !data.par && (t.innerHTML = say(q));
           render();
         };
         q || b.classList.add("on");
@@ -19368,12 +19372,16 @@
       sy.innerHTML = say(0);
       var stg0 = $("stage"),
         after = stg0.nextSibling;
+      if (data.par) {
+        sy.innerHTML = "";
+        sy.style.display = "none";
+      }
       stg0.parentNode.insertBefore(sy, after);
       var hd = document.createElement("div");
       hd.className = "sec";
       hd.style.marginTop = "12px";
       hd.textContent = "WHAT THIS SUGGESTS";
-      stg0.parentNode.insertBefore(hd, sy);
+      data.par || stg0.parentNode.insertBefore(hd, sy);
     }
     if (CARDH) {
       host.classList.add("gtcard");
@@ -19507,7 +19515,7 @@
               el.classList.toggle("gtwon", !!k && el.getAttribute("data-way") === k);
             });
           };
-        } else if (ANH) {
+        } else if (ANH && !data.par) {
           D.read = [];
         } else {
           D.read = READ.map(function (r) {
@@ -19631,6 +19639,7 @@
       try {
         var dd = window.gsmData ? window.gsmData() : window.gsmTD || {};
         h.getAttribute("data-an") && (dd.an = 1);
+        h.getAttribute("data-par") && (dd.par = 1);
         mount(h, dd);
       } catch (e) {
         h.textContent = "";
