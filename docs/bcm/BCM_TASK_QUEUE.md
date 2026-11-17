@@ -19,7 +19,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v173 N1 | Rewrite PA "Your story so far" as a 2–3 paragraph story with headings (What stands in the way · What is already helping · What has to be true · What you would do · Where to start · Not yet answered); keep note/question popovers; give meta-meaning | NARR | PA | E1–E4 |
 | ✔v173 N2 | Rewrite PA "Biggest gap" as a story (fold its 9 headings in); make "Not in Q.5–Q.7 yet", "Condition", "Q.5–Q.7 only" meaningful or drop them | NARR | PA | E1–E4 |
 | ✔v171 B1 | Fix the PS "Patterns that run through it" loop toggle | BUG | PS | — |
-| B2 | Remove old Taking Action versions: needs his clarification (old route chart is only a fallback) | BUG | TA | his answer |
+| ✔v174 B2 | Taking Action cards fell back to flat charts (v171 regression); 3D restored | BUG | TA | — |
 | ✔v173 B3 | Indifference ridge follows indifferent notes across emotion areas (N31) | BUG | PS terrain | — |
 | ✔v171 B4 | Remove "fire in 22 places" | BUG | PA | E1 |
 | ✔v171 B5 | Remove repeated words in "Biggest gap" and recurrence lines (PA "In the words": list once at most; PS "What it might mean") | BUG | PA, PS | — |
