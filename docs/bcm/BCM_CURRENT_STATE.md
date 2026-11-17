@@ -1,7 +1,9 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v177** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 3 · 2026-11-17 · Preview at **v179** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v179** (2026-11-17, preview): action grid on In Parallel (T4). See `docs/v179_update.md`.
+- **v178** (2026-11-17, preview): full-screen legend pushes the map aside (his bug report); In Parallel has its own picture (question lines + numbered places) and WHERE THE TWO PICTURES MEET. See `docs/v178_update.md`.
 - **v177** (2026-11-17, preview): Taking Action ways compared (why choose each, why the harder way, when to stop and readjust per Morin, chart of effort/impact/benefit/return). See `docs/v177_update.md`.
 - **v176** (2026-11-17, preview): In Parallel shows one 3D landscape for both pictures; readings no longer mention petals or the tangle. See `docs/v176_update.md`.
 - **v175** (2026-11-17, preview): Pattern Analysis opens with the 3D landscape, one question at a time, and WHAT THIS SUGGESTS read from it. See `docs/v175_update.md`.
@@ -60,6 +62,6 @@ Rev 3 · 2026-11-17 · Preview at **v177** · Basis: 11-17 review, export 2026-1
 | D11 | Resolved: the 7 symbols are the seven question symbols |
 
 ## Current priorities
-3. Remaining Priority 1: U5 (his approval of redlines), A1 engine side (threads that cross question boundaries). Priority 2 remaining: N4 (In Parallel story rewrite), N3 (Analysis stories), T4 (act-here/anywhere grid), T5 (constraint prompt), T6 (terrain→moves handoff), U7 (touch), U8 (progressive disclosure), V5 (voice normalization), A2 (coworking schema), G1 (glossary popovers), V1 place-map version (waits on D1).
+3. Remaining Priority 1: U5 (his approval of redlines), A1 engine side (threads that cross question boundaries). Priority 2 remaining: N4 rest (In Parallel: Emotion as story, Two people two sides, Placed one way, The emotion changes), N3 (Analysis stories), T5 (constraint prompt), T6 (terrain→moves handoff), U7 (touch), U8 (progressive disclosure), V5 (voice normalization), A2 (coworking schema), G1 (glossary popovers), V1 place-map version (waits on D1).
 4. Carry the new visuals to Analysis and In Parallel; fullscreen legend and branding; touch support.
 5. Taking Action pathways + Morin integration.

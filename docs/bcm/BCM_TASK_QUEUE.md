@@ -44,7 +44,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 |---|---|---|---|---|
 | ✔v175 (line map) V1 | Bring the new 3D viz to PA (line-map version now; spatial version via ESRI basemap with goal/notes/emotions, no relief) | VIZ | PA | — |
 | ✔v176 V2 | Replace both In Parallel visualizations; rewrite "Read together", "Where they differ", "Closest/farthest" for the new visuals | VIZ/NARR | PAR | V1 |
-| V3 (part ✔v171) | Fullscreen: legend + "The Bear Canyon Method · Operational Coherence", rotation/expansion; legend as dockable, collapsible blur drawer | VIZ/UI | PS, PA | — |
+| V3 (✔v171, drawer fix v178) | Fullscreen: legend + "The Bear Canyon Method · Operational Coherence", rotation/expansion; legend as dockable, collapsible blur drawer | VIZ/UI | PS, PA | — |
 | ✔v175 V4 | Visual within ~1 screen on PA; rewrite "What this suggests" against the new visual | UI/NARR | PA | V1 |
 | V5 | Voice normalization weight so the minority voice isn't flattened in terrain or prose | ENG/VIZ | engine, PS, PAR | D8 |
 | U7 | Touch: tap-to-inspect popovers, tap-outside dismiss, `touch-action:none` on canvases, Orbit Mode toggle + touch helper | UI | GLB | — |
@@ -54,7 +54,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v177 T1 | TA: 2–3 toggleable pathways, same goal, different routes; each with rationale, difference, when to choose, impact, benefit, effort/energy | ENG/UI | TA | D7 |
 | ✔v177 T2 | TA "Comparing the ways" depth: why take the harder route; when to stop and readjust (watch signals); integrate Morin (2008) ecology of action and strategy vs. program, cited | NARR/RES | TA | T1, D6 |
 | ✔v177 T3 | TA comparison chart (expandable bar/radial/line): effort, impact, benefit, ROI per pathway | VIZ | TA | T1 |
-| T4 | Act-here/anywhere × easy/difficult action grid (axis.png style) on PAR, feeding TA | VIZ/ENG | PAR, TA | T1 |
+| ✔v179 T4 | Act-here/anywhere × easy/difficult action grid (axis.png style) on PAR, feeding TA | VIZ/ENG | PAR, TA | T1 |
 | T5 | Constraint prompt on TA: "What constraint or rule keeps this note in the low ground, and how do we change it?"; distinguish trajectory optimization from constraint reconfiguration (Juarrero), linked to Q.4–Q.7 | ENG/NARR | TA, PS | — |
 | T6 | Synthesis→Action handoff rule: terrain vector (cost, height, transition) → sequenced moves | ENG | PS, TA | T1 |
 | A2 | Coworking-ready schema: per-note authorship, multi-perspective merge, `others` structure (no dashboards yet) | ARCH | schema, export | — |
