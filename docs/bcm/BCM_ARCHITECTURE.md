@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 4 · 2026-11-17 (v177) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 5 · 2026-11-17 (v185) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -161,7 +161,7 @@ The design must allow several people to give perspectives on the same data: auth
 - No surprise phrasing; define every major term in place (popover or glossary).
 - Narrative and visual lead; raw lists go in collapsible "View details" drawers.
 - Touch: tap-to-inspect popovers (tap outside to dismiss). `touch-action:none` on 3D canvas wrappers, plus an Orbit Mode toggle and a touch helper.
-- Fullscreen 3D: dockable, collapsible legend drawer with a translucent/blur backdrop.
+- Fullscreen 3D: dockable, collapsible legend drawer with a translucent/blur backdrop. The same drawer opens when a Taking Action card goes full screen (v185); outside full screen, each card's legend sits under its map, on strategy and program cards alike.
 - A visual must appear within ~1 screen of the top of analysis pages.
 - Instructions on every page stay current with features.
 

@@ -44,7 +44,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 |---|---|---|---|---|
 | ✔v175 (line map) V1 | Bring the new 3D viz to PA (line-map version now; spatial version via ESRI basemap with goal/notes/emotions, no relief) | VIZ | PA | — |
 | ✔v176 V2 | Replace both In Parallel visualizations; rewrite "Read together", "Where they differ", "Closest/farthest" for the new visuals | VIZ/NARR | PAR | V1 |
-| V3 (✔v171, drawer fix v178) | Fullscreen: legend + "The Bear Canyon Method · Operational Coherence", rotation/expansion; legend as dockable, collapsible blur drawer | VIZ/UI | PS, PA | — |
+| V3 (✔v171, drawer fix v178, Taking Action cards v185) | Fullscreen: legend + "The Bear Canyon Method · Operational Coherence", rotation/expansion; legend as dockable, collapsible blur drawer | VIZ/UI | PS, PA | — |
 | ✔v175 V4 | Visual within ~1 screen on PA; rewrite "What this suggests" against the new visual | UI/NARR | PA | V1 |
 | ✔v183 V5 | Voice normalization weight so the minority voice isn't flattened in terrain or prose | ENG/VIZ | engine, PS, PAR | D8 |
 | ✔v182 U7 | Touch: tap-to-inspect popovers, tap-outside dismiss, `touch-action:none` on canvases, Orbit Mode toggle + touch helper | UI | GLB | — |
