@@ -15039,7 +15039,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v188");
+        t && (t.textContent = "v189");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -20404,6 +20404,9 @@
       }
       function go() {
         relLoad()
+          .then(function () {
+            return PLACE && window.gsmRelief && window.gsmRelief.prep ? window.gsmRelief.prep(PLACE) : null;
+          })
           .then(function () {
             if (!host.isConnected || host._rel) return;
             var c = document.createElement("canvas");

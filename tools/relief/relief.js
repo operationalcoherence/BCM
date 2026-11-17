@@ -51,10 +51,12 @@ function mount(host, D) {
   function bil(arr, x, y) { const fx = Math.max(0, Math.min(VX - 1.001, x / CX)), fy = Math.max(0, Math.min(VY - 1.001, y / CY)), i = fx | 0, j = fy | 0, u = fx - i, v = fy - j;
     const g = (ii, jj) => arr[jj * VX + ii]; return g(i, j) * (1 - u) * (1 - v) + g(i + 1, j) * u * (1 - v) + g(i, j + 1) * (1 - u) * v + g(i + 1, j + 1) * u * v; }
   const hRaw = (x, y) => bil(D.hn, x, y) * HS;
-  function hAt(x, y) { const e = 0.6, gx = (hRaw(x + e, y) - hRaw(x - e, y)) / (2 * e), gy = (hRaw(x, y + e) - hRaw(x, y - e)) / (2 * e), s = Math.hypot(gx, gy);
+  /* a place: the ground is the real terrain, true to scale (meters per map unit); emotion shows only as color */
+  const MPU = PL ? 156543.03392 * Math.cos(Math.atan(Math.sinh(Math.PI * (1 - 2 * (PL.Y0 + H / 2 / PL.k) / 256)))) / PL.k : 1;
+  function hAt(x, y) { if (PL) return PL.elev ? PL.elev(x, y) / MPU : 0; const e = 0.6, gx = (hRaw(x + e, y) - hRaw(x - e, y)) / (2 * e), gy = (hRaw(x, y + e) - hRaw(x, y - e)) / (2 * e), s = Math.hypot(gx, gy);
     const k = sstep(0.25, 1.1, s), ux = s > 1e-4 ? -gy / s : 1, uy = s > 1e-4 ? gx / s : 0, across = x * ux + y * uy, along = (x * gx + y * gy) / (s || 1);
     const gul = (ridged(across * 0.18 + vn(x * 0.04, y * 0.04) * 2, along * 0.025, 3) - 0.4) * 2.4 * k;
-    return (hRaw(x, y) + gul + (ridged(x * 0.11 + 3, y * 0.11 + 7) - 0.35) * 0.9 * (1 - 0.6 * k) + (fbm(x * 0.35, y * 0.35, 3) - 0.5) * 0.5) * (PL ? 0.22 : 1); }
+    return (hRaw(x, y) + gul + (ridged(x * 0.11 + 3, y * 0.11 + 7) - 0.35) * 0.9 * (1 - 0.6 * k) + (fbm(x * 0.35, y * 0.35, 3) - 0.5) * 0.5); }
   const MX = 2 * VX - 1, MY = 2 * VY - 1, CK = landKey(D), CH = CACHE.get(CK) || {};
   const hGrid = CH.hGrid || new Float32Array(MX * MY); let hMin = 1e9;
   if (!CH.hGrid) for (let j = 0; j < MY; j++) for (let i = 0; i < MX; i++) { const h = hAt(i / (MX - 1) * W, j / (MY - 1) * H); hGrid[j * MX + i] = h; }
@@ -238,7 +240,7 @@ function mount(host, D) {
   function hoverWay(k) { if (k === hovWay) return; hovWay = k; showWays(); if (D.onWay) D.onWay(k); }
   /* ---------- legend ---------- */
   const sw = c => `rgb(${c.map(v => v | 0).join(',')})`, order = [[0, 'the highest ground'], [1, 'a ridge'], [2, 'low ground'], [3, 'lower ground'], [4, 'the lowest ground']];
-  leg.innerHTML = '<b>LEGEND</b>' + order.map(([rk, t]) => { const k = RANK.indexOf(rk); return k < 0 ? '' : `<div class="r"><i style="background:${sw(EMOC[k])}"></i><span>${D.emo[k][0]}: ${t}</span></div>`; }).join('') +
+  leg.innerHTML = '<b>LEGEND</b>' + order.map(([rk, t]) => { const k = RANK.indexOf(rk); return k < 0 ? '' : `<div class="r"><i style="background:${sw(EMOC[k])}"></i><span>${D.emo[k][0]}${PL ? '' : ': ' + t}</span></div>`; }).join('') + (PL ? '<div class="r"><i style="background:linear-gradient(#cfc8b8,#7d7566)"></i><span>The ground is the real terrain, true to scale. Emotion shows only as color.</span></div>' : '') +
     (PL ? '<div class="r"><i style="background:rgba(120,160,120,.45);border:2px solid #2a9d8f"></i><span>Shaded patches: areas you drew on the place map, in their emotion’s color.</span></div><div class="r"><i style="background:#8a8577"></i><span>Satellite image without color: no notes nearby, so no information here.</span></div>' : '<div class="r"><i style="background:rgb(140,135,127)"></i><span>Bare rock face: two distant emotions meet with no ridge of indifference between them, so getting across is a climb. A big move takes energy either way; most moves go through indifference.</span></div>' +
     '<div class="r"><i style="background:rgb(116,122,74)"></i><span>Plain grass, soil or rock, no color: no notes nearby, so no information here.</span></div>') +
     (D.routes && D.routes.length ? D.routes.map(R => `<div class="r"><i style="background:${RC[R.key]};border-color:#111;height:6px;margin-top:5px"></i><span><b style="display:inline;letter-spacing:0;font-size:12.5px">${R.key}</b> · ${R.name.replace(/[<>&]/g, '')}</span></div>`).join('') : '') +
@@ -300,4 +302,38 @@ function mount(host, D) {
     snap() { renderer.render(scene, camera); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
 }
 
-window.gsmRelief = { mount, version: 'r1' };
+/* real elevation for a place map: AWS Terrain Tiles (Terrarium PNG, USGS 3DEP in the US), decoded to meters
+   above the lowest point in the frame. Fetched before the scene is built; flat if they cannot be loaded. */
+const ELC = new Map();
+function prep(P) {
+  if (!P || P.elev !== undefined) return Promise.resolve();
+  const key = [P.X0, P.Y0, P.k].map(v => (+v).toFixed(7)).join('|');
+  if (!ELC.has(key)) ELC.set(key, loadElev(P));
+  return ELC.get(key).then(f => { P.elev = f; }, () => { P.elev = null; });
+}
+function loadElev(P) {
+  const FW = 340, FH = 230, span = FW / P.k;
+  let z = Math.max(1, Math.min(15, Math.round(Math.log2(640 / span)))), a, b, c, d;
+  const rng = () => { const n = 2 ** z; a = Math.floor(P.X0 * n / 256); b = Math.floor((P.X0 + span) * n / 256); c = Math.floor(P.Y0 * n / 256); d = Math.floor((P.Y0 + FH / P.k) * n / 256); };
+  rng(); while ((b - a + 1) * (d - c + 1) > 36 && z > 1) { z--; rng(); }
+  const n = 2 ** z, cw = (b - a + 1) * 256, chh = (d - c + 1) * 256, cv = document.createElement('canvas'); cv.width = cw; cv.height = chh;
+  const cx = cv.getContext('2d', { willReadFrequently: true }), total = (b - a + 1) * (d - c + 1);
+  return new Promise(res => {
+    let left = total, ok = 0, fin = false;
+    const finish = () => { if (fin) return; fin = true;
+      if (ok < total) return res(null);
+      let px; try { px = cx.getImageData(0, 0, cw, chh).data; } catch (e) { return res(null); }
+      const el = new Float32Array(cw * chh); for (let q = 0, o = 0; q < el.length; q++, o += 4) el[q] = px[o] * 256 + px[o + 1] + px[o + 2] / 256 - 32768;
+      const at = (fx, fy) => { const X = Math.max(0, Math.min(cw - 1.001, (P.X0 + fx / P.k) * n - a * 256)), Y = Math.max(0, Math.min(chh - 1.001, (P.Y0 + fy / P.k) * n - c * 256)), i = X | 0, j = Y | 0, u = X - i, v = Y - j, g = (p, q) => el[q * cw + p];
+        return g(i, j) * (1 - u) * (1 - v) + g(i + 1, j) * u * (1 - v) + g(i, j + 1) * (1 - u) * v + g(i + 1, j + 1) * u * v; };
+      let lo = 1e9, hi = -1e9; for (let j = 0; j <= 40; j++) for (let i = 0; i <= 60; i++) { const h = at(i / 60 * FW, j / 40 * FH); lo = Math.min(lo, h); hi = Math.max(hi, h); }
+      if (!isFinite(lo) || hi - lo > 9000) return res(null);
+      const f = (fx, fy) => at(fx, fy) - lo; f.lo = lo; f.hi = hi; res(f); };
+    setTimeout(finish, 12000);
+    for (let tx = a; tx <= b; tx++) for (let ty = c; ty <= d; ty++) { const im = new Image(); im.crossOrigin = 'anonymous';
+      im.onload = () => { try { cx.drawImage(im, (tx - a) * 256, (ty - c) * 256); ok++; } catch (e) {} if (--left === 0) finish(); };
+      im.onerror = () => { if (--left === 0) finish(); };
+      im.src = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/' + z + '/' + tx + '/' + ty + '.png'; }
+  });
+}
+window.gsmRelief = { mount, prep, version: 'r2' };
