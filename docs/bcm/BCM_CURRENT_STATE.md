@@ -84,4 +84,4 @@ Rev 4 · 2026-11-17 · Preview at **v195** · Basis: 11-17 review, export 2026-1
 1. His pass on Claude's wording, v171–v195 (each update doc ends with the list); U5 redlines (`docs/v173_update.md`).
 2. Open questions from v186–v195: Combine and PDF for WHAT YOU DID (v194); the friction and hysteresis weights (v192, v193); coworker deletions and answers on Combine (v191); whether a place map should word "high/low ground" differently (he said: keep it, it means the emotion ground).
 3. Remaining from the queue: A1 engine side (threads across question boundaries), D8 (voice weighting on or a switch), F1/F2 (per-instance Esri map, anchoring).
-4. **F8, project administrator dashboards: LAST. Remind Gregory.**
+4. **F8, project lead dashboards: LAST. Remind Gregory.** Planned 11-17, no code yet (ARCHITECTURE §12a). Firebase project set up and locked, $0.

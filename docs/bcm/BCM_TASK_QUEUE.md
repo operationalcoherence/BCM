@@ -71,4 +71,4 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v192 F5 | Synthetic bridging cost across bare rock faces | ENG | PS, TA | F3 |
 | ✔v193 F6 | Hysteresis: historical friction from emotional lineage (uses the edit log) | ENG | PS, TA | F3 |
 | ✔v195 F7 | Lexical world-making prompts + perturbation audit mode (only if clutter-free) | FUT/RES | engine, MAP, PA | E2, D10 |
-| F8 (LAST — remind Gregory) | Project administrator dashboards | FUT | new | A2 |
+| F8 (LAST — remind Gregory) | Project lead dashboards: live collection (Firebase, set up 11-17), invite links, Other voice, every-workbook list, Combine on the opening page. Plan in ARCHITECTURE §12a | FUT | new, backend | A2 |

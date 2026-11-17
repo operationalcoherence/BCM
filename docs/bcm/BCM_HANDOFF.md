@@ -39,7 +39,7 @@ Since v185:
 2. A1 engine side: threads that cross question boundaries.
 3. F1/F2: the fuller per-instance Esri map with topological anchoring (to discuss with him first).
 4. **F8, project administrator dashboards: LAST. Remind Gregory when it's next.**
-   Started 11-17 (planning only, no code): live collection via Firebase (Spark, $0), project "The Bear Canyon Method", Firestore nam5, rules locked, Google sign-in on. Full notes, mockup and costs links: Claude project doc `claude/f8_firebase_setup.md`. Not public for about a month.
+   Started 11-17 (planning only, no code): live collection via Firebase (Spark, $0), project "The Bear Canyon Method", Firestore nam5, rules locked, Google sign-in on. The full plan is in BCM_ARCHITECTURE.md §12a. Not public for about a month.
 
 ## Waiting on Gregory
 - U5 instruction redlines (`docs/v173_update.md`, bottom).

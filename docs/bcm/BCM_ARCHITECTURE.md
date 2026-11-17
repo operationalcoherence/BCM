@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 7 · 2026-11-17 (v195) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 8 · 2026-11-17 (v195; F8 plan added) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -16,7 +16,7 @@ BCM is a free web workbook from Operational Coherence. It helps a practitioner, 
 ## 2. System overview
 - Internal app id: `groundsmith` (export `"app"` key). Export schema version `v: 1`.
 - Hosting: the BCM page on the Operational Coherence website.
-- Persistence: JSON export/import (`bear-canyon-workbook-YYYY-MM-DD.json`). [?] Whether there is also local storage or a backend.
+- Persistence: JSON export/import (`bear-canyon-workbook-YYYY-MM-DD.json`) and localStorage. No backend yet. A Firebase backend is set up for F8 (§12) but nothing uses it.
 - Repo: `operationalcoherence/BCM` (public), served by GitHub Pages. The Webador page loads `gsm-preview.js` through a small stub. The live page `/gsmlive` is still the old pasted v92 and is never touched without his go-ahead.
 - Files: `gsm-readable.js` (the source, ~19k lines, one IIFE plus the terrain module appended) → esbuild minify → `gsm-preview.js` (what the preview page runs). `gsm-relief.js` = `tools/relief/relief.js` + three.js r187, loaded on demand for the 3D map. The canvas map is the fallback.
 - Place map: Leaflet + Esri tiles. The key lives only in the Webador stub (`window.GSM_ESRI_KEY`), never in the repo.
@@ -164,8 +164,43 @@ Note = [q(1–7), x, y, text, null[?], emotionIdx, sourceIdx[?], voice, id, auth
 - x ≈ 12–280 (PRESENT→FUTURE), y ≈ 43–210 (small = HELP / above the line) [I].
 - `fig.goal` / `fig.hang` belong to the visualizations being retired. Keep import compatibility.
 
-## 12. Coworking (schema ready, v191)
-Several people give perspectives on the same data: authorship per note (index 9), `who`, `log.w`, `voices`, `others`. Since v191, each workbook has a `wid`, each note an edit time (`mt`) and deletions are kept (`gone`). Combine takes the newer edit of a shared note, removes notes the other person deleted from their own, and never removes yours. Project administrator dashboards (F8) come later.
+## 12. Coworking (schema ready, v191; F8 dashboards planned)
+Several people give perspectives on the same data: authorship per note (index 9), `who`, `log.w`, `voices`, `others`. Since v191, each workbook has a `wid`, each note an edit time (`mt`) and deletions are kept (`gone`). Combine takes the newer edit of a shared note, removes notes the other person deleted from their own, and never removes yours.
+
+### 12a. Project lead dashboards (F8) [D 11-17, planning only, no code]
+Mockup: https://claude.ai/artifact/Dqy6xjxr4wPyGpKAf6hn4T. Costs write-up: https://claude.ai/artifact/4QdCsBzitJneX76CDjHuiL. All the wording in both is Claude's and has not been approved. Gregory expects about a month before it goes public. Estimate: 6–9 versions.
+
+**The flow.**
+- The opening page has three choices: On my own · Combine workbooks · Lead a project.
+- **Lead a project:** the lead sets the project name and the goal everyone shares (only the lead can change it), the voices wanted (plus **Other**, which the person writes in; leads can also add their own), a date answers are due, and the map. The lead gets an invite link (copy, email or QR code).
+- **Invited person:** opens the link and the workbook comes up with the lead's goal and map. They add a name and a voice. Saving is **live**: "Sharing with <lead> · saved N ago", with a Pause sharing button. While paused, work stays on the device. There is no Send button.
+- **Dashboard ("Open a project I lead"):** live, like Google Forms. It shows:
+  - a count of people started and working now, the voices heard, and the total notes;
+  - a reading of what the group is telling you, with "Patterns suggests; you decide." said once there;
+  - everyone's ground on one 3D relief, with a filter by voice;
+  - WHERE THEY AGREE / WHERE THEY SPLIT, with bare rock faces between groups;
+  - emotion by voice;
+  - WHAT NOBODY HAS SAID YET;
+  - EVERY WORKBOOK: a table listing each person's voice, questions answered, notes, main emotion and last change, with Open for each one and Remind for anyone who hasn't started;
+  - an In Parallel comparison of any two people or voices;
+  - a button that takes everyone to Taking Action.
+- A file route stays as a fallback: a small "Add it" link on the dashboard, and Combine workbooks on the opening page.
+
+**Backend [D]:** Google Firebase on the **Spark plan ($0)**. Never upgrade to Blaze without Gregory's say-so.
+- Firebase project: "The Bear Canyon Method". Firestore (default) database in **nam5 (US)**, which can't be changed. Rules are locked (`allow read, write: if false`). No data. Scheduled backups are off.
+- Web app registered as "BCM Preview". Firebase Hosting is not used; the site stays on GitHub Pages.
+- Auth: Google sign-in, for project leads only. People answering need no account; the invite link is their key to that one project.
+- Gregory holds the web config. **Never put it in chat, docs, memory or the repo until the build, and then only the page key, on purpose.**
+
+**Before building:**
+- The build check `grep -c 'AAPK\|AIza'` = 0 has to allow exactly the one Firebase web key. Restrict that key to the BCM sites in Google Cloud.
+- Write the security rules: a lead reads only their own project; a person writes only their own workbook, and only in a project they hold the invite for.
+- Set up App Check before going live.
+- Use test data only until there is a privacy page (what is stored, where, who sees it, how to delete it; get a short legal look).
+- Store each person's record in BCM's own workbook format (schema §11) so a later move off Firebase is easy.
+- Save about every 30 seconds, not on every keystroke. If a free daily cap is hit (20K writes a day), keep work on the device and send it later.
+
+**Open calls (Gregory):** who may lead a project (anyone, or approved people only); how long answers are kept and who can delete them; whether the file route stays for people who don't want to share live; which account owns the Firebase project long term.
 
 ## 13. UI rules
 - No surprise phrasing; define every major term in place (popover or glossary).
