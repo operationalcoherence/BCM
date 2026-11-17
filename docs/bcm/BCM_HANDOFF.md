@@ -1,5 +1,5 @@
 # BCM_HANDOFF.md
-2026-11-17 · Preview at **v195** · Live `/gsmlive` untouched (old v92; never touch without Gregory's go-ahead)
+2026-11-17 (end of day) · Preview at **v195** · No engine changes since v195 · Live `/gsmlive` untouched (old v92; never touch without Gregory's go-ahead)
 
 ## Start here
 - Repo `operationalcoherence/BCM` (public; attach with push to publish). `main` feeds the preview page through GitHub Pages.
@@ -34,12 +34,26 @@ Since v185:
 - coworking schema: sv, wid, mt, gone, eh, acts, remap (v191–v194);
 - WORDS THAT MAKE THE WORLD (v195).
 
-## Open work, in order
+## What happened this session (11-17, afternoon)
+No code. Docs and planning only.
+- His two workbooks were saved to the Claude project (`workbooks/`), so sessions stop asking for them.
+- F8 was planned with him. There is a design-canvas mockup with four boards: the opening page, project setup, the invited person's view and the lead's dashboard. All of its wording is Claude's and not yet approved. He then chose:
+  - an **Other** voice that people write in;
+  - an every-workbook list "like Google Forms";
+  - **Combine workbooks** as one of the three choices on the opening page;
+  - **live** collection, with no sending of files.
+- He read a costs write-up and picked **Firebase on the free Spark plan**. He set up the Firebase project himself, with Claude walking him through it (details in ARCHITECTURE §12a). It is locked and costs $0.
+- The plan was written into ARCHITECTURE §12a; TASK_QUEUE and CURRENT_STATE now point to it.
+- He asked whether to build F8 now. Claude advised **not yet**: F8 stays last, after his pass on the preview and after A1. The reasons: the dashboard reuses the v185–v195 readings, A1's cross-question threads feed WHERE THEY AGREE / SPLIT, and F8 holds other people's data. He hasn't answered yet. Ask him which order he wants.
+
+## Open work, in order (Claude's recommendation; confirm with him)
 1. Whatever he raises after his pass on the preview (v185–v195).
 2. A1 engine side: threads that cross question boundaries.
 3. F1/F2: the fuller per-instance Esri map with topological anchoring (to discuss with him first).
-4. **F8, project administrator dashboards: LAST. Remind Gregory when it's next.**
-   Started 11-17 (planning only, no code): live collection via Firebase (Spark, $0), project "The Bear Canyon Method", Firestore nam5, rules locked, Google sign-in on. The full plan is in BCM_ARCHITECTURE.md §12a. Not public for about a month.
+4. **F8, project lead dashboards: LAST. Remind Gregory when it's next.** The full plan is in BCM_ARCHITECTURE.md §12a. Estimate: 6–9 versions. If he wants to start early, the one safe first step is the Firestore security rules tested with fake people, which touches nothing on the preview. Build order after that: the privacy page and the rules, then live saving with Pause sharing, then the dashboard.
+   - Firebase: project "The Bear Canyon Method", Spark plan ($0), Firestore nam5, rules locked, web app "BCM Preview", Google sign-in on. **Never upgrade it to Blaze without asking him.**
+   - **Never put the Firebase web config or its key in chat, docs, memory or the repo.** He holds it. At build time, change the AIza check to allow exactly that one key.
+   - Use test data only until there is a privacy page.
 
 ## Waiting on Gregory
 - U5 instruction redlines (`docs/v173_update.md`, bottom).
@@ -47,6 +61,11 @@ Since v185:
 - D1/F1/F2: the discussion about the fuller per-instance 3D Esri map.
 - His pass on all Claude wording (the v171–v195 update docs; each ends with a "New wording (Claude's)" list).
 - Real-tile check on the preview: Broadview imagery and terrain (v186/v189).
+- F8 open calls (ARCHITECTURE §12a): who may lead a project; how long answers are kept and who can delete them; whether the file route stays; which account owns Firebase long term. Also the wording on the mockup and in the costs doc.
 - Small calls: friction and hysteresis weights (v192/v193); a coworker's deletions of his notes and answers on Combine (v191); Combine and PDF for WHAT YOU DID (v194).
 
-Reminder (his request, 11-17): F8 (project administrator dashboards) is saved for the end. F4, F6 and F7 are done (v193–v195), so remind him F8 is the last item left.
+Reminder (his request, 11-17): F8 (project lead dashboards) is saved for the end. F4, F6 and F7 are done (v193–v195), so remind him F8 is the last item left.
+
+## Links
+- F8 mockup (design canvas): https://claude.ai/artifact/Dqy6xjxr4wPyGpKAf6hn4T
+- F8 costs write-up: https://claude.ai/artifact/4QdCsBzitJneX76CDjHuiL
