@@ -1,5 +1,5 @@
 # BCM_CONCEPT_REGISTRY.md
-Rev 2 · 2026-11-17 (v171) · One line per concept: definition → where it shows up in BCM. Paraphrased; cite the source in the UI.
+Rev 3 · 2026-11-17 (v173) · One line per concept: definition → where it shows up in BCM. Paraphrased; cite the source in the UI.
 
 ## A. Core theory — Vigneaux (2026), JEM 24(7)
 | Concept | Definition (BCM usage) | In BCM |
@@ -33,7 +33,8 @@ Rev 2 · 2026-11-17 (v171) · One line per concept: definition → where it show
 | Indifference ridge | Raised terrain wherever indifferent notes sit, crossing other emotions | Review | PS |
 | Bare rock face | Two distant emotions meeting with no indifference between them; a costly climb, treated as a design challenge | Review | PS legend, synthetic bridging |
 | Low ground | Distrust (low), aggression (lower), defiance (lowest) | Review | PS legend |
-| Background-noise paradox | A term present everywhere is the medium, not a signal ("water in the fishbowl") | Review | Saturation filter |
+| Background-noise paradox / medium word | A term present everywhere is the medium, not a signal ("water in the fishbowl"). In the engine: in ≥40% of answers and notes and split into 2+ recurring phrases | Review; v172 | Saturation filter, ONE WORD, SEVERAL MEANINGS |
+| Same-meaning declaration | The person says two words mean the same; only then does Patterns read them as one (split by default, never merge on its own) | v173 (THE SAME THING?) | Tokenizer |
 | Co-occurrence profiling | Meaning comes from a word's neighbors; tag sub-types from a sliding window | Review | E2 |
 | Semantic inertia / topological anchoring | Fixed anchors + local relaxation keep the user's spatial memory across edits | Review | F2 |
 | Voice normalization | Weight voices so that a small, dense voice isn't flattened by note count | Review | V5 |

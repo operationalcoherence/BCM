@@ -37,7 +37,7 @@ so it only works from operationalcoherence.com.
 **Since v171, `gsm-readable.js` is the source.** Edit it, then build the file the page
 runs:
 
-    npx esbuild@0.24 gsm-readable.js --minify --charset=utf8 --outfile=gsm-preview.js
+    npx esbuild@0.24 gsm-readable.js --minify --outfile=gsm-preview.js
 
 (Tested on unchanged v170: the esbuild output rendered byte-identical text on every tab.
 Exact-string patching of the minified file, used v95 to v170, is retired, and so are the

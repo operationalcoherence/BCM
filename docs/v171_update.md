@@ -9,7 +9,7 @@ IP statements and the reference list, is used exactly as he wrote it.
 `gsm-readable.js` is now the source. It is edited, then minified with esbuild into
 `gsm-preview.js`:
 
-    npx esbuild@0.24 gsm-readable.js --minify --charset=utf8 --outfile=gsm-preview.js
+    npx esbuild@0.24 gsm-readable.js --minify --outfile=gsm-preview.js
 
 The esbuild minify was tested on unchanged v170 first. It rendered byte-identical text
 on every tab. Exact-string patching of the minified file is retired. The batch itself

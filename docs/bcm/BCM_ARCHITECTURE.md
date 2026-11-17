@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 2 · 2026-11-17 (v171) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 3 · 2026-11-17 (v173) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -106,10 +106,16 @@ Legend [D]:
 ## 9. Text engine
 Current: stemmed unigrams and bigrams, a 352-entry stopword list, proper-noun handling, role-based scoring (v113+) ("liveli", "wildfi force", "putt fire"). Recurrence counts drive many findings.
 
-Required behavior [D]:
-1. **Semantic saturation filter**: a term found across nearly all of Q.1–Q.7 without differentiated emotional or structural context (e.g. "fire") is the medium, not a signal. Suppress it as a primary cluster node or require sub-phrase granularity.
-2. **Co-occurrence neighborhood profiling**: a sliding window tags each note's functional sub-type (fire → prescribed / unplanned / managed / mitigated / vilified / suppressed) before spatial placement or prose.
-3. **Synonym families**: fire ≡ wildfire as one family, then split by sub-type (§12, pending).
+Shipped (v172–v173):
+- **Saturation filter** (v172): a stem in ≥40% of the pieces (goal, answers, notes; at least 10 pieces) that also heads ≥2 recurring bigrams is the medium. Its count is set to 1, so no finding, card or reading names the bare word; its phrases carry the meaning. `window.gsmMED` = {word: {n, of, subs, cnt}}.
+- **ONE WORD, SEVERAL MEANINGS** (v172): the medium word's phrases sorted by side of the line (help/hinder/both).
+- **Same-meaning declarations** (v173): `asks["same|A|B"] = "y"` rewrites A→B in the tokenizer input (`gsmSame` inside `Ht`), never in the displayed text. Asked only for two medium words where one contains the other. Split by default; merge only on the person's yes.
+- **Story** (v173): YOUR STORY SO FAR is generated prose (SY() in the Looking In builder) from note counts per question, emotion mix per question and voice, `gsmFR.it` term categories, `gsmMED`, `gsmWS` and `gsmNR`.
+
+Required behavior [D] (status):
+1. **Semantic saturation filter** (✔ v172): a term found across nearly all of Q.1–Q.7 without differentiated emotional or structural context (e.g. "fire") is the medium, not a signal. Suppress it as a primary cluster node or require sub-phrase granularity.
+2. **Co-occurrence neighborhood profiling** (✔ first form v172: bigram neighbors + side of the line; sliding window wider than two words still open): a sliding window tags each note's functional sub-type (fire → prescribed / unplanned / managed / mitigated / vilified / suppressed) before spatial placement or prose.
+3. **Synonym families**: only by the person's declaration (✔ v173, THE SAME THING?).
 4. Drop low-meaning tokens as findings ("involved", "necessary").
 5. Recurrence is input to analysis, never a finding shown on its own.
 6. **Lexical world-making** (optional, if clutter-free): prompt users to reframe generic terms.
