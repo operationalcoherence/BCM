@@ -55,7 +55,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v177 T2 | TA "Comparing the ways" depth: why take the harder route; when to stop and readjust (watch signals); integrate Morin (2008) ecology of action and strategy vs. program, cited | NARR/RES | TA | T1, D6 |
 | ✔v177 T3 | TA comparison chart (expandable bar/radial/line): effort, impact, benefit, ROI per pathway | VIZ | TA | T1 |
 | ✔v179 T4 | Act-here/anywhere × easy/difficult action grid (axis.png style) on PAR, feeding TA | VIZ/ENG | PAR, TA | T1 |
-| T5 | Constraint prompt on TA: "What constraint or rule keeps this note in the low ground, and how do we change it?"; distinguish trajectory optimization from constraint reconfiguration (Juarrero), linked to Q.4–Q.7 | ENG/NARR | TA, PS | — |
+| ✔v187 T5 | Constraint prompt on TA: "What constraint or rule keeps this note in the low ground, and how do we change it?"; distinguish trajectory optimization from constraint reconfiguration (Juarrero), linked to Q.4–Q.7 | ENG/NARR | TA, PS | — |
 | ✔v181 T6 | Synthesis→Action handoff rule: terrain vector (cost, height, transition) → sequenced moves | ENG | PS, TA | T1 |
 | A2 | Coworking-ready schema: per-note authorship, multi-perspective merge, `others` structure (no dashboards yet) | ARCH | schema, export | — |
 | G1 | Glossary/term popovers for every major term (thread, ridge, bare rock face, voice, low ground…) | UI/CONTENT | GLB | A1 |
