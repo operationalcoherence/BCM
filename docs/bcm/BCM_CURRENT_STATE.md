@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v184** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 3 · 2026-11-17 · Preview at **v185** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v185** (2026-11-17, preview): Taking Action legends back as before v184 (under every card map, programs too); card full screen gets the Pattern Synthesis legend drawer. See `docs/v185_update.md`.
 - **v184** (2026-11-17, preview): maps load once (no flat chart or blurry canvas first); strategy cards keep a legend, programs none; action grid shows every note, hoverable. See `docs/v184_update.md`.
 - **v183** (2026-11-17, preview): POSSIBLE PATTERNS names the emotion (N3); voices weighted evenly on the ground (V5). See `docs/v183_update.md`.
 - **v182** (2026-11-17, preview): tap to inspect on touch (U7); long lists fold into View details (U8); WHAT STANDS OUT findings say what they mean (N3). See `docs/v182_update.md`.

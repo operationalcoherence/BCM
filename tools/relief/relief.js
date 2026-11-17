@@ -15,7 +15,7 @@ const CSS = `
 .grel .rdm{font:bold 12px Helvetica,Arial,sans-serif;color:#fff;background:#111;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
 .grel .rdm.on{background:#7a1d12;transform:scale(1.25)}
 .grel .wl{font:bold 14px Helvetica,Arial,sans-serif;width:26px;height:26px;line-height:22px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)}.grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
-.grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}.grel .grfs{display:none!important}.grel.fs .grfs{display:block!important}.grel .fsleg{position:absolute;top:0;bottom:0;left:0;width:min(340px,86vw);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-right:1px solid #ddd;padding:52px 14px 14px;overflow:auto;z-index:4;transform:translateX(0);transition:transform .2s}.grel .fsleg.shut{transform:translateX(-100%)}.grel .fsleg .grleg{margin:0}.grel .fslb{position:absolute;top:8px;left:8px;z-index:5;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer}.grel .brand{position:absolute;top:auto;left:auto;width:auto;height:auto;pointer-events:none;right:12px;bottom:10px;z-index:3;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333;background:rgba(255,255,255,.75);padding:3px 8px}.grel .brand b{font-weight:700}
+.grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}.grel .grfs{display:none!important}.grel.fs .grfs,.grel.cfs .grfs{display:block!important}.grel .fsleg{position:absolute;top:0;bottom:0;left:0;width:min(340px,86vw);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-right:1px solid #ddd;padding:52px 14px 14px;overflow:auto;z-index:4;transform:translateX(0);transition:transform .2s}.grel .fsleg.shut{transform:translateX(-100%)}.grel .fsleg .grleg{margin:0}.grel .fslb{position:absolute;top:8px;left:8px;z-index:5;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer}.grel .brand{position:absolute;top:auto;left:auto;width:auto;height:auto;pointer-events:none;right:12px;bottom:10px;z-index:3;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333;background:rgba(255,255,255,.75);padding:3px 8px}.grel .brand b{font-weight:700}
 .grel .busy{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#888;font:13px Questrial,Helvetica,Arial,sans-serif}
 .grleg{margin:8px 0 2px;font-size:12.5px;line-height:1.45;color:#333}
 .grleg .r{display:flex;gap:8px;align-items:flex-start;margin:3px 0}
@@ -224,7 +224,7 @@ function mount(host, D) {
   const fsl = document.createElement('div'); fsl.className = 'grfs fsleg'; const fsb = document.createElement('button'); fsb.type = 'button'; fsb.className = 'grfs fslb'; fsb.textContent = 'Hide legend';
   const brand = document.createElement('div'); brand.className = 'grfs brand'; brand.innerHTML = '<b>THE BEAR CANYON METHOD</b> · BY OPERATIONAL COHERENCE';
   fsb.onclick = ev => { ev.stopPropagation(); const shut = !fsl.classList.contains('shut'); fsl.classList.toggle('shut', shut); fsb.textContent = shut ? 'Legend' : 'Hide legend'; moved = false; size(); };
-  [fsl, fsb, brand].forEach(e => wrap.appendChild(e)); const fillFsl = () => { fsl.innerHTML = ''; const c = leg.cloneNode(true); fsl.appendChild(c); };
+  [fsl, fsb, brand].forEach(e => wrap.appendChild(e)); const fillFsl = () => { fsl.innerHTML = ''; const c = leg.cloneNode(true); c.style.display = ''; fsl.appendChild(c); };
   /* ---------- buttons ---------- */
   const bReset = document.createElement('button'), bFs = document.createElement('button');
   bReset.className = bFs.className = 'bt'; bReset.textContent = 'Reset view'; bFs.textContent = 'Full screen';
@@ -247,7 +247,9 @@ function mount(host, D) {
   /* ---------- sizing, labels, loop ---------- */
   let dirty = true, alive = true, lastW = 0, lastCfs = false;
   function size() { const fs = wrap.classList.contains('fs'), w = fs ? window.innerWidth : wrap.clientWidth; if (!w) return; const cfs = D.card && host.closest('.gtfs-on'), h = fs ? window.innerHeight : cfs ? Math.round(Math.max(420, window.innerHeight * 0.78)) : Math.round(Math.max(300, Math.min(D.card ? 520 : 620, w * (D.card ? 0.62 : 0.56))));
-    const pad = fs && !fsl.classList.contains('shut') ? Math.min(340, Math.round(window.innerWidth * 0.86)) : 0, vw = Math.max(200, w - pad);
+    /* a strategy card in full screen gets the same legend drawer and name as the full-screen Pattern Synthesis map */
+    wrap.classList.toggle('cfs', !!cfs); if (cfs) fillFsl(); leg.style.display = cfs ? 'none' : '';
+    const pad = (fs || cfs) && !fsl.classList.contains('shut') ? Math.min(340, Math.round(w * 0.86)) : 0, vw = Math.max(200, w - pad);
     wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(vw, h); renderer.domElement.style.marginLeft = pad + 'px'; lbs.style.left = pad + 'px'; camera.aspect = vw / h;
     // keep the whole block in frame
     camera.fov = 30; camera.updateProjectionMatrix(); lastW = w; if (typeof home === 'function' && !moved) home(); dirty = true; }
@@ -263,6 +265,7 @@ function mount(host, D) {
        for (const [dx, dy] of tries) { const hit = boxes.some(b => p.x + dx < b[0] + b[2] && p.x + dx + bw > b[0] && p.y + dy < b[1] + b[3] && p.y + dy + bh > b[1]); x = p.x + dx; y = p.y + dy; if (!hit) break; }
        x = Math.max(2, Math.min(w - bw - 2, x)); boxes.push([x, y, bw, bh]); p.o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`; }); }
   function loop() { if (!alive) return; if (!host.isConnected) { dispose(); return; } controls.update();
+    if (!!(D.card && host.closest('.gtfs-on')) !== lastCfs) dirty = true;
     if (dirty && wrap.clientWidth) { RD.forEach(o => o.rim && o.rim.quaternion.copy(camera.quaternion)); if ((wrap.clientWidth !== lastW || !!(D.card && host.closest('.gtfs-on')) !== lastCfs) && !wrap.classList.contains('fs')) { lastCfs = !!(D.card && host.closest('.gtfs-on')); size(); } renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
   function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
   size(); home(); loop();

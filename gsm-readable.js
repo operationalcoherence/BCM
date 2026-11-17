@@ -14787,7 +14787,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v184");
+        t && (t.textContent = "v185");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -20155,18 +20155,6 @@
             }
             wait.remove();
             stg.style.display = "none";
-            /* legend: kept outside the 3D box on strategy cards, so it stays while the map is parked; none on programs */
-            (function () {
-              var lg = box.querySelector(".grleg");
-              if (!lg || !CARDH) return;
-              var cm = CARDS && null != COURSE && CARDS[COURSE] ? CARDS[COURSE].mode : "";
-              lg.style.display = "none";
-              if ("PROGRAM" === cm) return;
-              host._legKeep && host._legKeep.remove();
-              host._legKeep = lg.cloneNode(!0);
-              host._legKeep.style.display = "";
-              box.parentNode.insertBefore(host._legKeep, box.nextSibling);
-            })();
             var lb = $("legbox");
             if (lb) lb.style.display = "none";
             host.querySelectorAll(".bar").forEach(function (e) {
