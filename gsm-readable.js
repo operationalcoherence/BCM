@@ -443,8 +443,87 @@
     var I = JSON.parse(localStorage.getItem(S));
     I && I.a && (C = I);
   } catch (t) {}
+  function gsmPlaceView() {
+    var has = function (t) {
+      return Array.isArray(t) && String(t[3] || "").trim();
+    };
+    if (C.m.some(has)) return null;
+    var P = (C.p && C.p.m) || [];
+    if (
+      !P.some(function (t) {
+        return has(t) && isFinite(+t[1]) && isFinite(+t[2]);
+      })
+    )
+      return null;
+    function mp(la, ln) {
+      la = Math.max(-85, Math.min(85, +la));
+      var s = Math.sin((la * Math.PI) / 180);
+      return [((+ln + 180) / 360) * 256, (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * 256];
+    }
+    var L = C.p.loc && isFinite(+C.p.loc.lat) && isFinite(+C.p.loc.lng) ? [+C.p.loc.lat, +C.p.loc.lng] : null,
+      pts = [],
+      lat0 = null;
+    P.forEach(function (t) {
+      if (!has(t) || !isFinite(+t[1]) || !isFinite(+t[2])) return;
+      null == lat0 && (lat0 = +t[1]);
+      pts.push(mp(t[1], t[2]));
+      Array.isArray(t[4]) &&
+        t[4].forEach(function (v) {
+          Array.isArray(v) && isFinite(+v[0]) && isFinite(+v[1]) && pts.push(mp(v[0], v[1]));
+        });
+    });
+    var g = L ? mp(L[0], L[1]) : null;
+    g && (pts.push(g), (lat0 = L[0]));
+    var x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    pts.forEach(function (q) {
+      x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); y0 = Math.min(y0, q[1]); y1 = Math.max(y1, q[1]);
+    });
+    /* at least about 250 m across; a margin so flags and labels stay on the ground */
+    var minS = 250 / (156543.03392 * Math.cos((lat0 * Math.PI) / 180)),
+      sx = Math.max(x1 - x0, minS) * 1.4,
+      sy = Math.max(y1 - y0, minS * 0.6) * 1.4,
+      A = 340 / 230;
+    sx / sy < A ? (sx = sy * A) : (sy = sx / A);
+    var X0 = (x0 + x1) / 2 - sx / 2,
+      Y0 = (y0 + y1) / 2 - sy / 2,
+      k = 340 / sx,
+      fr = function (q) {
+        return [(q[0] - X0) * k, (q[1] - Y0) * k];
+      },
+      areas = [],
+      rows = P.map(function (t, i) {
+        var r = t.slice();
+        if (isFinite(+t[1]) && isFinite(+t[2])) {
+          var f = fr(mp(t[1], t[2]));
+          r[1] = f[0];
+          r[2] = f[1];
+        }
+        r.hd = t[0] <= 2;
+        Array.isArray(t[4]) &&
+          t[4].length > 2 &&
+          has(t) &&
+          areas.push({
+            k: i + 1,
+            e: null != t[5] ? t[5] : null,
+            pts: t[4]
+              .filter(function (v) {
+                return Array.isArray(v) && isFinite(+v[0]) && isFinite(+v[1]);
+              })
+              .map(function (v) {
+                return fr(mp(v[0], v[1]));
+              }),
+          });
+        return r;
+      }),
+      gf = g ? fr(g) : [170, 115];
+    return {
+      m: rows,
+      place: { X0: X0, Y0: Y0, k: k, goal: gf, areas: areas, name: String(C.p.name || (C.p.loc && C.p.loc.name) || "") },
+    };
+  }
   window.gsmData = function () {
-    return { m: C.m, a: Q(), goal: C.goal };
+    var pv = gsmPlaceView();
+    return { m: pv ? pv.m : C.m, a: Q(), goal: C.goal, place: pv ? pv.place : null };
   };
   function Q() {
     return C.a.map(function (t, e) {
@@ -7520,10 +7599,10 @@
                 }).join("") +
                 "</ul>"
               : "")),
-            (ye += C.m.some(function (t) {
+            (ye += window.gsmData().m.some(function (t) {
               return (t[3] || "").trim();
             })
-              ? ((window.gsmTD = { m: C.m, a: Q(), goal: C.goal }),
+              ? ((window.gsmTD = window.gsmData()),
                 '<div class="gterr-host"></div><div class="gtold" style="display:none" aria-hidden="true">' +
                   ee(de.slice(0, qe), ge, Eo, de) +
                   "</div>")
@@ -8233,12 +8312,17 @@
                   : '<div class="csn">Nothing in your answers says yet what the first move is.</div>') +
                 "</div>" +
                 (function (t, e, stp) {
+                  var PV = window.gsmData().place ? window.gsmData().m : null,
+                    pl = function (t) {
+                      return t.line || (PV && t.place && PV[+String(t.id).replace(/\D/g, "") - 1]) || null;
+                    };
                   var n = e
                     .filter(function (t) {
-                      return t.line;
+                      return pl(t);
                     })
                     .map(function (t) {
-                      return [+t.line[1], +t.line[2], t.id];
+                      var L = pl(t);
+                      return [+L[1], +L[2], t.id];
                     })
                     .sort(function (t, e) {
                       return t[0] - e[0];
@@ -8283,14 +8367,17 @@
                         );
                       })
                       .join(""),
-                    f =
-                      "Crosses the help and hinder line " +
+                    f = PV
+                      ? ""
+                      : "Crosses the help and hinder line " +
                       l +
                       (1 === l ? " time" : " times") +
                       "; " +
                       u.toFixed(1) +
                       "× the length of a straight run to the goal.",
-                    g = t
+                    g = PV
+                      ? ""
+                      : t
                       ? u < 1.25 && l <= 1
                         ? " It is marked a strategy, but the way through it is almost straight. It may be nearer a program than the words suggest."
                         : ""
@@ -8306,7 +8393,7 @@
                     Gt(
                       e
                         .filter(function (x) {
-                          return x.line;
+                          return pl(x);
                         })
                         .map(function (x) {
                           return x.id;
@@ -9377,7 +9464,7 @@
         }
         ((Ot =
           '<div class="part">1 · LOOKING IN<span>Analysis: the pieces, one at a time.</span></div>' +
-          (C.m.some(function (t) {
+          (window.gsmData().m.some(function (t) {
             return (t[3] || "").trim();
           })
             ? '<div class="plab">YOUR LANDSCAPE, ONE QUESTION AT A TIME</div><div class="gterr-host" data-an="1"></div>'
@@ -10715,7 +10802,7 @@
                       MED = window.gsmMED || {},
                       pts = M.map(function (o) {
                         var e = o.r[5],
-                          d = (null == e ? 2 : HARD[e]) + (o.r[2] >= 118 ? 1 : 0),
+                          d = (null == e ? 2 : HARD[e]) + ((null != o.r.hd ? o.r.hd : o.r[2] >= 118) ? 1 : 0),
                           emo = {},
                           shared = 0;
                         M.forEach(function (p) {
@@ -14787,7 +14874,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v185");
+        t && (t.textContent = "v186");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -15343,6 +15430,7 @@
       );
     }
     var CARDH = !!data.card,
+      PLACE = data.place || null,
       ANH = !!data.an,
       PAR = !!data.par,
       AQ = 0;
@@ -15424,6 +15512,7 @@
           t: String(n[3]),
           e: e,
           v: n[7] ? String(n[7]) : "",
+          hd: null != n.hd ? !!n.hd : y > 118,
         });
       });
       return notes;
@@ -15546,7 +15635,7 @@
             g = BARE[1],
             b = BARE[2];
           if (pts.length) {
-            var nearL = Math.exp(-Math.pow((y - 118) / 40, 2)),
+            var nearL = PLACE ? 0 : Math.exp(-Math.pow((y - 118) / 40, 2)),
               sc = sigma * (1.05 + 0.95 * nearL),
               s3 = 2 * sc * sc,
               ws2 = 0,
@@ -17418,7 +17507,7 @@
             " is where the loop is fed on the ground, and it sits in " +
             gw +
             " ground" +
-            (n.y > 118 ? ", on the hinder side" : "") +
+            (n.hd ? ", on the hinder side" : "") +
             ". Changing what N" +
             n.k +
             " describes is the end you can act on; the other end is the consequence.",
@@ -19384,6 +19473,18 @@
         });
       thOn = null;
       var notes = prep(raw);
+      if (PLACE) {
+        GOAL.x = Math.max(8, Math.min(W - 8, PLACE.goal[0]));
+        GOAL.y = Math.max(8, Math.min(HH - 8, PLACE.goal[1]));
+        var far = null,
+          fd = -1;
+        notes.forEach(function (n) {
+          var d = Math.hypot(n.x - GOAL.x, n.y - GOAL.y);
+          d > fd && ((fd = d), (far = n));
+        });
+        START.x = far ? far.x : 10;
+        START.y = far ? far.y : 118;
+      }
       $("msg").textContent = "";
       if (!notes.length) {
         $("msg").textContent =
@@ -19786,7 +19887,7 @@
           up = 0;
         L.forEach(function (o) {
           null != o.r[5] && (c[o.r[5]]++, n++);
-          o.r[2] < 118 && up++;
+          (null != o.r.hd ? !o.r.hd : o.r[2] < 118) && up++;
         });
         var top = 0;
         c.forEach(function (x, k) {
@@ -20101,6 +20202,7 @@
             return { k: n.k, x: n.x, y: n.y, e: n.e, q: n.q, t: n.t };
           }),
           goalText: GOALTEXT,
+          place: PLACE,
         };
         if (CARDH) {
           var rd = {};
@@ -20279,6 +20381,7 @@
             m: d.m || [],
             a: d.a || [],
             goal: d.goal || "",
+            place: d.place || null,
             card: 1,
             cards: [
               {
@@ -20289,7 +20392,7 @@
                   .split(",")
                   .map(function (x) {
                     x = x.trim();
-                    var m = /^(?:note\s*|N)(\d+)$/i.exec(x);
+                    var m = /^(?:note\s*|N|P)(\d+)$/i.exec(x);
                     return m ? "N" + m[1] : x;
                   })
                   .filter(Boolean),

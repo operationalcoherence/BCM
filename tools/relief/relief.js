@@ -16,7 +16,7 @@ const CSS = `
 .grel .rdm.on{background:#7a1d12;transform:scale(1.25)}
 .grel .wl{font:bold 14px Helvetica,Arial,sans-serif;width:26px;height:26px;line-height:22px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)}.grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
 .grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}.grel .grfs{display:none!important}.grel.fs .grfs,.grel.cfs .grfs{display:block!important}.grel .fsleg{position:absolute;top:0;bottom:0;left:0;width:min(340px,86vw);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-right:1px solid #ddd;padding:52px 14px 14px;overflow:auto;z-index:4;transform:translateX(0);transition:transform .2s}.grel .fsleg.shut{transform:translateX(-100%)}.grel .fsleg .grleg{margin:0}.grel .fslb{position:absolute;top:8px;left:8px;z-index:5;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer}.grel .brand{position:absolute;top:auto;left:auto;width:auto;height:auto;pointer-events:none;right:12px;bottom:10px;z-index:3;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333;background:rgba(255,255,255,.75);padding:3px 8px}.grel .brand b{font-weight:700}
-.grel .busy{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#888;font:13px Questrial,Helvetica,Arial,sans-serif}
+.grel .attr{position:absolute;left:6px;bottom:4px;z-index:3;font:10px Helvetica,Arial,sans-serif;color:#333;background:rgba(255,255,255,.75);padding:1px 6px;pointer-events:none}.grel .busy{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#888;font:13px Questrial,Helvetica,Arial,sans-serif}
 .grleg{margin:8px 0 2px;font-size:12.5px;line-height:1.45;color:#333}
 .grleg .r{display:flex;gap:8px;align-items:flex-start;margin:3px 0}
 .grleg i{flex:0 0 26px;height:12px;border-radius:2px;margin-top:2px;border:1px solid #ccc}
@@ -40,9 +40,10 @@ const CACHE = new Map();
 function landKey(D) { let s = 0; for (let q = 0; q < D.hn.length; q += 97) s += D.hn[q] * (q + 1); return D.VX + ',' + D.VY + ',' + D.notes.length + ',' + s.toFixed(4) + ',' + D.notes.map(n => n.k + ':' + n.e + ':' + Math.round(n.x) + ':' + Math.round(n.y)).join(';'); }
 function mount(host, D) {
   if (!document.getElementById('gsm-relcss')) { const s = document.createElement('style'); s.id = 'gsm-relcss'; s.textContent = CSS; document.head.appendChild(s); }
-  const VX = D.VX, VY = D.VY, CX = D.CX, CY = D.CY, W = (VX - 1) * CX, H = (VY - 1) * CY, HS = 58, ALPHA = 0.6;
+  const VX = D.VX, VY = D.VY, CX = D.CX, CY = D.CY, W = (VX - 1) * CX, H = (VY - 1) * CY, HS = 58, ALPHA = 0.6, PL = D.place || null;
   const wrap = document.createElement('div'); wrap.className = 'grel pnet'; host.appendChild(wrap);
   const lbs = document.createElement('div'); lbs.className = 'lbs'; wrap.appendChild(lbs);
+  const attr = document.createElement('div'); attr.className = 'attr'; attr.style.display = 'none'; attr.textContent = 'Imagery © Esri, Maxar, Earthstar Geographics, and the GIS User Community · Powered by Esri'; wrap.appendChild(attr);
   const busy = document.createElement('div'); busy.className = 'busy'; busy.textContent = 'Building the land…'; wrap.appendChild(busy);
   const leg = document.createElement('div'); leg.className = 'grleg'; host.appendChild(leg);
 
@@ -53,7 +54,7 @@ function mount(host, D) {
   function hAt(x, y) { const e = 0.6, gx = (hRaw(x + e, y) - hRaw(x - e, y)) / (2 * e), gy = (hRaw(x, y + e) - hRaw(x, y - e)) / (2 * e), s = Math.hypot(gx, gy);
     const k = sstep(0.25, 1.1, s), ux = s > 1e-4 ? -gy / s : 1, uy = s > 1e-4 ? gx / s : 0, across = x * ux + y * uy, along = (x * gx + y * gy) / (s || 1);
     const gul = (ridged(across * 0.18 + vn(x * 0.04, y * 0.04) * 2, along * 0.025, 3) - 0.4) * 2.4 * k;
-    return hRaw(x, y) + gul + (ridged(x * 0.11 + 3, y * 0.11 + 7) - 0.35) * 0.9 * (1 - 0.6 * k) + (fbm(x * 0.35, y * 0.35, 3) - 0.5) * 0.5; }
+    return (hRaw(x, y) + gul + (ridged(x * 0.11 + 3, y * 0.11 + 7) - 0.35) * 0.9 * (1 - 0.6 * k) + (fbm(x * 0.35, y * 0.35, 3) - 0.5) * 0.5) * (PL ? 0.22 : 1); }
   const MX = 2 * VX - 1, MY = 2 * VY - 1, CK = landKey(D), CH = CACHE.get(CK) || {};
   const hGrid = CH.hGrid || new Float32Array(MX * MY); let hMin = 1e9;
   if (!CH.hGrid) for (let j = 0; j < MY; j++) for (let i = 0; i < MX; i++) { const h = hAt(i / (MX - 1) * W, j / (MY - 1) * H); hGrid[j * MX + i] = h; }
@@ -83,8 +84,8 @@ function mount(host, D) {
 
   /* ---------- ground texture: grass, soil, rock by slope; emotion hue at 60% ---------- */
   const TW = 1600, TH = Math.round(TW * H / W), tcv = CH.tcv || document.createElement('canvas'); if (!CH.tcv) { tcv.width = TW; tcv.height = TH; }
-  if (!CH.tcv) (function paint() {
-    const ctx = tcv.getContext('2d'), img = ctx.createImageData(TW, TH), px = img.data;
+  function paint(base) {
+    const ctx = tcv.getContext('2d'), img = ctx.createImageData(TW, TH), px = img.data, bp = base && base.data;
     const GR = [98, 108, 62], GR2 = [140, 134, 86], SO = [124, 96, 66], SO2 = [86, 68, 50], RK = [122, 118, 112], RK2 = [168, 160, 148], lum = q => 0.3 * q[0] + 0.59 * q[1] + 0.11 * q[2];
     for (let py = 0; py < TH; py++) for (let pxx = 0; pxx < TW; pxx++) {
       const x = pxx / (TW - 1) * W, y = py / (TH - 1) * H, e = W / TW * 1.5;
@@ -94,16 +95,41 @@ function mount(host, D) {
       const grass = mix(GR, GR2, sstep(0.35, 0.75, fbm(x * 0.05 + 9, y * 0.05, 4))), soil = mix(SO, SO2, sstep(-0.2, -0.9, h / HS) * 0.8);
       const rock = mix(RK, RK2, n2 * 0.7).map(v => v * (0.92 + 0.08 * vn(x * 0.6, y * 0.6)));
       const tR = sstep(0.55, 1.15, s + (n1 - 0.5) * 0.5), tS = sstep(0.25, 0.55, s + (n1 - 0.5) * 0.6) * (1 - tR);
-      let c = mix(mix(grass, soil, tS + sstep(-0.4, -1.0, h / HS) * 0.5 * (1 - tR)), rock, tR); const kk = 0.93 + 0.14 * sp; c = c.map(v => v * kk);
-      const ao = Math.max(-0.28, Math.min(0.18, -lap * 0.11)); c = c.map(v => v * (1 + ao));
-      const [em, st, gap] = emoMix(x, y);
+      const o0 = (py * TW + pxx) * 4;
+      let c = bp ? [bp[o0], bp[o0 + 1], bp[o0 + 2]] : mix(mix(grass, soil, tS + sstep(-0.4, -1.0, h / HS) * 0.5 * (1 - tR)), rock, tR); const kk = bp ? 1 : 0.93 + 0.14 * sp; c = c.map(v => v * kk);
+      const ao = Math.max(-0.28, Math.min(0.18, -lap * (PL ? 0.5 : 0.11))); c = c.map(v => v * (1 + ao));
+      let [em, st, gap] = emoMix(x, y); if (PL) gap = 0;
       if (gap > 0.01) c = mix(c, rock.map(v => v * (1 + ao)), gap * 0.85);
-      const ls = lum(c), le = lum(em) || 1; c = mix(c, em.map(v => Math.min(255, v * ls / le * 1.05)), ALPHA * st * (1 - gap));
+      const ls = lum(c), le = lum(em) || 1; c = mix(c, PL ? em : em.map(v => Math.min(255, v * ls / le * 1.05)), (PL ? 0.42 : ALPHA) * st * (1 - gap));
       const o = (py * TW + pxx) * 4; px[o] = c[0]; px[o + 1] = c[1]; px[o + 2] = c[2]; px[o + 3] = 255;
     }
     ctx.putImageData(img, 0, 0);
-  })();
+  }
+  if (!CH.tcv) paint(null);
   CH.tcv = tcv;
+  /* a place: Esri imagery, roads and place names under the emotion color; areas drawn as shaded patches */
+  function placeGround() {
+    if (!PL) return; if (CH.placed) { attr.style.display = ''; return; }
+    const span = W / PL.k; let z = Math.max(1, Math.min(18, Math.round(Math.log2(TW * 1.3 / span))));
+    let a, b, c, d; const rng = () => { const n = 2 ** z; a = Math.floor(PL.X0 * n / 256); b = Math.floor((PL.X0 + span) * n / 256); c = Math.floor(PL.Y0 * n / 256); d = Math.floor((PL.Y0 + H / PL.k) * n / 256); };
+    rng(); while ((b - a + 1) * (d - c + 1) > 64 && z > 1) { z--; rng(); }
+    const n = 2 ** z, fx = TW / (span * n), fy = TH / (H / PL.k * n);
+    const layer = (url, opq) => new Promise(res => { const cv = document.createElement('canvas'); cv.width = TW; cv.height = TH; const cx = cv.getContext('2d');
+      if (opq) { cx.fillStyle = '#c9c4b8'; cx.fillRect(0, 0, TW, TH); }
+      let left = (b - a + 1) * (d - c + 1), ok = 0; const done = () => { if (--left === 0) res(ok ? cv : null); };
+      setTimeout(() => { left = 1; done(); }, 20000);
+      for (let tx = a; tx <= b; tx++) for (let ty = c; ty <= d; ty++) { const im = new Image(); im.crossOrigin = 'anonymous';
+        im.onload = () => { try { cx.drawImage(im, (tx * 256 - PL.X0 * n) * fx, (ty * 256 - PL.Y0 * n) * fy, 256 * fx + 1, 256 * fy + 1); ok++; } catch (e) {} done(); };
+        im.onerror = done; im.src = url.replace('{z}', z).replace('{y}', ty).replace('{x}', tx); } });
+    const E = 'https://server.arcgisonline.com/ArcGIS/rest/services/';
+    Promise.all([layer(E + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', 1), layer(E + 'Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}'), layer(E + 'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}')]).then(([im, rd, nm]) => {
+      if (!alive) return; let base = null; try { base = im && im.getContext('2d').getImageData(0, 0, TW, TH); } catch (e) { base = null; }
+      if (base) paint(base);
+      const ctx = tcv.getContext('2d'); [rd, nm].forEach(L => { if (L) try { ctx.drawImage(L, 0, 0); } catch (e) {} });
+      (PL.areas || []).forEach(A => { if (!A.pts || A.pts.length < 3) return; ctx.beginPath(); A.pts.forEach((p, i) => ctx[i ? 'lineTo' : 'moveTo'](p[0] / W * TW, p[1] / H * TH)); ctx.closePath();
+        const col = A.e == null ? [255, 255, 255] : EMOC[A.e]; ctx.fillStyle = `rgba(${col.map(v => v | 0).join(',')},0.5)`; ctx.fill(); ctx.lineJoin = 'round'; ctx.lineWidth = 10; ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.stroke(); ctx.lineWidth = 5; ctx.strokeStyle = `rgb(${col.map(v => v * 0.7 | 0).join(',')})`; ctx.stroke(); });
+      if (base) { CH.placed = 1; attr.style.display = ''; } tex.needsUpdate = true; dirty = true; });
+  }
 
   /* ---------- scene ---------- */
   const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -150,7 +176,7 @@ function mount(host, D) {
     const fl = new THREE.Mesh(new THREE.BoxGeometry(7, 4.2, 0.6), blk); fl.position.set(X(Q.x) + 3.2, h + 16.4, Z(Q.y)); fl.castShadow = true; scene.add(fl); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 16.4, 2, -4, -10, { head: 'Q.' + Q.q + (Q.title ? ' · ' + Q.title : ''), body: Q.ans || 'No answer written yet.', sm: Q.n ? 'Placed at the middle of its ' + Q.n + ' note' + (Q.n > 1 ? 's' : '') + '.' : 'No notes yet; placed on the line between present and goal.' }); });
   { const s = D.START, h = gH(s.x, s.y), p = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 22, 6), blk); p.position.set(X(s.x), h + 11, Z(s.y)); p.castShadow = true; scene.add(p);
     const f = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7, 11), new THREE.MeshStandardMaterial({ color: 0x2e9b45, roughness: 0.55 })); f.position.set(X(s.x), h + 18.5, Z(s.y) + 5.5); f.castShadow = true; scene.add(f);
-    lab('PRESENT', 'pl', s.x, s.y, 24, 3, -30, -24, { head: 'PRESENT', body: 'Where things stand now. The ground runs from here toward the goal.' }); }
+    lab(PL ? 'START' : 'PRESENT', 'pl', s.x, s.y, 24, 3, -30, -24, PL ? { head: 'START', body: 'The note farthest from the goal. The ways run from here to the goal.' } : { head: 'PRESENT', body: 'Where things stand now. The ground runs from here toward the goal.' }); }
   const ringAt = (cx, cy, r) => { const p = []; for (let k = 0; k <= 64; k++) { const a = k / 64 * Math.PI * 2, x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r; p.push(new THREE.Vector3(X(x), gH(x, y) + 0.5, Z(y))); } return p; };
   [22, 14, 6].forEach(r => { const c = new THREE.CatmullRomCurve3(ringAt(D.GOAL.x, D.GOAL.y, r), true); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 1.0, 6, true), new THREE.MeshStandardMaterial({ color: 0xffffff }))); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 0.5, 6, true), blk)); });
   { const g = D.GOAL, hh = gH(g.x, g.y), pole = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 16, 6), blk); pole.position.set(X(g.x), hh + 8, Z(g.y)); scene.add(pole);
@@ -158,7 +184,7 @@ function mount(host, D) {
     const ck = document.createElement('canvas'); ck.width = 96; ck.height = 64; { const c = ck.getContext('2d'); for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) { c.fillStyle = (i + j) % 2 ? '#111111' : '#ffffff'; c.fillRect(i * 16, j * 16, 16, 16); } }
     const ctex = new THREE.CanvasTexture(ck); ctex.colorSpace = THREE.SRGBColorSpace; ctex.magFilter = THREE.NearestFilter;
     const st = new THREE.Mesh(new THREE.BoxGeometry(0.5, 8, 12), new THREE.MeshStandardMaterial({ map: ctex, roughness: 0.6 })); st.position.set(X(g.x), hh + 20, Z(g.y) + 6); st.castShadow = true; scene.add(st); lab('GOAL', 'pl', g.x, g.y, 25, 3, -22, -22, { head: 'GOAL', body: D.goalText || 'No goal written yet.' }); }
-  { let nm = -1e9; for (let k = 0; k <= 60; k++) nm = Math.max(nm, gH(0, k / 60 * 20)); const o = lab('↑ HELP', 'side', 0, 2, 0, 4, -104, -10); o.v.set(X(-6), nm + 4, Z(2));
+  if (!PL) { let nm = -1e9; for (let k = 0; k <= 60; k++) nm = Math.max(nm, gH(0, k / 60 * 20)); const o = lab('↑ HELP', 'side', 0, 2, 0, 4, -104, -10); o.v.set(X(-6), nm + 4, Z(2));
     const o2 = lab('↓ HINDER', 'side hd', 0, H - 2, 0, 4, -128, -10); o2.v.set(X(-6), (gH(0, H - 2) + BASE) / 2, Z(H));
     const o3 = lab('← PRESENT', 'side ax', 0, H, 0, 4, 0, 10); o3.v.set(X(0), BASE, Z(H) + 4);
     const o4 = lab('FUTURE →', 'side ax', W, H, 0, 4, -120, 10); o4.v.set(X(W), BASE, Z(H) + 4); }
@@ -213,11 +239,11 @@ function mount(host, D) {
   /* ---------- legend ---------- */
   const sw = c => `rgb(${c.map(v => v | 0).join(',')})`, order = [[0, 'the highest ground'], [1, 'a ridge'], [2, 'low ground'], [3, 'lower ground'], [4, 'the lowest ground']];
   leg.innerHTML = '<b>LEGEND</b>' + order.map(([rk, t]) => { const k = RANK.indexOf(rk); return k < 0 ? '' : `<div class="r"><i style="background:${sw(EMOC[k])}"></i><span>${D.emo[k][0]}: ${t}</span></div>`; }).join('') +
-    '<div class="r"><i style="background:rgb(140,135,127)"></i><span>Bare rock face: two distant emotions meet with no ridge of indifference between them, so getting across is a climb. A big move takes energy either way; most moves go through indifference.</span></div>' +
-    '<div class="r"><i style="background:rgb(116,122,74)"></i><span>Plain grass, soil or rock, no color: no notes nearby, so no information here.</span></div>' +
+    (PL ? '<div class="r"><i style="background:rgba(120,160,120,.45);border:2px solid #2a9d8f"></i><span>Shaded patches: areas you drew on the place map, in their emotion’s color.</span></div><div class="r"><i style="background:#8a8577"></i><span>Satellite image without color: no notes nearby, so no information here.</span></div>' : '<div class="r"><i style="background:rgb(140,135,127)"></i><span>Bare rock face: two distant emotions meet with no ridge of indifference between them, so getting across is a climb. A big move takes energy either way; most moves go through indifference.</span></div>' +
+    '<div class="r"><i style="background:rgb(116,122,74)"></i><span>Plain grass, soil or rock, no color: no notes nearby, so no information here.</span></div>') +
     (D.routes && D.routes.length ? D.routes.map(R => `<div class="r"><i style="background:${RC[R.key]};border-color:#111;height:6px;margin-top:5px"></i><span><b style="display:inline;letter-spacing:0;font-size:12.5px">${R.key}</b> · ${R.name.replace(/[<>&]/g, '')}</span></div>`).join('') : '') +
     (D.spokes ? '<div class="r"><i style="background:#222;height:2px;margin-top:7px"></i><span>Thin lines: from each question’s flag to its notes.</span></div>' : '') + ((D.read || []).length ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Numbered: what the ground says' + (D.spokes ? ' (from Pattern Synthesis). Hover or tap a number to read it.' : ', read above the map.') + '</span></div><div class="r"><i style="background:#3a1f0c;height:6px;margin-top:5px;border:1px solid #fff;box-shadow:0 0 0 1px #bbb"></i><span>A brown line: a pattern you ticked under PATTERNS THAT RUN THROUGH IT.</span></div>' : '') +
-    '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color; black flags are questions. The green flag is the present; the checkered flag is the goal. ← PRESENT and FUTURE → run along the front; ↑ HELP and ↓ HINDER run back to front.</span></div>' +
+    (PL ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color, where you placed them; black flags are questions. The green flag (START) is the note farthest from the goal; the checkered flag is the goal, at ' + (PL.name ? PL.name.replace(/[<>&]/g, '') : 'your location') + '. North is at the back.</span></div>' : '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color; black flags are questions. The green flag is the present; the checkered flag is the goal. ← PRESENT and FUTURE → run along the front; ↑ HELP and ↓ HINDER run back to front.</span></div>') +
     '<div class="r"><span style="color:#666">Drag to turn, scroll or pinch to zoom. Hover or tap a note, question, the goal, a number or a way to read it.</span></div>';
 
   /* ---------- full screen: legend drawer and the method's name ---------- */
@@ -250,7 +276,7 @@ function mount(host, D) {
     /* a strategy card in full screen gets the same legend drawer and name as the full-screen Pattern Synthesis map */
     wrap.classList.toggle('cfs', !!cfs); if (cfs) fillFsl(); leg.style.display = cfs ? 'none' : '';
     const pad = (fs || cfs) && !fsl.classList.contains('shut') ? Math.min(340, Math.round(w * 0.86)) : 0, vw = Math.max(200, w - pad);
-    wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(vw, h); renderer.domElement.style.marginLeft = pad + 'px'; lbs.style.left = pad + 'px'; camera.aspect = vw / h;
+    wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(vw, h); renderer.domElement.style.marginLeft = pad + 'px'; lbs.style.left = pad + 'px'; attr.style.left = pad + 6 + 'px'; camera.aspect = vw / h;
     // keep the whole block in frame
     camera.fov = 30; camera.updateProjectionMatrix(); lastW = w; if (typeof home === 'function' && !moved) home(); dirty = true; }
   const ro = window.ResizeObserver ? new ResizeObserver(size) : null; if (ro) ro.observe(wrap); window.addEventListener('resize', size);
@@ -268,7 +294,7 @@ function mount(host, D) {
     if (!!(D.card && host.closest('.gtfs-on')) !== lastCfs) dirty = true;
     if (dirty && wrap.clientWidth) { RD.forEach(o => o.rim && o.rim.quaternion.copy(camera.quaternion)); if ((wrap.clientWidth !== lastW || !!(D.card && host.closest('.gtfs-on')) !== lastCfs) && !wrap.classList.contains('fs')) { lastCfs = !!(D.card && host.closest('.gtfs-on')); size(); } renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
   function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
-  size(); home(); loop();
+  size(); home(); loop(); placeGround();
   function focusQ(q) { NOBJ.forEach(o => { const on = !q || o.q === q; o.st.visible = o.hd.visible = on; if (o.sp) o.sp.visible = on; o.lo.off = !on; o.lo.el.style.opacity = on ? '' : '0'; o.lo.el.style.pointerEvents = on ? '' : 'none'; }); dirty = true; }
   return { loops, focusQ, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
     snap() { renderer.render(scene, camera); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
