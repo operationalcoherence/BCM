@@ -1,7 +1,9 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v179** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 3 · 2026-11-17 · Preview at **v181** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v181** (2026-11-17, preview): MOVES, IN ORDER on strategy cards (T6). See `docs/v181_update.md`.
+- **v180** (2026-11-17, preview): In Parallel findings told as meaning (N4). See `docs/v180_update.md`.
 - **v179** (2026-11-17, preview): action grid on In Parallel (T4). See `docs/v179_update.md`.
 - **v178** (2026-11-17, preview): full-screen legend pushes the map aside (his bug report); In Parallel has its own picture (question lines + numbered places) and WHERE THE TWO PICTURES MEET. See `docs/v178_update.md`.
 - **v177** (2026-11-17, preview): Taking Action ways compared (why choose each, why the harder way, when to stop and readjust per Morin, chart of effort/impact/benefit/return). See `docs/v177_update.md`.
@@ -35,7 +37,7 @@ Rev 3 · 2026-11-17 · Preview at **v179** · Basis: 11-17 review, export 2026-1
 - Low-value sections: Top strategy, Top program, What it rests on (keep Source and Voices), What stands out, In the words, Condition.
 - "Behaviors first" is referenced without being explained.
 - The minority voice (Other wildfire professionals, 5 notes) risks being flattened visually.
-- Synthesis→Action gap: ways are now costed and compared (v177), but terrain readings still don't become sequenced moves (T6).
+- Synthesis→Action: ways costed (v177) and sequenced (v181). Still a rule of thumb, not the friction field (F3).
 - Instructions are out of date across pages.
 
 ## Work in progress
@@ -62,6 +64,6 @@ Rev 3 · 2026-11-17 · Preview at **v179** · Basis: 11-17 review, export 2026-1
 | D11 | Resolved: the 7 symbols are the seven question symbols |
 
 ## Current priorities
-3. Remaining Priority 1: U5 (his approval of redlines), A1 engine side (threads that cross question boundaries). Priority 2 remaining: N4 rest (In Parallel: Emotion as story, Two people two sides, Placed one way, The emotion changes), N3 (Analysis stories), T5 (constraint prompt), T6 (terrain→moves handoff), U7 (touch), U8 (progressive disclosure), V5 (voice normalization), A2 (coworking schema), G1 (glossary popovers), V1 place-map version (waits on D1).
+3. Remaining Priority 1: U5 (his approval of redlines), A1 engine side (threads that cross question boundaries). Priority 2 remaining: N3 (Analysis stories: What stands out, Possible patterns), T5 (constraint prompt), U7 (touch), U8 (progressive disclosure), V5 (voice normalization), A2 (coworking schema), G1 (glossary popovers), V1 place-map version (waits on D1).
 4. Carry the new visuals to Analysis and In Parallel; fullscreen legend and branding; touch support.
 5. Taking Action pathways + Morin integration.
