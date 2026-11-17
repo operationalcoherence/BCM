@@ -1,7 +1,9 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v181** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 3 · 2026-11-17 · Preview at **v183** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v183** (2026-11-17, preview): POSSIBLE PATTERNS names the emotion (N3); voices weighted evenly on the ground (V5). See `docs/v183_update.md`.
+- **v182** (2026-11-17, preview): tap to inspect on touch (U7); long lists fold into View details (U8); WHAT STANDS OUT findings say what they mean (N3). See `docs/v182_update.md`.
 - **v181** (2026-11-17, preview): MOVES, IN ORDER on strategy cards (T6). See `docs/v181_update.md`.
 - **v180** (2026-11-17, preview): In Parallel findings told as meaning (N4). See `docs/v180_update.md`.
 - **v179** (2026-11-17, preview): action grid on In Parallel (T4). See `docs/v179_update.md`.
@@ -58,12 +60,12 @@ Rev 3 · 2026-11-17 · Preview at **v181** · Basis: 11-17 review, export 2026-1
 | D5 | Resolved v174: "Complexity: The emerging science…" |
 | D6 | Morin quote typo "andA" → "and" |
 | D7 | 2 or 3 pathways by default on Taking Action |
-| D8 | Saturation set at 40% of answers and notes (min 10), with 2+ recurring phrases; voice-normalization weighting still open |
+| D8 | Saturation 40% (min 10 pieces, 2+ phrases); voice weighting √(mean/size) clamped 0.6–1.8, on by default (v183): on, or a switch? |
 | D9 | Resolved v171: the per-question lines in WHAT IT RESTS ON were removed |
 | D10 | Whether to include the optional lexical world-making / perturbation audit (only if clutter-free) |
 | D11 | Resolved: the 7 symbols are the seven question symbols |
 
 ## Current priorities
-3. Remaining Priority 1: U5 (his approval of redlines), A1 engine side (threads that cross question boundaries). Priority 2 remaining: N3 (Analysis stories: What stands out, Possible patterns), T5 (constraint prompt), U7 (touch), U8 (progressive disclosure), V5 (voice normalization), A2 (coworking schema), G1 (glossary popovers), V1 place-map version (waits on D1).
+3. Remaining Priority 1: U5 (his approval of redlines), A1 engine side (threads that cross question boundaries). Priority 2 remaining: T5 (constraint prompt), A2 (coworking schema), G1 (glossary popovers), V1 place-map version (waits on D1).
 4. Carry the new visuals to Analysis and In Parallel; fullscreen legend and branding; touch support.
 5. Taking Action pathways + Morin integration.

@@ -46,10 +46,10 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v176 V2 | Replace both In Parallel visualizations; rewrite "Read together", "Where they differ", "Closest/farthest" for the new visuals | VIZ/NARR | PAR | V1 |
 | V3 (✔v171, drawer fix v178) | Fullscreen: legend + "The Bear Canyon Method · Operational Coherence", rotation/expansion; legend as dockable, collapsible blur drawer | VIZ/UI | PS, PA | — |
 | ✔v175 V4 | Visual within ~1 screen on PA; rewrite "What this suggests" against the new visual | UI/NARR | PA | V1 |
-| V5 | Voice normalization weight so the minority voice isn't flattened in terrain or prose | ENG/VIZ | engine, PS, PAR | D8 |
-| U7 | Touch: tap-to-inspect popovers, tap-outside dismiss, `touch-action:none` on canvases, Orbit Mode toggle + touch helper | UI | GLB | — |
-| U8 | Progressive disclosure: raw lists/gap metrics in "View details" accordions; narrative and visual lead | UI | PA, PAR, PS | N1, N2 |
-| N3 | PA story rewrites: What stands out (implications or delete); Possible patterns (name the emotion, widen context); Q-sections lacking meaning (Q2–Q7, D9) | NARR | PA | E1–E4 |
+| ✔v183 V5 | Voice normalization weight so the minority voice isn't flattened in terrain or prose | ENG/VIZ | engine, PS, PAR | D8 |
+| ✔v182 U7 | Touch: tap-to-inspect popovers, tap-outside dismiss, `touch-action:none` on canvases, Orbit Mode toggle + touch helper | UI | GLB | — |
+| ✔v182 U8 | Progressive disclosure: raw lists/gap metrics in "View details" accordions; narrative and visual lead | UI | PA, PAR, PS | N1, N2 |
+| ✔v182–183 N3 | PA story rewrites: What stands out (implications or delete); Possible patterns (name the emotion, widen context); Q-sections lacking meaning (Q2–Q7, D9) | NARR | PA | E1–E4 |
 | ✔v180 N4 | PAR story rewrites: Emotion (expand into story; emotion is the method's cornerstone); "Two people, two sides" (beyond the obvious); "Placed one way…", "The emotion changes" (meaning to the user); fix the "Tradition/reduce/involved" paragraph | NARR | PAR | E1–E4, V2 |
 | ✔v177 T1 | TA: 2–3 toggleable pathways, same goal, different routes; each with rationale, difference, when to choose, impact, benefit, effort/energy | ENG/UI | TA | D7 |
 | ✔v177 T2 | TA "Comparing the ways" depth: why take the harder route; when to stop and readjust (watch signals); integrate Morin (2008) ecology of action and strategy vs. program, cited | NARR/RES | TA | T1, D6 |
