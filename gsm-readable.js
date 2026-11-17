@@ -15039,7 +15039,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v189");
+        t && (t.textContent = "v190");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -15066,10 +15066,17 @@
                   }) ||
                   C.m.length ||
                   C.p.m.length
-                    ? ((o = r), e.classList.add("show"), e.scrollIntoView({ block: "center" }))
+                    ? ((o = r),
+                      e.classList.add("show"),
+                      !e.offsetParent && window.gsmTab && window.gsmTab(0),
+                      e.scrollIntoView({ block: "center" }))
                     : a(r));
               } catch (e) {
                 t.textContent = "That file could not be opened: " + e.message + ".";
+                !t.offsetParent && window.gsmTab && window.gsmTab(0);
+                t.scrollIntoView({ block: "center" });
+                var pm = document.getElementById("gsm-pdfmsg");
+                pm && (pm.textContent = t.textContent);
               }
             }),
               i.readAsText(r));
@@ -15171,7 +15178,10 @@
         ((r.value = ""), r.click());
       }
       function l(t) {
-        ((e.innerHTML = t), e.classList.add("show"), e.scrollIntoView({ block: "center" }));
+        ((e.innerHTML = t),
+          e.classList.add("show"),
+          !e.offsetParent && window.gsmTab && window.gsmTab(0),
+          e.scrollIntoView({ block: "center" }));
       }
       ((r.type = "file"),
         (r.accept = ".json,application/json"),

@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 3 · 2026-11-17 · Preview at **v189** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 3 · 2026-11-17 · Preview at **v190** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v190** (2026-11-17, preview): Open workbook (and Combine) work from every tab; the Replace question was showing on a hidden tab. See `docs/v190_update.md`.
 - **v189** (2026-11-17, preview): place maps stand on the real terrain, true to scale (AWS Terrain Tiles), emotion as color only; replaces v186's emotion relief on places. See `docs/v189_update.md`.
 - **v188** (2026-11-17, preview): G1, glossary popovers on the first use of 12 terms per section and card; definitions reuse on-screen wording. See `docs/v188_update.md`.
 - **v187** (2026-11-17, preview): T5, WHAT HOLDS IT IN THE LOW GROUND on Taking Action cards, his constraint question per low-ground note, answers saved in the workbook. See `docs/v187_update.md`.
