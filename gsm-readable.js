@@ -3688,7 +3688,7 @@
         St.classList.remove("show"));
     }));
   var Lt =
-      "a about above across after again against all also am an and any are as at be because been before being below between both but by can could did do does doing done down during each either else enough etc even ever every few for from further get gets getting got had has have having he her here hers him his how however i if in into is it its itself just let like me more most much must my no nor not now of off on once only or other others our ours out over own per same she should so some such than that the their theirs them then there therefore these they this those though through thus to too under until up upon very via was way ways we were what whatever when where whether which while who whom whose why will with within without would you your yours one two three four five six seven eight nine ten first second make makes made making need needs needed lot lots thing things really still well already able may might maybe perhaps several plenty many little less least kind sort part parts piece area areas side sides reason reasons idea ideas possible possibly right wrong good bad big small new old great true real certain different another various general specific particular whole full given taken take takes took give gives use used using uses come comes came go goes going went become becomes see seen look looks say says said think thought know known want wants seem seems seemed find found put tell told try tried keep kept begin began show shown help helps exist exists existing perform performed performing provide provided form forms number numbers level levels case cases fact point points people person someone anyone everyone everything something nothing anything lack yes yeah community communities goal goals support supports supported supporting oppose opposes opposed opposing opposition design designs designed designing redesign redesigns redesigned redesigning reinforce reinforces reinforced reinforcing condition conditions establish established establishing follow root question questions answer answers period meet cited cite taking cannot overall towards toward".split(
+      "involved necessary a about above across after again against all also am an and any are as at be because been before being below between both but by can could did do does doing done down during each either else enough etc even ever every few for from further get gets getting got had has have having he her here hers him his how however i if in into is it its itself just let like me more most much must my no nor not now of off on once only or other others our ours out over own per same she should so some such than that the their theirs them then there therefore these they this those though through thus to too under until up upon very via was way ways we were what whatever when where whether which while who whom whose why will with within without would you your yours one two three four five six seven eight nine ten first second make makes made making need needs needed lot lots thing things really still well already able may might maybe perhaps several plenty many little less least kind sort part parts piece area areas side sides reason reasons idea ideas possible possibly right wrong good bad big small new old great true real certain different another various general specific particular whole full given taken take takes took give gives use used using uses come comes came go goes going went become becomes see seen look looks say says said think thought know known want wants seem seems seemed find found put tell told try tried keep kept begin began show shown help helps exist exists existing perform performed performing provide provided form forms number numbers level levels case cases fact point points people person someone anyone everyone everything something nothing anything lack yes yeah community communities goal goals support supports supported supporting oppose opposes opposed opposing opposition design designs designed designing redesign redesigns redesigned redesigning reinforce reinforces reinforced reinforcing condition conditions establish established establishing follow root question questions answer answers period meet cited cite taking cannot overall towards toward".split(
         " ",
       ),
     Ot = {};
@@ -3966,6 +3966,25 @@
             for (var o in t.t.b) p[o] = (p[o] || 0) + 1;
           }
         }),
+        (function () {
+          var MED = {};
+          h.length >= 10 &&
+            Object.keys(g).forEach(function (w) {
+              if (w.indexOf(" ") >= 0 || g[w] / h.length < 0.4) return;
+              var subs = Object.keys(p).filter(function (b) {
+                return p[b] >= 2 && b.split(" ").indexOf(w) >= 0;
+              });
+              var cnt = {};
+              subs.forEach(function (b) {
+                cnt[b] = p[b];
+              });
+              subs.length >= 2 && (MED[w] = { n: g[w], of: h.length, subs: subs, cnt: cnt });
+            });
+          Object.keys(MED).forEach(function (w) {
+            g[w] = 1;
+          });
+          window.gsmMED = MED;
+        })(),
         h.length < 2 && !C.m.length && !C.p.m.length)
       )
         Rt.innerHTML =
@@ -5964,6 +5983,66 @@
               b,
               null,
             );
+          Object.keys(window.gsmMED || {})
+            .sort(function (x, y) {
+              return window.gsmMED[y].n - window.gsmMED[x].n;
+            })
+            .slice(0, 3)
+            .forEach(function (w, wi) {
+            var M = window.gsmMED[w],
+              rows = M.subs
+                .map(function (b) {
+                  var up = 0,
+                    dn = 0,
+                    tot = 0;
+                  n.forEach(function (pc) {
+                    if (!pc.t || !pc.t.b || !pc.t.b[b] || "GOAL" === pc.id) return;
+                    tot++;
+                    var sd =
+                      null != pc.ys ? (pc.ys < 118 ? 1 : -1) : null != pc.q ? Pt[pc.q] : pc.nk ? Wt[pc.nk - 1] : 0;
+                    sd > 0 ? up++ : sd < 0 && dn++;
+                  });
+                  return { b: b, n: M.cnt[b], side: up > dn ? 1 : dn > up ? -1 : 0, tot: tot };
+                })
+                .sort(function (x, y) {
+                  return y.n - x.n;
+                }),
+              say = function (sd) {
+                var r = rows.filter(function (x) {
+                  return x.side === sd;
+                });
+                if (!r.length) return "";
+                var t = r.slice(0, 4).map(function (x) {
+                  return "<b>" + Gt(jt(x.b)) + "</b> (" + x.n + ")";
+                });
+                return t.length > 1 ? t.slice(0, -1).join(", ") + " and " + t[t.length - 1] : t[0];
+              },
+              hp = say(1),
+              hn = say(-1),
+              bo2 = say(0);
+            c(
+              "ONE WORD, SEVERAL MEANINGS",
+              "<b>“" +
+                Gt(jt(w)) +
+                "”</b> is in " +
+                M.n +
+                " of your " +
+                M.of +
+                " answers and notes, so on its own it says little" +
+                (wi
+                  ? ". It is part of what the workbook is about, not a finding in it."
+                  : ": like the water a fish swims in, it is what the whole workbook is about.") +
+                " What it means changes with the words beside it." +
+                (hp ? " Where things help, you write " + hp + "." : "") +
+                (hn ? " Where things hinder, you write " + hn + "." : "") +
+                (bo2 ? " On both sides of the line: " + bo2 + "." : "") +
+                (wi
+                  ? ""
+                  : " Patterns reads these as separate ideas from here on and no longer reports the bare word by itself. If two of them are the same thing to you, or a kind you mean is missing, say so in your notes.") ,
+              M.subs,
+              null,
+            );
+          });
           var E = Object.keys(r.k).filter(function (t) {
             return (
               !k[t] &&
@@ -14051,7 +14130,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v171");
+        t && (t.textContent = "v172");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
