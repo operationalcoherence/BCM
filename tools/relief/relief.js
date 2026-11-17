@@ -15,7 +15,7 @@ const CSS = `
 .grel .rdm{font:bold 12px Helvetica,Arial,sans-serif;color:#fff;background:#111;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
 .grel .rdm.on{background:#7a1d12;transform:scale(1.25)}
 .grel .wl{font:bold 14px Helvetica,Arial,sans-serif;width:26px;height:26px;line-height:22px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)}.grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
-.grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}
+.grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}.grel .fsx{display:none}.grel.fs .fsx{display:block}.grel .fsleg{position:absolute;top:0;bottom:0;left:0;width:min(340px,86vw);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-right:1px solid #ddd;padding:52px 14px 14px;overflow:auto;z-index:4;transform:translateX(0);transition:transform .2s}.grel .fsleg.shut{transform:translateX(-100%)}.grel .fsleg .grleg{margin:0}.grel .fslb{position:absolute;top:8px;left:8px;z-index:5;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer}.grel .brand{position:absolute;right:12px;bottom:10px;z-index:3;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333;background:rgba(255,255,255,.75);padding:3px 8px}.grel .brand b{font-weight:700}
 .grel .busy{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#888;font:13px Questrial,Helvetica,Arial,sans-serif}
 .grleg{margin:8px 0 2px;font-size:12.5px;line-height:1.45;color:#333}
 .grleg .r{display:flex;gap:8px;align-items:flex-start;margin:3px 0}
@@ -30,9 +30,9 @@ function fbm(x, y, o = 5) { let s = 0, a = 0.5, f = 1; for (let k = 0; k < o; k+
 function ridged(x, y, o = 4) { let s = 0, a = 0.5, f = 1; for (let k = 0; k < o; k++) { const n = 1 - Math.abs(vn(x * f, y * f) * 2 - 1); s += a * n * n; f *= 2.1; a *= 0.5; } return s; }
 const sstep = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 const mix = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
-function vivid(c) { let [r, g, b] = c.map(v => v / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b); let l = (mx + mn) / 2, sa = 0, h = 0, d = mx - mn;
+function vivid(c, deep) { let [r, g, b] = c.map(v => v / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b); let l = (mx + mn) / 2, sa = 0, h = 0, d = mx - mn;
   if (d > 1e-6) { sa = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn); h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h /= 6; }
-  sa = Math.min(1, sa * 1.5 + 0.08); l = Math.min(0.62, Math.max(0.42, l));
+  sa = Math.min(1, sa * 1.5 + 0.08); l = deep ? Math.min(0.36, Math.max(0.24, l)) : Math.min(0.62, Math.max(0.42, l));
   const q = l < 0.5 ? l * (1 + sa) : l + sa - l * sa, p = 2 * l - q, f = t => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; };
   return [f(h + 1 / 3) * 255, f(h) * 255, f(h - 1 / 3) * 255]; }
 
@@ -64,9 +64,9 @@ function mount(host, D) {
     const g = (a, b) => hGrid[b * MX + a]; return g(i, j) * (1 - u) * (1 - v) + g(i + 1, j) * u * (1 - v) + g(i, j + 1) * (1 - u) * v + g(i + 1, j + 1) * u * v; }
 
   /* ---------- emotion field from the notes; rock face where distant emotions meet ---------- */
-  const EMOC = D.emo.map(e => vivid(e[1])), K = D.emo.length;
+  const K = D.emo.length;
   const RANK = D.emo.map(e => /accept/i.test(e[0]) ? 0 : /indiff/i.test(e[0]) ? 1 : /distrust/i.test(e[0]) ? 2 : /aggress/i.test(e[0]) ? 3 : 4);
-  const DEF = RANK.indexOf(4), EN = D.notes.filter(n => n.e != null);
+  const DEF = RANK.indexOf(4), EN = D.notes.filter(n => n.e != null), EMOC = D.emo.map((e, k) => vivid(e[1], k === DEF));
   const EF = { w: 96 }; EF.h = Math.round(EF.w * H / W); EF.a = new Float32Array(EF.w * EF.h * (K + 2));
   for (let j = 0; j < EF.h; j++) for (let i = 0; i < EF.w; i++) {
     const x = i / (EF.w - 1) * W, y = j / (EF.h - 1) * H, ws = new Float32Array(K), o = (j * EF.w + i) * (K + 2);
@@ -147,11 +147,15 @@ function mount(host, D) {
   D.qpos.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st);
     const fl = new THREE.Mesh(new THREE.BoxGeometry(7, 4.2, 0.6), blk); fl.position.set(X(Q.x) + 3.2, h + 16.4, Z(Q.y)); fl.castShadow = true; scene.add(fl); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 16.4, 2, -4, -10, { head: 'Q.' + Q.q + (Q.title ? ' · ' + Q.title : ''), body: Q.ans || 'No answer written yet.', sm: Q.n ? 'Placed at the middle of its ' + Q.n + ' note' + (Q.n > 1 ? 's' : '') + '.' : 'No notes yet; placed on the line between present and goal.' }); });
   { const s = D.START, h = gH(s.x, s.y), p = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 22, 6), blk); p.position.set(X(s.x), h + 11, Z(s.y)); p.castShadow = true; scene.add(p);
-    const f = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7, 11), blk); f.position.set(X(s.x), h + 18.5, Z(s.y) + 5.5); scene.add(f); }
+    const f = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7, 11), new THREE.MeshStandardMaterial({ color: 0x2e9b45, roughness: 0.55 })); f.position.set(X(s.x), h + 18.5, Z(s.y) + 5.5); f.castShadow = true; scene.add(f);
+    lab('PRESENT', 'pl', s.x, s.y, 24, 3, -30, -24, { head: 'PRESENT', body: 'Where things stand now. The ground runs from here toward the goal.' }); }
   const ringAt = (cx, cy, r) => { const p = []; for (let k = 0; k <= 64; k++) { const a = k / 64 * Math.PI * 2, x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r; p.push(new THREE.Vector3(X(x), gH(x, y) + 0.5, Z(y))); } return p; };
   [22, 14, 6].forEach(r => { const c = new THREE.CatmullRomCurve3(ringAt(D.GOAL.x, D.GOAL.y, r), true); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 1.0, 6, true), new THREE.MeshStandardMaterial({ color: 0xffffff }))); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 0.5, 6, true), blk)); });
   { const g = D.GOAL, hh = gH(g.x, g.y), pole = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 16, 6), blk); pole.position.set(X(g.x), hh + 8, Z(g.y)); scene.add(pole);
-    const st = new THREE.Mesh(new THREE.OctahedronGeometry(4), blk); st.position.set(X(g.x), hh + 17, Z(g.y)); st.castShadow = true; scene.add(st); lab('GOAL', 'pl', g.x, g.y, 18, 3, -22, -22, { head: 'GOAL', body: D.goalText || 'No goal written yet.' }); }
+    pole.scale.y = 1.5; pole.position.y = hh + 12;
+    const ck = document.createElement('canvas'); ck.width = 96; ck.height = 64; { const c = ck.getContext('2d'); for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) { c.fillStyle = (i + j) % 2 ? '#111111' : '#ffffff'; c.fillRect(i * 16, j * 16, 16, 16); } }
+    const ctex = new THREE.CanvasTexture(ck); ctex.colorSpace = THREE.SRGBColorSpace; ctex.magFilter = THREE.NearestFilter;
+    const st = new THREE.Mesh(new THREE.BoxGeometry(0.5, 8, 12), new THREE.MeshStandardMaterial({ map: ctex, roughness: 0.6 })); st.position.set(X(g.x), hh + 20, Z(g.y) + 6); st.castShadow = true; scene.add(st); lab('GOAL', 'pl', g.x, g.y, 25, 3, -22, -22, { head: 'GOAL', body: D.goalText || 'No goal written yet.' }); }
   { let nm = -1e9; for (let k = 0; k <= 60; k++) nm = Math.max(nm, gH(0, k / 60 * 20)); const o = lab('↑ HELP', 'side', 0, 2, 0, 4, -104, -10); o.v.set(X(-6), nm + 4, Z(2));
     const o2 = lab('↓ HINDER', 'side hd', 0, H - 2, 0, 4, -128, -10); o2.v.set(X(-6), (gH(0, H - 2) + BASE) / 2, Z(H));
     const o3 = lab('← PRESENT', 'side ax', 0, H, 0, 4, 0, 10); o3.v.set(X(0), BASE, Z(H) + 4);
@@ -191,6 +195,14 @@ function mount(host, D) {
       o.el.style.background = RC[R.key]; o.el.style.color = R.key === 'B' ? '#111' : '#fff'; o.el.style.borderColor = R.key === 'B' ? '#111' : '#fff'; return o; });
     WAYS[R.key] = { tube, edge, badges, mat };
   });
+  const LOOPS = new THREE.Group(); scene.add(LOOPS); let loopKey = '';
+  const loopMat = new THREE.MeshStandardMaterial({ color: 0x3a1f0c, roughness: 0.5, emissive: 0x2a1205, emissiveIntensity: 0.4 }), haloMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 });
+  function loops(list) { const key = (list || []).map(t => t.w).join('|'); if (key === loopKey) return; loopKey = key;
+    while (LOOPS.children.length) { const m = LOOPS.children.pop(); m.geometry.dispose(); }
+    (list || []).forEach(t => (t.lines || []).forEach(L => { if (!L || L.length < 2) return;
+      const pts = L.map(p => new THREE.Vector3(X(p[0]), gH(p[0], p[1]) + 1.2, Z(p[1]))); const c = new THREE.CatmullRomCurve3(pts);
+      const n = Math.max(24, pts.length * 3); LOOPS.add(new THREE.Mesh(new THREE.TubeGeometry(c, n, 1.05, 6), haloMat)); LOOPS.add(new THREE.Mesh(new THREE.TubeGeometry(c, n, 0.9, 6), loopMat)); }));
+    dirty = true; }
   let selWay = null, hovWay = null;
   function showWays() { const k = hovWay || selWay; Object.keys(WAYS).forEach(q => { const w = WAYS[q], on = !k || q === k; w.mat.opacity = on ? 1 : 0.15; if (w.edge) w.edge.material.opacity = on ? 0.9 : 0.1; w.badges.forEach(b => { b.el.style.opacity = on ? 1 : 0.25; }); }); dirty = true; }
   const ray = new THREE.Raycaster(), mv = new THREE.Vector2();
@@ -202,10 +214,15 @@ function mount(host, D) {
     '<div class="r"><i style="background:rgb(140,135,127)"></i><span>Bare rock face: two distant emotions meet with no ridge of indifference between them, so getting across is a climb. A big move takes energy either way; most moves go through indifference.</span></div>' +
     '<div class="r"><i style="background:rgb(116,122,74)"></i><span>Plain grass, soil or rock, no color: no notes nearby, so no information here.</span></div>' +
     (D.routes && D.routes.length ? D.routes.map(R => `<div class="r"><i style="background:${RC[R.key]};border-color:#111;height:6px;margin-top:5px"></i><span><b style="display:inline;letter-spacing:0;font-size:12.5px">${R.key}</b> · ${R.name.replace(/[<>&]/g, '')}</span></div>`).join('') : '') +
-    ((D.read || []).length ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Numbered: what stands out, read below.</span></div>' : '') +
-    '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color; black flags are questions. ← PRESENT and FUTURE → run along the front; ↑ HELP and ↓ HINDER run back to front.</span></div>' +
+    ((D.read || []).length ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Numbered: what the ground says, read above the map.</span></div><div class="r"><i style="background:#3a1f0c;height:4px;margin-top:6px;border:2px solid #fff;outline:1px solid #ccc"></i><span>A brown line: a pattern you ticked under PATTERNS THAT RUN THROUGH IT.</span></div>' : '') +
+    '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color; black flags are questions. The green flag is the present; the checkered flag is the goal. ← PRESENT and FUTURE → run along the front; ↑ HELP and ↓ HINDER run back to front.</span></div>' +
     '<div class="r"><span style="color:#666">Drag to turn, scroll or pinch to zoom. Hover or tap a note, question, the goal, a number or a way to read it.</span></div>';
 
+  /* ---------- full screen: legend drawer and the method's name ---------- */
+  const fsl = document.createElement('div'); fsl.className = 'fsx fsleg'; const fsb = document.createElement('button'); fsb.type = 'button'; fsb.className = 'fsx fslb'; fsb.textContent = 'Hide legend';
+  const brand = document.createElement('div'); brand.className = 'fsx brand'; brand.innerHTML = '<b>THE BEAR CANYON METHOD</b> · BY OPERATIONAL COHERENCE';
+  fsb.onclick = ev => { ev.stopPropagation(); const shut = !fsl.classList.contains('shut'); fsl.classList.toggle('shut', shut); fsb.textContent = shut ? 'Legend' : 'Hide legend'; };
+  [fsl, fsb, brand].forEach(e => wrap.appendChild(e)); const fillFsl = () => { fsl.innerHTML = ''; const c = leg.cloneNode(true); fsl.appendChild(c); };
   /* ---------- buttons ---------- */
   const bReset = document.createElement('button'), bFs = document.createElement('button');
   bReset.className = bFs.className = 'bt'; bReset.textContent = 'Reset view'; bFs.textContent = 'Full screen';
@@ -222,7 +239,7 @@ function mount(host, D) {
     const sh = up.multiplyScalar((y0 + y1) / 2 * th).add(rt.multiplyScalar((x0 + x1) / 2 * th * camera.aspect)); tgt.add(sh);
     camera.position.copy(tgt).addScaledVector(dir, d); controls.target.copy(tgt); controls.update(); dirty = true; }
   bReset.onclick = () => { moved = false; home(); };
-  bFs.onclick = () => { const on = !wrap.classList.contains('fs'); wrap.classList.toggle('fs', on); bFs.textContent = on ? 'Close full screen' : 'Full screen'; document.documentElement.style.overflow = on ? 'hidden' : ''; size(); };
+  bFs.onclick = () => { const on = !wrap.classList.contains('fs'); if (on) fillFsl(); wrap.classList.toggle('fs', on); bFs.textContent = on ? 'Close full screen' : 'Full screen'; document.documentElement.style.overflow = on ? 'hidden' : ''; size(); };
   const onKey = e => { if (e.key === 'Escape' && wrap.classList.contains('fs')) bFs.onclick(); }; document.addEventListener('keydown', onKey);
 
   /* ---------- sizing, labels, loop ---------- */
@@ -246,7 +263,7 @@ function mount(host, D) {
     if (dirty && wrap.clientWidth) { RD.forEach(o => o.rim && o.rim.quaternion.copy(camera.quaternion)); if ((wrap.clientWidth !== lastW || !!(D.card && host.closest('.gtfs-on')) !== lastCfs) && !wrap.classList.contains('fs')) { lastCfs = !!(D.card && host.closest('.gtfs-on')); size(); } renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
   function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
   size(); home(); loop();
-  return { hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
+  return { loops, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
     snap() { renderer.render(scene, camera); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
 }
 

@@ -34,17 +34,24 @@ so it only works from operationalcoherence.com.
 
 ## Source
 
-`gsm-preview.js` is the only thing the page runs, and it is minified. Since the
-sandbox that held the readable source was lost, the repository is the source of
-truth, so `gsm-readable.js` is kept here as the readable copy of it: the same
-program, prettified to about 12,700 lines, verified to render identical output
-across Pattern Analysis, Pattern Synthesis, In Parallel and Taking Action.
+**Since v171, `gsm-readable.js` is the source.** Edit it, then build the file the page
+runs:
 
-Nothing loads `gsm-readable.js`. It is for reading and for working out a change
-before it is made. **Whenever `gsm-preview.js` changes, regenerate it**, or the
-two drift apart and the next person reads a version that is no longer running:
+    npx esbuild@0.24 gsm-readable.js --minify --charset=utf8 --outfile=gsm-preview.js
 
-    prettier --parser babel --print-width 110 gsm-preview.js > gsm-readable.js
+(Tested on unchanged v170: the esbuild output rendered byte-identical text on every tab.
+Exact-string patching of the minified file, used v95 to v170, is retired, and so are the
+`tools/terrain` rebuild scripts, which start from an old v150 engine.)
+
+The 3D relief module `gsm-relief.js` is built from `tools/relief/relief.js` with
+three@0.187.0:
+
+    npx esbuild tools/relief/relief.js --bundle --minify --format=iife --outfile=gsm-relief.js
+
+Each version's batch of edits is kept as a script in `tools/patches/`.
+
+Project memory (architecture, current state, task queue, concept registry) is in
+`docs/bcm/`.
 
 ## Documents
 

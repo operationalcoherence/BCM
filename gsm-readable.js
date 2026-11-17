@@ -2,9 +2,9 @@
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
-      "#gsm{font-family:'Questrial',sans-serif;color:#222;max-width:680px;margin:0 auto;padding:28px 20px 16px;background:#fff;box-sizing:border-box}#gsm *{box-sizing:border-box}#gsm .logo{display:block;width:84px;height:auto;margin:0 auto 10px}#gsm .by{font-size:clamp(18px,5.4vw,31px);line-height:1.2;letter-spacing:.06em;color:#111;text-align:center;margin-top:8px}#gsm .kick{font-size:clamp(28px,7.6vw,40px);line-height:1.1;letter-spacing:.03em;color:#111;text-align:center}#gsm h1,#gsm h2{font-family:'Questrial',sans-serif;font-weight:400;text-align:center;color:#222}#gsm h1{font-size:26px;margin:38px 0 14px}#gsm h2{font-size:26px;margin:38px 0 14px}#gsm .sub{text-align:center;color:#666;font-size:17px;margin-bottom:22px}#gsm .lab{font-size:12px;letter-spacing:.16em;color:#666;margin-bottom:6px}#gsm textarea{width:100%;font:16px/1.4 'Questrial',sans-serif;color:#222;border:1px solid #bbb;border-radius:0;padding:12px;resize:vertical;background:#fff}#gsm textarea:focus{outline:2px solid #222;outline-offset:-1px}#gsm .goal{min-height:56px;margin-bottom:22px}#gsm .qa{border-top:1px solid #ddd}#gsm .qa:last-of-type{border-bottom:1px solid #ddd}#gsm .qh{display:flex;gap:10px;width:100%;padding:14px 0;font:16px/1.35 'Questrial',sans-serif;color:#222;background:none;border:0;text-align:left;cursor:pointer}#gsm .n{font-weight:700;min-width:30px}#gsm .qs{flex:0 0 22px;height:22px;margin-top:-1px}#gsm .qs svg{display:block}#gsm .pnet{position:relative}#gsm .pnet,#gsm .plab,#gsm .secb{scroll-margin-top:90px}#gsm .ptip{display:none;position:absolute;max-width:260px;background:#222;color:#fff;font:13px/1.4 'Questrial',sans-serif;padding:7px 10px;border-radius:2px;pointer-events:none;z-index:5}#gsm .plean{font-size:15px;line-height:1.45;margin:10px 0 0;color:#222}#gsm .morebtn{display:block;margin:2px 0 6px}#gsm .emo{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font:13px 'Questrial',sans-serif;color:#222}#gsm .emo select{font:13px 'Questrial',sans-serif;color:#222;background:#fff;border:1px solid #bbb;border-radius:2px;padding:3px 6px}#gsm .sw{display:inline-block;width:13px;height:13px;border-radius:50%;border:1px solid rgba(0,0,0,.15);flex:0 0 13px}#gsm .emokey{margin:10px 0 4px}#gsm .ek{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13px}#gsm .ekl{font-size:11px;letter-spacing:.16em;color:#666;width:100%}#gsm .eki{display:inline-flex;align-items:center;gap:5px}#gsm .ekh{font-size:12px;color:#666;margin-top:6px}#gsm .ekc{font-size:11px;color:#888;margin-top:3px;line-height:1.4}#gsm .ptip b{font-weight:700}#gsm .ptip i{opacity:.75}#gsm .ptip .ex{display:block;margin-top:5px;opacity:.85;font-size:12px;background:none;padding:0;color:#fff}#gsm .mean{font-size:15px;line-height:1.5}#gsm .part{font-size:15px;font-weight:700;letter-spacing:.12em;border-top:2px solid #222;padding-top:12px;margin-top:30px;color:#222}#gsm .part span{display:block;font-weight:400;letter-spacing:0;font-size:13px;color:#666;margin-top:3px}#gsm .meta{background:#f4f4f4;padding:10px 12px;font-size:15px;line-height:1.5}#gsm .nhead{font-size:13px;color:#555;margin:14px 0 4px;line-height:1.4}#gsm .nhead b{color:#222;letter-spacing:.14em;margin-right:6px}#gsm .eachq{border-top:1px solid #ddd}#gsm .eqr{display:flex;gap:10px;padding:9px 2px;border-bottom:1px solid #eee;font-size:14.5px;line-height:1.45}#gsm .eqr.off{color:#999}#gsm .eqs{flex:0 0 20px;padding-top:1px}#gsm .eqs svg{display:block}#gsm .eqn{color:#666;font-size:13px}#gsm .jprog{text-align:center;font-size:11.5px;color:#666;letter-spacing:.04em;margin-top:3px}#gsm .jprog b{color:#222}#gsm a.ref{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;cursor:pointer}#gsm a.ref:hover{text-decoration-style:solid}#gsm .flash{animation:gsmflash 2.2s ease-out}@keyframes gsmflash{0%,40%{box-shadow:0 0 0 3px #222;background:#f4f4f4}100%{box-shadow:0 0 0 0 transparent}}#gsm .backbtn{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:1200;background:#222;color:#fff;border:0;padding:10px 18px;font:15px 'Questrial',sans-serif;cursor:pointer;display:none;box-shadow:0 2px 8px rgba(0,0,0,.3)}#gsm .backbtn.show{display:block}#gsm .plab.pfold{cursor:pointer;display:flex;align-items:baseline;gap:10px;user-select:none}#gsm .plab.pfold .psum{font-weight:400;letter-spacing:.04em;color:#666;font-size:12.5px;text-transform:none}#gsm .plab.pfold .chev{margin-left:auto;font-weight:400;font-size:16px;letter-spacing:0}#gsm .secb.closed{display:none}#gsm .glance{border:1.5px solid #222;padding:12px 14px;margin:14px 0 6px}#gsm .glance h4{margin:0 0 8px;font:700 12px 'Questrial',sans-serif;letter-spacing:.16em}#gsm .glance .gl{display:flex;gap:10px;padding:6px 0;border-top:1px solid #eee;font-size:14.5px;line-height:1.4;cursor:pointer}#gsm .glance .gl:first-of-type{border-top:0}#gsm .glance .gk{flex:0 0 112px;font-size:11px;letter-spacing:.12em;color:#555;padding-top:2px}#gsm .glance .ga{margin-left:auto;color:#999;font-size:16px;line-height:1}#gsm .glance .gx{display:none;padding:4px 0 12px 122px;font-size:13.5px;line-height:1.45;color:#333}#gsm .glance .gx.on{display:block}#gsm .glance .gx .gfull{margin-bottom:8px}#gsm .glance .gx .gsup{border-left:2px solid #ddd;padding-left:10px;margin:6px 0 8px}#gsm .glance .gx .gjump{display:inline-block;margin-top:4px;font-size:12.5px;text-decoration:underline;cursor:pointer;color:#222}#gsm .glance .gl:hover .ga{color:#222}@media(max-width:520px){#gsm .glance .gx{padding-left:0}}#gsm .msub{font-size:13px;color:#666;margin:10px 0 4px}#gsm details.more summary{cursor:pointer;padding:0;margin:10px 0 4px;font-size:13px;font-weight:400;letter-spacing:0;color:#666;text-decoration:underline;list-style:none}#gsm details.more summary:after,#gsm .fold[open] details.more summary:after,#gsm .fold details.more[open] summary:after{content:none!important}#gsm .metal{margin:0 0 4px 18px;padding:0;font-size:15px;line-height:1.5}#gsm .metal li{margin-bottom:6px}#gsm .sig{display:flex;gap:10px;flex-wrap:wrap}#gsm .sig>div{flex:1 1 220px;border:1.5px solid #222;padding:10px}#gsm .sig>div.em{border-style:dashed;border-color:#888}#gsm .sig h4{margin:0 0 6px;font:700 11px 'Questrial',sans-serif;letter-spacing:.14em}#gsm .sig p{margin:0 0 6px;font-size:14px;line-height:1.4}#gsm .story{font-size:16px;line-height:1.6;border-left:3px solid #222;padding-left:12px}#gsm .coa{border:1.5px solid #222;margin:10px 0 12px}#gsm .coa .hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid #ddd}#gsm .coa .hd b{font-size:17px}#gsm .mode{font-size:11px;letter-spacing:.14em;padding:4px 8px;border:1.5px solid #222;white-space:nowrap}#gsm .mode.s{background:#222;color:#fff}#gsm .coa .bd{padding:10px 12px;font-size:14.5px;line-height:1.5}#gsm .coa .why{color:#555;font-size:13px;margin-bottom:6px}\n.coacall{color:#333;font-size:13.5px;margin:0 0 8px;padding:6px 8px;background:#f4f4f2;border-left:3px solid #222}\n.csec{margin:10px 0 0}\n.csl{font:11.5px 'Questrial',sans-serif;letter-spacing:.07em;color:#111;border-bottom:1px solid #ddd;padding-bottom:3px;margin-bottom:5px}\n.csn{font-size:12.5px;color:#666;line-height:1.45;margin:0 0 5px}\n.cq{font-size:13.5px;line-height:1.45;margin:0 0 4px;padding-left:9px;border-left:2px solid #ddd}\n.cqm{color:#777;font-style:normal;font-size:12px}\n.csmore{font-size:12px;color:#888;padding-left:9px}\n.coafold{margin-top:4px}\n.cpath{display:block;width:100%;max-width:340px;height:auto;margin:2px 0 4px;background:#fcfcfb;border:1px solid #eee}#gsm .coa ul{margin:6px 0 0 18px;padding:0}#gsm .coa .q{font-size:12px;color:#777;font-style:italic;margin-top:8px}#gsm .need div{font-size:14.5px;padding:8px 0;border-top:1px solid #eee;line-height:1.45}#gsm .mean p{margin:0 0 9px}#gsm .wrow .cl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-left:auto;white-space:nowrap}#gsm .t{margin-left:auto;font-size:20px;color:#666;line-height:1}#gsm .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#222;margin:7px 0 0 6px;visibility:hidden}#gsm .qa.has .dot{visibility:visible}#gsm .body{display:none;padding:0 0 16px 40px}#gsm .qa.open .body{display:block}#gsm .ex{font-size:14px;color:#666;line-height:1.4;margin-bottom:10px}#gsm .ex b{font-size:10px;letter-spacing:.12em;font-weight:400;margin-right:4px}#gsm .body textarea{min-height:110px}#gsm .mapwrap{border:1px solid #ddd;touch-action:manipulation}#gsm svg.map{display:block;width:100%;height:auto;cursor:crosshair}#gsm .leg{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}#gsm .chip{display:flex;align-items:center;gap:5px;border:1px solid #bbb;padding:5px 9px;font:13px 'Questrial',sans-serif;color:#222;background:#fff;border-radius:2px;cursor:pointer}#gsm .chip.on{background:#222;color:#fff;border-color:#222}#gsm .chip.on svg *{stroke:#fff}#gsm .chip.on svg rect[fill=\"#222\"]{fill:#fff}#gsm .notes{margin-top:18px}#gsm .note{display:flex;gap:10px;align-items:flex-start;border-top:1px solid #ddd;padding:12px 0}#gsm .note:last-child{border-bottom:1px solid #ddd}#gsm .nid{display:flex;flex-direction:column;align-items:center;min-width:34px;font-size:13px;font-weight:700}#gsm .nbody{flex:1}#gsm .nlab{font-size:13px;color:#666;margin-bottom:5px;display:flex}#gsm .nlab button{margin-left:auto;background:none;border:0;color:#666;font:13px 'Questrial',sans-serif;text-decoration:underline;cursor:pointer;padding:0}#gsm .note textarea{min-height:64px}#gsm .note.hi textarea{outline:2px solid #222;outline-offset:-1px}#gsm .pempty{font-size:14px;color:#888;text-align:center;border:1px dashed #bbb;padding:16px}#gsm .plab{font-size:13px;font-weight:700;letter-spacing:.16em;color:#222;margin:34px 0 12px;padding-top:10px;border-top:1px solid #222}#gsm .pnet{border:1px solid #ddd}#gsm .pnet svg{display:block;width:100%;height:auto}#gsm .words{display:flex;flex-direction:column}#gsm .wrow{display:flex;gap:10px;align-items:baseline;padding:9px 4px;border-top:1px solid #eee;background:none;border-left:0;border-right:0;border-bottom:0;font:15px 'Questrial',sans-serif;color:#222;text-align:left;cursor:pointer;width:100%}#gsm .wrow.on{background:#222;color:#fff}#gsm .wrow .w{font-weight:700;min-width:110px}#gsm .wrow .wh{font-size:13px;color:inherit;opacity:.75}#gsm .mapsum{font-size:15px;line-height:1.6}#gsm .mapsum div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#gsm .rule{border-left:3px solid #222;padding:8px 0 8px 12px;margin-bottom:10px;font-size:15px;line-height:1.45}#gsm .rule.open{border-left:3px dashed #999;color:#555}#gsm .rl{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:3px}#gsm .phint{font-size:13px;color:#666;text-align:center;margin-top:8px}#gsm .fsbar{display:flex;justify-content:flex-end;align-items:center;margin-bottom:8px}#gsm .fst{display:none;font-size:20px;margin-right:auto}#gsm .fsb{background:#fff;color:#222;border:1px solid #222;padding:7px 14px;font:14px 'Questrial',sans-serif;cursor:pointer}#gsm .mapzone.fs{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;padding:14px 16px;overflow:auto;margin:0}#gsm .mapzone.fs .fst{display:block}#gsm .mapzone.fs .fsb{background:#222;color:#fff}#gsm .mapzone.fs svg.map{width:100%;height:auto}#gsm .mapzone.fs .mapwrap{width:min(100%,calc((100vh - 200px)*1.478));min-width:280px;margin:0 auto}#gsm .mapzone.fs .leg{justify-content:center}#gsm .mapzone.fs .mapwrap{border-color:#bbb}#gsm .fold{border:1.5px solid #222;margin:0 0 22px;padding:0 16px}#gsm .fold summary{cursor:pointer;padding:15px 0;font-size:15px;font-weight:700;letter-spacing:.12em;color:#111;list-style:none}#gsm .fold summary::-webkit-details-marker{display:none}#gsm .fold summary:after{content:\"+\";float:right;font-size:22px;line-height:1;color:#111;letter-spacing:0;font-weight:400}#gsm .fold[open] summary:after{content:\"\u2212\"}#gsm .steps{list-style:none;margin:0;padding:0 0 12px}#gsm .steps li{display:flex;gap:12px;font-size:15px;line-height:1.45;padding:6px 0}#gsm .steps li span{font-weight:700;min-width:24px}#gsm .mtext{font-size:15px;line-height:1.5;padding-bottom:10px}#gsm .mtext p{margin:0 0 10px}#gsm .ml{font-size:12px;letter-spacing:.16em;color:#666;margin:10px 0 4px}#gsm .chain{display:flex;align-items:center;justify-content:center;gap:6px;margin:4px 0 22px}#gsm .chain i{font-style:normal;color:#888}#gsm .chain .pair{display:flex;flex-direction:column;gap:6px}#gsm .chain button{width:36px;height:36px;border-radius:50%;border:1.5px solid #222;background:#fff;color:#222;font:700 15px 'Questrial',sans-serif;cursor:pointer;padding:0}#gsm .chain button.done{background:#222;color:#fff}#gsm .saved{font-size:12px;color:#888;text-align:center;margin:14px 0 16px;line-height:1.6}#gsm .lnk.sm{font-size:12px;color:#222}#gsm .whobox{margin:14px 0 6px}#gsm .whobox input{width:100%;box-sizing:border-box;font:16px 'Questrial',sans-serif;padding:10px 12px;border:1px solid #bbb}#gsm .whohelp{font-size:13px;color:#666;margin:6px 0 0;line-height:1.5}#gsm .oth{border-left:3px solid #ccc;margin:10px 0 0;padding:6px 0 6px 12px;font-size:15px;line-height:1.5;white-space:pre-wrap}#gsm .oth b{display:block;font-size:12px;letter-spacing:.1em;color:#666;font-weight:400;margin-bottom:2px;text-transform:uppercase}#gsm .othgoal .oth{margin-top:8px}#gsm .combpanel{display:none;border:1px solid #222;padding:14px;margin:10px 0;font-size:15px}#gsm .combpanel.show{display:block}#gsm .combpanel label{display:block;font-size:12px;letter-spacing:.12em;color:#666;margin:8px 0 4px}#gsm .combpanel input{width:100%;box-sizing:border-box;font:16px 'Questrial',sans-serif;padding:9px 10px;border:1px solid #bbb}#gsm .combpanel .btns{margin:12px 0 0;display:flex;gap:10px;flex-wrap:wrap}#gsm .comblist{font-size:13px;color:#555;text-align:center;margin:0 0 12px;line-height:1.8}#gsm .comblist .lnk{font-size:12px}#gsm .jump{position:-webkit-sticky;position:sticky;top:0;z-index:1100;background:#fff;border-bottom:1px solid #222;margin:16px 0 4px;padding:6px 0}#gsm .jrow{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px}#gsm .jump button{background:none;border:0;padding:4px 2px;font:14px 'Questrial',sans-serif;letter-spacing:.06em;color:#222;cursor:pointer;border-bottom:2px solid transparent}#gsm .jump button.on{border-bottom-color:#222}#gsm{position:relative}#gsm .tabhide{display:none!important}#gsm #gsm-pz.tabhide{display:revert!important;position:absolute!important;left:-300vw!important;top:0!important;width:calc(100% - 40px)!important;visibility:hidden!important;pointer-events:none!important}#gsm:not(.spatial) #gsm-pz.tabhide{display:none!important}#gsm .jump .jrow:first-child{flex-wrap:nowrap;gap:0}#gsm .jump .jrow:first-child button{flex:1 1 auto;padding:8px 2px 7px;border-bottom-width:3px;color:#888;font-size:clamp(11px,3vw,15px);letter-spacing:.01em;line-height:1.2}#gsm .jump .jrow:first-child button.on{color:#111;border-bottom-color:#111}#gsm .tabnext{display:block;width:100%;margin:30px 0 6px;padding:14px;border:1px solid #111;background:#111;color:#fff;font:16px 'Questrial',sans-serif;letter-spacing:.04em;cursor:pointer}#gsm .jsub{display:none;margin-top:2px}#gsm .jsub.show{display:flex}#gsm .jsub button{font-size:12px;color:#555;letter-spacing:.1em}#gsm .emo,#gsm .emo2,#gsm .emo3{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}#gsm .emo2 .vin{font:13px 'Questrial',sans-serif;border:1px solid #222;border-radius:14px;padding:4px 10px;width:150px;color:#222;background:#fff}#gsm .emo3 .lsel{font:13px 'Questrial',sans-serif;border:1px solid #222;border-radius:14px;padding:4px 8px;color:#222;background:#fff;max-width:100%}#gsm .emo3 .vin{font:13px 'Questrial',sans-serif;border:1px solid #222;border-radius:14px;padding:4px 10px;width:180px;color:#222;background:#fff}#gsm .emo3 .lkin{font-size:12.5px;color:#555}#gsm .emo3 .ech.add{border-style:dashed;color:#555}#gsm .emo2 .ech.add{border-style:dashed;color:#555}#gsm .eml{font-size:11px;letter-spacing:.14em;color:#666;margin-right:2px}#gsm .ech{display:inline-flex;align-items:center;gap:5px;border:1px solid #bbb;background:#fff;border-radius:14px;padding:4px 9px;font:12.5px 'Questrial',sans-serif;color:#222;cursor:pointer}#gsm .ech.on{border-color:#111;background:#111;color:#fff;font-weight:700}#gsm .ech.none.on{background:#fff;color:#555;border-color:#888;box-shadow:inset 0 0 0 1px #888}#gsm .ech.none{color:#888}#gsm .phint.hr{margin:0 0 10px;text-align:left;font-size:13.5px;color:#444;line-height:1.55}#gsm .phint.hr b{color:#111}#gsm .walk{margin:0 0 10px}#gsm .walk .wbtn{border:1px solid #111;background:#fff;color:#111;font:14px 'Questrial',sans-serif;padding:9px 14px;cursor:pointer}#gsm .wcard{border:1px solid #185FA5;padding:12px 14px;background:#f5f9fd}#gsm .wtx{font-size:15px;line-height:1.5;margin-bottom:10px;color:#111}#gsm .wnv{display:flex;gap:10px;align-items:center}#gsm .wnv button{border:1px solid #111;background:#fff;color:#111;font:14px 'Questrial',sans-serif;padding:8px 14px;cursor:pointer}#gsm .wnv .wnext,#gsm .wnv .wdone{background:#111;color:#fff}#gsm .wnv .wct{flex:1;text-align:center;font-size:12.5px;color:#555}#gsm .wdim g[data-id]:not(.wkeep){opacity:.15}#gsm .wdim .meth path{stroke-opacity:.1}#gsm .wdim .meth path.wkeep{stroke-opacity:.95;stroke-width:2.4}#gsm .wdim .ulk,#gsm .wdim text[data-vt],#gsm .wdim path[data-vt]{opacity:.12}#gsm .psug{margin:10px 0 4px;font-size:15px;line-height:1.55;border-left:3px solid #111;padding:4px 0 4px 12px}#gsm .psug .pby{display:block;font-size:12px;color:#666;margin-top:2px}#gsm .dec{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}#gsm .dec .dwhy{flex:1 1 100%;font:14px 'Questrial',sans-serif;padding:8px 10px;border:1px solid #bbb;margin-top:2px}#gsm .decsum{margin:26px 0 6px;border:1.5px solid #111;padding:14px 16px}#gsm .decsum h4{margin:0 0 8px;font:700 12px 'Questrial',sans-serif;letter-spacing:.16em}#gsm .decsum .dr{font-size:14.5px;line-height:1.5;padding:5px 0;border-top:1px solid #e4e4e4}#gsm .decsum .dr:first-of-type{border-top:0}#gsm .snav{display:flex;gap:10px;align-items:center;margin:22px 0 6px;flex-wrap:wrap}#gsm .snav .sp{flex:1}#gsm .snav .sb{border:1px solid #111;background:#111;color:#fff;font:16px 'Questrial',sans-serif;padding:13px 20px;cursor:pointer;letter-spacing:.03em}#gsm .snav .sb.alt{background:#fff;color:#111}#gsm .sprog{font-size:12.5px;color:#666;letter-spacing:.04em;margin:0 0 10px}#gsm .sprog b{color:#111;font-weight:700}#gsm.cs0:not(.allcx) .cxq{display:none}#gsm:not(.cs0):not(.allcx) .cx0{display:none}#gsm:not(.allcx) .qa.ncur{display:none}#gsm .tabnext[data-tab=\"0\"]{display:none}#gsm .tabback{display:block;width:100%;margin:10px 0 6px;padding:13px;border:1px solid #111;background:#fff;color:#111;font:16px 'Questrial',sans-serif;letter-spacing:.04em;cursor:pointer}#gsm.ms1:not(.allcx) .mc2{display:none}#gsm.ms2:not(.allcx) .mc1{display:none}#gsm:not(.ms2) #gsm-mcnx{display:none}#gsm .locbox{margin:10px 0 14px;padding-bottom:14px;border-bottom:1px solid #ddd}#gsm .vkey{margin-top:8px;font-size:12.5px;line-height:1.9;color:#222;text-align:center}#gsm .vkey .vk{display:inline-flex;align-items:center;gap:4px;margin:0 8px;white-space:nowrap}#gsm .vkey b.vkl{font-size:10.5px;letter-spacing:.14em;margin-right:6px}#gsm .vtg{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0 8px}#gsm .vtg .vtl{font-size:10.5px;letter-spacing:.14em;font-weight:700;margin-right:4px}#gsm .vtb{display:inline-flex;align-items:center;gap:6px;font:13px 'Questrial',sans-serif;padding:7px 12px;min-height:36px;background:#fff;color:#222;border:1px solid #222;cursor:pointer}#gsm .vtb.off{color:#888;border-color:#bbb;background:#f5f5f5}#gsm .vtb.off svg{opacity:.35}#gsm .vtb span.n{color:#666;font-size:11.5px}#gsm .vtb:not(.off){background:#111;color:#fff}#gsm .vtb:not(.off) svg *{fill:#fff}#gsm .vtb:not(.off)::before{content:\"\\2713\";font-weight:700}#gsm .vtb:not(.off) span.n{color:#ccc}#gsm .tangle svg .voff{opacity:.1}#gsm .pneed{list-style:none;margin:10px auto;padding:0;max-width:360px;text-align:left;color:#222;font-size:14.5px}#gsm .pneed li{padding:4px 0 4px 26px;position:relative}#gsm .pneed li:before{content:\"\\25CB\";position:absolute;left:2px;color:#888}#gsm .pneed li.ok:before{content:\"\\2713\";color:#111;font-weight:700}#gsm .pempty b{display:block;color:#222;font-size:15px;margin-bottom:2px}#gsm .savehint{font-size:12.5px;color:#666;line-height:1.5;margin:8px 0 0}#gsm .mhelp{font-size:13px;color:#555;line-height:1.5;margin:0 0 10px}#gsm .sh{margin:18px 0 4px;font-size:11.5px;letter-spacing:.16em;font-weight:700;color:#222}#gsm .glos{margin:0;padding:0;list-style:none}#gsm .glos li{font-size:14.5px;line-height:1.45;padding:5px 0}#gsm .glos b{font-weight:700}#gsm.onstart #gsm-pdf,#gsm.onstart #gsm-print,#gsm.onstart #gsm-clear{display:none}#gsm .tangle svg [data-vt].voff{opacity:0}#gsm .vmt{margin:16px 0 6px;font-size:13px;color:#444}#gsm .vmt b{letter-spacing:.14em;font-size:11.5px;color:#222;display:block;margin-bottom:2px}#gsm .vmulti{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}#gsm .vmc{border:1px solid #ddd}#gsm .vmh{font-size:11px;letter-spacing:.14em;font-weight:700;text-align:center;padding:6px 4px 0;color:#222}#gsm .vmh span{font-weight:400;letter-spacing:0;color:#666;margin-left:4px}#gsm .vmc svg{display:block;width:100%;height:auto}#gsm .landrow{margin:8px 0 2px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}#gsm .pdfonly{display:none}#gsm .dsc{font-size:13px;color:#666;margin:4px 0 0;text-align:center}#gsm .landcite{display:none;font-size:11.5px;color:#666;margin:2px 0 8px}#gsm .reach{display:none;margin:6px 0 10px;padding:8px 10px;border:1px solid #ddd}#gsm .reach .rrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:4px 0;font-size:13px}#gsm .reach .rl{font-weight:700;letter-spacing:.1em;font-size:12px;min-width:56px}#gsm .reach .rs{color:#666;font-size:12px}#gsm .reach input[type=range]{flex:1 1 140px;min-width:120px}#gsm .reach .rv{min-width:48px;color:#444}#gsm .reach .rsw{display:inline-block;width:12px;height:12px;border-radius:50%}#gsm .reach .rhelp{font-size:12px;color:#666;margin-top:4px}#gsm .reach select{font:13px 'Questrial',sans-serif;padding:6px;border:1px solid #222;background:#fff}#gsm .landnote{font-size:12.5px;color:#555}#gsm canvas.gsm-land{position:absolute;left:0;top:0;max-width:none!important;pointer-events:none;z-index:350}#gsm .figfs{position:absolute;top:6px;right:6px;z-index:3;background:#fff;border:1px solid #222;font:12px 'Questrial',sans-serif;padding:4px 8px;cursor:pointer;color:#222}#gsm .pnet.fs{position:fixed;top:0;left:0;right:0;bottom:0;z-index:100000;background:#fff;border:0;display:flex;align-items:center;justify-content:center;padding:42px 8px 8px;box-sizing:border-box}#gsm .pnet.fs svg{width:auto!important;height:100%!important;max-width:100%}#gsm .pnet.fs .figfs{position:fixed;top:8px;right:8px;font-size:15px;padding:6px 12px}#gsm .pnet.fs .fsname{position:fixed;top:16px;left:18px;font-size:12px;letter-spacing:.16em;color:#666}#gsm .pdfmsg{font-size:13px;color:#666;text-align:center;min-height:0}#gsm .loclab span{letter-spacing:0;text-transform:none;color:#999}#gsm .lochelp{font-size:13px;color:#666;margin:-2px 0 8px;line-height:1.4}#gsm #gsm-noloc{display:none;font-size:13px;color:#666}#gsm.hasloc #gsm-noloc{display:inline}#gsm.hasloc .pname{color:#222}#gsm .viewsw{display:none;align-items:center;gap:0;margin:-8px 0 12px;font-size:13px;color:#666}#gsm.hasloc .viewsw{display:flex}#gsm .viewsw span{margin-right:8px}#gsm .viewsw button{border:1px solid #222;background:#fff;color:#222;padding:6px 14px;font:13px 'Questrial',sans-serif;cursor:pointer;margin-left:-1px}#gsm .viewsw button.on{background:#222;color:#fff}#gsm.spatial #gsm-mz,#gsm.spatial #gsm-notes{display:none}#gsm:not(.spatial) #gsm-pz,#gsm:not(.spatial) #gsm-pnotes{display:none}#gsm .find{display:flex;gap:8px;margin:0 0 6px}#gsm .find input{flex:1;min-width:0;font:16px 'Questrial',sans-serif;border:1px solid #bbb;padding:10px 12px;border-radius:0;color:#222;background:#fff}#gsm .findrow{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:8px 0}#gsm .lnk{background:none;border:0;padding:0;color:#222;text-decoration:underline;font:14px 'Questrial',sans-serif;cursor:pointer}#gsm .pname{font-size:13px;color:#666}#gsm .results{margin-bottom:8px}#gsm .results button{display:block;width:100%;text-align:left;background:#fff;border:0;border-top:1px solid #eee;padding:9px 4px;font:14px 'Questrial',sans-serif;color:#222;cursor:pointer}#gsm .results .rmsg{font-size:13px;color:#888;padding:6px 0}#gsm .placewrap{position:relative;border:1px solid #ddd}#gsm #gsm-place{height:420px;width:100%;background:#e8e8e8}#gsm .plload{position:absolute;top:50%;left:0;right:0;text-align:center;color:#888;font-size:14px;pointer-events:none}#gsm .leaflet-container img{max-width:none!important;max-height:none!important;border:0!important;box-shadow:none!important}#gsm .leaflet-container{font-family:'Questrial',sans-serif}#gsm .pm{background:#fff;border:1.5px solid #222;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 1px 4px rgba(0,0,0,.4)}#gsm .pm.sel{outline:2px dashed #fff;outline-offset:3px}#gsm .pm b{position:absolute;top:-8px;right:-10px;background:#222;color:#fff;font:700 10px 'Questrial',sans-serif;border-radius:8px;padding:1px 5px}#gsm .leaflet-popup-content{min-width:208px!important;width:auto!important;margin:10px 12px!important}#gsm .leaflet-popup-content-wrapper{background:#fff!important;color:#222!important;border-radius:3px!important}#gsm .leaflet-popup-tip{background:#fff!important}#gsm .pbox{min-width:190px;writing-mode:horizontal-tb}#gsm .pdel{white-space:nowrap;display:block;width:100%}#gsm .psy{flex:0 0 40px}#gsm .lkv{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 8px}#gsm .pnet.v-mine .meth{opacity:.07}#gsm .pnet.v-method .ulk{display:none}#gsm .selbar{display:none;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;margin:8px 0;border:1px solid #222;background:#fff;font:13px 'Questrial',sans-serif;color:#222}#gsm .selbar.show{display:flex}#gsm .selbar .sbt{flex:1 1 100%}#gsm .selbar button{min-height:40px;min-width:44px;padding:6px 12px;border:1px solid #222;background:#fff;color:#222;font:13px 'Questrial',sans-serif;letter-spacing:.04em;cursor:pointer;border-radius:2px}#gsm .selbar button.dl{background:#222;color:#fff}#gsm .selbar button.sy{padding:4px 6px;display:flex;align-items:center}#gsm .selbar button.sy.cur{background:#222}#gsm .selbar button.sy.cur svg *{stroke:#fff}#gsm .selbar button.sy.cur svg rect[fill=\"#222\"]{fill:#fff}#gsm #gsm-marks>g{touch-action:none}#gsm .phint{font:12px 'Questrial',sans-serif;color:#222;margin:0 0 6px}#gsm .prow{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}#gsm .psy{min-width:40px;min-height:40px;border:1px solid #222;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;border-radius:2px}#gsm .psy.cur{background:#222}#gsm .psy.cur svg *{stroke:#fff}#gsm .psy.cur svg rect[fill=\"#222\"]{fill:#fff}#gsm .pdel{background:#222;color:#fff;border:0;padding:12px 18px;min-height:44px;font:12px 'Questrial',sans-serif;letter-spacing:.06em;cursor:pointer}#gsm .leaflet-control-layers-toggle{background-image:none!important;width:auto!important;height:auto!important;padding:7px 10px;color:#222;text-decoration:none}#gsm .leaflet-control-layers-toggle:after{content:\"Layers\";font:13px 'Questrial',sans-serif}#gsm .mapzone.fs #gsm-place{height:calc(100vh - 190px)}#gsm .hint{font-size:13px;color:#666;text-align:center}#gsm .btns{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px}#gsm .btn{flex:1 1 140px;background:#222;color:#fff;text-align:center;padding:14px;font:17px 'Questrial',sans-serif;border:1px solid #222;cursor:pointer}#gsm .btn.alt{background:#fff;color:#222}#gsm .copy{font-size:12px;color:#888;text-align:center;margin-top:18px}\n.gsmver{font-size:11.5px;color:#9a9a9a;text-align:right;margin:6px 2px 0;letter-spacing:.03em}#gsm .copy a{color:#555}#gsm .pnote{border-left:3px solid #222;background:#f4f4f4;padding:9px 12px;margin:4px 0 14px;font-size:13.5px;line-height:1.5;color:#333;text-align:left}#gsm .pnote b{color:#111}#gsm .noloc{border:1px dashed #999;padding:12px 14px;margin:14px 0 4px;font-size:14px;line-height:1.5;color:#444}#gsm .noloc b{display:block;font-size:11px;letter-spacing:.14em;color:#222;margin-bottom:3px}#gsm .noloc button{margin-top:6px}#gsm.hasloc .noloc{display:none}#gsm .locok{font-size:14px;margin:8px 0 4px;color:#222}#gsm:not(.hasloc) .locok{display:none!important}#gsm:not(.spatial) #gsm-pek{display:none}#gsm .welcome{border:1.5px solid #222;padding:14px 16px;margin:16px 0 8px}#gsm .welcome h4{margin:0 0 6px;font:700 12px 'Questrial',sans-serif;letter-spacing:.16em}#gsm .welcome p{margin:0 0 12px;font-size:15px;line-height:1.5}#gsm .welcome button{font:15px 'Questrial',sans-serif;padding:10px 16px;border:1px solid #111;background:#111;color:#fff;cursor:pointer}#gsm .confirm{display:none;border:1px solid #222;padding:14px;margin-top:10px;text-align:center;font-size:15px}#gsm .confirm.show{display:block}#gsm .confirm .btns{margin:12px 0 0}#gsm .pa{display:none;white-space:pre-wrap;font-size:13px;line-height:1.4;border-left:2px solid #222;padding-left:8px}@media print{#gsm .reach,#gsm .landcite{display:none!important}#gsm .pdfonly{display:block!important}#gsm .secb.closed{display:block!important}body *{visibility:hidden}#gsm,#gsm *{visibility:visible}#gsm{position:absolute;left:0;top:0;width:100%;max-width:none;padding:0}#gsm .body{display:block!important}#gsm .selbar{display:none!important}#gsm .chip.on{background:#fff!important;color:#222!important;border-color:#bbb!important}#gsm .chip.on svg *{stroke:#222!important}#gsm .chip.on svg rect[fill=\"#222\"]{fill:#222!important}#gsm .jump,#gsm .backbtn,#gsm .glance .ga,#gsm .glance .gx,#gsm .plab .chev,#gsm .plab .psum,#gsm .figfs,#gsm .emo .ech:not(.on),#gsm .figtools,#gsm .lkv,#gsm .emo2 .ech:not(.on),#gsm .emo2 .vin,#gsm .emo3 .add,#gsm .emo3 .lsel,#gsm .emo3 .vin,#gsm .eml,#gsm .lochelp,#gsm .viewsw,#gsm #gsm-noloc,#gsm .find,#gsm .results,#gsm .placewrap,#gsm #gsm-pleg,#gsm #gsm-pnotes textarea,#gsm .chain,#gsm .saved,#gsm .fold,#gsm .fsbar,#gsm .btns,#gsm .hint,#gsm .confirm,#gsm .t,#gsm .dot{display:none!important}#gsm .body textarea,#gsm .note textarea,#gsm .nlab button{display:none!important}#gsm .note{break-inside:avoid}#gsm .pa{display:block}#gsm .goal{border:0;border-bottom:1px solid #222;resize:none}#gsm .qa{break-inside:avoid}#gsm h2.mh,#gsm h2.ph{break-before:page}#gsm .phint{display:none}#gsm .tabnext,#gsm .tabback,#gsm .combpanel,#gsm .comblist,#gsm .whohelp{display:none!important}#gsm .snav,#gsm .sprog,#gsm .walk,#gsm .dec{display:none!important}#gsm .ech.on{background:#fff;color:#222}#gsm .savehint,#gsm .mhelp{display:none}#gsm .locok,#gsm .noloc,#gsm .welcome,#gsm .copy a,#gsm .copy .fbsep{display:none!important}}.pnet[data-fig] svg{-webkit-user-select:none;user-select:none}.pnet[data-fig] svg g[data-id]:not([data-id=\"GOAL\"]){cursor:grab!important;touch-action:none}.figtools{margin:10px 0 6px}.figtools .ftb,.figtools .ftadd{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0}.figtools .ftl summary{cursor:pointer;font-size:13px;margin:6px 0;list-style:none}.figtools .ftl summary::-webkit-details-marker{display:none}.figtools .ftl summary:after{content:\"+\";float:right;font-size:16px;line-height:1}.figtools .ftl[open] summary:after{content:\"\u2212\"}.figtools .ftl ul{list-style:none;padding:0;margin:6px 0}.figtools .ftl li{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:5px 0;border-top:1px solid #eee;font-size:13px}.figtools .ftl li span{flex:1}.figtools .ftl li.off span{opacity:.45;text-decoration:line-through}.qlk{margin:8px 0}.qlk .qli{display:flex;align-items:center;gap:6px;font-size:13px;margin:4px 0}.qlk .qli span{flex:1}.pedits{margin:10px 0}.pedits:empty{display:none}#gsm .noteov{display:none}#gsm .noteov.show{display:block;border:1.5px solid #222;padding:8px 12px 12px;margin:10px 0;background:#fff}#gsm .mapzone.fs .noteov.show{position:fixed;left:0;right:0;bottom:0;max-height:52vh;overflow:auto;border:0;border-top:2px solid #222;margin:0;padding:10px 16px 18px;z-index:6;box-shadow:0 -4px 14px rgba(0,0,0,.18)}#gsm .mapzone.fs.ovopen{padding-bottom:55vh}#gsm .noteov .note{border-top:0;padding-top:2px}#gsm .noteov .note:last-child{border-bottom:0}#gsm .noteov textarea{min-height:130px}#gsm .noteov-h{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#555;margin-bottom:2px}#gsm .tyrow{display:flex;align-items:center;gap:8px;margin-top:8px}#gsm .tyrow .prow{margin-top:0}#gsm .tyrow .psy{min-width:36px;min-height:36px}.gsm-tt{position:fixed;display:none;z-index:2147483647;max-width:260px;padding:8px 11px;background:#000;color:#fff;font-family:Questrial,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.35;border-radius:4px;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.35);word-wrap:break-word}.gsm-tt b{font-weight:700}#gsm .pnet svg,#gsm .pnet svg *,#gsm .mapzone svg,#gsm .mapzone svg *,#gsm button,#gsm .chip,#gsm .ech,#gsm .psy{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}#gsm button:focus:not(:focus-visible),#gsm .pnet:focus,#gsm .pnet svg:focus,#gsm [tabindex]:focus:not(:focus-visible){outline:none}#gsm ::selection{background:#ddd;color:#111}#gsm .mapzone svg,#gsm .mapzone svg *{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;outline:none}#gsm .leaflet-container,#gsm .leaflet-container *{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}#gsm .leaflet-container a,#gsm .leaflet-interactive:focus,#gsm .leaflet-marker-icon:focus,#gsm .leaflet-container:focus{outline:none}#gsm .leaflet-container textarea,#gsm .leaflet-container input{-webkit-user-select:text;user-select:text}#gsm .whonote{font-size:13px;font-weight:700;color:#222;margin:6px 0 0}#gsm .whonote:empty{display:none}#gsm .namebar{border:1.5px solid #222;padding:12px 14px;margin:14px 0}#gsm .namebar .lab{display:block;margin-bottom:6px}#gsm .nbrow{display:flex;gap:8px}#gsm .nbrow input{flex:1;min-width:0;border:1px solid #222;padding:9px 10px;font:inherit;font-size:16px;background:#fff;color:#222;border-radius:0}#gsm .whodid{font-size:13px;padding:0 0 12px}#gsm .whodid table{width:100%;border-collapse:collapse;margin-bottom:10px}#gsm .whodid th,#gsm .whodid td{text-align:left;padding:5px 6px;border-bottom:1px solid #ddd;font-weight:400}#gsm .whodid th{font-size:11px;letter-spacing:.08em;color:#555}#gsm .whodid .wdl{font-size:11px;letter-spacing:.08em;color:#555;margin:6px 0 4px}#gsm .whodid span{color:#777}#gsm .jsub button.on{border-bottom-color:transparent}#gsm .jsub{justify-content:center}#gsm .glance .gl.hasup.open .gt{display:none}#gsm .glance .gl.hasup.open .gk+span+.ga{margin-left:auto}#gsm .coa .same{font-size:14px;color:#555;margin-top:6px}#gsm .tangle:not(.vnames) svg text[data-vt]{display:none}#gsm .vtb.vtn{margin-left:6px}#gsm .vtb.vtn:not(.off)::before{content:\"\\2713\"}#gsm .gsm-pop{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483100;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}#gsm .gsm-popbox{background:#fff;border:1.5px solid #222;max-width:680px;width:100%;max-height:88vh;display:flex;flex-direction:column}#gsm .gsm-pophd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid #ddd;font-size:12px;letter-spacing:.12em}#gsm .gsm-pophd .btn{flex:none;padding:6px 14px;font-size:14px}#gsm .gsm-popbd{overflow:auto;padding:12px 16px 16px}#gsm .gsm-popbd .pnet svg{max-height:60vh}@media print{#gsm .gsm-pop{display:none!important}}#gsm .gsm-popbd>.plab:first-child{margin-top:0;border-top:0;padding-top:0}#gsm .rp-m{font-size:12px;color:#666;letter-spacing:.04em;margin-bottom:8px}#gsm .rp-t{font-size:16px;line-height:1.55}#gsm .psug .psl{display:block;margin-top:8px}#gsm .int2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}#gsm .intfig svg{display:block;width:100%;height:auto;border:1px solid #ddd}#gsm .intfig:not(.vn) text[data-vt]{display:none}#gsm .intcap{font-size:11px;letter-spacing:.14em;font-weight:700;margin-bottom:4px}#gsm .intsub{font-size:12px;color:#666;margin-top:4px}#gsm .intl{font-size:15px;line-height:1.55;margin:10px 0}#gsm .intl ul{margin:4px 0 0 18px;padding:0}#gsm .intl li{margin-bottom:6px}#gsm .intcard{border:1.5px solid #222;padding:14px 16px;margin:26px 0 10px;font-size:15px;line-height:1.5}#gsm .intcard .btn{display:block;margin-top:10px;width:100%}@media(max-width:520px){#gsm .int2{grid-template-columns:1fr}}@media print{#gsm .intcard{display:none!important}}",
+      "#gsm{font-family:'Questrial',sans-serif;color:#222;max-width:680px;margin:0 auto;padding:28px 20px 16px;background:#fff;box-sizing:border-box}#gsm *{box-sizing:border-box}#gsm .logo{display:block;width:84px;height:auto;margin:0 auto 10px}#gsm .by{font-size:clamp(18px,5.4vw,31px);line-height:1.2;letter-spacing:.06em;color:#111;text-align:center;margin-top:8px}#gsm .kick{font-size:clamp(28px,7.6vw,40px);line-height:1.1;letter-spacing:.03em;color:#111;text-align:center}#gsm h1,#gsm h2{font-family:'Questrial',sans-serif;font-weight:400;text-align:center;color:#222}#gsm h1{font-size:26px;margin:38px 0 14px}#gsm h2{font-size:26px;margin:38px 0 14px}#gsm .sub{text-align:center;color:#666;font-size:17px;margin-bottom:22px}#gsm .lab{font-size:12px;letter-spacing:.16em;color:#666;margin-bottom:6px}#gsm textarea{width:100%;font:16px/1.4 'Questrial',sans-serif;color:#222;border:1px solid #bbb;border-radius:0;padding:12px;resize:vertical;background:#fff}#gsm textarea:focus{outline:2px solid #222;outline-offset:-1px}#gsm .goal{min-height:56px;margin-bottom:22px}#gsm .qa{border-top:1px solid #ddd}#gsm .qa:last-of-type{border-bottom:1px solid #ddd}#gsm .qh{display:flex;gap:10px;width:100%;padding:14px 0;font:16px/1.35 'Questrial',sans-serif;color:#222;background:none;border:0;text-align:left;cursor:pointer}#gsm .n{font-weight:700;min-width:30px}#gsm .qs{flex:0 0 22px;height:22px;margin-top:-1px}#gsm .qs svg{display:block}#gsm .pnet{position:relative}#gsm .pnet,#gsm .plab,#gsm .secb{scroll-margin-top:90px}#gsm .ptip{display:none;position:absolute;max-width:260px;background:#222;color:#fff;font:13px/1.4 'Questrial',sans-serif;padding:7px 10px;border-radius:2px;pointer-events:none;z-index:5}#gsm .plean{font-size:15px;line-height:1.45;margin:10px 0 0;color:#222}#gsm .morebtn{display:block;margin:2px 0 6px}#gsm .emo{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font:13px 'Questrial',sans-serif;color:#222}#gsm .emo select{font:13px 'Questrial',sans-serif;color:#222;background:#fff;border:1px solid #bbb;border-radius:2px;padding:3px 6px}#gsm .sw{display:inline-block;width:13px;height:13px;border-radius:50%;border:1px solid rgba(0,0,0,.15);flex:0 0 13px}#gsm .emokey{margin:10px 0 4px}#gsm .ek{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13px}#gsm .ekl{font-size:11px;letter-spacing:.16em;color:#666;width:100%}#gsm .eki{display:inline-flex;align-items:center;gap:5px}#gsm .ekh{font-size:12px;color:#666;margin-top:6px}#gsm .ekc{font-size:11px;color:#888;margin-top:3px;line-height:1.4}#gsm .ptip b{font-weight:700}#gsm .ptip i{opacity:.75}#gsm .ptip .ex{display:block;margin-top:5px;opacity:.85;font-size:12px;background:none;padding:0;color:#fff}#gsm .mean{font-size:15px;line-height:1.5}#gsm .part{font-size:15px;font-weight:700;letter-spacing:.12em;border-top:2px solid #222;padding-top:12px;margin-top:30px;color:#222}#gsm .part span{display:block;font-weight:400;letter-spacing:0;font-size:13px;color:#666;margin-top:3px}#gsm .meta{background:#f4f4f4;padding:10px 12px;font-size:15px;line-height:1.5}#gsm .nhead{font-size:13px;color:#555;margin:14px 0 4px;line-height:1.4}#gsm .nhead b{color:#222;letter-spacing:.14em;margin-right:6px}#gsm .eachq{border-top:1px solid #ddd}#gsm .eqr{display:flex;gap:10px;padding:9px 2px;border-bottom:1px solid #eee;font-size:14.5px;line-height:1.45}#gsm .eqr.off{color:#999}#gsm .eqs{flex:0 0 20px;padding-top:1px}#gsm .eqs svg{display:block}#gsm .eqn{color:#666;font-size:13px}#gsm .jprog{text-align:center;font-size:11.5px;color:#666;letter-spacing:.04em;margin-top:3px}#gsm .jprog b{color:#222}#gsm a.ref{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;cursor:pointer}#gsm a.ref:hover{text-decoration-style:solid}#gsm .flash{animation:gsmflash 2.2s ease-out}@keyframes gsmflash{0%,40%{box-shadow:0 0 0 3px #222;background:#f4f4f4}100%{box-shadow:0 0 0 0 transparent}}#gsm .backbtn{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:1200;background:#222;color:#fff;border:0;padding:10px 18px;font:15px 'Questrial',sans-serif;cursor:pointer;display:none;box-shadow:0 2px 8px rgba(0,0,0,.3)}#gsm .backbtn.show{display:block}#gsm .plab.pfold{cursor:pointer;display:flex;align-items:baseline;gap:10px;user-select:none}#gsm .plab.pfold .psum{font-weight:400;letter-spacing:.04em;color:#666;font-size:12.5px;text-transform:none}#gsm .plab.pfold .chev{margin-left:auto;font-weight:400;font-size:16px;letter-spacing:0}#gsm .secb.closed{display:none}#gsm .glance{border:1.5px solid #222;padding:12px 14px;margin:14px 0 6px}#gsm .glance h4{margin:0 0 8px;font:700 12px 'Questrial',sans-serif;letter-spacing:.16em}#gsm .glance .gl{display:flex;gap:10px;padding:6px 0;border-top:1px solid #eee;font-size:14.5px;line-height:1.4;cursor:pointer}#gsm .glance .gl:first-of-type{border-top:0}#gsm .glance .gk{flex:0 0 112px;font-size:11px;letter-spacing:.12em;color:#555;padding-top:2px}#gsm .glance .ga{margin-left:auto;color:#999;font-size:16px;line-height:1}#gsm .glance .gx{display:none;padding:4px 0 12px 122px;font-size:13.5px;line-height:1.45;color:#333}#gsm .glance .gx.on{display:block}#gsm .glance .gx .gfull{margin-bottom:8px}#gsm .glance .gx .gsup{border-left:2px solid #ddd;padding-left:10px;margin:6px 0 8px}#gsm .glance .gx .gjump{display:inline-block;margin-top:4px;font-size:12.5px;text-decoration:underline;cursor:pointer;color:#222}#gsm .glance .gl:hover .ga{color:#222}@media(max-width:520px){#gsm .glance .gx{padding-left:0}}#gsm .msub{font-size:13px;color:#666;margin:10px 0 4px}#gsm details.more summary{cursor:pointer;padding:0;margin:10px 0 4px;font-size:13px;font-weight:400;letter-spacing:0;color:#666;text-decoration:underline;list-style:none}#gsm details.more summary:after,#gsm .fold[open] details.more summary:after,#gsm .fold details.more[open] summary:after{content:none!important}#gsm .metal{margin:0 0 4px 18px;padding:0;font-size:15px;line-height:1.5}#gsm .metal li{margin-bottom:6px}#gsm .sig{display:flex;gap:10px;flex-wrap:wrap}#gsm .sig>div{flex:1 1 220px;border:1.5px solid #222;padding:10px}#gsm .sig>div.em{border-style:dashed;border-color:#888}#gsm .sig h4{margin:0 0 6px;font:700 11px 'Questrial',sans-serif;letter-spacing:.14em}#gsm .sig p{margin:0 0 6px;font-size:14px;line-height:1.4}#gsm .story{font-size:16px;line-height:1.6;border-left:3px solid #222;padding-left:12px}#gsm .coa{border:1.5px solid #222;margin:10px 0 12px}#gsm .coa .hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid #ddd}#gsm .coa .hd b{font-size:17px}#gsm .mode{font-size:11px;letter-spacing:.14em;padding:4px 8px;border:1.5px solid #222;white-space:nowrap}#gsm .mode.s{background:#222;color:#fff}#gsm .coa .bd{padding:10px 12px;font-size:14.5px;line-height:1.5}#gsm .coa .why{color:#555;font-size:13px;margin-bottom:6px}\n.coacall{color:#333;font-size:13.5px;margin:0 0 8px;padding:6px 8px;background:#f4f4f2;border-left:3px solid #222}\n.csec{margin:10px 0 0}\n.csl{font:11.5px 'Questrial',sans-serif;letter-spacing:.07em;color:#111;border-bottom:1px solid #ddd;padding-bottom:3px;margin-bottom:5px}\n.csn{font-size:12.5px;color:#666;line-height:1.45;margin:0 0 5px}\n.cq{font-size:13.5px;line-height:1.45;margin:0 0 4px;padding-left:9px;border-left:2px solid #ddd}\n.cqm{color:#777;font-style:normal;font-size:12px}\n.csmore{font-size:12px;color:#888;padding-left:9px}\n.coafold{margin-top:4px}\n.cpath{display:block;width:100%;max-width:340px;height:auto;margin:2px 0 4px;background:#fcfcfb;border:1px solid #eee}#gsm .coa ul{margin:6px 0 0 18px;padding:0}#gsm .coa .q{font-size:12px;color:#777;font-style:italic;margin-top:8px}#gsm .need div{font-size:14.5px;padding:8px 0;border-top:1px solid #eee;line-height:1.45}#gsm .mean p{margin:0 0 9px}#gsm .wrow .cl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-left:auto;white-space:nowrap}#gsm .t{margin-left:auto;font-size:20px;color:#666;line-height:1}#gsm .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#222;margin:7px 0 0 6px;visibility:hidden}#gsm .qa.has .dot{visibility:visible}#gsm .body{display:none;padding:0 0 16px 40px}#gsm .qa.open .body{display:block}#gsm .ex{font-size:14px;color:#666;line-height:1.4;margin-bottom:10px}#gsm .ex b{font-size:10px;letter-spacing:.12em;font-weight:400;margin-right:4px}#gsm .body textarea{min-height:110px}#gsm .mapwrap{border:1px solid #ddd;touch-action:manipulation}#gsm svg.map{display:block;width:100%;height:auto;cursor:crosshair}#gsm .leg{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}#gsm .chip{display:flex;align-items:center;gap:5px;border:1px solid #bbb;padding:5px 9px;font:13px 'Questrial',sans-serif;color:#222;background:#fff;border-radius:2px;cursor:pointer}#gsm .chip.on{background:#222;color:#fff;border-color:#222}#gsm .chip.on svg *{stroke:#fff}#gsm .chip.on svg rect[fill=\"#222\"]{fill:#fff}#gsm .notes{margin-top:18px}#gsm .note{display:flex;gap:10px;align-items:flex-start;border-top:1px solid #ddd;padding:12px 0}#gsm .note:last-child{border-bottom:1px solid #ddd}#gsm .nid{display:flex;flex-direction:column;align-items:center;min-width:34px;font-size:13px;font-weight:700}#gsm .nbody{flex:1}#gsm .nlab{font-size:13px;color:#666;margin-bottom:5px;display:flex}#gsm .nlab button{margin-left:auto;background:none;border:0;color:#666;font:13px 'Questrial',sans-serif;text-decoration:underline;cursor:pointer;padding:0}#gsm .note textarea{min-height:64px}#gsm .note.hi textarea{outline:2px solid #222;outline-offset:-1px}#gsm .pempty{font-size:14px;color:#888;text-align:center;border:1px dashed #bbb;padding:16px}#gsm .plab{font-size:13px;font-weight:700;letter-spacing:.16em;color:#222;margin:34px 0 12px;padding-top:10px;border-top:1px solid #222}#gsm .pnet{border:1px solid #ddd}#gsm .pnet svg{display:block;width:100%;height:auto}#gsm .words{display:flex;flex-direction:column}#gsm .wrow{display:flex;gap:10px;align-items:baseline;padding:9px 4px;border-top:1px solid #eee;background:none;border-left:0;border-right:0;border-bottom:0;font:15px 'Questrial',sans-serif;color:#222;text-align:left;cursor:pointer;width:100%}#gsm .wrow.on{background:#222;color:#fff}#gsm .wrow .w{font-weight:700;min-width:110px}#gsm .wrow .wh{font-size:13px;color:inherit;opacity:.75}#gsm .mapsum{font-size:15px;line-height:1.6}#gsm .mapsum div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#gsm .rule{border-left:3px solid #222;padding:8px 0 8px 12px;margin-bottom:10px;font-size:15px;line-height:1.45}#gsm .rule.open{border-left:3px dashed #999;color:#555}#gsm .rl{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:3px}#gsm .phint{font-size:13px;color:#666;text-align:center;margin-top:8px}#gsm .fsbar{display:flex;justify-content:flex-end;align-items:center;margin-bottom:8px}#gsm .fst{display:none;font-size:20px;margin-right:auto}#gsm .fsb{background:#fff;color:#222;border:1px solid #222;padding:7px 14px;font:14px 'Questrial',sans-serif;cursor:pointer}#gsm .mapzone.fs{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;padding:14px 16px;overflow:auto;margin:0}#gsm .mapzone.fs .fst{display:block}#gsm .mapzone.fs .fsb{background:#222;color:#fff}#gsm .mapzone.fs svg.map{width:100%;height:auto}#gsm .mapzone.fs .mapwrap{width:min(100%,calc((100vh - 200px)*1.478));min-width:280px;margin:0 auto}#gsm .mapzone.fs .leg{justify-content:center}#gsm .mapzone.fs .mapwrap{border-color:#bbb}#gsm .fold{border:1.5px solid #222;margin:0 0 22px;padding:0 16px}#gsm .fold summary{cursor:pointer;padding:15px 0;font-size:15px;font-weight:700;letter-spacing:.12em;color:#111;list-style:none}#gsm .fold summary::-webkit-details-marker{display:none}#gsm .fold summary:after{content:\"+\";float:right;font-size:22px;line-height:1;color:#111;letter-spacing:0;font-weight:400}#gsm .fold[open] summary:after{content:\"\u2212\"}#gsm .steps{list-style:none;margin:0;padding:0 0 12px}#gsm .steps li{display:flex;gap:12px;font-size:15px;line-height:1.45;padding:6px 0}#gsm .steps li span{font-weight:700;min-width:24px}#gsm .mtext{font-size:15px;line-height:1.5;padding-bottom:10px}#gsm .mtext p{margin:0 0 10px}#gsm .ml{font-size:12px;letter-spacing:.16em;color:#666;margin:10px 0 4px}#gsm .chain{display:flex;align-items:center;justify-content:center;gap:6px;margin:4px 0 22px}#gsm .chain i{font-style:normal;color:#888}#gsm .chain .pair{display:flex;flex-direction:column;gap:6px}#gsm .chain button{width:36px;height:36px;border-radius:50%;border:1.5px solid #222;background:#fff;color:#222;font:700 15px 'Questrial',sans-serif;cursor:pointer;padding:0}#gsm .chain button.done{background:#222;color:#fff}#gsm .saved{font-size:12px;color:#888;text-align:center;margin:14px 0 16px;line-height:1.6}#gsm .lnk.sm{font-size:12px;color:#222}#gsm .whobox{margin:14px 0 6px}#gsm .whobox input{width:100%;box-sizing:border-box;font:16px 'Questrial',sans-serif;padding:10px 12px;border:1px solid #bbb}#gsm .whohelp{font-size:13px;color:#666;margin:6px 0 0;line-height:1.5}#gsm .oth{border-left:3px solid #ccc;margin:10px 0 0;padding:6px 0 6px 12px;font-size:15px;line-height:1.5;white-space:pre-wrap}#gsm .oth b{display:block;font-size:12px;letter-spacing:.1em;color:#666;font-weight:400;margin-bottom:2px;text-transform:uppercase}#gsm .othgoal .oth{margin-top:8px}#gsm .combpanel{display:none;border:1px solid #222;padding:14px;margin:10px 0;font-size:15px}#gsm .combpanel.show{display:block}#gsm .combpanel label{display:block;font-size:12px;letter-spacing:.12em;color:#666;margin:8px 0 4px}#gsm .combpanel input{width:100%;box-sizing:border-box;font:16px 'Questrial',sans-serif;padding:9px 10px;border:1px solid #bbb}#gsm .combpanel .btns{margin:12px 0 0;display:flex;gap:10px;flex-wrap:wrap}#gsm .comblist{font-size:13px;color:#555;text-align:center;margin:0 0 12px;line-height:1.8}#gsm .comblist .lnk{font-size:12px}#gsm .jump{position:-webkit-sticky;position:sticky;top:0;z-index:1100;background:#fff;border-bottom:1px solid #222;margin:16px 0 4px;padding:6px 0}#gsm .jrow{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px}#gsm .jump button{background:none;border:0;padding:4px 2px;font:14px 'Questrial',sans-serif;letter-spacing:.06em;color:#222;cursor:pointer;border-bottom:2px solid transparent}#gsm .jump button.on{border-bottom-color:#222}#gsm{position:relative}#gsm .tabhide{display:none!important}#gsm #gsm-pz.tabhide{display:revert!important;position:absolute!important;left:-300vw!important;top:0!important;width:calc(100% - 40px)!important;visibility:hidden!important;pointer-events:none!important}#gsm:not(.spatial) #gsm-pz.tabhide{display:none!important}#gsm .jump .jrow:first-child{flex-wrap:nowrap;gap:0}#gsm .jump .jrow:first-child button{flex:1 1 auto;padding:8px 2px 7px;border-bottom-width:3px;color:#888;font-size:clamp(11px,3vw,15px);letter-spacing:.01em;line-height:1.2}#gsm .jump .jrow:first-child button.on{color:#111;border-bottom-color:#111}#gsm .tabnext{display:block;width:100%;margin:30px 0 6px;padding:14px;border:1px solid #111;background:#111;color:#fff;font:16px 'Questrial',sans-serif;letter-spacing:.04em;cursor:pointer}#gsm .jsub{display:none;margin-top:2px}#gsm .jsub.show{display:flex}#gsm .jsub button{font-size:12px;color:#555;letter-spacing:.1em}#gsm .emo,#gsm .emo2,#gsm .emo3{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}#gsm .emo2 .vin{font:13px 'Questrial',sans-serif;border:1px solid #222;border-radius:14px;padding:4px 10px;width:150px;color:#222;background:#fff}#gsm .emo3 .lsel{font:13px 'Questrial',sans-serif;border:1px solid #222;border-radius:14px;padding:4px 8px;color:#222;background:#fff;max-width:100%}#gsm .emo3 .vin{font:13px 'Questrial',sans-serif;border:1px solid #222;border-radius:14px;padding:4px 10px;width:180px;color:#222;background:#fff}#gsm .emo3 .lkin{font-size:12.5px;color:#555}#gsm .emo3 .ech.add{border-style:dashed;color:#555}#gsm .emo2 .ech.add{border-style:dashed;color:#555}#gsm .eml{font-size:11px;letter-spacing:.14em;color:#666;margin-right:2px}#gsm .ech{display:inline-flex;align-items:center;gap:5px;border:1px solid #bbb;background:#fff;border-radius:14px;padding:4px 9px;font:12.5px 'Questrial',sans-serif;color:#222;cursor:pointer}#gsm .ech.on{border-color:#111;background:#111;color:#fff;font-weight:700}#gsm .ech.none.on{background:#fff;color:#555;border-color:#888;box-shadow:inset 0 0 0 1px #888}#gsm .ech.none{color:#888}#gsm .phint.hr{margin:0 0 10px;text-align:left;font-size:13.5px;color:#444;line-height:1.55}#gsm .phint.hr b{color:#111}#gsm .walk{margin:0 0 10px}#gsm .walk .wbtn{border:1px solid #111;background:#fff;color:#111;font:14px 'Questrial',sans-serif;padding:9px 14px;cursor:pointer}#gsm .wcard{border:1px solid #185FA5;padding:12px 14px;background:#f5f9fd}#gsm .wtx{font-size:15px;line-height:1.5;margin-bottom:10px;color:#111}#gsm .wnv{display:flex;gap:10px;align-items:center}#gsm .wnv button{border:1px solid #111;background:#fff;color:#111;font:14px 'Questrial',sans-serif;padding:8px 14px;cursor:pointer}#gsm .wnv .wnext,#gsm .wnv .wdone{background:#111;color:#fff}#gsm .wnv .wct{flex:1;text-align:center;font-size:12.5px;color:#555}#gsm .wdim g[data-id]:not(.wkeep){opacity:.15}#gsm .wdim .meth path{stroke-opacity:.1}#gsm .wdim .meth path.wkeep{stroke-opacity:.95;stroke-width:2.4}#gsm .wdim .ulk,#gsm .wdim text[data-vt],#gsm .wdim path[data-vt]{opacity:.12}#gsm .psug{margin:10px 0 4px;font-size:15px;line-height:1.55;border-left:3px solid #111;padding:4px 0 4px 12px}#gsm .psug .pby{display:block;font-size:12px;color:#666;margin-top:2px}#gsm .dec{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}#gsm .dec .dwhy{flex:1 1 100%;font:14px 'Questrial',sans-serif;padding:8px 10px;border:1px solid #bbb;margin-top:2px}#gsm .decsum{margin:26px 0 6px;border:1.5px solid #111;padding:14px 16px}#gsm .decsum h4{margin:0 0 8px;font:700 12px 'Questrial',sans-serif;letter-spacing:.16em}#gsm .decsum .dr{font-size:14.5px;line-height:1.5;padding:5px 0;border-top:1px solid #e4e4e4}#gsm .decsum .dr:first-of-type{border-top:0}#gsm .snav{display:flex;gap:10px;align-items:center;margin:22px 0 6px;flex-wrap:wrap}#gsm .snav .sp{flex:1}#gsm .snav .sb{border:1px solid #111;background:#111;color:#fff;font:16px 'Questrial',sans-serif;padding:13px 20px;cursor:pointer;letter-spacing:.03em}#gsm .snav .sb.alt{background:#fff;color:#111}#gsm .sprog{font-size:12.5px;color:#666;letter-spacing:.04em;margin:0 0 10px}#gsm .sprog b{color:#111;font-weight:700}#gsm.cs0:not(.allcx) .cxq{display:none}#gsm:not(.cs0):not(.allcx) .cx0{display:none}#gsm:not(.allcx) .qa.ncur{display:none}#gsm .tabnext[data-tab=\"0\"]{display:none}#gsm .tabback{display:block;width:100%;margin:10px 0 6px;padding:13px;border:1px solid #111;background:#fff;color:#111;font:16px 'Questrial',sans-serif;letter-spacing:.04em;cursor:pointer}#gsm.ms1:not(.allcx) .mc2{display:none}#gsm.ms2:not(.allcx) .mc1{display:none}#gsm:not(.ms2) #gsm-mcnx{display:none}#gsm .locbox{margin:10px 0 14px;padding-bottom:14px;border-bottom:1px solid #ddd}#gsm .vkey{margin-top:8px;font-size:12.5px;line-height:1.9;color:#222;text-align:center}#gsm .vkey .vk{display:inline-flex;align-items:center;gap:4px;margin:0 8px;white-space:nowrap}#gsm .vkey b.vkl{font-size:10.5px;letter-spacing:.14em;margin-right:6px}#gsm .vtg{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0 8px}#gsm .vtg .vtl{font-size:10.5px;letter-spacing:.14em;font-weight:700;margin-right:4px}#gsm .vtb{display:inline-flex;align-items:center;gap:6px;font:13px 'Questrial',sans-serif;padding:7px 12px;min-height:36px;background:#fff;color:#222;border:1px solid #222;cursor:pointer}#gsm .vtb.off{color:#888;border-color:#bbb;background:#f5f5f5}#gsm .vtb.off svg{opacity:.35}#gsm .vtb span.n{color:#666;font-size:11.5px}#gsm .vtb:not(.off){background:#111;color:#fff}#gsm .vtb:not(.off) svg *{fill:#fff}#gsm .vtb:not(.off)::before{content:\"\\2713\";font-weight:700}#gsm .vtb:not(.off) span.n{color:#ccc}#gsm .tangle svg .voff{opacity:.1}#gsm .pneed{list-style:none;margin:10px auto;padding:0;max-width:360px;text-align:left;color:#222;font-size:14.5px}#gsm .pneed li{padding:4px 0 4px 26px;position:relative}#gsm .pneed li:before{content:\"\\25CB\";position:absolute;left:2px;color:#888}#gsm .pneed li.ok:before{content:\"\\2713\";color:#111;font-weight:700}#gsm .pempty b{display:block;color:#222;font-size:15px;margin-bottom:2px}#gsm .savehint{font-size:12.5px;color:#666;line-height:1.5;margin:8px 0 0}#gsm .mhelp{font-size:13px;color:#555;line-height:1.5;margin:0 0 10px}#gsm .sh{margin:18px 0 4px;font-size:11.5px;letter-spacing:.16em;font-weight:700;color:#222}#gsm .glos{margin:0;padding:0;list-style:none}#gsm .glos li{font-size:14.5px;line-height:1.45;padding:5px 0}#gsm .glos b{font-weight:700}#gsm.onstart #gsm-pdf,#gsm.onstart #gsm-print,#gsm.onstart #gsm-clear{display:none}#gsm .tangle svg [data-vt].voff{opacity:0}#gsm .vmt{margin:16px 0 6px;font-size:13px;color:#444}#gsm .vmt b{letter-spacing:.14em;font-size:11.5px;color:#222;display:block;margin-bottom:2px}#gsm .vmulti{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}#gsm .vmc{border:1px solid #ddd}#gsm .vmh{font-size:11px;letter-spacing:.14em;font-weight:700;text-align:center;padding:6px 4px 0;color:#222}#gsm .vmh span{font-weight:400;letter-spacing:0;color:#666;margin-left:4px}#gsm .vmc svg{display:block;width:100%;height:auto}#gsm .landrow{margin:8px 0 2px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}#gsm .pdfonly{display:none}#gsm .dsc{font-size:13px;color:#666;margin:4px 0 0;text-align:center}#gsm .landcite{display:none;font-size:11.5px;color:#666;margin:2px 0 8px}#gsm .reach{display:none;margin:6px 0 10px;padding:8px 10px;border:1px solid #ddd}#gsm .reach .rrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:4px 0;font-size:13px}#gsm .reach .rl{font-weight:700;letter-spacing:.1em;font-size:12px;min-width:56px}#gsm .reach .rs{color:#666;font-size:12px}#gsm .reach input[type=range]{flex:1 1 140px;min-width:120px}#gsm .reach .rv{min-width:48px;color:#444}#gsm .reach .rsw{display:inline-block;width:12px;height:12px;border-radius:50%}#gsm .reach .rhelp{font-size:12px;color:#666;margin-top:4px}#gsm .reach select{font:13px 'Questrial',sans-serif;padding:6px;border:1px solid #222;background:#fff}#gsm .landnote{font-size:12.5px;color:#555}#gsm canvas.gsm-land{position:absolute;left:0;top:0;max-width:none!important;pointer-events:none;z-index:350}#gsm .figfs{position:absolute;top:6px;right:6px;z-index:3;background:#fff;border:1px solid #222;font:12px 'Questrial',sans-serif;padding:4px 8px;cursor:pointer;color:#222}#gsm .pnet.fs{position:fixed;top:0;left:0;right:0;bottom:0;z-index:100000;background:#fff;border:0;display:flex;align-items:center;justify-content:center;padding:42px 8px 8px;box-sizing:border-box}#gsm .pnet.fs svg{width:auto!important;height:100%!important;max-width:100%}#gsm .pnet.fs .figfs{position:fixed;top:8px;right:8px;font-size:15px;padding:6px 12px}#gsm .pnet.fs .fsname{position:fixed;top:16px;left:18px;font-size:12px;letter-spacing:.16em;color:#666}#gsm .pdfmsg{font-size:13px;color:#666;text-align:center;min-height:0}#gsm .loclab span{letter-spacing:0;text-transform:none;color:#999}#gsm .lochelp{font-size:13px;color:#666;margin:-2px 0 8px;line-height:1.4}#gsm #gsm-noloc{display:none;font-size:13px;color:#666}#gsm.hasloc #gsm-noloc{display:inline}#gsm.hasloc .pname{color:#222}#gsm .viewsw{display:none;align-items:center;gap:0;margin:-8px 0 12px;font-size:13px;color:#666}#gsm.hasloc .viewsw{display:flex}#gsm .viewsw span{margin-right:8px}#gsm .viewsw button{border:1px solid #222;background:#fff;color:#222;padding:6px 14px;font:13px 'Questrial',sans-serif;cursor:pointer;margin-left:-1px}#gsm .viewsw button.on{background:#222;color:#fff}#gsm.spatial #gsm-mz,#gsm.spatial #gsm-notes{display:none}#gsm:not(.spatial) #gsm-pz,#gsm:not(.spatial) #gsm-pnotes{display:none}#gsm .find{display:flex;gap:8px;margin:0 0 6px}#gsm .find input{flex:1;min-width:0;font:16px 'Questrial',sans-serif;border:1px solid #bbb;padding:10px 12px;border-radius:0;color:#222;background:#fff}#gsm .findrow{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:8px 0}#gsm .lnk{background:none;border:0;padding:0;color:#222;text-decoration:underline;font:14px 'Questrial',sans-serif;cursor:pointer}#gsm .pname{font-size:13px;color:#666}#gsm .results{margin-bottom:8px}#gsm .results button{display:block;width:100%;text-align:left;background:#fff;border:0;border-top:1px solid #eee;padding:9px 4px;font:14px 'Questrial',sans-serif;color:#222;cursor:pointer}#gsm .results .rmsg{font-size:13px;color:#888;padding:6px 0}#gsm .placewrap{position:relative;border:1px solid #ddd}#gsm #gsm-place{height:420px;width:100%;background:#e8e8e8}#gsm .plload{position:absolute;top:50%;left:0;right:0;text-align:center;color:#888;font-size:14px;pointer-events:none}#gsm .leaflet-container img{max-width:none!important;max-height:none!important;border:0!important;box-shadow:none!important}#gsm .leaflet-container{font-family:'Questrial',sans-serif}#gsm .pm{background:#fff;border:1.5px solid #222;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 1px 4px rgba(0,0,0,.4)}#gsm .pm.sel{outline:2px dashed #fff;outline-offset:3px}#gsm .pm b{position:absolute;top:-8px;right:-10px;background:#222;color:#fff;font:700 10px 'Questrial',sans-serif;border-radius:8px;padding:1px 5px}#gsm .leaflet-popup-content{min-width:208px!important;width:auto!important;margin:10px 12px!important}#gsm .leaflet-popup-content-wrapper{background:#fff!important;color:#222!important;border-radius:3px!important}#gsm .leaflet-popup-tip{background:#fff!important}#gsm .pbox{min-width:190px;writing-mode:horizontal-tb}#gsm .pdel{white-space:nowrap;display:block;width:100%}#gsm .psy{flex:0 0 40px}#gsm .lkv{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 8px}#gsm .pnet.v-mine .meth{opacity:.07}#gsm .pnet.v-method .ulk{display:none}#gsm .selbar{display:none;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;margin:8px 0;border:1px solid #222;background:#fff;font:13px 'Questrial',sans-serif;color:#222}#gsm .selbar.show{display:flex}#gsm .selbar .sbt{flex:1 1 100%}#gsm .selbar button{min-height:40px;min-width:44px;padding:6px 12px;border:1px solid #222;background:#fff;color:#222;font:13px 'Questrial',sans-serif;letter-spacing:.04em;cursor:pointer;border-radius:2px}#gsm .selbar button.dl{background:#222;color:#fff}#gsm .selbar button.sy{padding:4px 6px;display:flex;align-items:center}#gsm .selbar button.sy.cur{background:#222}#gsm .selbar button.sy.cur svg *{stroke:#fff}#gsm .selbar button.sy.cur svg rect[fill=\"#222\"]{fill:#fff}#gsm #gsm-marks>g{touch-action:none}#gsm .phint{font:12px 'Questrial',sans-serif;color:#222;margin:0 0 6px}#gsm .prow{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}#gsm .psy{min-width:40px;min-height:40px;border:1px solid #222;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;border-radius:2px}#gsm .psy.cur{background:#222}#gsm .psy.cur svg *{stroke:#fff}#gsm .psy.cur svg rect[fill=\"#222\"]{fill:#fff}#gsm .pdel{background:#222;color:#fff;border:0;padding:12px 18px;min-height:44px;font:12px 'Questrial',sans-serif;letter-spacing:.06em;cursor:pointer}#gsm .leaflet-control-layers-toggle{background-image:none!important;width:auto!important;height:auto!important;padding:7px 10px;color:#222;text-decoration:none}#gsm .leaflet-control-layers-toggle:after{content:\"Layers\";font:13px 'Questrial',sans-serif}#gsm .mapzone.fs #gsm-place{height:calc(100vh - 190px)}#gsm .hint{font-size:13px;color:#666;text-align:center}#gsm .btns{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px}#gsm .btn{flex:1 1 140px;background:#222;color:#fff;text-align:center;padding:14px;font:17px 'Questrial',sans-serif;border:1px solid #222;cursor:pointer}#gsm .btn.alt{background:#fff;color:#222}#gsm .copy{font-size:12px;color:#888;text-align:center;margin-top:18px}\n.gsmver{font-size:11.5px;color:#9a9a9a;text-align:right;margin:6px 2px 0;letter-spacing:.03em}#gsm .copy a{color:#555}#gsm .copy{line-height:1.5}#gsm .gsmrefwrap{display:none;margin:18px 0 0}#gsm.onta .gsmrefwrap{display:block}#gsm .ipd{margin:6px auto 0;max-width:560px}#gsm .ipd summary{cursor:pointer;text-decoration:underline;color:#555;list-style:none}#gsm .ipd summary::-webkit-details-marker{display:none}#gsm .ipt{text-align:left;color:#555;margin-top:6px}#gsm .gsmrefs .mtext p{font-size:13.5px;padding-left:22px;text-indent:-22px}#gsm .pnote{border-left:3px solid #222;background:#f4f4f4;padding:9px 12px;margin:4px 0 14px;font-size:13.5px;line-height:1.5;color:#333;text-align:left}#gsm .pnote b{color:#111}#gsm .noloc{border:1px dashed #999;padding:12px 14px;margin:14px 0 4px;font-size:14px;line-height:1.5;color:#444}#gsm .noloc b{display:block;font-size:11px;letter-spacing:.14em;color:#222;margin-bottom:3px}#gsm .noloc button{margin-top:6px}#gsm.hasloc .noloc{display:none}#gsm .locok{font-size:14px;margin:8px 0 4px;color:#222}#gsm:not(.hasloc) .locok{display:none!important}#gsm:not(.spatial) #gsm-pek{display:none}#gsm .welcome{border:1.5px solid #222;padding:14px 16px;margin:16px 0 8px}#gsm .welcome h4{margin:0 0 6px;font:700 12px 'Questrial',sans-serif;letter-spacing:.16em}#gsm .welcome p{margin:0 0 12px;font-size:15px;line-height:1.5}#gsm .welcome button{font:15px 'Questrial',sans-serif;padding:10px 16px;border:1px solid #111;background:#111;color:#fff;cursor:pointer}#gsm .confirm{display:none;border:1px solid #222;padding:14px;margin-top:10px;text-align:center;font-size:15px}#gsm .confirm.show{display:block}#gsm .confirm .btns{margin:12px 0 0}#gsm .pa{display:none;white-space:pre-wrap;font-size:13px;line-height:1.4;border-left:2px solid #222;padding-left:8px}@media print{#gsm .reach,#gsm .landcite{display:none!important}#gsm .pdfonly{display:block!important}#gsm .secb.closed{display:block!important}body *{visibility:hidden}#gsm,#gsm *{visibility:visible}#gsm{position:absolute;left:0;top:0;width:100%;max-width:none;padding:0}#gsm .body{display:block!important}#gsm .selbar{display:none!important}#gsm .chip.on{background:#fff!important;color:#222!important;border-color:#bbb!important}#gsm .chip.on svg *{stroke:#222!important}#gsm .chip.on svg rect[fill=\"#222\"]{fill:#222!important}#gsm .jump,#gsm .backbtn,#gsm .glance .ga,#gsm .glance .gx,#gsm .plab .chev,#gsm .plab .psum,#gsm .figfs,#gsm .emo .ech:not(.on),#gsm .figtools,#gsm .lkv,#gsm .emo2 .ech:not(.on),#gsm .emo2 .vin,#gsm .emo3 .add,#gsm .emo3 .lsel,#gsm .emo3 .vin,#gsm .eml,#gsm .lochelp,#gsm .viewsw,#gsm #gsm-noloc,#gsm .find,#gsm .results,#gsm .placewrap,#gsm #gsm-pleg,#gsm #gsm-pnotes textarea,#gsm .chain,#gsm .saved,#gsm .fold,#gsm .fsbar,#gsm .btns,#gsm .hint,#gsm .confirm,#gsm .t,#gsm .dot{display:none!important}#gsm .body textarea,#gsm .note textarea,#gsm .nlab button{display:none!important}#gsm .note{break-inside:avoid}#gsm .pa{display:block}#gsm .goal{border:0;border-bottom:1px solid #222;resize:none}#gsm .qa{break-inside:avoid}#gsm h2.mh,#gsm h2.ph{break-before:page}#gsm .phint{display:none}#gsm .tabnext,#gsm .tabback,#gsm .combpanel,#gsm .comblist,#gsm .whohelp{display:none!important}#gsm .snav,#gsm .sprog,#gsm .walk,#gsm .dec{display:none!important}#gsm .ech.on{background:#fff;color:#222}#gsm .savehint,#gsm .mhelp{display:none}#gsm .locok,#gsm .noloc,#gsm .welcome,#gsm .copy a,#gsm .copy .fbsep{display:none!important}}.pnet[data-fig] svg{-webkit-user-select:none;user-select:none}.pnet[data-fig] svg g[data-id]:not([data-id=\"GOAL\"]){cursor:grab!important;touch-action:none}.figtools{margin:10px 0 6px}.figtools .ftb,.figtools .ftadd{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0}.figtools .ftl summary{cursor:pointer;font-size:13px;margin:6px 0;list-style:none}.figtools .ftl summary::-webkit-details-marker{display:none}.figtools .ftl summary:after{content:\"+\";float:right;font-size:16px;line-height:1}.figtools .ftl[open] summary:after{content:\"\u2212\"}.figtools .ftl ul{list-style:none;padding:0;margin:6px 0}.figtools .ftl li{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:5px 0;border-top:1px solid #eee;font-size:13px}.figtools .ftl li span{flex:1}.figtools .ftl li.off span{opacity:.45;text-decoration:line-through}.qlk{margin:8px 0}.qlk .qli{display:flex;align-items:center;gap:6px;font-size:13px;margin:4px 0}.qlk .qli span{flex:1}.pedits{margin:10px 0}.pedits:empty{display:none}#gsm .noteov{display:none}#gsm .noteov.show{display:block;border:1.5px solid #222;padding:8px 12px 12px;margin:10px 0;background:#fff}#gsm .mapzone.fs .noteov.show{position:fixed;left:0;right:0;bottom:0;max-height:52vh;overflow:auto;border:0;border-top:2px solid #222;margin:0;padding:10px 16px 18px;z-index:6;box-shadow:0 -4px 14px rgba(0,0,0,.18)}#gsm .mapzone.fs.ovopen{padding-bottom:55vh}#gsm .noteov .note{border-top:0;padding-top:2px}#gsm .noteov .note:last-child{border-bottom:0}#gsm .noteov textarea{min-height:130px}#gsm .noteov-h{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#555;margin-bottom:2px}#gsm .tyrow{display:flex;align-items:center;gap:8px;margin-top:8px}#gsm .tyrow .prow{margin-top:0}#gsm .tyrow .psy{min-width:36px;min-height:36px}.gsm-tt{position:fixed;display:none;z-index:2147483647;max-width:260px;padding:8px 11px;background:#000;color:#fff;font-family:Questrial,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.35;border-radius:4px;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.35);word-wrap:break-word}.gsm-tt b{font-weight:700}#gsm .pnet svg,#gsm .pnet svg *,#gsm .mapzone svg,#gsm .mapzone svg *,#gsm button,#gsm .chip,#gsm .ech,#gsm .psy{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}#gsm button:focus:not(:focus-visible),#gsm .pnet:focus,#gsm .pnet svg:focus,#gsm [tabindex]:focus:not(:focus-visible){outline:none}#gsm ::selection{background:#ddd;color:#111}#gsm .mapzone svg,#gsm .mapzone svg *{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;outline:none}#gsm .leaflet-container,#gsm .leaflet-container *{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}#gsm .leaflet-container a,#gsm .leaflet-interactive:focus,#gsm .leaflet-marker-icon:focus,#gsm .leaflet-container:focus{outline:none}#gsm .leaflet-container textarea,#gsm .leaflet-container input{-webkit-user-select:text;user-select:text}#gsm .whonote{font-size:13px;font-weight:700;color:#222;margin:6px 0 0}#gsm .whonote:empty{display:none}#gsm .namebar{border:1.5px solid #222;padding:12px 14px;margin:14px 0}#gsm .namebar .lab{display:block;margin-bottom:6px}#gsm .nbrow{display:flex;gap:8px}#gsm .nbrow input{flex:1;min-width:0;border:1px solid #222;padding:9px 10px;font:inherit;font-size:16px;background:#fff;color:#222;border-radius:0}#gsm .whodid{font-size:13px;padding:0 0 12px}#gsm .whodid table{width:100%;border-collapse:collapse;margin-bottom:10px}#gsm .whodid th,#gsm .whodid td{text-align:left;padding:5px 6px;border-bottom:1px solid #ddd;font-weight:400}#gsm .whodid th{font-size:11px;letter-spacing:.08em;color:#555}#gsm .whodid .wdl{font-size:11px;letter-spacing:.08em;color:#555;margin:6px 0 4px}#gsm .whodid span{color:#777}#gsm .jsub button.on{border-bottom-color:transparent}#gsm .jsub{justify-content:center}#gsm .glance .gl.hasup.open .gt{display:none}#gsm .glance .gl.hasup.open .gk+span+.ga{margin-left:auto}#gsm .coa .same{font-size:14px;color:#555;margin-top:6px}#gsm .tangle:not(.vnames) svg text[data-vt]{display:none}#gsm .vtb.vtn{margin-left:6px}#gsm .vtb.vtn:not(.off)::before{content:\"\\2713\"}#gsm .gsm-pop{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483100;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}#gsm .gsm-popbox{background:#fff;border:1.5px solid #222;max-width:680px;width:100%;max-height:88vh;display:flex;flex-direction:column}#gsm .gsm-pophd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid #ddd;font-size:12px;letter-spacing:.12em}#gsm .gsm-pophd .btn{flex:none;padding:6px 14px;font-size:14px}#gsm .gsm-popbd{overflow:auto;padding:12px 16px 16px}#gsm .gsm-popbd .pnet svg{max-height:60vh}@media print{#gsm .gsm-pop{display:none!important}}#gsm .gsm-popbd>.plab:first-child{margin-top:0;border-top:0;padding-top:0}#gsm .rp-m{font-size:12px;color:#666;letter-spacing:.04em;margin-bottom:8px}#gsm .rp-t{font-size:16px;line-height:1.55}#gsm .psug .psl{display:block;margin-top:8px}#gsm .int2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}#gsm .intfig svg{display:block;width:100%;height:auto;border:1px solid #ddd}#gsm .intfig:not(.vn) text[data-vt]{display:none}#gsm .intcap{font-size:11px;letter-spacing:.14em;font-weight:700;margin-bottom:4px}#gsm .intsub{font-size:12px;color:#666;margin-top:4px}#gsm .intl{font-size:15px;line-height:1.55;margin:10px 0}#gsm .intl ul{margin:4px 0 0 18px;padding:0}#gsm .intl li{margin-bottom:6px}#gsm .intcard{border:1.5px solid #222;padding:14px 16px;margin:26px 0 10px;font-size:15px;line-height:1.5}#gsm .intcard .btn{display:block;margin-top:10px;width:100%}@media(max-width:520px){#gsm .int2{grid-template-columns:1fr}}@media print{#gsm .intcard{display:none!important}}",
     HTML =
-      '<!-- THE BEAR CANYON METHOD \u00b7 web workbook \u00b7 Operational Coherence -->\n\n\n\n<div id="gsm">\n  <div class="kick">THE BEAR CANYON METHOD</div>\n  <div class="by">BY OPERATIONAL COHERENCE</div>\n  <div class="dsc">A workbook for navigating change.</div>\n  <div class="namebar" id="gsm-namebar" data-tab="5"><label class="lab" for="gsm-nb">YOUR NAME</label><div class="nbrow"><input type="text" id="gsm-nb" maxlength="40" autocomplete="off" placeholder="Your name"><button type="button" class="btn" id="gsm-nbgo">Save name</button></div><div class="whohelp">Type your name once. This device remembers it. It is stamped on every note, link and answer you make, and it is saved inside your workbook. When you share your workbook with someone, or combine it with theirs, the WHO DID WHAT list on Mapping Context shows who did what. You need a name before you can save or share. You can change it here at any time.</div></div>\n  <nav class="jump" id="gsm-jump"><div class="jrow"><button type="button" data-to="gsm-a-ctx">Mapping Context</button><button type="button" data-to="gsm-a-chg">Mapping Change</button><button type="button" data-to="gsm-a-pat">Patterns</button></div><div class="jrow jsub" id="gsm-jsub"></div><div class="jprog" id="gsm-jprog"></div></nav>\n  <div class="welcome" id="gsm-welcome" style="display:none"><h4>BEFORE YOU BEGIN</h4><p>Your work saves on this device only, as you type. Use Save workbook to keep a copy you can open later, here or on another device, or export as a PDF.</p><button type="button" id="gsm-wok">Got it</button></div>\n  <div id="gsm-start"><h2 class="mh">How to use the Bear Canyon Method</h2><div class="sh">THE METHOD</div><ol class="steps"><li><span>01</span>Write the goal on the first page of the method\'s workbook. Provide as much detail as possible. For goals that involve a location, a map will be used later. Goals not centered on a location are able to make use of a lightly structured mapping space.</li><li><span>02</span>Address the questions as their answers become evident; their order is not as important as the insight they lead you to.</li><li><span>03</span>One and four are the leading questions. The remainder are guidance for their answer. Include as much information as possible for the purpose of the method and the detail of the visualizations and suggested next steps provided later.</li><li><span>04</span>Map the context using the answers to the seven questions and additional notes corresponding to the supplied legend, either in this space or a larger one to capture the complexity of the task.</li><li><span>05</span>Create notes in either map format using text description, emotion, the source the note came from and the voice, as well as the goal and other notes it links to.</li><li><span>06</span>Work through the method alone first, then with others as needed to enrich the process and its outputs. Involve opposing and supportive voices.</li><li><span>07</span>Keep the workbook and return to it as things change while working in the context.</li><li><span>08</span>This method can be iteratively applied in stages until the whole goal is accomplished, a phase of it, or as much of it as reasonably can be.</li></ol><div class="sh">IN THIS WORKBOOK</div><ol class="steps"><li><span>09</span>When writing notes, include as much detail as you are able to: mark the emotion it corresponds to, where it originated (something you saw, were told, a document, or an assumption), and whose voice it came from.</li><li><span>10</span>In Mapping Change, turn on the emotional landscape to see how far each emotion toward the change reaches.</li><li><span>11</span>Link a note to an answer, the goal, or another note as supporting, opposing, or reinforcing it. Your links will be shown independently, and part of the larger pattern your answers and notes form, shown in Mapping Synthesis.</li><li><span>12</span>Navigate to Pattern Analysis and Pattern Synthesis to see how your answers and notes interact. Where they are not explicitly defined by you, patterns suggest interactions based on your work in The Bear Canyon Method (BCM). Pattern accuracy depends on how you move through the method. Pattern Analysis and Pattern Synthesis open once you have answered all seven questions, but are supported heavily by notes.</li><li><span>13</span>Pattern Analysis reveals recurrence in words and phrases used, what stands out, what is pressing, top actions to take, the basis, patterns formed by you, gaps, and patterns among questions. This page in the BCM workbook also provides a visualization of the seven answers and their relationship and proximity to the goal.</li><li><span>14</span>In Pattern Synthesis, questions and notes are brought together in a visualization illustrating how all the question answers and notes hang together and form patterns relative to the goal, while offering insights into what the information provided means when brought together, and what the visualized patterns might mean for moving forward.</li><li><span>15</span>To work with others, each person answers alone and saves their own workbook. Then open yours and choose Combine with another workbook: their answers sit under yours, named, and their notes join your maps. Others could include members of your organization, adjoining, or distant ones, and community members or other stakeholders.</li></ol><div class="sh">THE FIVE PAGES</div><ul class="glos"><li><b>Mapping Context.</b> Write the goal, answer the seven questions, and add a place if the goal has one, otherwise, use the mapping space.</li><li><b>Mapping Change.</b> Mark the information you have already gathered or comes to you while working in the BCM on the place map or the line map, one note at a time, providing as much detail as possible.</li><li><b>Pattern Analysis.</b> Looking in: what patterns your answers and notes hold when analyzed together.</li><li><b>Pattern Synthesis.</b> Looking out: how questions and notes hang together, what their basis is, what intricacies are formed and the insights they yield, and what to pay attention to.</li><li><b>Taking Action.</b> Courses of action distinguished by program or strategy suggested by the BCM, and what still needs to be added to the map or discovered.</li></ul><div class="sh">WORDS USED HERE</div><ul class="glos"><li><b>Answer.</b> Your reply to one of the seven questions, written as Q.1 to Q.7.</li><li><b>Note.</b> A line of text with corresponding data points tied to a symbol on a map, represented as N1, N2, and so on, is a note pinned on the place map; numbered notes are on the line map.</li><li><b>Thread.</b> A word or phrase that runs through and relates several answers or notes. A dashed ring on a dot means it is not associated with other answers or notes by a thread.</li><li><b>Emotion, source, voice.</b> How a note feels, how you know it, and whose view it carries.</li><li><b>Link.</b> A connection you draw from a note to an answer, the goal, or another note.</li><li><b>Pattern.</b> A unique to you entanglement of answers and notes formed by words and symbols related by BCM. It suggests; you decide.</li></ul><button type="button" class="tabnext" id="gsm-begin">Begin: write the goal \u2192</button></div>\n  <div class="chain cxq" id="gsm-chain"><button type="button" data-q="0">1</button><i>\u2192</i><span class="pair"><button type="button" data-q="1">2</button><button type="button" data-q="2">3</button></span><i>\u2192</i><button type="button" data-q="3">4</button><i>\u2192</i><span class="pair"><button type="button" data-q="4">5</button><button type="button" data-q="5">6</button></span><i>\u2192</i><button type="button" data-q="6">7</button></div>\n  <div class="lab">GOAL</div>\n  <textarea class="goal" data-k="goal" placeholder="Write the goal\u2026" rows="2"></textarea>\n  <div class="whobox cx0"><label class="lab" for="gsm-who">YOUR NAME <span style="letter-spacing:0">(needed to save or share)</span></label><input type="text" id="gsm-who" maxlength="40" autocomplete="off" placeholder="Your name"><div class="whonote" id="gsm-whonote" role="status"></div><div class="whohelp">If you work with others, each person writes their name here, answers alone, and saves their workbook. Then combine the workbooks to see everyone\'s answers side by side.</div><details class="fold" id="gsm-whodid" style="margin:10px 0 6px"><summary>WHO DID WHAT</summary><div class="whodid" id="gsm-whodidbody"></div></details><div class="othgoal" id="gsm-othgoal"></div></div>\n  <h1 id="gsm-a-ctx">Mapping Context</h1>\n  <div class="saved">Your answers save on this device as you type. To move them or share them: <button type="button" class="lnk sm" id="gsm-save">Save workbook</button> \u00b7 <button type="button" class="lnk sm" id="gsm-open">Open workbook</button> \u00b7 <button type="button" class="lnk sm" id="gsm-comb">Combine with another workbook</button><input type="file" id="gsm-file" accept=".json,application/json" style="display:none"></div>\n  <div class="combpanel" id="gsm-combpanel"></div><div class="comblist" id="gsm-comblist"></div>\n  <details class="fold" id="gsm-friend" style="margin:6px 0 16px"><summary>WORKING WITH A FRIEND</summary><ol class="steps"><li><span>1</span><div>Each of you writes your own name in the name box.</div></li><li><span>2</span><div>Answer on your own, then choose Save workbook. A file downloads.</div></li><li><span>3</span><div>Send your file to your friend (email, message, or a shared folder).</div></li><li><span>4</span><div>Your friend chooses Combine with another workbook and picks your file. Your answers and notes appear next to theirs, with your name.</div></li><li><span>5</span><div>They save and send theirs back, and you combine again. Combining again with the same person updates their answers and adds only what is new.</div></li></ol><div class="whohelp">Moved dots and hidden links in the figures are not carried across. Links added in Patterns are.</div></details>\n  <div class="confirm" id="gsm-oconfirm">Replace what is on this device with the workbook you opened?\n    <div class="btns"><button class="btn" id="gsm-oyes">Replace</button><button class="btn alt" id="gsm-ono">Keep mine</button></div>\n  </div>\n  <div class="pdfmsg" id="gsm-omsg"></div>\n  <div id="gsm-qs" class="cxq"></div>\n  <div class="snav" id="gsm-cnav"><button type="button" class="sb alt" id="gsm-cbk">Back</button><span class="sp"></span><button type="button" class="sb" id="gsm-cnx">Next</button></div>\n\n\n  <h2 class="mh" id="gsm-a-chg">Mapping Change</h2>\n  <details class="fold"><summary>MAPPING CHANGE: INSTRUCTION</summary><div class="mtext">\n<div class="ml pdfonly">INSTRUCTION</div><p class="pdfonly">Use the blank page, several pages, a poster board, or a whiteboard to map out a collaborative change process with and within the community. It should not be a straight line, but a realistic one that crisscrosses, double-backs, and forms a tangled pattern where some conditions, such as those that need to be redesigned, impede change, and other conditions enable it, meaning the areas that need to be designed or reinforced.</p>\n<p>Start by revisiting the goal you want to accomplish and use the answers to the questions to create the landscape of notes that change will be manifested across. What is the pathway to change, and who and what will help or hinder you along it? What are community members and others already doing, where do they support the goal, and where do they oppose it? What options do you have to reinforce and enable the support, and engage constructively with the opposition? What needs to be redesigned or designed?</p>\n<div class="ml">OBJECTIVE</div><p>The resulting map should provide the BCM with a drawing of the change landscape. It will be continually revised as experience is gained and new information is discovered and as patterns are reflected upon.</p>\n<div class="ml">OUTCOME:</div><p>Use the answers to the seven questions to map the change landscape, whether it is concerned with accomplishing the whole goal or a phase or piece of it. This technique can be iteratively applied in stages until the whole goal is accomplished, or as much of it as reasonably can be.</p>\n</div></details>\n  <div class="locbox mc1" id="gsm-locbox">\n  <div class="lab loclab">LOCATION <span>(optional)</span></div>\n  <div class="lochelp">Specify the location of the goal\'s context to activate the mapping layer. This will be populated below. Leave blank to use the method without a place.</div>\n  <form class="find" id="gsm-find"><input type="search" id="gsm-q" placeholder="Address, town, area, or coordinates\u2026" autocomplete="off"><button type="submit" class="fsb">Find</button></form>\n  <div class="findrow"><button type="button" class="lnk" id="gsm-here">Use my location</button><span class="pname" id="gsm-pname"></span><button type="button" class="lnk" id="gsm-noloc">Remove location</button></div>\n  <div class="results" id="gsm-res"></div>\n  </div>\n  <div class="noloc" id="gsm-nolocmsg"><b>PLACE MAP</b>To mark notes on a satellite, topo or street map, find a place first, using the search above the map. Without one, use the line map.<br><button type="button" class="lnk" id="gsm-addloc">Find a place</button></div>\n  <div class="viewsw" id="gsm-view"><span>Map:</span><button type="button" data-v="place">Place</button><button type="button" data-v="line">Line</button></div>\n  <div class="mapzone" id="gsm-pz">\n  <div class="fsbar"><span class="fst">Mapping Change</span><button type="button" class="fsb" id="gsm-pfs">Full screen</button></div>\n  <div class="placewrap"><div id="gsm-place"></div><div class="plload" id="gsm-plload">Loading the map\u2026</div></div>\n  <div class="landrow"><button type="button" class="lnk" id="gsm-land">Show emotional landscape</button><span class="landnote" id="gsm-landnote"></span></div>\n  <div class="landcite" id="gsm-landcite">After K. Starratt, <i>Town map of emotional reactions to resilience-building idea</i> (commissioned painting, 2024).</div>\n  <div class="reach" id="gsm-reach"><div class="rrow"><span class="rl">Reach</span><span class="rs">near</span><input type="range" id="gsm-reach0" min="10" max="300" step="5" aria-label="Reach of the emotional landscape"><span class="rs">far</span><span class="rv" id="gsm-reachv0"></span></div><div id="gsm-reachx"></div><div class="rrow radd"><select id="gsm-reachsel" aria-label="Emotion for another slider"></select><button type="button" class="lnk" id="gsm-reachadd">Add another slider</button></div><div class="rhelp">One slider sets how far every emotion reaches. Add another slider to give one emotion its own reach.</div></div>\n  <div class="leg" id="gsm-pleg"></div>\n  <div class="hint">Tap a symbol, then tap the map to mark one spot, or drag around several homes to mark an area. Tap the symbol again to move the map. Tap a placed symbol to move it (drag), change it or delete it. Each symbol gets a numbered note, which you describe in the next step. Locations stay on this device, but are included in the exported workbook.</div>\n  </div>\n  <div class="emokey mc2" id="gsm-pek"></div>\n  <div class="notes mc2" id="gsm-pnotes"></div>\n  <div class="mapzone" id="gsm-mz">\n  <div class="fsbar"><span class="fst">Mapping Change</span><button type="button" class="fsb" id="gsm-fs">Full screen</button></div>\n  <div class="hint lmintro">The line map is provided for mapping the change landscape the goal will be accomplished on without using a location and is ideal for working with abstract challenges.</div>\n  <div class="mapwrap">\n    <svg class="map" id="gsm-map" viewBox="0 0 340 230" xmlns="http://www.w3.org/2000/svg">\n      <rect width="340" height="230" fill="#fff"/>\n      <g font-family="Questrial,sans-serif" fill="#222">\n        <text x="10" y="22" font-size="11" font-weight="700">HELP \u2191</text>\n        <text x="10" y="220" font-size="11" font-weight="700">HINDER \u2193</text>\n        <text x="10" y="138" font-size="10">PRESENT</text>\n        <text x="218" y="138" font-size="10" text-anchor="end">FUTURE \u2192</text>\n        <text x="305" y="156" font-size="9" text-anchor="middle">GOAL</text>\n        <text x="303" y="167" font-size="8.5" text-anchor="middle">ACCOMPLISHED</text>\n      </g>\n      <line x1="10" y1="118" x2="282" y2="118" stroke="#222" stroke-width="2.5"/>\n      <circle cx="305" cy="118" r="20" fill="none" stroke="#222" stroke-width="2"/>\n      <circle cx="305" cy="118" r="12" fill="none" stroke="#222" stroke-width="2"/>\n      <circle cx="305" cy="118" r="4" fill="#222"/>\n      <circle id="gsm-goalhit" cx="305" cy="118" r="24" fill="transparent" style="cursor:help"/>\n      <g id="gsm-marks"></g>\n    </svg>\n  </div>\n  <div class="leg" id="gsm-leg"></div>\n  <div class="selbar" id="gsm-sb"></div>\n  <div class="hint">Tap a symbol, then tap the map. Tap a placed symbol to select it: drag it to move it, or use the bar above to change or delete it. Each symbol gets a numbered note, which you describe in the next step.</div>\n  </div>\n  <div class="emokey mc2" id="gsm-ek"></div>\n  <div class="notes mc2" id="gsm-notes"></div>\n  <div class="pedits mc2" id="gsm-pedits"></div>\n  <div class="snav" id="gsm-mcnav"><button type="button" class="sb alt" id="gsm-mbk">Back to the map</button><span class="sp"></span><button type="button" class="sb" id="gsm-mnx">Next: describe your notes</button></div>\n\n  <h2 class="ph" id="gsm-a-pat">Patterns</h2>\n  <div class="sub">How the inputs make sense together.</div>\n  <div class="pnote" id="gsm-pnote"><b>How Patterns works:</b> it matches words and symbols across your answers and notes. It can point to things worth a closer look, but BCM does not yet understand what you wrote. Patterns suggests; you decide.</div>\n  <div id="gsm-pat"></div>\n\n  <div class="btns">\n    <button class="btn" id="gsm-pdf">Export as PDF</button>\n    <button class="btn alt" id="gsm-save2">Save workbook</button>\n    <button class="btn alt" id="gsm-open2">Open workbook</button>\n    <button class="btn alt" id="gsm-comb2">Combine workbooks</button>\n    <button class="btn alt" id="gsm-print">Print</button>\n    <button class="btn alt" id="gsm-clear">Clear</button>\n  </div>\n  <div class="savehint" id="gsm-savehint">Your work stays on this device. Save workbook downloads a file, and Open workbook loads one, here or on another device. Clearing your browser data erases the copy kept on this device.</div>\n  <div class="pdfmsg" id="gsm-pdfmsg"></div>\n  <button type="button" class="backbtn" id="gsm-back">\u2191 Back</button>\n  <div class="confirm" id="gsm-confirm">Clear the goal, all answers and the map?\n    <div class="btns"><button class="btn" id="gsm-yes">Clear</button><button class="btn alt" id="gsm-no">Keep</button></div>\n  </div>\n  <div class="copy">\u00a9 2026 Operational Coherence. Copyrighted: attribution required.<span class="fbsep"> \u00b7 </span><a href="mailto:greg@operationalcoherence.com?subject=Bear%20Canyon%20Method%20feedback">Send feedback</a></div>\n  <div class="gsmver" id="gsm-ver"></div>\n</div>';
+      '<!-- THE BEAR CANYON METHOD \u00b7 web workbook \u00b7 Operational Coherence -->\n\n\n\n<div id="gsm">\n  <div class="kick">THE BEAR CANYON METHOD</div>\n  <div class="by">BY OPERATIONAL COHERENCE</div>\n  <div class="dsc">A workbook for navigating change.</div>\n  <div class="namebar" id="gsm-namebar" data-tab="5"><label class="lab" for="gsm-nb">YOUR NAME</label><div class="nbrow"><input type="text" id="gsm-nb" maxlength="40" autocomplete="off" placeholder="Your name"><button type="button" class="btn" id="gsm-nbgo">Save name</button></div><div class="whohelp">Type your name once. This device remembers it. It is stamped on every note, link and answer you make, and it is saved inside your workbook. When you share your workbook with someone, or combine it with theirs, the WHO DID WHAT list on Mapping Context shows who did what. You need a name before you can save or share. You can change it here at any time.</div></div>\n  <nav class="jump" id="gsm-jump"><div class="jrow"><button type="button" data-to="gsm-a-ctx">Mapping Context</button><button type="button" data-to="gsm-a-chg">Mapping Landscape</button><button type="button" data-to="gsm-a-pat">Patterns</button></div><div class="jrow jsub" id="gsm-jsub"></div><div class="jprog" id="gsm-jprog"></div></nav>\n  <div class="welcome" id="gsm-welcome" style="display:none"><h4>BEFORE YOU BEGIN</h4><p>Your work saves on this device only, as you type. Use Save workbook to keep a copy you can open later, here or on another device, or export as a PDF.</p><button type="button" id="gsm-wok">Got it</button></div>\n  <div id="gsm-start"><h2 class="mh">How to use the Bear Canyon Method</h2><div class="sh">THE METHOD</div><ol class="steps"><li><span>01</span>Write the goal on the first page of the method\'s workbook. Provide as much detail as possible. For goals that involve a location, a map will be used later. Goals not centered on a location are able to make use of a lightly structured mapping space.</li><li><span>02</span>Address the questions as their answers become evident; their order is not as important as the insight they lead you to.</li><li><span>03</span>One and four are the leading questions. The remainder are guidance for their answer. Include as much information as possible for the purpose of the method and the detail of the visualizations and suggested next steps provided later.</li><li><span>04</span>Map the context using the answers to the seven questions and additional notes corresponding to the supplied legend, either in this space or a larger one to capture the complexity of the task.</li><li><span>05</span>Create notes in either map format using text description, emotion, the source the note came from and the voice, as well as the goal and other notes it links to.</li><li><span>06</span>Work through the method alone first, then with others as needed to enrich the process and its outputs. Involve opposing and supportive voices.</li><li><span>07</span>Keep the workbook and return to it as things change while working in the context.</li><li><span>08</span>This method can be iteratively applied in stages until the whole goal is accomplished, a phase of it, or as much of it as reasonably can be.</li></ol><div class="sh">IN THIS WORKBOOK</div><ol class="steps"><li><span>09</span>When writing notes, include as much detail as you are able to: mark the emotion it corresponds to, where it originated (something you saw, were told, a document, or an assumption), and whose voice it came from.</li><li><span>10</span>In Mapping Landscape, turn on the emotional landscape to see how far each emotion toward the change reaches.</li><li><span>11</span>Link a note to an answer, the goal, or another note as supporting, opposing, or reinforcing it. Your links will be shown independently, and part of the larger pattern your answers and notes form, shown in Mapping Synthesis.</li><li><span>12</span>Navigate to Pattern Analysis and Pattern Synthesis to see how your answers and notes interact. Where they are not explicitly defined by you, patterns suggest interactions based on your work in The Bear Canyon Method (BCM). Pattern accuracy depends on how you move through the method. Pattern Analysis and Pattern Synthesis open once you have answered all seven questions, but are supported heavily by notes.</li><li><span>13</span>Pattern Analysis reveals recurrence in words and phrases used, what stands out, what is pressing, top actions to take, the basis, patterns formed by you, gaps, and patterns among questions. This page in the BCM workbook also provides a visualization of the seven answers and their relationship and proximity to the goal.</li><li><span>14</span>In Pattern Synthesis, questions and notes are brought together in a visualization illustrating how all the question answers and notes hang together and form patterns relative to the goal, while offering insights into what the information provided means when brought together, and what the visualized patterns might mean for moving forward.</li><li><span>15</span>To work with others, each person answers alone and saves their own workbook. Then open yours and choose Combine with another workbook: their answers sit under yours, named, and their notes join your maps. Others could include members of your organization, adjoining, or distant ones, and community members or other stakeholders.</li></ol><div class="sh">THE FIVE PAGES</div><ul class="glos"><li><b>Mapping Context.</b> Write the goal, answer the seven questions, and add a place if the goal has one, otherwise, use the mapping space.</li><li><b>Mapping Landscape.</b> Mark the information you have already gathered or comes to you while working in the BCM on the place map or the line map, one note at a time, providing as much detail as possible.</li><li><b>Pattern Analysis.</b> Looking in: what patterns your answers and notes hold when analyzed together.</li><li><b>Pattern Synthesis.</b> Looking out: how questions and notes hang together, what their basis is, what intricacies are formed and the insights they yield, and what to pay attention to.</li><li><b>Taking Action.</b> Courses of action distinguished by program or strategy suggested by the BCM, and what still needs to be added to the map or discovered.</li></ul><div class="sh">WORDS USED HERE</div><ul class="glos"><li><b>Answer.</b> Your reply to one of the seven questions, written as Q.1 to Q.7.</li><li><b>Note.</b> A line of text with corresponding data points tied to a symbol on a map, represented as N1, N2, and so on, is a note pinned on the place map; numbered notes are on the line map.</li><li><b>Thread.</b> A word or phrase that runs through and relates several answers or notes. A dashed ring on a dot means it is not associated with other answers or notes by a thread.</li><li><b>Emotion, source, voice.</b> How a note feels, how you know it, and whose view it carries.</li><li><b>Link.</b> A connection you draw from a note to an answer, the goal, or another note.</li><li><b>Pattern.</b> A unique to you entanglement of answers and notes formed by words and symbols related by BCM. It suggests; you decide.</li></ul><button type="button" class="tabnext" id="gsm-begin">Begin: write the goal \u2192</button></div>\n  <div class="chain cxq" id="gsm-chain"><button type="button" data-q="0">1</button><i>\u2192</i><span class="pair"><button type="button" data-q="1">2</button><button type="button" data-q="2">3</button></span><i>\u2192</i><button type="button" data-q="3">4</button><i>\u2192</i><span class="pair"><button type="button" data-q="4">5</button><button type="button" data-q="5">6</button></span><i>\u2192</i><button type="button" data-q="6">7</button></div>\n  <div class="lab">GOAL</div>\n  <textarea class="goal" data-k="goal" placeholder="Write the goal\u2026" rows="2"></textarea>\n  <div class="whobox cx0"><label class="lab" for="gsm-who">YOUR NAME <span style="letter-spacing:0">(needed to save or share)</span></label><input type="text" id="gsm-who" maxlength="40" autocomplete="off" placeholder="Your name"><div class="whonote" id="gsm-whonote" role="status"></div><div class="whohelp">If you work with others, each person writes their name here, answers alone, and saves their workbook. Then combine the workbooks to see everyone\'s answers side by side.</div><details class="fold" id="gsm-whodid" style="margin:10px 0 6px"><summary>WHO DID WHAT</summary><div class="whodid" id="gsm-whodidbody"></div></details><div class="othgoal" id="gsm-othgoal"></div></div>\n  <h1 id="gsm-a-ctx">Mapping Context</h1>\n  <div class="saved">Your answers save on this device as you type. To move them or share them: <button type="button" class="lnk sm" id="gsm-save">Save workbook</button> \u00b7 <button type="button" class="lnk sm" id="gsm-open">Open workbook</button> \u00b7 <button type="button" class="lnk sm" id="gsm-comb">Combine with another workbook</button><input type="file" id="gsm-file" accept=".json,application/json" style="display:none"></div>\n  <div class="combpanel" id="gsm-combpanel"></div><div class="comblist" id="gsm-comblist"></div>\n  <details class="fold" id="gsm-friend" style="margin:6px 0 16px"><summary>WORKING WITH A FRIEND</summary><ol class="steps"><li><span>1</span><div>Each of you writes your own name in the name box.</div></li><li><span>2</span><div>Answer on your own, then choose Save workbook. A file downloads.</div></li><li><span>3</span><div>Send your file to your friend (email, message, or a shared folder).</div></li><li><span>4</span><div>Your friend chooses Combine with another workbook and picks your file. Your answers and notes appear next to theirs, with your name.</div></li><li><span>5</span><div>They save and send theirs back, and you combine again. Combining again with the same person updates their answers and adds only what is new.</div></li></ol><div class="whohelp">Moved dots and hidden links in the figures are not carried across. Links added in Patterns are.</div></details>\n  <div class="confirm" id="gsm-oconfirm">Replace what is on this device with the workbook you opened?\n    <div class="btns"><button class="btn" id="gsm-oyes">Replace</button><button class="btn alt" id="gsm-ono">Keep mine</button></div>\n  </div>\n  <div class="pdfmsg" id="gsm-omsg"></div>\n  <div id="gsm-qs" class="cxq"></div>\n  <div class="snav" id="gsm-cnav"><button type="button" class="sb alt" id="gsm-cbk">Back</button><span class="sp"></span><button type="button" class="sb" id="gsm-cnx">Next</button></div>\n\n\n  <h2 class="mh" id="gsm-a-chg">Mapping Landscape</h2>\n  <details class="fold"><summary>MAPPING LANDSCAPE: INSTRUCTION</summary><div class="mtext">\n<div class="ml pdfonly">INSTRUCTION</div><p class="pdfonly">Use the blank page, several pages, a poster board, or a whiteboard to map out a collaborative change process with and within the community. It should not be a straight line, but a realistic one that crisscrosses, double-backs, and forms a tangled pattern where some conditions, such as those that need to be redesigned, impede change, and other conditions enable it, meaning the areas that need to be designed or reinforced.</p>\n<p>Start by revisiting the goal you want to accomplish and use the answers to the questions to create the landscape of notes that change will be manifested across. What is the pathway to change, and who and what will help or hinder you along it? What are community members and others already doing, where do they support the goal, and where do they oppose it? What options do you have to reinforce and enable the support, and engage constructively with the opposition? What needs to be redesigned or designed?</p>\n<div class="ml">OBJECTIVE</div><p>The resulting map should provide the BCM with a drawing of the change landscape. It will be continually revised as experience is gained and new information is discovered and as patterns are reflected upon.</p>\n<div class="ml">OUTCOME:</div><p>Use the answers to the seven questions to map the change landscape, whether it is concerned with accomplishing the whole goal or a phase or piece of it. This technique can be iteratively applied in stages until the whole goal is accomplished, or as much of it as reasonably can be.</p>\n</div></details>\n  <div class="locbox mc1" id="gsm-locbox">\n  <div class="lab loclab">LOCATION <span>(optional)</span></div>\n  <div class="lochelp">Specify the location of the goal\'s context to activate the mapping layer. This will be populated below. Leave blank to use the method without a place.</div>\n  <form class="find" id="gsm-find"><input type="search" id="gsm-q" placeholder="Address, town, area, or coordinates\u2026" autocomplete="off"><button type="submit" class="fsb">Find</button></form>\n  <div class="findrow"><button type="button" class="lnk" id="gsm-here">Use my location</button><span class="pname" id="gsm-pname"></span><button type="button" class="lnk" id="gsm-noloc">Remove location</button></div>\n  <div class="results" id="gsm-res"></div>\n  </div>\n  <div class="noloc" id="gsm-nolocmsg"><b>PLACE MAP</b>To mark notes on a satellite, topo or street map, find a place first, using the search above the map. Without one, use the line map.<br><button type="button" class="lnk" id="gsm-addloc">Find a place</button></div>\n  <div class="viewsw" id="gsm-view"><span>Map:</span><button type="button" data-v="place">Place</button><button type="button" data-v="line">Line</button></div>\n  <div class="mapzone" id="gsm-pz">\n  <div class="fsbar"><span class="fst">Mapping Landscape</span><button type="button" class="fsb" id="gsm-pfs">Full screen</button></div>\n  <div class="placewrap"><div id="gsm-place"></div><div class="plload" id="gsm-plload">Loading the map\u2026</div></div>\n  <div class="landrow"><button type="button" class="lnk" id="gsm-land">Show emotional landscape</button><span class="landnote" id="gsm-landnote"></span></div>\n  <div class="landcite" id="gsm-landcite">After K. Starratt, <i>Town map of emotional reactions to resilience-building idea</i> (commissioned painting, 2024).</div>\n  <div class="reach" id="gsm-reach"><div class="rrow"><span class="rl">Reach</span><span class="rs">near</span><input type="range" id="gsm-reach0" min="10" max="300" step="5" aria-label="Reach of the emotional landscape"><span class="rs">far</span><span class="rv" id="gsm-reachv0"></span></div><div id="gsm-reachx"></div><div class="rrow radd"><select id="gsm-reachsel" aria-label="Emotion for another slider"></select><button type="button" class="lnk" id="gsm-reachadd">Add another slider</button></div><div class="rhelp">One slider sets how far every emotion reaches. Add another slider to give one emotion its own reach.</div></div>\n  <div class="leg" id="gsm-pleg"></div>\n  <div class="hint">Tap a symbol, then tap the map to mark one spot, or drag around several homes to mark an area. Tap the symbol again to move the map. Tap a placed symbol to move it (drag), change it or delete it. Each symbol gets a numbered note, which you describe in the next step. Locations stay on this device, but are included in the exported workbook.</div>\n  </div>\n  <div class="emokey mc2" id="gsm-pek"></div>\n  <div class="notes mc2" id="gsm-pnotes"></div>\n  <div class="mapzone" id="gsm-mz">\n  <div class="fsbar"><span class="fst">Mapping Landscape</span><button type="button" class="fsb" id="gsm-fs">Full screen</button></div>\n  <div class="hint lmintro">The line map is provided for mapping the change landscape the goal will be accomplished on without using a location and is ideal for working with abstract challenges.</div>\n  <div class="mapwrap">\n    <svg class="map" id="gsm-map" viewBox="0 0 340 230" xmlns="http://www.w3.org/2000/svg">\n      <rect width="340" height="230" fill="#fff"/>\n      <g font-family="Questrial,sans-serif" fill="#222">\n        <text x="10" y="22" font-size="11" font-weight="700">HELP \u2191</text>\n        <text x="10" y="220" font-size="11" font-weight="700">HINDER \u2193</text>\n        <text x="10" y="138" font-size="10">PRESENT</text>\n        <text x="218" y="138" font-size="10" text-anchor="end">FUTURE \u2192</text>\n        <text x="305" y="156" font-size="9" text-anchor="middle">GOAL</text>\n        <text x="303" y="167" font-size="8.5" text-anchor="middle">ACCOMPLISHED</text>\n      </g>\n      <line x1="10" y1="118" x2="282" y2="118" stroke="#222" stroke-width="2.5"/>\n      <circle cx="305" cy="118" r="20" fill="none" stroke="#222" stroke-width="2"/>\n      <circle cx="305" cy="118" r="12" fill="none" stroke="#222" stroke-width="2"/>\n      <circle cx="305" cy="118" r="4" fill="#222"/>\n      <circle id="gsm-goalhit" cx="305" cy="118" r="24" fill="transparent" style="cursor:help"/>\n      <g id="gsm-marks"></g>\n    </svg>\n  </div>\n  <div class="leg" id="gsm-leg"></div>\n  <div class="selbar" id="gsm-sb"></div>\n  <div class="hint">Tap a symbol, then tap the map. Tap a placed symbol to select it: drag it to move it, or use the bar above to change or delete it. Each symbol gets a numbered note, which you describe in the next step.</div>\n  </div>\n  <div class="emokey mc2" id="gsm-ek"></div>\n  <div class="notes mc2" id="gsm-notes"></div>\n  <div class="pedits mc2" id="gsm-pedits"></div>\n  <div class="snav" id="gsm-mcnav"><button type="button" class="sb alt" id="gsm-mbk">Back to the map</button><span class="sp"></span><button type="button" class="sb" id="gsm-mnx">Next: describe your notes</button></div>\n\n  <h2 class="ph" id="gsm-a-pat">Patterns</h2>\n  <div class="sub">How the inputs make sense together.</div>\n  <div class="pnote" id="gsm-pnote"><b>How Patterns works:</b> it matches words and symbols across your answers and notes. It can point to things worth a closer look, but BCM does not yet understand what you wrote. Patterns suggests; you decide.</div>\n  <div id="gsm-pat"></div>\n\n  <div class="btns">\n    <button class="btn" id="gsm-pdf">Export as PDF</button>\n    <button class="btn alt" id="gsm-save2">Save workbook</button>\n    <button class="btn alt" id="gsm-open2">Open workbook</button>\n    <button class="btn alt" id="gsm-comb2">Combine workbooks</button>\n    <button class="btn alt" id="gsm-print">Print</button>\n    <button class="btn alt" id="gsm-clear">Clear</button>\n  </div>\n  <div class="savehint" id="gsm-savehint">Your work stays on this device. Save workbook downloads a file, and Open workbook loads one, here or on another device. Clearing your browser data erases the copy kept on this device.</div>\n  <div class="pdfmsg" id="gsm-pdfmsg"></div>\n  <button type="button" class="backbtn" id="gsm-back">\u2191 Back</button>\n  <div class="confirm" id="gsm-confirm">Clear the goal, all answers and the map?\n    <div class="btns"><button class="btn" id="gsm-yes">Clear</button><button class="btn alt" id="gsm-no">Keep</button></div>\n  </div>\n  <div class="gsmrefwrap"><details class="fold gsmrefs"><summary>REFERENCES</summary><div class="mtext"><p>Ackoff, R. L. (1999). <i>Ackoff&#39;s best: His classic writings on management.</i> New York, NY: Wiley.</p><p>Juarrero, A. (2023). <i>Context changes everything: How constraints create change.</i> Cambridge, MA: The MIT Press.</p><p>Kurtz, C. F., &amp; Snowden, D. J. (2003). The new dynamics of strategy: Sense-making in a complex and complicated world. <i>IBM Systems Journal, 42</i>(3), 462-483.</p><p>Morin, E. (2008). <i>On complexity.</i> (R. Postel, Trans.). Cresskill, NJ: Hampton Press.</p><p>Morin, E., &amp; Kern, A. B. (1999). <i>Homeland earth: A manifesto for the new millennium.</i> (S. M. Kelly, &amp; R. LaPointe, Trans.) Cresskill, NJ: Hampton Press.</p><p>Paci-Green, R., Vigneaux, G., Jensen, S., &amp; Petal, M. (2016). Developing and Implementing Comprehensive School Safety Policy: GADRRRES Research-into-Practice Brief.</p><p>Thompson, E. (2007). <i>Mind in life: Biology, phenomenology, and the sciences of mind.</i> Cambridge, MA: The Belknap Press of Harvard University Press.</p><p>Vigneaux, G. J. (2026). Transitioning From Biological Networks To Participation In Social Networks. <i>Journal of Emergency Management, 24</i>(7), 23-32. doi:10.5055/jem.0952</p><p>Waldrop, M. M. (1992). <i>The emerging science at the edge of order and chaos.</i> New York, NY: Touchstone.</p></div></details></div><div class="copy">The Bear Canyon Method (BCM) is provided free of charge for personal and professional use. Attribution to Operational Coherence is required. The Bear Canyon Method remains the intellectual property of Operational Coherence. All rights reserved.<span class="fbsep"> \u00b7 </span><a href="mailto:greg@operationalcoherence.com?subject=Bear%20Canyon%20Method%20feedback">Send feedback</a><details class="ipd"><summary>Intellectual property statement</summary><div class="ipt">The Bear Canyon Method (BCM) is free to use and developed by Operational Coherence. BCM is founded on original research and draws from insights derived from adjacent literature, their interpretations and experiences, and acknowledges the contributions of the broader communities from which those insights originate. The architecture, methodology, framework design, system structure, and implementation of BCM were conceived, developed, and are owned by Operational Coherence. Use of BCM is permitted without fee; attribution to Operational Coherence is required. All intellectual property rights remain with Operational Coherence.</div></details></div>\n  <div class="gsmver" id="gsm-ver"></div>\n</div>';
   try {
     if (FONT && !document.querySelector("link[data-gsm-font]")) {
       var l = document.createElement("link");
@@ -76,7 +76,7 @@
       ["Acceptance", "#2a9d8f"],
       ["Distrust", "#a48fd0"],
       ["Indifference", "#e6be4f"],
-      ["Defiance", "#1d3557"],
+      ["Defiance", "#1b2a8f"],
     ];
   function r(t) {
     return (
@@ -1009,7 +1009,7 @@
                 r += " " + n.children[i].textContent;
               var a = [],
                 s;
-              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r));)
+              for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r)); )
                 a.indexOf(s[1]) < 0 && a.push(s[1]);
               if (a.length) {
                 var c = document.createElement("div");
@@ -2807,7 +2807,7 @@
                             function F() {
                               (B(8, "normal", 120),
                                 b.text(
-                                  "© 2026 Operational Coherence. Copyrighted: attribution required.",
+                                  "© 2026 Operational Coherence. The Bear Canyon Method: free to use; attribution required.",
                                   E,
                                   762,
                                 ),
@@ -3127,7 +3127,7 @@
                                 })),
                                 B(8, "normal", 120),
                                 b.text(
-                                  "© 2026 Operational Coherence. Copyrighted: attribution required.",
+                                  "© 2026 Operational Coherence. The Bear Canyon Method: free to use; attribution required.",
                                   40,
                                   600,
                                 ),
@@ -3140,7 +3140,7 @@
                               (et = N.querySelector("p.pdfonly")) &&
                                 et.textContent.trim() &&
                                 (H(),
-                                z("Mapping Change"),
+                                z("Mapping Landscape"),
                                 U("Instruction"),
                                 P(et.textContent.trim(), 10.5, "normal", 10, 40)));
                             var X = !!i,
@@ -3150,14 +3150,14 @@
                                 i,
                                 s[0],
                                 s[1],
-                                "Mapping Change",
+                                "Mapping Landscape",
                                 C.p.name || "",
                                 "Map imagery: Esri / OpenStreetMap contributors.",
                               ),
                               Z &&
-                                J(m, 1360, 920, X ? "Mapping Change: line map" : "Mapping Change", "", null),
+                                J(m, 1360, 920, X ? "Mapping Landscape: line map" : "Mapping Landscape", "", null),
                               X || Z || H(),
-                              z("Mapping Change"),
+                              z("Mapping Landscape"),
                               (function (t) {
                                 U("Legend");
                                 for (var n = 1; n <= 7; n++) {
@@ -3607,6 +3607,8 @@
                                 b.line(E, x, 558, x),
                                 (x += 12),
                                 P(xt(a), 8, "normal", 4, 110)),
+                              (x += 10),
+                              P('This document was generated using The Bear Canyon Method, a method developed by Operational Coherence. The Bear Canyon Method is provided free of charge; however, attribution to Operational Coherence is required. The Bear Canyon Method, including its architecture, framework design, and implementation, remains the intellectual property of Operational Coherence.', 8, "italic", 4, 110),
                               F(),
                               b.save("bear-canyon-method.pdf"),
                               (bt.textContent = "PDF saved. Check your downloads."));
@@ -4236,16 +4238,26 @@
         var W = [];
         ((C.m.length || C.p.m.length) &&
           s.forEach(function (t, e) {
-            t && !D[e + 1] && W.push("Q." + (e + 1) + " " + n[e]);
+            t &&
+              !D[e + 1] &&
+              W.push(
+                "Q." +
+                  (e + 1) +
+                  " (" +
+                  ["why the goal has not taken root", "opposition", "support", "conditions", "design", "redesign", "reinforce"][e] +
+                  ")",
+              );
           }),
           W.length &&
             b.push([
               "NOT ON THE MAP",
               W.join(", ") +
                 (W.length > 1 ? " are" : " is") +
-                " answered but " +
-                (W.length > 1 ? "have" : "has") +
-                " no symbol on the map yet.",
+                " answered, but no note on the map carries " +
+                (W.length > 1 ? "their symbols" : "its symbol") +
+                " yet. What you wrote there is still only in the answer. On Mapping Landscape, add a note with " +
+                (W.length > 1 ? "each symbol" : "that symbol") +
+                " where it belongs, so the map can show it.",
               1,
             ]));
         var G = [];
@@ -6519,6 +6531,7 @@
                       "ONE EMOTION THROUGHOUT": 1,
                       "ONE SIDE OF THE LINE ONLY": 1,
                       "ANSWERED, WITH NOTHING ON THE MAP": 1,
+                      "A NAME THAT RECURS": 1,
                     }[t[0]];
                   })
                   .map(yo)
@@ -6535,8 +6548,8 @@
           rt = {
             unanswered: [
               "Not in Q.5–Q.7 yet",
-              "They are part of why the goal has not taken root or of the opposition, with nothing planned for them yet. These may be gaps in Q.5–Q.7.",
-              "It is part of why the goal has not taken root or of the opposition, with nothing planned for it yet. This may be a gap in Q.5–Q.7.",
+              "You name them as part of why the goal has not taken root (Q.1), as opposition (Q.2) or as conditions (Q.4), but nothing you would design, redesign or reinforce (Q.5–Q.7) deals with them yet. Left alone, they keep holding the goal back as they do now. For each one, ask what would have to be designed, redesigned or reinforced so it no longer stands in the way, and add that to Q.5–Q.7 or as a note.",
+              "You name it as part of why the goal has not taken root (Q.1), as opposition (Q.2) or as a condition (Q.4), but nothing you would design, redesign or reinforce (Q.5–Q.7) deals with it yet. Left alone, it keeps holding the goal back as it does now. Ask what would have to be designed, redesigned or reinforced so it no longer stands in the way, and add that to Q.5–Q.7 or as a note.",
             ],
             contested: [
               "For and against",
@@ -6560,13 +6573,13 @@
             ],
             plan: [
               "Q.5–Q.7 only",
-              "They repeat across Q.5–Q.7 without a cause or objection behind them. Worth asking what they answer.",
-              "It repeats across Q.5–Q.7 without a cause or objection behind it. Worth asking what it answers.",
+              "They appear only in what you would design, redesign or reinforce (Q.5–Q.7). Nothing in Q.1–Q.4 says what problem they solve or what condition they meet. An action with no reason written behind it is hard to defend and easy to drop: for each, write down the cause, opposition or condition it answers, in Q.1–Q.4 or as a note.",
+              "It appears only in what you would design, redesign or reinforce (Q.5–Q.7). Nothing in Q.1–Q.4 says what problem it solves or what condition it meets. An action with no reason written behind it is hard to defend and easy to drop: write down the cause, opposition or condition it answers, in Q.1–Q.4 or as a note.",
             ],
             strength: [
               "Areas to reinforce",
-              "They support the goal already, and there is something to reinforce.",
-              "It supports the goal already, and there is something to reinforce.",
+              "They already support the goal. To reinforce one, add a note with the Q.7 (reinforce) symbol on Mapping Landscape that says who keeps it going, with what, and for how long.",
+              "It already supports the goal. To reinforce it, add a note with the Q.7 (reinforce) symbol on Mapping Landscape that says who keeps it going, with what, and for how long.",
             ],
             goal: [
               "Goal",
@@ -6604,19 +6617,12 @@
           var ct = function (t) {
             return (st[t] || []).length;
           };
-          ((lt +=
-            "<p><b>" +
-            it.length +
-            " words and phrases recur</b> across your goal, answers and notes. Read by where they appear:</p>"),
-            [
+          ([
               "unanswered",
               "contested",
-              "answered",
               "unused",
-              "condition",
               "plan",
               "strength",
-              "goal",
             ].forEach(function (t) {
               var e = st[t];
               e &&
@@ -6643,14 +6649,12 @@
             }));
           var ut = ct("unanswered") + ct("condition"),
             dt = ct("answered") + ct("strength");
-          ut > dt
-            ? (lt +=
-                "<p>More of what recurs is missing from Q.5–Q.7 than appears in them, so they may not yet reach the causes and objections you named.</p>")
-            : 0;
+
           var ht = it.filter(function (t) {
             return wo(t).goal;
           });
-          lt +=
+          0 &&
+            (lt +=
             "<p>" +
             (ht.length
               ? ht.length +
@@ -6663,7 +6667,7 @@
                   .join(", ") +
                 ")."
               : "None of them are in the goal, so the answers may be drifting from it.") +
-            "</p>";
+            "</p>");
         }
         var ft = a
           .filter(function (t) {
@@ -6717,10 +6721,10 @@
           var mt = gt[0] + gt[4];
           mt && mt >= gt[1]
             ? (lt +=
-                "<p>Aggression and defiance are as strong as acceptance, or stronger. The article’s “behaviors first” strategy may fit: start with actions that work alongside the emotions already there.</p>")
+                "<p>Aggression and defiance are as strong as acceptance, or stronger. Vigneaux (2026) describes two ways of working with emotion. <b>Emotions first</b> suits acceptance and indifference: connect people to acceptance, or something close to it, then tie that acceptance to what needs doing. <b>Behaviors first</b> suits aggression, distrust and defiance: introduce the behavior itself, without its label, in a form that fits the emotions already there, and let a small shift in emotion follow over time. Here, behaviors first may fit.</p>")
             : gt[1] > mt &&
               (lt +=
-                "<p>Acceptance is the strongest emotion in your notes. The article’s “emotions first” strategy may fit: start where people already accept, and build toward the mitigation work.</p>");
+                "<p>Acceptance is the strongest emotion in your notes. Vigneaux (2026) calls this ground ready for <b>emotions first</b>: connect people to the acceptance already there, then tie it to what needs doing to reach the goal. (The other way, <b>behaviors first</b>, suits aggression, distrust and defiance: introduce the behavior itself, without its label, and let the emotion shift after it.)</p>");
           var vt = ft.filter(function (t) {
             return (
               (2 === t.k && 1 === t.e) || ((3 === t.k || 7 === t.k || 1 === t.k) && (0 === t.e || 4 === t.e))
@@ -7156,7 +7160,7 @@
             var ze = Ge[Ue[0]] + (Ge[Ue[1]] || 0);
             ze / Ye >= 0.4
               ? Fe.push(
-                  "<b>Leans on a few pieces.</b> " +
+                  "<b>Leans on a few pieces.</b> A thread is a word or phrase that two or more answers or notes share. " +
                     Ue[0] +
                     " and " +
                     Ue[1] +
@@ -7165,9 +7169,9 @@
                     "% of the threads. The picture depends on them; if they change, much of it changes.",
                 )
               : Fe.push(
-                  "<b>Spread out.</b> The threads run through " +
+                  "<b>Spread out.</b> A thread is a word or phrase that two or more answers or notes share. Here the threads run through " +
                     Ue.length +
-                    " pieces fairly evenly, so no single answer or note holds the picture together.",
+                    " answers and notes fairly evenly, so no single one holds the picture together.",
                 );
           }
           var Ve = [];
@@ -7214,9 +7218,10 @@
             Fe.push(
               "<b>Grounded " +
                 (Je.length ? "unevenly" : "across the board") +
-                ".</b> On the map: " +
+                ".</b> " +
+                (Je.length ? "The map has notes for: " : "Every kind of answer has notes on the map (") +
                 Ke.join(", ") +
-                "." +
+                (Je.length ? "." : "), so each part of your thinking has something on the ground to check it against.") +
                 (Je.length
                   ? " Answered but not placed: " +
                     Je.join(", ") +
@@ -7245,9 +7250,9 @@
               return (t[3] || "").trim();
             })
               ? ((window.gsmTD = { m: C.m, a: Q(), goal: C.goal }),
-                '<div class="gterr-host"></div><details class="fold gtold"><summary>THE EARLIER FIGURE</summary>' +
+                '<div class="gterr-host"></div><div class="gtold" style="display:none" aria-hidden="true">' +
                   ee(de.slice(0, qe), ge, Eo, de) +
-                  "</details>")
+                  "</div>")
               : ee(de.slice(0, qe), ge, Eo, de)),
             (ye += lt));
           var tn = de
@@ -7370,7 +7375,7 @@
               return !ln[t];
             });
             (dn.length && on.push("No note yet speaks for " + dn.map(Gt).join(", ") + "."),
-              [2, 3, 4, 7, 1, 5, 6].forEach(function (t) {
+              [].forEach(function (t) {
                 var e = Jt.filter(function (e) {
                   return e.k === t && Zt(e);
                 });
@@ -7460,6 +7465,7 @@
                     Ie.push("Q." + t);
                 }),
                 Ie.length &&
+                  0 &&
                   on.push(
                     "<b>" +
                       Ie.slice(0, 4).join(", ") +
@@ -7569,7 +7575,8 @@
                 (wn.added.length > 1 ? "were" : "was") +
                 " added in the figures in Patterns, so they count the same as the links you drew on notes.",
             ),
-            wn.moved.length &&
+            0 &&
+              wn.moved.length &&
               gn.push(
                 "<b>You moved " +
                   wn.moved.length +
@@ -7630,7 +7637,7 @@
             ),
             gn.length &&
               (ye +=
-                '<div class="plab">WHAT YOU LINKED</div><div class="msub">Links you drew between notes, answers and the goal, including the ones you added in the figures, and what you moved or hid there. They sit beside the links the words make, and they can join things the words never would.</div><ul class="metal">' +
+                '<div class="plab">WHAT YOU LINKED</div><div class="msub">Links you drew between notes, answers and the goal on Mapping Landscape (open a note and use + Link). They sit beside the threads the words make, and they can join things the words never would.</div><ul class="metal">' +
                 gn
                   .map(function (t) {
                     return "<li>" + t + "</li>";
@@ -7830,7 +7837,7 @@
                     hi &&
                     r.push(
                       Hn()
-                        ? "more of what you wrote about it sits below the line on the change map, where things hinder the goal, than above it, where things help"
+                        ? "more of what you wrote about it sits below the line on the landscape map, where things hinder the goal, than above it, where things help"
                         : "more of what you wrote about it hinders the goal than helps it",
                     );
                 })(),
@@ -7893,7 +7900,7 @@
                 : ""
               : '<div class="coacall">A <b>program</b>, because none of the things that ask for a strategy hold here: it is not pulled both ways, Q.5–Q.7 answer it, and most of what you wrote about it ' +
                   (Hn()
-                    ? "sits above the line on the change map, where things help the goal"
+                    ? "sits above the line on the landscape map, where things help the goal"
                     : "helps the goal rather than hindering it") +
                   ".</div>";
           }
@@ -8189,13 +8196,13 @@
                     e.dn && e.up
                       ? s.push(
                           Hn()
-                            ? "on both sides of the line on the change map, helping and hindering"
+                            ? "on both sides of the line on the landscape map, helping and hindering"
                             : "both helping and hindering",
                         )
                       : e.dn &&
                         s.push(
                           Hn()
-                            ? "below the line on the change map, where things hinder the goal"
+                            ? "below the line on the landscape map, where things hinder the goal"
                             : "hindering the goal",
                         ),
                     i && s.push(So(t)),
@@ -8830,7 +8837,7 @@
         }
         var ro =
             In || Zn.length
-              ? '<div class="part">4 · COURSES OF ACTION<span>Suggested, area by area: a program where the ground is settled, a strategy where it is not.</span></div><div class="pnote"><b>Prompts, not findings.</b> Each card is built from a template and the words you used. Talk them through with the people involved, and change or drop any that do not fit.</div><div class="meta">Programs work best in contexts where you know what is going to happen, either because you have done it before or can strongly anticipate the outcome. Programs work best when executed in environments where there is order, meaning regularity and stability, and a line can be drawn from action to outcome. Set the sequence and let it run: schedule, roles, repeat.</div><div class="meta">Strategies work best in disorderly environments when you cannot foresee entirely what the outcome will be; there are several outcomes to choose from that are all probable. However, there is no way of knowing which is right before acting. Strategies work best when you cannot draw a straight line from action to outcome, as they enable you to keep a loose structure ideal for ill-defined situations where constant revisions to courses of action are necessary. Hold it loosely: sketch two or three ways forward, start small, and change course as people respond.</div><div class="msub">Sources:</div><div class="msub">Axelrod, R., &amp; Cohen, M. D. (2000). <i>Harnessing complexity: Organizational implications of a scientific frontier</i>. New York, NY: Basic Books.</div><div class="msub">Morin, E. (2008). <i>On complexity</i>. (R. Postel, Trans.). Cresskill, NJ: Hampton Press.</div><div class="msub">Morin, E., &amp; Kern, A. B. (1999). <i>Homeland earth: A manifesto for the new millennium</i>. (S. M. Kelly, &amp; R. LaPointe, Trans.) Cresskill, NJ: Hampton Press.</div><div class="msub">Waldrop, M. M. (1992). <i>The emerging science at the edge of order and chaos</i>. New York, NY: Touchstone.</div>' +
+              ? '<div class="part">4 · COURSES OF ACTION<span>Suggested, area by area: a program where the ground is settled, a strategy where it is not.</span></div><div class="pnote"><b>Prompts, not findings.</b> Each card is built from a template and the words you used. Talk them through with the people involved, and change or drop any that do not fit.</div><div class="meta">Programs work best in contexts where you know what is going to happen, either because you have done it before or can strongly anticipate the outcome. Programs work best when executed in environments where there is order, meaning regularity and stability, and a line can be drawn from action to outcome. Set the sequence and let it run: schedule, roles, repeat.</div><div class="meta">Strategies work best in disorderly environments when you cannot foresee entirely what the outcome will be; there are several outcomes to choose from that are all probable. However, there is no way of knowing which is right before acting. Strategies work best when you cannot draw a straight line from action to outcome, as they enable you to keep a loose structure ideal for ill-defined situations where constant revisions to courses of action are necessary. Hold it loosely: sketch two or three ways forward, start small, and change course as people respond.</div><div class="msub">Sources:</div><div class="msub">Axelrod, R., &amp; Cohen, M. D. (2000). <i>Harnessing complexity: Organizational implications of a scientific frontier</i>. New York, NY: Basic Books.</div><div class="msub">Kurtz, C. F., &amp; Snowden, D. J. (2003). The new dynamics of strategy: Sense-making in a complex and complicated world. <i>IBM Systems Journal, 42</i>(3), 462-483.</div><div class="msub">Morin, E. (2008). <i>On complexity</i>. (R. Postel, Trans.). Cresskill, NJ: Hampton Press.</div><div class="msub">Morin, E., &amp; Kern, A. B. (1999). <i>Homeland earth: A manifesto for the new millennium</i>. (S. M. Kelly, &amp; R. LaPointe, Trans.) Cresskill, NJ: Hampton Press.</div><div class="msub">Waldrop, M. M. (1992). <i>The emerging science at the edge of order and chaos</i>. New York, NY: Touchstone.</div>' +
                 (ESM && ESM.used
                   ? '<details class="fold"><summary>HOW TO READ THIS PAGE</summary><div class="mtext"><p>Each card lists the reasons it calls for a strategy rather than a program. Two of those reasons are the emotion you marked on a note and which side of the line you put it on. In this workbook they almost always match: notes marked acceptance sit above the line, where things help, and notes marked aggression, distrust or defiance sit below it, where things hinder. That is true of ' +
                     ESM.agree +
@@ -10198,7 +10205,7 @@
                     i = e.querySelectorAll(
                       ".rule,.wrow,.eqr,.coa,.need>div,.metal li,.mean p,.sig .em p",
                     ).length,
-                    a = e.querySelector(".pnet") ? "figure" : i ? i + (1 === i ? " item" : " items") : "";
+                    a = e.querySelector(".pnet,.gterr-host") ? "figure" : i ? i + (1 === i ? " item" : " items") : "";
                   (t.classList.add("pfold"),
                     (t.innerHTML =
                       "<span>" +
@@ -10213,7 +10220,7 @@
                           "WHAT YOUR USE OF THE BEAR CANYON METHOD PRODUCED" === r ||
                           "STILL OPEN" === r ||
                           "THE TWO PICTURES TOGETHER" === r ||
-                          e.querySelector(".pnet")
+                          e.querySelector(".pnet,.gterr-host")
                         );
                   (e.classList.toggle("closed", s),
                     (t.querySelector(".chev").textContent = s ? "+" : "−"),
@@ -10229,7 +10236,7 @@
             ) {
               var o = [],
                 r = Rt.querySelector(".sig>div:first-child p");
-              r && o.push(["PRESSING NOW", r.textContent, f("WHAT TO PAY ATTENTION TO")]);
+              
               var i,
                 a = Rt.querySelectorAll(".coa"),
                 s = null,
@@ -10253,7 +10260,7 @@
                   var e = t.querySelector(".mode").textContent;
                   ("STRATEGY" !== e || s || (s = t), "PROGRAM" !== e || l || (l = t));
                 }),
-                s &&
+                0 && s &&
                   o.push([
                     "TOP STRATEGY",
                     s.querySelector(".hd b").textContent +
@@ -10261,7 +10268,7 @@
                       s.querySelector(".why").textContent.replace(/^Why: /, ""),
                     s,
                   ]),
-                l &&
+                0 && l &&
                   o.push([
                     "TOP PROGRAM",
                     l.querySelector(".hd b").textContent +
@@ -10270,9 +10277,9 @@
                     l,
                   ]));
               var c = f("WHAT IT RESTS ON");
-              c && window.gsmGround && o.push(["WHAT IT RESTS ON", window.gsmGround, c]);
+              
               var u = f("WHAT YOU LINKED");
-              u && window.gsmLinkG && o.push(["WHAT YOU LINKED", window.gsmLinkG, u]);
+              
               var d = null;
               if (
                 (Rt.querySelectorAll(".mean p").forEach(function (t) {
@@ -11195,14 +11202,14 @@
                   o = [];
                 return (
                   t.forEach(function (t) {
-                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0;) n.pop();
+                    for (; n.length > 1 && e(n[n.length - 2], n[n.length - 1], t) <= 0; ) n.pop();
                     n.push(t);
                   }),
                   t
                     .slice()
                     .reverse()
                     .forEach(function (t) {
-                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0;) o.pop();
+                      for (; o.length > 1 && e(o[o.length - 2], o[o.length - 1], t) <= 0; ) o.pop();
                       o.push(t);
                     }),
                   o.pop(),
@@ -12440,7 +12447,7 @@
       a =
         '<div class="figtools" data-fig="' +
         t +
-        '"><div class="eml">MOVE, HIDE AND ADD</div><div class="msub">Drag any dot to move it, and its pattern follows. Hide or add links below. What you change here is saved and described in Pattern Synthesis, under WHAT YOU LINKED, and in Mapping Change.</div><div class="ftb">';
+        '"><div class="eml">MOVE, HIDE AND ADD</div><div class="msub">Drag any dot to move it, and its pattern follows. Hide or add links below. What you change here is saved and described in Pattern Synthesis, under WHAT YOU LINKED, and in Mapping Landscape.</div><div class="ftb">';
     ((a += i ? '<button type="button" class="ech" data-ft="reset">Put dots back</button>' : ""),
       (a += r
         ? '<button type="button" class="ech" data-ft="showall">Show hidden links (' + r + ")</button>"
@@ -13506,7 +13513,7 @@
           c = l.textContent,
           u = l.nextElementSibling;
         t.querySelector(".jrow").innerHTML =
-          '<button type="button" data-v="5">Start Here</button><button type="button" data-v="0">Mapping Context</button><button type="button" data-v="1">Mapping Change</button><button type="button" data-v="2">Pattern Analysis</button><button type="button" data-v="3">Pattern Synthesis</button><button type="button" data-v="6">' +
+          '<button type="button" data-v="5">Start Here</button><button type="button" data-v="0">Mapping Context</button><button type="button" data-v="1">Mapping Landscape</button><button type="button" data-v="2">Pattern Analysis</button><button type="button" data-v="3">Pattern Synthesis</button><button type="button" data-v="6">' +
           n +
           '</button><button type="button" data-v="4">Taking Action</button>';
         var d = { 2: "Pattern Analysis", 3: "Pattern Synthesis", 6: n, 4: "Taking Action" };
@@ -13519,7 +13526,7 @@
         });
         var h = document.getElementById("gsm-start");
         (h && h.setAttribute("data-tab", 5),
-          T(document.getElementById("gsm-qs"), 1, "Next: Mapping Change →"),
+          T(document.getElementById("gsm-qs"), 1, "Next: Mapping Landscape →"),
           T(document.getElementById("gsm-notes"), 2, "Next: Pattern Analysis →"));
         var f = T(Rt, 3, "Next: Pattern Synthesis →", !0),
           g = T(f, 4, "Next: Taking Action →", !0),
@@ -13605,7 +13612,7 @@
                     ? "Next: question 1"
                     : t < 7
                       ? "Next: question " + (t + 1)
-                      : "Next: Mapping Change →"));
+                      : "Next: Mapping Landscape →"));
             }
             function w() {
               (N.classList.toggle("ms1", 1 === e),
@@ -13680,11 +13687,11 @@
             S();
             var n = (function (t) {
               if (Rt.contains(t) && t !== Rt) {
-                for (var e = t; e.parentNode !== Rt;) e = e.parentNode;
+                for (var e = t; e.parentNode !== Rt; ) e = e.parentNode;
                 var n = e.getAttribute("data-pv");
                 return n ? +n : r;
               }
-              for (; t && t.parentNode !== N;) t = t.parentNode;
+              for (; t && t.parentNode !== N; ) t = t.parentNode;
               if (!t || !t.hasAttribute || !t.hasAttribute("data-tab")) return r;
               var o = +t.getAttribute("data-tab");
               return 2 === o ? (r >= 2 ? r : 2) : o;
@@ -13768,7 +13775,7 @@
         return !!Rt.querySelector('[data-pv="' + t + '"]');
       }
       function O(i) {
-        ((r = i), N.classList.toggle("onstart", 5 === i));
+        ((r = i), N.classList.toggle("onstart", 5 === i), N.classList.toggle("onta", 4 === i));
         var a = 5 === i ? 5 : i >= 2 ? 2 : i;
         (N.querySelectorAll("[data-tab]").forEach(function (t) {
           var e = +t.getAttribute("data-tab") !== a;
@@ -13790,7 +13797,7 @@
           p.classList.toggle("tabhide", 6 !== i || !L(4)),
           (m.textContent =
             2 === i
-              ? "← Back: Mapping Change"
+              ? "← Back: Mapping Landscape"
               : 3 === i
                 ? "← Back: Pattern Analysis"
                 : 6 === i
@@ -14016,7 +14023,7 @@
               r(o.getDate()) +
               ".json",
             a = new Blob(
-              [JSON.stringify({ app: "groundsmith", v: 1, saved: o.toISOString(), data: C }, null, 1)],
+              [JSON.stringify({ app: "groundsmith", v: 1, saved: o.toISOString(), notice: 'This document was generated using The Bear Canyon Method, a method developed by Operational Coherence. The Bear Canyon Method is provided free of charge; however, attribution to Operational Coherence is required. The Bear Canyon Method, including its architecture, framework design, and implementation, remains the intellectual property of Operational Coherence.', data: C }, null, 1)],
               { type: "application/json" },
             ),
             s = document.createElement("a");
@@ -14044,7 +14051,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v164");
+        t && (t.textContent = "v171");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -14278,13 +14285,13 @@
                               i = [C.m.length, C.p.m.length, (C.links || []).length];
                             function a(t, e) {
                               t.forEach(function (t) {
-                                for (; t.length < 10;) t.push(null);
+                                for (; t.length < 10; ) t.push(null);
                                 t[9] || ((t[9] = e), t[7] || (t[7] = e));
                               });
                             }
                             function s(t, n, o) {
                               (t || []).forEach(function (t, i) {
-                                for (var a = t.slice(); a.length < 10;) a.push(null);
+                                for (var a = t.slice(); a.length < 10; ) a.push(null);
                                 (a[8] || (a[8] = o + i + "-" + Math.random().toString(36).slice(2, 7)),
                                   r[a[8]] ||
                                     ((r[a[8]] = 1), a[9] || (a[9] = e), a[7] || (a[7] = a[9]), n.push(a)));
@@ -14551,9 +14558,9 @@
 /* ---- Pattern Synthesis terrain (layer: the ground ahead) ---- */
 !(function () {
   var CSS =
-      '.gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}.gterr .gfold summary{cursor:pointer;list-style:none}.gterr .gfold summary::-webkit-details-marker{display:none}.gterr .gfold summary::before{content:"+ ";font-weight:700}.gterr .gfold[open] summary::before{content:"\u2212 "}.gterr .gfold .sec{display:inline;margin:0}.gterr .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}.gterr .more{color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}.gterr .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}.gterr .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}.gterr .stage.full .fsx{display:block}.gterr .stage:fullscreen .fsx{display:block}.gterr .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}',
+      ".gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}.gterr .gfold summary{cursor:pointer;list-style:none}.gterr .gfold summary::-webkit-details-marker{display:none}.gterr .gfold summary::before{content:\"+ \";font-weight:700}.gterr .gfold[open] summary::before{content:\"\u2212 \"}.gterr .gfold .sec{display:inline;margin:0}.gterr .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}.gterr .more{color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}.gterr .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}.gterr .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}.gterr .stage.full .fsx{display:block}.gterr .stage:fullscreen .fsx{display:block}.gterr .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}#gsm .rd[data-way]{cursor:default;transition:background .15s}#gsm .rd.gtwon{background:#f1f0ea;box-shadow:inset 3px 0 0 #111}#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 2vw 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .selbox,#gsm .coa.gtfs-on .csn,#gsm .coa.gtfs-on .coacall,#gsm .coa.gtfs-on .cq{max-width:960px}.gtrb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px;font:12px 'Questrial',sans-serif}.gtrb span{letter-spacing:.1em;color:#555;margin-right:2px}.gtrb button{background:#fff;color:#111;border:2px solid #111;border-radius:14px;padding:4px 11px;font:12.5px 'Questrial',sans-serif;cursor:pointer}.gtrb button.on{background:#111;color:#fff}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}",
     TPL =
-      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. The numbers on the ground are explained below the map. Drag to turn it; scroll or pinch to zoom.</div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold"><summary><span class="sec" data-gt="phhead">PHRASES THAT RUN THROUGH</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map.</div>\n  <div data-gt="threads"></div></details>\n  <details class="gfold"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors blend where emotions meet, more so near the line between present and goal. Broken ground (talus) marks where emotions meet. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>',
+      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. Each number on the ground is explained here first; hover or tap a number on the map to read it there. Drag to turn the map; scroll or pinch to zoom.</div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold" open><summary><span class="sec" data-gt="phhead">PATTERNS THAT RUN THROUGH IT</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map above.</div>\n  <div data-gt="threads"></div></details>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <details class="gfold gthow"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors soften toward each other where emotions meet. Where two distant emotions meet with no ridge of indifference between them, the ground breaks to a bare rock face: getting across is a climb, and most moves go through indifference instead. Plain grass, soil or rock with no color means no notes nearby, so no information there. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>',
     TC = {},
     QU = [],
     QB = 0;
@@ -14570,8 +14577,34 @@
     "use strict";
     host.className += " gterr";
     host.innerHTML = TPL;
+    (function () {
+      var how = host.querySelector(".gthow"),
+        sec = host.closest(".secb") || host.parentNode,
+        root = document.getElementById("gsm"),
+        part = null;
+      if (!how) return;
+      if (data && data.card) {
+        how.remove();
+        return;
+      }
+      if (root)
+        root.querySelectorAll(".part").forEach(function (p) {
+          if (!part && /LOOKING OUT/.test(p.textContent) && p.offsetParent !== undefined) part = p;
+        });
+      var old = root && root.querySelector(".gthow-top");
+      if (old) old.remove();
+      if (part && part.parentNode) {
+        how.className = "fold gthow-top";
+        how.style.margin = "14px 0 4px";
+        host._how = how;
+        part.parentNode.insertBefore(how, part.nextSibling);
+      }
+    })();
     function $(id) {
-      return host.querySelector('[data-gt="' + id + '"]');
+      return (
+        host.querySelector('[data-gt="' + id + '"]') ||
+        (host._how ? host._how.querySelector('[data-gt="' + id + '"]') : null)
+      );
     }
     var CARDH = !!data.card;
 
@@ -14581,7 +14614,7 @@
       ["Acceptance", [42, 157, 143]],
       ["Distrust", [164, 143, 208]],
       ["Indifference", [230, 190, 79]],
-      ["Defiance", [29, 53, 87]],
+      ["Defiance", [27, 42, 143]],
     ];
     var QT = [
       "Within the community, why has the goal not already taken root?",
@@ -14736,7 +14769,7 @@
             if (d2 > cut * cut) continue;
             sw[pts[p].e] += Math.exp(-d2 / s2);
           }
-          var bad = 1.5 * sw[0] + sw[2] + 2 * sw[4],
+          var bad = 1.5 * sw[0] + sw[2] + 3.4 * sw[4],
             h = ver === "ridge" ? bad - sw[1] : sw[1] - bad,
             idx = j * VX + i;
           raw[idx] = h;
@@ -15868,7 +15901,7 @@
                 (u.via.length
                   ? "The climb takes energy either way, but going by indifference costs less than going straight up: most moves between emotions go this way."
                   : "No indifference lies on the way, so the climb goes straight up and costs the most.") +
-                " Like a cell turning toward what feeds it, this is the direction the ground already favors: the least costly way up leads toward N" +
+                " Like a cell turning toward what feeds it (Thompson, 2007), this is the direction the ground already favors: the least costly way up leads toward N" +
                 u.dest.k +
                 ".",
               at: [start.x, start.y],
@@ -16740,7 +16773,7 @@
               16;
           }
       }
-      var L = [-0.6, 0.5, -0.6],
+      var L = [-0.6, 0.62, -0.6],
         ln = Math.hypot(L[0], L[1], L[2]);
       L = [L[0] / ln, L[1] / ln, L[2] / ln];
       var lamA = new Float32Array(NX * NY),
@@ -16771,6 +16804,86 @@
           lamB[j1 * NX + i1] = sm / wt;
         }
       cellCol = new Array(NX * NY);
+      /* cast shadows: walk toward the sun from each point */
+      var nV = VX * VY,
+        shd = new Float32Array(nV),
+        Lh = Math.hypot(L[0], L[2]),
+        sx0 = L[0] / Lh,
+        sz0 = L[2] / Lh,
+        rise = L[1] / Lh;
+      for (var sj = 0; sj < VY; sj++)
+        for (var si = 0; si < VX; si++) {
+          var z0 = zArr[sj * VX + si],
+            x0 = si * CX,
+            y0 = sj * CY,
+            lit = 1;
+          for (var dd = 2; dd < 140; dd += 2) {
+            var xx = x0 + sx0 * dd,
+              yy = y0 + sz0 * dd;
+            if (xx < 0 || yy < 0 || xx > W || yy > HH) break;
+            if (zAt(xx, yy) > z0 + rise * dd + 0.6) {
+              lit = 0;
+              break;
+            }
+          }
+          shd[sj * VX + si] = lit;
+        }
+      _blur(shd, VX, VY, 2);
+      /* emotion field from the notes: the nearest strong emotion wins; a rock face where distant emotions meet */
+      var EP = T.pts || [],
+        R2 = 2 * 26 * 26,
+        RANK = [3, 0, 2, 1, 4],
+        VC = EMO.map(function (e) {
+          return _viv(e[1]);
+        }),
+        eC = new Float32Array(nV * 3),
+        eS = new Float32Array(nV),
+        eG = new Float32Array(nV),
+        ws = [0, 0, 0, 0, 0];
+      for (var q = 0; q < nV; q++) {
+        var qx = (q % VX) * CX,
+          qy = ((q / VX) | 0) * CY;
+        ws[0] = ws[1] = ws[2] = ws[3] = ws[4] = 0;
+        for (var pi = 0; pi < EP.length; pi++) {
+          var ex = EP[pi].x - qx,
+            ey = EP[pi].y - qy,
+            e2 = ex * ex + ey * ey;
+          if (e2 < 10816) ws[EP[pi].e] += Math.exp(-e2 / R2);
+        }
+        if (T.bench) ws[3] += T.bench[q];
+        var tot = ws[0] + ws[1] + ws[2] + ws[3] + ws[4],
+          pw = 0,
+          cr = 0,
+          cg = 0,
+          cb = 0;
+        for (var k = 0; k < 5; k++) {
+          var v = Math.pow(ws[k] * (k === 4 ? 1.6 : 1), 2.2);
+          pw += v;
+          cr += VC[k][0] * v;
+          cg += VC[k][1] * v;
+          cb += VC[k][2] * v;
+        }
+        if (pw > 0) {
+          eC[q * 3] = cr / pw;
+          eC[q * 3 + 1] = cg / pw;
+          eC[q * 3 + 2] = cb / pw;
+        }
+        eS[q] = _ss(0.04, 0.5, tot);
+        var k1 = 0,
+          k2 = -1;
+        for (var k3 = 1; k3 < 5; k3++) if (ws[k3] > ws[k1]) k1 = k3;
+        for (var k4 = 0; k4 < 5; k4++) if (k4 !== k1 && (k2 < 0 || ws[k4] > ws[k2])) k2 = k4;
+        eG[q] =
+          Math.abs(RANK[k1] - RANK[k2]) < 2 || RANK[k1] === 1 || RANK[k2] === 1 || ws[k2] < 0.03
+            ? 0
+            : _ss(0.22, 0.42, ws[k2] / (ws[k1] + ws[k2]));
+      }
+      var GR = [98, 108, 62],
+        GR2 = [140, 134, 86],
+        SO = [124, 96, 66],
+        SO2 = [86, 68, 50],
+        RK = [122, 118, 112],
+        RK2 = [168, 160, 148];
       for (var j = 0; j < NY; j++)
         for (var i = 0; i < NX; i++) {
           var a = j * VX + i,
@@ -16779,17 +16892,12 @@
             d = c + 1;
           var dzx = (zArr[b] + zArr[d] - zArr[a] - zArr[c]) / (2 * CX),
             dzz = (zArr[c] + zArr[d] - zArr[a] - zArr[b]) / (2 * CY);
-          var nl = Math.hypot(dzx, 1, dzz),
-            lam = lamB[j * NX + i];
-          var hh = (T.hn[a] + T.hn[b] + T.hn[c] + T.hn[d]) / 4,
-            sh = 0.62 + 0.5 * lam;
-          var tl = (T.tal[a] + T.tal[b] + T.tal[c] + T.tal[d]) / 4;
-          if (tl > 0.15) {
-            var sp = vnoise(i / 2.5 + 3.1, j / 2.5 + 7.7);
-            sh *= 1 - 0.12 * tl * sp;
-          }
+          var lam = lamB[j * NX + i],
+            hh = (T.hn[a] + T.hn[b] + T.hn[c] + T.hn[d]) / 4,
+            sl = (Math.hypot(dzx, dzz) * 58) / A,
+            sd = (shd[a] + shd[b] + shd[c] + shd[d]) / 4;
           if (clay) {
-            var cv0 = (250 * (0.72 + 0.36 * lam)) | 0;
+            var cv0 = (250 * (0.72 + 0.36 * lam) * (0.8 + 0.2 * sd)) | 0;
             cellCol[j * NX + i] =
               "rgb(" +
               Math.min(255, cv0) +
@@ -16800,16 +16908,94 @@
               ")";
             continue;
           }
-          var r = ((T.col[a * 3] + T.col[b * 3] + T.col[c * 3] + T.col[d * 3]) / 4) * sh,
-            g = ((T.col[a * 3 + 1] + T.col[b * 3 + 1] + T.col[c * 3 + 1] + T.col[d * 3 + 1]) / 4) * sh,
-            bl = ((T.col[a * 3 + 2] + T.col[b * 3 + 2] + T.col[c * 3 + 2] + T.col[d * 3 + 2]) / 4) * sh;
-          var sat = boost(r / sh, g / sh, bl / sh);
-          r = sat[0] * sh;
-          g = sat[1] * sh;
-          bl = sat[2] * sh;
+          var n1 = vnoise(i * 0.11 + 3.1, j * 0.11 + 7.7),
+            n2 = vnoise(i * 1.2, j * 1.2),
+            sp = hash2(i * 7 + 3, j * 13 + 5);
+          var grass = _mx(GR, GR2, _ss(0.35, 0.75, vnoise(i * 0.07 + 9, j * 0.07))),
+            soil = _mx(SO, SO2, _ss(-0.2, -0.9, hh) * 0.8),
+            rock = _mx(RK, RK2, n2 * 0.7);
+          var tR = _ss(0.55, 1.15, sl + (n1 - 0.5) * 0.5),
+            tS = _ss(0.25, 0.55, sl + (n1 - 0.5) * 0.6) * (1 - tR);
+          var col = _mx(_mx(grass, soil, Math.min(1, tS + _ss(-0.4, -1.0, hh) * 0.5 * (1 - tR))), rock, tR),
+            kk = 0.94 + 0.12 * sp;
+          col = [col[0] * kk, col[1] * kk, col[2] * kk];
+          var gap = (eG[a] + eG[b] + eG[c] + eG[d]) / 4,
+            st0 = (eS[a] + eS[b] + eS[c] + eS[d]) / 4;
+          if (gap > 0.01) col = _mx(col, rock, gap * 0.85);
+          var em = [0, 1, 2].map(function (z) {
+              return (eC[a * 3 + z] + eC[b * 3 + z] + eC[c * 3 + z] + eC[d * 3 + z]) / 4;
+            }),
+            ls = _lum(col),
+            le = _lum(em) || 1;
+          col = _mx(
+            col,
+            [
+              Math.min(255, ((em[0] * ls) / le) * 1.05),
+              Math.min(255, ((em[1] * ls) / le) * 1.05),
+              Math.min(255, ((em[2] * ls) / le) * 1.05),
+            ],
+            0.6 * st0 * (1 - gap),
+          );
+          var sh = (0.58 + 0.62 * lam) * (0.7 + 0.3 * sd) * 1.06;
           cellCol[j * NX + i] =
-            "rgb(" + Math.min(255, r | 0) + "," + Math.min(255, g | 0) + "," + Math.min(255, bl | 0) + ")";
+            "rgb(" +
+            Math.min(255, (col[0] * sh) | 0) +
+            "," +
+            Math.min(255, (col[1] * sh) | 0) +
+            "," +
+            Math.min(255, (col[2] * sh) | 0) +
+            ")";
         }
+    }
+    function _zmin() {
+      var m = 1e9;
+      for (var q = 0; q < zArr.length; q++) if (zArr[q] < m) m = zArr[q];
+      return m;
+    }
+    function _ss(a, b, x) {
+      var t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+      return t * t * (3 - 2 * t);
+    }
+    function _mx(a, b, t) {
+      return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+    }
+    function _lum(q) {
+      return 0.3 * q[0] + 0.59 * q[1] + 0.11 * q[2];
+    }
+    function _blur(arr, w, h, k) {
+      for (var p = 0; p < k; p++) {
+        var c = new Float32Array(arr);
+        for (var y = 1; y < h - 1; y++)
+          for (var x = 1; x < w - 1; x++) {
+            var i = y * w + x;
+            arr[i] = (c[i] * 4 + c[i - 1] + c[i + 1] + c[i - w] + c[i + w]) / 8;
+          }
+      }
+    }
+    function _viv(c) {
+      var r = c[0] / 255,
+        g = c[1] / 255,
+        b = c[2] / 255,
+        mx = Math.max(r, g, b),
+        mn = Math.min(r, g, b),
+        l = (mx + mn) / 2,
+        sa = 0,
+        h = 0,
+        d = mx - mn;
+      if (d > 1e-6) {
+        sa = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+        h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+        h /= 6;
+      }
+      sa = Math.min(1, sa * 1.5 + 0.08);
+      l = Math.min(0.62, Math.max(0.42, l));
+      var q = l < 0.5 ? l * (1 + sa) : l + sa - l * sa,
+        p = 2 * l - q;
+      function f(t) {
+        t = (t + 1) % 1;
+        return t < 1 / 6 ? p + (q - p) * 6 * t : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p;
+      }
+      return [f(h + 1 / 3) * 255, f(h) * 255, f(h - 1 / 3) * 255];
     }
     function boost(r, g, b) {
       r /= 255;
@@ -16867,7 +17053,12 @@
         d = zArr[(j + 1) * VX + i + 1];
       return a * (1 - u) * (1 - v) + b * u * (1 - v) + c * (1 - u) * v + d * u * v;
     }
-    var P = {}; /* projection */
+    var P = {},
+      FIT = null,
+      TS = 1,
+      TL = 1,
+      ROUTESEL = null,
+      RCOL = { A: "#111111", B: "#ffffff", C: "#e0007a" }; /* projection */
     function setProj() {
       P.ca = Math.cos(view.az);
       P.sa = Math.sin(view.az);
@@ -16877,6 +17068,58 @@
       P.cx = LEGON && cssW > 760 ? (cssW - 240) / 2 : cssW / 2;
       P.cy = cssH * 0.5;
       P.D = 900;
+      TS = CARDH ? Math.max(1, Math.min(1.9, cssW / 620)) : 1;
+      TL = 1 + (TS - 1) * 0.6;
+      if (CARDH && terr && zArr) {
+        var fk = cssW + "|" + cssH + "|" + view.az + "|" + view.tilt + "|" + VX + "|" + VY + "|" + exag;
+        if (!FIT || FIT.k !== fk) {
+          var z0 = view.zoom;
+          view.zoom = 1;
+          P.base = Math.min(cssW / (W * 1.3), cssH / (HH * 1.6));
+          P.cx = 0;
+          P.cy = 0;
+          var o9 = [0, 0],
+            x0 = 1e9,
+            x1 = -1e9,
+            y0 = 1e9,
+            y1 = -1e9,
+            i9,
+            j9,
+            sp9 = Math.max(1, Math.floor(VX / 70));
+          for (j9 = 0; j9 < VY; j9 += sp9)
+            for (i9 = 0; i9 < VX; i9 += sp9) {
+              pr(wx(i9 * CX), zArr[j9 * VX + i9], wz(j9 * CY), o9);
+              if (o9[0] < x0) x0 = o9[0];
+              if (o9[0] > x1) x1 = o9[0];
+              if (o9[1] < y0) y0 = o9[1];
+              if (o9[1] > y1) y1 = o9[1];
+            }
+          var zb9 = _zmin() - 12;
+          [
+            [0, 0],
+            [W, 0],
+            [0, HH],
+            [W, HH],
+          ].forEach(function (cr) {
+            pr(wx(cr[0]), zb9, wz(cr[1]), o9);
+            if (o9[0] < x0) x0 = o9[0];
+            if (o9[0] > x1) x1 = o9[0];
+            if (o9[1] < y0) y0 = o9[1];
+            if (o9[1] > y1) y1 = o9[1];
+          });
+          view.zoom = z0;
+          FIT = {
+            k: fk,
+            z: Math.min((0.9 * cssW) / (x1 - x0 || 1), (0.84 * cssH) / (y1 - y0 || 1)),
+            dx: -(x0 + x1) / 2,
+            dy: -(y0 + y1) / 2,
+          };
+        }
+        var zz = view.zoom * FIT.z;
+        P.base = Math.min(cssW / (W * 1.3), cssH / (HH * 1.6)) * zz;
+        P.cx = cssW / 2 + FIT.dx * zz;
+        P.cy = cssH * 0.53 + FIT.dy * zz;
+      }
     }
     function pr(X, Y, Z, out) {
       var X2 = X * P.ca + Z * P.sa,
@@ -16956,6 +17199,21 @@
     var SXA = null,
       SYA = null;
     function render(st) {
+      if (host._rel) {
+        host._rel.hl(HL);
+        if (CARDH) host._rel.setWay(ROUTESEL);
+        if (host._rel.loops && terr && terr.threads)
+          host._rel.loops(
+            terr.threads
+              .filter(function (th) {
+                return thOn[th.w] || (SEL && SELTH === th.w) || (HL != null && READ[HL] && READ[HL].w === th.w);
+              })
+              .map(function (th) {
+                return { w: th.w, lines: [].concat.apply([], th.rings || []) };
+              }),
+          );
+        return;
+      }
       st = st || 1;
       if (!terr) return;
       setProj();
@@ -16997,6 +17255,44 @@
       var bx = HALF_X + 16,
         bz = HALF_Z + 16,
         YT = 0;
+      var ZB = _zmin() - 12;
+      function side(edge) {
+        var top = [],
+          bot = [];
+        edge.forEach(function (e) {
+          top.push(pr(wx(e[0]), zAt(e[0], e[1]), wz(e[1]), [0, 0]));
+          bot.push(pr(wx(e[0]), ZB, wz(e[1]), [0, 0]));
+        });
+        ctx.beginPath();
+        top.forEach(function (p, k) {
+          k ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]);
+        });
+        for (var k = bot.length - 1; k >= 0; k--) ctx.lineTo(bot[k][0], bot[k][1]);
+        ctx.closePath();
+        ctx.fillStyle = "#1d1c1a";
+        ctx.fill();
+        ctx.strokeStyle = "#1d1c1a";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+      var SE = { s: [], n: [], w: [], e: [] };
+      for (var se = 0; se <= 80; se++) {
+        var tt = se / 80;
+        SE.s.push([tt * W, HH]);
+        SE.n.push([tt * W, 0]);
+        SE.w.push([0, tt * HH]);
+        SE.e.push([W, tt * HH]);
+      }
+      ["n", "w", "e", "s"].forEach(function (k) {
+        side(SE[k]);
+      });
+      (function () {
+        var p = pr(wx(W / 2), (zAt(W / 2, HH) + ZB) / 2 - 2, wz(HH), [0, 0]);
+        ctx.font = "bold " + Math.round(16 * TS) + "px Questrial,sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "rgba(255,255,255,.88)";
+        ctx.fillText("\u2193  HINDER", p[0], p[1] + 5);
+      })();
       /* items bucketed by block */
       var NXB = NX / st,
         buckets = {};
@@ -17029,7 +17325,7 @@
         c0 = szd > 0 ? 0 : MB - 1,
         c1 = szd > 0 ? MB : -1,
         cs = szd > 0 ? 1 : -1;
-      var labelPins = terr.notes.length <= 45,
+      var labelPins = terr.notes.length <= (CARDH && host.closest(".gtfs-on") ? 100 : 45),
         bi,
         bj;
       ctx.lineWidth = st > 1 ? 1.1 : 0.6;
@@ -17091,7 +17387,7 @@
           var nt = it.n,
             z = zAt(nt.x, nt.y),
             p0 = pr(wx(nt.x), z, wz(nt.y), [0, 0]),
-            p1 = pr(wx(nt.x), z + 9, wz(nt.y), [0, 0]);
+            p1 = pr(wx(nt.x), z + 13, wz(nt.y), [0, 0]);
           ctx.beginPath();
           ctx.moveTo(p0[0], p0[1]);
           ctx.lineTo(p1[0], p1[1]);
@@ -17099,14 +17395,14 @@
           ctx.lineWidth = 1;
           ctx.stroke();
           ctx.beginPath();
-          ctx.arc(p1[0], p1[1], 3.8, 0, 6.283);
+          ctx.arc(p1[0], p1[1], 6 * TS, 0, 6.283);
           ctx.fillStyle = nt.e == null ? "#fff" : "rgb(" + EMO[nt.e][1].join(",") + ")";
           ctx.fill();
           ctx.strokeStyle = "#fff";
           ctx.lineWidth = 1.8;
           ctx.stroke();
           ctx.beginPath();
-          ctx.arc(p1[0], p1[1], 3.8, 0, 6.283);
+          ctx.arc(p1[0], p1[1], 6 * TS, 0, 6.283);
           ctx.strokeStyle = "#111";
           ctx.lineWidth = 1.1;
           ctx.stroke();
@@ -17117,7 +17413,7 @@
           goalScr = pr(wx(it.x), zs, wz(it.y), [0, 0]);
           for (var k = 0; k < 10; k++) {
             var ang = -Math.PI / 2 + (k * Math.PI) / 5,
-              rr = k % 2 ? 3.4 : 8;
+              rr = k % 2 ? 5 : 12;
             pts.push(pr(wx(it.x + Math.cos(ang) * rr), zs, wz(it.y + Math.sin(ang) * rr), [0, 0]));
           }
           ctx.beginPath();
@@ -17142,8 +17438,8 @@
           ctx.lineWidth = 1.6;
           ctx.stroke();
           ctx.fillStyle = "#111";
-          ctx.fillRect(b1[0] - 10, b1[1] - 8, 20, 12);
-          ctx.font = "bold 9px Questrial,sans-serif";
+          ctx.fillRect(b1[0] - 16 * TS, b1[1] - 12 * TS, 32 * TS, 17 * TS);
+          ctx.font = "bold " + 13 * TS + "px Questrial,sans-serif";
           ctx.textAlign = "center";
           ctx.fillStyle = "#fff";
           ctx.fillText("Q." + Q.q, b1[0], b1[1] + 1);
@@ -17269,15 +17565,18 @@
       if (COURSE != null) {
         ROUTES.forEach(function (R) {
           var o = drape(R.pts, 1.2, 1);
-          stroke(o, "rgba(255,255,255,.95)", 5.2);
-          stroke(o, "#111", 2.6, R.dash);
+          var dm = ROUTESEL && R.key !== ROUTESEL;
+          ctx.globalAlpha = dm ? 0.16 : 1;
+          stroke(o, R.key === "B" ? "#111" : "rgba(255,255,255,.95)", (R.key === "B" ? 6.4 : 5.6) * TL);
+          stroke(o, RCOL[R.key] || "#111", 3.2 * TL, R.dash);
+          ctx.globalAlpha = 1;
         });
         CARDS[COURSE].ids.forEach(function (id) {
           var n = noteById(id);
           if (!n) return;
           var c0 = pr(wx(n.x), zAt(n.x, n.y) + 2, wz(n.y), [0, 0]);
           ctx.beginPath();
-          ctx.arc(c0[0], c0[1], 8, 0, 6.283);
+          ctx.arc(c0[0], c0[1], 8 * TL, 0, 6.283);
           ctx.strokeStyle = "#111";
           ctx.lineWidth = 2;
           ctx.stroke();
@@ -17288,7 +17587,7 @@
         if (!Q) return;
         var zq = zAt(Q.x, Q.y),
           b0 = pr(wx(Q.x), zq, wz(Q.y), [0, 0]),
-          b1 = pr(wx(Q.x), zq + 14, wz(Q.y), [0, 0]);
+          b1 = pr(wx(Q.x), zq + 20, wz(Q.y), [0, 0]);
         ctx.beginPath();
         ctx.moveTo(b0[0], b0[1]);
         ctx.lineTo(b1[0], b1[1]);
@@ -17296,8 +17595,8 @@
         ctx.lineWidth = 1.6;
         ctx.stroke();
         ctx.fillStyle = "#111";
-        ctx.fillRect(b1[0] - 11, b1[1] - 8, 22, 12);
-        ctx.font = "bold 9px Questrial,sans-serif";
+        ctx.fillRect(b1[0] - 16 * TS, b1[1] - 12 * TS, 32 * TS, 17 * TS);
+        ctx.font = "bold " + 13 * TS + "px Questrial,sans-serif";
         ctx.textAlign = "center";
         ctx.fillStyle = "#fff";
         ctx.fillText("Q." + Q.q, b1[0], b1[1] + 1);
@@ -17319,20 +17618,24 @@
       markScr = [];
       if (COURSE != null)
         ROUTES.forEach(function (R) {
-          var q = R.pts[Math.floor(R.pts.length * (R.key === "A" ? 0.3 : R.key === "B" ? 0.55 : 0.75))],
-            z = zAt(q[0], q[1]),
-            b1 = pr(wx(q[0]), z + 4, wz(q[1]), [0, 0]);
-          ctx.beginPath();
-          ctx.arc(b1[0], b1[1], 9, 0, 6.283);
-          ctx.fillStyle = "#fff";
-          ctx.fill();
-          ctx.strokeStyle = "#111";
-          ctx.lineWidth = 2;
-          ctx.stroke();
-          ctx.font = "bold 11px Questrial,sans-serif";
-          ctx.textAlign = "center";
-          ctx.fillStyle = "#111";
-          ctx.fillText(R.key, b1[0], b1[1] + 4);
+          if (ROUTESEL && R.key !== ROUTESEL) return;
+          var off = R.key === "B" ? 0.05 : R.key === "C" ? 0.1 : 0;
+          [0.2, 0.5, 0.8].forEach(function (f) {
+            var q = R.pts[Math.min(R.pts.length - 1, Math.floor(R.pts.length * (f + off)))],
+              z = zAt(q[0], q[1]),
+              b1 = pr(wx(q[0]), z + 4, wz(q[1]), [0, 0]);
+            ctx.beginPath();
+            ctx.arc(b1[0], b1[1], 13 * TS, 0, 6.283);
+            ctx.fillStyle = RCOL[R.key] || "#111";
+            ctx.fill();
+            ctx.strokeStyle = R.key === "B" ? "#111" : "#fff";
+            ctx.lineWidth = 2.4;
+            ctx.stroke();
+            ctx.font = "bold " + 15 * TS + "px Questrial,sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillStyle = R.key === "B" ? "#111" : "#fff";
+            ctx.fillText(R.key, b1[0], b1[1] + 4 * TS);
+          });
         });
       if (COURSE == null)
         READ.forEach(function (r, i) {
@@ -17347,16 +17650,16 @@
           ctx.lineWidth = 1.4;
           ctx.stroke();
           ctx.beginPath();
-          ctx.arc(b1[0], b1[1], on ? 11 : 9, 0, 6.283);
+          ctx.arc(b1[0], b1[1], (on ? 16 : 14) * TS, 0, 6.283);
           ctx.fillStyle = on ? "#7a1d12" : "#111";
           ctx.fill();
           ctx.strokeStyle = "#fff";
           ctx.lineWidth = 2;
           ctx.stroke();
-          ctx.font = "bold " + (on ? 12 : 11) + "px Questrial,sans-serif";
+          ctx.font = "bold " + (on ? 17 : 16) * TS + "px Questrial,sans-serif";
           ctx.textAlign = "center";
           ctx.fillStyle = "#fff";
-          ctx.fillText(String(i + 1), b1[0], b1[1] + 4);
+          ctx.fillText(String(i + 1), b1[0], b1[1] + 6 * TS);
           if (on) {
             ctx.beginPath();
             ctx.ellipse(b0[0], b0[1], 22, 10, 0, 0, 6.283);
@@ -17380,21 +17683,21 @@
         ctx.fillText(lt, CAUSE_LBL.p[0], CAUSE_LBL.p[1] - 6);
       }
       if (labelPins) {
-        ctx.font = "9px Questrial,sans-serif";
+        ctx.font = "bold " + 13 * TS + "px Questrial,sans-serif";
         ctx.textAlign = "left";
         ctx.lineWidth = 2.6;
         ctx.lineJoin = "round";
         pinScreen.forEach(function (p) {
           ctx.strokeStyle = "rgba(255,255,255,.9)";
-          ctx.strokeText("N" + p.n.k, p.x + 5, p.y + 3);
+          ctx.strokeText("N" + p.n.k, p.x + 8 * TS, p.y + 4 * TS);
           ctx.fillStyle = "#222";
-          ctx.fillText("N" + p.n.k, p.x + 5, p.y + 3);
+          ctx.fillText("N" + p.n.k, p.x + 8 * TS, p.y + 4 * TS);
         });
       }
       function text(str, X, Y, Z, opt) {
         opt = opt || {};
         var p = pr(X, Y, Z, [0, 0]);
-        ctx.font = (opt.size || 11) + "px Questrial,sans-serif";
+        ctx.font = (opt.size || 11) * TS + "px Questrial,sans-serif";
         ctx.textAlign = opt.align || "center";
         ctx.lineWidth = 3.2;
         ctx.strokeStyle = "rgba(255,255,255,.92)";
@@ -17404,9 +17707,9 @@
       }
       function badge(str, X, Y, Z, bg) {
         var p = pr(X, Y, Z, [0, 0]);
-        ctx.font = "bold 15px Questrial,sans-serif";
+        ctx.font = "bold " + 15 * TS + "px Questrial,sans-serif";
         ctx.textAlign = "center";
-        var w = ctx.measureText(str).width + 22;
+        var w = ctx.measureText(str).width + 22 * TS;
         ctx.fillStyle = bg;
         ctx.strokeStyle = "#fff";
         ctx.lineWidth = 2;
@@ -17418,13 +17721,18 @@
         ctx.fillStyle = "#fff";
         ctx.fillText(str, p[0], p[1] + 5);
       }
-      [0.5].forEach(function (f) {
-        var x = W * f;
-        badge("↑ HELP", wx(x), zAt(x, 4) + 10, wz(-6), "#1f6f66");
-        badge("↓ HINDER", wx(x), zAt(x, HH - 4) + 10, wz(HH + 8), "#8a2a22");
-      });
-      text("PRESENT", wx(START.x), zAt(START.x, START.y) + 23, wz(START.y), { size: 10 });
-      text("GOAL", wx(GOAL.x), zAt(GOAL.x, GOAL.y) + 16, wz(GOAL.y), { size: 10 });
+      (function () {
+        var p = pr(wx(-6), zAt(0, 2) + 6, wz(2), [0, 0]);
+        ctx.font = "bold " + Math.round(15 * TS) + "px Questrial,sans-serif";
+        ctx.textAlign = "right";
+        ctx.lineWidth = 3.4;
+        ctx.strokeStyle = "rgba(255,255,255,.95)";
+        ctx.strokeText("\u2191 HELP", p[0], p[1]);
+        ctx.fillStyle = "#1f6f66";
+        ctx.fillText("\u2191 HELP", p[0], p[1]);
+      })();
+      text("PRESENT", wx(START.x), zAt(START.x, START.y) + 23, wz(START.y), { size: 14 });
+      text("GOAL", wx(GOAL.x), zAt(GOAL.x, GOAL.y) + 18, wz(GOAL.y), { size: 14 });
       text("FUTURE", wx(GOAL.x - 30), zAt(GOAL.x - 30, 138) + 6, wz(140), { size: 10 });
       terr.threads.forEach(function (th, ti) {
         if (
@@ -17493,7 +17801,7 @@
       var T = terr,
         withE = T.pts.length,
         none = T.notes.length - withE;
-      $("phhead").textContent = "PHRASES THAT RUN THROUGH (" + T.threads.length + ")";
+      $("phhead").textContent = "PATTERNS THAT RUN THROUGH IT (" + T.threads.length + ")";
       $("count").textContent =
         T.notes.length +
         " notes" +
@@ -17816,11 +18124,13 @@
       courseReadings(COURSE).forEach(function (r) {
         var d = document.createElement("div");
         d.className = "rd";
+        if (r.k) d.setAttribute("data-way", r.k);
         var n = document.createElement("span");
         n.className = "rn";
-        n.style.background = r.k ? "#fff" : "#7a1d12";
-        n.style.color = r.k ? "#111" : "#fff";
-        n.style.border = "2px solid #111";
+        n.style.background = r.k ? RCOL[r.k] || "#111" : "#7a1d12";
+        n.style.color = r.k === "B" ? "#111" : "#fff";
+        n.style.border = "2px solid " + (r.k === "B" ? "#111" : "#fff");
+        n.style.boxShadow = "0 0 0 1px " + (r.k ? (r.k === "B" ? "#111" : RCOL[r.k] || "#111") : "#7a1d12");
         n.textContent = r.k || "→";
         d.appendChild(n);
         var b = document.createElement("div");
@@ -17889,7 +18199,7 @@
           : o[1];
         row(
           '<span style="display:inline-block;width:26px;height:12px;border-radius:2px;background:rgb(' +
-            boost(e[1][0], e[1][1], e[1][2])
+            _viv(e[1])
               .map(function (v) {
                 return v | 0;
               })
@@ -17899,13 +18209,13 @@
         );
       });
       row(
-        '<svg width="30" height="14"><path d="M1 11 L4 6 L6 9 L9 3 L12 8 L14 5 L17 10 L20 4 L23 9 L26 6 L29 10" fill="none" stroke="#333" stroke-width="1.3"/></svg>',
-        "Broken ground (talus): emotions meet",
+        '<svg width="30" height="14"><rect x="1" y="2" width="28" height="10" rx="2" fill="rgb(140,135,127)" stroke="#bbb"/></svg>',
+        "Bare rock face: two distant emotions meet with no ridge of indifference between them, so getting across is a climb. A big move takes energy either way; most moves go through indifference.",
       );
 
       row(
-        '<svg width="30" height="14"><rect x="1" y="2" width="28" height="10" rx="2" fill="rgb(238,235,227)" stroke="#bbb"/></svg>',
-        "Pale, level ground: no notes nearby",
+        '<svg width="30" height="14"><rect x="1" y="2" width="28" height="10" rx="2" fill="rgb(116,122,74)" stroke="#bbb"/></svg>',
+        "Plain grass, soil or rock, no color: no notes nearby, so no information here",
       );
       row(
         '<svg width="30" height="14"><text x="15" y="10" font-size="6.5" text-anchor="middle" font-family="sans-serif">PRESENT</text></svg>',
@@ -17945,7 +18255,9 @@
         );
         ROUTES.slice(1).forEach(function (R) {
           row(
-            '<svg width="30" height="14"><line x1="1" y1="7" x2="29" y2="7" stroke="#111" stroke-width="2.6" stroke-dasharray="' +
+            '<svg width="30" height="14"><line x1="1" y1="7" x2="29" y2="7" stroke="#111" stroke-width="4.4"/><line x1="1" y1="7" x2="29" y2="7" stroke="' +
+              (RCOL[R.key] || "#111") +
+              '" stroke-width="2.6" stroke-dasharray="' +
               R.dash.join(" ") +
               '"/></svg>',
             R.key + ": " + R.name.replace(/ \(.*$/, "").toLowerCase(),
@@ -18363,12 +18675,19 @@
       tip.style.top = Math.max(4, y - 8 - tip.offsetHeight) + "px";
     }
     function resize() {
-      var w = $("stage").clientWidth;
+      var sg = $("stage"),
+        w = sg ? sg.clientWidth : 0;
       if (!w) return;
       cssW = w;
       cssH = isFull()
         ? window.innerHeight
-        : Math.round(CARDH ? Math.max(260, Math.min(440, w * 0.5)) : Math.max(380, Math.min(620, w * 0.62)));
+        : Math.round(
+            CARDH
+              ? host.closest(".gtfs-on")
+                ? Math.max(420, window.innerHeight * 0.8)
+                : Math.max(300, Math.min(520, w * 0.62))
+              : Math.max(380, Math.min(620, w * 0.62)),
+          );
       dpr = Math.min(2, window.devicePixelRatio || 1);
       cv.width = cssW * dpr;
       cv.height = cssH * dpr;
@@ -18402,11 +18721,50 @@
         var e = $(id);
         if (e) e.style.display = "none";
       });
+      host._gtRe = function () {
+        resize();
+        render();
+      };
       LEGON = false;
       showCause = false;
       var cw0 = host.clientWidth || 600;
-      view = { az: 0.05, tilt: 0.72, zoom: cw0 < 520 ? 0.95 : cw0 < 700 ? 1.3 : 1.55 };
+      view = { az: 0.05, tilt: 0.72, zoom: 1 };
       setCourse(0);
+      if (ROUTES.length > 1) {
+        var rb = document.createElement("div");
+        rb.className = "gtrb";
+        rb.innerHTML = "<span>Show</span>";
+        function rbtn(key, label, col) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.textContent = label;
+          if (col) b.style.borderColor = col;
+          b.onclick = function () {
+            ROUTESEL = key;
+            [].slice.call(rb.querySelectorAll("button")).forEach(function (x) {
+              x.classList.toggle("on", x === b);
+            });
+            render();
+          };
+          if (!key) b.classList.add("on");
+          rb.appendChild(b);
+        }
+        rbtn(null, "All ways", "#111");
+        ROUTES.forEach(function (R) {
+          rbtn(
+            R.key,
+            R.key +
+              ": " +
+              (/firm ground/.test(R.name)
+                ? "firm ground only"
+                : /support/.test(R.name)
+                  ? "from the support"
+                  : "through its notes"),
+            R.key === "B" ? "#111" : RCOL[R.key],
+          );
+        });
+        $("stage").parentNode.insertBefore(rb, $("stage"));
+      }
       var bx = $("coursebox").querySelector(".selbox");
       if (bx) {
         var kids = [].slice.call(bx.children);
@@ -18417,8 +18775,191 @@
         if (last && last.classList.contains("small")) last.remove();
       }
     }
+    (function () {
+      var stg = $("stage"),
+        box = document.createElement("div");
+      stg.parentNode.insertBefore(box, stg);
+      var snapImg = null;
+      function relLoad() {
+        return (
+          window.__gsmRelP ||
+          (window.__gsmRelP = new Promise(function (ok, no) {
+            if (window.gsmRelief) return ok();
+            var sc = document.querySelector('script[src*="gsm-preview.js"]'),
+              src = sc ? sc.src.replace(/gsm-preview\.js/, "gsm-relief.js") : "gsm-relief.js",
+              s = document.createElement("script");
+            s.src = src;
+            s.onload = function () {
+              window.gsmRelief ? ok() : no();
+            };
+            s.onerror = no;
+            document.head.appendChild(s);
+          }))
+        );
+      }
+      function wayRows() {
+        return [].slice.call(host.querySelectorAll("[data-way]"));
+      }
+      function data() {
+        var D = {
+          VX: VX,
+          VY: VY,
+          CX: CX,
+          CY: CY,
+          hn: terr.hn,
+          START: START,
+          GOAL: GOAL,
+          emo: EMO,
+          qpos: terr.qpos.map(function (Q) {
+            return Q
+              ? {
+                  q: Q.q,
+                  x: Q.x,
+                  y: Q.y,
+                  n: Q.n,
+                  title: QT[Q.q - 1] || "",
+                  ans: String(ANSWERS[Q.q - 1] || "").trim(),
+                }
+              : null;
+          }),
+          notes: terr.notes.map(function (n) {
+            return { k: n.k, x: n.x, y: n.y, e: n.e, q: n.q, t: n.t };
+          }),
+          goalText: GOALTEXT,
+        };
+        if (CARDH) {
+          var rd = {};
+          try {
+            courseReadings(COURSE).forEach(function (r) {
+              if (r.k) rd[r.k] = r.text;
+            });
+          } catch (e) {}
+          D.card = true;
+          D.read = [];
+          D.routes = ROUTES.map(function (R) {
+            return { key: R.key, name: R.name, pts: R.pts, text: rd[R.key] || "" };
+          });
+          D.onWay = function (k) {
+            wayRows().forEach(function (el) {
+              el.classList.toggle("gtwon", !!k && el.getAttribute("data-way") === k);
+            });
+          };
+        } else {
+          D.read = READ.map(function (r) {
+            return { at: r.at, title: r.title, text: r.short + (r.more ? " " + r.more : "") };
+          });
+          D.onHL = function (i) {
+            if (!HLSTICK) {
+              HL = i;
+              markList();
+            }
+          };
+        }
+        return D;
+      }
+      function go() {
+        relLoad()
+          .then(function () {
+            if (!host.isConnected || host._rel) return;
+            var c = document.createElement("canvas");
+            if (!(c.getContext("webgl2") || c.getContext("webgl"))) return;
+            if (snapImg) {
+              snapImg.remove();
+              snapImg = null;
+            }
+            try {
+              host._rel = window.gsmRelief.mount(box, data());
+            } catch (e) {
+              box.innerHTML = "";
+              host._rel = null;
+              if (window.console) console.warn("relief", e);
+              return;
+            }
+            stg.style.display = "none";
+            var lb = $("legbox");
+            if (lb) lb.style.display = "none";
+            host.querySelectorAll(".bar").forEach(function (e) {
+              e.style.display = "none";
+            });
+            if (CARDH) {
+              host._rel.setWay(ROUTESEL);
+              wayRows().forEach(function (el) {
+                if (el._gtw) return;
+                el._gtw = 1;
+                var k = el.getAttribute("data-way");
+                el.addEventListener("mouseenter", function () {
+                  if (host._rel) host._rel.hoverWay(k);
+                  el.classList.add("gtwon");
+                });
+                el.addEventListener("mouseleave", function () {
+                  if (host._rel) host._rel.hoverWay(null);
+                  el.classList.remove("gtwon");
+                });
+              });
+            }
+          })
+          .catch(function () {});
+      }
+      function park() {
+        if (!host._rel) return;
+        var url = "",
+          hgt = host._rel.height();
+        try {
+          url = host._rel.snap();
+        } catch (e) {}
+        host._rel.dispose();
+        host._rel = null;
+        box.innerHTML = "";
+        if (url) {
+          snapImg = document.createElement("img");
+          snapImg.src = url;
+          snapImg.alt = "";
+          snapImg.style.cssText =
+            "display:block;width:100%;height:" + hgt + "px;object-fit:cover;border:1px solid #e4e4e4";
+          box.appendChild(snapImg);
+        }
+      }
+      if (window.IntersectionObserver) {
+        var io = new IntersectionObserver(
+          function (es) {
+            es.forEach(function (x) {
+              if (x.isIntersecting) go();
+              else if (CARDH) park();
+            });
+          },
+          { rootMargin: CARDH ? "500px 0px" : "300px" },
+        );
+        io.observe(box.parentNode);
+      } else go();
+    })();
   }
   window.gsmTerrainMount = mount;
+  function addFS(h) {
+    var coa = h.closest(".coa"),
+      lab = h.previousElementSibling;
+    if (!coa || !lab || lab.querySelector(".gtfsb")) return;
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "gtfsb";
+    b.textContent = "Full screen";
+    lab.insertBefore(b, lab.firstChild);
+    function set(on) {
+      coa.classList.toggle("gtfs-on", on);
+      b.textContent = on ? "Close full screen" : "Full screen";
+      document.documentElement.style.overflow = on ? "hidden" : "";
+      if (on) coa.scrollTop = 0;
+      if (h._gtRe) h._gtRe(on);
+      setTimeout(function () {
+        if (h._gtRe) h._gtRe();
+      }, 300);
+    }
+    b.addEventListener("click", function () {
+      set(!coa.classList.contains("gtfs-on"));
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && coa.classList.contains("gtfs-on")) set(false);
+    });
+  }
   function scan() {
     document.querySelectorAll(".gterr-host:not([data-on])").forEach(function (h) {
       h.setAttribute("data-on", "1");
@@ -18472,6 +19013,7 @@
               },
             ],
           });
+          addFS(h);
         } catch (e) {
           h.innerHTML = fb;
           h.className = cls;
