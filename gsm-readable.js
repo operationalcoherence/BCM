@@ -10583,7 +10583,7 @@
                       ((window.gsmData ? window.gsmData().m || [] : []).some(function (z) {
                         return (z[3] || "").trim();
                       })
-                        ? '<div class="intsub" style="margin:4px 0 8px">One map for both pictures: the buttons show each question’s notes on the ground (Analysis); the ground itself, its heights, colors and ridges, is what the notes say together (Synthesis).</div><div class="gterr-host" data-an="1" data-par="1"></div>'
+                        ? '<div class="intsub" style="margin:4px 0 8px">Both pictures on one map. From each question’s flag, thin lines run to its notes: how your thinking spreads across the ground (Analysis). The numbers are what the ground says, read on Pattern Synthesis (Synthesis). Where a question’s lines reach a numbered place, the two pictures meet. Use the buttons to follow one question at a time.</div><div class="gterr-host" data-an="1" data-par="1"></div>'
                         : '<div class="int2"><div class="intfig"><div class="intcap">AROUND THE GOAL</div>' +
                           st(r) +
                           '<div class="intsub">How far each answer is from the goal</div></div><div class="intfig"><div class="intcap">HOW IT HANGS TOGETHER</div>' +
@@ -14524,7 +14524,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v177");
+        t && (t.textContent = "v178");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -15081,6 +15081,7 @@
     }
     var CARDH = !!data.card,
       ANH = !!data.an,
+      PAR = !!data.par,
       AQ = 0;
 
     /* ---------- constants (same map as the line map: 340 x 230, line at y=118, goal at 305,118) ---------- */
@@ -17858,7 +17859,7 @@
       if (host._rel) {
         if (ANH) {
           host._rel.focusQ && host._rel.focusQ(AQ);
-          if (!data.par) return;
+          if (!PAR) return;
         }
         host._rel.hl(HL);
         if (CARDH) host._rel.setWay(ROUTESEL);
@@ -19412,7 +19413,7 @@
             x.classList.toggle("on", x === b);
           });
           var t = host.querySelector(".gtansay");
-          t && !data.par && (t.innerHTML = say(q));
+          t && !PAR && (t.innerHTML = say(q));
           render();
         };
         q || b.classList.add("on");
@@ -19551,16 +19552,74 @@
       sy.innerHTML = say(0);
       var stg0 = $("stage"),
         after = stg0.nextSibling;
-      if (data.par) {
-        sy.innerHTML = "";
-        sy.style.display = "none";
+      if (PAR) {
+        sy.innerHTML = (function () {
+          var rad = 1.3 * ((terr && terr.sigma) || 18),
+            out = [];
+          (READ || []).forEach(function (r, i) {
+            if (!r.at) return;
+            var qs = {};
+            (terr.notes || []).forEach(function (n) {
+              n.q && Math.hypot(n.x - r.at[0], n.y - r.at[1]) < rad && (qs[n.q] = (qs[n.q] || 0) + 1);
+            });
+            var qk = Object.keys(qs).map(Number).sort(function (a, b) {
+                return a - b;
+              }),
+              grasp = qk.filter(function (q) {
+                return q <= 4;
+              }),
+              act = qk.filter(function (q) {
+                return q >= 5;
+              });
+            if (qk.length < 2) return;
+            var nmq = function (L) {
+                var a = L.map(function (q) {
+                  return "Q." + q + " (" + RL[q - 1] + ")";
+                });
+                return a.length > 1 ? a.slice(0, -1).join(", ") + " and " + a[a.length - 1] : a[0];
+              },
+              low = 1 === r.grp,
+              high = 0 === r.grp,
+              t = "<b>" + (i + 1) + " · " + String(r.title).replace(/[&<>"]/g, function (c) { return "&#" + c.charCodeAt(0) + ";"; }) + ".</b> Notes from " + nmq(qk) + " gather here. ";
+            t +=
+              low && act.length && grasp.length
+                ? "What you would do sits in the same low ground as " +
+                  nmq(grasp) +
+                  ": these actions will meet the emotions there before they reach the goal, so start them where they can be seen to work."
+                : low && grasp.length
+                  ? "Several kinds of problem share one low place. Nothing you would do is placed here yet, so this is where the ground can hold you back unanswered."
+                  : high && qs[2]
+                    ? "Opposition stands on high ground here, next to what helps: resistance that may be easier to meet than it sounds."
+                    : high && act.length
+                      ? "What you would do stands on ground that holds: a place to start and be seen."
+                      : 2 === r.grp
+                        ? "These questions share a crossing: a place where people can move either way."
+                        : "Two parts of your thinking land on the same ground, so what changes one will touch the other.";
+            var key = qk.join(",") + "|" + r.grp;
+            out.some(function (o) {
+              return o[2] === key;
+            }) || out.push([qk.length + (act.length && grasp.length ? 2 : 0), t, key]);
+          });
+          out.sort(function (a, b) {
+            return b[0] - a[0];
+          });
+          return out.length
+            ? out
+                .slice(0, 5)
+                .map(function (x) {
+                  return '<p style="margin:0 0 8px">' + x[1] + "</p>";
+                })
+                .join("")
+            : "No numbered place on the ground gathers notes from more than one question yet.";
+        })();
       }
       stg0.parentNode.insertBefore(sy, after);
       var hd = document.createElement("div");
       hd.className = "sec";
       hd.style.marginTop = "12px";
       hd.textContent = "WHAT THIS SUGGESTS";
-      data.par || stg0.parentNode.insertBefore(hd, sy);
+      PAR && (hd.textContent = "WHERE THE TWO PICTURES MEET");
+      stg0.parentNode.insertBefore(hd, sy);
     }
     if (CARDH) {
       host.classList.add("gtcard");
@@ -19694,7 +19753,7 @@
               el.classList.toggle("gtwon", !!k && el.getAttribute("data-way") === k);
             });
           };
-        } else if (ANH && !data.par) {
+        } else if (ANH && !PAR) {
           D.read = [];
         } else {
           D.read = READ.map(function (r) {
@@ -19707,6 +19766,7 @@
             }
           };
         }
+        PAR && (D.spokes = 1);
         return D;
       }
       function go() {

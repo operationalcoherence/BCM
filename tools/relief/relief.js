@@ -139,12 +139,13 @@ function mount(host, D) {
   const L = [], blk = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.6 });
   function lab(text, cls, x, y, lift, pri, ax, ay, info) { const el = document.createElement('div'); el.className = 'lb ' + cls + (info ? ' hit' : ''); el.textContent = text; lbs.appendChild(el); const o = { el, v: new THREE.Vector3(X(x), gH(x, y) + lift, Z(y)), pri, ax: ax || 0, ay: ay || 0, info }; L.push(o);
     if (info) { el.addEventListener('mouseenter', ev => { if (!pinned) showTip(o, ev); }); el.addEventListener('mouseleave', () => { if (!pinned) hideTip(); }); el.addEventListener('click', ev => { ev.stopPropagation(); pinned = pinned === o ? null : o; pinned ? showTip(o, ev) : hideTip(); }); } return o; }
-  const NOBJ = [];
+  const NOBJ = [], spokeMat = new THREE.LineBasicMaterial({ color: 0x222222, transparent: true, opacity: 0.55 });
   D.notes.forEach(n => { const h = gH(n.x, n.y);
     const st = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 10, 6), blk); st.position.set(X(n.x), h + 5, Z(n.y)); st.castShadow = true; scene.add(st);
     const hd = new THREE.Mesh(new THREE.SphereGeometry(2.8, 18, 12), new THREE.MeshStandardMaterial({ color: n.e == null ? 0xffffff : new THREE.Color(`rgb(${D.emo[n.e][1].join(',')})`), roughness: 0.5 }));
     hd.position.set(X(n.x), h + 11, Z(n.y)); hd.castShadow = true; scene.add(hd);
-    const lo = lab('N' + n.k, 'nl', n.x, n.y, 11, 1, 6, -8, { head: 'N' + n.k + ' · ' + (n.e == null ? 'no emotion marked' : D.emo[n.e][0].toUpperCase()) + (n.q ? ' · Q.' + n.q : ''), body: n.t || '' }); NOBJ.push({ q: n.q, st, hd, lo }); });
+    const lo = lab('N' + n.k, 'nl', n.x, n.y, 11, 1, 6, -8, { head: 'N' + n.k + ' · ' + (n.e == null ? 'no emotion marked' : D.emo[n.e][0].toUpperCase()) + (n.q ? ' · Q.' + n.q : ''), body: n.t || '' }); let sp = null; if (D.spokes && n.q) { const Q = (D.qpos || []).find(z => z && z.q === n.q); if (Q) { const P = []; for (let k = 0; k <= 24; k++) { const t = k / 24, x = Q.x + (n.x - Q.x) * t, y = Q.y + (n.y - Q.y) * t; P.push(new THREE.Vector3(X(x), gH(x, y) + 1.4, Z(y))); } sp = new THREE.Line(new THREE.BufferGeometry().setFromPoints(P), spokeMat); scene.add(sp); } }
+    NOBJ.push({ q: n.q, st, hd, lo, sp }); });
   D.qpos.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st);
     const fl = new THREE.Mesh(new THREE.BoxGeometry(7, 4.2, 0.6), blk); fl.position.set(X(Q.x) + 3.2, h + 16.4, Z(Q.y)); fl.castShadow = true; scene.add(fl); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 16.4, 2, -4, -10, { head: 'Q.' + Q.q + (Q.title ? ' · ' + Q.title : ''), body: Q.ans || 'No answer written yet.', sm: Q.n ? 'Placed at the middle of its ' + Q.n + ' note' + (Q.n > 1 ? 's' : '') + '.' : 'No notes yet; placed on the line between present and goal.' }); });
   { const s = D.START, h = gH(s.x, s.y), p = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 22, 6), blk); p.position.set(X(s.x), h + 11, Z(s.y)); p.castShadow = true; scene.add(p);
@@ -173,7 +174,7 @@ function mount(host, D) {
     tip.style.left = Math.max(4, Math.min(r.width - tip.offsetWidth - 4, x + 12)) + 'px'; tip.style.top = Math.max(4, y - 10 - tip.offsetHeight) + 'px';
     RD.forEach((q, k) => q.el.classList.toggle('on', k === o.info.rd)); if (D.onHL) D.onHL(o.info.rd == null ? null : o.info.rd); if (o.info.way) hoverWay(o.info.way); }
   function hideTip() { dirty = true; if (!pinned) hoverWay(null); tip.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); }
-  function nearest(ev) { const r = wrap.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top; let best = null, bd = 20;
+  function nearest(ev) { const r = renderer.domElement.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top; let best = null, bd = 20;
     L.forEach(o => { if (!o.info || o.sx == null || o.off) return; const d = Math.hypot(o.sx - x, o.sy - y); if (d < bd) { bd = d; best = o; } }); return best; }
   const offClick = ev => { if (pinned && !wrap.contains(ev.target)) { pinned = null; hoverWay(null); hideTip(); } }; document.addEventListener('click', offClick, true);
   let downAt = null;
@@ -215,14 +216,14 @@ function mount(host, D) {
     '<div class="r"><i style="background:rgb(140,135,127)"></i><span>Bare rock face: two distant emotions meet with no ridge of indifference between them, so getting across is a climb. A big move takes energy either way; most moves go through indifference.</span></div>' +
     '<div class="r"><i style="background:rgb(116,122,74)"></i><span>Plain grass, soil or rock, no color: no notes nearby, so no information here.</span></div>' +
     (D.routes && D.routes.length ? D.routes.map(R => `<div class="r"><i style="background:${RC[R.key]};border-color:#111;height:6px;margin-top:5px"></i><span><b style="display:inline;letter-spacing:0;font-size:12.5px">${R.key}</b> · ${R.name.replace(/[<>&]/g, '')}</span></div>`).join('') : '') +
-    ((D.read || []).length ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Numbered: what the ground says, read above the map.</span></div><div class="r"><i style="background:#3a1f0c;height:6px;margin-top:5px;border:1px solid #fff;box-shadow:0 0 0 1px #bbb"></i><span>A brown line: a pattern you ticked under PATTERNS THAT RUN THROUGH IT.</span></div>' : '') +
+    (D.spokes ? '<div class="r"><i style="background:#222;height:2px;margin-top:7px"></i><span>Thin lines: from each question’s flag to its notes.</span></div>' : '') + ((D.read || []).length ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Numbered: what the ground says' + (D.spokes ? ' (from Pattern Synthesis). Hover or tap a number to read it.' : ', read above the map.') + '</span></div><div class="r"><i style="background:#3a1f0c;height:6px;margin-top:5px;border:1px solid #fff;box-shadow:0 0 0 1px #bbb"></i><span>A brown line: a pattern you ticked under PATTERNS THAT RUN THROUGH IT.</span></div>' : '') +
     '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color; black flags are questions. The green flag is the present; the checkered flag is the goal. ← PRESENT and FUTURE → run along the front; ↑ HELP and ↓ HINDER run back to front.</span></div>' +
     '<div class="r"><span style="color:#666">Drag to turn, scroll or pinch to zoom. Hover or tap a note, question, the goal, a number or a way to read it.</span></div>';
 
   /* ---------- full screen: legend drawer and the method's name ---------- */
   const fsl = document.createElement('div'); fsl.className = 'grfs fsleg'; const fsb = document.createElement('button'); fsb.type = 'button'; fsb.className = 'grfs fslb'; fsb.textContent = 'Hide legend';
   const brand = document.createElement('div'); brand.className = 'grfs brand'; brand.innerHTML = '<b>THE BEAR CANYON METHOD</b> · BY OPERATIONAL COHERENCE';
-  fsb.onclick = ev => { ev.stopPropagation(); const shut = !fsl.classList.contains('shut'); fsl.classList.toggle('shut', shut); fsb.textContent = shut ? 'Legend' : 'Hide legend'; };
+  fsb.onclick = ev => { ev.stopPropagation(); const shut = !fsl.classList.contains('shut'); fsl.classList.toggle('shut', shut); fsb.textContent = shut ? 'Legend' : 'Hide legend'; moved = false; size(); };
   [fsl, fsb, brand].forEach(e => wrap.appendChild(e)); const fillFsl = () => { fsl.innerHTML = ''; const c = leg.cloneNode(true); fsl.appendChild(c); };
   /* ---------- buttons ---------- */
   const bReset = document.createElement('button'), bFs = document.createElement('button');
@@ -240,13 +241,14 @@ function mount(host, D) {
     const sh = up.multiplyScalar((y0 + y1) / 2 * th).add(rt.multiplyScalar((x0 + x1) / 2 * th * camera.aspect)); tgt.add(sh);
     camera.position.copy(tgt).addScaledVector(dir, d); controls.target.copy(tgt); controls.update(); dirty = true; }
   bReset.onclick = () => { moved = false; home(); };
-  bFs.onclick = () => { const on = !wrap.classList.contains('fs'); if (on) fillFsl(); wrap.classList.toggle('fs', on); bFs.textContent = on ? 'Close full screen' : 'Full screen'; document.documentElement.style.overflow = on ? 'hidden' : ''; size(); };
+  bFs.onclick = () => { const on = !wrap.classList.contains('fs'); if (on) fillFsl(); moved = false; wrap.classList.toggle('fs', on); bFs.textContent = on ? 'Close full screen' : 'Full screen'; document.documentElement.style.overflow = on ? 'hidden' : ''; size(); };
   const onKey = e => { if (e.key === 'Escape' && wrap.classList.contains('fs')) bFs.onclick(); }; document.addEventListener('keydown', onKey);
 
   /* ---------- sizing, labels, loop ---------- */
   let dirty = true, alive = true, lastW = 0, lastCfs = false;
   function size() { const fs = wrap.classList.contains('fs'), w = fs ? window.innerWidth : wrap.clientWidth; if (!w) return; const cfs = D.card && host.closest('.gtfs-on'), h = fs ? window.innerHeight : cfs ? Math.round(Math.max(420, window.innerHeight * 0.78)) : Math.round(Math.max(300, Math.min(D.card ? 520 : 620, w * (D.card ? 0.62 : 0.56))));
-    wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(w, h); camera.aspect = w / h;
+    const pad = fs && !fsl.classList.contains('shut') ? Math.min(340, Math.round(window.innerWidth * 0.86)) : 0, vw = Math.max(200, w - pad);
+    wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(vw, h); renderer.domElement.style.marginLeft = pad + 'px'; lbs.style.left = pad + 'px'; camera.aspect = vw / h;
     // keep the whole block in frame
     camera.fov = 30; camera.updateProjectionMatrix(); lastW = w; if (typeof home === 'function' && !moved) home(); dirty = true; }
   const ro = window.ResizeObserver ? new ResizeObserver(size) : null; if (ro) ro.observe(wrap); window.addEventListener('resize', size);
@@ -264,7 +266,7 @@ function mount(host, D) {
     if (dirty && wrap.clientWidth) { RD.forEach(o => o.rim && o.rim.quaternion.copy(camera.quaternion)); if ((wrap.clientWidth !== lastW || !!(D.card && host.closest('.gtfs-on')) !== lastCfs) && !wrap.classList.contains('fs')) { lastCfs = !!(D.card && host.closest('.gtfs-on')); size(); } renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
   function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
   size(); home(); loop();
-  function focusQ(q) { NOBJ.forEach(o => { const on = !q || o.q === q; o.st.visible = o.hd.visible = on; o.lo.off = !on; o.lo.el.style.opacity = on ? '' : '0'; o.lo.el.style.pointerEvents = on ? '' : 'none'; }); dirty = true; }
+  function focusQ(q) { NOBJ.forEach(o => { const on = !q || o.q === q; o.st.visible = o.hd.visible = on; if (o.sp) o.sp.visible = on; o.lo.off = !on; o.lo.el.style.opacity = on ? '' : '0'; o.lo.el.style.pointerEvents = on ? '' : 'none'; }); dirty = true; }
   return { loops, focusQ, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
     snap() { renderer.render(scene, camera); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
 }
