@@ -12,6 +12,8 @@
 - His workbooks: `bear-canyon-workbook-2026-11-13.json` (line map, 31 notes) and `…-11-05.json` (Broadview, place map, 14 notes). They are not in the repo. They are saved in the Claude project as `workbooks/bear-canyon-workbook-2026-11-13.json` and `workbooks/bear-canyon-workbook-2026-11-05.json` (see `workbooks/README.md`): read them with the project tool, don't ask him. Test every version on BOTH (11-13 first). He asked for this.
 - Esri and AWS tiles can't be reached from the sandbox. Test with stand-in tiles served by Playwright (imagery, reference layers, and Terrarium elevation PNGs), and ask him to check the real ones on the preview.
 - Project memory: `docs/bcm/` (ARCHITECTURE, CURRENT_STATE, TASK_QUEUE, CONCEPT_REGISTRY, this file).
+- The Claude project was cleared out on 11-17. It now holds only `workbooks/`, a private `archive/` of 18 design notes (they quote his workbook, so they're kept out of this public repo) and `claude/layers_tracker.md`. See the project's `README.md`.
+- **The preview page is public.** `operationalcoherence.com/bcm` loads `gsm-preview.js` from `main`, so every push is live for visitors within minutes (archive/deploy_problem_2026_11_11.md). "Preview only" means: never touch anything else.
 
 ## Standing rules (his)
 Preview only. American spelling. "Emotion", never "feeling". "The method" = the whole BCM. The Q.1–Q.4 / Q.5–Q.7 grouping is silent on screen. Changes go in the engine for everyone, never tied to his workbook. Never merge words unless he says (THE SAME THING? asks). Flag Claude's wording; show redlines for his text and wait. Send files one per message. Story over list; tell people what they don't already know.
@@ -59,7 +61,7 @@ No code. Docs and planning only.
 - U5 instruction redlines (`docs/v173_update.md`, bottom).
 - D8: voice weighting on by default, or a switch?
 - D1/F1/F2: the discussion about the fuller per-instance 3D Esri map.
-- His pass on all Claude wording (the v171–v195 update docs; each ends with a "New wording (Claude's)" list).
+- His pass on all Claude wording, v171–v195: now one review sheet with Keep / Change / Cut per row (49 rows), https://claude.ai/artifact/KkdeKLx5E45pWKpYU1FE3V. When he's done, make every Change and Cut in one version and show him the result. Also: `docs/v193_update.md` was never written (v193 is F6 hysteresis; its wording is row 43 of the sheet).
 - Real-tile check on the preview: Broadview imagery and terrain (v186/v189).
 - F8 open calls (ARCHITECTURE §12a): who may lead a project; how long answers are kept and who can delete them; whether the file route stays; which account owns Firebase long term. Also the wording on the mockup and in the costs doc.
 - Small calls: friction and hysteresis weights (v192/v193); a coworker's deletions of his notes and answers on Combine (v191); Combine and PDF for WHAT YOU DID (v194).
