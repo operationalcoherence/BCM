@@ -1,5 +1,5 @@
 # BCM_HANDOFF.md
-2026-11-17 (end of day) · Preview at **v195** · No engine changes since v195 · Live `/gsmlive` untouched (old v92; never touch without Gregory's go-ahead)
+2026-11-17 (end of day) · Preview at **v195** · No engine changes since v195 · `/gsmlive` is defunct (his word, 11-17); the BCM page is `operationalcoherence.com/bcm`
 
 ## Start here
 - Repo `operationalcoherence/BCM` (public; attach with push to publish). `main` feeds the preview page through GitHub Pages.

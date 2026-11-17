@@ -17,7 +17,7 @@ BCM is a free web workbook from Operational Coherence. It helps a practitioner, 
 - Internal app id: `groundsmith` (export `"app"` key). Export schema version `v: 1`.
 - Hosting: the BCM page on the Operational Coherence website.
 - Persistence: JSON export/import (`bear-canyon-workbook-YYYY-MM-DD.json`) and localStorage. No backend yet. A Firebase backend is set up for F8 (§12) but nothing uses it.
-- Repo: `operationalcoherence/BCM` (public), served by GitHub Pages. The Webador page loads `gsm-preview.js` through a small stub. The live page `/gsmlive` is still the old pasted v92 and is never touched without his go-ahead.
+- Repo: `operationalcoherence/BCM` (public), served by GitHub Pages. The Webador page loads `gsm-preview.js` through a small stub. The old `/gsmlive` page (pasted v92) is **defunct** (Gregory, 11-17). The preview page `operationalcoherence.com/bcm` is the BCM page.
 - Files: `gsm-readable.js` (the source, ~19k lines, one IIFE plus the terrain module appended) → esbuild minify → `gsm-preview.js` (what the preview page runs). `gsm-relief.js` = `tools/relief/relief.js` + three.js r187, loaded on demand for the 3D map. The canvas map is the fallback.
 - Place map: Leaflet + Esri tiles. The key lives only in the Webador stub (`window.GSM_ESRI_KEY`), never in the repo.
 - Storage: localStorage key `groundsmith-web-v1`; save/open as JSON; workbooks can be combined.
