@@ -584,6 +584,11 @@
       i = new Date(),
       a = i.toISOString();
     Array.isArray(C.log) || (C.log = []);
+    if (e && /^note/.test(t)) {
+      (C.mt && "object" == typeof C.mt) || (C.mt = {});
+      (C.gone && "object" == typeof C.gone) || (C.gone = {});
+      "note-" === t ? ((C.gone[e] = a), delete C.mt[e]) : ((C.mt[e] = a), delete C.gone[e]);
+    }
     var s = C.log[C.log.length - 1];
     (o && s && s.w === r && s.k === t && s.i === e && i - Date.parse(s.t) < 6e5
       ? ((s.t = a), (s.d = n))
@@ -955,6 +960,10 @@
   ((C.p && C.p.m) || (C.p = { m: [] }),
     Array.isArray(C.others) || (C.others = []),
     Array.isArray(C.log) || (C.log = []),
+    ("string" == typeof C.wid && C.wid) || (C.wid = "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8)),
+    (C.mt && "object" == typeof C.mt && !Array.isArray(C.mt)) || (C.mt = {}),
+    (C.gone && "object" == typeof C.gone && !Array.isArray(C.gone)) || (C.gone = {}),
+    (C.sv = 2),
     "string" != typeof C.who && (C.who = ""),
     Array.isArray(C.voices) || (C.voices = []),
     (C.decisions && "object" == typeof C.decisions) || (C.decisions = {}),
@@ -15039,7 +15048,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v190");
+        t && (t.textContent = "v191");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -15154,6 +15163,10 @@
                       (1 === e.links ? "" : "s") +
                       "." +
                       (e.upd ? " Their earlier answers were replaced by the newer ones." : "") +
+                      (e.edits
+                        ? " " + e.edits + (1 === e.edits ? " note they edited more recently now shows" : " notes they edited more recently now show") + " their version."
+                        : "") +
+                      (e.gone ? " " + e.gone + (1 === e.gone ? " note they deleted was" : " notes they deleted were") + " removed." : "") +
                       "</div>");
                   var n = {};
                   return (
@@ -15280,7 +15293,14 @@
                                 return t;
                               })(e)));
                             var r = {},
-                              i = [C.m.length, C.p.m.length, (C.links || []).length];
+                              i = [C.m.length, C.p.m.length, (C.links || []).length],
+                              TMT = t.mt && "object" == typeof t.mt ? t.mt : {},
+                              TGO = t.gone && "object" == typeof t.gone ? t.gone : {},
+                              UPD = 0,
+                              DEL = 0,
+                              ADD = [0, 0];
+                            (C.mt && "object" == typeof C.mt) || (C.mt = {});
+                            (C.gone && "object" == typeof C.gone) || (C.gone = {});
                             function a(t, e) {
                               t.forEach(function (t) {
                                 for (; t.length < 10; ) t.push(null);
@@ -15290,9 +15310,20 @@
                             function s(t, n, o) {
                               (t || []).forEach(function (t, i) {
                                 for (var a = t.slice(); a.length < 10; ) a.push(null);
-                                (a[8] || (a[8] = o + i + "-" + Math.random().toString(36).slice(2, 7)),
-                                  r[a[8]] ||
-                                    ((r[a[8]] = 1), a[9] || (a[9] = e), a[7] || (a[7] = a[9]), n.push(a)));
+                                a[8] || (a[8] = o + i + "-" + Math.random().toString(36).slice(2, 7));
+                                var id = a[8],
+                                  tt = TMT[id];
+                                if (r[id]) {
+                                  if (tt && (!C.mt[id] || tt > C.mt[id]))
+                                    for (var k = 0; k < n.length; k++)
+                                      if (n[k] && n[k][8] === id) {
+                                        (a[9] || (a[9] = n[k][9] || e), (n[k] = a), (C.mt[id] = tt), UPD++);
+                                        break;
+                                      }
+                                  return;
+                                }
+                                if (C.gone[id] && (!tt || C.gone[id] >= tt)) return;
+                                ((r[id] = 1), a[9] || (a[9] = e), a[7] || (a[7] = a[9]), n.push(a), ADD[n === C.m ? 0 : 1]++, tt && (C.mt[id] = tt), delete C.gone[id]);
                               });
                             }
                             (C.m.concat(C.p.m).forEach(function (t) {
@@ -15302,6 +15333,16 @@
                               a(C.p.m, n),
                               s(t.m, C.m, e + "-L"),
                               s(t.p && t.p.m, C.p.m, e + "-P"),
+                              [C.m, C.p.m].forEach(function (L) {
+                                for (var k = L.length - 1; k >= 0; k--) {
+                                  var id = L[k] && L[k][8];
+                                  id &&
+                                    TGO[id] &&
+                                    L[k][9] === e &&
+                                    (!C.mt[id] || TGO[id] > C.mt[id]) &&
+                                    (L.splice(k, 1), (C.gone[id] = TGO[id]), delete C.mt[id], DEL++);
+                                }
+                              }),
                               !C.p.loc &&
                                 t.p &&
                                 t.p.loc &&
@@ -15328,16 +15369,19 @@
                               o
                                 ? C.others.forEach(function (n) {
                                     n.name === e &&
-                                      ((n.goal = t.goal || ""), (n.a = (t.a || []).slice(0, 7)));
+                                      ((n.goal = t.goal || ""), (n.a = (t.a || []).slice(0, 7)), (n.at = me()), (n.wid = t.wid || n.wid || null));
                                   })
-                                : C.others.push({ name: e, goal: t.goal || "", a: (t.a || []).slice(0, 7) }),
+                                : C.others.push({ name: e, goal: t.goal || "", a: (t.a || []).slice(0, 7), at: me(), wid: t.wid || null }),
                               (C.lastCombine = {
                                 name: e,
                                 at: me(),
-                                notes: C.m.length - i[0],
-                                places: C.p.m.length - i[1],
+                                notes: ADD[0],
+                                places: ADD[1],
                                 links: (C.links || []).length - i[2],
                                 upd: o,
+                                edits: UPD,
+
+                                gone: DEL,
                               }),
                               (function () {
                                 var n = {},

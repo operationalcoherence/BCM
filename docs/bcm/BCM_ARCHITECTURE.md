@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 5 · 2026-11-17 (v185) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 6 · 2026-11-17 (v191) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -147,15 +147,22 @@ Terrain module modes (one `mount`): Synthesis (default: readings, phrase loops, 
   who: string,                         // current author
   fig: { goal:{pos,hide,add}, hang:{pos,hide,add}, by, at },  // old figure layouts
   log: [{w, t, k, i, d}],              // edit log; k ∈ note+, notemove, notetext, noteemo, notesrc, notevoice, notetype
-  asks: { "goal|<noteId>"|"theme|<stem>"|"resp|<noteId>": "y"|"n" }  // user confirmations of engine prompts
+  asks: { "goal|<noteId>"|"theme|<stem>"|"resp|<noteId>"|"same|<a>|<b>": "y"|"n", "cons|<noteId>": string },  // confirmations; T5 answers (v187)
+  sv: 2,                               // schema version (v191)
+  wid: string,                         // workbook id, made once (v191)
+  mt: { <noteId>: ISO },               // last edit per note, from the log (v191)
+  gone: { <noteId>: ISO },             // deletions (v191)
+  // others: [{name, goal, a[7], at, wid}]  (at, wid since v191); lastCombine: {name, at, notes, places, links, upd, edits, gone}
+  // p: { m: Marker[], c:[lat,lon,zoom], loc:{name,lat,lng,bb}, name }; Marker = [q, lat, lng, text, polygon[[lat,lng]]|null, emotion, source, voice, id, author?, extraVoices?]
+  // links: [{f, t, r, w, src?, by?, at?}]
 }}
 Note = [q(1–7), x, y, text, null[?], emotionIdx, sourceIdx[?], voice, id, author?, extraVoices?]
 ```
 - x ≈ 12–280 (PRESENT→FUTURE), y ≈ 43–210 (small = HELP / above the line) [I].
 - `fig.goal` / `fig.hang` belong to the visualizations being retired. Keep import compatibility.
 
-## 12. Coworking (planned, not built)
-The design must allow several people to give perspectives on the same data: authorship per note (`author`, `who`, `log.w`), `voices`, `others`. Project administrator dashboards come later.
+## 12. Coworking (schema ready, v191)
+Several people give perspectives on the same data: authorship per note (index 9), `who`, `log.w`, `voices`, `others`. Since v191, each workbook has a `wid`, each note an edit time (`mt`) and deletions are kept (`gone`). Combine takes the newer edit of a shared note, removes notes the other person deleted from their own, and never removes yours. Project administrator dashboards (F8) come later.
 
 ## 13. UI rules
 - No surprise phrasing; define every major term in place (popover or glossary).
