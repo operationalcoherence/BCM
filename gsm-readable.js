@@ -686,6 +686,50 @@
       place: { X0: X0, Y0: Y0, k: k, goal: gf, areas: areas, name: String(C.p.name || (C.p.loc && C.p.loc.name) || "") },
     };
   }
+  window.gsmDV = 0;
+  window.gsmDerive = function () {
+    // reading the notes must not change which spelling of a word the pages show: keep the tallies as they were
+    var SV = [Mt, NmK, NmD].map(function (o) {
+        return JSON.stringify(o);
+      }),
+      M = (window.gsmData ? window.gsmData().m || [] : [])
+        .map(function (r, i) {
+          return { r: r, id: "N" + (i + 1), k: i + 1, t: Ht(r[3] || "") };
+        })
+        .filter(function (o) {
+          return String(o.r[3] || "").trim();
+        }),
+      HARD = [3, 0, 2, 1, 4],
+      MED = window.gsmMED || {},
+      pts = M.map(function (o) {
+        var e = o.r[5],
+          d = (null == e ? 2 : HARD[e]) + ((null != o.r.hd ? o.r.hd : o.r[2] >= 118) ? 1 : 0),
+          emo = {},
+          shared = 0;
+        M.forEach(function (p) {
+          if (p === o) return;
+          var hit = Object.keys(o.t.k).some(function (k) {
+            return !MED[k] && p.t.k[k];
+          });
+          hit && (shared++, null != p.r[5] && (emo[p.r[5]] = 1));
+        });
+        return { id: o.id, k: o.k, q: o.r[0], act: o.r[0] >= 5, d: d / 5, reach: Object.keys(emo).length, shared: shared, e: e };
+      }),
+      mr = Math.max.apply(null, pts.map(function (p) { return p.reach; }).concat([1]));
+    pts.forEach(function (p) {
+      p.any = p.reach / mr;
+    });
+    [Mt, NmK, NmD].forEach(function (o, i) {
+      for (var k in o) delete o[k];
+      var v = JSON.parse(SV[i]);
+      for (k in v) o[k] = v[k];
+    });
+    window.gsmGridAll = pts;
+    window.gsmGridPts = pts.filter(function (p) {
+      return p.act;
+    });
+    window.gsmDV++;
+  };
   window.gsmData = function () {
     var pv = gsmPlaceView();
     return { m: pv ? pv.m : C.m, a: Q(), goal: C.goal, place: pv ? pv.place : null };
@@ -4460,6 +4504,7 @@
             g[w] = 1;
           });
           window.gsmMED = MED;
+          window.gsmDerive();
         })(),
         h.length < 2 && !C.m.length && !C.p.m.length)
       )
@@ -11255,40 +11300,11 @@
                     at.length && E.push(["Where to start", "Start with " + at.join(", then ") + "."]));
 
                   function gsmGrid() {
-                    var M = (window.gsmData ? window.gsmData().m || [] : [])
-                        .map(function (r, i) {
-                          return { r: r, id: "N" + (i + 1), k: i + 1, t: Ht(r[3] || "") };
-                        })
-                        .filter(function (o) {
-                          return String(o.r[3] || "").trim();
-                        });
-                    if (M.filter(function (o) {
-                        return o.r[0] >= 5;
+                    var pts = window.gsmGridAll || [];
+                    if (pts.filter(function (p) {
+                        return p.act;
                       }).length < 2) return "";
-                    var HARD = [3, 0, 2, 1, 4],
-                      MED = window.gsmMED || {},
-                      pts = M.map(function (o) {
-                        var e = o.r[5],
-                          d = (null == e ? 2 : HARD[e]) + ((null != o.r.hd ? o.r.hd : o.r[2] >= 118) ? 1 : 0),
-                          emo = {},
-                          shared = 0;
-                        M.forEach(function (p) {
-                          if (p === o) return;
-                          var hit = Object.keys(o.t.k).some(function (k) {
-                            return !MED[k] && p.t.k[k];
-                          });
-                          hit && (shared++, null != p.r[5] && (emo[p.r[5]] = 1));
-                        });
-                        return { id: o.id, k: o.k, q: o.r[0], act: o.r[0] >= 5, d: d / 5, reach: Object.keys(emo).length, shared: shared, e: e };
-                      }),
-                      mr = Math.max.apply(null, pts.map(function (p) { return p.reach; }).concat([1])),
-                      ms = Math.max.apply(null, pts.map(function (p) { return p.shared; }).concat([1]));
-                    pts.forEach(function (p) {
-                      p.any = p.reach / mr;
-                    });
-                    window.gsmGridPts = pts.filter(function (p) {
-                      return p.act;
-                    });
+                    var ms = Math.max.apply(null, pts.map(function (p) { return p.shared; }).concat([1]));
                     var W = 620,
                       H = 440,
                       L = 60,
@@ -15341,7 +15357,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v198");
+        t && (t.textContent = "v199");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
