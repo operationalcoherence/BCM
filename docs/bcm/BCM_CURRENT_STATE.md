@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 9 · 2026-11-18 · Preview at **v201** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 10 · 2026-11-18 · Preview at **v202** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v202** (2026-11-18, preview): P3 first half. Acceptance into aggression, distrust, or defiance makes a strategy; a saved manual switch on every card; cards from the ground for hostile emotion among acceptance on the help side; up to four strategies. See `docs/v202_update.md`. Next: v203, FIRST MOVES follows the selected way and way A follows FIRST MOVES.
 - **v201** (2026-11-18, preview): P1 second half, Analysis and Synthesis. WHAT YOU WOULD DO without causes or counts; findings named by repeated phrases with their notes; no single-word themes; 3l counts Q.5–Q.7 notes as planning; ONE WORD, SEVERAL MEANINGS opens each meaning into sentences and lists the actions around the word. See `docs/v201_update.md`. Next: P3, cards from the ground (v202).
 - **v200** (2026-11-18, preview): P1 first half, Taking Action. Card titles are phrases from his own writing (never a lone word; whole sentence on hover), and every card has IN SERVICE OF THE GOAL. See `docs/v200_update.md`. Next: P1 second half (v201), the same layer on Pattern Analysis and Pattern Synthesis (3f, 3i, 4h, 4i).
 - **v199** (2026-11-18, preview): one derived-state pass (P2). The action points MOVES, IN ORDER reads are computed by gsmDerive() from the workbook on every pass, not inside In Parallel's drawing; In Parallel's grid draws from them. No page reads differently on his workbooks. See `docs/v199_update.md`. Next: Phase 1 step 4, the phrase-and-meaning layer (P1, v200–v201).
