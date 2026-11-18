@@ -543,7 +543,7 @@
     bx.innerHTML =
       '<div class="sh">SINCE YOU ACTED</div><div>' +
       (last ? "You logged " + Gt('"' + String(last.x).slice(0, 80) + (String(last.x).length > 80 ? "\u2026" : "") + '"') + " (" + Gt(String(last.t).slice(0, 10)) + "). " : "") +
-      "Check these notes on the map: has their emotion or place changed? Edit a note and it leaves this list. Then read Pattern Synthesis again.</div>" +
+      "Check these notes on the map: has their emotion or place changed? Edit a note, and it leaves this list. Then read Pattern Synthesis again.</div>" +
       ids
         .slice(0, 12)
         .map(function (id) {
@@ -958,9 +958,9 @@
     [/\b(?:high|higher|highest) ground\b/i, "HIGH GROUND", "On the map, emotion sets the height of the ground. Acceptance: the highest ground. Indifference: a ridge. Distrust: low ground. Aggression: lower ground. Defiance: the lowest ground."],
     [/\b(?:low|lower|lowest) ground\b/i, "LOW GROUND", "On the map, emotion sets the height of the ground. Acceptance: the highest ground. Indifference: a ridge. Distrust: low ground. Aggression: lower ground. Defiance: the lowest ground."],
     [/\bstrateg(?:y|ies)\b/i, "STRATEGY", "A strategy is held loosely and revised as people respond."],
-    [/\bprograms?\b/i, "PROGRAM", "A program runs to completion."],
-    [/\bemotions first\b/i, "EMOTIONS FIRST", "Emotions first suits acceptance and indifference: connect people to acceptance, or something close to it, then tie that acceptance to what needs doing (Vigneaux, 2026)."],
-    [/\bbehaviors first\b/i, "BEHAVIORS FIRST", "Behaviors first suits aggression, distrust and defiance: introduce the behavior itself, without its label, in a form that fits the emotions already there, and let a small shift in emotion follow over time (Vigneaux, 2026)."],
+    [/\bprograms?\b/i, "PROGRAM", "A program runs linearly and possibly repetitively to completion."],
+    [/\bemotions[- ]first\b/i, "EMOTIONS FIRST", "Emotions first suits acceptance and indifference: connect people to acceptance, or something close to it, then tie that acceptance to what needs doing (Vigneaux, 2026)."],
+    [/\bbehaviors first\b/i, "BEHAVIORS FIRST", "Behaviors first suits aggression, distrust, and defiance: introduce the behavior itself, without its label, in a form that fits the emotions already there, and let a small shift in emotion follow over time. The result is more important than the dominant emotion that produces it (Vigneaux, 2026)."],
   ];
   var GSMGLSKIP = "a,button,textarea,input,select,option,label,summary,svg,script,style,h1,h2,h3,h4,.gsg,.glance,.csl,.plab,.rl,.wh,.cqm,.mode,.stage,.grel,.grleg,.legbox,.bar,.gtrb,.tip,.part,.lnk,.morebtn,[data-ref],[data-hid]";
   function gsmGloss() {
@@ -1955,7 +1955,7 @@
         var t;
         ((a.innerHTML =
           (C.p.m.length
-            ? '<div class="nhead"><b>PLACE NOTES</b> N1, N2 and so on are notes pinned to the place map, numbered in the order they were added.</div><div class="mhelp">Fill out as much detail as you can. Emotion colors the note on the map. Source says how you know it. Voice says whose view it carries. Patterns use these to show what the visualizations rest on and indicate whose voice is missing, and those which may be dominant.</div>'
+            ? '<div class="nhead"><b>PLACE NOTES</b> N1, N2, and so on are notes pinned to the place map, numbered in the order they were added.</div><div class="mhelp">Fill out as much detail as you can. Emotion colors the note on the map. Source says how you know it. Voice says whose view it carries. Patterns use these to show what the visualizations rest on and indicate whose voice is missing, and those which may be dominant.</div>'
             : "") +
           C.p.m
             .map(function (t, n) {
@@ -3662,7 +3662,7 @@
                                 K(
                                   C.p.m,
                                   "P",
-                                  "N1, N2 and so on are place notes: notes pinned to a spot or an area on the place map, numbered in the order they were added. Location gives the latitude and longitude of the spot, or the middle of the area.",
+                                  "N1, N2, and so on are place notes: notes pinned to a spot or an area on the place map, numbered in the order they were added. Location gives the latitude and longitude of the spot, or the middle of the area.",
                                 ),
                               C.m.length &&
                                 K(
@@ -4555,10 +4555,10 @@
                 return t.id;
               }),
               l =
-                uo(t.ws, 3).replace(/, ([^,]*)$/, " and $1") +
+                uo(t.ws, 3).replace(/, ([^,]*)$/, function (m, p, o, w) { return (w.split(", ").length > 2 ? ", and " : " and ") + p; }) +
                 " are used together in " +
                 a.slice(0, 5).join(", ") +
-                (a.length > 5 ? " and " + (a.length - 5) + " more" : "") +
+                (a.length > 5 ? ", and " + (a.length - 5) + " more" : "") +
                 ". ";
             ((l +=
               n && o
@@ -4573,7 +4573,7 @@
                 : r &&
                   !i &&
                   (s[4] || s[5] || s[6]) &&
-                  (l += " They are not yet in what needs to be designed, redesigned or reinforced."),
+                  (l += " They are not yet in what needs to be designed, redesigned, or reinforced."),
               b.push(["RUNS TOGETHER", l, 0, 9]));
           }),
           d && (!s[0] || !s[3]))
@@ -4651,7 +4651,7 @@
               "STANDS ALONE",
               M.join(", ") +
                 (M.length > 1 ? " share" : " shares") +
-                " no words with any other answer, note or the goal.",
+                " no words with any other answer, note, or the goal.",
               0,
               5,
             ]));
@@ -4983,7 +4983,7 @@
               [
                 "region",
                 "county counties region regional regions valley watershed metro city cities town towns village villages state states province provinces statewide",
-                "town, county, state or province",
+                "town, county, state, or province",
               ],
               [
                 "state or national",
@@ -5055,7 +5055,7 @@
             return s.l.length === mx;
           })[0];
           return (
-            '<div class="plab">SCALE</div><div class="mean"><p>Places in your goal, answers and notes that use a word at each scale: ' +
+            '<div class="plab">SCALE</div><div class="mean"><p>Places in your goal, answers, and notes that use a word at each scale: ' +
             L.map(function (s) {
               return s.k + " " + s.l.length;
             }).join(", ") +
@@ -5319,10 +5319,10 @@
             return u.lab + " " + qt(u.tx);
           });
           window.gsmNR.h =
-            (L5.length > 1 ? L5.slice(0, -1).join(", ") + " and " + L5[L5.length - 1] : L5[0]) +
+            (L5.length > 1 ? L5.slice(0, -1).join(", ") + (L5.length > 2 ? ", and " : " and ") + L5[L5.length - 1] : L5[0]) +
             (U.length > 4 ? " and " + (U.length - 4) + " more" : "") +
             (U.length > 1 ? " hinder" : " hinders") +
-            " the goal, and nothing in Q.5–Q.7 or in your design, redesign and reinforce notes responds to " +
+            " the goal, and nothing in Q.5–Q.7 or in your design, redesign, and reinforce notes responds to " +
             (U.length > 1 ? "them" : "it") +
             " yet.";
         })();
@@ -5361,7 +5361,7 @@
             g1 +
             " of " +
             n1 +
-            " notes the emotion and the side of the line say the same thing: acceptance sits above the line, where things help, and aggression, distrust or defiance below it, where things hinder. Marking one already tells you the other.</p>" +
+            " notes the emotion and the side of the line say the same thing: acceptance sits above the line, where things help, and aggression, distrust, or defiance below it, where things hinder. Marking one already tells you the other.</p>" +
             (X1.length
               ? '<div class="csl">' +
                 (X1.length > 1 ? X1.length + " THAT DIFFER" : "ONE THAT DIFFERS") +
@@ -5471,7 +5471,7 @@
               }, []),
             });
           function jn(a) {
-            return a.length > 1 ? a.slice(0, -1).join(", ") + " and " + a[a.length - 1] : a[0];
+            return a.length > 1 ? a.slice(0, -1).join(", ") + (a.length > 2 ? ", and " : " and ") + a[a.length - 1] : a[0];
           }
           var h = '<div class="plab">IN YOUR ANSWERS, NOT ON THE MAP</div><div class="mean">';
           if (SH.length) {
@@ -5958,7 +5958,7 @@
               "THREAD",
               uo(w) +
                 ho(w, " runs", " run") +
-                " from why it has not taken root (Q.1), through the conditions needed (Q.4), to what needs to be designed, redesigned or reinforced (Q.5–Q.7).",
+                " from why it has not taken root (Q.1), through the conditions needed (Q.4), to what needs to be designed, redesigned, or reinforced (Q.5–Q.7).",
               0,
               8,
             ]),
@@ -5992,7 +5992,7 @@
                 "CONDITION NOT IN Q.5–Q.7",
                 uo(w) +
                   ho(w, " is a condition", " are conditions") +
-                  " to establish (Q.4) that came up elsewhere too, but not yet in what needs to be designed, redesigned or reinforced (Q.5–Q.7) or the map.",
+                  " to establish (Q.4) that came up elsewhere too, but not yet in what needs to be designed, redesigned, or reinforced (Q.5–Q.7) or the map.",
                 0,
                 7,
               ]),
@@ -6402,8 +6402,8 @@
                   return l(t) + " (" + g[t] + ")";
                 })
                 .join(", ") +
-                (v.length > 4 ? " and " + (v.length - 4) + " more" : "") +
-                " come back in your goal, answers and notes.",
+                (v.length > 4 ? ", and " + (v.length - 4) + " more" : "") +
+                " come back in your goal, answers, and notes.",
               v,
               null,
             );
@@ -6450,7 +6450,7 @@
             c(
               "SAID, BUT NOT ANSWERED",
               b.slice(0, 4).map(l).join(", ") +
-                (b.length > 4 ? " and " + (b.length - 4) + " more" : "") +
+                (b.length > 4 ? ", and " + (b.length - 4) + " more" : "") +
                 (b.length > 1 ? " are" : " is") +
                 " in Q.1–Q.4 but not in Q.5–Q.7.",
               b,
@@ -6558,7 +6558,7 @@
                 var t = r.slice(0, 4).map(function (x) {
                   return "<b>" + Gt(jt(x.b)) + "</b> (" + x.n + ")";
                 });
-                return t.length > 1 ? t.slice(0, -1).join(", ") + " and " + t[t.length - 1] : t[0];
+                return t.length > 1 ? t.slice(0, -1).join(", ") + (t.length > 2 ? ", and " : " and ") + t[t.length - 1] : t[0];
               },
               hp = say(1),
               hn = say(-1),
@@ -6591,7 +6591,7 @@
               RK = [3, 0, 2, 1, 4],
               parts = [],
               lst = function (a) {
-                return a.length > 1 ? a.slice(0, -1).join(", ") + " and " + a[a.length - 1] : a[0] || "";
+                return a.length > 1 ? a.slice(0, -1).join(", ") + (a.length > 2 ? ", and " : " and ") + a[a.length - 1] : a[0] || "";
               };
             Object.keys(window.gsmMED || {})
               .sort(function (x, y) {
@@ -6705,7 +6705,7 @@
                   parts.length +
                   ")</summary>" +
                   parts.join("") +
-                  '<p style="color:#666;font-size:13px">Language brings forth the world it speaks of (Winograd &amp; Flores, 1986). Nothing here rewrites your words.</p></details>',
+                  '<p style="color:#666;font-size:13px">Language brings forth the world it speaks of (Winograd &amp; Flores, 1986, p. 174). Nothing here rewrites your words.</p></details>',
                 [],
                 null,
               );
@@ -6773,7 +6773,7 @@
                   same = a.every(function (t) {
                     return I[t].length === I[a[0]].length;
                   }),
-                  nm = b.length > 1 ? b.slice(0, -1).join(", ") + " and " + b[b.length - 1] : b[0],
+                  nm = b.length > 1 ? b.slice(0, -1).join(", ") + (b.length > 2 ? ", and " : " and ") + b[b.length - 1] : b[0],
                   ex =
                     M.length > 3
                       ? " " +
@@ -6875,7 +6875,7 @@
               c(
                 "RESTING ON WHAT WAS SAID",
                 G.slice(0, 4).map(l).join(", ") +
-                  (G.length > 4 ? " and " + (G.length - 4) + " more" : "") +
+                  (G.length > 4 ? ", and " + (G.length - 4) + " more" : "") +
                   (G.length > 1 ? " come" : " comes") +
                   " only from what someone said or what you assumed, with nothing seen firsthand or on record behind " +
                   (G.length > 1 ? "them" : "it") +
@@ -6901,7 +6901,7 @@
               c(
                 "HEARD FROM ONE PERSON ONLY",
                 U.slice(0, 4).map(l).join(", ") +
-                  (U.length > 4 ? " and " + (U.length - 4) + " more" : "") +
+                  (U.length > 4 ? ", and " + (U.length - 4) + " more" : "") +
                   (U.length > 1 ? " are" : " is") +
                   " used by one voice and no other. Nobody else has said " +
                   (U.length > 1 ? "them" : "it") +
@@ -6932,7 +6932,7 @@
                     return l(t) + " (" + P[z[t]] + ")";
                   })
                   .join(", ") +
-                  (Y.length > 3 ? " and " + (Y.length - 3) + " more" : "") +
+                  (Y.length > 3 ? ", and " + (Y.length - 3) + " more" : "") +
                   (Y.length > 1 ? " carry" : " carries") +
                   " the same emotion everywhere " +
                   (Y.length > 1 ? "they appear" : "it appears") +
@@ -6964,14 +6964,14 @@
                 "ONE SIDE OF THE LINE ONLY",
                 (V.length
                   ? V.slice(0, 3).map(l).join(", ") +
-                    (V.length > 3 ? " and " + (V.length - 3) + " more" : "") +
+                    (V.length > 3 ? ", and " + (V.length - 3) + " more" : "") +
                     (V.length > 1 ? " sit" : " sits") +
                     " only above the line"
                   : "") +
                   (V.length && _.length ? "; " : "") +
                   (_.length
                     ? _.slice(0, 3).map(l).join(", ") +
-                      (_.length > 3 ? " and " + (_.length - 3) + " more" : "") +
+                      (_.length > 3 ? ", and " + (_.length - 3) + " more" : "") +
                       (_.length > 1 ? " sit" : " sits") +
                       " only below it"
                     : "") +
@@ -7324,8 +7324,8 @@
           rt = {
             unanswered: [
               "Not in Q.5–Q.7 yet",
-              "You name them as part of why the goal has not taken root (Q.1), as opposition (Q.2) or as conditions (Q.4), but nothing you would design, redesign or reinforce (Q.5–Q.7) deals with them yet. Left alone, they keep holding the goal back as they do now. For each one, ask what would have to be designed, redesigned or reinforced so it no longer stands in the way, and add that to Q.5–Q.7 or as a note.",
-              "You name it as part of why the goal has not taken root (Q.1), as opposition (Q.2) or as a condition (Q.4), but nothing you would design, redesign or reinforce (Q.5–Q.7) deals with it yet. Left alone, it keeps holding the goal back as it does now. Ask what would have to be designed, redesigned or reinforced so it no longer stands in the way, and add that to Q.5–Q.7 or as a note.",
+              "You name them as part of why the goal has not taken root (Q.1), as opposition (Q.2), or as conditions (Q.4), but nothing you would design, redesign, or reinforce (Q.5–Q.7) deals with them yet. Left alone, they keep holding the goal back as they do now. For each one, ask what would have to be designed, redesigned, or reinforced so it no longer stands in the way, and add that to Q.5–Q.7 or as a note.",
+              "You name it as part of why the goal has not taken root (Q.1), as opposition (Q.2), or as a condition (Q.4), but nothing you would design, redesign, or reinforce (Q.5–Q.7) deals with it yet. Left alone, it keeps holding the goal back as it does now. Ask what would have to be designed, redesigned, or reinforced so it no longer stands in the way, and add that to Q.5–Q.7 or as a note.",
             ],
             contested: [
               "For and against",
@@ -7349,8 +7349,8 @@
             ],
             plan: [
               "Q.5–Q.7 only",
-              "They appear only in what you would design, redesign or reinforce (Q.5–Q.7). Nothing in Q.1–Q.4 says what problem they solve or what condition they meet. An action with no reason written behind it is hard to defend and easy to drop: for each, write down the cause, opposition or condition it answers, in Q.1–Q.4 or as a note.",
-              "It appears only in what you would design, redesign or reinforce (Q.5–Q.7). Nothing in Q.1–Q.4 says what problem it solves or what condition it meets. An action with no reason written behind it is hard to defend and easy to drop: write down the cause, opposition or condition it answers, in Q.1–Q.4 or as a note.",
+              "They appear only in what you would design, redesign, or reinforce (Q.5–Q.7). Nothing in Q.1–Q.4 says what problem they solve or what condition they meet. An action with no reason written behind it is hard to defend and easy to drop: for each, write down the cause, opposition, or condition it answers, in Q.1–Q.4 or as a note.",
+              "It appears only in what you would design, redesign, or reinforce (Q.5–Q.7). Nothing in Q.1–Q.4 says what problem it solves or what condition it meets. An action with no reason written behind it is hard to defend and easy to drop: write down the cause, opposition, or condition it answers, in Q.1–Q.4 or as a note.",
             ],
             strength: [
               "Areas to reinforce",
@@ -7418,7 +7418,7 @@
                       return Gt(jt(t));
                     })
                     .join(", ") +
-                  (e.length > 4 ? " and " + (e.length - 4) + " more" : "") +
+                  (e.length > 4 ? ", and " + (e.length - 4) + " more" : "") +
                   ". " +
                   (e.length > 1 ? rt[t][1] : rt[t][2]) +
                   "</p>"));
@@ -7497,10 +7497,10 @@
           var mt = gt[0] + gt[4];
           mt && mt >= gt[1]
             ? (lt +=
-                "<p>Aggression and defiance are as strong as acceptance, or stronger. Vigneaux (2026) describes two ways of working with emotion. <b>Emotions first</b> suits acceptance and indifference: connect people to acceptance, or something close to it, then tie that acceptance to what needs doing. <b>Behaviors first</b> suits aggression, distrust and defiance: introduce the behavior itself, without its label, in a form that fits the emotions already there, and let a small shift in emotion follow over time. Here, behaviors first may fit.</p>")
+                "<p>Aggression and defiance are as strong as acceptance, or stronger. Vigneaux (2026) describes two ways of working with emotion. <b>Emotions first</b> suits acceptance and indifference: connect people to acceptance, or something close to it, then tie that acceptance to what needs doing. <b>Behaviors first</b> suits aggression, distrust, and defiance: introduce the behavior itself, without its label, in a form that fits the emotions already there, and let a small shift in emotion follow over time. Here, behaviors first may fit.</p>")
             : gt[1] > mt &&
               (lt +=
-                "<p>Acceptance is the strongest emotion in your notes. Vigneaux (2026) calls this ground ready for <b>emotions first</b>: connect people to the acceptance already there, then tie it to what needs doing to reach the goal. (The other way, <b>behaviors first</b>, suits aggression, distrust and defiance: introduce the behavior itself, without its label, and let the emotion shift after it.)</p>");
+                "<p>Acceptance is the strongest emotion in your notes. Vigneaux (2026) calls this ground ready for an <b>emotions-first</b> method: connect people to the acceptance already there, then tie it to what needs doing to reach the goal. (The other way, <b>behaviors first</b>, suits aggression, distrust, and defiance: introduce the behavior itself, without its label, and let the emotion shift after it.)</p>");
           var vt = ft.filter(function (t) {
             return (
               (2 === t.k && 1 === t.e) || ((3 === t.k || 7 === t.k || 1 === t.k) && (0 === t.e || 4 === t.e))
@@ -7908,7 +7908,7 @@
                     Pe +
                     "% of the writing is in Q.1–Q.4 (why, who, conditions); " +
                     (100 - Pe) +
-                    "% is in what to design, redesign or reinforce. The problem is better described than the response.",
+                    "% is in what to design, redesign, or reinforce. The problem is better described than the response.",
                 )
               : Pe <= 35
                 ? Fe.push(
@@ -8360,7 +8360,7 @@
                   (wn.moved.length > 1 ? "s" : "") +
                   " in the figures:</b> " +
                   wn.moved.slice(0, 10).map(Gt).join(", ") +
-                  (wn.moved.length > 10 ? " and " + (wn.moved.length - 10) + " more" : "") +
+                  (wn.moved.length > 10 ? ", and " + (wn.moved.length - 10) + " more" : "") +
                   ". The patterns follow the dots.",
               ),
             wn.hid &&
@@ -8404,7 +8404,7 @@
                     return Gt(t.lab);
                   })
                   .join(", ") +
-                (bn.length > 8 ? " and " + (bn.length - 8) + " more" : "") +
+                (bn.length > 8 ? ", and " + (bn.length - 8) + " more" : "") +
                 ")" +
                 (bn.length - xn.length
                   ? "; " + (bn.length - xn.length) + " already tied in by your links"
@@ -8413,7 +8413,7 @@
             ),
             gn.length &&
               (ye +=
-                '<div class="plab">WHAT YOU LINKED</div><div class="msub">Links you drew between notes, answers and the goal on Mapping Landscape (open a note and use + Link). They sit beside the threads the words make, and they can join things the words never would.</div><ul class="metal">' +
+                '<div class="plab">WHAT YOU LINKED</div><div class="msub">Links you drew between notes, answers, and the goal on Mapping Landscape (open a note and use + Link). They sit beside the threads the words make, and they can join things the words never would.</div><ul class="metal">' +
                 gn
                   .map(function (t) {
                     return "<li>" + t + "</li>";
@@ -8869,9 +8869,9 @@
                       '</div><div class="csn">' +
                       n +
                       (e.length > 6
-                        ? r.join(", ") + " and " + (e.length - 6) + " more"
+                        ? r.join(", ") + ", and " + (e.length - 6) + " more"
                         : r.length > 1
-                          ? r.slice(0, -1).join(", ") + " and " + r[r.length - 1]
+                          ? r.slice(0, -1).join(", ") + (r.length > 2 ? ", and " : " and ") + r[r.length - 1]
                           : r[0]) +
                       o +
                       "</div></div>"
@@ -8901,7 +8901,7 @@
                   Wn("WHAT YOU SAID TO DO ABOUT IT", "", a) +
                   Gn(
                     "KNOWING WHEN IT IS DONE",
-                    "A program runs to completion. Decide now what finished looks like, and who says so. Nothing in your workbook records that yet.",
+                    "A program runs linearly and possibly repetitively to completion. Decide now what finished looks like, and who says so. Nothing in your workbook records that yet.",
                   ),
               u = (c.match(/class="cq"/g) || []).length + (c.match(/class="csl"/g) || []).length;
             l += (function (items) {
@@ -9497,7 +9497,7 @@
                           ' notes (<span class="wh">' +
                           a.slice(0, 3).join(", ") +
                           "</span>" +
-                          (a.length > 3 ? " and " + (a.length - 3) + " more" : "") +
+                          (a.length > 3 ? ", and " + (a.length - 3) + " more" : "") +
                           "). They may be one course of action rather than two.";
                       r[c] || ((r[c] = 1), (r["pair:" + i.w + "|" + t.w] = 1), o.push(c));
                     }
@@ -9564,7 +9564,7 @@
               "<b>" +
                 eo.slice(0, 5).join(", ") +
                 "</b>" +
-                (eo.length > 5 ? " and " + (eo.length - 5) + " more" : "") +
+                (eo.length > 5 ? ", and " + (eo.length - 5) + " more" : "") +
                 (eo.length > 1 ? " have" : " has") +
                 " no emotion yet. How do people feel about " +
                 (eo.length > 1 ? "them" : "it") +
@@ -9590,7 +9590,7 @@
               "<b>" +
                 no.slice(0, 5).join(", ") +
                 "</b>" +
-                (no.length > 5 ? " and " + (no.length - 5) + " more" : "") +
+                (no.length > 5 ? ", and " + (no.length - 5) + " more" : "") +
                 (no.length > 1 ? " rest" : " rests") +
                 " on hearsay or an assumption. What would confirm " +
                 (no.length > 1 ? "them" : "it") +
@@ -9615,7 +9615,7 @@
                   })
                   .join(", ") +
                 "</b>" +
-                (oo.length > 5 ? " and " + (oo.length - 5) + " more" : "") +
+                (oo.length > 5 ? ", and " + (oo.length - 5) + " more" : "") +
                 (oo.length > 1 ? " share" : " shares") +
                 " no thread with anything else. Where do " +
                 (oo.length > 1 ? "they" : "it") +
@@ -9626,7 +9626,7 @@
             Jt.length >= 3 &&
               !ue.length &&
               Zn.push(
-                "No links yet. Pick a note and link it to an answer, another note or the goal: does it support, contradict or reinforce it?",
+                "No links yet. Pick a note and link it to an answer, another note, or the goal: does it support, contradict, or reinforce it?",
               ),
             ue
               .filter(function (t) {
@@ -9667,7 +9667,7 @@
             In || Zn.length
               ? '<div class="part">4 · COURSES OF ACTION<span>Suggested, area by area: a program where the ground is settled, a strategy where it is not.</span></div><div class="pnote"><b>Prompts, not findings.</b> Each card is built from a template and the words you used. Talk them through with the people involved, and change or drop any that do not fit.</div><div class="meta">Programs work best in contexts where you know what is going to happen, either because you have done it before or can strongly anticipate the outcome. Programs work best when executed in environments where there is order, meaning regularity and stability, and a line can be drawn from action to outcome. Set the sequence and let it run: schedule, roles, repeat.</div><div class="meta">Strategies work best in disorderly environments when you cannot foresee entirely what the outcome will be; there are several outcomes to choose from that are all probable. However, there is no way of knowing which is right before acting. Strategies work best when you cannot draw a straight line from action to outcome, as they enable you to keep a loose structure ideal for ill-defined situations where constant revisions to courses of action are necessary. Hold it loosely: sketch two or three ways forward, start small, and change course as people respond.</div><div class="msub">Sources:</div><div class="msub">Axelrod, R., &amp; Cohen, M. D. (2000). <i>Harnessing complexity: Organizational implications of a scientific frontier</i>. New York, NY: Basic Books.</div><div class="msub">Kurtz, C. F., &amp; Snowden, D. J. (2003). The new dynamics of strategy: Sense-making in a complex and complicated world. <i>IBM Systems Journal, 42</i>(3), 462-483.</div><div class="msub">Morin, E. (2008). <i>On complexity</i>. (R. Postel, Trans.). Cresskill, NJ: Hampton Press.</div><div class="msub">Morin, E., &amp; Kern, A. B. (1999). <i>Homeland earth: A manifesto for the new millennium</i>. (S. M. Kelly, &amp; R. LaPointe, Trans.) Cresskill, NJ: Hampton Press.</div><div class="msub">Waldrop, M. M. (1992). <i>Complexity: The emerging science at the edge of order and chaos</i>. New York, NY: Touchstone.</div>' +
                 (ESM && ESM.used
-                  ? '<details class="fold"><summary>HOW TO READ THIS PAGE</summary><div class="mtext"><p>Each card lists the reasons it calls for a strategy rather than a program. Two of those reasons are the emotion you marked on a note and which side of the line you put it on. In this workbook they almost always match: notes marked acceptance sit above the line, where things help, and notes marked aggression, distrust or defiance sit below it, where things hinder. That is true of ' +
+                  ? '<details class="fold"><summary>HOW TO READ THIS PAGE</summary><div class="mtext"><p>Each card lists the reasons it calls for a strategy rather than a program. Two of those reasons are the emotion you marked on a note and which side of the line you put it on. In this workbook they almost always match: notes marked acceptance sit above the line, where things help, and notes marked aggression, distrust, or defiance sit below it, where things hinder. That is true of ' +
                     ESM.agree +
                     " of your " +
                     ESM.n +
@@ -9796,11 +9796,11 @@
                   )
                     return "";
                   var L = F.slice(0, 4).map(Gt),
-                    ls = L.length > 1 ? L.slice(0, -1).join(", ") + " and " + L[L.length - 1] : L[0];
+                    ls = L.length > 1 ? L.slice(0, -1).join(", ") + (L.length > 2 ? ", and " : " and ") + L[L.length - 1] : L[0];
                   return (
                     '<div class="rule"><div class="rl">GOAL NUMBERS NOT IN THE ACTIONS</div><div>Your goal sets ' +
                     ls +
-                    ", but nothing in Q.5–Q.7 or in your design, redesign and reinforce notes carries a number or a time yet.</div></div>"
+                    ", but nothing in Q.5–Q.7 or in your design, redesign, and reinforce notes carries a number or a time yet.</div></div>"
                   );
                 })() +
                 Qn +
@@ -10041,10 +10041,10 @@
                   return o.lab;
                 });
                 k = k || 6;
-                return a.length > k ? a.slice(0, k).join(", ") + " and " + (a.length - k) + " more" : and(a);
+                return a.length > k ? a.slice(0, k).join(", ") + ", and " + (a.length - k) + " more" : and(a);
               }
               function and(a) {
-                return a.length > 1 ? a.slice(0, -1).join(", ") + " and " + a[a.length - 1] : a[0] || "";
+                return a.length > 1 ? a.slice(0, -1).join(", ") + (a.length > 2 ? ", and " : " and ") + a[a.length - 1] : a[0] || "";
               }
               function q(L) {
                 return and(
@@ -10205,7 +10205,7 @@
                     q(FR.unused.slice(0, 3)) +
                     " " +
                     (FR.unused.length > 1 ? "are" : "is") +
-                    " support already at work that nothing you would design, redesign or reinforce draws on yet. Support that nothing opposes and nothing yet builds on is the least costly place to begin.");
+                    " support already at work that nothing you would design, redesign, or reinforce draws on yet. Support that nothing opposes and nothing yet builds on is the least costly place to begin.");
               } else if (OP.length)
                 s2 =
                   "No note yet names what is already working for the goal. Without it, every move has to start from nothing.";
@@ -10251,7 +10251,7 @@
                   ".";
                 un.length + an.length &&
                   (s4 +=
-                    " Of the words and phrases you use for causes, opposition and conditions, " +
+                    " Of the words and phrases you use for causes, opposition, and conditions, " +
                     an.length +
                     " also turn up in what you would do and " +
                     un.length +
@@ -10284,7 +10284,7 @@
                       }),
                     ) +
                       (U.length > 1 ? " hinder" : " hinders") +
-                      " the goal, and nothing in Q.5–Q.7 or in your design, redesign and reinforce notes responds to " +
+                      " the goal, and nothing in Q.5–Q.7 or in your design, redesign, and reinforce notes responds to " +
                       (U.length > 1 ? "them" : "it") +
                       " yet. Left as they are, these are where things push back first."
                   : "",
@@ -10465,7 +10465,7 @@
                         return "“" + jt(t) + "”";
                       });
                       return e.length > 1
-                        ? e.slice(0, -1).join(", ") + " and " + e[e.length - 1]
+                        ? e.slice(0, -1).join(", ") + (e.length > 2 ? ", and " : " and ") + e[e.length - 1]
                         : e[0] || "";
                     },
                     f = (l.unanswered || []).concat(l.condition || []),
@@ -10668,7 +10668,7 @@
                     },
                     F = function (t) {
                       return t.length > 1
-                        ? t.slice(0, -1).join(", ") + " and " + t[t.length - 1]
+                        ? t.slice(0, -1).join(", ") + (t.length > 2 ? ", and " : " and ") + t[t.length - 1]
                         : t[0] || "";
                     },
                     H = function (t, e) {
@@ -10906,7 +10906,7 @@
                           "A SIDE CONVERSATION",
                           "a side conversation",
                           e.slice(0, -1).join(", ") +
-                            " and " +
+                            (e.length > 2 ? ", and " : " and ") +
                             e[e.length - 1] +
                             " share words with each other and with nothing else. " +
                             (e.length > 2 ? "Notes" : "Two notes") +
@@ -11353,7 +11353,7 @@
                         });
                       },
                       li = function (a) {
-                        return a.length > 1 ? a.slice(0, -1).join(", ") + " and " + a[a.length - 1] : a[0];
+                        return a.length > 1 ? a.slice(0, -1).join(", ") + (a.length > 2 ? ", and " : " and ") + a[a.length - 1] : a[0];
                       },
                       ea = q4(function (p) { return p.d < 0.5 && p.any >= 0.5; }),
                       eh = q4(function (p) { return p.d < 0.5 && p.any < 0.5; }),
@@ -11565,7 +11565,7 @@
                       var U = ((window.gsmFR && window.gsmFR.it) || {}).unanswered || [];
                       return U.length
                         ? U.length +
-                            " words and phrases you use for what stands in the way have nothing designed, redesigned or reinforced for them yet. The first is “" +
+                            " words and phrases you use for what stands in the way have nothing designed, redesigned, or reinforced for them yet. The first is “" +
                             jt(U[0]) +
                             "”" +
                             (U[1] ? ", then “" + jt(U[1]) + "”" : "") +
@@ -12908,7 +12908,7 @@
                 "§In Q.5–Q.7, not in Q.1–Q.4.§ " +
                   m(b) +
                   (b.length > 1 ? " show" : " shows") +
-                  " up in Q.5–Q.7, but not in any cause, opposition or condition you wrote. So the courses of action in Taking Action built on " +
+                  " up in Q.5–Q.7, but not in any cause, opposition, or condition you wrote. So the courses of action in Taking Action built on " +
                   (b.length > 1 ? "them" : "it") +
                   " would not yet say which cause " +
                   (b.length > 1 ? "they answer." : "it answers."),
@@ -13694,7 +13694,7 @@
           n.push(
             "<b>Dots moved in the figures:</b> " +
               e.moved.slice(0, 12).map(Gt).join(", ") +
-              (e.moved.length > 12 ? " and " + (e.moved.length - 12) + " more" : "") +
+              (e.moved.length > 12 ? ", and " + (e.moved.length - 12) + " more" : "") +
               ".",
           ),
         e.hid &&
@@ -15338,7 +15338,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v195");
+        t && (t.textContent = "v196");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -15900,7 +15900,7 @@
   var CSS =
       ".gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}.gterr .gfold summary{cursor:pointer;list-style:none}.gterr .gfold summary::-webkit-details-marker{display:none}.gterr .gfold summary::before{content:\"+ \";font-weight:700}.gterr .gfold[open] summary::before{content:\"\u2212 \"}.gterr .gfold .sec{display:inline;margin:0}.gterr .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}.gterr .more{color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}.gterr .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}.gterr .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}.gterr .stage.full .fsx{display:block}.gterr .stage:fullscreen .fsx{display:block}.gterr .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}#gsm .rd[data-way]{cursor:default;transition:background .15s}#gsm .rd.gtwon{background:#f1f0ea;box-shadow:inset 3px 0 0 #111}#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 2vw 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .selbox,#gsm .coa.gtfs-on .csn,#gsm .coa.gtfs-on .coacall,#gsm .coa.gtfs-on .cq{max-width:960px}.gtrb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px;font:12px 'Questrial',sans-serif}.gtrb span{letter-spacing:.1em;color:#555;margin-right:2px}.gtrb button{background:#fff;color:#111;border:2px solid #111;border-radius:14px;padding:4px 11px;font:12.5px 'Questrial',sans-serif;cursor:pointer}.gtrb button.on{background:#111;color:#fff}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}",
     TPL =
-      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. Each number on the ground is explained here first; hover or tap a number on the map to read it there. Drag to turn the map; scroll or pinch to zoom.</div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold" open><summary><span class="sec" data-gt="phhead">PATTERNS THAT RUN THROUGH IT</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map above.</div>\n  <div data-gt="threads"></div></details>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <details class="gfold gthow"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Where notes carry voices, each voice counts about evenly: a voice with few notes is weighted up and one with many is weighted down (between 0.6 and 1.8 times), so a small voice is not flattened by a large one.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors soften toward each other where emotions meet. Where two distant emotions meet with no ridge of indifference between them, the ground breaks to a bare rock face: getting across is a climb, and most moves go through indifference instead. Plain grass, soil or rock with no color means no notes nearby, so no information there. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>',
+      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. Each number on the ground is explained here first; hover or tap a number on the map to read it there. Drag to turn the map; scroll or pinch to zoom.</div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold" open><summary><span class="sec" data-gt="phhead">PATTERNS THAT RUN THROUGH IT</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map above.</div>\n  <div data-gt="threads"></div></details>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <details class="gfold gthow"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Where notes carry voices, each voice counts about evenly: a voice with few notes is weighted up and one with many is weighted down (between 0.6 and 1.8 times), so a small voice is not flattened by a large one.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors soften toward each other where emotions meet. Where two distant emotions meet with no ridge of indifference between them, the ground breaks to a bare rock face: getting across is a climb, and most moves go through indifference instead. Plain grass, soil, or rock with no color means no notes nearby, so no information there. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>',
     TC = {},
     QU = [],
     QB = 0;
@@ -16965,8 +16965,8 @@
       return -1;
     }
     function list(a) {
-      if (a.length > 6) return a.slice(0, 5).join(", ") + " and " + (a.length - 5) + " more";
-      return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+      if (a.length > 6) return a.slice(0, 5).join(", ") + ", and " + (a.length - 5) + " more";
+      return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + (a.length > 2 ? ", and " : " and ") + a[a.length - 1];
     }
     var NEG =
       /\b(away from|not|no|without|instead of|against|stop\w*|less|reduc\w*|opposite of|rather than|end\w*|beyond|abandon\w*|move off)\s+(?:[a-z]+\s+){0,2}$/i;
@@ -18042,7 +18042,7 @@
             k: "",
             title: "When to stop and readjust",
             text:
-              "As soon as an action is taken it begins to escape your intentions, and the setting can turn it into its opposite (Morin, 2008, p. 55). So follow each way as it goes, and stop to readjust when: people you pass answer with more resistance than you expected" +
+              "“This is where the notion of the ecology of action intervenes. As soon as an individual takes an action, whatever that action may be, it begins to escape from his intentions. The action enters into the universe of interactions and, in the end, it is the environment that seizes it in the sense that it can become the opposite of the initial intention. Often the action will fly back at our heads like a boomerang. This obliges us to follow the action, to attempt to correct it – if there is still time – and sometimes to torpedo it like NASA engineers who, if a missile leaves its trajectory, send another missile to blow it up.” (Morin, 2008, p. 55). So follow each way as it goes, and stop to readjust when: people you pass answer with more resistance than you expected" +
               (watch.length ? " (watch " + list(watch.slice(0, 4)) + ": indifference can tip either way)" : "") +
               "; the way stalls in sunk ground" +
               (crossing.length === ROUTES.length ? ", as every way here risks doing" : crossing.length ? " (" + list(crossing.map(function (R) { return R.key; })) + " " + (crossing.length > 1 ? "pass" : "passes") + " a place where it is easy to get stuck)" : "") +
@@ -18055,10 +18055,10 @@
     function waysChart(box) {
       if (ROUTES.length < 2) return;
       var M = [
-          ["Effort", "effort", "The energy it takes: climbing, friction and rock faces together."],
+          ["Effort", "effort", "The energy it takes: climbing, friction, and rock faces together."],
           ["Friction", "fric", "How hard the emotional ground is to act on along the way: acceptance costs least, defiance most."],
           ["Rock faces", "rock", "Bare rock faces the way crosses, weighted by how far apart the two emotions are."],
-          ["Impact", "impact", "How many notes held in distrust, aggression or defiance it meets, and in how many emotions."],
+          ["Impact", "impact", "How many notes held in distrust, aggression, or defiance it meets, and in how many emotions."],
           ["Benefit", "benefit", "Notes of acceptance it passes, and indifference it can win over."],
           ["Return on effort", "roi", "Impact and benefit for the energy spent."],
         ],
@@ -19534,10 +19534,10 @@
         : "no single note stands out";
     }
     var DESC = {
-      emo: "Acceptance raises the ground, aggression, distrust and defiance sink it, indifference rolls. Flat where nothing is marked.",
+      emo: "Acceptance raises the ground, aggression, distrust, and defiance sink it, indifference rolls. Flat where nothing is marked.",
       down: "Same ground, but the whole map runs downhill to the goal, so the goal pulls like a valley. Sunk places on the way are where the process can settle short of it.",
       ridge:
-        "Turned around: aggression, distrust and defiance rise as walls in the way; acceptance cuts channels that carry you. The map still runs downhill to the goal.",
+        "Turned around: aggression, distrust, and defiance rise as walls in the way; acceptance cuts channels that carry you. The map still runs downhill to the goal.",
       grow: "Emotion ground built note by note, in the order the notes were made. Slide to watch it form.",
       above: "Emotion ground seen straight down, like a shaded relief map.",
     };
@@ -19976,7 +19976,7 @@
 
       row(
         '<svg width="30" height="14"><rect x="1" y="2" width="28" height="10" rx="2" fill="rgb(116,122,74)" stroke="#bbb"/></svg>',
-        "Plain grass, soil or rock, no color: no notes nearby, so no information here",
+        "Plain grass, soil, or rock, no color: no notes nearby, so no information here",
       );
       row(
         '<svg width="30" height="14"><text x="15" y="10" font-size="6.5" text-anchor="middle" font-family="sans-serif">PRESENT</text></svg>',
@@ -20537,7 +20537,7 @@
         var a = L.map(function (o) {
           return o.id;
         });
-        return a.length > 5 ? a.slice(0, 5).join(", ") + " and " + (a.length - 5) + " more" : a.length > 1 ? a.slice(0, -1).join(", ") + " and " + a[a.length - 1] : a[0] || "";
+        return a.length > 5 ? a.slice(0, 5).join(", ") + ", and " + (a.length - 5) + " more" : a.length > 1 ? a.slice(0, -1).join(", ") + (a.length > 2 ? ", and " : " and ") + a[a.length - 1] : a[0] || "";
       }
       function prof(L) {
         var c = [0, 0, 0, 0, 0],
@@ -20592,7 +20592,7 @@
             (t +=
               " " +
               p.hard +
-              " of these actions sit in distrust, aggression or defiance. An action placed in hard ground has to work with the emotion it lands in, not only toward the goal.");
+              " of these actions sit in distrust, aggression, or defiance. An action placed in hard ground has to work with the emotion it lands in, not only toward the goal.");
           2 === q &&
             p.up &&
             (t += " " + p.up + " of the opposition notes sit above the line: something you count as opposition is also placed where it helps. Worth a second look.");
@@ -20687,7 +20687,7 @@
                 var a = L.map(function (q) {
                   return "Q." + q + " (" + RL[q - 1] + ")";
                 });
-                return a.length > 1 ? a.slice(0, -1).join(", ") + " and " + a[a.length - 1] : a[0];
+                return a.length > 1 ? a.slice(0, -1).join(", ") + (a.length > 2 ? ", and " : " and ") + a[a.length - 1] : a[0];
               },
               low = 1 === r.grp,
               high = 0 === r.grp,

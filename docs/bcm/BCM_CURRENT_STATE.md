@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 4 · 2026-11-17 · Preview at **v195** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 5 · 2026-11-17 · Preview at **v196** · Basis: 11-17 review, export 2026-11-13, repo
 
 ## Shipped
+- **v196** (2026-11-17, preview): his wording review of v171–v195 applied; serial comma everywhere. Action grid redesign (row 30) and rows 34–35 open. See `docs/v196_update.md`.
 - **v195** (2026-11-17, preview): F7, WORDS THAT MAKE THE WORLD on Pattern Analysis (bare saturated words; other voices tested as perturbations). D10 answered yes. See `docs/v195_update.md`.
 - **v194** (2026-11-17, preview): F4 reflexive loop, WHAT YOU DID on cards flags Q.1–Q.4 notes; SINCE YOU ACTED on Mapping Landscape. See `docs/v194_update.md`.
 - **v193** (2026-11-17, preview): F6 hysteresis, emotion history per note (eh); held opposition costs more to cross. See `docs/v193_update.md`.
