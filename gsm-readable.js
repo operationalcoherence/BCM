@@ -9901,7 +9901,7 @@
                   });
                   nb.length && G.push({ g: g, nb: nb });
                 });
-                return G.slice(0, 2)
+                return G.slice(0, 3)
                   .map(function (Q0) {
                     var ids = Q0.g.map(idf),
                       nbi = Q0.nb.map(idf).slice(0, 3),
@@ -9912,7 +9912,7 @@
                       S = null == OV ? 1 : OV,
                       mv = [
                         "Start from the acceptance around it (" + phList(nbi) + "): ask the people there what they see in " + phList(ids) + ".",
-                        "Find out what the " + em + " in " + phList(ids) + " answers before you act on it.",
+                        "Find out what the " + em + " in " + phList(ids) + " is aimed at, and whom it reaches, before you act on it.",
                         "Bring something to do that fits what people there already value, not an argument, and keep it small.",
                         "Watch whether the acceptance around it holds.",
                       ];
@@ -9930,9 +9930,15 @@
                           return "“" + open(x) + "” (" + idf(x) + ")";
                         })
                         .join("; ") +
-                      ". It stands in the goal’s way inside ground that otherwise helps it. Turning it keeps the acceptance around it (" +
+                      ". You placed " +
+                      (ids.length > 1 ? "them" : "it") +
+                      " where things help the goal. Keep " +
+                      (ids.length > 1 ? "them" : "it") +
+                      " working for the goal without letting the " +
+                      em +
+                      " spread into the acceptance around it (" +
                       phList(nbi) +
-                      ") working for the goal.</div><div class=\"why\">Why: " +
+                      ").</div><div class=\"why\">Why: " +
                       em +
                       " on the side of the line where things help, among acceptance (" +
                       phList(nbi) +
@@ -9942,7 +9948,7 @@
                       "</b>, because " +
                       (null != OV
                         ? "you set it as one."
-                        : "going from acceptance into " + em + " is a high-risk move: " + WHY[e0] + " (Vigneaux, 2026).") +
+                        : "acceptance and " + em + " side by side is a high-risk mix, whatever the " + em + " is aimed at: " + WHY[e0] + " (Vigneaux, 2026).") +
                       gsmModeBtn(key, S) +
                       "</div>" +
                       Un(S, mv, Q0.nb, [], [], Q0.g, [], Q0.g.concat(Q0.nb)) +
@@ -16016,7 +16022,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v203");
+        t && (t.textContent = "v204");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -19663,8 +19669,8 @@
       t.push((st.acc || []).length ? "it runs through acceptance at " + N(st.acc) : "it passes no acceptance");
       (st.ind || []).length && t.push("through the indifference at " + N(st.ind) + " (win it over before it tips the other way)");
       (st.hard || []).length
-        ? t.push("and meets what resists the goal at " + N(st.hard) + " (bring something to do, not an argument)")
-        : t.push("and goes around what resists the goal, which stays as it is");
+        ? t.push("and meets aggression, distrust, or defiance at " + N(st.hard) + " (bring something to do, not an argument)")
+        : t.push("and goes around the aggression, distrust, and defiance, which stay as they are");
       var d = document.createElement("div");
       d.className = "fmway";
       d.style.borderLeftColor = "B" === R.key ? "#111" : (RCOL && RCOL[R.key]) || "#111";

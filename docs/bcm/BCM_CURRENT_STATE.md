@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 11 · 2026-11-18 · Preview at **v203** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 12 · 2026-11-18 · Preview at **v204** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v204** (2026-11-18, preview): read against his 11-18 workbook. Ground cards don't decide what the emotion is aimed at; the FIRST MOVES way line names the emotions; up to three ground cards (N35 gets one). See `docs/v204_update.md`.
 - **v203** (2026-11-18, preview): FIRST MOVES follows the selected way (a line per way under FIRST MOVES). E9 done the other way round: the words follow the way, because making way A follow FIRST MOVES made ways far longer (measured, see the doc). Phase 1 of the review plan is done. See `docs/v203_update.md`. Next: Phase 2 (reordering Analysis, Synthesis, and Taking Action; constraint fields that go somewhere; In Parallel's agreement figure).
 - **v202** (2026-11-18, preview): P3 first half. Acceptance into aggression, distrust, or defiance makes a strategy; a saved manual switch on every card; cards from the ground for hostile emotion among acceptance on the help side; up to four strategies. See `docs/v202_update.md`. Next: v203, FIRST MOVES follows the selected way and way A follows FIRST MOVES.
 - **v201** (2026-11-18, preview): P1 second half, Analysis and Synthesis. WHAT YOU WOULD DO without causes or counts; findings named by repeated phrases with their notes; no single-word themes; 3l counts Q.5–Q.7 notes as planning; ONE WORD, SEVERAL MEANINGS opens each meaning into sentences and lists the actions around the word. See `docs/v201_update.md`. Next: P3, cards from the ground (v202).

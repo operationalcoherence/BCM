@@ -1,6 +1,6 @@
 # BCM_HANDOFF.md
 
-2026-11-18 · Preview at v203 (v197–v203 pushed 11-18); Phase 1 of the review plan done · /gsmlive is defunct (his word, 11-17); the BCM page is operationalcoherence.com/bcm · His v196 review (11-18) is analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook): that plan is the work queue.
+2026-11-18 · Preview at v204 (v197–v204 pushed 11-18); Phase 1 of the review plan done · /gsmlive is defunct (his word, 11-17); the BCM page is operationalcoherence.com/bcm · His v196 review (11-18) is analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook): that plan is the work queue.
 
 First thing next session
 1. Attach operationalcoherence/BCM with push. If refused, tell him plainly and stop; don't work around it. (A read-only clone of the public repo is fine for checking code.)
@@ -15,7 +15,7 @@ tests/matrix.py on his workbooks plus mkwb.py's synthetic ones (always the clini
 with the 3D loaded: tests/relief_text.py "str1|str2" wb.json … It takes about a minute per workbook. Matrix blocks the 3D and can't see card failures (v174 lesson).
 To look at the 3D, screenshot it with Playwright and swiftshader (--use-angle=swiftshader --enable-unsafe-swiftshader). Cards mount only when scrolled into view, and park when scrolled away.
 grep -c 'AAPK\|AIza' = 0.
-His workbooks: workbooks/bear-canyon-workbook-2026-11-13.json (line map, 31 notes) and workbooks/bear-canyon-workbook-2026-11-05.json (Broadview, place map, 14 notes) in the Claude project. Read them with the project tool, don't ask him. Test every version on BOTH (11-13 first).
+His workbooks: workbooks/bear-canyon-workbook-2026-11-18.json (line map, 35 notes; newest, test it first; N32–N35 are aggression he placed on the help side on purpose), workbooks/bear-canyon-workbook-2026-11-13.json (line map, 31 notes) and workbooks/bear-canyon-workbook-2026-11-05.json (Broadview, place map, 14 notes) in the Claude project. Read them with the project tool, don't ask him. Test every version on all three (11-18 first).
 Esri and AWS tiles can't be reached from the sandbox. Test with stand-in tiles, and ask him to check the real ones on the preview.
 Project memory: docs/bcm/ in the repo (ARCHITECTURE, CURRENT_STATE, TASK_QUEUE, CONCEPT_REGISTRY, this file). The Claude project holds workbooks/, a private archive/ (18 design notes that quote his workbook), claude/layers_tracker.md, claude/README.md, claude/v196_review_plan.md, claude/emotion_definitions_draft.md (approved quotes) and papers/Vigneaux_2026_JEM_paper.md.
 His JEM paper (Vigneaux, 2026): FULL TEXT is in the Claude project at papers/Vigneaux_2026_JEM_paper.md (saved 11-18 from his PDF). Read it there for every emotion meaning and dynamic. Never ask him for the paper again; he has had to send it more than once.
