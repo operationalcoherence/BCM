@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 15 · 2026-11-18 · Preview at **v207** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 16 · 2026-11-18 · Preview at **v208** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v208** (2026-11-18, preview): the guided tour of the ground (review 4c). Play the tour on the Synthesis 3D: the camera visits each reading of WHAT THE GROUND SAYS in his four acts, captioned with the data (share of the ground, climb as a share of the map's height); about 25 s; a click or Escape stops it. See `docs/v208_update.md`. Not yet: WebM download. Next: WHAT IT PRODUCED (3d), then step 7.
 - **v207** (2026-11-18, preview): card titles show their whole context sentence in small gray text (hover didn't work for him); thread cards pick the phrase's most central sentence (wildfire management: N33, not N12). See `docs/v207_update.md`. Next: the guided tour of the ground (he asked for it next, with % of energy and key data points), then WHAT IT PRODUCED (3d) and step 7.
 - **v206** (2026-11-18, preview): Phase 2 step 6, second half. YOUR STORY SO FAR told as a story from the context grasped (Q.1, the present, further on toward the goal, how it is spread), quoting his notes; the medium word closes it in one sentence. Architecture doc brought to Rev 9. See `docs/v206_update.md`. Next: deepen WHAT IT PRODUCED (3d), then step 7 (Pattern Synthesis reordered).
 - **v205** (2026-11-18, preview): Phase 2 step 6, first half. Pattern Analysis opens with AT A GLANCE, THE SAME THING? as a prompt (with a sentence for each word), then WHAT IT PRODUCED; WORDS THAT MAKE THE WORLD has its own fold; question hovers on YOUR LANDSCAPE; THE SAME THING? buttons fixed (they never saved). See `docs/v205_update.md`. Next: step 6 second half, YOUR STORY SO FAR as a story (3e) and WHAT IT PRODUCED deepened (3d).

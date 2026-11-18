@@ -19,6 +19,8 @@ Kept here because every previous harness lived in a sandbox that was lost.
 | `derive.py WORKBOOK.json [NOTE EMOTION]` | Boots without opening In Parallel, prints the derived action points, edits one note's emotion through the page's own save, and reports whether the points and MOVES, IN ORDER follow (v199). On a place map the edit doesn't reach the notes, so use a line map for the edit half. |
 | `switch.py WORKBOOK.json` | The program/strategy switch on Taking Action cards (v202): switches the first program card, checks it stays and is saved, then undoes it. |
 | `waymoves.py WORKBOOK.json` | FIRST MOVES follows the selected way (v203): with the 3D loaded, clicks every way on every card and prints the line under FIRST MOVES. |
+| `qhover.py WORKBOOK.json` | Hovering a question above YOUR LANDSCAPE shows the question and its notes (v205). |
+| `tour.py WORKBOOK.json [OUT] [slow]` | The guided tour on Pattern Synthesis (v208), with the 3D loaded: presses Play, prints each caption, screenshots three moments, checks a click stops it. `slow` runs it 8x slower for settled screenshots. |
 | `stop.txt` | Obsolete (pre-v102, 362 entries). `tok.js` no longer reads it. |
 
 ## Workbooks the scripts expect

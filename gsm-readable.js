@@ -16262,7 +16262,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v207");
+        t && (t.textContent = "v208");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -21889,8 +21889,20 @@
           D.read = [];
         } else {
           D.read = READ.map(function (r) {
-            return { at: r.at, title: r.title, text: r.short + (r.more ? " " + r.more : "") };
+            var S = (r.short + (r.more ? " " + r.more : ""))
+                .replace(/\s+/g, " ")
+                .split(/(?<=[.!?])\s+(?=[A-Z0-9“"(])/)
+                .filter(function (z) {
+                  return z && !/question below/i.test(z);
+                }),
+              c = S.slice(0, 1);
+            S.slice(1).some(function (z) {
+              return /\d+%/.test(z) && !/\d+%/.test(c.join(" ")) && c.push(z);
+            });
+            c.length < 2 && S[1] && !/\d+%/.test(c.join(" ")) && c.length && c[0].length < 90 && c.push(S[1]);
+            return { at: r.at, title: r.title, text: r.short + (r.more ? " " + r.more : ""), grp: r.grp, cap: c.join(" ") };
           });
+          D.groups = GROUPS;
           D.onHL = function (i) {
             if (!HLSTICK) {
               HL = i;

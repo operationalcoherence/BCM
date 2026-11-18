@@ -16,6 +16,7 @@ const CSS = `
 .grel .rdm.on{background:#7a1d12;transform:scale(1.25)}
 .grel .wl{font:bold 14px Helvetica,Arial,sans-serif;width:26px;height:26px;line-height:22px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)}.grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
 .grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}.grel .grfs{display:none!important}.grel.fs .grfs,.grel.cfs .grfs{display:block!important}.grel .fsleg{position:absolute;top:0;bottom:0;left:0;width:min(340px,86vw);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-right:1px solid #ddd;padding:52px 14px 14px;overflow:auto;z-index:4;transform:translateX(0);transition:transform .2s}.grel .fsleg.shut{transform:translateX(-100%)}.grel .fsleg .grleg{margin:0}.grel .fslb{position:absolute;top:8px;left:8px;z-index:5;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer}.grel .brand{position:absolute;top:auto;left:auto;width:auto;height:auto;pointer-events:none;right:12px;bottom:10px;z-index:3;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333;background:rgba(255,255,255,.75);padding:3px 8px}.grel .brand b{font-weight:700}
+.grel .tourcap{position:absolute;left:12px;right:12px;top:46px;z-index:3;max-width:560px;background:rgba(255,255,255,.95);border:1px solid #222;padding:7px 11px 8px;font:12.5px/1.4 Questrial,Helvetica,Arial,sans-serif;color:#222;display:none;pointer-events:none}.grel .tourcap .ta{font-size:11px;letter-spacing:.14em;font-weight:700;color:#666}.grel .tourcap .tt{font-weight:700;margin:2px 0 2px}.grel .tourcap .tp{height:3px;background:#e4e1d8;margin-top:7px}.grel .tourcap .tp i{display:block;height:3px;background:#111;width:0}
 .grbrand{text-align:right;margin:5px 2px 0;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333}.grbrand b{font-weight:700}
 .grel .attr{position:absolute;left:6px;bottom:4px;z-index:3;font:10px Helvetica,Arial,sans-serif;color:#333;background:rgba(255,255,255,.75);padding:1px 6px;pointer-events:none}.grel .busy{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#888;font:13px Questrial,Helvetica,Arial,sans-serif}
 .grleg{margin:8px 0 2px;font-size:12.5px;line-height:1.45;color:#333}
@@ -273,7 +274,9 @@ function mount(host, D) {
   /* ---------- buttons ---------- */
   const bReset = document.createElement('button'), bFs = document.createElement('button');
   bReset.className = bFs.className = 'bt'; bReset.textContent = 'Reset view'; bFs.textContent = 'Full screen';
-  const bar = document.createElement('div'); bar.style.cssText = 'position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3'; [bReset, bFs].forEach(b => { b.style.position = 'static'; bar.appendChild(b); }); if (D.card) bFs.style.display = 'none'; wrap.appendChild(bar);
+  const bPlay = document.createElement('button'); bPlay.className = 'bt'; bPlay.textContent = 'Play the tour';
+  const bar = document.createElement('div'); bar.style.cssText = 'position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3'; [bPlay, bReset, bFs].forEach(b => { b.style.position = 'static'; bar.appendChild(b); });
+  if (D.card || !D.read || D.read.length < 2) bPlay.style.display = 'none'; if (D.card) bFs.style.display = 'none'; wrap.appendChild(bar);
   let hMax = -1e9; for (let q = 0; q < hGrid.length; q++) if (hGrid[q] > hMax) hMax = hGrid[q];
   const corners = []; [-W / 2 - 16, W / 2].forEach(x => [BASE - 30, hMax + 14].forEach(y => [-H / 2, H / 2].forEach(z => corners.push(new THREE.Vector3(x, y, z)))));
   function home() { const tgt = new THREE.Vector3(0, (BASE + hMax) / 2 - 6, 8), dir = new THREE.Vector3(0, 290, 330).normalize(); let d = 440;
@@ -285,9 +288,36 @@ function mount(host, D) {
     const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion), rt = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion), th = Math.tan(camera.fov * Math.PI / 360) * d;
     const sh = up.multiplyScalar((y0 + y1) / 2 * th).add(rt.multiplyScalar((x0 + x1) / 2 * th * camera.aspect)); tgt.add(sh);
     camera.position.copy(tgt).addScaledVector(dir, d); controls.target.copy(tgt); controls.update(); dirty = true; }
-  bReset.onclick = () => { moved = false; home(); };
+  /* ---------- the guided tour of the ground (v208) ---------- */
+  const cap = document.createElement('div'); cap.className = 'tourcap'; cap.setAttribute('aria-live', 'polite'); wrap.appendChild(cap);
+  let TOUR = null;
+  const ease = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  function homePose() { const p = camera.position.clone(), t = controls.target.clone(); home(); const hp = camera.position.clone(), ht = controls.target.clone(); camera.position.copy(p); controls.target.copy(t); camera.lookAt(t); return [hp, ht]; }
+  function capFor(i) { const r = D.read[i], G = D.groups || [];
+    cap.innerHTML = '<div class="ta"></div><div class="tt"></div><div class="tx"></div><div class="tp"><i></i></div>';
+    cap.querySelector('.ta').textContent = G[r.grp] || ''; cap.querySelector('.tt').textContent = (i + 1) + ' · ' + (r.title || ''); cap.querySelector('.tx').textContent = r.cap || r.text || ''; }
+  function stopTour() { if (!TOUR) return; TOUR = null; controls.enabled = true; cap.style.display = 'none'; bPlay.textContent = 'Play the tour';
+    RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); moved = false; home(); dirty = true; }
+  function startTour() { if (TOUR) return stopTour();
+    const [hp, ht] = homePose(), dH = hp.distanceTo(ht), n = D.read.length, SL = +window.gsmTourSlow || 1, per = Math.max(1.6, Math.min(2.6, 25 / n)) * SL, fly = per * 0.45, legs = [];
+    let from = [camera.position.clone(), controls.target.clone()];
+    D.read.forEach((r, i) => { const t = new THREE.Vector3(X(r.at[0]), gH(r.at[0], r.at[1]), Z(r.at[1])), az = -0.55 + 1.1 * (n > 1 ? i / (n - 1) : 0.5), po = 0.74, d = Math.max(controls.minDistance + 10, dH * 0.55);
+      const p = t.clone().add(new THREE.Vector3(Math.sin(po) * Math.sin(az), Math.cos(po), Math.sin(po) * Math.cos(az)).multiplyScalar(d));
+      const lk = t.clone().add(new THREE.Vector3(0, d * 0.16, 0)); legs.push({ i, a: from, b: [p, lk], fly, hold: per - fly }); from = [p, lk]; });
+    legs.push({ i: -1, a: from, b: [hp, ht], fly: 1.4 * SL, hold: 0 });
+    let t0 = 0; legs.forEach(l => { l.t0 = t0; t0 += l.fly + l.hold; });
+    TOUR = { legs, start: performance.now(), total: t0, cur: -2 }; controls.enabled = false; cap.style.display = 'block'; bPlay.textContent = 'Stop'; dirty = true; }
+  function stepTour(now) { const T = TOUR, s = (now - T.start) / 1000; if (s >= T.total) { stopTour(); return; }
+    let l = T.legs[0]; for (const x of T.legs) if (s >= x.t0) l = x;
+    if (l.i !== T.cur) { T.cur = l.i; if (l.i >= 0) { capFor(l.i); RD.forEach((q, k) => q.el.classList.toggle('on', k === l.i)); if (D.onHL) D.onHL(l.i); } else { cap.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); } }
+    const u = ease(Math.min(1, (s - l.t0) / l.fly));
+    camera.position.lerpVectors(l.a[0], l.b[0], u); controls.target.lerpVectors(l.a[1], l.b[1], u); camera.lookAt(controls.target);
+    const pi = cap.querySelector('.tp i'); if (pi) pi.style.width = (100 * s / T.total).toFixed(1) + '%'; dirty = true; }
+  bPlay.onclick = ev => { ev.stopPropagation(); startTour(); };
+  renderer.domElement.addEventListener('pointerdown', () => { if (TOUR) stopTour(); });
+  bReset.onclick = () => { if (TOUR) stopTour(); moved = false; home(); };
   bFs.onclick = () => { const on = !wrap.classList.contains('fs'); if (on) fillFsl(); moved = false; wrap.classList.toggle('fs', on); bFs.textContent = on ? 'Close full screen' : 'Full screen'; document.documentElement.style.overflow = on ? 'hidden' : ''; size(); };
-  const onKey = e => { if (e.key === 'Escape' && wrap.classList.contains('fs')) bFs.onclick(); }; document.addEventListener('keydown', onKey);
+  const onKey = e => { if (e.key === 'Escape' && TOUR) { stopTour(); return; } if (e.key === 'Escape' && wrap.classList.contains('fs')) bFs.onclick(); }; document.addEventListener('keydown', onKey);
 
   /* ---------- sizing, labels, loop ---------- */
   let dirty = true, alive = true, lastW = 0, lastCfs = false;
@@ -309,13 +339,13 @@ function mount(host, D) {
        let x = p.x; const tries = [[0, 0], [bw * 0.7, 0], [-bw * 0.7, 0], [0, -bh - 2], [bw * 0.7, -bh - 2], [-bw * 0.7, -bh - 2]];
        for (const [dx, dy] of tries) { const hit = boxes.some(b => p.x + dx < b[0] + b[2] && p.x + dx + bw > b[0] && p.y + dy < b[1] + b[3] && p.y + dy + bh > b[1]); x = p.x + dx; y = p.y + dy; if (!hit) break; }
        x = Math.max(2, Math.min(w - bw - 2, x)); boxes.push([x, y, bw, bh]); p.o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`; }); }
-  function loop() { if (!alive) return; if (!host.isConnected) { dispose(); return; } controls.update();
+  function loop() { if (!alive) return; if (!host.isConnected) { dispose(); return; } if (TOUR) stepTour(performance.now()); else controls.update();
     if (!!(D.card && host.closest('.gtfs-on')) !== lastCfs) dirty = true;
     if (dirty && wrap.clientWidth) { RD.forEach(o => o.rim && o.rim.quaternion.copy(camera.quaternion)); if ((wrap.clientWidth !== lastW || !!(D.card && host.closest('.gtfs-on')) !== lastCfs) && !wrap.classList.contains('fs')) { lastCfs = !!(D.card && host.closest('.gtfs-on')); size(); } renderer.render(scene, camera); place(); dirty = false; } requestAnimationFrame(loop); }
   function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
   size(); home(); loop(); placeGround();
   function focusQ(q) { NOBJ.forEach(o => { const on = !q || o.q === q; o.st.visible = o.hd.visible = on; if (o.sp) o.sp.visible = on; o.lo.off = !on; o.lo.el.style.opacity = on ? '' : '0'; o.lo.el.style.pointerEvents = on ? '' : 'none'; }); dirty = true; }
-  return { loops, focusQ, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
+  return { loops, focusQ, tour: startTour, touring() { return !!TOUR; }, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
     snap() { renderer.render(scene, camera); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
 }
 
