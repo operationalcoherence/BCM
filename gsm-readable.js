@@ -4588,6 +4588,26 @@
       return { ph: B ? B.ph : jt(key), multi: !!B || stems.length > 1, ids: ids };
     }));
   }
+  // v216: In Parallel under the figure: where to start, then the rest folded away
+  function gsmIntOrder(E, f) {
+    var top = [],
+      dup = [],
+      rest = [];
+    E.forEach(function (t) {
+      "Where to start" === t[0]
+        ? top.push(f(t))
+        : "Where both pictures agree" === t[0] || "Where they differ" === t[0]
+          ? dup.push(f(t).replace('<div class="intl">', '<div class="intl" data-dup="1">'))
+          : rest.push(f(t));
+    });
+    return (
+      top.join("") +
+      dup.join("") +
+      (rest.length
+        ? '<details class="fold parmore" style="margin:14px 0"><summary>MORE FROM BOTH PICTURES</summary>' + rest.join("") + "</details>"
+        : "")
+    );
+  }
   // v213: THE TWO PICTURES, SIDE BY SIDE (closes Pattern Synthesis)
   function gsmAgreeFig(items) {
     var D = window.gsmData ? window.gsmData() : { m: [] },
@@ -12760,7 +12780,7 @@
                           '<div class="intsub">How far each answer is from the goal</div></div><div class="intfig"><div class="intcap">HOW IT HANGS TOGETHER</div>' +
                           st(i) +
                           '<div class="intsub">How everything ties to everything</div></div></div>') +
-                      E.map(function (t) {
+                      gsmIntOrder(E, function (t) {
                         return (
                           '<div class="intl"><b>' +
                           Gt(t[0]) +
@@ -12778,7 +12798,7 @@
                               : Gt(t[1])) +
                           "</div>"
                         );
-                      }).join("") +
+                      }) +
                       '<div class="pby">The Bear Canyon Method delivers suggested patterns based on what you have provided. You ultimately decide how everything hangs together.</div>'));
                   var dt = lt.querySelector("[data-xmore]");
                   if (
@@ -12825,8 +12845,16 @@
                       } catch (e) {
                         window.console && console.warn("agree figure", e);
                       }
-                      var SL = lt.querySelector(".agslot");
-                      AG && SL && SL.appendChild(AG);
+                      var SL = lt.querySelector(".agslot"),
+                        PO = lt.querySelector("details.parold"),
+                        PB = lt.querySelector(".pby");
+                      if (AG && SL) {
+                        SL.appendChild(AG);
+                        lt.querySelectorAll("[data-dup]").forEach(function (x) {
+                          x.parentNode.removeChild(x);
+                        });
+                      }
+                      PO && PB && lt.insertBefore(PO, PB);
                     })(),
                     s)
                   ) {
@@ -16729,7 +16757,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v215");
+        t && (t.textContent = "v216");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {

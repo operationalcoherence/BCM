@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 18 · 2026-11-18 · Preview at **v215** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 18 · 2026-11-18 · Preview at **v216** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v216** (2026-11-18, preview): In Parallel cut to the figure (5c–5e): figure, Where to start, then MORE FROM BOTH PICTURES (closed) and THE EARLIER 3D VIEW (closed, last); agree/differ paragraphs dropped where the figure shows (`gsmIntOrder`). See `docs/v216_update.md`.
 - **v215** (2026-11-18, preview): his call: no action grid anywhere. In Parallel opens with THE TWO PICTURES, SIDE BY SIDE (moved there from the end of Synthesis); gsmGrid() deleted; MOVES, IN ORDER without grid or reach wording; tapped lines wait for the Synthesis 3D (`window.gsmSynPend`). See `docs/v215_update.md`.
 - **v214** (2026-11-18, preview): the agreement figure drawn with lines, his call ("use lines"): solid black = the ground agrees, dashed red = it asks; boxes styled by what Analysis found (black contested, dashed gap, teal unused support, grey designed without a cause); key under the figure; thin lines on the 3D too. See `docs/v214_update.md`.
 - **v213** (2026-11-18, preview): THE TWO PICTURES, SIDE BY SIDE closes Pattern Synthesis (review 5a/5b): Analysis words in a column, hoses onto the Synthesis ground painted by the relief's rule (black = the ground agrees, white = it asks); tapping a word reads it and draws its hoses on the 3D above (`hoses()` in relief.js; `window.gsmSynRel`); In Parallel's own 3D folded behind THE EARLIER 3D VIEW. Line maps only. Built in `gsmAgreeFig()` from the same lists as WHERE BOTH PICTURES AGREE. Test: `tests/agree.py`. See `docs/v213_update.md`. Next: In Parallel 5c–5e (explain risk/wildfire risk/vegetation; cut the text; WORTH A SECOND LOOK visual; shorter WHERE BOTH AGREE).
