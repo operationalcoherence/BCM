@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 7 · 2026-11-18 · Preview at **v199** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 8 · 2026-11-18 · Preview at **v200** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v200** (2026-11-18, preview): P1 first half, Taking Action. Card titles are phrases from his own writing (never a lone word; whole sentence on hover), and every card has IN SERVICE OF THE GOAL. See `docs/v200_update.md`. Next: P1 second half (v201), the same layer on Pattern Analysis and Pattern Synthesis (3f, 3i, 4h, 4i).
 - **v199** (2026-11-18, preview): one derived-state pass (P2). The action points MOVES, IN ORDER reads are computed by gsmDerive() from the workbook on every pass, not inside In Parallel's drawing; In Parallel's grid draws from them. No page reads differently on his workbooks. See `docs/v199_update.md`. Next: Phase 1 step 4, the phrase-and-meaning layer (P1, v200–v201).
 - **v198** (2026-11-18, preview): first pass on his 11-18 review. Emotion definitions (direct quotes from Vigneaux, 2026) on every emotion button and under the emotion key; Mapping Context title at the top, the goal's instruction, WORKING WITH A FRIEND under the goal; instruction 10 for place maps; Supports / Does Not Support; the two pictures card moved to the end of Pattern Synthesis; Taking Action sources into REFERENCES, Morin citation, NOTHING YOU WOULD DO ANSWERS THESE YET. See `docs/v198_update.md`. Next: Phase 1 step 3 of the review plan, one derived-state pass (gsmGridPts out of In Parallel).
 - **v197** (2026-11-17, built; pushed 2026-11-18): the method's name under every 3D map; indifference joined into one yellow band (reaches N31 on 11-13); ways keep fixed letters (A notes, B firm ground, C support), one badge each, side by side where shared. See `docs/v197_update.md`.
