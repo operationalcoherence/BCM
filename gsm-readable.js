@@ -15338,7 +15338,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v196");
+        t && (t.textContent = "v197");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -17767,7 +17767,7 @@
           var rest = firmPath(last.x, last.y, GOAL.x, GOAL.y),
             r3 = first.concat(rest);
           ROUTES.push({
-            key: ROUTES.length === 1 ? "B" : "C",
+            key: "C",
             name:
               "Starting from the support (" +
               list(

@@ -16,6 +16,7 @@ const CSS = `
 .grel .rdm.on{background:#7a1d12;transform:scale(1.25)}
 .grel .wl{font:bold 14px Helvetica,Arial,sans-serif;width:26px;height:26px;line-height:22px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)}.grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
 .grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}.grel .grfs{display:none!important}.grel.fs .grfs,.grel.cfs .grfs{display:block!important}.grel .fsleg{position:absolute;top:0;bottom:0;left:0;width:min(340px,86vw);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-right:1px solid #ddd;padding:52px 14px 14px;overflow:auto;z-index:4;transform:translateX(0);transition:transform .2s}.grel .fsleg.shut{transform:translateX(-100%)}.grel .fsleg .grleg{margin:0}.grel .fslb{position:absolute;top:8px;left:8px;z-index:5;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer}.grel .brand{position:absolute;top:auto;left:auto;width:auto;height:auto;pointer-events:none;right:12px;bottom:10px;z-index:3;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333;background:rgba(255,255,255,.75);padding:3px 8px}.grel .brand b{font-weight:700}
+.grbrand{text-align:right;margin:5px 2px 0;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333}.grbrand b{font-weight:700}
 .grel .attr{position:absolute;left:6px;bottom:4px;z-index:3;font:10px Helvetica,Arial,sans-serif;color:#333;background:rgba(255,255,255,.75);padding:1px 6px;pointer-events:none}.grel .busy{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#888;font:13px Questrial,Helvetica,Arial,sans-serif}
 .grleg{margin:8px 0 2px;font-size:12.5px;line-height:1.45;color:#333}
 .grleg .r{display:flex;gap:8px;align-items:flex-start;margin:3px 0}
@@ -45,6 +46,7 @@ function mount(host, D) {
   const lbs = document.createElement('div'); lbs.className = 'lbs'; wrap.appendChild(lbs);
   const attr = document.createElement('div'); attr.className = 'attr'; attr.style.display = 'none'; attr.textContent = 'Imagery © Esri, Maxar, Earthstar Geographics, and the GIS User Community · Powered by Esri'; wrap.appendChild(attr);
   const busy = document.createElement('div'); busy.className = 'busy'; busy.textContent = 'Building the land…'; wrap.appendChild(busy);
+  const foot = document.createElement('div'); foot.className = 'grbrand'; foot.innerHTML = '<b>THE BEAR CANYON METHOD</b> · BY OPERATIONAL COHERENCE'; host.appendChild(foot);
   const leg = document.createElement('div'); leg.className = 'grleg'; host.appendChild(leg);
 
   /* ---------- heights ---------- */
@@ -70,19 +72,26 @@ function mount(host, D) {
   const K = D.emo.length;
   const RANK = D.emo.map(e => /accept/i.test(e[0]) ? 0 : /indiff/i.test(e[0]) ? 1 : /distrust/i.test(e[0]) ? 2 : /aggress/i.test(e[0]) ? 3 : 4);
   const DEF = RANK.indexOf(4), EN = D.notes.filter(n => n.e != null), EMOC = D.emo.map((e, k) => vivid(e[1], k === DEF));
-  const EF = { w: 96 }; EF.h = Math.round(EF.w * H / W); EF.a = new Float32Array(EF.w * EF.h * (K + 2));
+  /* indifference reads as one band: its notes are joined (shortest links first, none longer than 95), and the yellow
+     runs along each join at full strength, through other emotions' ground. Color only; line maps only. */
+  const IND = RANK.indexOf(1), RIB = [];
+  if (IND >= 0 && !PL) { const P = EN.filter(n => n.e === IND), par = P.map((_, i) => i), top = i => par[i] === i ? i : (par[i] = top(par[i])), E = [];
+    for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) E.push([Math.hypot(P[i].x - P[j].x, P[i].y - P[j].y), i, j]);
+    E.sort((a, b) => a[0] - b[0]).forEach(([d, i, j]) => { if (d > 95 || top(i) === top(j)) return; par[top(i)] = top(j); RIB.push([P[i].x, P[i].y, P[j].x, P[j].y]); }); }
+  const ribAt = (x, y) => { let w = 0; RIB.forEach(([ax, ay, bx, by]) => { const dx = bx - ax, dy = by - ay, t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy || 1))), d2 = (ax + t * dx - x) ** 2 + (ay + t * dy - y) ** 2; w += 2.4 * Math.exp(-d2 / (2 * 8 * 8)); }); return w; };
+  const EF = { w: 150 }; EF.h = Math.round(EF.w * H / W); EF.a = new Float32Array(EF.w * EF.h * (K + 3));
   for (let j = 0; j < EF.h; j++) for (let i = 0; i < EF.w; i++) {
-    const x = i / (EF.w - 1) * W, y = j / (EF.h - 1) * H, ws = new Float32Array(K), o = (j * EF.w + i) * (K + 2);
-    EN.forEach(n => { ws[n.e] += Math.exp(-((n.x - x) ** 2 + (n.y - y) ** 2) / (2 * 26 * 26)); });
+    const x = i / (EF.w - 1) * W, y = j / (EF.h - 1) * H, ws = new Float32Array(K), o = (j * EF.w + i) * (K + 3);
+    EN.forEach(n => { ws[n.e] += Math.exp(-((n.x - x) ** 2 + (n.y - y) ** 2) / (2 * 26 * 26)); }); if (RIB.length) ws[IND] += ribAt(x, y);
     let tot = 0, p = 0; for (let k = 0; k < K; k++) { const v = (ws[k] * (k === DEF ? 1.6 : 1)) ** 2.2; EF.a[o + k] = v; p += v; tot += ws[k]; }
     for (let k = 0; k < K; k++) EF.a[o + k] /= (p || 1);
-    EF.a[o + K] = sstep(0.04, 0.5, tot);
+    EF.a[o + K] = sstep(0.04, 0.5, tot); EF.a[o + K + 2] = RIB.length ? sstep(0.9, 2.0, ribAt(x, y)) : 0;
     const ord = [...ws.keys()].sort((u, v) => ws[v] - ws[u]), k1 = ord[0], k2 = ord[1], s1 = ws[k1], s2 = ws[k2];
     EF.a[o + K + 1] = (Math.abs(RANK[k1] - RANK[k2]) < 2 || RANK[k1] === 1 || RANK[k2] === 1 || s2 < 0.03) ? 0 : sstep(0.22, 0.42, s2 / (s1 + s2));
   }
   function emoMix(x, y) { const fx = Math.min(EF.w - 1.001, x / W * (EF.w - 1)), fy = Math.min(EF.h - 1.001, y / H * (EF.h - 1)), i = fx | 0, j = fy | 0, u = fx - i, v = fy - j;
-    const g = (ii, jj, k) => EF.a[(jj * EF.w + ii) * (K + 2) + k], b = k => g(i, j, k) * (1 - u) * (1 - v) + g(i + 1, j, k) * u * (1 - v) + g(i, j + 1, k) * (1 - u) * v + g(i + 1, j + 1, k) * u * v;
-    let c = [0, 0, 0]; for (let k = 0; k < K; k++) { const w = b(k); c = [c[0] + EMOC[k][0] * w, c[1] + EMOC[k][1] * w, c[2] + EMOC[k][2] * w]; } return [c, b(K), b(K + 1)]; }
+    const g = (ii, jj, k) => EF.a[(jj * EF.w + ii) * (K + 3) + k], b = k => g(i, j, k) * (1 - u) * (1 - v) + g(i + 1, j, k) * u * (1 - v) + g(i, j + 1, k) * (1 - u) * v + g(i + 1, j + 1, k) * u * v;
+    let c = [0, 0, 0]; for (let k = 0; k < K; k++) { const w = b(k); c = [c[0] + EMOC[k][0] * w, c[1] + EMOC[k][1] * w, c[2] + EMOC[k][2] * w]; } return [c, b(K), b(K + 1), b(K + 2)]; }
 
   /* ---------- ground texture: grass, soil, rock by slope; emotion hue at 60% ---------- */
   const TW = 1600, TH = Math.round(TW * H / W), tcv = CH.tcv || document.createElement('canvas'); if (!CH.tcv) { tcv.width = TW; tcv.height = TH; }
@@ -100,9 +109,10 @@ function mount(host, D) {
       const o0 = (py * TW + pxx) * 4;
       let c = bp ? [bp[o0], bp[o0 + 1], bp[o0 + 2]] : mix(mix(grass, soil, tS + sstep(-0.4, -1.0, h / HS) * 0.5 * (1 - tR)), rock, tR); const kk = bp ? 1 : 0.93 + 0.14 * sp; c = c.map(v => v * kk);
       const ao = Math.max(-0.28, Math.min(0.18, -lap * (PL ? 0.5 : 0.11))); c = c.map(v => v * (1 + ao));
-      let [em, st, gap] = emoMix(x, y); if (PL) gap = 0;
+      let [em, st, gap, rb] = emoMix(x, y); if (PL) gap = 0;
       if (gap > 0.01) c = mix(c, rock.map(v => v * (1 + ao)), gap * 0.85);
       const ls = lum(c), le = lum(em) || 1; c = mix(c, PL ? em : em.map(v => Math.min(255, v * ls / le * 1.05)), (PL ? 0.42 : ALPHA) * st * (1 - gap));
+      if (rb > 0.01) c = mix(c, EMOC[IND].map(v => v * (0.9 + 0.1 * (1 + ao))), 0.8 * rb);
       const o = (py * TW + pxx) * 4; px[o] = c[0]; px[o + 1] = c[1]; px[o + 2] = c[2]; px[o + 3] = 255;
     }
     ctx.putImageData(img, 0, 0);
@@ -213,15 +223,22 @@ function mount(host, D) {
     if (o) { pinned = o; showTip(o, ev); return; } const k = wayAt(ev); if (k) { const R = D.routes.find(q => q.key === k); pinned = { info: { head: k + ' · ' + R.name, body: R.text || '' } }; hoverWay(k); showTip(pinned, ev); } else { pinned = null; hoverWay(null); hideTip(); } });
   renderer.domElement.addEventListener('pointerleave', () => { if (!pinned) { hoverWay(null); if (tip.style.display !== 'none') hideTip(); } });
   const RC = { A: '#111111', B: '#f4f4f4', C: '#e0007a' }, WAYS = {}, PICK = [];
+  const NR = (D.routes || []).length, BADGE = [];
+  const nearOther = (x, y, ri) => { let m = 1e9; (D.routes || []).forEach((Q, qi) => { if (qi === ri) return; for (let k = 0; k < Q.pts.length; k += 2) m = Math.min(m, Math.hypot(Q.pts[k][0] - x, Q.pts[k][1] - y)); }); return m; };
   (D.routes || []).forEach((R, ri) => {
-    const pts = R.pts.filter((p, k) => k % 2 === 0 || k === R.pts.length - 1).map(p => new THREE.Vector3(X(p[0]), gH(p[0], p[1]) + 1.6 + ri * 0.4, Z(p[1])));
+    const off = (ri - (NR - 1) / 2) * 2.6, rp = R.pts.map((p, k, a) => { const p0 = a[Math.max(0, k - 2)], p1 = a[Math.min(a.length - 1, k + 2)], dx = p1[0] - p0[0], dy = p1[1] - p0[1], l = Math.hypot(dx, dy) || 1;
+      return nearOther(p[0], p[1], ri) < 4 ? [p[0] - dy / l * off, p[1] + dx / l * off] : p; });
+    const pts = rp.filter((p, k) => k % 2 === 0 || k === rp.length - 1).map(p => new THREE.Vector3(X(p[0]), gH(p[0], p[1]) + 1.6 + ri * 0.4, Z(p[1])));
     if (pts.length < 2) return; const c = new THREE.CatmullRomCurve3(pts);
     const mat = new THREE.MeshStandardMaterial({ color: RC[R.key] || '#111', roughness: 0.45, emissive: R.key === 'B' ? '#ffffff' : '#000000', emissiveIntensity: R.key === 'B' ? 0.35 : 0, transparent: true });
     const tube = new THREE.Mesh(new THREE.TubeGeometry(c, 700, 1.5, 8), mat); tube.castShadow = true; scene.add(tube);
     const edge = R.key === 'B' ? new THREE.Mesh(new THREE.TubeGeometry(c, 700, 1.9, 8), new THREE.MeshStandardMaterial({ color: '#222', transparent: true, opacity: 0.9, side: THREE.BackSide })) : null; if (edge) scene.add(edge);
     const fat = new THREE.Mesh(new THREE.TubeGeometry(c, 200, 5, 6), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })); fat.userData.key = R.key; scene.add(fat); PICK.push(fat);
     const info = { head: R.key + ' · ' + R.name, body: R.text || '', way: R.key };
-    const badges = [0.22, 0.58].map(f => { const p = R.pts[Math.min(R.pts.length - 1, Math.floor(R.pts.length * (f + ri * 0.06)))]; const o = lab(R.key, 'wl', p[0], p[1], 5, 6, -13, -13, info);
+    let bi = Math.floor(rp.length / 2), bs = -1;
+    for (let f = 0.2; f <= 0.8; f += 0.04) { const k = Math.floor(rp.length * f), p = rp[k], sc = Math.min(nearOther(p[0], p[1], ri), 40) + Math.min(40, ...BADGE.map(b => Math.hypot(b[0] - p[0], b[1] - p[1])), 40) - Math.abs(f - 0.5) * 10; if (sc > bs) { bs = sc; bi = k; } }
+    BADGE.push(rp[bi]);
+    const badges = [rp[bi]].map(p => { const o = lab(R.key, 'wl', p[0], p[1], 5, 6, -13, -13, info);
       o.el.style.background = RC[R.key]; o.el.style.color = R.key === 'B' ? '#111' : '#fff'; o.el.style.borderColor = R.key === 'B' ? '#111' : '#fff'; return o; });
     WAYS[R.key] = { tube, edge, badges, mat };
   });
@@ -276,7 +293,7 @@ function mount(host, D) {
   let dirty = true, alive = true, lastW = 0, lastCfs = false;
   function size() { const fs = wrap.classList.contains('fs'), w = fs ? window.innerWidth : wrap.clientWidth; if (!w) return; const cfs = D.card && host.closest('.gtfs-on'), h = fs ? window.innerHeight : cfs ? Math.round(Math.max(420, window.innerHeight * 0.78)) : Math.round(Math.max(300, Math.min(D.card ? 520 : 620, w * (D.card ? 0.62 : 0.56))));
     /* a strategy card in full screen gets the same legend drawer and name as the full-screen Pattern Synthesis map */
-    wrap.classList.toggle('cfs', !!cfs); if (cfs) fillFsl(); leg.style.display = cfs ? 'none' : '';
+    wrap.classList.toggle('cfs', !!cfs); if (cfs) fillFsl(); leg.style.display = foot.style.display = cfs ? 'none' : '';
     const pad = (fs || cfs) && !fsl.classList.contains('shut') ? Math.min(340, Math.round(w * 0.86)) : 0, vw = Math.max(200, w - pad);
     wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(vw, h); renderer.domElement.style.marginLeft = pad + 'px'; lbs.style.left = pad + 'px'; attr.style.left = pad + 6 + 'px'; camera.aspect = vw / h;
     // keep the whole block in frame

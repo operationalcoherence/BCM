@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 5 · 2026-11-17 · Preview at **v196** · Basis: 11-17 review, export 2026-11-13, repo
+Rev 6 · 2026-11-18 · Preview at **v197** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v197** (2026-11-17, built; pushed 2026-11-18): the method's name under every 3D map; indifference joined into one yellow band (reaches N31 on 11-13); ways keep fixed letters (A notes, B firm ground, C support), one badge each, side by side where shared. See `docs/v197_update.md`.
 - **v196** (2026-11-17, preview): his wording review of v171–v195 applied; serial comma everywhere. Action grid redesign (row 30) and rows 34–35 open. See `docs/v196_update.md`.
 - **v195** (2026-11-17, preview): F7, WORDS THAT MAKE THE WORLD on Pattern Analysis (bare saturated words; other voices tested as perturbations). D10 answered yes. See `docs/v195_update.md`.
 - **v194** (2026-11-17, preview): F4 reflexive loop, WHAT YOU DID on cards flags Q.1–Q.4 notes; SINCE YOU ACTED on Mapping Landscape. See `docs/v194_update.md`.
