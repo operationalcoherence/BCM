@@ -257,9 +257,11 @@ function mount(host, D) {
     if (h && h.pts && h.pts.length > 1) { const P = h.pts, white = !!h.ask;
       for (let i = 1; i < P.length; i++) { const a = P[i - 1], b = P[i], n = Math.max(8, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 3)), pts = [];
         for (let k = 0; k <= n; k++) { const t = k / n, x = a[0] + (b[0] - a[0]) * t, y = a[1] + (b[1] - a[1]) * t; pts.push(new THREE.Vector3(X(x), gH(x, y) + 2 + Math.sin(Math.PI * t) * 4, Z(y))); }
-        const c = new THREE.CatmullRomCurve3(pts), tube = new THREE.Mesh(new THREE.TubeGeometry(c, n * 4, 1.5, 8), new THREE.MeshStandardMaterial({ color: white ? '#f4f4f4' : '#111111', roughness: 0.45, emissive: white ? '#ffffff' : '#000000', emissiveIntensity: white ? 0.35 : 0 }));
-        tube.castShadow = true; HOSES.add(tube); hoseN++;
-        if (white) HOSES.add(new THREE.Mesh(new THREE.TubeGeometry(c, n * 4, 1.9, 8), new THREE.MeshStandardMaterial({ color: '#222', side: THREE.BackSide }))); } }
+        /* v214: thin lines; a question is dashed red */
+        const c = new THREE.CatmullRomCurve3(pts), segs = white ? Math.max(4, Math.round(c.getLength() / 6)) : 1;
+        for (let q = 0; q < segs; q += white ? 2 : 1) { const sp = []; for (let k = 0; k <= 8; k++) sp.push(c.getPoint((q + k / 8) / segs));
+          HOSES.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(sp), white ? 8 : n * 4, 0.85, 6), new THREE.MeshStandardMaterial({ color: white ? '#b3261e' : '#111111', roughness: 0.5, emissive: white ? '#5a0d08' : '#000000', emissiveIntensity: white ? 0.35 : 0 }))); }
+        hoseN++; } }
     dirty = true; }
   let selWay = null, hovWay = null;
   function showWays() { const k = hovWay || selWay; Object.keys(WAYS).forEach(q => { const w = WAYS[q], on = !k || q === k; w.mat.opacity = on ? 1 : 0.15; if (w.edge) w.edge.material.opacity = on ? 0.9 : 0.1; w.badges.forEach(b => { b.el.style.opacity = on ? 1 : 0.25; }); }); dirty = true; }

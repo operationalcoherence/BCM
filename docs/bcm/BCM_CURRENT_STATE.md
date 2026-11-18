@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 18 · 2026-11-18 · Preview at **v213** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 18 · 2026-11-18 · Preview at **v214** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v214** (2026-11-18, preview): the agreement figure drawn with lines, his call ("use lines"): solid black = the ground agrees, dashed red = it asks; boxes styled by what Analysis found (black contested, dashed gap, teal unused support, grey designed without a cause); key under the figure; thin lines on the 3D too. See `docs/v214_update.md`.
 - **v213** (2026-11-18, preview): THE TWO PICTURES, SIDE BY SIDE closes Pattern Synthesis (review 5a/5b): Analysis words in a column, hoses onto the Synthesis ground painted by the relief's rule (black = the ground agrees, white = it asks); tapping a word reads it and draws its hoses on the 3D above (`hoses()` in relief.js; `window.gsmSynRel`); In Parallel's own 3D folded behind THE EARLIER 3D VIEW. Line maps only. Built in `gsmAgreeFig()` from the same lists as WHERE BOTH PICTURES AGREE. Test: `tests/agree.py`. See `docs/v213_update.md`. Next: In Parallel 5c–5e (explain risk/wildfire risk/vegetation; cut the text; WORTH A SECOND LOOK visual; shorter WHERE BOTH AGREE).
 - **v212** (2026-11-18, preview): step 7, Pattern Synthesis: patterns row above the figure (`fillLay`/`syncLay`); the Supports questions only under PATTERNS; matches bolded in pattern sentences and CAUSE AND EFFECT; findings with no note name their answers (gsmPhNameH). See `docs/v212_update.md`.
 - **v211** (2026-11-18, preview): 3d, WHAT IT PRODUCED: bigger themes (repeated phrases sharing ≥2 notes, identical notes counted once), no lone words (else the shortest note quoting the word), leads into YOUR LANDSCAPE. See `docs/v211_update.md`.

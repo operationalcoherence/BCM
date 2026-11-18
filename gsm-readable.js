@@ -4731,15 +4731,12 @@
     var wrap = document.createElement("div");
     wrap.className = "agfig";
     wrap.innerHTML =
-      '<div class="agsub">Pattern Analysis keeps its own column; the hoses carry each of its words onto the Synthesis ground, to the notes that use it. A <b>black hose</b>: the ground agrees with what Analysis found. A <b>white hose</b>: the ground raises a question about it. Tap a word to follow it here and on the 3D map above.</div>';
+      '<div class="agsub">Pattern Analysis keeps its own column; a line runs from each of its words to every note on the Synthesis ground that carries it. A <b>solid black line</b>: the ground agrees with what Analysis found. A <b>dashed red line</b>: the ground raises a question about it. Tap a word to follow it here and on the 3D map above.</div>';
     var svg = mk("svg", { viewBox: "0 0 680 " + VH.toFixed(0), role: "img", "aria-label": "Pattern Analysis words in a column, joined by hoses to their notes on the Pattern Synthesis ground" }, wrap);
     mk("rect", { x: 0, y: 0, width: 176, height: VH, fill: "#fafafa" }, svg);
     var t0 = mk("text", { x: 10, y: 16, "font-size": 10.5, "letter-spacing": 1.4, fill: "#555" }, svg);
     t0.textContent = "PATTERN ANALYSIS";
-    mk("rect", { x: 10, y: VH - 30, width: 12, height: 9, fill: "#111" }, svg);
-    mk("text", { x: 27, y: VH - 22, "font-size": 10, fill: "#333" }, svg).textContent = "the ground agrees";
-    mk("rect", { x: 10, y: VH - 16, width: 12, height: 9, fill: "#fff", stroke: "#111" }, svg);
-    mk("text", { x: 27, y: VH - 8, "font-size": 10, fill: "#333" }, svg).textContent = "the ground asks";
+
     mk("image", { href: cv.toDataURL(), x: X0, y: TOPY, width: 494, height: GHt.toFixed(1), preserveAspectRatio: "none" }, svg);
     mk("rect", { x: X0, y: TOPY, width: 494, height: GHt.toFixed(1), fill: "none", stroke: "#ccc" }, svg);
     mk("line", { x1: X0, y1: gy(118), x2: X0 + 494, y2: gy(118), stroke: "#111", "stroke-width": 1, "stroke-dasharray": "6 5", opacity: 0.55 }, svg);
@@ -4762,12 +4759,9 @@
         reach[n.k] = 1;
         var sx = gx(n.x), sy = gy(n.y), c1x = 168 + (sx - 168) * 0.45, c1y = o.y + (sy - o.y) * 0.85,
           d = "M168 " + o.y.toFixed(1) + " Q" + c1x.toFixed(1) + " " + c1y.toFixed(1) + " " + sx.toFixed(1) + " " + sy.toFixed(1);
-        mk("path", { d: d, transform: "translate(2 3)", stroke: "#000", "stroke-opacity": 0.22, "stroke-width": 6, fill: "none", "stroke-linecap": "round" }, o.g);
         o.ok
-          ? mk("path", { d: d, stroke: "#1a1a1a", "stroke-width": 4.2, fill: "none", "stroke-linecap": "round" }, o.g)
-          : (mk("path", { d: d, stroke: "#222", "stroke-width": 6, fill: "none", "stroke-linecap": "round" }, o.g),
-            mk("path", { d: d, stroke: "#f4f4f4", "stroke-width": 3.8, fill: "none", "stroke-linecap": "round" }, o.g));
-        mk("path", { d: d, transform: "translate(-.8 -1.2)", stroke: "#fff", "stroke-opacity": o.ok ? 0.3 : 0.9, "stroke-width": 1.2, fill: "none", "stroke-linecap": "round" }, o.g);
+          ? mk("path", { d: d, stroke: "#111", "stroke-width": 1.4, fill: "none" }, o.g)
+          : mk("path", { d: d, stroke: "#b3261e", "stroke-width": 1.6, "stroke-dasharray": "5 4", fill: "none" }, o.g);
       });
     });
     NS.forEach(function (n) {
@@ -4863,9 +4857,10 @@
     IT.forEach(function (o, i) {
       var gw = mk("g", { role: "button", tabindex: 0, "aria-pressed": "false", style: "cursor:pointer" }, WG), L = wrapTxt(o.nm, 19), bh = 10 + 14 * L.length;
       o.gw = gw;
-      o.box = mk("rect", { x: 8, y: o.y - bh / 2, width: 160, height: bh, rx: 2, fill: o.ok ? "#111" : "#fff", stroke: "#111", "stroke-width": 1.5 }, gw);
+      var BX = { c: ["#111", "#111", "", "#fff"], g: ["#fff", "#111", "5 3", "#111"], u: ["#fff", "#1f6f66", "", "#1f6f66"] }[o.kind] || ["#fff", "#777", "", "#444"];
+      o.box = mk("rect", { x: 8, y: o.y - bh / 2, width: 160, height: bh, rx: 2, fill: BX[0], stroke: BX[1], "stroke-width": 1.5, "stroke-dasharray": BX[2] }, gw);
       L.forEach(function (l, k) {
-        var t = mk("text", { x: 16, y: o.y - bh / 2 + 17 + 14 * k, "font-size": 12.5, fill: o.ok ? "#fff" : "#111" }, gw);
+        var t = mk("text", { x: 16, y: o.y - bh / 2 + 17 + 14 * k, "font-size": 12.5, fill: BX[3] }, gw);
         t.textContent = l;
       });
       mk("title", {}, gw).textContent = o.ok ? "The ground agrees" : "The ground asks";
@@ -4877,10 +4872,15 @@
       });
     });
     rd.textContent = "Tap a word to read what both pictures say about it.";
+    var ky = document.createElement("div");
+    ky.className = "agkey";
+    ky.innerHTML =
+      '<span><i style="background:#111;border-color:#111"></i>contested: resisted and supported</span><span><i style="border-style:dashed"></i>a gap: what you would design does not reach it</span><span><i style="border-color:#1f6f66"></i>support nothing uses yet</span><span><i style="border-color:#777"></i>designed with no cause behind it, or read differently by the two pictures</span><span><b style="border-top:1.5px solid #111"></b>the ground agrees</span><span><b style="border-top:1.6px dashed #b3261e"></b>the ground raises a question</span>';
+    wrap.appendChild(ky);
     wrap.appendChild(rd);
     var st = document.createElement("style");
     st.textContent =
-      "#gsm .agfig svg{display:block;width:100%;height:auto;border:1px solid #ddd;font-family:Questrial,Helvetica,Arial,sans-serif}#gsm .agsub{font-size:14px;line-height:1.5;color:#333;margin:0 0 10px}#gsm .agread{font-size:15px;line-height:1.5;margin:10px 0 18px;min-height:44px;border-left:3px solid #222;padding-left:12px}#gsm .agread .lnk{margin-left:4px}";
+      "#gsm .agfig svg{display:block;width:100%;height:auto;border:1px solid #ddd;font-family:Questrial,Helvetica,Arial,sans-serif}#gsm .agsub{font-size:14px;line-height:1.5;color:#333;margin:0 0 10px}#gsm .agread{font-size:15px;line-height:1.5;margin:10px 0 18px;min-height:44px;border-left:3px solid #222;padding-left:12px}#gsm .agread .lnk{margin-left:4px}#gsm .agkey{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:#333;margin:8px 0 0}#gsm .agkey span{display:inline-flex;align-items:center;gap:6px}#gsm .agkey i{display:inline-block;width:20px;height:11px;border:1.5px solid #111;background:#fff}#gsm .agkey b{display:inline-block;width:24px;height:0}";
     wrap.appendChild(st);
     return wrap;
   }
@@ -16821,7 +16821,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v213");
+        t && (t.textContent = "v214");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
