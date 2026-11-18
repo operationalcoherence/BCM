@@ -15,6 +15,8 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v172 E2 | Co-occurrence neighborhood profiling: tag note functional sub-type (fire → prescribed/unplanned/managed/mitigated/vilified/suppressed) | ENG | engine, all analysis, terrain | — |
 | ✔v173 E3 | Synonym family fire ≡ wildfire, split by sub-type; remove duplicate fire/wildfire prose | ENG | engine, PA, PS | E2, D2 |
 | ✔v172 E4 | Low-meaning token filter ("involved", "necessary"); recurrence becomes input only, never a standalone finding | ENG | engine, PA, PAR, PS | — |
+| **T4b (NEXT)** | Action grid redesign (his review row 30, "Revise and Refine", 11-17): new axes and categories, antecedent to Taking Action, drawing on Analysis and Synthesis. Show 2–3 mocked-up options first | VIZ/ENG | PAR, TA, PA, PS | T4 |
+| ✔v196 R1 | His wording review of v171–v195 applied; serial comma everywhere. Rows 34–35 still open | COPY | all pages | — |
 | A1 (part ✔v171) | Define "thread" (cross-question graph edge by shared tokens/vector proximity) in engine and UI, with a plain-language popover | ARCH | engine, PAR, PS, glossary | — |
 | ✔v173 N1 | Rewrite PA "Your story so far" as a 2–3 paragraph story with headings (What stands in the way · What is already helping · What has to be true · What you would do · Where to start · Not yet answered); keep note/question popovers; give meta-meaning | NARR | PA | E1–E4 |
 | ✔v173 N2 | Rewrite PA "Biggest gap" as a story (fold its 9 headings in); make "Not in Q.5–Q.7 yet", "Condition", "Q.5–Q.7 only" meaningful or drop them | NARR | PA | E1–E4 |
