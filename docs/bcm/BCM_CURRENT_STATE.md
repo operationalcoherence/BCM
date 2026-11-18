@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 18 · 2026-11-18 · Preview at **v218** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 18 · 2026-11-18 · Preview at **v219** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v219** (2026-11-18, preview): no (Vigneaux, 2026) in either tour (his call; page text keeps citations); Full screen on the In Parallel figure with a HOW TO READ IT panel, the key, and the word reading. See `docs/v219_update.md`.
 - **v218** (2026-11-18, preview): the patterns row stays in full screen (moved into the map at top left via `D.onFs`; hidden while the tour plays). See `docs/v218_update.md`.
 - **v217** (2026-11-18, preview): the patterns row shows only on the Synthesis map (it leaked onto Analysis through the shared template, where its buttons did nothing). Lesson: the terrain template is shared by Analysis, Synthesis, In Parallel, and cards; gate anything new on ANH/PAR/CARDH. See `docs/v217_update.md`.
 - **v216** (2026-11-18, preview): In Parallel cut to the figure (5c–5e): figure, Where to start, then MORE FROM BOTH PICTURES (closed) and THE EARLIER 3D VIEW (closed, last); agree/differ paragraphs dropped where the figure shows (`gsmIntOrder`). See `docs/v216_update.md`.

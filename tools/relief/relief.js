@@ -310,7 +310,7 @@ function mount(host, D) {
   function homePose() { const p = camera.position.clone(), t = controls.target.clone(); home(); const hp = camera.position.clone(), ht = controls.target.clone(); camera.position.copy(p); controls.target.copy(t); camera.lookAt(t); return [hp, ht]; }
   function capFor(i) { const r = TL[i], G = D.groups || [];
     cap.innerHTML = '<div class="ta"></div><div class="tt"></div><div class="tx"></div><div class="tp"><i></i></div>';
-    cap.querySelector('.ta').textContent = r.act || G[r.grp] || ''; cap.querySelector('.tt').textContent = (i < NI ? '' : (i - NI + 1) + ' · ') + (r.title || ''); cap.querySelector('.tx').textContent = r.cap || r.text || ''; }
+    cap.querySelector('.ta').textContent = r.act || G[r.grp] || ''; cap.querySelector('.tt').textContent = (i < NI ? '' : (i - NI + 1) + ' · ') + (r.title || ''); cap.querySelector('.tx').textContent = String(r.cap || r.text || '').replace(/\s*\(\s*(?:after\s+)?Vigneaux,?\s*2026\s*\)/g, '').replace(/\s+in Vigneaux \(2026\)/g, ''); }
   let autoFs = false;
   function stopTour() { if (!TOUR) return; TOUR = null; wrap.classList.remove('touring'); controls.enabled = true; cap.style.display = 'none'; bPlay.textContent = 'Play the tour'; bPlay.dataset.st = 'play'; bPlay.title = ''; bEnd.style.display = 'none';
     if (autoFs) { autoFs = false; if (wrap.classList.contains('fs')) bFs.onclick(); }

@@ -4901,11 +4901,44 @@
     ky.className = "agkey";
     ky.innerHTML =
       '<span><i style="background:#111;border-color:#111"></i>contested: resisted and supported</span><span><i style="border-style:dashed"></i>a gap: what you would design does not reach it</span><span><i style="border-color:#1f6f66"></i>support nothing uses yet</span><span><i style="border-color:#777"></i>designed with no cause behind it, or read differently by the two pictures</span><span><b style="border-top:1.5px solid #111"></b>the ground agrees</span><span><b style="border-top:1.6px dashed #b3261e"></b>the ground raises a question</span>';
-    wrap.appendChild(ky);
-    wrap.appendChild(rd);
+    var fb = document.createElement("button"),
+      hp = document.createElement("div"),
+      ft = document.createElement("div");
+    fb.type = "button";
+    fb.className = "agfsb";
+    fb.textContent = "Full screen";
+    ft.className = "agft";
+    ft.textContent = "THE TWO PICTURES, SIDE BY SIDE";
+    hp.className = "aghelp";
+    hp.innerHTML =
+      "<b>HOW TO READ IT</b><p>Each word on the left is something Pattern Analysis found in your answers and notes. Its lines run to every note on the ground that uses it, so you can see where that word stands: acceptance is the high ground, indifference the ridge, and distrust, aggression, and defiance the low ground. The dashed line across the map divides what helps (above) from what hinders (below); the goal is the black diamond.</p><p>A <b>solid black line</b> means the ground agrees with what Analysis found. A <b>dashed red line</b> means the ground tells a different story, so that word is worth a second look.</p><p>Tap a word to read what both pictures say about it; its lines also go onto the Pattern Synthesis 3D map.</p>";
+    var svgEl = wrap.querySelector("svg"),
+      fsOn = function (on) {
+        wrap.classList.toggle("agfs", on);
+        fb.textContent = on ? "Close full screen" : "Full screen";
+        document.documentElement.style.overflow = on ? "hidden" : "";
+      };
+    fb.onclick = function () {
+      fsOn(!wrap.classList.contains("agfs"));
+    };
+    document.addEventListener("keydown", function (e) {
+      "Escape" === e.key && wrap.classList.contains("agfs") && fsOn(!1);
+    });
+    var side = document.createElement("div");
+    side.className = "agside";
+    wrap.insertBefore(fb, wrap.firstChild);
+    side.appendChild(ft);
+    side.appendChild(hp);
+    side.appendChild(ky);
+    side.appendChild(rd);
+    var main = document.createElement("div");
+    main.className = "agmain";
+    svgEl.parentNode.insertBefore(main, svgEl);
+    main.appendChild(svgEl);
+    wrap.appendChild(side);
     var st = document.createElement("style");
     st.textContent =
-      "#gsm .agfig svg{display:block;width:100%;height:auto;border:1px solid #ddd;font-family:Questrial,Helvetica,Arial,sans-serif}#gsm .agsub{font-size:14px;line-height:1.5;color:#333;margin:0 0 10px}#gsm .agread{font-size:15px;line-height:1.5;margin:10px 0 18px;min-height:44px;border-left:3px solid #222;padding-left:12px}#gsm .agread .lnk{margin-left:4px}#gsm .agkey{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:#333;margin:8px 0 0}#gsm .agkey span{display:inline-flex;align-items:center;gap:6px}#gsm .agkey i{display:inline-block;width:20px;height:11px;border:1.5px solid #111;background:#fff}#gsm .agkey b{display:inline-block;width:24px;height:0}";
+      "#gsm .agfig svg{display:block;width:100%;height:auto;border:1px solid #ddd;font-family:Questrial,Helvetica,Arial,sans-serif}#gsm .agsub{font-size:14px;line-height:1.5;color:#333;margin:0 0 10px}#gsm .agread{font-size:15px;line-height:1.5;margin:10px 0 18px;min-height:44px;border-left:3px solid #222;padding-left:12px}#gsm .agread .lnk{margin-left:4px}#gsm .agfig{position:relative}#gsm .agfsb{display:block;margin:0 0 8px auto;background:#fff;border:1px solid #222;font:13px Questrial,Helvetica,Arial,sans-serif;padding:5px 11px;cursor:pointer}#gsm .agft,#gsm .aghelp{display:none}#gsm .agfig.agfs{position:fixed;inset:0;z-index:2147483000;background:#fff;margin:0;padding:52px 22px 20px;overflow:auto;display:flex;gap:26px;align-items:flex-start}#gsm .agfig.agfs .agsub{display:none}#gsm .agfig.agfs .agfsb{position:fixed;top:10px;right:14px;margin:0;font-size:14px;padding:6px 12px;z-index:2}#gsm .agfig.agfs .agmain{flex:1 1 auto;min-width:0}#gsm .agfig.agfs .agmain svg{width:100%;max-height:calc(100vh - 80px)}#gsm .agfig.agfs .agside{flex:0 0 360px}#gsm .agfig.agfs .agft{display:block;font-weight:700;font-size:13px;letter-spacing:.16em;margin:0 0 12px}#gsm .agfig.agfs .aghelp{display:block;font-size:14.5px;line-height:1.55;color:#222;margin:0 0 12px}#gsm .agfig.agfs .aghelp b{font-weight:700}#gsm .agfig.agfs .aghelp>b:first-child{display:block;font-size:11.5px;letter-spacing:.14em;margin-bottom:4px}#gsm .agfig.agfs .aghelp p{margin:0 0 8px}#gsm .agfig.agfs .agkey{flex-direction:column;gap:6px;margin:0 0 12px}@media(max-width:900px){#gsm .agfig.agfs{display:block}#gsm .agfig.agfs .agside{margin-top:14px}}#gsm .agkey{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:#333;margin:8px 0 0}#gsm .agkey span{display:inline-flex;align-items:center;gap:6px}#gsm .agkey i{display:inline-block;width:20px;height:11px;border:1.5px solid #111;background:#fff}#gsm .agkey b{display:inline-block;width:24px;height:0}";
     wrap.appendChild(st);
     return wrap;
   }
@@ -16757,7 +16790,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v218");
+        t && (t.textContent = "v219");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -18934,7 +18967,7 @@
         }),
         out = [],
         cost =
-          "Every move between emotions takes energy. Climbing takes far more than falling, and the farther apart two emotions are, the more a move costs. Most moves go through indifference. From acceptance and indifference, change can start now; from distrust, aggression, and defiance, it is unlikely in the short or medium term (Vigneaux, 2026).";
+          "Every move between emotions takes energy. Climbing takes far more than falling, and the farther apart two emotions are, the more a move costs. Most moves go through indifference. From acceptance and indifference, change can start now; from distrust, aggression, and defiance, it is unlikely in the short or medium term.";
       if (PLACE) {
         out.push({ act: act, title: "How to read this map", cap: "Each color is an emotion your notes carry, painted where you placed them; the ground is the real terrain. Where it has no color, no notes are nearby, so there is no information there.", at: null });
         out.push({ act: act, title: "What a move costs", cap: cost, at: null });
@@ -18943,7 +18976,7 @@
       out.push({
         act: act,
         title: "How to read this ground",
-        cap: "Each color is an emotion your notes carry. Height follows the order in Vigneaux (2026): acceptance is the high ground, indifference a ridge, then distrust, aggression, and defiance, the deepest ground.",
+        cap: "Each color is an emotion your notes carry. Height follows the order of the emotions: acceptance is the high ground, indifference a ridge, then distrust, aggression, and defiance, the deepest ground.",
         at: null,
       });
       if (!primer) {
@@ -18985,7 +19018,7 @@
                 }),
             ) +
             (ind.length > 1 ? " are" : " is") +
-            " indifference, the emotion of transition (Vigneaux, 2026). No one here is for or against the goal yet. Most moves between emotions go along a ridge like this.",
+            " indifference, the emotion of transition. No one here is for or against the goal yet. Most moves between emotions go along a ridge like this.",
           at: [ind[0].x, ind[0].y],
         });
       var rf = rockFaces().faces[0];
