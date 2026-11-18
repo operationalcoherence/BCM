@@ -16757,7 +16757,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v216");
+        t && (t.textContent = "v217");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -21772,7 +21772,7 @@
       var lb = $("laybar");
       if (!lb) return;
       lb.innerHTML = "";
-      if (!terr || !terr.threads.length) return;
+      if (ANH || PAR || CARDH || !terr || !terr.threads.length) return;
       var lt = document.createElement("span");
       lt.className = "lbl";
       lt.textContent = "PATTERNS";

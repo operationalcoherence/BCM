@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 18 · 2026-11-18 · Preview at **v216** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 18 · 2026-11-18 · Preview at **v217** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v217** (2026-11-18, preview): the patterns row shows only on the Synthesis map (it leaked onto Analysis through the shared template, where its buttons did nothing). Lesson: the terrain template is shared by Analysis, Synthesis, In Parallel, and cards; gate anything new on ANH/PAR/CARDH. See `docs/v217_update.md`.
 - **v216** (2026-11-18, preview): In Parallel cut to the figure (5c–5e): figure, Where to start, then MORE FROM BOTH PICTURES (closed) and THE EARLIER 3D VIEW (closed, last); agree/differ paragraphs dropped where the figure shows (`gsmIntOrder`). See `docs/v216_update.md`.
 - **v215** (2026-11-18, preview): his call: no action grid anywhere. In Parallel opens with THE TWO PICTURES, SIDE BY SIDE (moved there from the end of Synthesis); gsmGrid() deleted; MOVES, IN ORDER without grid or reach wording; tapped lines wait for the Synthesis 3D (`window.gsmSynPend`). See `docs/v215_update.md`.
 - **v214** (2026-11-18, preview): the agreement figure drawn with lines, his call ("use lines"): solid black = the ground agrees, dashed red = it asks; boxes styled by what Analysis found (black contested, dashed gap, teal unused support, grey designed without a cause); key under the figure; thin lines on the 3D too. See `docs/v214_update.md`.
