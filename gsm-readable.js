@@ -4731,7 +4731,7 @@
     var wrap = document.createElement("div");
     wrap.className = "agfig";
     wrap.innerHTML =
-      '<div class="agsub">Pattern Analysis keeps its own column; a line runs from each of its words to every note on the Synthesis ground that carries it. A <b>solid black line</b>: the ground agrees with what Analysis found. A <b>dashed red line</b>: the ground raises a question about it. Tap a word to follow it here and on the 3D map above.</div>';
+      '<div class="agsub">Pattern Analysis keeps its own column; a line runs from each of its words to every note on the Synthesis ground that carries it. A <b>solid black line</b>: the ground agrees with what Analysis found. A <b>dashed red line</b>: the ground raises a question about it. Tap a word to follow it here and on the Pattern Synthesis 3D map.</div>';
     var svg = mk("svg", { viewBox: "0 0 680 " + VH.toFixed(0), role: "img", "aria-label": "Pattern Analysis words in a column, joined by hoses to their notes on the Pattern Synthesis ground" }, wrap);
     mk("rect", { x: 0, y: 0, width: 176, height: VH, fill: "#fafafa" }, svg);
     var t0 = mk("text", { x: 10, y: 16, "font-size": 10.5, "letter-spacing": 1.4, fill: "#555" }, svg);
@@ -4837,19 +4837,24 @@
       rd.textContent = "";
       if (SEL < 0) {
         rd.textContent = "Tap a word to read what both pictures say about it.";
+        window.gsmSynPend = null;
         window.gsmSynRel && window.gsmSynRel.hoses && window.gsmSynRel.hoses(null);
         return;
       }
       var o = IT[SEL];
       rd.appendChild(document.createTextNode(reading(o) + " "));
-      if (window.gsmSynRel && window.gsmSynRel.hoses && o.ns.length > 1) {
-        window.gsmSynRel.hoses({ pts: chain(o.ns), ask: !o.ok });
+      window.gsmSynPend = o.ns.length > 1 ? { pts: chain(o.ns), ask: !o.ok } : null;
+      if (o.ns.length > 1) {
+        window.gsmSynRel && window.gsmSynRel.hoses && window.gsmSynRel.hoses(window.gsmSynPend);
         var bt = document.createElement("button");
         bt.type = "button";
         bt.className = "lnk";
-        bt.textContent = "See it on the 3D map ↑";
+        bt.textContent = "See it on the Pattern Synthesis 3D map";
         bt.onclick = function () {
-          window.gsmSynHost && window.gsmSynHost.scrollIntoView({ behavior: "smooth", block: "center" });
+          window.gsmTab && window.gsmTab(3);
+          setTimeout(function () {
+            window.gsmSynHost && window.gsmSynHost.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 300);
         };
         rd.appendChild(bt);
       } else window.gsmSynRel && window.gsmSynRel.hoses && window.gsmSynRel.hoses(null);
@@ -12725,99 +12730,7 @@
                     })),
                     at.length && E.push(["Where to start", "Start with " + at.join(", then ") + "."]));
 
-                  function gsmGrid() {
-                    var pts = window.gsmGridAll || [];
-                    if (pts.filter(function (p) {
-                        return p.act;
-                      }).length < 2) return "";
-                    var ms = Math.max.apply(null, pts.map(function (p) { return p.shared; }).concat([1]));
-                    var W = 620,
-                      H = 440,
-                      L = 60,
-                      R = W - 60,
-                      T = 44,
-                      B = H - 44,
-                      cx = (L + R) / 2,
-                      cy = (T + B) / 2,
-                      col = ["#c8352e", "#2a9d8f", "#a48fd0", "#e6be4f", "#1b2a8f"],
-                      used = {},
-                      jit = function (k) {
-                        return ((k * 2654435761) % 1000) / 1000 - 0.5;
-                      },
-                      quad =
-                        '<rect x="' + L + '" y="' + T + '" width="' + (cx - L) + '" height="' + (cy - T) + '" fill="#f4f8f6"/>' +
-                        '<rect x="' + cx + '" y="' + T + '" width="' + (R - cx) + '" height="' + (cy - T) + '" fill="#fbf3f2"/>' +
-                        '<rect x="' + L + '" y="' + cy + '" width="' + (cx - L) + '" height="' + (B - cy) + '" fill="#eef6f3"/>' +
-                        '<rect x="' + cx + '" y="' + cy + '" width="' + (R - cx) + '" height="' + (B - cy) + '" fill="#f7f3fa"/>' +
-                        '<g font-family="Questrial,Helvetica,Arial,sans-serif" font-size="11" fill="#777" letter-spacing=".08em">' +
-                        '<text x="' + (L + 8) + '" y="' + (T + 16) + '">FIRST STEPS, LOCALLY</text>' +
-                        '<text x="' + (R - 8) + '" y="' + (T + 16) + '" text-anchor="end">ONLY WHERE IT BLOCKS</text>' +
-                        '<text x="' + (L + 8) + '" y="' + (B - 8) + '">START HERE: THEY TRAVEL</text>' +
-                        '<text x="' + (R - 8) + '" y="' + (B - 8) + '" text-anchor="end">WORTH IT ONCE MOVING</text></g>',
-                      dots = pts
-                        .slice()
-                        .sort(function (a, b) {
-                          return a.act - b.act;
-                        })
-                        .map(function (p) {
-                          var x = L + 14 + p.d * (R - L - 28) + jit(p.k) * 26,
-                            y = T + 24 + p.any * (B - T - 48) + jit(p.k * 7) * 18,
-                            kk = Math.round(x / 16) + "," + Math.round(y / 16);
-                          while (used[kk]) {
-                            x += 14;
-                            kk = Math.round(x / 16) + "," + Math.round(y / 16);
-                          }
-                          used[kk] = 1;
-                          var r = p.act ? 7 + 5 * (p.shared / ms) : 5 + 3 * (p.shared / ms),
-                            c = null == p.e ? "#888" : col[p.e];
-                          return (
-                            '<g class="gdot"><circle data-ref="note ' + p.k + '" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r.toFixed(1) +
-                            '" fill="' + (p.act ? c : "#fff") + '" stroke="' + (p.act ? "#111" : c) + '" stroke-width="' + (p.act ? 1.4 : 2.6) +
-                            '" style="cursor:help"><title>' + p.id + " · Q." + p.q + "</title></circle>" +
-                            '<text x="' + (x + r + 3).toFixed(1) + '" y="' + (y + 4).toFixed(1) + '" font-size="' + (p.act ? 12.5 : 10.5) +
-                            '" font-weight="' + (p.act ? 700 : 400) + '" font-family="Questrial,Helvetica,Arial,sans-serif" fill="' + (p.act ? "#111" : "#666") + '" pointer-events="none">' + p.id + "</text></g>"
-                          );
-                        })
-                        .join(""),
-                      svg =
-                        '<svg viewBox="0 0 ' + W + " " + H + '" style="display:block;width:100%;max-width:660px;height:auto;margin:6px auto;background:#fff" role="img" aria-label="Actions by ease and reach">' +
-                        quad +
-                        '<line x1="' + cx + '" y1="' + T + '" x2="' + cx + '" y2="' + B + '" stroke="#111" stroke-width="1.2"/>' +
-                        '<line x1="' + L + '" y1="' + cy + '" x2="' + R + '" y2="' + cy + '" stroke="#111" stroke-width="1.2"/>' +
-                        '<g font-family="Questrial,Helvetica,Arial,sans-serif" font-size="16" fill="#111" text-anchor="middle">' +
-                        '<text x="' + cx + '" y="' + (T - 14) + '">Act Here</text><text x="' + cx + '" y="' + (B + 28) + '">Act Anywhere</text>' +
-                        '<text x="' + (L - 6) + '" y="' + (cy + 5) + '" text-anchor="end" font-size="14">Easy</text><text x="' + (R + 6) + '" y="' + (cy + 5) + '" text-anchor="start" font-size="14">Difficult</text></g>' +
-                        dots +
-                        "</svg>",
-                      A = pts.filter(function (p) {
-                        return p.act;
-                      }),
-                      q4 = function (f) {
-                        return A.filter(f).map(function (p) {
-                          return p.id;
-                        });
-                      },
-                      li = function (a) {
-                        return a.length > 1 ? a.slice(0, -1).join(", ") + (a.length > 2 ? ", and " : " and ") + a[a.length - 1] : a[0];
-                      },
-                      ea = q4(function (p) { return p.d < 0.5 && p.any >= 0.5; }),
-                      eh = q4(function (p) { return p.d < 0.5 && p.any < 0.5; }),
-                      da = q4(function (p) { return p.d >= 0.5 && p.any >= 0.5; }),
-                      dh = q4(function (p) { return p.d >= 0.5 && p.any < 0.5; }),
-                      others = pts.filter(function (p) { return !p.act && p.d < 0.5 && p.any >= 0.5; }).map(function (p) { return p.id; }),
-                      tx = [];
-                    ea.length && tx.push("<b>Easy, and they act anywhere:</b> " + li(ea) + ". Little energy, and their words run through notes in many emotions, so they travel. Start here.");
-                    eh.length && tx.push("<b>Easy, but they act here:</b> " + li(eh) + ". Cheap to take, but tied to one kind of ground. Good first steps in that place, not everywhere.");
-                    da.length && tx.push("<b>Difficult, but they act anywhere:</b> " + li(da) + ". They cost energy, yet what they touch runs through the whole workbook. Worth the effort once something is moving.");
-                    dh.length && tx.push("<b>Difficult, and they act here:</b> " + li(dh) + ". Costly and local. Take them only where that ground is what stands between you and the goal, and watch them closely.");
-                    others.length &&
-                      tx.push("<b>Not yet actions, but easy and far-reaching:</b> " + li(others.slice(0, 6)) + (others.length > 6 ? " and more" : "") + ". These notes sit where acting would be cheap and would travel. Nothing you would do is placed on them yet; each is a candidate for a Q.5–Q.7 note.");
-                    return (
-                      '<div class="intl"><b>Actions by ease and reach.</b> Every note on your map, placed by how hard it would be to act on it (left to right: the emotion it sits in, and whether it is above or below the line) and how far acting on it would reach (top to bottom: from here, where its words meet notes in few emotions, to anywhere, where they run through many). <b>Filled dots</b> are things you would do (Q.5–Q.7); <b>rings</b> are every other note. Bigger dots share words with more notes. Colors are the emotions. Hover or tap a dot to read its note.</div>' +
-                      svg +
-                      '<div class="intl">' + tx.join("<br>") + "</div>"
-                    );
-                  }
+                  /* v215: the action grid is gone (his call, 11-18) */
                   var st = function (t) {
                       var e = t.cloneNode(!0);
                       return (
@@ -12841,7 +12754,7 @@
                       ((window.gsmData ? window.gsmData().m || [] : []).some(function (z) {
                         return (z[3] || "").trim();
                       })
-                        ? gsmGrid() + '<details class="fold parold" style="margin:14px 0 18px"><summary>THE EARLIER 3D VIEW</summary><div class="intsub" style="margin:4px 0 8px">The two pictures now meet at the end of Pattern Synthesis, in THE TWO PICTURES, SIDE BY SIDE. This earlier view is kept here. Both pictures on one map. From each question’s flag, thin lines run to its notes: how your thinking spreads across the ground (Analysis). The numbers are what the ground says, read on Pattern Synthesis (Synthesis). Where a question’s lines reach a numbered place, the two pictures meet. Use the buttons to follow one question at a time.</div><div class="gterr-host" data-an="1" data-par="1"></div></details>'
+                        ? '<div class="agslot"></div><details class="fold parold" style="margin:14px 0 18px"><summary>THE EARLIER 3D VIEW</summary><div class="intsub" style="margin:4px 0 8px">Both pictures on one map. From each question’s flag, thin lines run to its notes: how your thinking spreads across the ground (Analysis). The numbers are what the ground says, read on Pattern Synthesis (Synthesis). Where a question’s lines reach a numbered place, the two pictures meet. Use the buttons to follow one question at a time.</div><div class="gterr-host" data-an="1" data-par="1"></div></details>'
                         : '<div class="int2"><div class="intfig"><div class="intcap">AROUND THE GOAL</div>' +
                           st(r) +
                           '<div class="intsub">How far each answer is from the goal</div></div><div class="intfig"><div class="intcap">HOW IT HANGS TOGETHER</div>' +
@@ -12912,13 +12825,8 @@
                       } catch (e) {
                         window.console && console.warn("agree figure", e);
                       }
-                      if (AG) {
-                        var AH = document.createElement("div");
-                        AH.className = "plab";
-                        AH.textContent = "THE TWO PICTURES, SIDE BY SIDE";
-                        Rt.insertBefore(AH, ct);
-                        Rt.insertBefore(AG, ct);
-                      }
+                      var SL = lt.querySelector(".agslot");
+                      AG && SL && SL.appendChild(AG);
                     })(),
                     s)
                   ) {
@@ -16821,7 +16729,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v214");
+        t && (t.textContent = "v215");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -19754,7 +19662,7 @@
                 return p.d >= 0.5;
               }),
               mv = [],
-              start = ea.length ? ea : eh.length ? eh : easy.st.acc.slice(0, 2).map(function (k) {
+              start = ea.length || eh.length ? ea.concat(eh) : easy.st.acc.slice(0, 2).map(function (k) {
                 return "N" + k;
               }),
               cross = [];
@@ -19767,11 +19675,9 @@
               mv.push(
                 "Start with " +
                   list(start.slice(0, 3)) +
-                  (ea.length
-                    ? (start.length > 1 ? ": easy to take, and their words reach" : ": easy to take, and its words reach") + " across the workbook (the action grid on In Parallel)."
-                    : eh.length
-                      ? (start.length > 1 ? ": easy to take, though they act in one place; begin there." : ": easy to take, though it acts in one place; begin there.")
-                      : ", on the ground way " + easy.key + " passes, where acceptance already is.") +
+                  (ea.length || eh.length
+                    ? (start.length > 1 ? ": easy to take, on ground that already holds; begin there." : ": easy to take, on ground that already holds; begin there.")
+                    : ", on the ground way " + easy.key + " passes, where acceptance already is.") +
                   (start.length > 1 ? " Keep them small and visible." : " Keep it small and visible."),
               );
             cross.length &&
@@ -22850,6 +22756,7 @@
               if (!ANH && !PAR && !CARDH) {
                 window.gsmSynRel = host._rel;
                 window.gsmSynHost = host;
+                window.gsmSynPend && host._rel.hoses && host._rel.hoses(window.gsmSynPend);
               }
             } catch (e) {
               box.innerHTML = "";
