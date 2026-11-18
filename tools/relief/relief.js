@@ -251,6 +251,16 @@ function mount(host, D) {
       const pts = L.map(p => new THREE.Vector3(X(p[0]), gH(p[0], p[1]) + 1.2, Z(p[1]))); const c = new THREE.CatmullRomCurve3(pts);
       const n = Math.max(24, pts.length * 3); LOOPS.add(new THREE.Mesh(new THREE.TubeGeometry(c, n, 1.05, 6), haloMat)); LOOPS.add(new THREE.Mesh(new THREE.TubeGeometry(c, n, 0.9, 6), loopMat)); }));
     dirty = true; }
+  /* v213: a word's hoses from the agreement figure, drawn as the ways are (black: the ground agrees; white: it asks) */
+  const HOSES = new THREE.Group(); scene.add(HOSES); let hoseN = 0;
+  function hoses(h) { while (HOSES.children.length) { const m = HOSES.children.pop(); m.geometry.dispose(); m.material.dispose(); } hoseN = 0;
+    if (h && h.pts && h.pts.length > 1) { const P = h.pts, white = !!h.ask;
+      for (let i = 1; i < P.length; i++) { const a = P[i - 1], b = P[i], n = Math.max(8, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 3)), pts = [];
+        for (let k = 0; k <= n; k++) { const t = k / n, x = a[0] + (b[0] - a[0]) * t, y = a[1] + (b[1] - a[1]) * t; pts.push(new THREE.Vector3(X(x), gH(x, y) + 2 + Math.sin(Math.PI * t) * 4, Z(y))); }
+        const c = new THREE.CatmullRomCurve3(pts), tube = new THREE.Mesh(new THREE.TubeGeometry(c, n * 4, 1.5, 8), new THREE.MeshStandardMaterial({ color: white ? '#f4f4f4' : '#111111', roughness: 0.45, emissive: white ? '#ffffff' : '#000000', emissiveIntensity: white ? 0.35 : 0 }));
+        tube.castShadow = true; HOSES.add(tube); hoseN++;
+        if (white) HOSES.add(new THREE.Mesh(new THREE.TubeGeometry(c, n * 4, 1.9, 8), new THREE.MeshStandardMaterial({ color: '#222', side: THREE.BackSide }))); } }
+    dirty = true; }
   let selWay = null, hovWay = null;
   function showWays() { const k = hovWay || selWay; Object.keys(WAYS).forEach(q => { const w = WAYS[q], on = !k || q === k; w.mat.opacity = on ? 1 : 0.15; if (w.edge) w.edge.material.opacity = on ? 0.9 : 0.1; w.badges.forEach(b => { b.el.style.opacity = on ? 1 : 0.25; }); }); dirty = true; }
   const ray = new THREE.Raycaster(), mv = new THREE.Vector2();
@@ -356,7 +366,7 @@ function mount(host, D) {
   function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
   size(); home(); loop(); placeGround();
   function focusQ(q) { NOBJ.forEach(o => { const on = !q || o.q === q; o.st.visible = o.hd.visible = on; if (o.sp) o.sp.visible = on; o.lo.off = !on; o.lo.el.style.opacity = on ? '' : '0'; o.lo.el.style.pointerEvents = on ? '' : 'none'; }); dirty = true; }
-  return { loops, focusQ, tour: startTour, touring() { return !!TOUR; }, paused() { return !!TOUR && TOUR.paused != null; }, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
+  return { loops, hoses, hoseCount() { return hoseN; }, focusQ, tour: startTour, touring() { return !!TOUR; }, paused() { return !!TOUR && TOUR.paused != null; }, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
     snap() { renderer.render(scene, camera); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
 }
 
