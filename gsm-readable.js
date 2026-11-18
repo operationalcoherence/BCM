@@ -4589,8 +4589,21 @@
     }));
   }
   function gsmPhNameH(key, ctx) {
-    var m = gsmPhName(key, ctx);
-    return Gt(m.ph) + (m.ids.length ? " (" + phList(m.ids.slice(0, 3)) + ")" : "");
+    var m = gsmPhName(key, ctx),
+      ids = m.ids;
+    if (!ids.length) {
+      var stems = String(key).split(" ");
+      ids = phKeep(function () {
+        return phAll()
+          .filter(function (x) {
+            return /^Q/.test(x.src) && (!ctx || x.q <= 4) && phIn(stems, x.t);
+          })
+          .map(function (x) {
+            return x.src;
+          });
+      });
+    }
+    return Gt(m.ph) + (ids.length ? " (" + phList(ids.slice(0, 3)) + ")" : "");
   }
   // the meanings of a saturated word, opened into phrases and sentences (ONE WORD, SEVERAL MEANINGS)
   function gsmSenses(w, subs) {
@@ -5765,7 +5778,13 @@
               })
               .slice(0, 3)
               .map(function (i) {
-                return '<div class="cq">' + P[i].l + ": “" + Gt(P[i].s) + "”</div>";
+                return (
+                  '<div class="cq">' +
+                  P[i].l +
+                  ": “" +
+                  Gt(P[i].s).replace(new RegExp("\\b(" + b.k + "[a-z]*)", "gi"), "<b>$1</b>") +
+                  "”</div>"
+                );
               })
               .join("");
           }
@@ -16468,7 +16487,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v211");
+        t && (t.textContent = "v212");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -17028,9 +17047,9 @@
 /* ---- Pattern Synthesis terrain (layer: the ground ahead) ---- */
 !(function () {
   var CSS =
-      ".gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}.gterr .gfold summary{cursor:pointer;list-style:none}.gterr .gfold summary::-webkit-details-marker{display:none}.gterr .gfold summary::before{content:\"+ \";font-weight:700}.gterr .gfold[open] summary::before{content:\"\u2212 \"}.gterr .gfold .sec{display:inline;margin:0}.gterr .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}.gterr .more{color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}.gterr .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}.gterr .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}.gterr .stage.full .fsx{display:block}.gterr .stage:fullscreen .fsx{display:block}.gterr .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}#gsm .rd[data-way]{cursor:default;transition:background .15s}#gsm .rd.gtwon{background:#f1f0ea;box-shadow:inset 3px 0 0 #111}#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 2vw 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .selbox,#gsm .coa.gtfs-on .csn,#gsm .coa.gtfs-on .coacall,#gsm .coa.gtfs-on .cq{max-width:960px}.gtrb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px;font:12px 'Questrial',sans-serif}.gtrb span{letter-spacing:.1em;color:#555;margin-right:2px}.gtrb button{background:#fff;color:#111;border:2px solid #111;border-radius:14px;padding:4px 11px;font:12.5px 'Questrial',sans-serif;cursor:pointer}.gtrb button.on{background:#111;color:#fff}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}",
+      ".gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .laybar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 8px}.gterr .laybar:empty{display:none}.gterr .laybar .lbl{font-size:11px;font-weight:700;letter-spacing:.14em;margin-right:4px}.gterr .laybar .lchip{font:13px Questrial,Helvetica,Arial,sans-serif;padding:6px 11px;border:1px solid #222;border-radius:16px;background:#fff;color:#222;cursor:pointer}.gterr .laybar .lchip.on{background:#3a1f0c;border-color:#3a1f0c;color:#fff}.gterr .laybar .lhelp{flex:1 1 100%;font-size:12px;color:#666;margin-top:2px}.gterr .phq{margin:6px 0 2px;font-size:13.5px;line-height:1.45}.gterr .phq div{padding-left:9px;border-left:2px solid #ddd;margin:0 0 4px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}.gterr .gfold summary{cursor:pointer;list-style:none}.gterr .gfold summary::-webkit-details-marker{display:none}.gterr .gfold summary::before{content:\"+ \";font-weight:700}.gterr .gfold[open] summary::before{content:\"\u2212 \"}.gterr .gfold .sec{display:inline;margin:0}.gterr .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}.gterr .more{color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}.gterr .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}.gterr .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}.gterr .stage.full .fsx{display:block}.gterr .stage:fullscreen .fsx{display:block}.gterr .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}#gsm .rd[data-way]{cursor:default;transition:background .15s}#gsm .rd.gtwon{background:#f1f0ea;box-shadow:inset 3px 0 0 #111}#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 2vw 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .selbox,#gsm .coa.gtfs-on .csn,#gsm .coa.gtfs-on .coacall,#gsm .coa.gtfs-on .cq{max-width:960px}.gtrb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px;font:12px 'Questrial',sans-serif}.gtrb span{letter-spacing:.1em;color:#555;margin-right:2px}.gtrb button{background:#fff;color:#111;border:2px solid #111;border-radius:14px;padding:4px 11px;font:12.5px 'Questrial',sans-serif;cursor:pointer}.gtrb button.on{background:#111;color:#fff}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}",
     TPL =
-      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. Each number on the ground is explained here first; hover or tap a number on the map to read it there. Drag to turn the map; scroll or pinch to zoom.</div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold" open><summary><span class="sec" data-gt="phhead">PATTERNS THAT RUN THROUGH IT</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one to draw its loop on the map above.</div>\n  <div data-gt="threads"></div></details>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <details class="gfold gthow"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Where notes carry voices, each voice counts about evenly: a voice with few notes is weighted up and one with many is weighted down (between 0.6 and 1.8 times), so a small voice is not flattened by a large one.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors soften toward each other where emotions meet. Where two distant emotions meet with no ridge of indifference between them, the ground breaks to a bare rock face: getting across is a climb, and most moves go through indifference instead. Plain grass, soil, or rock with no color means no notes nearby, so no information there. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>',
+      '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. Each number on the ground is explained here first; hover or tap a number on the map to read it there. Drag to turn the map; scroll or pinch to zoom.</div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="laybar" data-gt="laybar"></div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold" open><summary><span class="sec" data-gt="phhead">PATTERNS THAT RUN THROUGH IT</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one here, or tap it in the row above the map, to draw it on the map.</div>\n  <div data-gt="threads"></div></details>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <details class="gfold gthow"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Where notes carry voices, each voice counts about evenly: a voice with few notes is weighted up and one with many is weighted down (between 0.6 and 1.8 times), so a small voice is not flattened by a large one.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors soften toward each other where emotions meet. Where two distant emotions meet with no ridge of indifference between them, the ground breaks to a bare rock face: getting across is a climb, and most moves go through indifference instead. Plain grass, soil, or rock with no color means no notes nearby, so no information there. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>',
     TC = {},
     QU = [],
     QB = 0;
@@ -18185,7 +18204,7 @@
       else out.push("It lies off to the side of the line between present and goal.");
       if (ask.length)
         out.push(
-          "Until you answer the question below, " +
+          "Until you answer the question about it under PATTERNS THAT RUN THROUGH IT, " +
             list(
               ask.map(function (a) {
                 return a.id;
@@ -21220,9 +21239,6 @@
           var extra = document.createElement("div");
           extra.style.display = OPEN[key] ? "" : "none";
           extra.appendChild(document.createTextNode(r.more || ""));
-          (r.ask || []).forEach(function (a) {
-            askRow(extra, a, r.th);
-          });
           m.onclick = function (ev) {
             ev.stopPropagation();
             OPEN[key] = !OPEN[key];
@@ -21484,7 +21500,50 @@
         );
       }
     }
+    function fillLay() {
+      var lb = $("laybar");
+      if (!lb) return;
+      lb.innerHTML = "";
+      if (!terr || !terr.threads.length) return;
+      var lt = document.createElement("span");
+      lt.className = "lbl";
+      lt.textContent = "PATTERNS";
+      lb.appendChild(lt);
+      terr.threads.forEach(function (th) {
+        var c = document.createElement("button");
+        c.type = "button";
+        c.className = "lchip" + (thOn[th.w] ? " on" : "");
+        c.setAttribute("aria-pressed", thOn[th.w] ? "true" : "false");
+        c.textContent = "“" + th.w + "”";
+        c.onclick = function () {
+          if (thOn[th.w]) delete thOn[th.w];
+          else thOn[th.w] = 1;
+          syncLay();
+          render();
+        };
+        lb.appendChild(c);
+      });
+      var h = document.createElement("span");
+      h.className = "lhelp";
+      h.textContent = "Tap a pattern to draw it on the map; tap again to clear it. What each one means is under PATTERNS THAT RUN THROUGH IT, below the map.";
+      lb.appendChild(h);
+    }
+    function syncLay() {
+      var lb = $("laybar"),
+        el = $("threads");
+      lb &&
+        [].forEach.call(lb.querySelectorAll(".lchip"), function (c, i) {
+          var on = !!(terr.threads[i] && thOn[terr.threads[i].w]);
+          c.classList.toggle("on", on);
+          c.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+      el &&
+        [].forEach.call(el.querySelectorAll("input[type=checkbox]"), function (cb, i) {
+          cb.checked = !!(terr.threads[i] && thOn[terr.threads[i].w]);
+        });
+    }
     function fillThreads() {
+      fillLay();
       var el = $("threads");
       el.innerHTML = "";
       if (!terr.threads.length) {
@@ -21503,6 +21562,7 @@
         cb.onchange = function () {
           if (cb.checked) thOn[th.w] = 1;
           else delete thOn[th.w];
+          syncLay();
           render();
         };
         var b = document.createElement("b");
@@ -21525,13 +21585,41 @@
         md.className = "row";
         md.style.margin = "0 0 0 22px";
         md.appendChild(document.createTextNode(f[0]));
-        if (f[1]) {
+        var qs = document.createElement("div"),
+          pre = phraseRe(th.w);
+        qs.className = "phq";
+        th.ms.slice(0, 8).forEach(function (m) {
+          var sen = (String(m.t || "").match(/[^.!?]+[.!?]*/g) || [])
+            .map(function (z) {
+              return z.trim();
+            })
+            .filter(function (z) {
+              return pre.test(z);
+            })[0];
+          if (!sen) return;
+          var mt = pre.exec(sen);
+          if (sen.length > 180) {
+            var st = Math.max(0, mt.index - 70),
+              en = Math.min(sen.length, st + 180);
+            sen = (st ? "…" : "") + sen.slice(st, en) + (en < sen.length ? "…" : "");
+            mt = pre.exec(sen);
+          }
+          var d = document.createElement("div"),
+            bb = document.createElement("b");
+          d.appendChild(document.createTextNode(m.id + ": “" + sen.slice(0, mt.index)));
+          bb.textContent = mt[0];
+          d.appendChild(bb);
+          d.appendChild(document.createTextNode(sen.slice(mt.index + mt[0].length) + "”"));
+          qs.appendChild(d);
+        });
+        if (f[1] || qs.childNodes.length) {
           var mm = document.createElement("span");
           mm.className = "more";
           mm.textContent = "read more…";
           var ex = document.createElement("span");
           ex.style.display = "none";
-          ex.textContent = " " + f[1];
+          ex.textContent = f[1] ? " " + f[1] : "";
+          qs.childNodes.length && ex.appendChild(qs);
           mm.onclick = function () {
             var o = ex.style.display === "none";
             ex.style.display = o ? "" : "none";
@@ -22387,7 +22475,7 @@
                 .replace(/\s+/g, " ")
                 .split(/(?<=[.!?])\s+(?=[A-Z0-9“"(])/)
                 .filter(function (z) {
-                  return z && !/question below/i.test(z);
+                  return z && !/until you answer/i.test(z);
                 }),
               c = S.slice(0, 1);
             S.slice(1).some(function (z) {
