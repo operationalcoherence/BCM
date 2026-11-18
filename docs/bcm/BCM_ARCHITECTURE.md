@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 8 · 2026-11-17 (v195; F8 plan added) · Sources: 11-17 review, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 9 · 2026-11-18 (v206; v196–v206 folded in, see §16) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -18,10 +18,11 @@ BCM is a free web workbook from Operational Coherence. It helps a practitioner, 
 - Hosting: the BCM page on the Operational Coherence website.
 - Persistence: JSON export/import (`bear-canyon-workbook-YYYY-MM-DD.json`) and localStorage. No backend yet. A Firebase backend is set up for F8 (§12) but nothing uses it.
 - Repo: `operationalcoherence/BCM` (public), served by GitHub Pages. The Webador page loads `gsm-preview.js` through a small stub. The old `/gsmlive` page (pasted v92) is **defunct** (Gregory, 11-17). The preview page `operationalcoherence.com/bcm` is the BCM page.
-- Files: `gsm-readable.js` (the source, ~19k lines, one IIFE plus the terrain module appended) → esbuild minify → `gsm-preview.js` (what the preview page runs). `gsm-relief.js` = `tools/relief/relief.js` + three.js r187, loaded on demand for the 3D map. The canvas map is the fallback.
+- Files: `gsm-readable.js` (the source, ~22k lines, one IIFE plus the terrain module appended) → esbuild minify → `gsm-preview.js` (what the preview page runs). `gsm-relief.js` = `tools/relief/relief.js` + three.js r187, loaded on demand for the 3D map. The canvas map is the fallback.
 - Place map: Leaflet + Esri tiles. The key lives only in the Webador stub (`window.GSM_ESRI_KEY`), never in the repo.
 - Storage: localStorage key `groundsmith-web-v1`; save/open as JSON; workbooks can be combined.
-- Tests: `tests/` (Playwright). `matrix.py` runs every tab of every workbook; `dump2.py` renders tabs to text; `mkwb.py` writes the synthetic workbooks (always include a non-wildfire one).
+- Tests: `tests/` (Playwright). `matrix.py` runs every tab of every workbook; `dump2.py` renders tabs to text; `mkwb.py` writes the synthetic workbooks (always include a non-wildfire one); `relief_text.py` loads the 3D; `derive.py`, `switch.py`, `waymoves.py`, `qhover.py` check single features (see `tests/README.md`).
+- Derived state (v199): `gsmDerive()` runs on every pass, right after `gsmMED` is set in `Ut`, and computes everything other pages read (`gsmGridPts`, `gsmGridAll`; phrase caches reset here). No page computes what another page needs.
 - Release rule: one numbered version per batch, preview only, plus an update doc in `docs/`.
 
 ## 3. The questions (Q.1–Q.7)
@@ -49,10 +50,10 @@ In page order [I]:
 | Start Here (tab 5) | Name, how to use, glossary (WORDS USED HERE) | — |
 | Mapping Context (tab 0) | Goal, place, Q.1–Q.7 answers, who did what | — |
 | **Mapping Landscape** (tab 1; was "Mapping Change", renamed v171) | Place notes on a 2D line map (x = PRESENT→FUTURE, y = HELP↑/HINDER↓) and a spatial ESRI map. 7 symbols. Note linking (new) | instructions, symbol legend |
-| Pattern Analysis (tab 2) | Analysis of notes and answers | Looking in: *Your story so far*, *Biggest gap*, What stands out, In the words, Possible patterns, Source, Voices |
+| Pattern Analysis (tab 2) | Analysis of notes and answers | (v205 order) AT A GLANCE → THE SAME THING? prompt while unanswered → What your use of the method produced → 1 · Looking in: Your landscape, one question at a time (3D; hover a question for its notes) → Your story so far (v206: told as a story) → What stands out → In the words → Words that make the world (own fold) → Possible patterns → Still open |
 | In Parallel (tab 6) | Analysis and the "tangle" read side by side (still uses the old petal and hang figures; Synthesis keeps the hang figure hidden for it) | Read together, Where they differ, Closest/farthest, Emotion, Voices, Patterns worth a second look |
 | Pattern Synthesis (tab 3) | 3D terrain of emotion × structure | Looking out → How this map is made (fold) → About what you collected → The lay of the land: What the ground says (numbered readings) → 3D map → Patterns that run through it (phrase loops) → Model a course of action → Cause and effect, Now and later, Scale, One judgement twice, In your answers not on the map, Does this serve the goal?, What it might mean, What it rests on, What you linked, What to pay attention to |
-| Taking Action (tab 4) | Program/strategy cards per area, each with first moves or a sequence, a 3D "way through it" (routes A and B), and keep/change/drop | Sources, How to read, No response yet, Does this answer it?, cards, Where the cards meet, More information needed, What you decided and why, References |
+| Taking Action (tab 4) | Program/strategy cards (titles are phrases from the user's writing, v200; IN SERVICE OF THE GOAL; program/strategy by where the way goes plus a saved manual switch, v202; ground cards for hostile emotion among acceptance, up to three, v202/v204), each with FIRST MOVES (a line per way, v203), a 3D way through it (ways A notes, B firm ground, C support; fixed letters, v197), and keep/change/drop | How to read, Nothing you would do answers these yet, Does this answer it?, cards, Where the cards meet, More information needed, What you decided and why, References (v198: one list) |
 | Footer (all pages) | IP footer statement + "Intellectual property statement" fold (formal statement), since v171 | — |
 
 The 7 Mapping symbols are the seven question symbols, labeled already doing (Q.1), opposition, support, conditions, design, redesign and reinforce. A note takes its symbol's question number.
@@ -110,7 +111,9 @@ Shipped (v172–v173):
 - **Saturation filter** (v172): a stem in ≥40% of the pieces (goal, answers, notes; at least 10 pieces) that also heads ≥2 recurring bigrams is the medium. Its count is set to 1, so no finding, card or reading names the bare word; its phrases carry the meaning. `window.gsmMED` = {word: {n, of, subs, cnt}}.
 - **ONE WORD, SEVERAL MEANINGS** (v172): the medium word's phrases sorted by side of the line (help/hinder/both).
 - **Same-meaning declarations** (v173): `asks["same|A|B"] = "y"` rewrites A→B in the tokenizer input (`gsmSame` inside `Ht`), never in the displayed text. Asked only for two medium words where one contains the other. Split by default; merge only on the person's yes.
-- **Story** (v173): YOUR STORY SO FAR is generated prose (SY() in the Looking In builder) from note counts per question, emotion mix per question and voice, `gsmFR.it` term categories, `gsmMED`, `gsmWS` and `gsmNR`.
+- **Story** (v173; opening rewritten v206): YOUR STORY SO FAR is generated prose (SY() in the Looking In builder). Since v206 the opening tells the context grasped (Q.1–Q.4 only) in order, quoting the notes: Q.1's most connected sentence, then what holds the goal back and what sits on the help side in the present, then what waits further on toward the goal (line map: x < 157 = present, y < 118 = helps; notes ranked by distance from the line, then emotion), then how help and hindrance are spread over time, and last the medium word's two jobs in one sentence. Place maps use the questions instead of position. The sections after it (What stands in the way …) draw on counts per question, emotion mix, voice, `gsmFR.it`, `gsmMED`, `gsmWS` and `gsmNR`.
+- **Phrase-and-meaning layer** (v200–v201): `phBest`, `phClause`, `gsmPhTitle`, `gsmPurpose`, `gsmPhName`, `gsmSenses`, `phIn`, all wrapped in `phKeep` so the word tallies (`Mt`, `NmK`, `NmD`) don't move. No finding, card title, or theme is a lone word.
+- **THE SAME THING?** (v205): shown as a prompt at the top of Pattern Analysis while unanswered (`window.gsmSameAsk`), with one sentence from the workbook for each word. Saves through `window.gsmSaveP` (a local `var P = []` near the IN THE WORDS builder hides the save function `P`; never call `P()` there).
 
 Required behavior [D] (status):
 1. **Semantic saturation filter** (✔ v172): a term found across nearly all of Q.1–Q.7 without differentiated emotional or structural context (e.g. "fire") is the medium, not a signal. Suppress it as a primary cluster node or require sub-phrase granularity.
@@ -128,10 +131,12 @@ Terrain module modes (one `mount`): Synthesis (default: readings, phrase loops, 
 - 2–3 toggleable pathways to the same goal by different routes. Each has its rationale, how it differs, when to choose it, impact, benefit, effort (energy) and ROI, plus a comparison chart.
 - **Strategy vs. program** (Morin): programs suit stable sequences; strategy is needed where the environment shifts. Actions escape their intent (ecology of action), so each pathway needs *watch signals* and a *stop-and-readjust point*.
 - **Action friction field**: an action's energy cost depends on the emotional terrain it crosses.
-- **Act-here / act-anywhere × easy / difficult** grid (axis.png): plots possible actions by energy and by reach (context-specific vs. universal). It sits before Taking Action (In Parallel) and feeds it.
+- **Action grid** (`gsmGrid()` on In Parallel): **parked** [D 11-17]. The act-here/act-anywhere framing is rejected (too close to Snowden and Juarrero); all three mocked layouts were rejected. If it returns, start from the single decision it should help someone make before Taking Action, and read placement from the note itself, not its emotion or position.
 - **Synthesis→Action handoff**: a rule that turns a terrain vector (cost, height, emotional transition) into sequenced moves.
 - **Reflexive loop**: logging or adjusting an action flags the upstream Q.1–Q.4 nodes and emotional contours it affects, and prompts re-synthesis.
-- Constraint prompt: "What constraint or rule keeps this note in the low ground, and how do we change it?"
+- Constraint prompt: "What constraint or rule keeps this note in the low ground, and how do we change it?" Saves to `asks["cons|id"]`; nothing reads it yet (review 6h, Phase 2 step 8).
+- Program or strategy [D 11-18]: a way from acceptance into distrust, aggression, or defiance, or one that crosses the help and hinder line, is a strategy (v202, `MixE` in `Fn`). The manual switch (`asks["mode|key"]`) wins in both directions.
+- FIRST MOVES follows the way (v203, `wayMoves(k)` in the terrain module): the words follow the drawn way, not the other way round (measured; reordering the way made it far longer). Way A's zigzag is still open.
 
 ## 11. Data schema (export v1)
 ```
@@ -216,3 +221,15 @@ Mockup: https://claude.ai/artifact/Dqy6xjxr4wPyGpKAf6hn4T. Costs write-up: https
 
 ## 15. Terminology
 See `BCM_CONCEPT_REGISTRY.md`.
+
+## 16. Changes since Rev 8 (v196–v206, 11-17 to 11-18)
+- v196: his wording review applied; serial comma everywhere.
+- v197: the method's name under every 3D map; indifference joined into one yellow band; ways with fixed letters, one badge each, side by side where shared.
+- v198: review wording: emotion definitions (direct quotes from Vigneaux, 2026) on every emotion button; Supports / Does Not Support; one REFERENCES list; NOTHING YOU WOULD DO ANSWERS THESE YET.
+- v199: one derived-state pass (`gsmDerive`).
+- v200–v201: the phrase-and-meaning layer (cards, findings, ONE WORD, SEVERAL MEANINGS).
+- v202–v204: cards from the ground; the program/strategy rule and switch; FIRST MOVES per way; ground cards that don't decide what the emotion is aimed at.
+- v205: Pattern Analysis reordered (first half); THE SAME THING? buttons fixed.
+- v206: YOUR STORY SO FAR told as a story.
+- In Parallel [D 11-18]: keeps its tab. The agreement figure (Analysis words in a column, hoses onto the Synthesis ground; black = agrees, white = raises a question) will close Pattern Synthesis; clicking a word draws its hoses on the 3D relief. The old In Parallel 3D retires behind a switch.
+- The work queue is the 11-18 review plan (`claude/v196_review_plan.md` in the Claude project).

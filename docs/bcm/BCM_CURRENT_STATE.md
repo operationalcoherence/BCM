@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 13 · 2026-11-18 · Preview at **v205** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 14 · 2026-11-18 · Preview at **v206** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
 
 ## Shipped
+- **v206** (2026-11-18, preview): Phase 2 step 6, second half. YOUR STORY SO FAR told as a story from the context grasped (Q.1, the present, further on toward the goal, how it is spread), quoting his notes; the medium word closes it in one sentence. Architecture doc brought to Rev 9. See `docs/v206_update.md`. Next: deepen WHAT IT PRODUCED (3d), then step 7 (Pattern Synthesis reordered).
 - **v205** (2026-11-18, preview): Phase 2 step 6, first half. Pattern Analysis opens with AT A GLANCE, THE SAME THING? as a prompt (with a sentence for each word), then WHAT IT PRODUCED; WORDS THAT MAKE THE WORLD has its own fold; question hovers on YOUR LANDSCAPE; THE SAME THING? buttons fixed (they never saved). See `docs/v205_update.md`. Next: step 6 second half, YOUR STORY SO FAR as a story (3e) and WHAT IT PRODUCED deepened (3d).
 - **v204** (2026-11-18, preview): read against his 11-18 workbook. Ground cards don't decide what the emotion is aimed at; the FIRST MOVES way line names the emotions; up to three ground cards (N35 gets one). See `docs/v204_update.md`.
 - **v203** (2026-11-18, preview): FIRST MOVES follows the selected way (a line per way under FIRST MOVES). E9 done the other way round: the words follow the way, because making way A follow FIRST MOVES made ways far longer (measured, see the doc). Phase 1 of the review plan is done. See `docs/v203_update.md`. Next: Phase 2 (reordering Analysis, Synthesis, and Taking Action; constraint fields that go somewhere; In Parallel's agreement figure).
