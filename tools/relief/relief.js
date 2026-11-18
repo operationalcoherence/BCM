@@ -16,7 +16,7 @@ const CSS = `
 .grel .rdm.on{background:#7a1d12;transform:scale(1.25)}
 .grel .wl{font:bold 14px Helvetica,Arial,sans-serif;width:26px;height:26px;line-height:22px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)}.grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
 .grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}.grel .grfs{display:none!important}.grel.fs .grfs,.grel.cfs .grfs{display:block!important}.grel .fsleg{position:absolute;top:0;bottom:0;left:0;width:min(340px,86vw);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-right:1px solid #ddd;padding:52px 14px 14px;overflow:auto;z-index:4;transform:translateX(0);transition:transform .2s}.grel .fsleg.shut{transform:translateX(-100%)}.grel .fsleg .grleg{margin:0}.grel .fslb{position:absolute;top:8px;left:8px;z-index:5;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer}.grel .brand{position:absolute;top:auto;left:auto;width:auto;height:auto;pointer-events:none;right:12px;bottom:10px;z-index:3;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333;background:rgba(255,255,255,.75);padding:3px 8px}.grel .brand b{font-weight:700}
-.grel .tourcap{position:absolute;left:12px;right:12px;top:46px;z-index:3;max-width:560px;background:rgba(255,255,255,.95);border:1px solid #222;padding:7px 11px 8px;font:12.5px/1.4 Questrial,Helvetica,Arial,sans-serif;color:#222;display:none;pointer-events:none}.grel .tourcap .ta{font-size:11px;letter-spacing:.14em;font-weight:700;color:#666}.grel .tourcap .tt{font-weight:700;margin:2px 0 2px}.grel .tourcap .tp{height:3px;background:#e4e1d8;margin-top:7px}.grel .tourcap .tp i{display:block;height:3px;background:#111;width:0}
+.grel .tourcap{position:absolute;left:12px;right:12px;top:48px;z-index:3;max-width:640px;background:rgba(255,255,255,.96);border:1px solid #222;box-shadow:0 2px 10px rgba(0,0,0,.25);padding:12px 16px 12px;font:17px/1.5 Questrial,Helvetica,Arial,sans-serif;color:#111;display:none;pointer-events:none}.grel .tourcap .ta{font-size:12.5px;letter-spacing:.14em;font-weight:700;color:#555}.grel .tourcap .tt{font-weight:700;font-size:20px;line-height:1.3;margin:3px 0 4px}.grel .tourcap .tp{height:4px;background:#e4e1d8;margin-top:10px}.grel .tourbar{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);z-index:4;display:flex;gap:10px;align-items:center}.grel .tourbar .bt{position:static}.grel .tourbar .tpb{font:bold 17px Questrial,Helvetica,Arial,sans-serif;padding:11px 24px 11px 20px;background:#111;color:#fff;border:2px solid #fff;border-radius:28px;box-shadow:0 2px 10px rgba(0,0,0,.35);letter-spacing:.02em}.grel .tourbar .tpb::before{content:'\\25B6';display:inline-block;margin-right:10px;font-size:14px}.grel .tourbar .tpb[data-st=pause]::before{content:'\\275A\\275A';font-size:12px;letter-spacing:-2px}.grel .tourbar .tpb:hover{background:#7a1d12}.grel .tourbar .tpe{font:14px Questrial,Helvetica,Arial,sans-serif;padding:8px 14px;border-radius:20px;background:#fff;border:1px solid #222;display:none}.grel .tourcap .tp i{display:block;height:3px;background:#111;width:0}
 .grbrand{text-align:right;margin:5px 2px 0;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333}.grbrand b{font-weight:700}
 .grel .attr{position:absolute;left:6px;bottom:4px;z-index:3;font:10px Helvetica,Arial,sans-serif;color:#333;background:rgba(255,255,255,.75);padding:1px 6px;pointer-events:none}.grel .busy{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#888;font:13px Questrial,Helvetica,Arial,sans-serif}
 .grleg{margin:8px 0 2px;font-size:12.5px;line-height:1.45;color:#333}
@@ -274,9 +274,12 @@ function mount(host, D) {
   /* ---------- buttons ---------- */
   const bReset = document.createElement('button'), bFs = document.createElement('button');
   bReset.className = bFs.className = 'bt'; bReset.textContent = 'Reset view'; bFs.textContent = 'Full screen';
-  const bPlay = document.createElement('button'); bPlay.className = 'bt'; bPlay.textContent = 'Play the tour';
-  const bar = document.createElement('div'); bar.style.cssText = 'position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3'; [bPlay, bReset, bFs].forEach(b => { b.style.position = 'static'; bar.appendChild(b); });
-  if (D.card || !D.read || D.read.length < 2) bPlay.style.display = 'none'; if (D.card) bFs.style.display = 'none'; wrap.appendChild(bar);
+  const bPlay = document.createElement('button'); bPlay.className = 'bt tpb'; bPlay.textContent = 'Play the tour'; bPlay.dataset.st = 'play';
+  const bEnd = document.createElement('button'); bEnd.className = 'bt tpe'; bEnd.textContent = 'End tour';
+  const tbar = document.createElement('div'); tbar.className = 'tourbar'; tbar.appendChild(bPlay); tbar.appendChild(bEnd); wrap.appendChild(tbar);
+  const TL = (D.intro || []).concat(D.read || []), NI = (D.intro || []).length;
+  const bar = document.createElement('div'); bar.style.cssText = 'position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3'; [bReset, bFs].forEach(b => { b.style.position = 'static'; bar.appendChild(b); });
+  if (D.card || TL.length < 2) tbar.style.display = 'none'; if (D.card) bFs.style.display = 'none'; wrap.appendChild(bar);
   let hMax = -1e9; for (let q = 0; q < hGrid.length; q++) if (hGrid[q] > hMax) hMax = hGrid[q];
   const corners = []; [-W / 2 - 16, W / 2].forEach(x => [BASE - 30, hMax + 14].forEach(y => [-H / 2, H / 2].forEach(z => corners.push(new THREE.Vector3(x, y, z)))));
   function home() { const tgt = new THREE.Vector3(0, (BASE + hMax) / 2 - 6, 8), dir = new THREE.Vector3(0, 290, 330).normalize(); let d = 440;
@@ -293,35 +296,39 @@ function mount(host, D) {
   let TOUR = null;
   const ease = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   function homePose() { const p = camera.position.clone(), t = controls.target.clone(); home(); const hp = camera.position.clone(), ht = controls.target.clone(); camera.position.copy(p); controls.target.copy(t); camera.lookAt(t); return [hp, ht]; }
-  function capFor(i) { const r = D.read[i], G = D.groups || [];
+  function capFor(i) { const r = TL[i], G = D.groups || [];
     cap.innerHTML = '<div class="ta"></div><div class="tt"></div><div class="tx"></div><div class="tp"><i></i></div>';
-    cap.querySelector('.ta').textContent = G[r.grp] || ''; cap.querySelector('.tt').textContent = (i + 1) + ' · ' + (r.title || ''); cap.querySelector('.tx').textContent = r.cap || r.text || ''; }
-  function stopTour() { if (!TOUR) return; TOUR = null; controls.enabled = true; cap.style.display = 'none'; bPlay.textContent = 'Play the tour'; bPlay.title = '';
+    cap.querySelector('.ta').textContent = r.act || G[r.grp] || ''; cap.querySelector('.tt').textContent = (i < NI ? '' : (i - NI + 1) + ' · ') + (r.title || ''); cap.querySelector('.tx').textContent = r.cap || r.text || ''; }
+  let autoFs = false;
+  function stopTour() { if (!TOUR) return; TOUR = null; controls.enabled = true; cap.style.display = 'none'; bPlay.textContent = 'Play the tour'; bPlay.dataset.st = 'play'; bPlay.title = ''; bEnd.style.display = 'none';
+    if (autoFs) { autoFs = false; if (wrap.classList.contains('fs')) bFs.onclick(); }
     RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); moved = false; home(); dirty = true; }
-  function pauseTour() { const T = TOUR; if (!T || T.paused != null) return; T.paused = (performance.now() - T.start) / 1000; controls.enabled = true; bPlay.textContent = 'Play'; dirty = true; }
+  function pauseTour() { const T = TOUR; if (!T || T.paused != null) return; T.paused = (performance.now() - T.start) / 1000; controls.enabled = true; bPlay.textContent = 'Play'; bPlay.dataset.st = 'play'; dirty = true; }
   function resumeTour() { const T = TOUR; if (!T || T.paused == null) return; let l = T.legs[0]; for (const x of T.legs) if (T.paused >= x.t0) l = x;
     /* fly back from wherever the map was turned to, to the same stop, and carry on */
-    l.a = [camera.position.clone(), controls.target.clone()]; T.start = performance.now() - l.t0 * 1000; T.paused = null; controls.enabled = false; bPlay.textContent = 'Pause'; pinned = null; hideTip(); dirty = true; }
+    l.a = [camera.position.clone(), controls.target.clone()]; T.start = performance.now() - l.t0 * 1000; T.paused = null; controls.enabled = false; bPlay.textContent = 'Pause'; bPlay.dataset.st = 'pause'; pinned = null; hideTip(); dirty = true; }
   function startTour() { if (TOUR) return TOUR.paused != null ? resumeTour() : pauseTour();
-    const [hp, ht] = homePose(), dH = hp.distanceTo(ht), n = D.read.length, SL = +window.gsmTourSlow || 1, per = Math.max(1.8, Math.min(2.8, 30 / n)) * SL, fly = per * 0.45, legs = [];
+    if (!D.card && !wrap.classList.contains('fs')) { autoFs = true; bFs.onclick(); }
+    const [hp, ht] = homePose(), dH = hp.distanceTo(ht), n = TL.length, SL = +window.gsmTourSlow || 1, fly = 1.2 * SL, legs = [];
+    const hold = r => Math.max(2.4, Math.min(6, String((r.title || '') + ' ' + (r.cap || r.text || '')).split(/\s+/).length / 3.3)) * SL;
     let from = [camera.position.clone(), controls.target.clone()];
-    D.read.forEach((r, i) => { const t = new THREE.Vector3(X(r.at[0]), gH(r.at[0], r.at[1]), Z(r.at[1])), az = -0.55 + 1.1 * (n > 1 ? i / (n - 1) : 0.5), po = 0.74, d = Math.max(controls.minDistance + 10, dH * 0.55);
+    TL.forEach((r, i) => { if (!r.at) { legs.push({ i, a: from, b: [hp.clone(), ht.clone()], fly, hold: hold(r) }); from = [hp.clone(), ht.clone()]; return; } const t = new THREE.Vector3(X(r.at[0]), gH(r.at[0], r.at[1]), Z(r.at[1])), az = -0.55 + 1.1 * (n > 1 ? i / (n - 1) : 0.5), po = 0.74, d = Math.max(controls.minDistance + 10, dH * 0.55);
       const p = t.clone().add(new THREE.Vector3(Math.sin(po) * Math.sin(az), Math.cos(po), Math.sin(po) * Math.cos(az)).multiplyScalar(d));
-      const lk = t.clone().add(new THREE.Vector3(0, d * 0.08, 0)); legs.push({ i, a: from, b: [p, lk], fly, hold: per - fly }); from = [p, lk]; });
+      const lk = t.clone().add(new THREE.Vector3(0, d * 0.08, 0)); legs.push({ i, a: from, b: [p, lk], fly, hold: hold(r) }); from = [p, lk]; });
     legs.push({ i: -1, a: from, b: [hp, ht], fly: 1.4 * SL, hold: 0 });
     let t0 = 0; legs.forEach(l => { l.t0 = t0; t0 += l.fly + l.hold; });
-    TOUR = { legs, start: performance.now(), total: t0, cur: -2, paused: null }; controls.enabled = false; cap.style.display = 'block'; bPlay.textContent = 'Pause'; bPlay.title = 'Reset view or Escape ends the tour'; pinned = null; hideTip(); dirty = true; }
+    TOUR = { legs, start: performance.now(), total: t0, cur: -2, paused: null }; controls.enabled = false; cap.style.display = 'block'; bPlay.textContent = 'Pause'; bPlay.dataset.st = 'pause'; bPlay.title = 'Escape also ends the tour'; bEnd.style.display = 'inline-block'; pinned = null; hideTip(); dirty = true; }
   function stepTour(now) { const T = TOUR; if (T.paused != null) { controls.update(); return; } const s = (now - T.start) / 1000; if (s >= T.total) { stopTour(); return; }
     let l = T.legs[0]; for (const x of T.legs) if (s >= x.t0) l = x;
-    if (l.i !== T.cur) { T.cur = l.i; if (l.i >= 0) { capFor(l.i); RD.forEach((q, k) => q.el.classList.toggle('on', k === l.i)); if (D.onHL) D.onHL(l.i); } else { cap.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); } }
+    if (l.i !== T.cur) { T.cur = l.i; if (l.i >= 0) { capFor(l.i); const ri = l.i - NI; RD.forEach((q, k) => q.el.classList.toggle('on', k === ri)); if (D.onHL) D.onHL(ri >= 0 ? ri : null); } else { cap.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); } }
     const u = ease(Math.min(1, (s - l.t0) / l.fly));
     camera.position.lerpVectors(l.a[0], l.b[0], u); controls.target.lerpVectors(l.a[1], l.b[1], u); camera.lookAt(controls.target);
     const pi = cap.querySelector('.tp i'); if (pi) pi.style.width = (100 * s / T.total).toFixed(1) + '%'; dirty = true; }
-  bPlay.onclick = ev => { ev.stopPropagation(); startTour(); };
+  bPlay.onclick = ev => { ev.stopPropagation(); startTour(); }; bEnd.onclick = ev => { ev.stopPropagation(); stopTour(); };
   wrap.addEventListener('pointerdown', e => { if (TOUR && !(e.target.closest && e.target.closest('.bt,.grfs'))) pauseTour(); });
   bReset.onclick = () => { if (TOUR) stopTour(); moved = false; home(); };
   bFs.onclick = () => { const on = !wrap.classList.contains('fs'); if (on) fillFsl(); moved = false; wrap.classList.toggle('fs', on); bFs.textContent = on ? 'Close full screen' : 'Full screen'; document.documentElement.style.overflow = on ? 'hidden' : ''; size(); };
-  const onKey = e => { if (e.key === 'Escape' && TOUR) { stopTour(); return; } if (e.key === 'Escape' && wrap.classList.contains('fs')) bFs.onclick(); }; document.addEventListener('keydown', onKey);
+  const onKey = e => { if (e.key !== 'Escape') return; if (TOUR) stopTour(); else if (wrap.classList.contains('fs')) bFs.onclick(); const on = wrap.classList.contains('fs'); if ((bFs.textContent === 'Close full screen') !== on) { bFs.textContent = on ? 'Close full screen' : 'Full screen'; if (!on) document.documentElement.style.overflow = ''; moved = false; size(); } }; document.addEventListener('keydown', onKey);
 
   /* ---------- sizing, labels, loop ---------- */
   let dirty = true, alive = true, lastW = 0, lastCfs = false;
@@ -329,7 +336,7 @@ function mount(host, D) {
     /* a strategy card in full screen gets the same legend drawer and name as the full-screen Pattern Synthesis map */
     wrap.classList.toggle('cfs', !!cfs); if (cfs) fillFsl(); leg.style.display = foot.style.display = cfs ? 'none' : '';
     const pad = (fs || cfs) && !fsl.classList.contains('shut') ? Math.min(340, Math.round(w * 0.86)) : 0, vw = Math.max(200, w - pad);
-    wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(vw, h); renderer.domElement.style.marginLeft = pad + 'px'; lbs.style.left = pad + 'px'; attr.style.left = pad + 6 + 'px'; if (typeof cap !== 'undefined') cap.style.left = pad + 12 + 'px'; camera.aspect = vw / h;
+    wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(vw, h); renderer.domElement.style.marginLeft = pad + 'px'; lbs.style.left = pad + 'px'; attr.style.left = pad + 6 + 'px'; if (typeof cap !== 'undefined') cap.style.left = pad + 12 + 'px'; if (typeof tbar !== 'undefined') tbar.style.left = pad + vw / 2 + 'px'; camera.aspect = vw / h;
     // keep the whole block in frame
     camera.fov = 30; camera.updateProjectionMatrix(); lastW = w; if (typeof home === 'function' && !moved) home(); dirty = true; }
   const ro = window.ResizeObserver ? new ResizeObserver(size) : null; if (ro) ro.observe(wrap); window.addEventListener('resize', size);
@@ -338,7 +345,7 @@ function mount(host, D) {
   function place() { const w = renderer.domElement.clientWidth, h = renderer.domElement.clientHeight, boxes = [];
     L.map(o => { v.copy(o.v).project(camera); o.sx = (v.x * 0.5 + 0.5) * w; o.sy = (-v.y * 0.5 + 0.5) * h; return { o, x: o.sx + o.ax, y: o.sy + o.ay, off: v.z > 1 }; })
      .sort((a, b) => b.o.pri - a.o.pri)
-     .forEach(p => { if (p.off) { p.o.el.style.display = 'none'; return; } p.o.el.style.display = '';
+     .forEach(p => { if (p.off || p.x < -24 || p.x > w + 24 || p.y < -24 || p.y > h + 24) { p.o.el.style.display = 'none'; return; } p.o.el.style.display = '';
        const bw = p.o.el.offsetWidth || 30, bh = p.o.el.offsetHeight || 16; let y = p.y;
        let x = p.x; const tries = [[0, 0], [bw * 0.7, 0], [-bw * 0.7, 0], [0, -bh - 2], [bw * 0.7, -bh - 2], [-bw * 0.7, -bh - 2]];
        for (const [dx, dy] of tries) { const hit = boxes.some(b => p.x + dx < b[0] + b[2] && p.x + dx + bw > b[0] && p.y + dy < b[1] + b[3] && p.y + dy + bh > b[1]); x = p.x + dx; y = p.y + dy; if (!hit) break; }

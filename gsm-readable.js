@@ -16262,7 +16262,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v209");
+        t && (t.textContent = "v210");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -16806,7 +16806,7 @@
     ),
     document.addEventListener("keydown", function (t) {
       if ("Escape" === t.key) {
-        var e = Rt.querySelector(".pnet.fs");
+        var e = Rt.querySelector(".pnet.fs:not(.grel)");
         if (e) {
           (e.classList.remove("fs"), (e.querySelector(".figfs").textContent = "Full screen"));
           var fsn = e.querySelector(".fsname");
@@ -17978,14 +17978,15 @@
         );
       else out.push("It lies off to the side of the line between present and goal.");
       if (ask.length)
-        out.unshift(
-          "Until you answer the question below, this counts " +
+        out.push(
+          "Until you answer the question below, " +
             list(
               ask.map(function (a) {
                 return a.id;
               }),
             ) +
-            " as standing for it.",
+            (ask.length > 1 ? " count" : " counts") +
+            " as supporting it.",
         );
       return { t: out.join(" "), ask: ask, cat: cat, grp: ns };
     }
@@ -18100,9 +18101,11 @@
         var top = nn(best.x, best.y, [1]),
           low = nn(best.lx, best.ly, PIT_E),
           onB = T.bench[cellOf((best.x + best.lx) / 2, (best.y + best.ly) / 2)] > 0.3;
+        if (top && low) FALLPAIR = [top.k, low.k];
         if (top && low)
           R.push({
             grp: 0,
+            kind: "fall",
             title: "Where it is easiest to fall from",
             short:
               "N" +
@@ -18249,6 +18252,278 @@
       return [x / ns.length, y / ns.length];
     }
     var GROUPS = ["THE HIGH GROUND", "THE LOW GROUND", "BETWEEN THEM", "WHAT KEEPS IT THIS WAY"];
+    function nks(a) {
+      return list(
+        a.map(function (k) {
+          return "N" + k;
+        }),
+      );
+    }
+    function emoOf(a) {
+      /* " of aggression and defiance": the emotions the notes carry, most common first */
+      var c = {};
+      a.forEach(function (k) {
+        var n = terr.notes.filter(function (m) {
+          return m.k === k;
+        })[0];
+        n && null != n.e && (c[n.e] = (c[n.e] || 0) + 1);
+      });
+      var e = Object.keys(c).sort(function (x, y) {
+        return c[y] - c[x];
+      });
+      return e.length && e.length < 4
+        ? " of " +
+            list(
+              e.map(function (k) {
+                return EMO[k][0].toLowerCase();
+              }),
+            )
+        : "";
+    }
+    var RKE = [3, 0, 2, 1, 4],
+      STEPW = ["", "one step", "two steps", "three steps", "four steps"],
+      FALLPAIR = null;
+    function rockFaces() {
+      /* the same rule the 3D relief uses to lay bare rock: the two strongest emotions nearby are nearly balanced and
+         two or more steps apart, and neither is indifference; on line maps indifference reads as one joined band */
+      var NS = terr.notes.filter(function (n) {
+          return null != n.e;
+        }),
+        rib = [];
+      if (!PLACE) {
+        var P = NS.filter(function (n) {
+            return n.e === 3;
+          }),
+          par = P.map(function (_, i) {
+            return i;
+          }),
+          top = function (i) {
+            return par[i] === i ? i : (par[i] = top(par[i]));
+          },
+          E = [];
+        for (var i = 0; i < P.length; i++)
+          for (var j = i + 1; j < P.length; j++) E.push([Math.hypot(P[i].x - P[j].x, P[i].y - P[j].y), i, j]);
+        E.sort(function (a, b) {
+          return a[0] - b[0];
+        }).forEach(function (e) {
+          if (e[0] > 95 || top(e[1]) === top(e[2])) return;
+          par[top(e[1])] = top(e[2]);
+          rib.push([P[e[1]].x, P[e[1]].y, P[e[2]].x, P[e[2]].y]);
+        });
+      }
+      var sst = function (a, b, x) {
+          var t = Math.max(0, Math.min(1, (x - a) / (b - a)));
+          return t * t * (3 - 2 * t);
+        },
+        cells = 0,
+        rk = 0,
+        by = {};
+      for (var y = 4; y < HH; y += 4)
+        for (var x = 4; x < W; x += 4) {
+          var ws = [0, 0, 0, 0, 0],
+            nb = [null, null, null, null, null],
+            nd = [1e9, 1e9, 1e9, 1e9, 1e9];
+          NS.forEach(function (n) {
+            var d2 = (n.x - x) * (n.x - x) + (n.y - y) * (n.y - y);
+            ws[n.e] += Math.exp(-d2 / 1352);
+            d2 < nd[n.e] && ((nd[n.e] = d2), (nb[n.e] = n));
+          });
+          rib.forEach(function (r) {
+            var dx = r[2] - r[0],
+              dy = r[3] - r[1],
+              t = Math.max(0, Math.min(1, ((x - r[0]) * dx + (y - r[1]) * dy) / (dx * dx + dy * dy || 1))),
+              d2 = Math.pow(r[0] + t * dx - x, 2) + Math.pow(r[1] + t * dy - y, 2);
+            ws[3] += 2.4 * Math.exp(-d2 / 128);
+          });
+          var tot = ws[0] + ws[1] + ws[2] + ws[3] + ws[4];
+          if (sst(0.04, 0.5, tot) < 0.3) continue;
+          cells++;
+          var o = [0, 1, 2, 3, 4].sort(function (a, b) {
+              return ws[b] - ws[a];
+            }),
+            k1 = o[0],
+            k2 = o[1];
+          if (
+            Math.abs(RKE[k1] - RKE[k2]) < 2 ||
+            RKE[k1] === 1 ||
+            RKE[k2] === 1 ||
+            ws[k2] < 0.03 ||
+            sst(0.22, 0.42, ws[k2] / (ws[k1] + ws[k2])) <= 0.5
+          )
+            continue;
+          rk++;
+          var a = nb[k1],
+            b = nb[k2];
+          if (!a || !b) continue;
+          var key = Math.min(a.k, b.k) + "|" + Math.max(a.k, b.k),
+            f = by[key] || (by[key] = { a: a, b: b, d: Math.abs(RKE[a.e] - RKE[b.e]), c: [] });
+          f.c.push([x, y]);
+        }
+      var L = Object.keys(by)
+        .map(function (k) {
+          return by[k];
+        })
+        .sort(function (p, q) {
+          return q.c.length * q.d - p.c.length * p.d;
+        });
+      L.forEach(function (f) {
+        var cx = 0,
+          cy = 0;
+        f.c.forEach(function (c) {
+          cx += c[0];
+          cy += c[1];
+        });
+        cx /= f.c.length;
+        cy /= f.c.length;
+        f.at = f.c.slice().sort(function (p, q) {
+          return Math.hypot(p[0] - cx, p[1] - cy) - Math.hypot(q[0] - cx, q[1] - cy);
+        })[0];
+        /* uphill is toward acceptance: name the lower emotion first when telling the climb */
+        f.lo = RKE[f.a.e] > RKE[f.b.e] ? f.a : f.b;
+        f.hi = f.lo === f.a ? f.b : f.a;
+      });
+      return { share: cells ? rk / cells : 0, faces: L };
+    }
+    function rockReading(R) {
+      if (PLACE) return;
+      var rf = rockFaces(),
+        fall = null;
+      R.forEach(function (r) {
+        r.kind === "fall" && (fall = r);
+      });
+      var same = function (f) {
+          return FALLPAIR && ((f.a.k === FALLPAIR[0] && f.b.k === FALLPAIR[1]) || (f.a.k === FALLPAIR[1] && f.b.k === FALLPAIR[0]));
+        },
+        f = rf.faces.filter(function (f) {
+          return !same(f);
+        })[0];
+      if (fall && rf.faces.some(same))
+        fall.more +=
+          " The ground between them is bare rock, the costliest crossing on the map.";
+      if (!f) return;
+      var lo = EMO[f.lo.e][0].toLowerCase(),
+        hi = EMO[f.hi.e][0].toLowerCase(),
+        ind = nn(f.at[0], f.at[1], [3]),
+        sh = Math.round(rf.share * 100);
+      R.push({
+        grp: 2,
+        kind: "rock",
+        title: "Bare rock between N" + f.hi.k + " and N" + f.lo.k,
+        short:
+          "Here " + hi + " (N" + f.hi.k + ") meets " + lo + " (N" + f.lo.k + ") with no indifference between them, so the ground turns to bare rock.",
+        more:
+          "Bare rock marks the costliest moves on the map. Every move between emotions takes energy in either direction, and the farther apart the two emotions are, the more it takes; these are " +
+          STEPW[f.d] +
+          " apart. The climb from " +
+          lo +
+          " up to " +
+          hi +
+          " is the hard one; the drop the other way is easy, so " +
+          hi +
+          " beside bare rock needs tending. Most moves go through indifference (Vigneaux, 2026), so the feasible way across goes around" +
+          (ind ? ", by N" + ind.k : ", through indifference") +
+          "." +
+          (sh ? " About " + sh + "% of the colored ground is bare rock." : ""),
+        cap:
+          "Here " + hi + " (N" + f.hi.k + ") meets " + lo + " (N" + f.lo.k + ") with no indifference between them, so the ground turns to bare rock. Crossing it is the costliest move on the map; the feasible way goes around" +
+          (ind ? ", by the indifference at N" + ind.k : ", through indifference") +
+          ".",
+        at: f.at,
+      });
+    }
+    function introStops(primer) {
+      /* the tour's opening (Pattern Synthesis) and the whole of the Pattern Analysis tour; Claude's wording */
+      var act = "READING THE GROUND",
+        N = terr.notes.filter(function (n) {
+          return null != n.e;
+        }),
+        out = [],
+        cost =
+          "Every move between emotions takes energy. Climbing takes far more than falling, and the farther apart two emotions are, the more a move costs. Most moves go through indifference. From acceptance and indifference, change can start now; from distrust, aggression, and defiance, it is unlikely in the short or medium term (Vigneaux, 2026).";
+      if (PLACE) {
+        out.push({ act: act, title: "How to read this map", cap: "Each color is an emotion your notes carry, painted where you placed them; the ground is the real terrain. Where it has no color, no notes are nearby, so there is no information there.", at: null });
+        out.push({ act: act, title: "What a move costs", cap: cost, at: null });
+        return out;
+      }
+      out.push({
+        act: act,
+        title: "How to read this ground",
+        cap: "Each color is an emotion your notes carry. Height follows the order in Vigneaux (2026): acceptance is the high ground, indifference a ridge, then distrust, aggression, and defiance, the deepest ground.",
+        at: null,
+      });
+      if (!primer) {
+        out.push({ act: act, title: "What a move costs", cap: cost + " Gray bare rock is where distant emotions meet with no indifference between them: the costliest crossing.", at: null });
+        return out;
+      }
+      var by = function (e) {
+          return N.filter(function (n) {
+            return n.e === e;
+          }).sort(function (a, b) {
+            return hAt(b.x, b.y) - hAt(a.x, a.y);
+          });
+        },
+        acc = by(1),
+        ind = by(3),
+        low = N.slice().sort(function (a, b) {
+          return hAt(a.x, a.y) - hAt(b.x, b.y);
+        })[0];
+      acc.length &&
+        out.push({
+          act: act,
+          title: "The high ground: acceptance",
+          cap: "N" + acc[0].k + " sits on the highest ground. Acceptance is where the goal already has people with it, the place to build from first.",
+          at: [acc[0].x, acc[0].y],
+        });
+      ind.length &&
+        out.push({
+          act: act,
+          title: "The ridge: indifference",
+          cap:
+            nks(
+              ind
+                .slice(0, 5)
+                .map(function (n) {
+                  return n.k;
+                })
+                .sort(function (a, b) {
+                  return a - b;
+                }),
+            ) +
+            (ind.length > 1 ? " are" : " is") +
+            " indifference, the emotion of transition (Vigneaux, 2026). No one here is for or against the goal yet. Most moves between emotions go along a ridge like this.",
+          at: [ind[0].x, ind[0].y],
+        });
+      var rf = rockFaces().faces[0];
+      rf &&
+        out.push({
+          act: act,
+          title: "Bare rock",
+          cap:
+            "Where " +
+            EMO[rf.hi.e][0].toLowerCase() +
+            " (N" +
+            rf.hi.k +
+            ") meets " +
+            EMO[rf.lo.e][0].toLowerCase() +
+            " (N" +
+            rf.lo.k +
+            ") with no indifference between them, the ground turns to gray bare rock. A move across costs the most energy, in either direction.",
+          at: rf.at,
+        });
+      low &&
+        hAt(low.x, low.y) < -0.1 &&
+        out.push({
+          act: act,
+          title: "The deepest ground: " + EMO[low.e][0].toLowerCase(),
+          cap:
+            "N" +
+            low.k +
+            " sits on the deepest ground. The way up from here to acceptance is the longest climb on the map, and the rarest move.",
+          at: [low.x, low.y],
+        });
+      out.push({ act: act, title: "What a move costs", cap: cost + " Pattern Synthesis reads this ground in full.", at: null });
+      return out;
+    }
     function firstSentence(t) {
       var m = /^(.*?[.!?])\s+([A-Z“"].*)$/.exec(t);
       return m ? [m[1], m[2]] : [t, ""];
@@ -18286,7 +18561,11 @@
                 ? "Where it is easiest to get stuck"
                 : "Another place to get stuck",
           short:
-            ks(pt.ks) + ". About " + Math.round(pt.share * 100) + "% of the ground slopes down into here.",
+            Math.round(pt.share * 100) +
+            "% of the ground slopes down into this hollow" +
+            emoOf(pt.ks) +
+            (pt.ks.length ? ", around " + nks(pt.ks) : "") +
+            ".",
           more:
             "Getting out toward the goal means a climb of " +
             Math.round(pt.pct * 100) +
@@ -18337,12 +18616,16 @@
         R.push({
           grp: 0,
           title: off ? "High ground off to the side" : "High ground near the line to the goal",
-          short: ks(h.ks) + ". " + f[0],
+          short: "High ground" + emoOf(h.ks) + (h.ks.length ? " around " + nks(h.ks) : "") + ". " + f[0],
           more: f[1],
           at: [x, y],
         });
       });
+      FALLPAIR = null;
       moreReadings(R);
+      try {
+        rockReading(R);
+      } catch (e) {}
       R = R.filter(function (r) {
         return r.at;
       });
@@ -18352,7 +18635,7 @@
       R.sort(function (a, b) {
         return a.grp - b.grp || a.o - b.o;
       });
-      READ = R.slice(0, 12);
+      READ = R.slice(0, 13);
     }
     /* ---------- a course of action modelled on the ground ---------- */
     function firmPath(ax, ay, bx, by) {
@@ -19065,17 +19348,18 @@
           return ce.e.indexOf(id) >= 0;
         });
       var o = [
-        "What " +
-          list(entry) +
-          " describe" +
+        list(entry) +
+          " name" +
           (entry.length > 1 ? "" : "s") +
-          " leads to " +
+          " what leads to " +
           ce.w +
-          ", and in " +
+          ", and " +
           list(exit) +
-          " " +
+          " name" +
+          (exit.length > 1 ? "" : "s") +
+          " what " +
           ce.w +
-          " leads on to something else." +
+          " leads to in turn." +
           (both.length ? " " + list(both) + " write" + (both.length > 1 ? "" : "s") + " it both ways." : "") +
           " If that is right, it keeps itself going.",
       ];
@@ -21887,6 +22171,10 @@
           };
         } else if (ANH && !PAR) {
           D.read = [];
+          /* 6: Pattern Analysis gets its own short tour: how to read this map */
+          try {
+            D.intro = introStops(true);
+          } catch (e) {}
         } else {
           D.read = READ.map(function (r) {
             var S = (r.short + (r.more ? " " + r.more : ""))
@@ -21900,9 +22188,12 @@
               return /\d+%/.test(z) && !/\d+%/.test(c.join(" ")) && c.push(z);
             });
             c.length < 2 && S[1] && !/\d+%/.test(c.join(" ")) && c.length && c[0].length < 90 && c.push(S[1]);
-            return { at: r.at, title: r.title, text: r.short + (r.more ? " " + r.more : ""), grp: r.grp, cap: c.join(" ") };
+            return { at: r.at, title: r.title, text: r.short + (r.more ? " " + r.more : ""), grp: r.grp, cap: r.cap || c.join(" ") };
           });
           D.groups = GROUPS;
+          try {
+            D.intro = introStops(false);
+          } catch (e) {}
           D.onHL = function (i) {
             if (!HLSTICK) {
               HL = i;

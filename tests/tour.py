@@ -1,4 +1,4 @@
-"""v208: the guided tour on Pattern Synthesis. With the 3D loaded, presses Play the tour, records each caption
+"""v208/v210: the guided tour on Pattern Synthesis. With the 3D loaded, presses Play the tour, records each caption
 as it changes, screenshots three moments, then checks that a click stops it and the view returns.
 Usage: python3 -I tour.py WORKBOOK.json [OUTPREFIX] [slow]  (slow: the tour runs 8x slower, for settled screenshots)"""
 import json, sys, time
@@ -32,14 +32,17 @@ with sync_playwright() as p:
     stage = pg.evaluate_handle("()=>[...document.querySelectorAll('.grel .bt')].find(x=>x.textContent==='Play the tour').closest('.grel')")
     pg.evaluate("e=>{window.__caps=[];var c=e.querySelector('.tourcap');new MutationObserver(function(){var t=c.querySelector('.tt');t&&window.__caps[window.__caps.length-1]!==t.textContent&&window.__caps.push(t.textContent)}).observe(c,{childList:true,subtree:true})}", stage)
     btn.click(); t0 = time.time(); caps = []; shots = 0
-    while time.time() - t0 < (260 if SLOW else 40):
+    fs_on = None
+    while time.time() - t0 < (600 if SLOW else 150):
+        if fs_on is None and time.time() - t0 > 1: fs_on = pg.evaluate("e=>e.classList.contains('fs')", stage)
         c = pg.evaluate("e=>{var c=e.querySelector('.tourcap');return c&&c.style.display!=='none'?c.innerText.replace(/\\n+/g,' | '):''}", stage)
         if c and (not caps or caps[-1][1] != c): caps.append((round(time.time() - t0, 1), c))
-        if shots < 3 and time.time() - t0 > ([12, 60, 130] if SLOW else [1.6, 9, 20])[shots]:
+        if shots < 3 and time.time() - t0 > ([12, 90, 300] if SLOW else [3, 14, 40])[shots]:
             stage.as_element().screenshot(path='%s%d.png' % (OUT, shots)); shots += 1
         if pg.evaluate("e=>[...e.querySelectorAll('.bt')].some(x=>x.textContent==='Play the tour')", stage) and time.time() - t0 > 2: break
         pg.wait_for_timeout(150)
-    print('tour ended after %.1fs' % (time.time() - t0))
+    print('tour ended after %.1fs' % (time.time() - t0)); print('Play opened full screen:', fs_on, '| full screen closed at the end:', not pg.evaluate("e=>e.classList.contains('fs')", stage))
+    print('play button box:', pg.evaluate("e=>{var r=e.querySelector('.tpb').getBoundingClientRect();return [Math.round(r.width),Math.round(r.height),Math.round(r.left+r.width/2-e.getBoundingClientRect().left),Math.round(e.getBoundingClientRect().bottom-r.bottom)]}", stage), '(w, h, center x, from bottom)')
     allc = pg.evaluate('()=>window.__caps'); print('stops visited (%d):' % len(allc), ' / '.join(allc))
     print('readings on the page:', pg.evaluate("e=>e.querySelectorAll('.rdm').length", stage))
     for t, c in caps: print(t, c[:260])
@@ -52,6 +55,7 @@ with sync_playwright() as p:
     print('click pauses:', bt() == 'Play', '| caption held while paused:', c1 == c2, c1)
     btn.click(); pg.wait_for_timeout(300); print('play resumes:', bt() == 'Pause')
     pg.keyboard.press('Escape'); pg.wait_for_timeout(300); print('Escape ends:', bt() == 'Play the tour')
+    print('buttons now:', [x.inner_text() for x in stage.as_element().query_selector_all('.bt')], pg.evaluate("e=>[e.isConnected,e.classList.contains('fs')]", stage))
     fsb = [x for x in stage.as_element().query_selector_all('.bt') if x.inner_text() == 'Full screen'][0]
     fsb.click(); pg.wait_for_timeout(1500); btn.click(); pg.wait_for_timeout(2500)
     r = pg.evaluate("e=>{var c=e.querySelector('.tourcap').getBoundingClientRect(),l=e.querySelector('.grfs:not(.shut):not(.brand)'),lr=l&&l.offsetWidth?l.getBoundingClientRect().right:0;return [Math.round(c.left),Math.round(lr)]}", stage)
