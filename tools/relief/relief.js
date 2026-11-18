@@ -207,10 +207,10 @@ function mount(host, D) {
     const rim = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.35, 6, 24), new THREE.MeshStandardMaterial({ color: 0xffffff })); rim.position.copy(bl.position); scene.add(rim); o.rim = rim; return o; });
 
   const tip = document.createElement('div'); tip.className = 'tip'; wrap.appendChild(tip); let pinned = null;
-  function showTip(o, ev) { tip.innerHTML = ''; const b = document.createElement('b'); b.textContent = o.info.head; tip.appendChild(b); const bd = String(o.info.body || ''); tip.appendChild(document.createTextNode(bd.length > 420 ? bd.slice(0, 400).replace(/\s+\S*$/, '') + '\u2026' : bd));
+  function showTip(o, ev) { if (TOUR && TOUR.paused == null) return; tip.innerHTML = ''; const b = document.createElement('b'); b.textContent = o.info.head; tip.appendChild(b); const bd = String(o.info.body || ''); tip.appendChild(document.createTextNode(bd.length > 420 ? bd.slice(0, 400).replace(/\s+\S*$/, '') + '\u2026' : bd));
     if (o.info.sm) { const d = document.createElement('div'); d.className = 'sm'; d.textContent = o.info.sm; tip.appendChild(d); }
     dirty = true; tip.style.display = 'block'; const r = wrap.getBoundingClientRect(), x = (ev ? ev.clientX : r.left) - r.left, y = (ev ? ev.clientY : r.top) - r.top;
-    tip.style.left = Math.max(4, Math.min(r.width - tip.offsetWidth - 4, x + 12)) + 'px'; tip.style.top = Math.max(4, y - 10 - tip.offsetHeight) + 'px';
+    tip.style.left = Math.max(4 + (parseFloat(lbs.style.left) || 0), Math.min(r.width - tip.offsetWidth - 4, x + 12)) + 'px'; tip.style.top = Math.max(4, y - 10 - tip.offsetHeight) + 'px';
     RD.forEach((q, k) => q.el.classList.toggle('on', k === o.info.rd)); if (D.onHL) D.onHL(o.info.rd == null ? null : o.info.rd); if (o.info.way) hoverWay(o.info.way); }
   function hideTip() { dirty = true; if (!pinned) hoverWay(null); tip.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); }
   function nearest(ev) { const r = renderer.domElement.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top; let best = null, bd = 20;
@@ -296,25 +296,29 @@ function mount(host, D) {
   function capFor(i) { const r = D.read[i], G = D.groups || [];
     cap.innerHTML = '<div class="ta"></div><div class="tt"></div><div class="tx"></div><div class="tp"><i></i></div>';
     cap.querySelector('.ta').textContent = G[r.grp] || ''; cap.querySelector('.tt').textContent = (i + 1) + ' · ' + (r.title || ''); cap.querySelector('.tx').textContent = r.cap || r.text || ''; }
-  function stopTour() { if (!TOUR) return; TOUR = null; controls.enabled = true; cap.style.display = 'none'; bPlay.textContent = 'Play the tour';
+  function stopTour() { if (!TOUR) return; TOUR = null; controls.enabled = true; cap.style.display = 'none'; bPlay.textContent = 'Play the tour'; bPlay.title = '';
     RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); moved = false; home(); dirty = true; }
-  function startTour() { if (TOUR) return stopTour();
-    const [hp, ht] = homePose(), dH = hp.distanceTo(ht), n = D.read.length, SL = +window.gsmTourSlow || 1, per = Math.max(1.6, Math.min(2.6, 25 / n)) * SL, fly = per * 0.45, legs = [];
+  function pauseTour() { const T = TOUR; if (!T || T.paused != null) return; T.paused = (performance.now() - T.start) / 1000; controls.enabled = true; bPlay.textContent = 'Play'; dirty = true; }
+  function resumeTour() { const T = TOUR; if (!T || T.paused == null) return; let l = T.legs[0]; for (const x of T.legs) if (T.paused >= x.t0) l = x;
+    /* fly back from wherever the map was turned to, to the same stop, and carry on */
+    l.a = [camera.position.clone(), controls.target.clone()]; T.start = performance.now() - l.t0 * 1000; T.paused = null; controls.enabled = false; bPlay.textContent = 'Pause'; pinned = null; hideTip(); dirty = true; }
+  function startTour() { if (TOUR) return TOUR.paused != null ? resumeTour() : pauseTour();
+    const [hp, ht] = homePose(), dH = hp.distanceTo(ht), n = D.read.length, SL = +window.gsmTourSlow || 1, per = Math.max(1.8, Math.min(2.8, 30 / n)) * SL, fly = per * 0.45, legs = [];
     let from = [camera.position.clone(), controls.target.clone()];
     D.read.forEach((r, i) => { const t = new THREE.Vector3(X(r.at[0]), gH(r.at[0], r.at[1]), Z(r.at[1])), az = -0.55 + 1.1 * (n > 1 ? i / (n - 1) : 0.5), po = 0.74, d = Math.max(controls.minDistance + 10, dH * 0.55);
       const p = t.clone().add(new THREE.Vector3(Math.sin(po) * Math.sin(az), Math.cos(po), Math.sin(po) * Math.cos(az)).multiplyScalar(d));
-      const lk = t.clone().add(new THREE.Vector3(0, d * 0.16, 0)); legs.push({ i, a: from, b: [p, lk], fly, hold: per - fly }); from = [p, lk]; });
+      const lk = t.clone().add(new THREE.Vector3(0, d * 0.08, 0)); legs.push({ i, a: from, b: [p, lk], fly, hold: per - fly }); from = [p, lk]; });
     legs.push({ i: -1, a: from, b: [hp, ht], fly: 1.4 * SL, hold: 0 });
     let t0 = 0; legs.forEach(l => { l.t0 = t0; t0 += l.fly + l.hold; });
-    TOUR = { legs, start: performance.now(), total: t0, cur: -2 }; controls.enabled = false; cap.style.display = 'block'; bPlay.textContent = 'Stop'; dirty = true; }
-  function stepTour(now) { const T = TOUR, s = (now - T.start) / 1000; if (s >= T.total) { stopTour(); return; }
+    TOUR = { legs, start: performance.now(), total: t0, cur: -2, paused: null }; controls.enabled = false; cap.style.display = 'block'; bPlay.textContent = 'Pause'; bPlay.title = 'Reset view or Escape ends the tour'; pinned = null; hideTip(); dirty = true; }
+  function stepTour(now) { const T = TOUR; if (T.paused != null) { controls.update(); return; } const s = (now - T.start) / 1000; if (s >= T.total) { stopTour(); return; }
     let l = T.legs[0]; for (const x of T.legs) if (s >= x.t0) l = x;
     if (l.i !== T.cur) { T.cur = l.i; if (l.i >= 0) { capFor(l.i); RD.forEach((q, k) => q.el.classList.toggle('on', k === l.i)); if (D.onHL) D.onHL(l.i); } else { cap.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); } }
     const u = ease(Math.min(1, (s - l.t0) / l.fly));
     camera.position.lerpVectors(l.a[0], l.b[0], u); controls.target.lerpVectors(l.a[1], l.b[1], u); camera.lookAt(controls.target);
     const pi = cap.querySelector('.tp i'); if (pi) pi.style.width = (100 * s / T.total).toFixed(1) + '%'; dirty = true; }
   bPlay.onclick = ev => { ev.stopPropagation(); startTour(); };
-  renderer.domElement.addEventListener('pointerdown', () => { if (TOUR) stopTour(); });
+  wrap.addEventListener('pointerdown', e => { if (TOUR && !(e.target.closest && e.target.closest('.bt,.grfs'))) pauseTour(); });
   bReset.onclick = () => { if (TOUR) stopTour(); moved = false; home(); };
   bFs.onclick = () => { const on = !wrap.classList.contains('fs'); if (on) fillFsl(); moved = false; wrap.classList.toggle('fs', on); bFs.textContent = on ? 'Close full screen' : 'Full screen'; document.documentElement.style.overflow = on ? 'hidden' : ''; size(); };
   const onKey = e => { if (e.key === 'Escape' && TOUR) { stopTour(); return; } if (e.key === 'Escape' && wrap.classList.contains('fs')) bFs.onclick(); }; document.addEventListener('keydown', onKey);
@@ -325,7 +329,7 @@ function mount(host, D) {
     /* a strategy card in full screen gets the same legend drawer and name as the full-screen Pattern Synthesis map */
     wrap.classList.toggle('cfs', !!cfs); if (cfs) fillFsl(); leg.style.display = foot.style.display = cfs ? 'none' : '';
     const pad = (fs || cfs) && !fsl.classList.contains('shut') ? Math.min(340, Math.round(w * 0.86)) : 0, vw = Math.max(200, w - pad);
-    wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(vw, h); renderer.domElement.style.marginLeft = pad + 'px'; lbs.style.left = pad + 'px'; attr.style.left = pad + 6 + 'px'; camera.aspect = vw / h;
+    wrap.style.height = fs ? '' : h + 'px'; renderer.setSize(vw, h); renderer.domElement.style.marginLeft = pad + 'px'; lbs.style.left = pad + 'px'; attr.style.left = pad + 6 + 'px'; if (typeof cap !== 'undefined') cap.style.left = pad + 12 + 'px'; camera.aspect = vw / h;
     // keep the whole block in frame
     camera.fov = 30; camera.updateProjectionMatrix(); lastW = w; if (typeof home === 'function' && !moved) home(); dirty = true; }
   const ro = window.ResizeObserver ? new ResizeObserver(size) : null; if (ro) ro.observe(wrap); window.addEventListener('resize', size);
@@ -345,7 +349,7 @@ function mount(host, D) {
   function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
   size(); home(); loop(); placeGround();
   function focusQ(q) { NOBJ.forEach(o => { const on = !q || o.q === q; o.st.visible = o.hd.visible = on; if (o.sp) o.sp.visible = on; o.lo.off = !on; o.lo.el.style.opacity = on ? '' : '0'; o.lo.el.style.pointerEvents = on ? '' : 'none'; }); dirty = true; }
-  return { loops, focusQ, tour: startTour, touring() { return !!TOUR; }, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
+  return { loops, focusQ, tour: startTour, touring() { return !!TOUR; }, paused() { return !!TOUR && TOUR.paused != null; }, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; showWays(); } }, hoverWay(k) { hoverWay(k); },
     snap() { renderer.render(scene, camera); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
 }
 

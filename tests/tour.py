@@ -30,6 +30,7 @@ with sync_playwright() as p:
     if not btn: print('NO PLAY BUTTON', errs); sys.exit()
     btn.scroll_into_view_if_needed(); pg.wait_for_timeout(800)
     stage = pg.evaluate_handle("()=>[...document.querySelectorAll('.grel .bt')].find(x=>x.textContent==='Play the tour').closest('.grel')")
+    pg.evaluate("e=>{window.__caps=[];var c=e.querySelector('.tourcap');new MutationObserver(function(){var t=c.querySelector('.tt');t&&window.__caps[window.__caps.length-1]!==t.textContent&&window.__caps.push(t.textContent)}).observe(c,{childList:true,subtree:true})}", stage)
     btn.click(); t0 = time.time(); caps = []; shots = 0
     while time.time() - t0 < (260 if SLOW else 40):
         c = pg.evaluate("e=>{var c=e.querySelector('.tourcap');return c&&c.style.display!=='none'?c.innerText.replace(/\\n+/g,' | '):''}", stage)
@@ -39,9 +40,22 @@ with sync_playwright() as p:
         if pg.evaluate("e=>[...e.querySelectorAll('.bt')].some(x=>x.textContent==='Play the tour')", stage) and time.time() - t0 > 2: break
         pg.wait_for_timeout(150)
     print('tour ended after %.1fs' % (time.time() - t0))
+    allc = pg.evaluate('()=>window.__caps'); print('stops visited (%d):' % len(allc), ' / '.join(allc))
+    print('readings on the page:', pg.evaluate("e=>e.querySelectorAll('.rdm').length", stage))
     for t, c in caps: print(t, c[:260])
+    bt = lambda: pg.evaluate("e=>e.querySelector('.bt').textContent", stage)
     btn.click(); pg.wait_for_timeout(1500)
-    stage.as_element().query_selector('canvas').click(); pg.wait_for_timeout(400)
-    print('click stops it:', pg.evaluate("e=>[...e.querySelectorAll('.bt')].some(x=>x.textContent==='Play the tour')", stage))
+    stage.as_element().query_selector('canvas').click(force=True); pg.wait_for_timeout(400)
+    c1 = pg.evaluate("e=>e.querySelector('.tourcap .tt').textContent", stage)
+    pg.wait_for_timeout(3000)
+    c2 = pg.evaluate("e=>e.querySelector('.tourcap .tt').textContent", stage)
+    print('click pauses:', bt() == 'Play', '| caption held while paused:', c1 == c2, c1)
+    btn.click(); pg.wait_for_timeout(300); print('play resumes:', bt() == 'Pause')
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(300); print('Escape ends:', bt() == 'Play the tour')
+    fsb = [x for x in stage.as_element().query_selector_all('.bt') if x.inner_text() == 'Full screen'][0]
+    fsb.click(); pg.wait_for_timeout(1500); btn.click(); pg.wait_for_timeout(2500)
+    r = pg.evaluate("e=>{var c=e.querySelector('.tourcap').getBoundingClientRect(),l=e.querySelector('.grfs:not(.shut):not(.brand)'),lr=l&&l.offsetWidth?l.getBoundingClientRect().right:0;return [Math.round(c.left),Math.round(lr)]}", stage)
+    print('full screen: caption left %d, legend right %d, clear: %s' % (r[0], r[1], r[0] >= r[1]))
+    pg.screenshot(path=OUT + 'fs.png')
     print('errors:', errs)
     b.close()
