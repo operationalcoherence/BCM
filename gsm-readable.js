@@ -692,6 +692,7 @@
     PhDF = null;
     PhUsed = {};
     PhTi = {};
+    PhNm = {};
     // reading the notes must not change which spelling of a word the pages show: keep the tallies as they were
     var SV = [Mt, NmK, NmD].map(function (o) {
         return JSON.stringify(o);
@@ -4321,9 +4322,13 @@
     return PhDF;
   }
   function phSents(t) {
-    return (String(t || "").match(/[^.!?\n]+[.!?]*/g) || [])
+    return (String(t || "")
+      .replace(/\b(?:[A-Za-z]\.){2,}/g, function (m) {
+        return m.replace(/\./g, "\u2024");
+      })
+      .match(/[^.!?\n]+[.!?]*/g) || [])
       .map(function (x) {
-        return x.trim();
+        return x.trim().replace(/\u2024/g, ".");
       })
       .filter(Boolean);
   }
@@ -4428,6 +4433,7 @@
         });
       });
     });
+    for (var kk in ex) ex[kk].k = cnt[kk];
     var K = Object.keys(cnt).sort(function (p, q) {
       return cnt[q] - cnt[p] || ex[q].g - ex[p].g || ex[q].df - ex[p].df || ex[p].n - ex[q].n;
     });
@@ -4440,7 +4446,7 @@
   }
   // the clause of a text that starts at the stems: -> {cl, sent} or null
   var PhLead = { instead: 1, also: 1, then: 1, still: 1, just: 1, and: 1, but: 1, or: 1, so: 1 };
-  function phClause(stems, text, cap) {
+  function phClause(stems, text, cap, near) {
     cap = cap || 16;
     var S = phSet(stems),
       best = null;
@@ -4459,7 +4465,22 @@
       };
       if (!hits.length || !covers(0)) return !1;
       var a = hits.filter(covers).pop(),
-        last = hits[hits.length - 1],
+        last = hits[hits.length - 1];
+      if (near) {
+        var cl0 = hits.filter(function (j) {
+          return stems.every(function (k) {
+            return hits.some(function (h) {
+              return h >= j && h <= j + 3 && phHas(T[h], k);
+            });
+          });
+        })[0];
+        if (null == cl0) return !1;
+        a = cl0;
+        last = Math.max.apply(null, hits.filter(function (h) {
+          return h >= a && h <= a + 3;
+        }));
+      }
+      var
         tight = function (x, y) {
           return /^[\s\-–]*$/.test(phGap(sen, T, x, y));
         };
@@ -4496,6 +4517,116 @@
     return Gt(x).replace(/"/g, "&quot;");
   }
   // a card's title from its thread key
+  // does a text carry all the stems in one sentence?
+  function phIn(stems, text) {
+    var S = phSet(stems);
+    return phSents(text).some(function (sen) {
+      var T = phToks(sen);
+      return stems.every(function (k) {
+        return T.some(function (o) {
+          return !o.cap && phHas(o, k) && S[k];
+        });
+      });
+    });
+  }
+  // a finding's name: the phrase the workbook uses around a key, and the notes that carry it.
+  // ctx: only the context grasped (Q.1–Q.4 answers and notes)
+  var PhNm = {};
+  function gsmPhName(key, ctx) {
+    var ck = key + (ctx ? "|c" : "");
+    if (ck in PhNm) return PhNm[ck];
+    return (PhNm[ck] = phKeep(function () {
+      var stems = String(key).split(" "),
+        all = phAll(),
+        use = all.filter(function (x) {
+          return !ctx || (x.q >= 1 && x.q <= 4);
+        }),
+        b = phBest(stems, use),
+        ids = use
+          .filter(function (x) {
+            return /^N/.test(x.src) && phIn(stems, x.t);
+          })
+          .map(function (x) {
+            return x.src;
+          });
+      // a finding names a phrase only when the workbook repeats it, or the goal uses it
+      var B = b
+        ? [b].concat(b.alt || []).filter(function (x) {
+            return x.n >= 2 && (x.k >= 2 || x.g);
+          })[0]
+        : null;
+      return { ph: B ? B.ph : jt(key), multi: !!B || stems.length > 1, ids: ids };
+    }));
+  }
+  function gsmPhNameH(key, ctx) {
+    var m = gsmPhName(key, ctx);
+    return Gt(m.ph) + (m.ids.length ? " (" + phList(m.ids.slice(0, 3)) + ")" : "");
+  }
+  // the meanings of a saturated word, opened into phrases and sentences (ONE WORD, SEVERAL MEANINGS)
+  function gsmSenses(w, subs) {
+    return phKeep(function () {
+      var all = phAll(),
+        out = [],
+        seen = {};
+      subs.slice(0, 8).forEach(function (b) {
+        var stems = String(b).split(" "),
+          it = all.filter(function (x) {
+            return "goal" !== x.src && phClause(stems, x.t, 18, stems.length > 1);
+          }),
+          best = phBest(stems, it),
+          lines = [];
+        if (!best) return;
+        it.slice(0, 3).forEach(function (x) {
+          var c = phClause(stems, x.t, 18, stems.length > 1);
+          if (!c) return;
+          // up to six words before it, within its clause, for context
+          var at = c.sent.toLowerCase().indexOf(c.cl.replace(/…$/, "").toLowerCase()),
+            pre = at > 0 ? c.sent.slice(0, at).split(/[,;:()]/).pop() : "",
+            pw = pre.trim().split(/\s+/).filter(Boolean),
+            lead = pw.slice(-6).join(" ");
+          lines.push("“" + (pw.length > 6 ? "…" : "") + Gt((lead ? lead + " " : "") + c.cl) + "” (" + x.src + ")");
+        });
+        var k = best.ph.toLowerCase();
+        seen[k] || ((seen[k] = 1), out.push("<p><b>" + Gt(best.ph) + "</b>: " + lines.join("; ") + "</p>"));
+      });
+      // actions written around the word: an -ing word just before it ("managing unplanned fires")
+      var act = {};
+      all.forEach(function (x) {
+        if ("goal" === x.src) return;
+        phSents(x.t).forEach(function (sen) {
+          var T = phToks(sen);
+          T.forEach(function (o, j) {
+            if (o.cap || !phHas(o, w)) return;
+            for (var a = j - 1; a >= 0 && a >= j - 2; a--) {
+              if (!/^[\s\-–]*$/.test(phGap(sen, T, a, a + 1))) break;
+              if (/ing$/i.test(T[a].w) && T[a].c) {
+                var ph = phLow(sen.slice(T[a].i, o.e), T[a]),
+                  kk = ph.toLowerCase();
+                (act[kk] = act[kk] || { ph: ph, ids: [] }).ids.indexOf(x.src) < 0 && act[kk].ids.push(x.src);
+                break;
+              }
+              if (!T[a].c) break;
+            }
+          });
+        });
+      });
+      var A = Object.keys(act)
+        .filter(function (k) {
+          return !seen[k];
+        })
+        .sort(function (p, q) {
+          return act[q].ids.length - act[p].ids.length || act[q].ph.split(" ").length - act[p].ph.split(" ").length;
+        })
+        .slice(0, 6)
+        .map(function (k) {
+          return "<b>" + Gt(act[k].ph) + "</b> (" + phList(act[k].ids.slice(0, 3)) + ")";
+        });
+      A.length && out.push("<p>Written as an action: " + phList(A) + ".</p>");
+      return out.length
+        ? '<details class="more"><summary>Each meaning, in your words</summary><div class="mtext">' + out.join("") + "</div></details>"
+        : "";
+    });
+  }
   var PhTi = {};
   function gsmPhTitle(key) {
     if (key in PhTi) return PhTi[key];
@@ -5804,6 +5935,15 @@
             var v2 = AK["theme|" + c2.key];
             "y" === v2 ? SH.push(c2) : "n" === v2 || WD.push(c2);
           }
+          var one = function (c) {
+            return c.key.indexOf(" ") < 0 && !gsmPhName(c.key).multi;
+          };
+          SH = SH.filter(function (c) {
+            return !one(c);
+          });
+          WD = WD.filter(function (c) {
+            return !one(c);
+          });
           if (!SH.length && !WQ.length && !WD.length) return;
           function srt(x, y) {
             return (
@@ -5843,8 +5983,8 @@
               nw = SH.filter(function (c) {
                 return c.key.indexOf(" ") < 0;
               }).length,
-              nn = nw && nw < SH.length ? "phrases and words" : nw ? "words" : "phrases",
-              n1 = nw ? "word" : "phrase";
+              nn = "phrases",
+              n1 = "phrase";
             h +=
               "<p>" +
               (s ? SH.length + " " + nn : "One " + n1) +
@@ -5859,7 +5999,7 @@
                 .map(function (c) {
                   return (
                     '<div class="csl">“' +
-                    Gt(jt(c.key)) +
+                    Gt(gsmPhName(c.key).ph) +
                     '”</div><div class="cq">In ' +
                     jn(c.a) +
                     ". " +
@@ -5908,15 +6048,15 @@
             };
             h +=
               "<p>" +
-              (WD.length > 1 ? "These single words also run" : "This single word also runs") +
+              (WD.length > 1 ? "These phrases also run" : "This phrase also runs") +
               " through three or more of your answers and " +
               (WD.length > 1 ? "appear" : "appears") +
-              " in one note at most. A word can be a theme or just wording, and Patterns cannot tell which, so it asks.</p>" +
+              " in one note at most. A phrase can be a theme or just wording, and Patterns cannot tell which, so it asks.</p>" +
               window.gsmTHW
                 .map(function (c, i) {
                   return (
                     '<div style="margin:6px 0 10px">“' +
-                    Gt(jt(c.key)) +
+                    Gt(gsmPhName(c.key).ph) +
                     '” Is it a theme?<div class="emo"><button type="button" class="ech" onclick="gsmAskW(' +
                     i +
                     ',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskW(' +
@@ -6796,7 +6936,14 @@
               w,
               null,
             );
-          var b = lo(
+          var NK5 = phKeep(function () {
+              var o = {};
+              ((window.gsmData ? window.gsmData().m : []) || []).forEach(function (r) {
+                r[0] >= 5 && r[0] <= 7 && Object.assign(o, Ht(r[3] || "").k);
+              });
+              return o;
+            }),
+            b = lo(
             Object.keys(g).filter(function (t) {
               return (
                 g[t] >= 2 &&
@@ -6806,7 +6953,8 @@
                 }) &&
                 ![4, 5, 6].some(function (e) {
                   return i[e].k[t];
-                })
+                }) &&
+                !NK5[t]
               );
             }),
           );
@@ -6945,7 +7093,11 @@
                 (bo2 ? " On both sides of the line: " + bo2 + "." : "") +
                 (wi
                   ? ""
-                  : " Patterns reads these as separate ideas from here on and no longer reports the bare word by itself. If two of them are the same thing to you, or a kind you mean is missing, say so in your notes.") ,
+                  : " Patterns reads these as separate ideas from here on and no longer reports the bare word by itself. If two of them are the same thing to you, or a kind you mean is missing, say so in your notes.") 
+                +
+                gsmSenses(w, rows.map(function (x) {
+                  return x.b;
+                })),
               M.subs,
               null,
             );
@@ -7449,7 +7601,7 @@
                   return (
                     t[3]
                       ? (n = t[3].map(function (t) {
-                          return jt(t);
+                          return gsmPhName(t).ph;
                         }))
                       : (e = t[1].match(/<b>[^<]+<\/b>/g)) &&
                         (n = e.map(function (t) {
@@ -7466,7 +7618,7 @@
                     function (t) {
                       return (
                         t +
-                        " comes up often, but none of your actions (Q.5–Q.7) mention it. What you talk about most may be what you have planned least."
+                        " comes up often, but nothing you would design, redesign, or reinforce (Q.5–Q.7, answers or notes) mentions it. What you talk about most may be what you have planned least."
                       );
                     },
                   ],
@@ -7778,11 +7930,11 @@
                   "):</b> " +
                   e
                     .slice(0, 4)
-                    .map(function (t) {
-                      return Gt(jt(t));
+                    .map(function (k) {
+                      return gsmPhNameH(k, "unanswered" === t || "condition" === t);
                     })
-                    .join(", ") +
-                  (e.length > 4 ? ", and " + (e.length - 4) + " more" : "") +
+                    .join("; ") +
+                  (e.length > 4 ? "; and " + (e.length - 4) + " more" : "") +
                   ". " +
                   (e.length > 1 ? rt[t][1] : rt[t][2]) +
                   "</p>"));
@@ -10631,15 +10783,16 @@
                   "). Most of it would " +
                   big[0][1] +
                   ".";
-                un.length + an.length &&
+                un.length &&
                   (s4 +=
-                    " Of the words and phrases you use for causes, opposition, and conditions, " +
-                    an.length +
-                    " also turn up in what you would do and " +
-                    un.length +
-                    " do not" +
-                    (un.length ? ", among them " + q(un.slice(0, 3)) : "") +
-                    "." +
+                    " Nothing you would design, redesign, or reinforce deals yet with " +
+                    phList(
+                      un.slice(0, 3).map(function (k) {
+                        return gsmPhNameH(k, 1);
+                      }),
+                    ) +
+                    (un.length > 3 ? ", among other things" : "") +
+                    " that stand in the way in the context you’ve grasped." +
                     (un.length > an.length
                       ? " So far, your plan reaches less of the problem than the problem holds."
                       : ""));
@@ -15691,7 +15844,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v200");
+        t && (t.textContent = "v201");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
