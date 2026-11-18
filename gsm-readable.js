@@ -16757,7 +16757,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v217");
+        t && (t.textContent = "v218");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -21769,7 +21769,7 @@
       }
     }
     function fillLay() {
-      var lb = $("laybar");
+      var lb = $("laybar") || (host.querySelector(".grel .laybar") || null);
       if (!lb) return;
       lb.innerHTML = "";
       if (ANH || PAR || CARDH || !terr || !terr.threads.length) return;
@@ -22756,6 +22756,20 @@
           try {
             D.intro = introStops(false);
           } catch (e) {}
+          /* v218: the patterns row goes into the map in full screen and back out after */
+          D.onFs = function (on, w) {
+            var lb = $("laybar");
+            if (!lb || !lb.childNodes.length) return;
+            if (on) {
+              lb._home || (lb._home = { p: lb.parentNode, n: lb.nextSibling });
+              lb.classList.add("fslay");
+              w.appendChild(lb);
+            } else if (lb._home) {
+              lb.classList.remove("fslay");
+              lb.style.left = lb.style.maxWidth = "";
+              lb._home.p.insertBefore(lb, lb._home.n);
+            }
+          };
           D.onHL = function (i) {
             if (!HLSTICK) {
               HL = i;
