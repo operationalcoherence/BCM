@@ -57,8 +57,8 @@ function mount(host, D) {
   const hRaw = (x, y) => bil(D.hn, x, y) * HS;
   /* a place: the ground is the real terrain (meters per map unit), heights x VEX so benches and slopes show (v242); emotion shows only as color */
   const MPU = PL ? 156543.03392 * Math.cos(Math.atan(Math.sinh(Math.PI * (1 - 2 * (PL.Y0 + H / 2 / PL.k) / 256)))) / PL.k : 1;
-  /* v242: up to 2.5x, but never more than ~70 units of rise (about the line map's own relief), never below true scale */
-  const VRG = PL && PL.elev && PL.elev.hi > PL.elev.lo ? (PL.elev.hi - PL.elev.lo) / MPU : 0, VEX = VRG ? Math.max(1, Math.min(2.5, 70 / VRG)) : 2.5, VXT = VEX > 1.05 ? 'with heights exaggerated ' + (Math.round(VEX * 10) / 10) + '× so its slopes and benches show' : 'true to scale';
+  /* v242: up to 2.5x, never below true scale; v243: capped at ~140 units of rise (was 70) */
+  const VRG = PL && PL.elev && PL.elev.hi > PL.elev.lo ? (PL.elev.hi - PL.elev.lo) / MPU : 0, VEX = VRG ? Math.max(1, Math.min(2.5, 140 / VRG)) : 2.5, VXT = VEX > 1.05 ? 'with heights exaggerated ' + (Math.round(VEX * 10) / 10) + '× so its slopes and benches show' : 'true to scale';
   function hAt(x, y) { if (PL) return PL.elev ? PL.elev(x, y) / MPU * VEX : 0; const e = 0.6, gx = (hRaw(x + e, y) - hRaw(x - e, y)) / (2 * e), gy = (hRaw(x, y + e) - hRaw(x, y - e)) / (2 * e), s = Math.hypot(gx, gy);
     const k = sstep(0.25, 1.1, s), ux = s > 1e-4 ? -gy / s : 1, uy = s > 1e-4 ? gx / s : 0, across = x * ux + y * uy, along = (x * gx + y * gy) / (s || 1);
     const gul = (ridged(across * 0.18 + vn(x * 0.04, y * 0.04) * 2, along * 0.025, 3) - 0.4) * 2.4 * k;
@@ -113,6 +113,8 @@ function mount(host, D) {
       const o0 = (py * TW + pxx) * 4;
       let c = bp ? [bp[o0], bp[o0 + 1], bp[o0 + 2]] : mix(mix(grass, soil, tS + sstep(-0.4, -1.0, h / HS) * 0.5 * (1 - tR)), rock, tR); const kk = bp ? 1 : 0.93 + 0.14 * sp; c = c.map(v => v * kk);
       const ao = Math.max(-0.28, Math.min(0.18, -lap * (PL ? 0.5 : 0.11))); c = c.map(v => v * (1 + ao));
+      /* v243: a place gets a hillshade over its imagery (light from the northwest, 45° up) so benches and slopes read */
+      if (PL) { const gx = (gH(x + e, y) - gH(x - e, y)) / (2 * e), gy = (gH(x, y + e) - gH(x, y - e)) / (2 * e), nl = Math.hypot(gx, gy, 1), sh = ((gx + gy) * 0.7071 + 1) * 0.7071 / nl / 0.7071 - 1; c = c.map(v => Math.min(255, v * (1 + Math.max(-0.45, Math.min(0.3, sh * 0.9))))); }
       let [em, st, gap, rb] = emoMix(x, y); if (PL) gap = 0;
       if (gap > 0.01) c = mix(c, rock.map(v => v * (1 + ao)), gap * 0.85);
       const ls = lum(c), le = lum(em) || 1; c = mix(c, PL ? em : em.map(v => Math.min(255, v * ls / le * 1.05)), (PL ? 0.42 : ALPHA) * st * (1 - gap));
