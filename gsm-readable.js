@@ -1193,11 +1193,72 @@
     });
   }
 
+
+  function gsmStoryLead(root, tries) {
+    if (!root || root.querySelector(".storylead")) return;
+    var sm = [].slice.call(root.querySelectorAll("details.fold > summary")).filter(function (x) {
+      return "YOUR STORY SO FAR" === x.textContent.trim();
+    })[0];
+    if (!sm) {
+      (tries || 0) < 12 &&
+        setTimeout(function () {
+          try {
+            gsmStoryLead(root, (tries || 0) + 1);
+          } catch (e) {}
+        }, 250);
+      return;
+    }
+    var fd = sm.parentNode,
+      anchor =
+        [].slice.call(root.querySelectorAll(".plab")).filter(function (p) {
+          return /^(WHY IT BEHAVES THIS WAY|WHAT YOUR USE OF THE BEAR CANYON METHOD PRODUCED)/.test(p.textContent.trim());
+        })[0] || root.querySelector(".plab");
+    if (!anchor) return;
+    var box = document.createElement("div");
+    box.className = "storylead";
+    anchor.parentNode.insertBefore(box, anchor);
+    box.appendChild(fd);
+    fd.open = !0;
+    sm.innerHTML = 'YOUR STORY SO FAR<span class="stsub">What Pattern Analysis makes of your workbook: the story first, the evidence after.</span>';
+    var SS = window.gsmStructSum || {},
+      P = [];
+    SS.sys &&
+      P.push(
+        Gt(SS.sys.join(", ")).replace(/^./, function (c) {
+          return c.toUpperCase();
+        }) +
+          ", and what stands with them," +
+          (SS.low ? " hold the work in place from the low ground" : " hold the work in place for now, though loosely") +
+          (SS.loop ? ", and a loop in it makes each round harder than the last." : "."),
+      );
+    SS.tension && P.push("What the goal needs more of is what that ground has learned to fear.");
+    SS.opp && P.push(SS.opp + " of the alternative already stands on higher ground.");
+    SS.cross && P.push("The way between them runs through the indifference in " + SS.cross.join(", ").replace(/,([^,]*)$/, ", and$1") + ".");
+    SS.opp && SS.cross
+      ? P.push("So the work is less about inventing than about reinforcing what already stands and bringing people across that ridge.")
+      : SS.opp
+        ? P.push("So the work is less about inventing than about reinforcing what already stands.")
+        : SS.sys && P.push("So the work starts with what keeps that system in place, not with persuasion.");
+    if (P.length >= 3) {
+      var mt = fd.querySelector(".mtext"),
+        p1 = mt && mt.querySelector(":scope > p");
+      if (mt) {
+        var h = document.createElement("div");
+        h.className = "csl stimp";
+        h.textContent = "WHERE THIS LEAVES THE WORK";
+        var p = document.createElement("p");
+        p.className = "stimpp";
+        p.innerHTML = P.join(" ");
+        p1 ? (p1.after(h), h.after(p)) : (mt.prepend(p), mt.prepend(h));
+      }
+    }
+  }
   function gsmMeanPass(sec) {
     setTimeout(function () {
       try {
         if (!sec || !sec.closest || !sec.closest('[data-pv="2"]')) return;
         gsmMeanRun(sec);
+        gsmStoryLead(sec.closest('[data-pv="2"]'));
       } catch (e) {}
     }, 0);
   }
@@ -1207,7 +1268,7 @@
     var st = document.createElement("style");
     st.id = "gsm-mean-css";
     st.textContent =
-      "#gsm .rule .rmean2{font-size:15.5px;line-height:1.5;color:#111;margin:2px 0 2px}#gsm .rule details.rev summary{margin:6px 0 2px;font-size:12.5px}#gsm .rule .revb{font-size:14px;color:#444;line-height:1.45;margin:4px 0 2px}#gsm .rule .revn{font-size:13.5px;color:#444;line-height:1.45;margin:6px 0 0;padding-left:9px;border-left:2px solid #ddd}#gsm .rule .revn div{margin:0 0 4px}#gsm .rule .revn i{font-style:normal;color:#777;font-size:12.5px}#gsm .metal li .rmean2{font-size:15px;margin:0}#gsm .sread{border-left:3px solid #111;padding:6px 0 6px 12px;margin:0 0 14px}#gsm .sread .srl{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:3px}#gsm .sread .srm{font-size:16px;line-height:1.55;color:#111}#gsm .sread .srev{font-size:13.5px;line-height:1.45;color:#444;padding-left:9px;border-left:2px solid #ddd}#gsm .sread .srev div{margin:0 0 4px}#gsm .sread .srev i{font-style:normal;color:#777;font-size:12.5px}#gsm .sread .srq{margin:8px 0 4px;color:#222}";
+      "#gsm .rule .rmean2{font-size:15.5px;line-height:1.5;color:#111;margin:2px 0 2px}#gsm .rule details.rev summary{margin:6px 0 2px;font-size:12.5px}#gsm .rule .revb{font-size:14px;color:#444;line-height:1.45;margin:4px 0 2px}#gsm .rule .revn{font-size:13.5px;color:#444;line-height:1.45;margin:6px 0 0;padding-left:9px;border-left:2px solid #ddd}#gsm .rule .revn div{margin:0 0 4px}#gsm .rule .revn i{font-style:normal;color:#777;font-size:12.5px}#gsm .metal li .rmean2{font-size:15px;margin:0}#gsm .sread{border-left:3px solid #111;padding:6px 0 6px 12px;margin:0 0 14px}#gsm .sread .srl{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:3px}#gsm .sread .srm{font-size:16px;line-height:1.55;color:#111}#gsm .sread .srev{font-size:13.5px;line-height:1.45;color:#444;padding-left:9px;border-left:2px solid #ddd}#gsm .sread .srev div{margin:0 0 4px}#gsm .sread .srev i{font-style:normal;color:#777;font-size:12.5px}#gsm .sread .srq{margin:8px 0 4px;color:#222}#gsm .storylead{margin:18px 0 26px}#gsm .storylead>details.fold{border:2px solid #111;background:#faf8f3;padding:2px 20px 8px}#gsm .storylead>details.fold>summary{font-size:16px;letter-spacing:.14em}#gsm .storylead .stsub{display:block;font-weight:400;letter-spacing:0;font-size:13px;color:#666;margin-top:4px}#gsm .storylead .mtext>p:first-of-type,#gsm .storylead .mtext p.stimpp{font-size:17.5px;line-height:1.65;color:#111}#gsm .storylead .mtext p.stimpp{border-left:3px solid #111;padding-left:12px}#gsm .storylead .mtext p{font-size:15.5px;line-height:1.6}#gsm .stn{color:#888;font-size:13px}";
     document.head.appendChild(st);
   }
   function gsmMeanList(a) {
@@ -1634,6 +1695,7 @@
   window.gsmStruct = gsmStruct;
   function gsmStructBuild() {
     gsmMeanCss();
+    var SS = (window.gsmStructSum = {});
     var E = GSMEMO,
       src = gsmMeanSrc(),
       notes = src.filter(function (n) {
@@ -1706,6 +1768,8 @@
       });
     }
     if (sysNames.length >= 3) {
+      SS.sys = sysNames.slice(0, 3);
+      SS.low = [0, 2, 4].indexOf(gsmStEm(comp).o[0]) >= 0;
       var tied = comp.filter(function (n) {
           return CAUSE.test(n.txt);
         }),
@@ -1788,6 +1852,7 @@
           return !1;
         });
       if (fears.length && helpHas) {
+        SS.tension = 1;
         var f0 = fears[0].n,
           fs =
             gsmStSent(f0.txt).filter(function (x) {
@@ -1853,6 +1918,7 @@
         return kc[b] - kc[a];
       })[0];
     if (lk) {
+      SS.loop = 1;
       var lsk = ls.filter(function (l) {
           return l.k[lk];
         }),
@@ -1922,6 +1988,7 @@
     });
     if (exNames.length >= 2) {
       var oe = gsmStEm(ex).o[0];
+      SS.opp = ex.length >= nw.length ? "Most" : "Part";
       card(
         "THE OPPORTUNITY",
         (ex.length >= nw.length ? "Most" : "Part") +
@@ -1954,6 +2021,7 @@
       return 3 === n.em;
     });
     if (ind.length && sysNames.length >= 3) {
+      SS.cross = ind.slice(0, 4).map(gsmStRef);
       card(
         "WHERE IT CAN CROSS",
         gsmStList(ind.map(gsmStRef), 5).replace(/>place note/, ">Place note") +
@@ -12378,12 +12446,12 @@
                     U >= 3 &&
                     S.push(
                       (hn.length * 2 > H && pl.length * 2 > U
-                        ? "Most of what hinders sits in the present (" + hn.length + " of " + H + "), and most of what helps lies further on (" + pl.length + " of " + U + "): the help is still ahead of the trouble."
+                        ? "Most of what hinders sits in the present, and most of what helps lies further on: the help is still ahead of the trouble."
                         : hl.length * 2 > H && pn.length * 2 > U
-                          ? "Most of what helps is already here (" + pn.length + " of " + U + "), and most of what hinders lies further on (" + hl.length + " of " + H + "): the trouble is still ahead, which leaves time to meet it."
+                          ? "Most of what helps is already here, and most of what hinders lies further on: the trouble is still ahead, which leaves time to meet it."
                           : hn.length * 2 > H && pn.length * 2 > U
-                            ? "Most of what hinders (" + hn.length + " of " + H + ") and most of what helps (" + pn.length + " of " + U + ") sit in the present, so little of the context you have grasped yet reaches toward the goal."
-                            : "What hinders and what helps are spread from the present toward the goal (" + hn.length + " of " + H + " hindering, and " + pn.length + " of " + U + " helping, sit in the present)."),
+                            ? "Most of what hinders and most of what helps sit in the present, so little of the context you have grasped yet reaches toward the goal."
+                            : "What hinders and what helps are spread from the present toward the goal, so the work meets both all the way along."),
                     );
                 } else {
                   var q2 = byQ([2]),
@@ -12442,27 +12510,17 @@
                   " in the way (" +
                   ids(OP) +
                   ").";
+                var c1 = s1;
                 if (E.n && hard * 2 >= E.n)
                   s1 +=
-                    " Most of them carry aggression or defiance (" +
-                    hard +
-                    " of " +
-                    E.n +
-                    "), the two emotions Vigneaux (2026) places furthest from taking up a new idea. Opposition held in these emotions is rarely argued out of its position; it moves, if at all, when people see something done that fits what they already value. That is the case for starting with behaviors rather than with persuasion.";
+                    " Most of what stands in the way carries aggression or defiance, the two emotions Vigneaux (2026) places furthest from taking up a new idea. Opposition held in these emotions is rarely argued out of its position; it moves, if at all, when people see something done that fits what they already value. That is the case for starting with behaviors rather than with persuasion.";
                 else if (E.n && E.ord[0] === 2)
                   s1 +=
-                    " Most of them carry distrust (" +
-                    E.c[2] +
-                    " of " +
-                    E.n +
-                    "). Distrust is about who is speaking more than what is said, so small commitments kept in plain view are likely to do more than a better argument.";
+                    " Most of what stands in the way carries distrust. Distrust is about who is speaking more than what is said, so small commitments kept in plain view are likely to do more than a better argument.";
                 else if (E.n && E.ord[0] === 3)
                   s1 +=
-                    " Most of them carry indifference (" +
-                    E.c[3] +
-                    " of " +
-                    E.n +
-                    "): people not yet for or against. That is the most movable ground there is, and the least stable, because it can tip either way.";
+                    " Most of what stands in the way carries indifference: people not yet for or against. That is the most movable ground there is, and the least stable, because it can tip either way.";
+                s1 !== c1 && (s1 = s1.slice(c1.length).trim());
                 var VO = {};
                 OP.forEach(function (o) {
                   var v = o.r[7];
@@ -12491,25 +12549,16 @@
                       ". What answers one may not reach the other.");
                 }
               }
+              s1 && OP.length && s1.indexOf("You name") && (s1 += ' <span class="stn">(' + ids(OP) + ")</span>");
               out += P0("WHAT STANDS IN THE WAY", s1);
               /* what is already helping */
               var SU = byQ([3]),
                 s2 = "";
               if (SU.length) {
-                s2 =
-                  SU.length +
-                  " note" +
-                  (SU.length > 1 ? "s name" : " names") +
-                  " support already there (" +
-                  ids(SU) +
-                  ").";
+                s2 = "Support for the goal is already at work.";
                 OP.length >= 2 * SU.length &&
-                  (s2 +=
-                    " That is " +
-                    OP.length +
-                    " things against the goal to " +
-                    SU.length +
-                    " for it. The map may be weighted toward what is wrong because that is how things are, or because that is where you have looked; it is worth asking who else could name what is working.");
+                  (s2 =
+                    "Support for the goal is already at work, but the map leans hard toward what is wrong. That may be how things are, or it may be where you have looked; it is worth asking who else could name what is working.");
                 (FR.unused || []).length &&
                   (s2 +=
                     " " +
@@ -12517,6 +12566,7 @@
                     " " +
                     (FR.unused.length > 1 ? "are" : "is") +
                     " support already at work that nothing you would design, redesign, or reinforce draws on yet. Support that nothing opposes and nothing yet builds on is the least costly place to begin.");
+                s2 += ' <span class="stn">(' + ids(SU) + ")</span>";
               } else if (OP.length)
                 s2 =
                   "No note yet names what is already working for the goal. Without it, every move has to start from nothing.";
@@ -12526,12 +12576,10 @@
                 s3 = "";
               CO.length
                 ? (s3 =
-                    CO.length +
-                    " note" +
-                    (CO.length > 1 ? "s say" : " says") +
-                    " what has to be true for the goal to take root (" +
+                    "What has to be true for the goal to take root sets the tests that what you would design will have to pass." +
+                    ' <span class="stn">(' +
                     ids(CO) +
-                    "). Each one is a test the actions in Q.5–Q.7 will have to pass.")
+                    ")</span>")
                 : (s3 =
                     "No note yet says what has to be true for the goal to take root. Q.4 is one of the two leading questions: without it, there is nothing to hold the actions up against.");
               out += P0("WHAT HAS TO BE TRUE", s3);
@@ -12551,15 +12599,7 @@
                 ].sort(function (a, b) {
                   return b[0] - a[0];
                 });
-                s4 =
-                  AC.length +
-                  " note" +
-                  (AC.length > 1 ? "s say" : " says") +
-                  " what you would do (" +
-                  ids(AC) +
-                  "). Most of it would " +
-                  big[0][1] +
-                  ".";
+                s4 = "Most of what you would do would " + big[0][1].replace(/ \(Q\.\d\)$/, "") + ".";
                 un.length &&
                   (s4 +=
                     " Nothing you would design, redesign, or reinforce deals yet with " +
@@ -12574,6 +12614,7 @@
                       ? " So far, your plan reaches less of the problem than the problem holds."
                       : ""));
               }
+              s4 && AC.length && (s4 += ' <span class="stn">(' + ids(AC) + ")</span>");
               out += P0("WHAT YOU WOULD DO", s4);
               var W = window.gsmWS;
               out += P0(
@@ -17570,7 +17611,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v221");
+        t && (t.textContent = "v222");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
