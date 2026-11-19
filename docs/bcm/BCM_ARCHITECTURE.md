@@ -76,6 +76,63 @@ Within one save, the method reads the present against what lies toward the goal 
 
 ---
 
+# BCM Canonical Vocabulary
+One term per concept, across every page. Proposed 11-18 by Claude; awaiting his redlines. Section titles already on screen keep their names until he decides; this table governs new wording.
+
+| Concept | Canonical term | Other names it absorbs |
+|---|---|---|
+| The whole map | **the ground** | terrain, landscape (keep "possibility landscape" only when citing the paper) |
+| The deeper question | **holding and giving** | none |
+| What hinders and stays | **what holds**, on **low ground** (distrust low, aggression lower, defiance lowest) | sunk ground; hollow (keep only as a named landform); opposition (keep for Q.2) |
+| A hold that feeds itself | **the loop** | cause and effect, the suppression loop |
+| What helps and already exists | **what already moves**, on **high ground** | raised ground, firm ground, unused support |
+| Movement between emotions | **a shift** | change, transition |
+| A shift on the ground | **a crossing**: through **the ridge** (indifference) or over **bare rock** (no ridge), at the cost of **a climb** | the least costly way up, the way through it |
+| A thing on both sides | **pulled two ways**; at the goal's center, **the tension** | for and against, contested, both kinds of ground |
+| A difference between readings | **where the reading splits** | agree/ask, said against mapped, placed one way, tied the other |
+| A shared word across answers | **thread** | runs together, a word that returns, a word that crosses questions |
+| A repeated two-word phrase | **pattern** | phrase loop |
+| A user-made connection | **link** | none |
+| The only connection between two things | **hinge** | the unclosed triangle |
+| Something that already joins two sides | **bridge** (one meaning only) | the bridging thread |
+| Hold that nothing answers | **unanswered** | not yet answered, no response yet, said but not answered, the unreached cause, the gap |
+| The two halves | **the context you have grasped**, **what you would design** (his terms) | Q.1–Q.4, Q.5–Q.7, cause and action |
+| Q.7 | **reinforce**, only in this sense | none; self-supporting holds use "holds itself" or "feeds itself" |
+| Who wrote a note | **voice** | person, group |
+
+## Names that mean two things today
+- **"Loop"** means a self-feeding cycle (THE LOOP) and also a drawn phrase pattern ("phrase loop").
+- **"Reinforce"** means Q.7 (strengthen what works) and also "reinforce one another" (a self-supporting hold). These are opposite meanings.
+- **"Bridge"** means a thread across the two halves of the questions, a note between emotions (PLACED ONE WAY), and the costed crossings of bare rock.
+- **"Pattern"** is the engine's name ("Patterns suggests"), the drawn phrase patterns, POSSIBLE PATTERNS, and "Patterns worth a second look."
+- **"High ground," "raised ground," and "firm ground"** are used as if they were the same thing.
+
+## The same insight under different names (as of v225)
+| Insight | Names it goes by |
+|---|---|
+| Holding | THE SYSTEM THAT HOLDS, WHAT KEEPS IT THIS WAY, WHAT HOLDS IT IN THE LOW GROUND, WHAT STANDS IN THE WAY, low ground, sunk ground, hollow, opposition, hinder |
+| Unanswered holding | SAID, BUT NOT ANSWERED, OPPOSITION NOT YET ENGAGED, NOT YET ANSWERED, NOTHING YOU WOULD DO ANSWERS THESE YET, "Not in Q.5–Q.7 yet," "the unreached cause," the dashed gap box, CONDITION NOT IN Q.5–Q.7 |
+| Help already there | THE OPPORTUNITY, WHAT IS ALREADY HELPING, SUPPORT NOT YET REINFORCED, BUILD ON WHAT IS HAPPENING, PARTLY ALREADY, the teal box, WHAT YOU ALREADY HAVE, high ground, raised ground, firm ground (way B), program |
+| Pulled two ways | THE KEY TENSION, FOR AND AGAINST (three versions), contested, "stands on both kinds of ground," "pulled both ways," TWO PEOPLE, TWO SIDES, ONE WORD, SEVERAL MEANINGS, CROSSES THE GROUND LINE |
+| Crossing | WHERE IT CAN CROSS, BETWEEN THEM, the ridge, the least costly way up, bare rock, the climb, THE WAY THROUGH IT, strategy |
+| Shifting | THE EMOTION CHANGES, "where change is likely," the tour's feasibility sentence, "easiest to fall from," boomerang risk, entrenched (hysteresis), NOW AND LATER |
+| A connecting word | thread, pattern that runs through it, RUNS TOGETHER, A WORD THAT RETURNS, A WORD THAT CROSSES QUESTIONS, AT THE CENTER, the bridging thread, hinge |
+| Meaning in motion | THE SAME THING?, ONE IDEA UNDER TWO NAMES, ONE WORD, SEVERAL MEANINGS, the medium word, WORDS THAT MAKE THE WORLD, NEVER IN THE SAME PLACE |
+| Said against mapped | PLACED ONE WAY, TIED THE OTHER, the agree and ask lines, DOES THIS SERVE THE GOAL?, IN YOUR ANSWERS, NOT ON THE MAP, ANSWERED, WITH NOTHING ON THE MAP, NOT ON THE MAP |
+| Thin ground | HEARD FROM ONE PERSON ONLY, the thinnest voice, RESTING ON WHAT WAS SAID, MOST OF THE MAP ON ONE QUESTION |
+
+---
+
+# BCM Missing Questions
+What the core structure needs and the pages don't yet fully ask (11-18). Identification only; nothing here is a feature request.
+
+1. **Taking Action doesn't ask where the reading splits.** It acts on words that are pulled two ways and on the ground, but it doesn't carry forward what In Parallel found. When the same word means something different to two voices, In Parallel says a course of action "will be heard differently by each"; the ways on the cards don't hold that.
+2. **Pattern Synthesis asks the central test only lightly** ("Not in Q.5–Q.7 yet," in WHAT IT MIGHT MEAN).
+3. **"Whose ground is it?"** runs under all four questions but is never asked as a question of its own. Emotions belong to people, and Vigneaux (2026) orients practitioners to the people in each emotion. Voices exist, but BCM asks *where* far more than *who*. Today it shows up only as a dimension of the split (two voices on two sides, the thinnest voice).
+4. **"What has shifted since last time?"** is a hidden question already present, not a missing page and not outside scope (see Time, above). It belongs to all four questions across saves.
+
+---
+
 ## 1. Purpose
 BCM is a free web workbook from Operational Coherence. It helps a practitioner, or later a group, work out how to move a goal forward in a complex social setting. It does this by reading the emotional and structural terrain around the goal.
 - Users have read none of the source papers. The app must carry that theory for them. Vigneaux (2026) is the core text.
