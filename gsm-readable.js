@@ -1355,11 +1355,11 @@
       gsmSince();
     });
   }
-  function gsmPlaceView() {
+  function gsmPlaceView(force) {
     var has = function (t) {
       return Array.isArray(t) && String(t[3] || "").trim();
     };
-    if (C.m.some(has)) return null;
+    if (!force && C.m.some(has)) return null;
     var P = (C.p && C.p.m) || [];
     if (
       !P.some(function (t) {
@@ -1509,6 +1509,35 @@
       (null != gsmModeOv(k) ? ' <button type="button" class="ech gsmmode" data-mk="' + at + '" data-mv="">Let the engine decide</button>' : "")
     );
   }
+  /* v238: the place map's own data, only for a workbook that has both maps (the line map keeps gsmData) */
+  window.gsmPlaceData = function () {
+    if (
+      !C.m.some(function (t) {
+        return Array.isArray(t) && String(t[3] || "").trim();
+      })
+    )
+      return null;
+    var pv = gsmPlaceView(1);
+    return pv ? { m: pv.m, a: Q(), goal: C.goal, place: pv.place } : null;
+  };
+  window.gsmPlaceFold = function () {
+    var pd = window.gsmPlaceData ? window.gsmPlaceData() : null;
+    return pd
+      ? '<details class="fold gtpl" style="margin:14px 0 18px"><summary>YOUR PLACE IN 3D</summary><div class="intsub" style="margin:4px 0 8px">The notes you placed on the place map' +
+          (pd.place && pd.place.name ? ", at " + String(pd.place.name).replace(/&/g, "&amp;").replace(/</g, "&lt;") : "") +
+          ', on the real land. The ground is the real terrain, true to scale; emotion shows only as color.</div><div class="gtplbox"></div></details>'
+      : "";
+  };
+  document.addEventListener(
+    "toggle",
+    function (e) {
+      var d = e.target;
+      if (!d || !d.classList || !d.classList.contains("gtpl") || !d.open) return;
+      var b = d.querySelector(".gtplbox");
+      if (b && !b.firstChild) b.innerHTML = '<div class="gterr-host" data-an="1" data-pl="1"></div>';
+    },
+    true,
+  );
   window.gsmData = function () {
     var pv = gsmPlaceView();
     return { m: pv ? pv.m : C.m, a: Q(), goal: C.goal, place: pv ? pv.place : null };
@@ -10710,7 +10739,8 @@
               ? ((window.gsmTD = window.gsmData()),
                 '<div class="gterr-host"></div><div class="gtold" style="display:none" aria-hidden="true">' +
                   ee(de.slice(0, qe), ge, Eo, de) +
-                  "</div>")
+                  "</div>" +
+                  (window.gsmPlaceFold ? window.gsmPlaceFold() : ""))
               : ee(de.slice(0, qe), ge, Eo, de)),
             (ye += lt));
           var tn = de
@@ -13643,7 +13673,8 @@
           (window.gsmData().m.some(function (t) {
             return (t[3] || "").trim();
           })
-            ? '<div class="plab">YOUR LANDSCAPE, ONE QUESTION AT A TIME</div><div class="gterr-host" data-an="1"></div>'
+            ? '<div class="plab">YOUR LANDSCAPE, ONE QUESTION AT A TIME</div><div class="gterr-host" data-an="1"></div>' +
+              (window.gsmPlaceFold ? window.gsmPlaceFold() : "")
             : "") +
           (function () {
             var A = Q(),
@@ -19241,7 +19272,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v237");
+        t && (t.textContent = "v238");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -19818,6 +19849,7 @@
   }
   function mount(host, data) {
     "use strict";
+    var NP = data && data.pl ? "P" : "N";
     host.className += " gterr";
     host.innerHTML = TPL;
     (function () {
@@ -20542,7 +20574,7 @@
     function members(notes, qpos) {
       var M = [];
       notes.forEach(function (n) {
-        M.push({ id: "N" + n.k, x: n.x, y: n.y, t: n.t });
+        M.push({ id: NP + n.k, x: n.x, y: n.y, t: n.t });
       });
       qpos.forEach(function (Q) {
         if (Q && (ANSWERS[Q.q - 1] || "").trim())
@@ -20859,7 +20891,7 @@
     }
     function noteById(id) {
       return terr.notes.filter(function (n) {
-        return "N" + n.k === id;
+        return NP + n.k === id;
       })[0];
     }
     function pitOf(n) {
@@ -20893,7 +20925,7 @@
         var ng = negated(m.t, th.w);
         if (ng && !ASK[k]) ask.push({ id: m.id, k: k, q: ng });
         if (ASK[k] === "away") return;
-        if (m.id[0] === "N") {
+        if (m.id[0] === NP) {
           var n = noteById(m.id);
           if (n) ns.push(n);
         } else answersOnly.push(m.id);
@@ -20909,7 +20941,7 @@
       }
       var g = { raised: [], sunk: [], level: [] };
       ns.forEach(function (n) {
-        g[ground(hAt(n.x, n.y))].push("N" + n.k);
+        g[ground(hAt(n.x, n.y))].push(NP + n.k);
       });
       var R = g.raised.length,
         S = g.sunk.length,
@@ -21087,7 +21119,7 @@
             kind: "fall",
             title: "Where it is easiest to fall from",
             short:
-              "N" +
+              NP +
               top.k +
               " (" +
               EMO[top.e][0].toLowerCase() +
@@ -21119,7 +21151,7 @@
           short:
             list(
               ind.map(function (p) {
-                return "N" + p.k;
+                return NP + p.k;
               }),
             ) +
             " form" +
@@ -21161,7 +21193,7 @@
                   ? " by way of the indifference at " +
                     list(
                       u.via.map(function (p) {
-                        return "N" + p.k;
+                        return NP + p.k;
                       }),
                     )
                   : "") +
@@ -21194,7 +21226,7 @@
             grp: 1,
             title: "The longest way back",
             short:
-              "N" +
+              NP +
               dp.k +
               " is defiance, the deepest ground on the map. The way from there up to acceptance at N" +
               ud.dest.k +
@@ -21206,7 +21238,7 @@
                 ? "The least costly way goes by the indifference at " +
                   list(
                     ud.via.map(function (p) {
-                      return "N" + p.k;
+                      return NP + p.k;
                     }),
                   ) +
                   "; going straight up without it is steeper still."
@@ -21234,7 +21266,7 @@
     function nks(a) {
       return list(
         a.map(function (k) {
-          return "N" + k;
+          return NP + k;
         }),
       );
     }
@@ -21450,7 +21482,7 @@
         out.push({
           act: act,
           title: "The high ground: acceptance",
-          cap: "N" + acc[0].k + " sits on the highest ground. Acceptance is where the goal already has people with it, the place to build from first.",
+          cap: NP + acc[0].k + " sits on the highest ground. Acceptance is where the goal already has people with it, the place to build from first.",
           at: [acc[0].x, acc[0].y],
         });
       ind.length &&
@@ -21495,7 +21527,7 @@
           act: act,
           title: "The deepest ground: " + EMO[low.e][0].toLowerCase(),
           cap:
-            "N" +
+            NP +
             low.k +
             " sits on the deepest ground. The way up from here to acceptance is the longest climb on the map, and the rarest move.",
           at: [low.x, low.y],
@@ -21937,7 +21969,7 @@
             "The way the ground points: " +
             list(
               lowNs.slice(0, 4).map(function (n) {
-                return "N" + n.k;
+                return NP + n.k;
               }),
             ) +
             (rgN ? ", over the ridge at N" + rgN.k : ", straight up over bare rock") +
@@ -21973,7 +22005,7 @@
               "Through its notes on firm ground only (" +
               list(
                 firmNs.map(function (n) {
-                  return "N" + n.k;
+                  return NP + n.k;
                 }),
               ) +
               ")",
@@ -21987,8 +22019,8 @@
             cd.steps.filter(function (t) {
               return /support/i.test(t);
             })[0] || "";
-        supStep.replace(/N(\d+)/g, function (m, k) {
-          var n = noteById("N" + k);
+        supStep.replace(new RegExp(NP + "(\\d+)", "g"), function (m, k) {
+          var n = noteById(NP + k);
           if (n) sup.push(n);
         });
         if (sup.length) {
@@ -22011,7 +22043,7 @@
               "Starting from the support (" +
               list(
                 sup.map(function (n) {
-                  return "N" + n.k;
+                  return NP + n.k;
                 }),
               ) +
               ")",
@@ -22081,7 +22113,7 @@
               return n && hAt(n.x, n.y) < -0.1;
             })
             .map(function (n) {
-              return "N" + n.k;
+              return NP + n.k;
             });
           if (skipped.length && best !== ROUTES[0])
             t +=
@@ -22092,7 +22124,7 @@
           var nm = function (a) {
               return list(
                 a.slice(0, 4).map(function (k) {
-                  return "N" + k;
+                  return NP + k;
                 }),
               );
             },
@@ -22137,7 +22169,7 @@
                     S.rocks
                       .slice(0, 3)
                       .map(function (r) {
-                        return (null != r.a ? "N" + r.a + ", " : "") + en3(r.ea) + ", against " + (null != r.b ? "N" + r.b + ", " : "") + en3(r.eb);
+                        return (null != r.a ? NP + r.a + ", " : "") + en3(r.ea) + ", against " + (null != r.b ? NP + r.b + ", " : "") + en3(r.eb);
                       })
                       .join("; ") +
                     "), where two distant emotions meet with no indifference between them. That is the costliest ground to act on. A bridge there would be something both sides can first be indifferent to."
@@ -22147,7 +22179,7 @@
                     list(
                       S.boom.slice(0, 3).map(function (k) {
                         var n = NSK[k];
-                        return (n ? en3(n.e) + " at " : "") + "N" + k;
+                        return (n ? en3(n.e) + " at " : "") + NP + k;
                       }),
                     ) +
                     " without passing indifference first, so pushing there can turn people further against the goal."
@@ -22170,7 +22202,7 @@
                           .map(function (n) {
                             var h = n.hyi;
                             return (
-                              "N" +
+                              NP +
                               n.k +
                               " has held " +
                               en3(n.e) +
@@ -22201,13 +22233,13 @@
           var watch = [];
           ROUTES.forEach(function (R) {
             R.st.ind.forEach(function (k) {
-              watch.indexOf("N" + k) < 0 && watch.push("N" + k);
+              watch.indexOf(NP + k) < 0 && watch.push(NP + k);
             });
           });
           (function () {
             var G = window.gsmGridPts || [],
               ids = (cd.ids || []).map(function (x) {
-                return String(x).replace(/^(?:note\s*)/i, "N");
+                return String(x).replace(/^(?:note\s*)/i, NP);
               }),
               mine = G.filter(function (p) {
                 return ids.indexOf(p.id) >= 0;
@@ -22228,12 +22260,12 @@
               }),
               mv = [],
               start = ea.length || eh.length ? ea.concat(eh) : easy.st.acc.slice(0, 2).map(function (k) {
-                return "N" + k;
+                return NP + k;
               }),
               cross = [];
             ROUTES.forEach(function (R) {
               R.st.ind.forEach(function (k) {
-                cross.indexOf("N" + k) < 0 && cross.push("N" + k);
+                cross.indexOf(NP + k) < 0 && cross.push(NP + k);
               });
             });
             start.length &&
@@ -22258,7 +22290,7 @@
                   " to " +
                   list(
                     hardW.st.hard.slice(0, 3).map(function (k) {
-                      return "N" + k;
+                      return NP + k;
                     }),
                   ) +
                   ", behaviors first: bring something to do that fits what people there already value, not an argument." +
@@ -22399,7 +22431,7 @@
         var n = ent[0],
           gw = ground(hAt(n.x, n.y));
         o.push(
-          "N" +
+          NP +
             n.k +
             " is where the loop is fed on the ground, and it sits in " +
             gw +
@@ -22436,14 +22468,14 @@
           return n.q === 3 || n.q === 7;
         })
         .map(function (n) {
-          return "N" + n.k;
+          return NP + n.k;
         });
       var des = ns
         .filter(function (n) {
           return n.q === 5 || n.q === 6;
         })
         .map(function (n) {
-          return "N" + n.k;
+          return NP + n.k;
         });
       if (des.length)
         o.push(
@@ -22492,7 +22524,7 @@
           return n.q === 2;
         })
         .map(function (n) {
-          return "N" + n.k;
+          return NP + n.k;
         });
       if (odd.length)
         o.push(
@@ -22516,7 +22548,7 @@
       var k = pitOf(n);
       if (k >= 0) o.push("It is inside a place where it is easy to get stuck.");
       terr.cause.forEach(function (ce) {
-        var id = "N" + n.k;
+        var id = NP + n.k;
         if (ce.e.indexOf(id) >= 0 && ce.c.indexOf(id) < 0)
           o.push("It feeds the " + ce.w + " loop: the end you can act on.");
         else if (ce.c.indexOf(id) >= 0) o.push("It is where the " + ce.w + " loop leads.");
@@ -23216,7 +23248,7 @@
         N = function (a) {
           return list(
             a.slice(0, 3).map(function (q) {
-              return "N" + q;
+              return NP + q;
             }),
           );
         },
@@ -23550,7 +23582,7 @@
           return Q ? [Q.x, Q.y] : null;
         }
         var n = terr.notes.filter(function (n) {
-          return "N" + n.k === id;
+          return NP + n.k === id;
         })[0];
         return n ? [n.x, n.y] : null;
       }
@@ -23728,9 +23760,9 @@
         ctx.lineJoin = "round";
         pinScreen.forEach(function (p) {
           ctx.strokeStyle = "rgba(255,255,255,.9)";
-          ctx.strokeText("N" + p.n.k, p.x + 8 * TS, p.y + 4 * TS);
+          ctx.strokeText(NP + p.n.k, p.x + 8 * TS, p.y + 4 * TS);
           ctx.fillStyle = "#222";
-          ctx.fillText("N" + p.n.k, p.x + 8 * TS, p.y + 4 * TS);
+          ctx.fillText(NP + p.n.k, p.x + 8 * TS, p.y + 4 * TS);
         });
       }
       function text(str, X, Y, Z, opt) {
@@ -23807,7 +23839,7 @@
       return a.length
         ? a
             .map(function (k) {
-              return "N" + k;
+              return NP + k;
             })
             .join(", ")
         : "no single note stands out";
@@ -23824,7 +23856,7 @@
       return a.length
         ? a
             .map(function (k) {
-              return "N" + k;
+              return NP + k;
             })
             .join(", ")
         : "no single note stands out";
@@ -24714,7 +24746,7 @@
         var d = Math.hypot(p.x - x, p.y - y);
         if (d < bd) {
           bd = d;
-          id = "N" + p.n.k;
+          id = NP + p.n.k;
         }
       });
       qScr.forEach(function (p) {
@@ -24851,7 +24883,7 @@
       tip.innerHTML = "";
       var b = document.createElement("b");
       b.textContent =
-        "N" + n.k + " · " + (n.e == null ? "no emotion marked" : EMO[n.e][0].toUpperCase()) + " · Q." + n.q;
+        NP + n.k + " · " + (n.e == null ? "no emotion marked" : EMO[n.e][0].toUpperCase()) + " · Q." + n.q;
       tip.appendChild(b);
       tip.appendChild(document.createTextNode(n.t));
       tip.style.display = "block";
@@ -24914,7 +24946,7 @@
         EN = ["aggression", "acceptance", "distrust", "indifference", "defiance"],
         rows = (data.m || [])
           .map(function (r, i) {
-            return { r: r, id: "N" + (i + 1) };
+            return { r: r, id: NP + (i + 1) };
           })
           .filter(function (o) {
             return String(o.r[3] || "").trim();
@@ -25235,7 +25267,7 @@
             .map(function (o) {
               var tx = String(o.n.t).replace(/\s+/g, " ").trim();
               tx.length > 70 && (tx = tx.slice(0, 70).replace(/\s+\S*$/, "") + "\u2026");
-              return "N" + o.n.k + (null != o.n.e ? " (" + EN[o.n.e] + ")" : "") + ": " + tx;
+              return NP + o.n.k + (null != o.n.e ? " (" + EN[o.n.e] + ")" : "") + ": " + tx;
             })
             .join(" \u00b7 ") + (near.length > 4 ? " \u00b7 and " + (near.length - 4) + " more" : "");
         return { head: "WHAT GATHERS HERE", body: t, sm: sm, long: 1 };
@@ -25445,6 +25477,7 @@
           goalText: GOALTEXT,
           place: PLACE,
         };
+        NP !== "N" && (D.np = NP);
         if (CARDH) {
           var rd = {};
           try {
@@ -25654,8 +25687,9 @@
     document.querySelectorAll(".gterr-host:not([data-on])").forEach(function (h) {
       h.setAttribute("data-on", "1");
       try {
-        var dd = window.gsmData ? window.gsmData() : window.gsmTD || {};
+        var dd = h.getAttribute("data-pl") && window.gsmPlaceData ? window.gsmPlaceData() || {} : window.gsmData ? window.gsmData() : window.gsmTD || {};
         h.getAttribute("data-an") && (dd.an = 1);
+        h.getAttribute("data-pl") && (dd.pl = 1);
         h.getAttribute("data-par") && (dd.par = 1);
         mount(h, dd);
       } catch (e) {
