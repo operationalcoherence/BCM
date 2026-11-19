@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 6 · 2026-11-18 (v219) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 7 · 2026-11-18 (v226) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -9,7 +9,18 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 The live queue is claude/v196_review_plan.md in the Claude project (it quotes his workbook, so it stays private). Status at v219:
 - Phase 1 (v197–v203): done.
 - Phase 2: step 6, Pattern Analysis (v205–v207, v211): done. Step 7, Pattern Synthesis (v212, v217, v218): done. Step 10, In Parallel (v213–v216, v219): done.
-- **Next: step 8, Taking Action:** group strategies and programs; show the chart openly; one references list; each text field says what it does and feeds somewhere (constraints to the note's card, WHAT YOU DID, and an offer to add to Q.4, Q.6, or Q.7). Then step 9, Mapping Context (instruction drop-down, emotion definitions where notes are written, Start here text moved to its pages, his redlines).
+- Interpretation pass (v220–v225): done for Analysis and In Parallel.
+- ✔v226 **Step 8, Taking Action:** rebuilt around the central test.
+  - ✔ THE TEST panel.
+  - ✔ Strategies seeded from the system that holds, the key tension, and the loop.
+  - ✔ Programs seeded from the opportunity, what is already helping, and support not yet reinforced.
+  - ✔ Ways through the ridge before bare rock, with the cost of each move and the emotional movement.
+  - ✔ Split readings carried onto cards.
+  - ✔ Constraint → card → WHAT YOU DID → re-map, with one tap to Q.4, Q.6, or Q.7.
+  - ✔ Strategies grouped, programs grouped, the chart open, and every field explained.
+  - ✔ One references list (already done in v198).
+- **Next:** a short check of Taking Action only, then **step 9, Mapping Context** (instruction drop-down, emotion definitions where notes are written, Start here text moved to its pages, his redlines).
+- Open from v226, his calls: the redlines on its wording; whether word-only cards should stay folded; merging word cards that repeat a seeded card.
 - Phase 3: WebM download of the tour; captions from his confirmed meanings of the four acts; YOUR OWN WORDS strip (3g); the word-budget pass; the "no questions" map click (3c).
 - The guided tour (4c): built v208–v210, v219.
 

@@ -202,7 +202,7 @@ One term per concept, across every page. Proposed 11-18 by Claude; awaiting his 
 ## 0b. BCM Missing Questions
 What the core structure needs and the pages don't yet fully ask (11-18). Identification only; nothing here is a feature request.
 
-1. **Taking Action doesn't ask where the reading splits.** It acts on words that are pulled two ways and on the ground, but it doesn't carry forward what In Parallel found. When the same word means something different to two voices, In Parallel says a course of action "will be heard differently by each"; the ways on the cards don't hold that.
+1. **Taking Action doesn't ask where the reading splits.** It acts on words that are pulled two ways and on the ground, but it doesn't carry forward what In Parallel found. When the same word means something different to two voices, In Parallel says a course of action "will be heard differently by each"; the ways on the cards don't hold that. *(Addressed in v226: In Parallel's split readings are carried onto the cards they touch, as WHERE THE READING SPLITS.)*
 2. **Pattern Synthesis asks the central test only lightly** ("Not in Q.5–Q.7 yet," in WHAT IT MIGHT MEAN).
 3. **"Whose ground is it?"** runs under all four questions but is never asked as a question of its own. Emotions belong to people, and Vigneaux (2026) orients practitioners to the people in each emotion. Voices exist, but BCM asks *where* far more than *who*. Today it shows up only as a dimension of the split (two voices on two sides, the thinnest voice).
 4. **"What has shifted since last time?"** is a hidden question already present, not a missing page and not outside scope (see §0.8). It belongs to all four questions across saves.
@@ -340,7 +340,7 @@ Terrain module modes (one `mount`): Synthesis (default: readings, phrase loops, 
 - **Action grid: deleted** (v215) [D 11-18, his call: "I don't want the grid anywhere near this project"]. Not to be reintroduced in any form. MOVES, IN ORDER still reads each note's ease (its emotion and side of the line) from `gsmDerive`; nothing is drawn from it.
 - **Synthesis→Action handoff**: a rule that turns a terrain vector (cost, height, emotional transition) into sequenced moves.
 - **Reflexive loop**: logging or adjusting an action flags the upstream Q.1–Q.4 nodes and emotional contours it affects, and prompts re-synthesis.
-- Constraint prompt: "What constraint or rule keeps this note in the low ground, and how do we change it?" Saves to `asks["cons|id"]`; nothing reads it yet (review 6h, Phase 2 step 8).
+- Constraint prompt: "What constraint or rule keeps this note in the low ground, and how do we change it?" Saves to `asks["cons|id"]`. Since v226 it goes somewhere: one tap adds it to Q.4, Q.6, or Q.7; WHAT YOU DID lists and saves it (`acts[].c`); its note is flagged to re-map, and SINCE YOU ACTED shows it.
 - Program or strategy [D 11-18]: a way from acceptance into distrust, aggression, or defiance, or one that crosses the help and hinder line, is a strategy (v202, `MixE` in `Fn`). The manual switch (`asks["mode|key"]`) wins in both directions.
 - FIRST MOVES follows the way (v203, `wayMoves(k)` in the terrain module): the words follow the drawn way, not the other way round (measured; reordering the way made it far longer). Way A's zigzag is still open.
 

@@ -4,7 +4,7 @@ Usage: python3 -I relief_text.py "string1|string2" wb1.json wb2.json"""
 import json, sys
 from playwright.sync_api import sync_playwright
 
-SRC = open('../gsm-preview.js', 'rb').read()
+SRC = open(__import__('os').environ.get('GSMJS', '../gsm-preview.js'), 'rb').read()
 REL = open('../gsm-relief.js', 'rb').read()
 HTML = b'<!doctype html><html><head><meta charset="utf-8"></head><body><div id="gsm-mount">L</div><script>window.GSM_ESRI_KEY="";var t=document.createElement("script");t.src="http://t.local/gsm-preview.js";document.body.appendChild(t);</script></body></html>'
 WANT = sys.argv[1].split('|')

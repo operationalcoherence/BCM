@@ -1,7 +1,9 @@
 # BCM_CURRENT_STATE.md
-Rev 18 · 2026-11-18 · Preview at **v219** · Basis: 11-17 review, 11-18 review, export 2026-11-13, repo
+Rev 19 · 2026-11-18 · Preview at **v226** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
 
 ## Shipped
+- **v226** (2026-11-18, preview): **Phase 2 step 8, Taking Action, done.** The page is rebuilt around the central test (ARCHITECTURE §0.3). THE TEST panel reads the workbook against it: what holds it, what already moves, where it can shift, where the reading splits, constraints named, and the cheapest first move. Cards are seeded from Pattern Analysis's structure: strategies from THE SYSTEM THAT HOLDS, THE KEY TENSION, and THE LOOP; programs from THE OPPORTUNITY, WHAT IS ALREADY HELPING, and SUPPORT NOT YET REINFORCED. Each seeded card has its own test, THE WAY ACROSS (ridge before bare rock, the cost of each move, behaviors first below the ridge and emotions first above it, entrenched notes), and 3D ways. In Parallel's split readings (TWO PEOPLE, TWO SIDES; THE EMOTION CHANGES; ONE IDEA UNDER TWO NAMES; PLACED ONE WAY, TIED THE OTHER) are carried onto the cards they touch, as what each means for acting. Constraints now go somewhere: one tap adds a constraint to Q.4, Q.6, or Q.7; WHAT YOU DID lists and saves them (`acts[].c`) and flags their notes; SINCE YOU ACTED shows them. Strategies and programs are grouped, with word-only cards folded under each group. The chart is open, and each field says what it does. Analysis, Synthesis, and In Parallel are unchanged. See `docs/v226_update.md`.
+- **v220–v225** (2026-11-18, preview): the interpretation pass. Analysis: meaning first (v220), WHY IT BEHAVES THIS WAY (v221), YOUR STORY SO FAR leads (v222, v224). In Parallel: WHAT THE TWO PICTURES REVEAL (v223), and double readings without counts (v225). See `docs/v220_update.md` to `docs/v225_update.md`.
 - **v219** (2026-11-18, preview): no (Vigneaux, 2026) in either tour (his call; page text keeps citations); Full screen on the In Parallel figure with a HOW TO READ IT panel, the key, and the word reading. See `docs/v219_update.md`.
 - **v218** (2026-11-18, preview): the patterns row stays in full screen (moved into the map at top left via `D.onFs`; hidden while the tour plays). See `docs/v218_update.md`.
 - **v217** (2026-11-18, preview): the patterns row shows only on the Synthesis map (it leaked onto Analysis through the shared template, where its buttons did nothing). Lesson: the terrain template is shared by Analysis, Synthesis, In Parallel, and cards; gate anything new on ANH/PAR/CARDH. See `docs/v217_update.md`.
@@ -78,7 +80,8 @@ Rev 18 · 2026-11-18 · Preview at **v219** · Basis: 11-17 review, 11-18 review
 - Low-value sections: Top strategy, Top program, What it rests on (keep Source and Voices), What stands out, In the words, Condition.
 - "Behaviors first" is referenced without being explained.
 - The minority voice (Other wildfire professionals, 5 notes) risks being flattened visually.
-- Synthesis→Action: ways costed (v177) and sequenced (v181). Still a rule of thumb, not the friction field (F3).
+- Synthesis→Action: ways costed (v177), sequenced (v181), weighted by friction (v192), and, since v226, ordered through the ridge before bare rock (THE WAY ACROSS on seeded cards).
+- Taking Action's word-only cards still come from recurring words. Since v226 they fold under the structure-seeded cards. A word card that repeats a seeded card isn't merged yet.
 - Instructions are out of date across pages.
 
 ## Work in progress
@@ -105,6 +108,7 @@ Rev 18 · 2026-11-18 · Preview at **v219** · Basis: 11-17 review, 11-18 review
 | D11 | Resolved: the 7 symbols are the seven question symbols |
 
 ## Current priorities
+0. **A short check of Taking Action only** (agreed review cadence), then Phase 2 step 9, Mapping Context. His redlines on the v226 wording are listed at the end of `docs/v226_update.md`.
 1. His pass on Claude's wording, v171–v195 (each update doc ends with the list); U5 redlines (`docs/v173_update.md`).
 2. Open questions from v186–v195: Combine and PDF for WHAT YOU DID (v194); the friction and hysteresis weights (v192, v193); coworker deletions and answers on Combine (v191); whether a place map should word "high/low ground" differently (he said: keep it, it means the emotion ground).
 3. Remaining from the queue: A1 engine side (threads across question boundaries), D8 (voice weighting on or a switch), F1/F2 (per-instance Esri map, anchoring).
