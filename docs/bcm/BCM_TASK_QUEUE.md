@@ -7,6 +7,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 
 ## Added 11-19 14:34 (his asks, place maps; not started)
 - [ ] PA · VIZ · **Place map, Pattern Analysis:** remove the old analysis figure, and give the content the line map's format.
+- ✗ VIZ · Bare rock on place maps: dropped (his call 11-19 14:39). Rock on a place is the real land and means nothing there; on a line map it means everything.
 - [ ] PAR · VIZ · **Place map, In Parallel:** align with the line map's In Parallel. Borrow its figure, format, and everything else.
 
 ## Current queue (11-18): the v196 review plan

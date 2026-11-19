@@ -48,7 +48,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - Tests: tests/ta_flow.py (new, the whole constraint loop), plus matrix, relief_text, and dump2. matrix.py and relief_text.py accept `GSMJS=<file>` to compare against an older build.
 
 ## Open calls for him
-- Answered in the review table and applied in v236 (docs/v236_update.md). Still open: v247, and whether place pages' written readings get v244's treatment (bare rock as color on place maps). F8 is not in this cycle. D8: voices stay equal until F8. The WebM download and A1 come after F8, or are dropped.
+- Answered in the review table and applied in v236 (docs/v236_update.md). Still open: and whether place pages' written readings get v244's treatment (bare rock as color on place maps). F8 is not in this cycle. D8: voices stay equal until F8. The WebM download and A1 come after F8, or are dropped.
 - Older items not in the table (his redlines on claude/meaning_patterns_draft.md and claude/structure_pass_plan.md, the U5 instruction redlines, the real-tile check, small calls v191–v194): treat them as settled by the table unless he raises them.
 
 ## Standing rules (his)
@@ -56,6 +56,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - American spelling; serial comma everywhere. "Emotion", never "feeling". "The method" = the whole BCM.
 - Q.1–Q.4 are grasping context; Q.5–Q.7 are designing for the context grasped. On screen, say "the context you have grasped" and "what you would design" rather than bare question numbers.
 - Changes go in the engine for everyone, never tied to his workbook.
+- Place maps never get bare rock (11-19 14:39): rock there is the real land and means nothing; on line maps it means everything.
 - Test every place-map change on Broadview (tests/broadview.json, rebuilt from the project copy): it has notes with no emotion, drawn areas, and repeated notes. v244 broke on it.
 - Never merge words unless he says (THE SAME THING? asks).
 - Flag Claude's wording; show redlines for his text and wait.
@@ -94,7 +95,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 
 ## Later work, in order
 1. ~~Way A~~ done, v237.
-2. F1/F2: talked through 11-19. ~~F1 item 1~~ done, v238; v239 card maps open on Taking Action; v240 arrows on the ways; v241 numbered stops; v242 place relief; v243 place hillshade; v244 place tours; v245 fix; v246 tour focus; next v247 bare rock (ask first: v244's tours no longer speak of rock on places) as color on place maps. F2 is already true.
+2. F1/F2: talked through 11-19. ~~F1 item 1~~ done, v238; v239 card maps open on Taking Action; v240 arrows on the ways; v241 numbered stops; v242 place relief; v243 place hillshade; v244 place tours; v245 fix; v246 tour focus; bare rock on place maps dropped (his call 11-19 14:39: naturally occurring rock means nothing on a place map, everything on a line map) (ask first: v244's tours no longer speak of rock on places) as color on place maps. F2 is already true.
 3. F8, project lead dashboards: not this cycle (his call 11-19). When it comes: Plan in BCM_ARCHITECTURE.md §12a. Firebase: "The Bear Canyon Method", Spark plan ($0), Firestore nam5, rules locked, web app "BCM Preview", Google sign-in on. Never upgrade to Blaze without asking. Never put the Firebase web config or key in chat, docs, memory, or the repo. Test data only until there is a privacy page.
 4. After F8, if still wanted: the WebM download of the tour, and A1 (threads across question boundaries).
 
