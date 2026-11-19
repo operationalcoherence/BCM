@@ -21,7 +21,8 @@
   - Step 10 (In Parallel): done (v213–v216, v219).
   - Interpretation pass: done for Analysis (v220–v222, v224) and In Parallel (v223, v225); keeps going as he asks.
   - **Step 8 (Taking Action): done, v226.**
-  - **Next: step 9, Mapping Context.** Instructions in a drop-down; emotion definitions where notes are written (2g; approved quotes in claude/emotion_definitions_draft.md); the Start here text moved to its pages (his redlines, items marked R, still pending).
+  - **Step 9, Mapping Context: part 1 done, v232** (instructions on their pages, emotion meanings on every note, WHO DID WHAT line). **Next: part 2, his redlines one at a time** (docs/v232_update.md).
+  - Was: Instructions in a drop-down; emotion definitions where notes are written (2g; approved quotes in claude/emotion_definitions_draft.md); the Start here text moved to its pages (his redlines, items marked R, still pending).
 - **Phase 3:** a WebM download of the tour; tour captions from his confirmed meanings of the four acts; 3g, YOUR OWN WORDS as a strip; the word-budget ("poetic") pass with every cut shown to him first (THE WAY FORWARD on Taking Action first); 3c, the "no questions" click on the map.
 
 ## v227

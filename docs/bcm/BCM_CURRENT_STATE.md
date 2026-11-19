@@ -1,7 +1,9 @@
 # BCM_CURRENT_STATE.md
-Rev 20 · 2026-11-18 · Preview at **v230** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
+Rev 21 · 2026-11-19 · Preview at **v232** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
 
 ## Shipped
+- **v232** (2026-11-19, preview): **Phase 2 step 9, part 1.** Start here keeps the method (01–06). The mapping steps sit in the Mapping Landscape drop-downs (HOW TO MAP on step 1; DESCRIBE YOUR NOTES: INSTRUCTION on step 2). Analysis and Synthesis each have a closed INSTRUCTION drop-down on their own tab. Every note shows the paper's definition of its emotion in gray under the buttons. Mapping Context says what combining puts in WHO DID WHAT. His text was moved word for word. See `docs/v232_update.md`.
+- **v231** (2026-11-18, preview): the constraint boxes and grayed Q.4/Q.6/Q.7 buttons show again on Taking Action. See `docs/v231_update.md`.
 - **v230** (2026-11-18, preview): Taking Action speaks about the situation, not the workbook (his wording review). THE SYSTEM THAT HOLDS becomes WHAT HOLDS THE SITUATION IN PLACE, on Analysis and Taking Action. THE TEST lines say what remains unresolved, what keeps reinforcing the situation, and what help is not yet used, with note numbers small and gray. Also the short check of Taking Action, with four fixes. See `docs/v230_update.md`.
 - **v229** (2026-11-18, preview): the 3D way readings on each card (why choose each way, comparing them, moves in order, when to stop) move to Evidence under HOW THE WAYS READ ON THE GROUND. The map and chart stay in Why this action. See `docs/v229_update.md`.
 - **v228** (2026-11-18, preview): Taking Action in three layers, with nothing removed. The cheapest first move leads THE TEST; the test is summarized first. Each card shows a decision strip (meets the test, first move, the way across, reading splits), then "Why this action" (closed except on the first-move card), then "Evidence" (closed). Empty constraint boxes collapse to "Name what holds it". On first load the 11-18 page shows about 1,800 words instead of about 5,100. See `docs/v228_update.md`.
@@ -112,7 +114,7 @@ Rev 20 · 2026-11-18 · Preview at **v230** · Basis: 11-17 review, 11-18 review
 | D11 | Resolved: the 7 symbols are the seven question symbols |
 
 ## Current priorities
-0. **Phase 2 step 9, Mapping Context** (instruction drop-down, emotion definitions where notes are written, Start here text moved to its pages, his redlines). The short check of Taking Action is done (v230). His redlines on the v226 wording are listed at the end of `docs/v226_update.md`; three wording items the v230 check left are in `docs/v230_update.md`.
+0. **Phase 2 step 9, part 2:** his redlines, one at a time (part 1 is v232). The short check of Taking Action is done (v230). His redlines on the v226 wording are listed at the end of `docs/v226_update.md`; three wording items the v230 check left are in `docs/v230_update.md`.
 1. His pass on Claude's wording, v171–v195 (each update doc ends with the list); U5 redlines (`docs/v173_update.md`).
 2. Open questions from v186–v195: Combine and PDF for WHAT YOU DID (v194); the friction and hysteresis weights (v192, v193); coworker deletions and answers on Combine (v191); whether a place map should word "high/low ground" differently (he said: keep it, it means the emotion ground).
 3. Remaining from the queue: A1 engine side (threads across question boundaries), D8 (voice weighting on or a switch), F1/F2 (per-instance Esri map, anchoring).
