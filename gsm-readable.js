@@ -695,7 +695,7 @@
     var st = document.createElement("style");
     st.id = "gsm-ta-css";
     st.textContent =
-      "#gsm .tatst{border:2px solid #111;background:#fff;padding:12px 18px 10px;margin:14px 0 18px}#gsm .tatq{font-size:12px;font-weight:700;letter-spacing:.16em;color:#444}#gsm .tatqq{font-size:19px;line-height:1.4;color:#111;margin:4px 0 4px}#gsm .tatsub{font-size:13px;color:#666;margin-bottom:8px}#gsm .tatr{border-top:1px solid #ddd;padding:8px 0 6px;font-size:15px;line-height:1.5}#gsm .tatr>div{margin:2px 0}#gsm .tatl{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:#222;text-transform:uppercase}#gsm .tatr i{font-style:normal;font-weight:700}#gsm .tav{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;padding:1px 6px;border:1px solid #111;margin:0 2px;vertical-align:1px}#gsm .tav-yes{background:#111;color:#fff}#gsm .tav-partly{background:#fff;color:#111}#gsm .tav-notyet{background:#fff;color:#b22;border-color:#b22;border-style:dashed}#gsm .tagrp{margin:26px 0 10px;border-top:3px solid #111;padding-top:10px}#gsm .tagh{font-size:15px;font-weight:700;letter-spacing:.18em;color:#111}#gsm .tags{font-size:14px;color:#555;margin:2px 0 6px}#gsm .tagrp .meta{margin:6px 0 4px}#gsm .coa .tasplit .tspl{margin:0 0 6px}#gsm .tsk{font-size:11px;font-weight:700;letter-spacing:.1em;color:#555;margin-right:6px}#gsm .fhelp{font-size:12.5px;color:#666;line-height:1.4;margin:4px 0 2px}#gsm .consq{margin:4px 0 8px;font-size:13px;color:#444}#gsm .consq .ech{font-size:12.5px;margin:3px 4px 0 0}#gsm .consq .ech[disabled]{opacity:.4;cursor:default}#gsm .ncons{font-size:13.5px;color:#333;line-height:1.45}#gsm .ncons:not(:empty){margin:6px 0 2px;padding:4px 0 4px 9px;border-left:3px solid #111}#gsm .ncons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .actcons{font-size:13.5px;color:#333;margin:4px 0 6px;padding-left:9px;border-left:2px solid #ddd}#gsm .actcons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .coa[data-seed] .phctx{color:#888}";
+      "#gsm .tatst{border:2px solid #111;background:#fff;padding:12px 18px 10px;margin:14px 0 18px}#gsm .tatq{font-size:12px;font-weight:700;letter-spacing:.16em;color:#444}#gsm .tatqq{font-size:19px;line-height:1.4;color:#111;margin:4px 0 4px}#gsm .tatsub{font-size:13px;color:#666;margin-bottom:8px}#gsm .tatr{border-top:1px solid #ddd;padding:8px 0 6px;font-size:15px;line-height:1.5}#gsm .tatr>div{margin:2px 0}#gsm .tatl{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:#222;text-transform:uppercase}#gsm .tatr i{font-style:normal;font-weight:700}#gsm .tav{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;padding:1px 6px;border:1px solid #111;margin:0 2px;vertical-align:1px}#gsm .tav-yes{background:#111;color:#fff}#gsm .tav-partly{background:#fff;color:#111}#gsm .tav-notyet{background:#fff;color:#b22;border-color:#b22;border-style:dashed}#gsm .tagrp{margin:26px 0 10px;border-top:3px solid #111;padding-top:10px}#gsm .tagh{font-size:15px;font-weight:700;letter-spacing:.18em;color:#111}#gsm .tags{font-size:14px;color:#555;margin:2px 0 6px}#gsm .tagrp .meta{margin:6px 0 4px}#gsm .coa .tasplit .tspl{margin:0 0 6px}#gsm .tsk{font-size:11px;font-weight:700;letter-spacing:.1em;color:#555;margin-right:6px}#gsm .fhelp{font-size:12.5px;color:#666;line-height:1.4;margin:4px 0 2px}#gsm .consq{margin:4px 0 8px;font-size:13px;color:#444}#gsm .consq .ech{font-size:12.5px;margin:3px 4px 0 0}#gsm .consq .ech[disabled]{opacity:.4;cursor:default}#gsm .ncons{font-size:13.5px;color:#333;line-height:1.45}#gsm .ncons:not(:empty){margin:6px 0 2px;padding:4px 0 4px 9px;border-left:3px solid #111}#gsm .ncons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .actcons{font-size:13.5px;color:#333;margin:4px 0 6px;padding-left:9px;border-left:2px solid #ddd}#gsm .actcons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .coa[data-seed] .phctx{color:#888}#gsm .tafirst{border-left:5px solid #111;padding:2px 0 4px 12px;margin:2px 0 14px}#gsm .tafm{font-size:18px;line-height:1.5;color:#111}#gsm .tafws{font-size:13.5px;color:#555;margin-top:4px}#gsm .tatst .tev{font-size:13.5px;color:#666}#gsm .tapn{font-size:13px;color:#666;background:none;border:0;padding:0}#gsm .tastrip{border-left:4px solid #111;padding:2px 0 2px 12px;margin:8px 0 10px;font-size:16px;line-height:1.5;color:#111}#gsm .tastrip>div{margin:3px 0}#gsm .tsl{font-size:10.5px;font-weight:700;letter-spacing:.14em;color:#555;margin-right:4px}#gsm .tawhy>summary,#gsm .taev>summary{cursor:pointer;font-size:12.5px;letter-spacing:.1em;text-decoration:underline;margin:6px 0}#gsm .tawhy[open]{border-left:1px solid #ddd;padding-left:10px}#gsm .taev{font-size:13px;color:#666}#gsm .taev>summary{color:#666}#gsm .taev[open]{border-left:1px solid #eee;padding-left:10px}#gsm .ccons.cempty .ccq,#gsm .ccons.cempty .consq{display:none}#gsm .ccons:not(.cempty) .tanb{display:none}#gsm .tameta>summary{font-size:13px;cursor:pointer;text-decoration:underline;color:#444}";
     document.head.appendChild(st);
   }
   function gsmTASay(s) {
@@ -757,6 +757,97 @@
             : Gt(n) + "\u2019s place and ties disagree: check which is right before this card relies on it.";
     }
     return "";
+  }
+  function gsmTAShort(s) {
+    var k = s.k || {},
+      w = s.names || [],
+      q = function (x) {
+        return "\u201c" + Gt(x) + "\u201d";
+      },
+      TR = [3, 0, 2, 1, 4];
+    if ("TWO PEOPLE, TWO SIDES" === s.lab) return "Two groups read " + q(w[0]) + " two ways.";
+    if ("THE EMOTION CHANGES" === s.lab && k.emo) return q(w[0]) + (TR[k.emo[1]] < TR[k.emo[0]] ? " reads easier in your plans than on the ground." : " reads harder in your plans than on the ground.");
+    if ("ONE IDEA UNDER TWO NAMES" === s.lab) return q(w[0]) + " and " + q(w[1] || "") + " act as one idea.";
+    if ("PLACED ONE WAY, TIED THE OTHER" === s.lab) return Gt(String((k.notes || [])[0] || "").replace(/^(?:place )?note (\d+)/, "N$1")) + "\u2019s place and ties disagree.";
+    return "";
+  }
+  document.addEventListener("click", function (ev) {
+    var b = ev.target.closest && ev.target.closest("#gsm .tanb");
+    if (!b) return;
+    ev.preventDefault();
+    var c = b.closest(".ccons");
+    c && c.classList.remove("cempty");
+    var t = c && c.querySelector("textarea");
+    t && t.focus();
+  });
+  function gsmTALayer(c, open) {
+    var bd = c.querySelector(".bd");
+    if (!bd || bd.querySelector(":scope > .tastrip")) return;
+    var lab = function (el) {
+        var l = el.querySelector && el.querySelector(":scope > .csl");
+        return l ? l.textContent.trim() : "";
+      },
+      dec = bd.querySelector(":scope > .dec"),
+      act = bd.querySelector(":scope > .acted"),
+      rank = function (el) {
+        if (el === dec || el === act) return -1;
+        var cl = el.classList,
+          l = lab(el);
+        return cl.contains("purp") ? 1 : cl.contains("coacall") ? 2 : cl.contains("why") ? 3 : cl.contains("tatest") ? 4 : cl.contains("taway") ? 5 : cl.contains("tasplit") ? 6 : /^(FIRST MOVES|THE SEQUENCE)$/.test(l) ? 7 : "THE WAY THROUGH IT" === l ? 8 : "WHAT HOLDS IT IN THE LOW GROUND" === l ? 9 : 0;
+      },
+      L2 = [],
+      L3 = [];
+    [].slice.call(bd.children).forEach(function (el) {
+      var r = rank(el);
+      r > 0 ? L2.push([r, el]) : 0 === r && L3.push(el);
+    });
+    L2.sort(function (x, y) {
+      return x[0] - y[0];
+    });
+    var fmS = L2.filter(function (x) {
+        return 7 === x[0];
+      })[0],
+      li = fmS && fmS[1].querySelector("li"),
+      tv = c.getAttribute("data-tv"),
+      ts = c.getAttribute("data-ts"),
+      ws = c.getAttribute("data-ws"),
+      h = "";
+    tv && (h += '<div><span class="tsl">MEETS THE TEST</span> <span class="tav tav-' + tv.replace(" ", "") + '">' + Gt(tv.toUpperCase()) + "</span> " + (ts || "") + "</div>");
+    li && (h += '<div><span class="tsl">FIRST MOVE</span> ' + li.innerHTML + "</div>");
+    ws && (h += '<div><span class="tsl">THE WAY ACROSS</span> ' + ws + "</div>");
+    (c._tsp || []).length && (h += '<div><span class="tsl">READING SPLITS</span> ' + c._tsp.join(" ") + "</div>");
+    var sp = document.createElement("div");
+    sp.className = "tastrip";
+    sp.innerHTML = h;
+    var w = document.createElement("details");
+    w.className = "tawhy";
+    open && (w.open = !0);
+    w.innerHTML = "<summary>Why this action</summary>";
+    L2.forEach(function (x) {
+      w.appendChild(x[1]);
+    });
+    w.querySelectorAll(".ccons").forEach(function (cc) {
+      var t = cc.querySelector("textarea");
+      if (!t || t.value.trim() || cc.querySelector(".tanb")) return;
+      cc.classList.add("cempty");
+      var q = cc.querySelector(".cq"),
+        b = document.createElement("button");
+      b.type = "button";
+      b.className = "lnk sm tanb";
+      b.textContent = "Name what holds it";
+      q ? q.parentNode.insertBefore(b, q.nextSibling) : cc.insertBefore(b, cc.firstChild);
+    });
+    bd.insertBefore(sp, bd.firstChild);
+    h ? sp.parentNode.insertBefore(w, sp.nextSibling) : (sp.parentNode.removeChild(sp), bd.insertBefore(w, bd.firstChild));
+    if (L3.length) {
+      var e = document.createElement("details");
+      e.className = "taev";
+      e.innerHTML = "<summary>Evidence</summary>";
+      L3.forEach(function (x) {
+        e.appendChild(x);
+      });
+      w.parentNode.insertBefore(e, w.nextSibling);
+    }
   }
   function gsmTAPass(Rt, tries) {
     if (!Rt) return;
@@ -821,6 +912,11 @@
           })
           .join("");
       if (!bd || !h) return;
+      c._tsp = perC[ci]
+        .map(function (si) {
+          return gsmTAShort(SP[si]);
+        })
+        .filter(Boolean);
       var d = document.createElement("div");
       d.className = "csec tasplit";
       d.innerHTML = '<div class="csl">WHERE THE READING SPLITS</div><div class="csn">' + h + '</div>';
@@ -828,9 +924,22 @@
       at ? at.parentNode.insertBefore(d, at.nextSibling) : bd.insertBefore(d, bd.firstChild);
     });
     var sr = Rt.querySelector(".tasplitrow");
+    var kinds = SP.map(function (sp) {
+      return sp.lab;
+    }).filter(function (x, i, a) {
+      return a.indexOf(x) === i;
+    });
     sr &&
       SP.length &&
-      (sr.outerHTML = SP.slice(0, 6)
+      (sr.outerHTML =
+        "<div>" +
+        kinds
+          .map(function (x) {
+            return '<span class="tsk">' + x + "</span>";
+          })
+          .join(" \u00b7 ") +
+        '</div><details class="more"><summary>Each split, and the cards it lands on</summary>' +
+        SP.slice(0, 6)
         .map(function (sp, si) {
           var on = (perS[si] || []).map(function (ci) {
             return "\u201c" + Gt(tl(cards[ci]).replace(/:.*$/, "")) + "\u201d";
@@ -844,7 +953,8 @@
             "</div>"
           );
         })
-        .join(""));
+        .join("") +
+        "</details>");
     // group strategies and programs
     var isS = function (c) {
         var m = c.querySelector(".hd .mode");
@@ -898,7 +1008,13 @@
       var d = document.createElement("div");
       d.className = "tagrp";
       d.innerHTML = '<div class="tagh">' + lab + '</div><div class="tags">' + sub + "</div>";
-      meta && d.appendChild(meta);
+      if (meta) {
+        var mf = document.createElement("details");
+        mf.className = "more tameta";
+        mf.innerHTML = "<summary>Why a " + ("STRATEGIES" === lab ? "strategy" : "program") + "?</summary>";
+        mf.appendChild(meta);
+        d.appendChild(mf);
+      }
       ph.parentNode.insertBefore(d, ph);
       var more = list.filter(function (c) {
         return !keep(c);
@@ -918,6 +1034,42 @@
     grp("STRATEGIES", "For what holds the goal back and where it has to cross: ground that is not settled.", mS, st);
     grp("PROGRAMS", "For what already moves toward the goal: ground settled enough to set a sequence.", mP, pr);
     ph.parentNode.removeChild(ph);
+    // layers on every card; the card named in the cheapest first move opens
+    var fe = Rt.querySelector(".tafirst"),
+      ft = fe ? fe.getAttribute("data-ft") : "",
+      opened = 0;
+    cards.forEach(function (c) {
+      var o = !!ft && ft === tl(c);
+      o && opened++;
+      gsmTALayer(c, o);
+    });
+    !opened && !ft && cards[0] && cards[0].querySelector(".tawhy") && !cards[0].closest("details.tamore") && (cards[0].querySelector(".tawhy").open = !0);
+    // page order: the test, then what it asks of you, then the audit trail
+    var tst = Rt.querySelector(".tatst");
+    region.forEach(function (el) {
+      if (el.classList.contains("pnote") && /^Where to start\./.test(el.textContent.trim()) && fe) {
+        var b = el.querySelector("b");
+        b && (b.textContent = "Carries furthest:");
+        var dw = document.createElement("div");
+        dw.className = "tafws";
+        while (el.firstChild) dw.appendChild(el.firstChild);
+        fe.appendChild(dw);
+        el.parentNode.removeChild(el);
+      } else if (el.classList.contains("pnote") && /^Prompts, not findings/.test(el.textContent.trim())) el.classList.add("tapn");
+      else if (el.classList.contains("rule")) {
+        var rl = el.querySelector(".rl"),
+          rt = rl ? rl.textContent.trim() : "";
+        if ("DOES THIS ANSWER IT?" === rt && tst) tst.parentNode.insertBefore(el, tst.nextSibling);
+        else if ("NOTHING YOU WOULD DO ANSWERS THESE YET" === rt) {
+          var f = document.createElement("details");
+          f.className = "fold";
+          f.innerHTML = "<summary>NOTHING YOU WOULD DO ANSWERS THESE YET</summary>";
+          el.parentNode.insertBefore(f, el);
+          rl.parentNode.removeChild(rl);
+          f.appendChild(el);
+        }
+      }
+    });
     window.gsmTAV = (window.gsmTAV || 0) + 1;
   }
   function gsmActUI(card, key, bd) {
@@ -11990,6 +12142,16 @@
             function NM(x) {
               return gsmStName({ txt: String(x.txt).replace(/^\s*(reinforce|continue to|support|scale|grow|keep)\s+/i, "") }) || x.id;
             }
+            function NL(x) {
+              var n = String(x.id).replace(/\D/g, "");
+              return Gt(NM(x)) + ' <span class="stn">' + (/^P/.test(x.id) ? "P" : "N") + n + "</span>";
+            }
+            function NLS(xs, k) {
+              k = k || 3;
+              var b = xs.slice(0, k).map(NL);
+              xs.length > k && b.push(xs.length - k + " more");
+              return phList(b);
+            }
             function ME(x) {
               var n = String(x.id).replace(/\D/g, "");
               return /^P/.test(x.id) ? "N" + n + " (place)" : "N" + n;
@@ -12034,7 +12196,13 @@
               not.length
                 ? (h += "Nothing you would design " + (help ? "builds on " : "answers ") + LS(not) + " yet, so " + (help ? (1 === not.length ? "it" : "they") + " can slip." : (1 === not.length ? "it keeps" : "they keep") + " holding."))
                 : (h += help ? "All of it is built on." : "All of it is answered somewhere.");
-              return { h: h, met: met, not: not, v: not.length ? (met.length ? "partly" : "not yet") : "yes" };
+              return {
+                h: h,
+                met: met,
+                not: not,
+                v: not.length ? (met.length ? "partly" : "not yet") : "yes",
+                s: not.length ? (help ? "Not yet built on: " : "Not yet answered: ") + NLS(not) + "." : help ? "Built on." : "Answered.",
+              };
             }
             var RIDGE = IT(D.ind),
               ACC = a.filter(function (x) {
@@ -12107,7 +12275,12 @@
               out.push("Below the ridge, behaviors first; from the ridge up, emotions first (Vigneaux, 2026).");
               rg && ids.push(rg);
               tg && ids.push(tg);
-              return { h: out.join(" "), ids: ids, e0: ems[0], s0: s0, rg: rg };
+              var st0 = Math.abs(RK[ems[0]] - 2),
+                sh = rg
+                  ? E[ems[0]] + " (" + NL(s0) + ") \u2192 the ridge at " + NL(rg) + " \u2192 acceptance" + (tg ? " at " + NL(tg) : "") + " \u00b7 " + COST(st0 + 1) + " cost"
+                  : E[ems[0]] + " \u2192 acceptance: a climb over bare rock \u00b7 high cost";
+              ems.length > 1 && 4 === ems[ems.length - 1] && 4 !== ems[0] && (sh += "; defiance last");
+              return { h: out.join(" "), ids: ids, e0: ems[0], s0: s0, rg: rg, s: sh };
             }
             function PWAY(xs) {
               if (!xs.length) return null;
@@ -12129,7 +12302,7 @@
               ie.length && (h += " " + LS(ie, 2) + ", at its edge on the ridge, could tip either way: bring " + (1 === ie.length ? "it" : "them") + " in early.");
               le.length && (h += " " + LS(le, 2) + ", close by in " + E[EO(le[0])] + ", could pull it down.");
               h += " Emotions first, and keep it up: acceptance doesn’t hold on its own (Vigneaux, 2026).";
-              return { h: h, ids: xs.slice(0, 6).concat(ie.slice(0, 1)) };
+              return { h: h, ids: xs.slice(0, 6).concat(ie.slice(0, 1)), s: "already on the high ground \u00b7 low cost" + (ie.length ? "; bring in " + NL(ie[0]) + " before it tips" : "") };
             }
             function MIX(xs) {
               return (
@@ -12162,6 +12335,12 @@
               HTML.push(
                 '<div class="coa" data-seed="' +
                   o.seed +
+                  '" data-tv="' +
+                  (o.test ? o.test.v : "") +
+                  '" data-ts="' +
+                  Gt(o.test ? o.test.s : "") +
+                  '" data-ws="' +
+                  Gt(o.way && o.way.s ? o.way.s : "") +
                   '" data-seedids="' +
                   Gt(
                     its
@@ -12408,12 +12587,12 @@
               },
               hold = ROWS.hold
                 .map(function (r) {
-                  return "<div><i>" + r.lab + "</i> " + VL(r.t) + " " + (r.t.not.length ? "Not yet answered: " + LS(r.t.not, 3) + "." : "Answered.") + "</div>";
+                  return "<div><i>" + r.lab + "</i> " + VL(r.t) + ' <span class="tev">' + (r.t.not.length ? "Not yet answered: " + LS(r.t.not, 3) + "." : "Answered.") + "</span></div>";
                 })
                 .join(""),
               move = ROWS.move
                 .map(function (r) {
-                  return "<div><i>" + r.lab + "</i> " + VL(r.t) + " " + (r.t.not.length ? "Not yet built on: " + LS(r.t.not, 3) + "." : "Built on.") + "</div>";
+                  return "<div><i>" + r.lab + "</i> " + VL(r.t) + ' <span class="tev">' + (r.t.not.length ? "Not yet built on: " + LS(r.t.not, 3) + "." : "Built on.") + "</span></div>";
                 })
                 .join(""),
               tR = TEST(RIDGE, 0),
@@ -12426,6 +12605,7 @@
                   (tR.met.length ? "what you would design reaches " + LS(tR.met, 3) + (tR.not.length ? ", not yet " + LS(tR.not, 3) : "") + "." : "nothing you would design reaches it yet, and most crossings go through it.") +
                   "</div>"
                 : "<div>" + VL({ v: "not yet" }) + " No note carries indifference, so there is no ridge on this ground yet: every crossing is a climb over bare rock. Ask who is for nothing yet.</div>",
+              FT = "",
               first = (function () {
                 var pr = CARDS.filter(function (c) {
                     return !c.S;
@@ -12433,6 +12613,7 @@
                   st = CARDS.filter(function (c) {
                     return c.S;
                   })[0];
+                FT = (pr || st || {}).title || "";
                 return pr && st
                   ? "Start with the program “" + Gt(pr.title) + "”: it stands on high ground and asks for no crossing. Then take up the strategy “" + Gt(st.title) + "”, crossing where it is cheapest, through the ridge."
                   : st
@@ -12458,13 +12639,28 @@
               cons.push("<div>" + (pl ? "P" + (k + 1) : "note " + (k + 1)) + ": “" + Gt(x.length > 110 ? x.slice(0, 110) + "…" : x) + "” " + (inq.length ? '<span class="tav tav-yes">IN ' + inq.join(", ") + "</span>" : '<span class="tav tav-notyet">NOT YET IN Q.4, Q.6, OR Q.7</span>') + "</div>");
             });
             TAT =
-              '<div class="tatst"><div class="tatq">THE TEST</div><div class="tatqq">Does what you would design change the conditions and invite the transitions the goal needs?</div><div class="tatsub">Read against your workbook. Each line points to the cards below that take it up.</div>' +
+              '<div class="tatst">' +
+              (first ? '<div class="tafirst" data-ft="' + Gt(FT) + '"><div class="tatl">THE CHEAPEST FIRST MOVE</div><div class="tafm">' + first + "</div></div>" : "") +
+              '<div class="tatq">THE TEST</div><div class="tatqq">Does what you would design change the conditions and invite the transitions the goal needs?</div><div class="tatsub">Read against your workbook. Each line points to the cards below that take it up.</div>' +
               (hold ? row("What holds it", hold) : "") +
               (move ? row("What already moves", move) : "") +
               row("Where it can shift", shift) +
               row("Where the reading splits", '<div class="tasplitrow">In Parallel found nothing that splits the reading of these cards.</div>') +
-              (cons.length ? row("What holds it, as you named it", cons.join("")) : "") +
-              (first ? row("The cheapest first move", "<div>" + first + "</div>") : "") +
+              (cons.length
+                ? row(
+                    "What holds it, as you named it",
+                    "<div>" +
+                      (1 === cons.length ? "One constraint named" : cons.length + " constraints named") +
+                      "; " +
+                      cons.filter(function (x) {
+                        return x.indexOf("tav-yes") >= 0;
+                      }).length +
+                      " already in Q.4, Q.6, or Q.7.</div>" +
+                      '<details class="more"><summary>The constraints</summary>' +
+                      cons.join("") +
+                      "</details>",
+                  )
+                : "") +
               "</div>" +
               '<details class="fold tafields"><summary>WHAT EACH PART OF A CARD DOES</summary><div class="mtext"><ul class="glos">' +
               [
@@ -18769,7 +18965,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v227");
+        t && (t.textContent = "v228");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {

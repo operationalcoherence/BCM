@@ -1,6 +1,6 @@
 # BCM_HANDOFF.md
 
-2026-11-18, night. Preview at **v227** (v197–v227 all pushed 11-18). The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
+2026-11-18, night. Preview at **v228** (v197–v228 all pushed 11-18). The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
 
 ## First thing next session
 1. Attach operationalcoherence/BCM with push. If it's refused, tell him plainly and stop; don't work around it. (A read-only clone of the public repo is fine for reading code.) On 11-18 every first attempt was refused, and each time it worked after he said "push access granted."
@@ -25,7 +25,10 @@
 - **Phase 3:** a WebM download of the tour; tour captions from his confirmed meanings of the four acts; 3g, YOUR OWN WORDS as a strip; the word-budget ("poetic") pass with every cut shown to him first (THE WAY FORWARD on Taking Action first); 3c, the "no questions" click on the map.
 
 ## v227
-The constraint buttons show grayed out before typing; each note on Mapping Landscape shows its constraint (`gsmNoteCons`). After v227, he asked for a hierarchy review of Taking Action: recommendations only, given 11-18 21:31. Build it once he says yes.
+The constraint buttons show grayed out before typing; each note on Mapping Landscape shows its constraint (`gsmNoteCons`). 
+
+## v228
+Taking Action in three layers (his yes, 21:37): a decision strip, then Why this action, then Evidence; `gsmTALayer()` in `gsmTAPass`. The strip reads `data-tv`/`data-ts`/`data-ws` on seeded cards. Tests that type into a card must open `.tawhy` and click `.tanb` first. Open: the 3D way readings (drawn after mount) stay in layer 2.
 
 ## What v226 built (Taking Action, step 8)
 Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would design change the conditions and invite the transitions the goal needs?" Full detail is in docs/v226_update.md.
@@ -69,7 +72,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - **Repo:** operationalcoherence/BCM (public). main feeds the preview through GitHub Pages; the page loads gsm-preview.js and gsm-relief.js with a per-minute cache-buster.
 - **Engine:** edit gsm-readable.js, then `esbuild@0.24 gsm-readable.js --minify --outfile=gsm-preview.js`.
 - **3D:** tools/relief/relief.js plus three@0.187.0, then `esbuild tools/relief/relief.js --bundle --minify --format=iife --outfile=gsm-relief.js`. Install three and esbuild in a scratch directory and point NODE_PATH at it.
-- **Each version** = one patch script in tools/patches/ + docs/vNNN_update.md + the label bump (`t.textContent = "vNNN"`). To rebuild from scratch, restore gsm-readable.js and tools/relief/relief.js from v209 (commit 3a00154) and run v210 → v227 in order (v220–v226 have no relief part). Before any `git checkout -- .`, run `git checkout HEAD -- <files>`.
+- **Each version** = one patch script in tools/patches/ + docs/vNNN_update.md + the label bump (`t.textContent = "vNNN"`). To rebuild from scratch, restore gsm-readable.js and tools/relief/relief.js from v209 (commit 3a00154) and run v210 → v228 in order (v220–v226 have no relief part). Before any `git checkout -- .`, run `git checkout HEAD -- <files>`.
 - **His workbooks** are in the Claude project (workbooks/…-11-18.json line map, 35 notes, test it first; …-11-13.json; …-11-05.json Broadview place map). Read them with the project tool; don't ask him. Local copies tests/w18.json, tests/broadview.json, and mkwb's tests/wb_*.json stay out of git via .git/info/exclude (a fresh clone needs them written again). Run mkwb.py and matrix.py from inside tests/.
 - **Tests, every version:** tests/matrix.py on his workbooks plus every mkwb workbook; tests/dump2.py to read a tab (closed details stay closed); tests/ta_flow.py for Taking Action; with the 3D loaded, relief_text.py, tour.py, tour_an.py, agree.py, waymoves.py, derive.py as the change needs; Playwright screenshots with `--use-angle=swiftshader --enable-unsafe-swiftshader`; `grep -c 'AAPK\|AIza'` = 0 on both built files. The story moves into place a moment after render, so wait ~3 s before reading or screenshotting it.
 - **Template note (v217):** the terrain module's markup is shared by four views; gate anything new on ANH / PAR / CARDH.
