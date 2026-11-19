@@ -9,6 +9,8 @@ const CSS = `
 .grel .lbs{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .grel .lb{position:absolute;left:0;top:0;white-space:nowrap}
 .grel .nl{font:bold 12.5px Helvetica,Arial,sans-serif;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
+.grel .lb.tfoc{background:#fff;border-radius:5px;padding:1px 4px;box-shadow:0 0 0 2px #fff,0 0 12px 4px rgba(255,255,255,.95);z-index:5}
+.grel .tourbar .tpn{font:14px Questrial,Helvetica,Arial,sans-serif;padding:8px 14px;border-radius:20px;background:#fff;border:1px solid #222;display:none}
 .grel .ql{font:bold 12px Helvetica,Arial,sans-serif;background:#111;color:#fff;padding:2px 5px}
 .grel .pl{font:bold 13px Helvetica,Arial,sans-serif;letter-spacing:.1em;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 4px #fff}
 .grel .side{font:bold 17.5px Helvetica,Arial,sans-serif;letter-spacing:.14em;color:#1f6f66;text-shadow:0 0 3px #fff,0 0 3px #fff}.grel .side.hd{color:#8a2a22}.grel .side.ax{color:#333}.grel .lb.hit{pointer-events:auto;cursor:pointer}.grel .tip{position:absolute;display:none;z-index:4;max-width:340px;max-height:60%;overflow:auto;background:#222;color:#fff;font:13px/1.45 Questrial,Helvetica,Arial,sans-serif;padding:8px 10px;border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.3)}.grel .tip b{display:block;margin-bottom:3px}.grel .tip .sm{opacity:.75;font-size:12px;margin-top:4px}
@@ -308,7 +310,8 @@ function mount(host, D) {
   bReset.className = bFs.className = 'bt'; bReset.textContent = 'Reset view'; bFs.textContent = 'Full screen';
   const bPlay = document.createElement('button'); bPlay.className = 'bt tpb'; bPlay.textContent = 'Play the tour'; bPlay.dataset.st = 'play';
   const bEnd = document.createElement('button'); bEnd.className = 'bt tpe'; bEnd.textContent = 'End tour';
-  const tbar = document.createElement('div'); tbar.className = 'tourbar'; tbar.appendChild(bPlay); tbar.appendChild(bEnd); wrap.appendChild(tbar);
+  const bPrev = document.createElement('button'), bNext = document.createElement('button'); bPrev.className = bNext.className = 'bt tpn'; bPrev.textContent = '‹ Back'; bNext.textContent = 'Next ›'; bPrev.title = 'The stop before'; bNext.title = 'The next stop';
+  const tbar = document.createElement('div'); tbar.className = 'tourbar'; tbar.appendChild(bPrev); tbar.appendChild(bPlay); tbar.appendChild(bNext); tbar.appendChild(bEnd); wrap.appendChild(tbar);
   const TL = (D.intro || []).concat(D.read || []), NI = (D.intro || []).length;
   const bar = document.createElement('div'); bar.style.cssText = 'position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3'; [bReset, bFs].forEach(b => { b.style.position = 'static'; bar.appendChild(b); });
   if (D.card || TL.length < 2) tbar.style.display = 'none'; if (D.card) bFs.style.display = 'none'; wrap.appendChild(bar);
@@ -326,6 +329,17 @@ function mount(host, D) {
   /* ---------- the guided tour of the ground (v208) ---------- */
   const cap = document.createElement('div'); cap.className = 'tourcap'; cap.setAttribute('aria-live', 'polite'); wrap.appendChild(cap);
   let TOUR = null;
+  /* v246: what the tour is talking about glows: a white ring on the ground around the spot (an outline, so the colors
+     inside stay visible), drawn over the land so a hill never hides it, and the notes the caption names light up */
+  const spotM1 = new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.95, depthTest: false, depthWrite: false }),
+    spotM2 = new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.3, depthTest: false, depthWrite: false }),
+    spot = new THREE.Group(), sr1 = new THREE.Mesh(new THREE.TorusGeometry(16, 0.9, 8, 72), spotM1), sr2 = new THREE.Mesh(new THREE.TorusGeometry(16, 3.4, 8, 72), spotM2);
+  [sr1, sr2].forEach(m => { m.rotation.x = -Math.PI / 2; m.renderOrder = 999; spot.add(m); }); spot.visible = false; scene.add(spot);
+  function setSpot(r) { L.forEach(o => o.el.classList.remove('tfoc')); if (!r || !r.at) { spot.visible = false; dirty = true; return; }
+    spot.position.set(X(r.at[0]), gH(r.at[0], r.at[1]) + 2, Z(r.at[1])); spot.visible = true;
+    const nm = {}; (String((r.title || '') + ' ' + (r.cap || r.text || '')).match(/\b[NP]\d+\b/g) || []).forEach(k => { nm[k] = 1; });
+    L.forEach(o => { if (/\bnl\b/.test(o.el.className) && nm[o.el.textContent.trim()]) o.el.classList.add('tfoc'); }); dirty = true; }
+  function pulse(now) { if (!spot.visible) return; const w = Math.sin(now / 280); spot.scale.setScalar(1 + 0.07 * w); spotM2.opacity = 0.26 + 0.14 * w; }
   const ease = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   function homePose() { const p = camera.position.clone(), t = controls.target.clone(); home(); const hp = camera.position.clone(), ht = controls.target.clone(); camera.position.copy(p); controls.target.copy(t); camera.lookAt(t); return [hp, ht]; }
   /* v234: the first stop of each act opens with what the act means */
@@ -334,7 +348,7 @@ function mount(host, D) {
     cap.innerHTML = '<div class="ta"></div><div class="tm"></div><div class="tt"></div><div class="tx"></div><div class="tp"><i></i></div>'; const am = actOpen(i); cap.querySelector('.tm').textContent = am; cap.querySelector('.tm').style.display = am ? '' : 'none';
     cap.querySelector('.ta').textContent = r.act || G[r.grp] || ''; cap.querySelector('.tt').textContent = (i < NI ? '' : (i - NI + 1) + ' · ') + (r.title || ''); cap.querySelector('.tx').textContent = String(r.cap || r.text || '').replace(/\s*\(\s*(?:after\s+)?Vigneaux,?\s*2026\s*\)/g, '').replace(/\s+in Vigneaux \(2026\)/g, ''); }
   let autoFs = false;
-  function stopTour() { if (!TOUR) return; TOUR = null; wrap.classList.remove('touring'); controls.enabled = true; cap.style.display = 'none'; bPlay.textContent = 'Play the tour'; bPlay.dataset.st = 'play'; bPlay.title = ''; bEnd.style.display = 'none';
+  function stopTour() { if (!TOUR) return; TOUR = null; setSpot(null); wrap.classList.remove('touring'); controls.enabled = true; cap.style.display = 'none'; bPlay.textContent = 'Play the tour'; bPlay.dataset.st = 'play'; bPlay.title = ''; bEnd.style.display = bPrev.style.display = bNext.style.display = 'none';
     if (autoFs) { autoFs = false; if (wrap.classList.contains('fs')) bFs.onclick(); }
     RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); moved = false; home(); dirty = true; }
   function pauseTour() { const T = TOUR; if (!T || T.paused != null) return; T.paused = (performance.now() - T.start) / 1000; controls.enabled = true; bPlay.textContent = 'Play'; bPlay.dataset.st = 'play'; dirty = true; }
@@ -351,10 +365,14 @@ function mount(host, D) {
       const lk = t.clone().add(new THREE.Vector3(0, d * 0.08, 0)); legs.push({ i, a: from, b: [p, lk], fly, hold: hold(r, i) }); from = [p, lk]; });
     legs.push({ i: -1, a: from, b: [hp, ht], fly: 1.4 * SL, hold: 0 });
     let t0 = 0; legs.forEach(l => { l.t0 = t0; t0 += l.fly + l.hold; });
-    wrap.classList.add('touring'); TOUR = { legs, start: performance.now(), total: t0, cur: -2, paused: null }; controls.enabled = false; cap.style.display = 'block'; bPlay.textContent = 'Pause'; bPlay.dataset.st = 'pause'; bPlay.title = 'Escape also ends the tour'; bEnd.style.display = 'inline-block'; pinned = null; hideTip(); dirty = true; }
+    wrap.classList.add('touring'); TOUR = { legs, start: performance.now(), total: t0, cur: -2, paused: null }; controls.enabled = false; cap.style.display = 'block'; bPlay.textContent = 'Pause'; bPlay.dataset.st = 'pause'; bPlay.title = 'Escape also ends the tour'; bEnd.style.display = bPrev.style.display = bNext.style.display = 'inline-block'; pinned = null; hideTip(); dirty = true; }
+  /* v246: Back and Next jump to the stop before or after, and play on from there */
+  function jumpTour(d) { const T = TOUR; if (!T) return; let k = T.legs.findIndex(l => l.i === T.cur); if (k < 0) k = 0; const j = Math.max(0, Math.min(T.legs.length - 1, k + d)); if (j === T.legs.length - 1 && d > 0 && k === T.legs.length - 2) { stopTour(); return; }
+    const l = T.legs[j]; l.a = [camera.position.clone(), controls.target.clone()]; T.start = performance.now() - l.t0 * 1000; T.paused = null; T.cur = -2; controls.enabled = false; bPlay.textContent = 'Pause'; bPlay.dataset.st = 'pause'; pinned = null; hideTip(); dirty = true; }
+  bPrev.onclick = ev => { ev.stopPropagation(); jumpTour(-1); }; bNext.onclick = ev => { ev.stopPropagation(); jumpTour(1); };
   function stepTour(now) { const T = TOUR; if (T.paused != null) { controls.update(); return; } const s = (now - T.start) / 1000; if (s >= T.total) { stopTour(); return; }
     let l = T.legs[0]; for (const x of T.legs) if (s >= x.t0) l = x;
-    if (l.i !== T.cur) { T.cur = l.i; if (l.i >= 0) { capFor(l.i); const ri = l.i - NI; RD.forEach((q, k) => q.el.classList.toggle('on', k === ri)); if (D.onHL) D.onHL(ri >= 0 ? ri : null); } else { cap.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); } }
+    pulse(now); if (l.i !== T.cur) { T.cur = l.i; setSpot(l.i >= 0 ? TL[l.i] : null); if (l.i >= 0) { capFor(l.i); const ri = l.i - NI; RD.forEach((q, k) => q.el.classList.toggle('on', k === ri)); if (D.onHL) D.onHL(ri >= 0 ? ri : null); } else { cap.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); } }
     const u = ease(Math.min(1, (s - l.t0) / l.fly));
     camera.position.lerpVectors(l.a[0], l.b[0], u); controls.target.lerpVectors(l.a[1], l.b[1], u); camera.lookAt(controls.target);
     const pi = cap.querySelector('.tp i'); if (pi) pi.style.width = (100 * s / T.total).toFixed(1) + '%'; dirty = true; }

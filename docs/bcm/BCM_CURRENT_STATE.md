@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 30 · 2026-11-19 · Preview at **v245** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
+Rev 31 · 2026-11-19 · Preview at **v246** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
 
 ## Shipped
+- **v246** (2026-11-19, preview): every tour gets Back and Next, a glowing white ring around the spot being talked about, and glowing badges on the notes the caption names. See `docs/v246_update.md`.
 - **v245** (2026-11-19, preview): fix for v244: a place map with notes lacking an emotion fell back to the flat drawing on Synthesis. See `docs/v245_update.md`.
 - **v244** (2026-11-19, preview): place-map tours read the place (where each emotion gathers, distant emotions closest, what the goal sits among), never ridges or hollows. See `docs/v244_update.md`.
 - **v243** (2026-11-19, preview): place maps: exaggeration cap loosened (~140 units) and a northwest hillshade over the imagery, so benches read. See `docs/v243_update.md`.
