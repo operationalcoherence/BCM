@@ -1270,7 +1270,7 @@
     st.textContent =
       "#gsm .rule .rmean2{font-size:15.5px;line-height:1.5;color:#111;margin:2px 0 2px}#gsm .rule details.rev summary{margin:6px 0 2px;font-size:12.5px}#gsm .rule .revb{font-size:14px;color:#444;line-height:1.45;margin:4px 0 2px}#gsm .rule .revn{font-size:13.5px;color:#444;line-height:1.45;margin:6px 0 0;padding-left:9px;border-left:2px solid #ddd}#gsm .rule .revn div{margin:0 0 4px}#gsm .rule .revn i{font-style:normal;color:#777;font-size:12.5px}#gsm .metal li .rmean2{font-size:15px;margin:0}#gsm .sread{border-left:3px solid #111;padding:6px 0 6px 12px;margin:0 0 14px}#gsm .sread .srl{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:3px}#gsm .sread .srm{font-size:16px;line-height:1.55;color:#111}#gsm .sread .srev{font-size:13.5px;line-height:1.45;color:#444;padding-left:9px;border-left:2px solid #ddd}#gsm .sread .srev div{margin:0 0 4px}#gsm .sread .srev i{font-style:normal;color:#777;font-size:12.5px}#gsm .sread .srq{margin:8px 0 4px;color:#222}#gsm .storylead{margin:18px 0 26px}#gsm .storylead>details.fold{border:2px solid #111;background:#fff;padding:2px 20px 8px}#gsm .storylead>details.fold>summary{font-size:16px;letter-spacing:.14em}#gsm .storylead .stsub{display:block;font-weight:400;letter-spacing:0;font-size:13px;color:#666;margin-top:4px}#gsm .storylead .mtext>p:first-of-type,#gsm .storylead .mtext p.stimpp{font-size:17.5px;line-height:1.65;color:#111}#gsm .storylead .mtext p.stimpp{border-left:3px solid #111;padding-left:12px}#gsm .storylead .mtext p{font-size:15.5px;line-height:1.6}#gsm .stn{color:#888;font-size:13px}";
     var st2 = document.createElement("style");
-    st2.textContent = "#gsm .intrev{margin:18px 0 10px}#gsm .intrevh{font-size:13px;font-weight:700;letter-spacing:.16em;color:#222;border-top:1px solid #222;padding-top:10px;margin-bottom:10px}#gsm .intrev .intl{margin-bottom:12px}";
+    st2.textContent = "#gsm .intrev{margin:18px 0 10px}#gsm .intrevh{font-size:13px;font-weight:700;letter-spacing:.16em;color:#222;border-top:1px solid #222;padding-top:10px;margin-bottom:10px}#gsm .intrev .intl{margin-bottom:12px}#gsm .intframe{font-size:15px;line-height:1.5;color:#222;margin:4px 0 10px}";
     document.head.appendChild(st2);
     document.head.appendChild(st);
   }
@@ -13086,11 +13086,7 @@
                         j(P.a) +
                           " and " +
                           j(P.b) +
-                          " are among the words you use most — " +
-                          P.a.n +
-                          " places and " +
-                          P.b.n +
-                          " — and they never once appear in the same place. You may be thinking about each on its own and never about the two together.",
+                          " are among the words you use most, and they never once appear in the same place. You may be thinking about each on its own and never about the two together.",
                         3 + P.sc / 100,
                         { words: [P.a.w, P.b.w] },
                       ));
@@ -13109,12 +13105,29 @@
                       B(
                         "ONE IDEA UNDER TWO NAMES",
                         "two words that never part",
-                        j(W.a) +
-                          " and " +
-                          j(W.b) +
-                          " appear in the same " +
-                          W.a.n +
-                          " places and never apart. They may be one idea under two names, or two things you cannot separate.",
+                        (function () {
+                          var su = 0,
+                            sd = 0;
+                          W.a.ids.forEach(function (k) {
+                            var o = C[k];
+                            o && (!0 === o.up ? su++ : !1 === o.up && sd++);
+                          });
+                          return (
+                            "Wherever you write " +
+                            j(W.a) +
+                            ", you also write " +
+                            j(W.b) +
+                            ": in your workbook they never part. " +
+                            (su && sd
+                              ? "They turn up on both sides of the line, so the pair is something both sides claim: a hidden agreement the work could stand on. "
+                              : su
+                                ? "They turn up only where things help, so together they may be what the support is really about. "
+                                : sd
+                                  ? "They turn up only where things hinder, so together they may be what the resistance is really about. "
+                                  : "") +
+                            "They may be one idea under two names, or two things you can’t separate; if they are one, THE SAME THING? on Pattern Analysis can join them."
+                          );
+                        })(),
                         6 + W.a.n / 100,
                         { words: [W.a.w, W.b.w] },
                       ));
@@ -13149,7 +13162,7 @@
                           j(G.c) +
                           " never meet. " +
                           j(G.b) +
-                          " may be the only thing holding those two together.",
+                          " is a hinge: it may be the only thing holding those two together, and if it goes, they come apart.",
                         4 + G.b.n / 100,
                         { words: [G.a.w, G.b.w, G.c.w] },
                       ),
@@ -13173,17 +13186,52 @@
                           a = r.filter(function (t) {
                             return o.indexOf(t) < 0;
                           });
+                        var TE = ["aggression", "acceptance", "distrust", "indifference", "defiance"],
+                          TR = [3, 0, 2, 1, 4],
+                          tu = [0, 0, 0, 0, 0],
+                          td = [0, 0, 0, 0, 0];
+                        t.ids.forEach(function (k) {
+                          var o = C[k];
+                          o && null != o.up && null != o.em && o.em >= 0 && o.em < 5 && (o.up ? tu : td)[o.em]++;
+                        });
+                        var tmu = Math.max.apply(null, tu),
+                          tmd = Math.max.apply(null, td),
+                          eu = tmu > 0 ? tu.indexOf(tmu) : -1,
+                          ed = tmd > 0 ? td.indexOf(tmd) : -1,
+                          tg =
+                            eu < 0 || ed < 0
+                              ? ""
+                              : " In the notes from " +
+                                F(i) +
+                                " it carries " +
+                                TE[eu] +
+                                "; in the notes from " +
+                                F(a) +
+                                ", " +
+                                TE[ed] +
+                                "." +
+                                (eu === ed
+                                  ? " They feel the same way about it and point it in opposite directions: a disagreement about direction, not about what matters."
+                                  : 3 !== eu && 3 !== ed && Math.abs(TR[eu] - TR[ed]) >= 2
+                                    ? " Those emotions sit far apart, with no ridge of indifference between them, so no single message will carry both groups."
+                                    : 3 === eu || 3 === ed
+                                      ? " One side is indifference, so that group can still be moved either way; start there."
+                                      : "");
                         i.length &&
                           a.length &&
                           B(
                             "TWO PEOPLE, TWO SIDES",
                             "two people on two sides",
-                            j(t) +
+                            "A disagreement hidden under a shared word: " +
+                              j(t) +
                               " sits above the line in the notes from " +
                               F(i) +
                               ", and below it in the notes from " +
                               F(a) +
-              ". So the split is not one person's mixed feelings; it runs between groups. A course of action about it will be heard differently by each, and what wins over one may lose the other. Before acting on it, ask each group what they mean by the word: they may be naming different things with it." +
+                              "." +
+                              tg +
+                              " So the split is not one person's mixed feelings; it runs between groups" +
+              ". A course of action about it will be heard differently by each, and what wins over one may lose the other. Before acting on it, ask each group what they mean by the word: they may be naming different things with it." +
                               (window.gsmMED && Object.keys(window.gsmMED).length ? " ONE WORD, SEVERAL MEANINGS on Pattern Analysis shows the phrases each side uses." : ""),
                             7 + t.n / 100,
                             { words: [t.w], voices: i.concat(a) },
@@ -13618,9 +13666,32 @@
                       rt = R.filter(function (t) {
                         return ot.indexOf(t) < 0;
                       });
+                    var KIND = {
+                        "PLACED ONE WAY, TIED THE OTHER": "a note whose place and ties disagree",
+                        "THE EMOTION CHANGES": "an emotional turn between what you have grasped and what you would design",
+                        "TWO PEOPLE, TWO SIDES": "a disagreement hidden under a shared word",
+                        "ONE IDEA UNDER TWO NAMES": "two words that may be one idea",
+                        "THE UNCLOSED TRIANGLE": "a hinge holding two ideas together",
+                        "NEVER IN THE SAME PLACE": "two big ideas never held together",
+                      },
+                      kinds = [];
+                    R.forEach(function (t) {
+                      KIND[t.lab] && kinds.indexOf(KIND[t.lab]) < 0 && kinds.push(KIND[t.lab]);
+                    });
+                    var kl =
+                      kinds.length < 2
+                        ? kinds.join("")
+                        : kinds.length < 3
+                          ? kinds.join(" and ")
+                          : kinds.slice(0, -1).join(", ") + ", and " + kinds[kinds.length - 1];
                     E.push([
                       "Patterns worth a second look",
-                      ot.map(nt).join("") +
+                      (kinds.length
+                        ? '<div class="intframe">Here the same workbook supports more than one reading: ' +
+                          Gt(kl) +
+                          ". Each one below says which readings it allows and how to tell them apart.</div>"
+                        : "") +
+                        ot.map(nt).join("") +
                         (rt.length
                           ? '<button type="button" class="lnk morebtn" data-xmore="1">More patterns (' +
                             rt.length +
@@ -17686,7 +17757,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v224");
+        t && (t.textContent = "v225");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
