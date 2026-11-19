@@ -37,10 +37,14 @@ with sync_playwright() as p:
     check(tid, 'a seeded card has a constraint field')
     if tid:
         ta = pg.locator('#gsm-pat .coa[data-seed] textarea[data-cons="%s"]' % tid).first
-        ta.scroll_into_view_if_needed(); ta.fill('A hundred-year suppression rule still sets the default; write a local exception for managed fire')
-        pg.wait_for_timeout(300)
-        vis = pg.evaluate("""(id)=>[...document.querySelectorAll('.consq[data-cqfor="'+id+'"]')].every(q=>q.style.display!=='none')""", tid)
-        check(vis, 'add-to-Q buttons appear once a constraint is written (on every card with that note)')
+        ta.scroll_into_view_if_needed()
+        pre = pg.evaluate("""(id)=>[...document.querySelectorAll('.consq[data-cqfor="'+id+'"] button')].every(b=>b.disabled)""", tid)
+        check(pre, 'add-to-Q buttons show grayed out before anything is written')
+        ta.fill('A hundred-year suppression rule still sets the default; write a local exception for managed fire'); pg.wait_for_timeout(300)
+        vis = pg.evaluate("""(id)=>[...document.querySelectorAll('.consq[data-cqfor="'+id+'"] button')].every(b=>!b.disabled)""", tid)
+        check(vis, 'add-to-Q buttons turn on once a constraint is written (on every card with that note)')
+        nc = pg.evaluate("""(id)=>{var q=document.querySelector('.ncons[data-ncid="'+id+'"]');return q?q.textContent:''}""", tid)
+        check('local exception' in nc, 'the note on Mapping Landscape shows the constraint as it is typed')
         pg.locator('#gsm-pat .consq[data-cqfor="%s"] button[data-cq="3"]' % tid).first.click(); pg.wait_for_timeout(1500)
         C = pg.evaluate("()=>JSON.parse(localStorage.getItem('groundsmith-web-v1'))")
         check('local exception for managed fire' in (C['a'][3] or ''), 'constraint added to Q.4 in the workbook')
@@ -62,6 +66,8 @@ with sync_playwright() as p:
         pg.evaluate("window.gsmTab(1)"); pg.wait_for_timeout(600)
         since = pg.evaluate("()=>{var b=document.getElementById('gsm-since');return b?b.innerText:''}")
         check('local exception' in since, 'SINCE YOU ACTED shows the constraint next to its note')
+        nc = pg.evaluate("""(id)=>{var q=document.querySelector('.ncons[data-ncid="'+id+'"]');return q?q.textContent:''}""", tid)
+        check('(in Q.4)' in nc, 'the note says the constraint is in Q.4')
     # switch a seeded strategy to a program: it moves groups
     pg.evaluate("window.gsmTab(4)"); pg.wait_for_timeout(800)
     btn = pg.locator('#gsm-pat .coa[data-seed] .gsmmode[data-mv="p"]').first

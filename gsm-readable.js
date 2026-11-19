@@ -567,14 +567,35 @@
         })
         .join("");
   }
+  function gsmNoteConsIn(id) {
+    var x = String((C.asks || {})["cons|" + id] || "").trim();
+    if (!x) return "";
+    var inq = [3, 5, 6]
+      .filter(function (i) {
+        return String(C.a[i] || "").indexOf(x) >= 0;
+      })
+      .map(function (i) {
+        return "Q." + (i + 1);
+      });
+    return (
+      "<b>WHAT HOLDS IT, AS YOU NAMED IT ON TAKING ACTION</b><div>\u201c" +
+      Gt(x) +
+      "\u201d " +
+      (inq.length ? "(in " + inq.join(", ") + ")" : "(not yet in Q.4, Q.6, or Q.7)") +
+      "</div>"
+    );
+  }
+  function gsmNoteCons(t) {
+    return t && t[8] ? '<div class="ncons" data-ncid="' + Gt(String(t[8])) + '">' + gsmNoteConsIn(String(t[8])) + "</div>" : "";
+  }
   function gsmConsQ(key, v) {
     v = String(v || "").trim();
     return (
       '<div class="consq" data-cqfor="' +
       Gt(key) +
       '"' +
-      (v ? "" : ' style="display:none"') +
-      ">Add it to " +
+      ">" +
+      (v ? "Add it to " : "Once written, add it to ") +
       [
         [3, "Q.4", "a condition to establish"],
         [5, "Q.6", "something to redesign"],
@@ -585,7 +606,9 @@
           return (
             '<button type="button" class="ech' +
             (inq ? " on" : "") +
-            '" data-cq="' +
+            '"' +
+            (v ? "" : " disabled") +
+            ' data-cq="' +
             b[0] +
             '" data-cqid="' +
             Gt(key) +
@@ -616,6 +639,9 @@
       pa && (pa.textContent = C.a[q]);
       qa.classList.add("has");
     }
+    document.querySelectorAll(".ncons[data-ncid]").forEach(function (q) {
+      q.getAttribute("data-ncid") === id && (q.innerHTML = gsmNoteConsIn(id));
+    });
     P();
   });
   function gsmTANorm(x) {
@@ -669,7 +695,7 @@
     var st = document.createElement("style");
     st.id = "gsm-ta-css";
     st.textContent =
-      "#gsm .tatst{border:2px solid #111;background:#fff;padding:12px 18px 10px;margin:14px 0 18px}#gsm .tatq{font-size:12px;font-weight:700;letter-spacing:.16em;color:#444}#gsm .tatqq{font-size:19px;line-height:1.4;color:#111;margin:4px 0 4px}#gsm .tatsub{font-size:13px;color:#666;margin-bottom:8px}#gsm .tatr{border-top:1px solid #ddd;padding:8px 0 6px;font-size:15px;line-height:1.5}#gsm .tatr>div{margin:2px 0}#gsm .tatl{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:#222;text-transform:uppercase}#gsm .tatr i{font-style:normal;font-weight:700}#gsm .tav{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;padding:1px 6px;border:1px solid #111;margin:0 2px;vertical-align:1px}#gsm .tav-yes{background:#111;color:#fff}#gsm .tav-partly{background:#fff;color:#111}#gsm .tav-notyet{background:#fff;color:#b22;border-color:#b22;border-style:dashed}#gsm .tagrp{margin:26px 0 10px;border-top:3px solid #111;padding-top:10px}#gsm .tagh{font-size:15px;font-weight:700;letter-spacing:.18em;color:#111}#gsm .tags{font-size:14px;color:#555;margin:2px 0 6px}#gsm .tagrp .meta{margin:6px 0 4px}#gsm .coa .tasplit .tspl{margin:0 0 6px}#gsm .tsk{font-size:11px;font-weight:700;letter-spacing:.1em;color:#555;margin-right:6px}#gsm .fhelp{font-size:12.5px;color:#666;line-height:1.4;margin:4px 0 2px}#gsm .consq{margin:4px 0 8px;font-size:13px;color:#444}#gsm .consq .ech{font-size:12.5px;margin:3px 4px 0 0}#gsm .actcons{font-size:13.5px;color:#333;margin:4px 0 6px;padding-left:9px;border-left:2px solid #ddd}#gsm .actcons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .coa[data-seed] .phctx{color:#888}";
+      "#gsm .tatst{border:2px solid #111;background:#fff;padding:12px 18px 10px;margin:14px 0 18px}#gsm .tatq{font-size:12px;font-weight:700;letter-spacing:.16em;color:#444}#gsm .tatqq{font-size:19px;line-height:1.4;color:#111;margin:4px 0 4px}#gsm .tatsub{font-size:13px;color:#666;margin-bottom:8px}#gsm .tatr{border-top:1px solid #ddd;padding:8px 0 6px;font-size:15px;line-height:1.5}#gsm .tatr>div{margin:2px 0}#gsm .tatl{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:#222;text-transform:uppercase}#gsm .tatr i{font-style:normal;font-weight:700}#gsm .tav{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;padding:1px 6px;border:1px solid #111;margin:0 2px;vertical-align:1px}#gsm .tav-yes{background:#111;color:#fff}#gsm .tav-partly{background:#fff;color:#111}#gsm .tav-notyet{background:#fff;color:#b22;border-color:#b22;border-style:dashed}#gsm .tagrp{margin:26px 0 10px;border-top:3px solid #111;padding-top:10px}#gsm .tagh{font-size:15px;font-weight:700;letter-spacing:.18em;color:#111}#gsm .tags{font-size:14px;color:#555;margin:2px 0 6px}#gsm .tagrp .meta{margin:6px 0 4px}#gsm .coa .tasplit .tspl{margin:0 0 6px}#gsm .tsk{font-size:11px;font-weight:700;letter-spacing:.1em;color:#555;margin-right:6px}#gsm .fhelp{font-size:12.5px;color:#666;line-height:1.4;margin:4px 0 2px}#gsm .consq{margin:4px 0 8px;font-size:13px;color:#444}#gsm .consq .ech{font-size:12.5px;margin:3px 4px 0 0}#gsm .consq .ech[disabled]{opacity:.4;cursor:default}#gsm .ncons{font-size:13.5px;color:#333;line-height:1.45}#gsm .ncons:not(:empty){margin:6px 0 2px;padding:4px 0 4px 9px;border-left:3px solid #111}#gsm .ncons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .actcons{font-size:13.5px;color:#333;margin:4px 0 6px;padding-left:9px;border-left:2px solid #ddd}#gsm .actcons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .coa[data-seed] .phctx{color:#888}";
     document.head.appendChild(st);
   }
   function gsmTASay(s) {
@@ -1391,6 +1417,9 @@
     });
     document.querySelectorAll(".consq[data-cqfor]").forEach(function (q) {
       q.getAttribute("data-cqfor") === id && (q.outerHTML = gsmConsQ(id, t.value));
+    });
+    document.querySelectorAll(".ncons[data-ncid]").forEach(function (q) {
+      q.getAttribute("data-ncid") === id && (q.innerHTML = gsmNoteConsIn(id));
     });
     try {
       localStorage.setItem(S, JSON.stringify(C));
@@ -2929,6 +2958,7 @@
             r(t[5]) +
             h(t) +
             b(t) +
+            gsmNoteCons(t) +
             "</div></div>"
           );
         })
@@ -3291,6 +3321,7 @@
                 r(t[5]) +
                 h(t) +
                 b(t) +
+                gsmNoteCons(t) +
                 "</div></div>"
               );
             })
@@ -18738,7 +18769,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v226");
+        t && (t.textContent = "v227");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
