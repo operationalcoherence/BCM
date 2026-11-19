@@ -26,7 +26,7 @@ with sync_playwright() as p:
     vis = "s=>[...document.querySelectorAll(s)].filter(e=>e.offsetParent!==null).length"
     pg.evaluate("gsmTab(5)"); pg.wait_for_timeout(400)
     st = pg.evaluate("document.getElementById('gsm-start').innerText")
-    check('Map the context using' not in st and 'Pattern Analysis reveals' not in st and 'One and four are the leading' in st, 'Start here keeps the method, the workbook steps moved')
+    check('Map the context using' not in st and 'Pattern Analysis reveals' not in st and 'One through four are questions about grasping' in st, 'Start here keeps the method, the workbook steps moved')
     if SHOT: pg.screenshot(path=SHOT + '_start.png', full_page=True)
     pg.evaluate("gsmTab(1)"); pg.wait_for_timeout(500)
     pg.evaluate("window.gsmMStep&&gsmMStep(1)"); pg.wait_for_timeout(300)

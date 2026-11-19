@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 22 · 2026-11-19 · Preview at **v235** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
+Rev 22 · 2026-11-19 · Preview at **v236** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
 
 ## Shipped
+- **v236** (2026-11-19, preview): his answers to the pre-F8 review table applied. See `docs/v236_update.md`.
 - **v235** (2026-11-19, preview): plan 3g. YOUR OWN WORDS opens with a strip, Q.1 to Q.7 under the context grasped and what you would design, with each question's key phrases and where else they appear. See `docs/v235_update.md`.
 - **v234** (2026-11-19, preview): the Synthesis tour opens each of his four acts with what it means, counted from the workbook. See `docs/v234_update.md`.
 - **v233** (2026-11-19, preview): plan item 3c. With All notes shown on YOUR LANDSCAPE (Analysis), a tap on the ground pins WHAT GATHERS HERE, a reading of that spot: the notes and questions that shape it, the emotion that colors it and its ground, any climb between distant emotions, and how what you would design meets the context you have grasped there. In 3D and flat. See `docs/v233_update.md`.
