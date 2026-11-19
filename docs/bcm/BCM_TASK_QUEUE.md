@@ -1,9 +1,13 @@
 # BCM_TASK_QUEUE.md
-Rev 8 · 2026-11-18 (v230) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 9 · 2026-11-19 (v246) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
+
+## Added 11-19 14:34 (his asks, place maps; not started)
+- [ ] PA · VIZ · **Place map, Pattern Analysis:** remove the old analysis figure, and give the content the line map's format.
+- [ ] PAR · VIZ · **Place map, In Parallel:** align with the line map's In Parallel. Borrow its figure, format, and everything else.
 
 ## Current queue (11-18): the v196 review plan
 The live queue is claude/v196_review_plan.md in the Claude project (it quotes his workbook, so it stays private). Status at v230:
