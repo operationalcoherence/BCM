@@ -1,20 +1,20 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 11 · 2026-11-18 (v225; BCM Core Structure added as the foundational definition, below; v196–v206 in §16, v207–v219 in §17, v220–v225 in docs/v220–v225_update.md) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 11 · 2026-11-18 (v225; §0 BCM Core Structure is the foundational architecture and §0.9 binds all future work to it; §0a vocabulary, §0b missing questions; v196–v206 in §16, v207–v219 in §17, v220–v225 in docs/v220–v225_update.md) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
 ---
 
-# BCM Core Structure
-**Foundational definition [D 11-18 19:52].** Everything else in this document serves this structure. New layers, findings, and pages are judged by which core question they answer and how well they answer it.
+## 0. BCM Core Structure (foundational architecture)
+**Foundational definition [D 11-18 19:52; promoted to first-class architecture 11-18 19:58].** This is architecture, not commentary. Every other section of this document serves it, and §0.9 binds all future work to it.
 
-## The deeper question
+### 0.1 The deeper question
 > **What holds this ground where it is, and where can it give toward the goal?**
 
 This is the job Vigneaux (2026) gives the possibility landscape: which transitions are needed, through which emotions, how much energy to spend, and where. Every page answers part of it.
 
-## The four core questions
+### 0.2 The four core questions
 1. **What holds it?** Holding, resisting, hindering, and reinforcing (a hold that feeds itself: the loop). On the ground: low ground on the hindering side (distrust low, aggression lower, defiance lowest), and what keeps it there.
 2. **What already moves toward the goal?** Enabling, support, and the opportunity. On the ground: high ground on the helping side (acceptance).
 3. **Where can it shift, and at what cost?** Crossing and emotional transitions. On the ground: between high and low, through the ridge of indifference, or over bare rock where there is no ridge, at the cost of a climb. Big moves between distant emotions take energy either way; most shifts go through indifference.
@@ -22,7 +22,7 @@ This is the job Vigneaux (2026) gives the possibility landscape: which transitio
    - *the situation splits:* a word pulled two ways, or two voices on two sides;
    - *the picture splits:* what was said against what was mapped, a note's place against its ties, or thin ground under a reading.
 
-## The central test
+### 0.3 The central test
 > **Does what you would design meet the ground?**
 
 This is the seam between **the context you have grasped** (Q.1–Q.4) and **what you would design** (Q.5–Q.7). It isn't a fifth question. It is the test that holds the second half against the first. Design has to meet:
@@ -30,7 +30,7 @@ This is the seam between **the context you have grasped** (Q.1–Q.4) and **what
 - what already moves (otherwise support is left unbuilt-on);
 - where it can shift (otherwise the conditions for a crossing go unmet).
 
-## The seven questions are the core questions, asked as input
+### 0.4 The seven questions are the core questions, asked as input
 The reading pages answer the seven questions again, one level up, as structure instead of answers.
 
 | Core question | Fed by |
@@ -41,7 +41,7 @@ The reading pages answer the seven questions again, one level up, as structure i
 | Where does the reading split? | Every question, read against the map and across voices |
 | The central test | Q.5–Q.7 held against Q.1–Q.4 |
 
-## The ground carries the structure
+### 0.5 The ground carries the structure
 The line map's axes and the emotion heights are the core questions made spatial:
 - **Help and hinder** (the line, y = 118) separate what moves from what holds.
 - **Present toward the goal** (left to right) gives now and later.
@@ -49,7 +49,7 @@ The line map's axes and the emotion heights are the core questions made spatial:
 
 Each core question reads one part of this ground, and the test asks whether what you would design lands there.
 
-## How each page contributes
+### 0.6 How each page contributes
 
 | Page | Its question | What only it does | What would be lost without it |
 |---|---|---|---|
@@ -60,10 +60,10 @@ Each core question reads one part of this ground, and the test asks whether what
 
 Mapping Context and Mapping Landscape gather the input: the goal, the seven answers, and the notes with their place, emotion, source, and voice.
 
-## Recurrence is by design
+### 0.7 Recurrence is by design
 The same finding often appears on several pages. On the 11-18 workbook, "good fire" pulled two ways appears on all four pages, and so does tradition left unanswered. Each page answers the same core question from its own angle (words, ground, check, action). Repetition across pages is acceptable when the angle differs. Within one page it is not.
 
-## Time: a question already present, not yet read
+### 0.8 Time: a question already present, not yet read
 **"What has shifted since last time?"** is the four core questions asked across saves: what still holds, what has started to move, what has shifted, and where the reading has changed.
 - It's within scope: the living loop (map → act → re-map) is decided [D] (§1).
 - Its data already exists:
@@ -74,9 +74,29 @@ The same finding often appears on several pages. On the 11-18 workbook, "good fi
 
 Within one save, the method reads the present against what lies toward the goal (now and later). Between saves, it doesn't yet read anything.
 
+### 0.9 The governing rule [D 11-18 19:58]
+All future BCM work maps back to the deeper question (§0.1), the four core questions (§0.2), and the central test (§0.3), where applicable. That covers:
+- features;
+- pages;
+- visualizations;
+- analyses (Pattern Analysis);
+- syntheses (Pattern Synthesis, In Parallel);
+- action pathways (Taking Action: programs, strategies, ways, first moves);
+- multi-workbook capabilities (Combine, voices, F8 project lead dashboards, and reading change across saves).
+
+Before anything is built, its design states:
+1. **Which core question it answers** (1–4), or that it applies **the central test**, or that it serves the deeper question directly.
+2. **Where it reads the ground:** low ground, high ground, between them, or where the reading splits.
+3. **What it adds that no existing page or section already gives**, and what would be lost without it (§0.6, §0.7).
+4. **Which canonical terms it uses** (§0a).
+
+Work that can't name a core question, the test, or the deeper question doesn't belong in the method until it can. Input steps (Mapping Context, Mapping Landscape) are exempt from item 2, but they state which core questions their input feeds (§0.4).
+
+Multi-workbook capabilities read the same structure across people and across time: whose ground holds or moves (voices, F8), and what has shifted between saves (§0.8).
+
 ---
 
-# BCM Canonical Vocabulary
+## 0a. BCM Canonical Vocabulary
 One term per concept, across every page. Proposed 11-18 by Claude; awaiting his redlines. Section titles already on screen keep their names until he decides; this table governs new wording.
 
 | Concept | Canonical term | Other names it absorbs |
@@ -100,14 +120,14 @@ One term per concept, across every page. Proposed 11-18 by Claude; awaiting his 
 | Q.7 | **reinforce**, only in this sense | none; self-supporting holds use "holds itself" or "feeds itself" |
 | Who wrote a note | **voice** | person, group |
 
-## Names that mean two things today
+### 0a.1 Names that mean two things today
 - **"Loop"** means a self-feeding cycle (THE LOOP) and also a drawn phrase pattern ("phrase loop").
 - **"Reinforce"** means Q.7 (strengthen what works) and also "reinforce one another" (a self-supporting hold). These are opposite meanings.
 - **"Bridge"** means a thread across the two halves of the questions, a note between emotions (PLACED ONE WAY), and the costed crossings of bare rock.
 - **"Pattern"** is the engine's name ("Patterns suggests"), the drawn phrase patterns, POSSIBLE PATTERNS, and "Patterns worth a second look."
 - **"High ground," "raised ground," and "firm ground"** are used as if they were the same thing.
 
-## The same insight under different names (as of v225)
+### 0a.2 The same insight under different names (as of v225)
 | Insight | Names it goes by |
 |---|---|
 | Holding | THE SYSTEM THAT HOLDS, WHAT KEEPS IT THIS WAY, WHAT HOLDS IT IN THE LOW GROUND, WHAT STANDS IN THE WAY, low ground, sunk ground, hollow, opposition, hinder |
@@ -123,13 +143,13 @@ One term per concept, across every page. Proposed 11-18 by Claude; awaiting his 
 
 ---
 
-# BCM Missing Questions
+## 0b. BCM Missing Questions
 What the core structure needs and the pages don't yet fully ask (11-18). Identification only; nothing here is a feature request.
 
 1. **Taking Action doesn't ask where the reading splits.** It acts on words that are pulled two ways and on the ground, but it doesn't carry forward what In Parallel found. When the same word means something different to two voices, In Parallel says a course of action "will be heard differently by each"; the ways on the cards don't hold that.
 2. **Pattern Synthesis asks the central test only lightly** ("Not in Q.5–Q.7 yet," in WHAT IT MIGHT MEAN).
 3. **"Whose ground is it?"** runs under all four questions but is never asked as a question of its own. Emotions belong to people, and Vigneaux (2026) orients practitioners to the people in each emotion. Voices exist, but BCM asks *where* far more than *who*. Today it shows up only as a dimension of the split (two voices on two sides, the thinnest voice).
-4. **"What has shifted since last time?"** is a hidden question already present, not a missing page and not outside scope (see Time, above). It belongs to all four questions across saves.
+4. **"What has shifted since last time?"** is a hidden question already present, not a missing page and not outside scope (see §0.8). It belongs to all four questions across saves.
 
 ---
 
