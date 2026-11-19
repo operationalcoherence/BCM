@@ -1,5 +1,5 @@
 # BCM_CURRENT_STATE.md
-Rev 19 · 2026-11-18 · Preview at **v230** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
+Rev 20 · 2026-11-18 · Preview at **v230** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
 
 ## Shipped
 - **v230** (2026-11-18, preview): Taking Action speaks about the situation, not the workbook (his wording review). THE SYSTEM THAT HOLDS becomes WHAT HOLDS THE SITUATION IN PLACE, on Analysis and Taking Action. THE TEST lines say what remains unresolved, what keeps reinforcing the situation, and what help is not yet used, with note numbers small and gray. Also the short check of Taking Action, with four fixes. See `docs/v230_update.md`.
@@ -67,7 +67,7 @@ Rev 19 · 2026-11-18 · Preview at **v230** · Basis: 11-17 review, 11-18 review
 - "Possible patterns": the "management" line works. "For and against" and "Unused support" are useful.
 
 ## Known gaps
-- Place-map-only workbooks (e.g. Broadview) get no 3D landscape; the Esri place ground is the next build (see BCM_HANDOFF.md).
+- Place-map-only workbooks get the 3D ground on real terrain since v186/v189; the fuller per-instance Esri map (F1/F2) is still open.
 
 ## Known bugs
 | ID | Bug | Page |
@@ -112,7 +112,7 @@ Rev 19 · 2026-11-18 · Preview at **v230** · Basis: 11-17 review, 11-18 review
 | D11 | Resolved: the 7 symbols are the seven question symbols |
 
 ## Current priorities
-0. **A short check of Taking Action only** (agreed review cadence), then Phase 2 step 9, Mapping Context. His redlines on the v226 wording are listed at the end of `docs/v226_update.md`.
+0. **Phase 2 step 9, Mapping Context** (instruction drop-down, emotion definitions where notes are written, Start here text moved to its pages, his redlines). The short check of Taking Action is done (v230). His redlines on the v226 wording are listed at the end of `docs/v226_update.md`; three wording items the v230 check left are in `docs/v230_update.md`.
 1. His pass on Claude's wording, v171–v195 (each update doc ends with the list); U5 redlines (`docs/v173_update.md`).
 2. Open questions from v186–v195: Combine and PDF for WHAT YOU DID (v194); the friction and hysteresis weights (v192, v193); coworker deletions and answers on Combine (v191); whether a place map should word "high/low ground" differently (he said: keep it, it means the emotion ground).
 3. Remaining from the queue: A1 engine side (threads across question boundaries), D8 (voice weighting on or a switch), F1/F2 (per-instance Esri map, anchoring).
