@@ -1,1 +1,0 @@
-{"app": "groundsmith", "v": 1, "saved": "2026-11-07T00:00:00Z", "data": {"goal": "Keep the clinic open.", "a": ["Funding dried up.", "", "", "", "", "", ""], "m": [[1, 100, 60, "The lease is the problem.", null, 0, 0, null, "na"]], "p": {"m": [], "c": [39.5, -98.5, 4]}, "voices": [], "links": [], "decisions": {}, "others": [], "who": "", "fig": {}, "log": []}}
