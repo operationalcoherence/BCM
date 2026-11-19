@@ -768,7 +768,24 @@
     if ("TWO PEOPLE, TWO SIDES" === s.lab) return "Two groups read " + q(w[0]) + " two ways.";
     if ("THE EMOTION CHANGES" === s.lab && k.emo) return q(w[0]) + (TR[k.emo[1]] < TR[k.emo[0]] ? " reads easier in your plans than on the ground." : " reads harder in your plans than on the ground.");
     if ("ONE IDEA UNDER TWO NAMES" === s.lab) return q(w[0]) + " and " + q(w[1] || "") + " act as one idea.";
-    if ("PLACED ONE WAY, TIED THE OTHER" === s.lab) return Gt(String((k.notes || [])[0] || "").replace(/^(?:place )?note (\d+)/, "N$1")) + "\u2019s place and ties disagree.";
+    if ("PLACED ONE WAY, TIED THE OTHER" === s.lab) {
+      var nid = String((k.notes || [])[0] || ""),
+        mm = /^(place )?note (\d+)/.exec(nid),
+        row = mm ? (mm[1] ? (C.p && C.p.m) || [] : C.m)[+mm[2] - 1] : null,
+        nm = row ? gsmStName({ txt: String(row[3] || "") }) : "",
+        lb = mm ? "N" + mm[2] : nid,
+        who = (nm ? "\u201c" + Gt(nm) + "\u201d" : Gt(lb)),
+        pe = null != k.pe ? k.pe : -1,
+        pt = null != k.pt ? k.pt : -1,
+        tail = nm ? ' <span class="stn">(' + Gt(lb) + ")</span>" : "";
+      return (!k.up && [0, 2, 4].indexOf(pe) >= 0 && (1 === pt || 3 === pt)
+        ? who + " could be a foothold for the crossing."
+        : pe >= 0 && pe === pt
+          ? who + " carries energy that could be turned toward the goal."
+          : k.up && [0, 2, 4].indexOf(pt) >= 0
+            ? who + " looks like help but may give way under pressure."
+            : who + " may not be where it seems.") + tail;
+    }
     return "";
   }
   document.addEventListener("click", function (ev) {
@@ -2345,7 +2362,7 @@
                   ? (g = "Most of it sits on indifference, so it holds loosely: what you do next can tip it either way.")
                   : (g = "Most of it carries acceptance: the people inside it are content with it, which is its own kind of hold."));
       card(
-        "THE SYSTEM THAT HOLDS",
+        "WHAT HOLDS THE SITUATION IN PLACE",
         Gt(gsmStList(sysNames, 8)).replace(/^./, function (c) {
           return c.toUpperCase();
         }) +
@@ -12140,7 +12157,7 @@
               return phList(b);
             }
             function NM(x) {
-              return gsmStName({ txt: String(x.txt).replace(/^\s*(reinforce|continue to|support|scale|grow|keep)\s+/i, "") }) || x.id;
+              return gsmStName({ txt: String(x.txt).replace(/^\s*(reinforce|continue to|support|scale|grow|keep)\s+/i, "").replace(/^\s*(for|to|in|on|with|by)\s+/i, "") }) || x.id;
             }
             function NL(x) {
               var n = String(x.id).replace(/\D/g, "");
@@ -12151,6 +12168,62 @@
               var b = xs.slice(0, k).map(NL);
               xs.length > k && b.push(xs.length - k + " more");
               return phList(b);
+            }
+            function NAMES(xs, k) {
+              k = k || 3;
+              var b = xs.slice(0, k).map(function (x) {
+                return Gt(NM(x));
+              });
+              xs.length > k && b.push(xs.length - k + " more");
+              return phList(b).replace(/^./, function (c) {
+                return c.toUpperCase();
+              });
+            }
+            function IDS(xs, link) {
+              return (
+                ' <span class="stn">(' +
+                xs
+                  .map(function (x) {
+                    var n = String(x.id).replace(/\D/g, "");
+                    return link ? x.id : (/^P/.test(x.id) ? "P" : "N") + n;
+                  })
+                  .join(", ") +
+                ")</span>"
+              );
+            }
+            var YES = {
+              sys: "The proposed actions address every part holding it in place.",
+              ten: "The proposed actions address the fear the goal runs into.",
+              loop: "The proposed actions address the reinforcing cycle identified in Pattern Analysis.",
+              help: "The proposed actions use all of it.",
+            };
+            function SAYK(t, kind) {
+              if (!t || t.said) return t;
+              var one = 1 === t.not.length,
+                gap = function (link) {
+                  return t.help
+                    ? NAMES(t.not) + (one ? " already helps" : " already help") + " the goal, but the proposed actions don\u2019t use " + (one ? "it" : "them") + " yet." + IDS(t.not, link)
+                    : NAMES(t.not) + (one ? " remains" : " remain") + " unresolved." + IDS(t.not, link);
+                };
+              t.s = t.not.length ? gap(0) : YES[kind] || YES.help;
+              t.r = t.not.length ? gap(1) : YES[kind] || YES.help;
+              t.h =
+                (t.met.length
+                  ? "The proposed actions reach " +
+                    NAMES(t.met, 4).replace(/^./, function (c) {
+                      return c.toLowerCase();
+                    }) +
+                    IDS(t.met, 1) +
+                    (t.by.length ? ' <span class="stn">(through ' + phList(t.by.slice(0, 3)) + ")</span>" : "") +
+                    ". "
+                  : "") +
+                (t.not.length
+                  ? t.help
+                    ? NAMES(t.not, 4) + (one ? " already helps" : " already help") + " the goal, but nothing proposed uses " + (one ? "it" : "them") + " yet, so " + (one ? "it" : "they") + " can slip." + IDS(t.not, 1)
+                    : NAMES(t.not, 4) + (one ? " remains" : " remain") + " unresolved, so " + (one ? "it keeps" : "they keep") + " holding the situation in place." + IDS(t.not, 1)
+                  : YES[kind] || YES.help);
+              t.said = 1;
+              return t;
             }
             function ME(x) {
               var n = String(x.id).replace(/\D/g, "");
@@ -12191,18 +12264,7 @@
                     }))
                   : not.push(x);
               });
-              var h = "";
-              met.length && (h += "What you would design reaches " + LS(met) + (by.length ? " (through " + phList(by.slice(0, 3)) + ")" : "") + ". ");
-              not.length
-                ? (h += "Nothing you would design " + (help ? "builds on " : "answers ") + LS(not) + " yet, so " + (help ? (1 === not.length ? "it" : "they") + " can slip." : (1 === not.length ? "it keeps" : "they keep") + " holding."))
-                : (h += help ? "All of it is built on." : "All of it is answered somewhere.");
-              return {
-                h: h,
-                met: met,
-                not: not,
-                v: not.length ? (met.length ? "partly" : "not yet") : "yes",
-                s: not.length ? (help ? "Not yet built on: " : "Not yet answered: ") + NLS(not) + "." : help ? "Built on." : "Answered.",
-              };
+              return { met: met, not: not, by: by, help: help, v: not.length ? (met.length ? "partly" : "not yet") : "yes" };
             }
             var RIDGE = IT(D.ind),
               ACC = a.filter(function (x) {
@@ -12398,18 +12460,18 @@
               CARD({
                 key: "seed|sys",
                 seed: "sys",
-                title: "What holds it: " + gsmMeanList(SS.sys.slice(0, 3)),
-                from: "THE SYSTEM THAT HOLDS (Pattern Analysis)",
+                title: "What holds the situation in place: " + gsmMeanList(SS.sys.slice(0, 3)),
+                from: "WHAT HOLDS THE SITUATION IN PLACE (Pattern Analysis)",
                 isS: 1,
                 purp: "These parts hold each other up against the goal. Changing one condition under them moves more than arguing with any one of them.",
-                test: tS,
+                test: SAYK(tS, "sys"),
                 why: "it works in the low ground" + (null != dS ? ", mostly " + E[dS] : "") + ", where every crossing is uncertain and the course has to change as people respond.",
                 way: wS,
                 moves: mS,
                 stand: sys,
                 items: tS.not.concat(tS.met),
               });
-              ROWS.hold.push({ lab: "The system that holds", t: tS, title: "What holds it: " + gsmMeanList(SS.sys.slice(0, 3)) });
+              ROWS.hold.push({ lab: "What holds the situation in place", t: SAYK(tS, "sys") });
             }
             // strategies: the key tension
             if (D.ten && D.ten.f && D.ten.f.length) {
@@ -12434,7 +12496,7 @@
                   from: "THE KEY TENSION (Pattern Analysis)",
                   isS: 1,
                   purp: "The goal asks for more of what people fear. The work is to change what people expect it to do, so that asking for more of it stops raising the fear.",
-                  test: tT,
+                  test: SAYK(tT, "ten"),
                   why: "it is pulled two ways: what one side asks for, the other side fears.",
                   way: wT,
                   moves: mT,
@@ -12442,7 +12504,7 @@
                   stand: fT,
                   items: fT.concat(hT),
                 });
-                ROWS.hold.push({ lab: "The key tension", t: tT, title: "The key tension: " + gs });
+                ROWS.hold.push({ lab: "What the goal needs, and people fear", t: SAYK(tT, "ten") });
               }
             }
             // strategies: the loop
@@ -12466,14 +12528,14 @@
                   from: "THE LOOP (Pattern Analysis)",
                   isS: 1,
                   purp: "Each round of it makes the next round harder. Break it at a step you can change, and the ground stops sinking.",
-                  test: tL,
+                  test: SAYK(tL, "loop"),
                   why: "a loop changes as you act on it, so the course has to change with it.",
                   way: wL,
                   moves: mL,
                   stand: lI,
                   items: lI,
                 });
-                ROWS.hold.push({ lab: "The loop", t: tL, title: "The loop: " + lt });
+                ROWS.hold.push({ lab: "What keeps reinforcing the situation", t: SAYK(tL, "loop") });
               }
             }
             // programs: what already moves
@@ -12515,7 +12577,7 @@
                 from: "THE OPPORTUNITY (Pattern Analysis)",
                 isS: sO,
                 purp: "Much of the alternative already exists. Scaling it moves the goal further, for less energy, than inventing something new.",
-                test: tO,
+                test: SAYK(tO, "help"),
                 why: sO ? "its notes reach from acceptance into the low ground, a high-risk move a program cannot plan for." : "it already stands on the high ground and nothing here asks it to cross, so a set sequence can carry it.",
                 way: sO ? WAY(opp) : PWAY(opp),
                 moves: mO,
@@ -12523,7 +12585,7 @@
                 items: opp,
               });
               PCARDS.push(opp);
-              ROWS.move.push({ lab: "The opportunity", t: tO, title: "The opportunity" });
+              ROWS.move.push({ lab: "The alternative that already exists", t: SAYK(tO, "help") });
             }
             if (
               help.length >= 2 &&
@@ -12545,7 +12607,7 @@
                 from: "WHAT IS ALREADY HELPING (Pattern Analysis)",
                 isS: 0,
                 purp: "Part of the ground already helps the goal" + (q4 ? ", and part of what has to be true is already true" : "") + ". Building on it takes the least energy.",
-                test: tH,
+                test: SAYK(tH, "help"),
                 why: "it already helps the goal and asks for no crossing, so a set sequence can carry it.",
                 way: PWAY(help),
                 moves: mH,
@@ -12553,7 +12615,7 @@
                 items: help,
               });
               PCARDS.push(help);
-              ROWS.move.push({ lab: "What is already helping", t: tH, title: "What is already helping" });
+              ROWS.move.push({ lab: "What already helps", t: SAYK(tH, "help") });
             }
             if (
               snr.length >= 2 &&
@@ -12568,7 +12630,7 @@
                 from: "SUPPORT NOT YET REINFORCED (Pattern Analysis)",
                 isS: 0,
                 purp: "This support already works, and nothing you would design builds on it yet. Left alone, it can slip.",
-                test: TEST(snr, 1),
+                test: SAYK(TEST(snr, 1), "help"),
                 why: "it already works; a set sequence of support can keep it going.",
                 way: PWAY(snr),
                 moves: ["Add " + LS(snr, 3) + " to Q.7: what needs to be reinforced.", "Ask the people behind it what would help them keep going.", "Set who does what and when, and repeat it.", "Check back that it holds."],
@@ -12587,24 +12649,31 @@
               },
               hold = ROWS.hold
                 .map(function (r) {
-                  return "<div><i>" + r.lab + "</i> " + VL(r.t) + ' <span class="tev">' + (r.t.not.length ? "Not yet answered: " + LS(r.t.not, 3) + "." : "Answered.") + "</span></div>";
+                  return "<div><i>" + r.lab + "</i> " + VL(r.t) + " " + r.t.r + "</div>";
                 })
                 .join(""),
               move = ROWS.move
                 .map(function (r) {
-                  return "<div><i>" + r.lab + "</i> " + VL(r.t) + ' <span class="tev">' + (r.t.not.length ? "Not yet built on: " + LS(r.t.not, 3) + "." : "Built on.") + "</span></div>";
+                  return "<div><i>" + r.lab + "</i> " + VL(r.t) + " " + r.t.r + "</div>";
                 })
                 .join(""),
               tR = TEST(RIDGE, 0),
               shift = RIDGE.length
                 ? "<div>" +
                   VL(tR) +
-                  " The ridge of indifference runs through " +
-                  LS(RIDGE, 4) +
-                  ": " +
-                  (tR.met.length ? "what you would design reaches " + LS(tR.met, 3) + (tR.not.length ? ", not yet " + LS(tR.not, 3) : "") + "." : "nothing you would design reaches it yet, and most crossings go through it.") +
+                  " Most shifts happen where people are for nothing yet, the ridge of indifference: " +
+                  NAMES(RIDGE, 4).replace(/^./, function (c) {
+                    return c.toLowerCase();
+                  }) +
+                  IDS(RIDGE, 1) +
+                  ". " +
+                  (tR.met.length
+                    ? tR.not.length
+                      ? "The proposed actions reach " + NAMES(tR.met).replace(/^./, function (c) { return c.toLowerCase(); }) + ", but not yet " + NAMES(tR.not).replace(/^./, function (c) { return c.toLowerCase(); }) + "."
+                      : "The proposed actions reach all of them."
+                    : "The proposed actions don\u2019t reach them yet.") +
                   "</div>"
-                : "<div>" + VL({ v: "not yet" }) + " No note carries indifference, so there is no ridge on this ground yet: every crossing is a climb over bare rock. Ask who is for nothing yet.</div>",
+                : "<div>" + VL({ v: "not yet" }) + " No one is mapped as for nothing yet, so there is no ridge of indifference: every shift is a climb over bare rock. Ask who is for nothing yet.</div>",
               FT = "",
               first = (function () {
                 var pr = CARDS.filter(function (c) {
@@ -12641,7 +12710,7 @@
             TAT =
               '<div class="tatst">' +
               (first ? '<div class="tafirst" data-ft="' + Gt(FT) + '"><div class="tatl">THE CHEAPEST FIRST MOVE</div><div class="tafm">' + first + "</div></div>" : "") +
-              '<div class="tatq">THE TEST</div><div class="tatqq">Does what you would design change the conditions and invite the transitions the goal needs?</div><div class="tatsub">Read against your workbook. Each line points to the cards below that take it up.</div>' +
+              '<div class="tatq">THE TEST</div><div class="tatqq">Does what you would design change the conditions and invite the transitions the goal needs?</div><div class="tatsub">Read against the situation you have mapped. The cards below take up each line.</div>' +
               (hold ? row("What holds it", hold) : "") +
               (move ? row("What already moves", move) : "") +
               row("Where it can shift", shift) +
@@ -12650,12 +12719,16 @@
                 ? row(
                     "What holds it, as you named it",
                     "<div>" +
-                      (1 === cons.length ? "One constraint named" : cons.length + " constraints named") +
+                      (1 === cons.length ? "One thing holding the situation has been named" : cons.length + " things holding the situation have been named") +
                       "; " +
-                      cons.filter(function (x) {
-                        return x.indexOf("tav-yes") >= 0;
-                      }).length +
-                      " already in Q.4, Q.6, or Q.7.</div>" +
+                      (function (n) {
+                        return 0 === n ? "none is yet" : n === cons.length ? (1 === n ? "it is" : "all are") : n + " are";
+                      })(
+                        cons.filter(function (x) {
+                          return x.indexOf("tav-yes") >= 0;
+                        }).length,
+                      ) +
+                      " among the conditions to establish, redesigns, or reinforcements.</div>" +
                       '<details class="more"><summary>The constraints</summary>' +
                       cons.join("") +
                       "</details>",
@@ -12665,7 +12738,7 @@
               '<details class="fold tafields"><summary>WHAT EACH PART OF A CARD DOES</summary><div class="mtext"><ul class="glos">' +
               [
                 ["IN SERVICE OF THE GOAL", "What the card is for, in your own words."],
-                ["DOES WHAT YOU WOULD DESIGN MEET IT?", "The test on this card’s notes: which ones Q.5–Q.7 already reach, and which nothing reaches yet."],
+                ["DOES WHAT YOU WOULD DESIGN MEET IT?", "The test on this card: what the proposed actions already address, and what remains unresolved."],
                 ["WHERE THE READING SPLITS", "What In Parallel found under this card’s notes, and what it means for how you act."],
                 ["A strategy or a program", "Why the card is one or the other. The button switches it, and your choice is saved."],
                 ["THE WAY ACROSS", "The order of the crossings on the ground of Pattern Synthesis: through the ridge of indifference before bare rock, with the cost of each move."],
@@ -18965,7 +19038,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v229");
+        t && (t.textContent = "v230");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {

@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 19 · 2026-11-18 · Preview at **v229** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
+Rev 19 · 2026-11-18 · Preview at **v230** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
 
 ## Shipped
+- **v230** (2026-11-18, preview): Taking Action speaks about the situation, not the workbook (his wording review). THE SYSTEM THAT HOLDS becomes WHAT HOLDS THE SITUATION IN PLACE, on Analysis and Taking Action. THE TEST lines say what remains unresolved, what keeps reinforcing the situation, and what help is not yet used, with note numbers small and gray. Also the short check of Taking Action, with four fixes. See `docs/v230_update.md`.
 - **v229** (2026-11-18, preview): the 3D way readings on each card (why choose each way, comparing them, moves in order, when to stop) move to Evidence under HOW THE WAYS READ ON THE GROUND. The map and chart stay in Why this action. See `docs/v229_update.md`.
 - **v228** (2026-11-18, preview): Taking Action in three layers, with nothing removed. The cheapest first move leads THE TEST; the test is summarized first. Each card shows a decision strip (meets the test, first move, the way across, reading splits), then "Why this action" (closed except on the first-move card), then "Evidence" (closed). Empty constraint boxes collapse to "Name what holds it". On first load the 11-18 page shows about 1,800 words instead of about 5,100. See `docs/v228_update.md`.
 - **v227** (2026-11-18, preview): the constraint loop made visible. The Q.4/Q.6/Q.7 buttons show grayed out until a constraint is written, and each note on Mapping Landscape shows the constraint named for it and whether it is in Q.4, Q.6, or Q.7. See `docs/v227_update.md`.

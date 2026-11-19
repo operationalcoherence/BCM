@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 7 · 2026-11-18 (v229) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 7 · 2026-11-18 (v230) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -21,7 +21,8 @@ The live queue is claude/v196_review_plan.md in the Claude project (it quotes hi
   - ✔ One references list (already done in v198).
 - ✔v227 The constraint loop made visible: buttons shown before typing; the constraint shown on its note on Mapping Landscape.
 - ✔v228 The Taking Action hierarchy pass: decision, explanation, and evidence layers. ✔v229 The 3D way readings moved into Evidence.
-- **Next:** a short check of Taking Action only, then **step 9, Mapping Context** (instruction drop-down, emotion definitions where notes are written, Start here text moved to its pages, his redlines).
+- ✔v230 The short check of Taking Action, and the situation-language wording review.
+- **Next:** **step 9, Mapping Context** (instruction drop-down, emotion definitions where notes are written, Start here text moved to its pages, his redlines).
 - Open from v226, his calls: the redlines on its wording; whether word-only cards should stay folded; merging word cards that repeat a seeded card.
 - Phase 3: WebM download of the tour; captions from his confirmed meanings of the four acts; YOUR OWN WORDS strip (3g); the word-budget pass; the "no questions" map click (3c).
 - The guided tour (4c): built v208–v210, v219.
