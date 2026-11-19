@@ -47,13 +47,9 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - "Answers" uses the same rule as NOTHING YOU WOULD DO (`gsmNR` now exposes `rw`, `cm`, `ri`). "Builds on" uses the engine's unused-support terms (`ge[t].c === "unused"`), so the page agrees with Analysis.
 - Tests: tests/ta_flow.py (new, the whole constraint loop), plus matrix, relief_text, and dump2. matrix.py and relief_text.py accept `GSMJS=<file>` to compare against an older build.
 
-## Open calls for him (all go into the pre-F8 review table)
-- The v226 wording (list at the end of docs/v226_update.md). Whether word-only cards should stay folded. Whether a word card that repeats a seeded card should merge into it.
-- His redlines on claude/meaning_patterns_draft.md, claude/structure_pass_plan.md, and the v222–v225 wording.
-- Rename THE EMOTION CHANGES to THE HIDDEN CHANNELS? (offered 11-18 19:14)
-- The In Parallel figure's word labels still show lone words where the workbook repeats no phrase ("tradition", "reduce"). Quote the shortest note instead?
-- Way A's zigzag on strategy cards (v203) is still open.
-- Older, still waiting: his redlines on his own text (items marked R) and the U5 instruction redlines; D8 voice weighting; D1/F1/F2; review rows 34 and 35; the real-tile check; F8's open calls; small calls (v191–v194).
+## Open calls for him
+- Answered in the review table and applied in v236 (docs/v236_update.md). Still open: Way A against the data (6a), "One through four" (Start here 03), F1/F2 (talk first), and F8's own open calls. D8: voices stay equal until F8. The WebM download and A1 come after F8, or are dropped.
+- Older items not in the table (his redlines on claude/meaning_patterns_draft.md and claude/structure_pass_plan.md, the U5 instruction redlines, the real-tile check, small calls v191–v194): treat them as settled by the table unless he raises them.
 
 ## Standing rules (his)
 - Preview only: never touch anything else. The preview page is public; every push is live within minutes.
@@ -96,11 +92,10 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - In the Claude project: workbooks/, a private archive/, claude/v196_review_plan.md, claude/in_parallel_figure.md, claude/meaning_patterns_draft.md, claude/structure_pass_plan.md, claude/emotion_definitions_draft.md, claude/layers_tracker.md, claude/README.md, claude/BCM_HANDOFF.md (a copy of this file), and papers/Vigneaux_2026_JEM_paper.md (the FULL TEXT of his paper; read it there, never ask him for it).
 
 ## Later work, in order
-1. The rest of Phase 3 and the items above, then the review table (and more interpretation work as he asks).
-2. Review rows 34 and 35.
-3. A1, engine side: threads that cross question boundaries.
-4. F1/F2: the fuller per-instance Esri map (discuss with him first).
-5. F8, project lead dashboards: LAST. Remind him it's the last item left. Plan in BCM_ARCHITECTURE.md §12a. Firebase: "The Bear Canyon Method", Spark plan ($0), Firestore nam5, rules locked, web app "BCM Preview", Google sign-in on. Never upgrade to Blaze without asking. Never put the Firebase web config or key in chat, docs, memory, or the repo. Test data only until there is a privacy page.
+1. Way A against the data on every strategy card (6a).
+2. F1/F2: talk it through with him.
+3. F8, project lead dashboards: LAST. Plan in BCM_ARCHITECTURE.md §12a. Firebase: "The Bear Canyon Method", Spark plan ($0), Firestore nam5, rules locked, web app "BCM Preview", Google sign-in on. Never upgrade to Blaze without asking. Never put the Firebase web config or key in chat, docs, memory, or the repo. Test data only until there is a privacy page.
+4. After F8, if still wanted: the WebM download of the tour, and A1 (threads across question boundaries).
 
 Not yet done: docs/v193_update.md was never written (v193 is F6 hysteresis).
 
@@ -109,4 +104,4 @@ Not yet done: docs/v193_update.md was never written (v193 is F6 hysteresis).
 - Wording review sheet (done): https://claude.ai/artifact/KkdeKLx5E45pWKpYU1FE3V
 - F8 mockup: https://claude.ai/artifact/Dqy6xjxr4wPyGpKAf6hn4T
 - F8 costs write-up: https://claude.ai/artifact/4QdCsBzitJneX76CDjHuiL
-- **The pre-F8 review table (11-19, v235): https://claude.ai/artifact/84H2tJCmJvqMcQoDDZdrit** (38 rows; his answers come back as pasted text)
+- **The pre-F8 review table (11-19, v235): https://claude.ai/artifact/84H2tJCmJvqMcQoDDZdrit** (37 rows; answered 11-19 09:20, applied in v236)
