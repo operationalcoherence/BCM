@@ -4,7 +4,7 @@
 
 ## First thing next session
 1. Attach operationalcoherence/BCM with push. If it's refused, tell him plainly and stop; don't work around it. (A read-only clone of the public repo is fine for reading code.) On 11-18 every first attempt was refused, and each time it worked after he said "push access granted."
-2. ~~A short check of Taking Action only~~ Done in v230. Open from it: the "Carries furthest" wording and the ground card titles (see docs/v230_update.md). (the agreed cadence after step 8). Read it on his 11-18 workbook. His redlines on v226's wording are listed at the end of docs/v226_update.md; raise them one at a time, only as the check reaches them.
+2. ~~A short check of Taking Action only~~ Done in v230. What it left open (the "Carries furthest" wording, the ground card titles in docs/v230_update.md, and his redlines on the v226 wording at the end of docs/v226_update.md) goes into the review table.
 3. **His call (11-19 07:06): finish the whole build (everything except F8) first, then one thorough review, as a table, before F8.** All redlines (step 9 part 2 in docs/v232_update.md, the v226 wording, the R items, the word-budget cuts, and every open call below) go into that table, not one at a time. Build order agreed 11-19: 3c the ground tap (done, v233), 3g YOUR OWN WORDS strip, tour captions from his four acts, WebM download of the tour, review rows 34 and 35, A1, then the word-budget cuts drafted for the table. F1/F2 is discussed in the review. F8 is last.
 4. When he reports something already fixed, check which version his page shows first (the label is at the bottom of the page). GitHub Pages can serve the previous build for up to ~10 minutes after a push.
 
