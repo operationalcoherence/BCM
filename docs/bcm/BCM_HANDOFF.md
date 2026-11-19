@@ -1,6 +1,6 @@
 # BCM_HANDOFF.md
 
-2026-11-19, morning. Preview at **v246** (v197–v231 pushed 11-18; v232–v246 pushed 11-19). **The pre-F8 review table is answered and applied (v236, docs/v236_update.md).** The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
+2026-11-19, morning. Preview at **v247** (v197–v231 pushed 11-18; v232–v247 pushed 11-19). **The pre-F8 review table is answered and applied (v236, docs/v236_update.md).** The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
 
 ## First thing next session
 1. Attach operationalcoherence/BCM with push. If it's refused, tell him plainly and stop; don't work around it. (A read-only clone of the public repo is fine for reading code.) On 11-18 every first attempt was refused, and each time it worked after he said "push access granted."
@@ -48,7 +48,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - Tests: tests/ta_flow.py (new, the whole constraint loop), plus matrix, relief_text, and dump2. matrix.py and relief_text.py accept `GSMJS=<file>` to compare against an older build.
 
 ## Open calls for him
-- Answered in the review table and applied in v236 (docs/v236_update.md). Still open: whether place pages' written readings get v244's treatment (bare rock as color on place maps). F8 is not in this cycle. D8: voices stay equal until F8. The WebM download and A1 come after F8, or are dropped.
+- Answered in the review table and applied in v236 (docs/v236_update.md). Done in v247 (his yes 14:50): place pages lose the line map's language (bare rock as color on place maps). F8 is not in this cycle. D8: voices stay equal until F8. The WebM download and A1 come after F8, or are dropped.
 - Older items not in the table (his redlines on claude/meaning_patterns_draft.md and claude/structure_pass_plan.md, the U5 instruction redlines, the real-tile check, small calls v191–v194): treat them as settled by the table unless he raises them.
 
 ## Standing rules (his)
@@ -74,7 +74,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - **Repo:** operationalcoherence/BCM (public). main feeds the preview through GitHub Pages; the page loads gsm-preview.js and gsm-relief.js with a per-minute cache-buster.
 - **Engine:** edit gsm-readable.js, then `esbuild@0.24 gsm-readable.js --minify --outfile=gsm-preview.js`.
 - **3D:** tools/relief/relief.js plus three@0.187.0, then `esbuild tools/relief/relief.js --bundle --minify --format=iife --outfile=gsm-relief.js`. Install three and esbuild in a scratch directory and point NODE_PATH at it.
-- **Each version** = one patch script in tools/patches/ + docs/vNNN_update.md + the label bump (`t.textContent = "vNNN"`). To rebuild from scratch, restore gsm-readable.js and tools/relief/relief.js from v209 (commit 3a00154) and run v210 → v246 in order (v220–v226 have no relief part). Before any `git checkout -- .`, run `git checkout HEAD -- <files>`.
+- **Each version** = one patch script in tools/patches/ + docs/vNNN_update.md + the label bump (`t.textContent = "vNNN"`). To rebuild from scratch, restore gsm-readable.js and tools/relief/relief.js from v209 (commit 3a00154) and run v210 → v247 in order (v220–v226 have no relief part). Before any `git checkout -- .`, run `git checkout HEAD -- <files>`.
 - **His workbooks** are in the Claude project (workbooks/…-11-18.json line map, 35 notes, test it first; …-11-13.json; …-11-05.json Broadview place map). Read them with the project tool; don't ask him. Local copies tests/w18.json, tests/broadview.json, and mkwb's tests/wb_*.json stay out of git via .git/info/exclude (a fresh clone needs them written again). Run mkwb.py and matrix.py from inside tests/.
 - **Tests, every version:** tests/matrix.py on his workbooks plus every mkwb workbook; tests/dump2.py to read a tab (closed details stay closed); tests/ta_flow.py for Taking Action; with the 3D loaded, relief_text.py, tour.py, tour_an.py, agree.py, waymoves.py, derive.py as the change needs; Playwright screenshots with `--use-angle=swiftshader --enable-unsafe-swiftshader`; `grep -c 'AAPK\|AIza'` = 0 on both built files. The story moves into place a moment after render, so wait ~3 s before reading or screenshotting it.
 - **Template note (v217):** the terrain module's markup is shared by four views; gate anything new on ANH / PAR / CARDH.

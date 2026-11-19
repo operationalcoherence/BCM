@@ -19282,7 +19282,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v246");
+        t && (t.textContent = "v247");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -20951,7 +20951,8 @@
       }
       var g = { raised: [], sunk: [], level: [] };
       ns.forEach(function (n) {
-        g[ground(hAt(n.x, n.y))].push(NP + n.k);
+        /* v247: on a place, by the note's own emotion (acceptance or indifference / distrust, aggression, or defiance) */
+        g[PLACE ? (null == n.e ? "level" : 1 === n.e || 3 === n.e ? "raised" : "sunk") : ground(hAt(n.x, n.y))].push(NP + n.k);
       });
       var R = g.raised.length,
         S = g.sunk.length,
@@ -20962,7 +20963,8 @@
           (T === 1
             ? "Its only note (" + g.raised[0] + ") sits"
             : (R === T ? "All" : "Most") + " of its notes (" + list(g.raised) + ") sit") +
-            " on raised ground, where things hold up. The idea already has footing: a place to build from.",
+            (PLACE ? " where acceptance or indifference gathers." : " on raised ground, where things hold up.") +
+              " The idea already has footing: a place to build from.",
         );
       else if (S && !R) {
         var pi = {};
@@ -20974,24 +20976,27 @@
           (T === 1
             ? "Its only note (" + g.sunk[0] + ") sits"
             : (S === T ? "All" : "Most") + " of its notes (" + list(g.sunk) + ") sit") +
-            " in sunk ground." +
-            (Object.keys(pi).length
+            (PLACE ? " where distrust, aggression, or defiance gathers." : " in sunk ground.") +
+            (PLACE
+              ? " Where this phrase is, change is slow to start."
+              : Object.keys(pi).length
               ? " They are in the place where it is easiest to get stuck, so this phrase is part of what holds the process there."
               : " Where this phrase is, the process tends to get stuck."),
         );
       } else if (R && S)
         out.push(
-          "Its notes sit on both kinds of ground: raised at " +
+          (PLACE ? "Its notes carry both: acceptance or indifference at " : "Its notes sit on both kinds of ground: raised at ") +
             list(g.raised) +
-            ", sunk at " +
+            (PLACE ? "; distrust, aggression, or defiance at " : ", sunk at ") +
             list(g.sunk) +
             ". The same words may mean different things in different places, or the idea is contested. Worth a closer look.",
         );
-      else out.push("Its notes sit on level ground, so no emotion pulls it either way yet.");
+      else out.push(PLACE ? "None of its notes has an emotion marked yet, so no emotion pulls it either way." : "Its notes sit on level ground, so no emotion pulls it either way yet.");
       var near = ns.filter(function (n) {
         return Math.abs(n.y - trailY(n.x)) < 28;
       }).length;
-      if (near)
+      if (PLACE);
+      else if (near)
         out.push(
           near === T
             ? "It lies on the line between present and goal, so getting there means passing through it."
@@ -21556,6 +21561,9 @@
     /* v244: a place map's own reading: where each emotion gathers on the land, where distant emotions sit closest,
        and what the goal sits among. Nothing about hills, ridges, or hollows: on a place those are the real land. */
     var PGROUPS = ["WHERE ACCEPTANCE GATHERS", "WHERE DISTRUST, AGGRESSION, AND DEFIANCE GATHER", "WHERE INDIFFERENCE GATHERS", "HOW THEY MEET ON THE LAND"];
+    function placeGroupNames() {
+      return ["WHERE ACCEPTANCE GATHERS", "WHERE DISTRUST, AGGRESSION, AND DEFIANCE GATHER", "WHERE INDIFFERENCE GATHERS", "HOW THEY MEET ON THE LAND"];
+    }
     function placeStops() {
       var N = terr.notes.filter(function (n) {
           return null != n.e;
@@ -21761,6 +21769,17 @@
         return a.grp - b.grp || a.o - b.o;
       });
       READ = R.slice(0, 13);
+      /* v247: a place reads as a place (the same reading as its tour), never ridges, hollows, or wells */
+      if (PLACE)
+        try {
+          READ = placeStops()
+            .filter(function (r) {
+              return r.at;
+            })
+            .map(function (r) {
+              return { grp: r.grp, title: r.title, short: r.cap, more: "", at: r.at, kind: "place" };
+            });
+        } catch (e) {}
     }
     /* ---------- a course of action modelled on the ground ---------- */
     function firmPath(ax, ay, bx, by) {
@@ -23994,17 +24013,22 @@
         T.notes.length +
         " notes" +
         (ver === "grow" ? " so far" : "") +
-        " on the line map; " +
+        (PLACE ? " on the place map; " : " on the line map; ") +
         withE +
-        " have an emotion marked and shape the ground" +
+        (PLACE ? " have an emotion marked and color the map" : " have an emotion marked and shape the ground") +
         (none
           ? "; " +
             none +
             (none === 1 ? " has" : " have") +
-            " none yet and sit" +
-            (none === 1 ? "s" : "") +
-            " on level ground."
+            (PLACE ? " none yet and add" + (none === 1 ? "s" : "") + " no color." : " none yet and sit" + (none === 1 ? "s" : "") + " on level ground.")
           : ".");
+      if (PLACE) {
+        /* v247: a place's land is real; say so, and drop the made-ground lines */
+        var hn = $("count").parentNode.querySelectorAll(".note");
+        hn[1] && (hn[1].textContent = "Each note with an emotion colors the map around where you placed it. More notes in one place make the color stronger.");
+        hn[3] && (hn[3].textContent = "The land is the real place: its hills, valleys, and rock are the terrain itself and say nothing about your notes. Heights are exaggerated so the slopes show; the legend gives how much.");
+        hn[4] && (hn[4].textContent = "Colors soften toward each other where emotions meet. Plain ground with no color means no notes nearby, so no information there.");
+      }
     }
     function fillSel() {
       var el = $("selnote");
@@ -24169,7 +24193,7 @@
           lastG = r.grp;
           var g = document.createElement("div");
           g.className = "grp";
-          g.textContent = GROUPS[r.grp];
+          g.textContent = (PLACE ? placeGroupNames() : GROUPS)[r.grp];
           el.appendChild(g);
         }
         var d = document.createElement("div");
