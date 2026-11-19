@@ -19282,7 +19282,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v244");
+        t && (t.textContent = "v245");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -25660,9 +25660,20 @@
           if (PLACE)
             try {
               /* v244: a place's tour reads the place, not made ground */
-              D.read = placeStops().map(function (r) {
+              var PS = placeStops();
+              D.read = PS.filter(function (r) {
+                return r.at;
+              }).map(function (r) {
                 return { at: r.at, title: r.title, text: r.cap, grp: r.grp, cap: r.cap };
               });
+              /* a stop with no spot on the map (notes with no emotion) goes in the opening, which allows that */
+              D.intro = (D.intro || []).concat(
+                PS.filter(function (r) {
+                  return !r.at;
+                }).map(function (r) {
+                  return { act: "READING THE MAP", title: r.title, cap: r.cap, at: null };
+                }),
+              );
               D.groups = PGROUPS;
               D.actMean = [
                 "Acceptance: where the goal already has people aligned with it.",
