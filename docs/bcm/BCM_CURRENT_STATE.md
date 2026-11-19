@@ -1,7 +1,9 @@
 # BCM_CURRENT_STATE.md
-Rev 22 · 2026-11-19 · Preview at **v233** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
+Rev 22 · 2026-11-19 · Preview at **v235** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
 
 ## Shipped
+- **v235** (2026-11-19, preview): plan 3g. YOUR OWN WORDS opens with a strip, Q.1 to Q.7 under the context grasped and what you would design, with each question's key phrases and where else they appear. See `docs/v235_update.md`.
+- **v234** (2026-11-19, preview): the Synthesis tour opens each of his four acts with what it means, counted from the workbook. See `docs/v234_update.md`.
 - **v233** (2026-11-19, preview): plan item 3c. With All notes shown on YOUR LANDSCAPE (Analysis), a tap on the ground pins WHAT GATHERS HERE, a reading of that spot: the notes and questions that shape it, the emotion that colors it and its ground, any climb between distant emotions, and how what you would design meets the context you have grasped there. In 3D and flat. See `docs/v233_update.md`.
 - **v232** (2026-11-19, preview): **Phase 2 step 9, part 1.** Start here keeps the method (01–06). The mapping steps sit in the Mapping Landscape drop-downs (HOW TO MAP on step 1; DESCRIBE YOUR NOTES: INSTRUCTION on step 2). Analysis and Synthesis each have a closed INSTRUCTION drop-down on their own tab. Every note shows the paper's definition of its emotion in gray under the buttons. Mapping Context says what combining puts in WHO DID WHAT. His text was moved word for word. See `docs/v232_update.md`.
 - **v231** (2026-11-18, preview): the constraint boxes and grayed Q.4/Q.6/Q.7 buttons show again on Taking Action. See `docs/v231_update.md`.
