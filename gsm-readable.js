@@ -843,17 +843,6 @@
     L2.forEach(function (x) {
       w.appendChild(x[1]);
     });
-    w.querySelectorAll(".ccons").forEach(function (cc) {
-      var t = cc.querySelector("textarea");
-      if (!t || t.value.trim() || cc.querySelector(".tanb")) return;
-      cc.classList.add("cempty");
-      var q = cc.querySelector(".cq"),
-        b = document.createElement("button");
-      b.type = "button";
-      b.className = "lnk sm tanb";
-      b.textContent = "Name what holds it";
-      q ? q.parentNode.insertBefore(b, q.nextSibling) : cc.insertBefore(b, cc.firstChild);
-    });
     bd.insertBefore(sp, bd.firstChild);
     h ? sp.parentNode.insertBefore(w, sp.nextSibling) : (sp.parentNode.removeChild(sp), bd.insertBefore(w, bd.firstChild));
     if (L3.length) {
@@ -19038,7 +19027,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v230");
+        t && (t.textContent = "v231");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
