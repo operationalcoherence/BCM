@@ -1,16 +1,16 @@
 # BCM_HANDOFF.md
 
-2026-11-19, morning. Preview at **v232** (v197–v231 pushed 11-18; v232 pushed 11-19). The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
+2026-11-19, morning. Preview at **v233** (v197–v231 pushed 11-18; v232–v233 pushed 11-19). The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
 
 ## First thing next session
 1. Attach operationalcoherence/BCM with push. If it's refused, tell him plainly and stop; don't work around it. (A read-only clone of the public repo is fine for reading code.) On 11-18 every first attempt was refused, and each time it worked after he said "push access granted."
 2. ~~A short check of Taking Action only~~ Done in v230. Open from it: the "Carries furthest" wording and the ground card titles (see docs/v230_update.md). (the agreed cadence after step 8). Read it on his 11-18 workbook. His redlines on v226's wording are listed at the end of docs/v226_update.md; raise them one at a time, only as the check reaches them.
-3. **Phase 2 step 9, part 2:** his redlines on his own text, one at a time (list in docs/v232_update.md). Part 1 is v232. tests/step9.py checks it.
+3. **His call (11-19 07:06): finish the whole build (everything except F8) first, then one thorough review, as a table, before F8.** All redlines (step 9 part 2 in docs/v232_update.md, the v226 wording, the R items, the word-budget cuts, and every open call below) go into that table, not one at a time. Build order agreed 11-19: 3c the ground tap (done, v233), 3g YOUR OWN WORDS strip, tour captions from his four acts, WebM download of the tour, review rows 34 and 35, A1, then the word-budget cuts drafted for the table. F1/F2 is discussed in the review. F8 is last.
 4. When he reports something already fixed, check which version his page shows first (the label is at the bottom of the page). GitHub Pages can serve the previous build for up to ~10 minutes after a push.
 
-## Review cadence (agreed 11-18 17:18)
-- After step 8 (now): a short check of Taking Action only.
-- Next full review: after Phase 3, before F8.
+## Review cadence (agreed 11-18 17:18; confirmed 11-19)
+- After step 8: a short check of Taking Action only (done, v230).
+- Next full review: once everything but F8 is built, as one table, before F8.
 - One session per step, starting from this file.
 
 ## Where the review plan stands
@@ -21,8 +21,8 @@
   - Step 10 (In Parallel): done (v213–v216, v219).
   - Interpretation pass: done for Analysis (v220–v222, v224) and In Parallel (v223, v225); keeps going as he asks.
   - **Step 8 (Taking Action): done, v226.**
-  - **Step 9, Mapping Context: part 1 done, v232** (instructions on their pages, emotion meanings on every note, WHO DID WHAT line). **Next: part 2, his redlines one at a time** (docs/v232_update.md).
-- **Phase 3:** a WebM download of the tour; tour captions from his confirmed meanings of the four acts; 3g, YOUR OWN WORDS as a strip; the word-budget ("poetic") pass with every cut shown to him first (THE WAY FORWARD on Taking Action first); 3c, the "no questions" click on the map.
+  - **Step 9, Mapping Context: built, v232** (instructions on their pages, emotion meanings on every note, WHO DID WHAT line). His redlines on it wait for the review table.
+- **Phase 3:** 3c, the ground tap on YOUR LANDSCAPE: done, v233 (tests/groundtap.py). Still to do: a WebM download of the tour; tour captions from his confirmed meanings of the four acts; 3g, YOUR OWN WORDS as a strip; the word-budget ("poetic") pass with every cut shown to him first (THE WAY FORWARD on Taking Action first).
 
 ## v227
 The constraint buttons show grayed out before typing; each note on Mapping Landscape shows its constraint (`gsmNoteCons`). 
@@ -47,7 +47,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - "Answers" uses the same rule as NOTHING YOU WOULD DO (`gsmNR` now exposes `rw`, `cm`, `ri`). "Builds on" uses the engine's unused-support terms (`ge[t].c === "unused"`), so the page agrees with Analysis.
 - Tests: tests/ta_flow.py (new, the whole constraint loop), plus matrix, relief_text, and dump2. matrix.py and relief_text.py accept `GSMJS=<file>` to compare against an older build.
 
-## Open calls for him (raise one only when the work reaches it; never as a list)
+## Open calls for him (all go into the pre-F8 review table)
 - The v226 wording (list at the end of docs/v226_update.md). Whether word-only cards should stay folded. Whether a word card that repeats a seeded card should merge into it.
 - His redlines on claude/meaning_patterns_draft.md, claude/structure_pass_plan.md, and the v222–v225 wording.
 - Rename THE EMOTION CHANGES to THE HIDDEN CHANNELS? (offered 11-18 19:14)
@@ -76,7 +76,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - **Repo:** operationalcoherence/BCM (public). main feeds the preview through GitHub Pages; the page loads gsm-preview.js and gsm-relief.js with a per-minute cache-buster.
 - **Engine:** edit gsm-readable.js, then `esbuild@0.24 gsm-readable.js --minify --outfile=gsm-preview.js`.
 - **3D:** tools/relief/relief.js plus three@0.187.0, then `esbuild tools/relief/relief.js --bundle --minify --format=iife --outfile=gsm-relief.js`. Install three and esbuild in a scratch directory and point NODE_PATH at it.
-- **Each version** = one patch script in tools/patches/ + docs/vNNN_update.md + the label bump (`t.textContent = "vNNN"`). To rebuild from scratch, restore gsm-readable.js and tools/relief/relief.js from v209 (commit 3a00154) and run v210 → v232 in order (v220–v226 have no relief part). Before any `git checkout -- .`, run `git checkout HEAD -- <files>`.
+- **Each version** = one patch script in tools/patches/ + docs/vNNN_update.md + the label bump (`t.textContent = "vNNN"`). To rebuild from scratch, restore gsm-readable.js and tools/relief/relief.js from v209 (commit 3a00154) and run v210 → v233 in order (v220–v226 have no relief part). Before any `git checkout -- .`, run `git checkout HEAD -- <files>`.
 - **His workbooks** are in the Claude project (workbooks/…-11-18.json line map, 35 notes, test it first; …-11-13.json; …-11-05.json Broadview place map). Read them with the project tool; don't ask him. Local copies tests/w18.json, tests/broadview.json, and mkwb's tests/wb_*.json stay out of git via .git/info/exclude (a fresh clone needs them written again). Run mkwb.py and matrix.py from inside tests/.
 - **Tests, every version:** tests/matrix.py on his workbooks plus every mkwb workbook; tests/dump2.py to read a tab (closed details stay closed); tests/ta_flow.py for Taking Action; with the 3D loaded, relief_text.py, tour.py, tour_an.py, agree.py, waymoves.py, derive.py as the change needs; Playwright screenshots with `--use-angle=swiftshader --enable-unsafe-swiftshader`; `grep -c 'AAPK\|AIza'` = 0 on both built files. The story moves into place a moment after render, so wait ~3 s before reading or screenshotting it.
 - **Template note (v217):** the terrain module's markup is shared by four views; gate anything new on ANH / PAR / CARDH.
@@ -96,7 +96,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - In the Claude project: workbooks/, a private archive/, claude/v196_review_plan.md, claude/in_parallel_figure.md, claude/meaning_patterns_draft.md, claude/structure_pass_plan.md, claude/emotion_definitions_draft.md, claude/layers_tracker.md, claude/README.md, claude/BCM_HANDOFF.md (a copy of this file), and papers/Vigneaux_2026_JEM_paper.md (the FULL TEXT of his paper; read it there, never ask him for it).
 
 ## Later work, in order
-1. Step 9 part 2 (his redlines), then Phase 3 (and more interpretation work as he asks).
+1. The rest of Phase 3 and the items above, then the review table (and more interpretation work as he asks).
 2. Review rows 34 and 35.
 3. A1, engine side: threads that cross question boundaries.
 4. F1/F2: the fuller per-instance Esri map (discuss with him first).

@@ -23,7 +23,7 @@ The live queue is claude/v196_review_plan.md in the Claude project (it quotes hi
 - ✔v228 The Taking Action hierarchy pass: decision, explanation, and evidence layers. ✔v229 The 3D way readings moved into Evidence.
 - ✔v230 The short check of Taking Action, and the situation-language wording review.
 - Left by the v230 check: "Carries furthest" still in workbook language; ground card titles carry note numbers; the loop card keeps "The loop: …".
-- **Next:** step 9 part 2, his redlines one at a time (1a–1e, 2f, 2i, 2k, plus "How a note feels" in WORDS USED HERE). Part 1 is v232.
+- **Next:** 3g, YOUR OWN WORDS as a strip. v233 did 3c, the ground tap. His call (11-19): build everything but F8, then one review table before F8. Step 9 redlines (1a–1e, 2f, 2i, 2k, and "How a note feels") go in that table.
 - Open from v226, his calls: the redlines on its wording; whether word-only cards should stay folded; merging word cards that repeat a seeded card.
 - Phase 3: WebM download of the tour; captions from his confirmed meanings of the four acts; YOUR OWN WORDS strip (3g); the word-budget pass; the "no questions" map click (3c).
 - The guided tour (4c): built v208–v210, v219.

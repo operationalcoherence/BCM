@@ -207,7 +207,7 @@ function mount(host, D) {
     const rim = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.35, 6, 24), new THREE.MeshStandardMaterial({ color: 0xffffff })); rim.position.copy(bl.position); scene.add(rim); o.rim = rim; return o; });
 
   const tip = document.createElement('div'); tip.className = 'tip'; wrap.appendChild(tip); let pinned = null;
-  function showTip(o, ev) { if (TOUR && TOUR.paused == null) return; tip.innerHTML = ''; const b = document.createElement('b'); b.textContent = o.info.head; tip.appendChild(b); const bd = String(o.info.body || ''); tip.appendChild(document.createTextNode(bd.length > 420 ? bd.slice(0, 400).replace(/\s+\S*$/, '') + '\u2026' : bd));
+  function showTip(o, ev) { if (TOUR && TOUR.paused == null) return; tip.innerHTML = ''; const b = document.createElement('b'); b.textContent = o.info.head; tip.appendChild(b); const bd = String(o.info.body || ''); tip.appendChild(document.createTextNode(bd.length > (o.info.long ? 900 : 420) ? bd.slice(0, 400).replace(/\s+\S*$/, '') + '\u2026' : bd));
     if (o.info.sm) { const d = document.createElement('div'); d.className = 'sm'; d.textContent = o.info.sm; tip.appendChild(d); }
     dirty = true; tip.style.display = 'block'; const r = wrap.getBoundingClientRect(), x = (ev ? ev.clientX : r.left) - r.left, y = (ev ? ev.clientY : r.top) - r.top;
     tip.style.left = Math.max(4 + (parseFloat(lbs.style.left) || 0), Math.min(r.width - tip.offsetWidth - 4, x + 12)) + 'px'; tip.style.top = Math.max(4, y - 10 - tip.offsetHeight) + 'px';
@@ -221,7 +221,7 @@ function mount(host, D) {
     const k = wayAt(ev); hoverWay(k); if (k) { const R = D.routes.find(q => q.key === k); showTip({ info: { head: k + ' · ' + R.name, body: R.text || '' } }, ev); } else if (tip.style.display !== 'none') hideTip(); });
   renderer.domElement.addEventListener('pointerdown', ev => { downAt = [ev.clientX, ev.clientY]; });
   renderer.domElement.addEventListener('pointerup', ev => { if (!downAt || Math.hypot(ev.clientX - downAt[0], ev.clientY - downAt[1]) > 5) return; const o = nearest(ev);
-    if (o) { pinned = o; showTip(o, ev); return; } const k = wayAt(ev); if (k) { const R = D.routes.find(q => q.key === k); pinned = { info: { head: k + ' · ' + R.name, body: R.text || '' } }; hoverWay(k); showTip(pinned, ev); } else { pinned = null; hoverWay(null); hideTip(); } });
+    if (o) { pinned = o; showTip(o, ev); return; } const k = wayAt(ev); if (k) { const R = D.routes.find(q => q.key === k); pinned = { info: { head: k + ' · ' + R.name, body: R.text || '' } }; hoverWay(k); showTip(pinned, ev); } else { const g = D.onGround && groundAt(ev), gi = g && D.onGround(g[0], g[1]); if (gi) { pinned = { info: gi }; hoverWay(null); showTip(pinned, ev); } else { pinned = null; hoverWay(null); hideTip(); } } });
   renderer.domElement.addEventListener('pointerleave', () => { if (!pinned) { hoverWay(null); if (tip.style.display !== 'none') hideTip(); } });
   const RC = { A: '#111111', B: '#f4f4f4', C: '#e0007a' }, WAYS = {}, PICK = [];
   const NR = (D.routes || []).length, BADGE = [];
@@ -267,6 +267,8 @@ function mount(host, D) {
   function showWays() { const k = hovWay || selWay; Object.keys(WAYS).forEach(q => { const w = WAYS[q], on = !k || q === k; w.mat.opacity = on ? 1 : 0.15; if (w.edge) w.edge.material.opacity = on ? 0.9 : 0.1; w.badges.forEach(b => { b.el.style.opacity = on ? 1 : 0.25; }); }); dirty = true; }
   const ray = new THREE.Raycaster(), mv = new THREE.Vector2();
   function wayAt(ev) { if (!PICK.length) return null; const r = renderer.domElement.getBoundingClientRect(); mv.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(mv, camera); const hit = ray.intersectObjects(PICK, false)[0]; return hit ? hit.object.userData.key : null; }
+  /* v233: where a tap lands on the ground, in the engine's own coordinates */
+  function groundAt(ev) { const r = renderer.domElement.getBoundingClientRect(); mv.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(mv, camera); const hit = ray.intersectObject(terrain, false)[0]; return hit ? [hit.point.x + W / 2, hit.point.z + H / 2] : null; }
   function hoverWay(k) { if (k === hovWay) return; hovWay = k; showWays(); if (D.onWay) D.onWay(k); }
   /* ---------- legend ---------- */
   const sw = c => `rgb(${c.map(v => v | 0).join(',')})`, order = [[0, 'the highest ground'], [1, 'a ridge'], [2, 'low ground'], [3, 'lower ground'], [4, 'the lowest ground']];
