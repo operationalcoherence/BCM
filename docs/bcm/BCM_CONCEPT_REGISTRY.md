@@ -1,5 +1,5 @@
 # BCM_CONCEPT_REGISTRY.md
-Rev 4 · 2026-11-17 (v195) · One line per concept: definition → where it shows up in BCM. Paraphrased; cite the source in the UI.
+Rev 5 · 2026-11-18 (v219) · One line per concept: definition → where it shows up in BCM. Paraphrased; cite the source in the UI.
 
 ## A. Core theory — Vigneaux (2026), JEM 24(7)
 | Concept | Definition (BCM usage) | In BCM |
@@ -17,7 +17,7 @@ Rev 4 · 2026-11-17 (v195) · One line per concept: definition → where it show
 | Behaviors-first strategy | Introduce the behavior without its label, fitted to the existing severe emotion, and let a small emotional shift follow; for aggression, distrust, defiance | Taking Action; PS explainer (task C3) |
 | Sensorimotor schemes | Lasting, ordered bundles of sensing-and-moving patterns; people meet situations through schemes they already have | Habits as context; "people are already doing something" |
 | Habit precarity | Habits are self-maintaining schemes that fade if unused | Why entrenched patterns persist (hysteresis) |
-| Environment strategy | Change the environment people can observe rather than asking them to change; their reference point may shift slowly | Act-anywhere actions; constraint reconfiguration |
+| Environment strategy | Change the environment people can observe rather than asking them to change; their reference point may shift slowly | Constraint reconfiguration |
 | Language strategy | Language brings forth the world it speaks of (Winograd & Flores); change shared vocabulary to change the cultural landscape | Lexical world-making; fire sub-type reframing |
 | Perceiver-dependent reality | What counts as a relevant world depends on the perceiver's structure (Varela) | Voices read the same word differently |
 | Starratt painting | A commissioned town map of emotional reactions; colors blend or break at transitions, with splatters of other emotions inside regions | Color palette; terrain blending; "color without terrain" |
@@ -45,12 +45,16 @@ Rev 4 · 2026-11-17 (v195) · One line per concept: definition → where it show
 | Trajectory optimization vs. constraint reconfiguration | Cheapest path within the rules vs. changing the rules | Review / Juarrero | T5, Q.4–Q.7 |
 | Hysteresis | A note's state depends on its history; entrenched opposition costs more to cross | Built v193 | F6: emotion history (eh), Entrenched line on the ways |
 | Action friction field | An action's energy cost varies with the terrain it crosses | Built v192 | F3: Friction and boomerang risk on the ways |
-| Act here / act anywhere × easy / difficult | Plots actions by reach (context-specific vs. universal) and by energy | axis.png | T4 |
 | Synthesis→Action handoff | Rule that turns a terrain vector into sequenced moves | Review | T6 |
 | Reflexive (autopoietic) loop | Acting changes the terrain, so map → act → re-map | Built v194; Morin, Varela | F4: WHAT YOU DID on cards, SINCE YOU ACTED on Mapping Landscape |
 | Relational meaning (sense-making) | Value is not in the thing but in how an organism couples with it (sucrose is a nutrient only to the cell that uses it) | Thompson (2007) | "Where it is easiest to get to"; meaning is relational |
 | Lexical world-making | Track and prompt reframing of generic terms | Built v195 / Vigneaux | F7: WORDS THAT MAKE THE WORLD (Pattern Analysis) |
+| Bare rock (cost of a move) | Where two emotions two or more steps apart meet with no indifference between them; the costliest crossing; climbing toward acceptance costs far more than falling; the feasible way goes around, through indifference | Vigneaux (2026), built v210 | WHAT THE GROUND SAYS (its own reading), READING THE GROUND in both tours, the relief's gray rock |
+| The two pictures, side by side | Analysis's words in a column, a line to every note on the Synthesis ground that carries each; solid black = the ground agrees, dashed red = it raises a question | Built v213–v216, v219 | In Parallel (the tab is this figure); tapping a word puts its lines on the Synthesis 3D |
+| Guided tour | A live camera path over the user's own ground with captions; Synthesis reads the ground in four acts, Analysis teaches how to read the map | Built v208–v210, v219 | Play the tour on both 3D maps; captions never cite the paper (his rule) |
 | Perturbation audit | Treat incoming notes as perturbations to test, not instructions | Built v195 / Vigneaux | F7: other voices tested against his nearby notes |
 
 ## C. Reference list (canonical; see D4/D5 in CURRENT_STATE)
 Ackoff (1999) · Juarrero (2023) · Kurtz & Snowden (2003) · Morin (2008) · Morin & Kern (1999) · Paci-Green, Vigneaux, Jensen & Petal (2016) · Thompson (2007) · Vigneaux (2026), doi:10.5055/jem.0952 · Waldrop (1992). Full entries are in the 11-17 review, with corrections pending D4/D5.
+
+**Removed 11-18 (his call):** the action grid (act here / act anywhere × easy / difficult). Not to be reintroduced in any form.

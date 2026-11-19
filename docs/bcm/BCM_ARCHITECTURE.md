@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 9 · 2026-11-18 (v206; v196–v206 folded in, see §16) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 10 · 2026-11-18 (v219; v196–v206 in §16, v207–v219 in §17) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -50,9 +50,9 @@ In page order [I]:
 | Start Here (tab 5) | Name, how to use, glossary (WORDS USED HERE) | — |
 | Mapping Context (tab 0) | Goal, place, Q.1–Q.7 answers, who did what | — |
 | **Mapping Landscape** (tab 1; was "Mapping Change", renamed v171) | Place notes on a 2D line map (x = PRESENT→FUTURE, y = HELP↑/HINDER↓) and a spatial ESRI map. 7 symbols. Note linking (new) | instructions, symbol legend |
-| Pattern Analysis (tab 2) | Analysis of notes and answers | (v205 order) AT A GLANCE → THE SAME THING? prompt while unanswered → What your use of the method produced → 1 · Looking in: Your landscape, one question at a time (3D; hover a question for its notes) → Your story so far (v206: told as a story) → What stands out → In the words → Words that make the world (own fold) → Possible patterns → Still open |
-| In Parallel (tab 6) | Analysis and the "tangle" read side by side (still uses the old petal and hang figures; Synthesis keeps the hang figure hidden for it) | Read together, Where they differ, Closest/farthest, Emotion, Voices, Patterns worth a second look |
-| Pattern Synthesis (tab 3) | 3D terrain of emotion × structure | Looking out → How this map is made (fold) → About what you collected → The lay of the land: What the ground says (numbered readings) → 3D map → Patterns that run through it (phrase loops) → Model a course of action → Cause and effect, Now and later, Scale, One judgement twice, In your answers not on the map, Does this serve the goal?, What it might mean, What it rests on, What you linked, What to pay attention to |
+| Pattern Analysis (tab 2) | Analysis of notes and answers | (v205 order) AT A GLANCE → THE SAME THING? prompt while unanswered → What your use of the method produced (v211: bigger themes from phrases in the same notes; leads into the map) → 1 · Looking in: Your landscape, one question at a time (3D; hover a question for its notes; its own short tour, v210) → Your story so far (v206: told as a story) → What stands out → In the words → Words that make the world (own fold) → Possible patterns → Still open |
+| In Parallel (tab 6) | THE TWO PICTURES, SIDE BY SIDE (v213–v216, v219): Analysis's words in a column, a line to every note on the Synthesis ground that carries each (solid black = the ground agrees, dashed red = it asks); tap a word to read it and put its lines on the Synthesis 3D; full screen with HOW TO READ IT. Line maps only | Figure → Where to start → MORE FROM BOTH PICTURES (closed: Read together, Closest/farthest, Emotion, Voices, Patterns worth a second look, What might relate) → THE EARLIER 3D VIEW (closed). Where both agree / Where they differ appear only where the figure can't be drawn (place maps) |
+| Pattern Synthesis (tab 3) | 3D terrain of emotion × structure | Looking out → How this map is made (fold) → About what you collected → The lay of the land: What the ground says (numbered readings, a bare rock reading, v210) → patterns row (v212; carried into full screen, v218) → 3D map with Play the tour → Patterns that run through it (phrase loops; the Supports questions; matches in bold) → Model a course of action → Cause and effect, Now and later, Scale, One judgement twice, In your answers not on the map, Does this serve the goal?, What it might mean, What it rests on, What you linked, What to pay attention to |
 | Taking Action (tab 4) | Program/strategy cards (titles are phrases from the user's writing, v200; IN SERVICE OF THE GOAL; program/strategy by where the way goes plus a saved manual switch, v202; ground cards for hostile emotion among acceptance, up to three, v202/v204), each with FIRST MOVES (a line per way, v203), a 3D way through it (ways A notes, B firm ground, C support; fixed letters, v197), and keep/change/drop | How to read, Nothing you would do answers these yet, Does this answer it?, cards, Where the cards meet, More information needed, What you decided and why, References (v198: one list) |
 | Footer (all pages) | IP footer statement + "Intellectual property statement" fold (formal statement), since v171 | — |
 
@@ -86,6 +86,9 @@ Legend [D]:
 - **Indifference ridge must follow indifferent notes all the way**, even into another emotion's area [D]. (N31 currently adds color but no terrain.)
 - Controls: drag to turn, scroll/pinch to zoom, hover/tap to inspect.
 - Fullscreen must include the legend and the "The Bear Canyon Method · Operational Coherence" mark, with rotation and expansion [D].
+- **Guided tours** (v208–v210, v219; in relief.js: startTour/stepTour/pauseTour/resumeTour/stopTour). Play opens full screen; one large Play/Pause at bottom center with End tour; captions 17/20 px held by reading time (3.3 words/s, 2.4–6 s a stop). Synthesis: READING THE GROUND (two stops, `D.intro` from `introStops(false)`), then every reading in WHAT THE GROUND SAYS. Analysis: a primer on the user's own notes (`introStops(true)`: high ground, ridge, bare rock, deepest ground, what a move costs). Captions never cite the paper [D 11-18].
+- **Bare rock in the engine** (v210): `rockFaces()` replicates the relief's rock rule (two strongest emotions nearly balanced, ≥2 steps apart, neither indifference; indifference band included) to find the largest face for its reading.
+- **Lines on the relief** (v213, v214): `hoses(spec)` draws a word's lines (thin black, or dashed red) from the In Parallel figure; `window.gsmSynRel`, `gsmSynHost`, and `gsmSynPend` (lines wait for the Synthesis 3D to mount).
 
 ### Terrain engine principles (adopted from the review)
 - **Topological anchoring** — the goal, the PRESENT/FUTURE axes and the question flags are fixed anchors. A note edit triggers only local semantic relaxation, never a global re-layout, so the user's spatial memory survives.
@@ -131,7 +134,7 @@ Terrain module modes (one `mount`): Synthesis (default: readings, phrase loops, 
 - 2–3 toggleable pathways to the same goal by different routes. Each has its rationale, how it differs, when to choose it, impact, benefit, effort (energy) and ROI, plus a comparison chart.
 - **Strategy vs. program** (Morin): programs suit stable sequences; strategy is needed where the environment shifts. Actions escape their intent (ecology of action), so each pathway needs *watch signals* and a *stop-and-readjust point*.
 - **Action friction field**: an action's energy cost depends on the emotional terrain it crosses.
-- **Action grid** (`gsmGrid()` on In Parallel): **parked** [D 11-17]. The act-here/act-anywhere framing is rejected (too close to Snowden and Juarrero); all three mocked layouts were rejected. If it returns, start from the single decision it should help someone make before Taking Action, and read placement from the note itself, not its emotion or position.
+- **Action grid: deleted** (v215) [D 11-18, his call: "I don't want the grid anywhere near this project"]. Not to be reintroduced in any form. MOVES, IN ORDER still reads each note's ease (its emotion and side of the line) from `gsmDerive`; nothing is drawn from it.
 - **Synthesis→Action handoff**: a rule that turns a terrain vector (cost, height, emotional transition) into sequenced moves.
 - **Reflexive loop**: logging or adjusting an action flags the upstream Q.1–Q.4 nodes and emotional contours it affects, and prompts re-synthesis.
 - Constraint prompt: "What constraint or rule keeps this note in the low ground, and how do we change it?" Saves to `asks["cons|id"]`; nothing reads it yet (review 6h, Phase 2 step 8).
@@ -214,6 +217,8 @@ Mockup: https://claude.ai/artifact/Dqy6xjxr4wPyGpKAf6hn4T. Costs write-up: https
 - Fullscreen 3D: dockable, collapsible legend drawer with a translucent/blur backdrop. The same drawer opens when a Taking Action card goes full screen (v185); outside full screen, each card's legend sits under its map, on strategy and program cards alike.
 - A visual must appear within ~1 screen of the top of analysis pages.
 - Instructions on every page stay current with features.
+- The terrain module's markup is shared by the Analysis map, the Synthesis map, In Parallel's earlier 3D, and the cards; gate anything new on ANH / PAR / CARDH (v217 lesson).
+- Never rely on hover alone to carry meaning (v207).
 
 ## 14. Attribution / IP
 - Footer, export, and formal statements: the texts are in the 11-17 review (§IP). The formal statement lives on an off-nav page linked from the footer.
@@ -233,3 +238,17 @@ See `BCM_CONCEPT_REGISTRY.md`.
 - v206: YOUR STORY SO FAR told as a story.
 - In Parallel [D 11-18]: keeps its tab. The agreement figure (Analysis words in a column, hoses onto the Synthesis ground; black = agrees, white = raises a question) will close Pattern Synthesis; clicking a word draws its hoses on the 3D relief. The old In Parallel 3D retires behind a switch.
 - The work queue is the 11-18 review plan (`claude/v196_review_plan.md` in the Claude project).
+
+## 17. Changes since Rev 9 (v207–v219, 11-18)
+- v207: card titles carry their context inline (`gsmHdT`); thread cards use `phCentral()`.
+- v208–v209: the guided tour on Synthesis, with Pause/Play.
+- v210: his tour notes: full screen on Play; big Play/Pause and End tour; bigger captions held by reading time; READING THE GROUND; a bare rock reading; WHAT THE GROUND SAYS reworded; a primer tour on Analysis; the Escape-in-full-screen bug fixed (the engine's `.pnet.fs` handler skips `.grel`); off-frame labels hidden.
+- v211: WHAT IT PRODUCED with bigger themes (3d).
+- v212: Synthesis step 7: patterns row above the map; the Supports questions only under PATTERNS; matches in bold; findings with no note link to their answers.
+- v213: THE TWO PICTURES, SIDE BY SIDE (`gsmAgreeFig()`), first with hoses at the end of Synthesis; In Parallel's old 3D folded away.
+- v214: drawn with lines [D 11-18 14:09]; box styles by what Analysis found; a key.
+- v215: In Parallel opens with the figure; the action grid deleted [D 11-18 14:30]; MOVES, IN ORDER without grid wording.
+- v216: In Parallel cut to the figure (`gsmIntOrder()`): Where to start, then the rest folded.
+- v217: the patterns row only on the Synthesis map.
+- v218: the patterns row stays in full screen (`D.onFs`).
+- v219: no paper citation in either tour [D 11-18 15:21]; full screen for the figure with HOW TO READ IT.

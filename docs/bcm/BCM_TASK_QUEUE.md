@@ -1,9 +1,19 @@
 # BCM_TASK_QUEUE.md
-Rev 5 · 2026-11-17 (v195) · Source: 11-17 review · ✔ = shipped (version)
+Rev 6 · 2026-11-18 (v219) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
+
+## Current queue (11-18): the v196 review plan
+The live queue is claude/v196_review_plan.md in the Claude project (it quotes his workbook, so it stays private). Status at v219:
+- Phase 1 (v197–v203): done.
+- Phase 2: step 6, Pattern Analysis (v205–v207, v211): done. Step 7, Pattern Synthesis (v212, v217, v218): done. Step 10, In Parallel (v213–v216, v219): done.
+- **Next: step 8, Taking Action:** group strategies and programs; show the chart openly; one references list; each text field says what it does and feeds somewhere (constraints to the note's card, WHAT YOU DID, and an offer to add to Q.4, Q.6, or Q.7). Then step 9, Mapping Context (instruction drop-down, emotion definitions where notes are written, Start here text moved to its pages, his redlines).
+- Phase 3: WebM download of the tour; captions from his confirmed meanings of the four acts; YOUR OWN WORDS strip (3g); the word-budget pass; the "no questions" map click (3c).
+- The guided tour (4c): built v208–v210, v219.
+
+The tables below are the 11-17 review's queue, kept for history.
 
 ---
 
@@ -15,7 +25,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v172 E2 | Co-occurrence neighborhood profiling: tag note functional sub-type (fire → prescribed/unplanned/managed/mitigated/vilified/suppressed) | ENG | engine, all analysis, terrain | — |
 | ✔v173 E3 | Synonym family fire ≡ wildfire, split by sub-type; remove duplicate fire/wildfire prose | ENG | engine, PA, PS | E2, D2 |
 | ✔v172 E4 | Low-meaning token filter ("involved", "necessary"); recurrence becomes input only, never a standalone finding | ENG | engine, PA, PAR, PS | — |
-| **T4b (NEXT)** | Action grid redesign (his review row 30, "Revise and Refine", 11-17): new axes and categories, antecedent to Taking Action, drawing on Analysis and Synthesis. Show 2–3 mocked-up options first | VIZ/ENG | PAR, TA, PA, PS | T4 |
+| ✘ T4b | Action grid redesign: **dropped.** All mocked options were rejected 11-17, and on 11-18 he removed the grid from the project ("I don't want the grid anywhere near this project"); deleted in v215 | — | — | — |
 | ✔v196 R1 | His wording review of v171–v195 applied; serial comma everywhere. Rows 34–35 still open | COPY | all pages | — |
 | A1 (part ✔v171) | Define "thread" (cross-question graph edge by shared tokens/vector proximity) in engine and UI, with a plain-language popover | ARCH | engine, PAR, PS, glossary | — |
 | ✔v173 N1 | Rewrite PA "Your story so far" as a 2–3 paragraph story with headings (What stands in the way · What is already helping · What has to be true · What you would do · Where to start · Not yet answered); keep note/question popovers; give meta-meaning | NARR | PA | E1–E4 |
@@ -45,7 +55,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ID | Task | Cat | Impacts | Depends |
 |---|---|---|---|---|
 | ✔v175 (line map) V1 | Bring the new 3D viz to PA (line-map version now; spatial version via ESRI basemap with goal/notes/emotions, no relief) | VIZ | PA | — |
-| ✔v176 V2 | Replace both In Parallel visualizations; rewrite "Read together", "Where they differ", "Closest/farthest" for the new visuals | VIZ/NARR | PAR | V1 |
+| ✔v176, superseded v213–v216 V2 | Replace both In Parallel visualizations (In Parallel is now THE TWO PICTURES, SIDE BY SIDE); rewrite "Read together", "Where they differ", "Closest/farthest" for the new visuals | VIZ/NARR | PAR | V1 |
 | V3 (✔v171, drawer fix v178, Taking Action cards v185) | Fullscreen: legend + "The Bear Canyon Method · Operational Coherence", rotation/expansion; legend as dockable, collapsible blur drawer | VIZ/UI | PS, PA | — |
 | ✔v175 V4 | Visual within ~1 screen on PA; rewrite "What this suggests" against the new visual | UI/NARR | PA | V1 |
 | ✔v183 V5 | Voice normalization weight so the minority voice isn't flattened in terrain or prose | ENG/VIZ | engine, PS, PAR | D8 |
@@ -56,7 +66,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 | ✔v177 T1 | TA: 2–3 toggleable pathways, same goal, different routes; each with rationale, difference, when to choose, impact, benefit, effort/energy | ENG/UI | TA | D7 |
 | ✔v177 T2 | TA "Comparing the ways" depth: why take the harder route; when to stop and readjust (watch signals); integrate Morin (2008) ecology of action and strategy vs. program, cited | NARR/RES | TA | T1, D6 |
 | ✔v177 T3 | TA comparison chart (expandable bar/radial/line): effort, impact, benefit, ROI per pathway | VIZ | TA | T1 |
-| ✔v179 T4 | Act-here/anywhere × easy/difficult action grid (axis.png style) on PAR, feeding TA | VIZ/ENG | PAR, TA | T1 |
+| ✘ T4 | Act-here/anywhere × easy/difficult action grid: built v179, **deleted v215** (his call, 11-18) | — | — | — |
 | ✔v187 T5 | Constraint prompt on TA: "What constraint or rule keeps this note in the low ground, and how do we change it?"; distinguish trajectory optimization from constraint reconfiguration (Juarrero), linked to Q.4–Q.7 | ENG/NARR | TA, PS | — |
 | ✔v181 T6 | Synthesis→Action handoff rule: terrain vector (cost, height, transition) → sequenced moves | ENG | PS, TA | T1 |
 | ✔v191 A2 | Coworking-ready schema: per-note authorship, multi-perspective merge, `others` structure (no dashboards yet) | ARCH | schema, export | — |
