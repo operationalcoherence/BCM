@@ -1269,6 +1269,9 @@
     st.id = "gsm-mean-css";
     st.textContent =
       "#gsm .rule .rmean2{font-size:15.5px;line-height:1.5;color:#111;margin:2px 0 2px}#gsm .rule details.rev summary{margin:6px 0 2px;font-size:12.5px}#gsm .rule .revb{font-size:14px;color:#444;line-height:1.45;margin:4px 0 2px}#gsm .rule .revn{font-size:13.5px;color:#444;line-height:1.45;margin:6px 0 0;padding-left:9px;border-left:2px solid #ddd}#gsm .rule .revn div{margin:0 0 4px}#gsm .rule .revn i{font-style:normal;color:#777;font-size:12.5px}#gsm .metal li .rmean2{font-size:15px;margin:0}#gsm .sread{border-left:3px solid #111;padding:6px 0 6px 12px;margin:0 0 14px}#gsm .sread .srl{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:3px}#gsm .sread .srm{font-size:16px;line-height:1.55;color:#111}#gsm .sread .srev{font-size:13.5px;line-height:1.45;color:#444;padding-left:9px;border-left:2px solid #ddd}#gsm .sread .srev div{margin:0 0 4px}#gsm .sread .srev i{font-style:normal;color:#777;font-size:12.5px}#gsm .sread .srq{margin:8px 0 4px;color:#222}#gsm .storylead{margin:18px 0 26px}#gsm .storylead>details.fold{border:2px solid #111;background:#faf8f3;padding:2px 20px 8px}#gsm .storylead>details.fold>summary{font-size:16px;letter-spacing:.14em}#gsm .storylead .stsub{display:block;font-weight:400;letter-spacing:0;font-size:13px;color:#666;margin-top:4px}#gsm .storylead .mtext>p:first-of-type,#gsm .storylead .mtext p.stimpp{font-size:17.5px;line-height:1.65;color:#111}#gsm .storylead .mtext p.stimpp{border-left:3px solid #111;padding-left:12px}#gsm .storylead .mtext p{font-size:15.5px;line-height:1.6}#gsm .stn{color:#888;font-size:13px}";
+    var st2 = document.createElement("style");
+    st2.textContent = "#gsm .intrev{margin:18px 0 10px}#gsm .intrevh{font-size:13px;font-weight:700;letter-spacing:.16em;color:#222;border-top:1px solid #222;padding-top:10px;margin-bottom:10px}#gsm .intrev .intl{margin-bottom:12px}";
+    document.head.appendChild(st2);
     document.head.appendChild(st);
   }
   function gsmMeanList(a) {
@@ -5438,17 +5441,33 @@
   function gsmIntOrder(E, f) {
     var top = [],
       dup = [],
-      rest = [];
+      lift = [],
+      rest = [],
+      LIFT = ["Patterns worth a second look", "Emotion", "Closest and farthest from the goal", "Voices"];
     E.forEach(function (t) {
       "Where to start" === t[0]
         ? top.push(f(t))
         : "Where both pictures agree" === t[0] || "Where they differ" === t[0]
           ? dup.push(f(t).replace('<div class="intl">', '<div class="intl" data-dup="1">'))
-          : rest.push(f(t));
+          : LIFT.indexOf(t[0]) >= 0
+            ? lift.push([LIFT.indexOf(t[0]), f(t)])
+            : rest.push(f(t));
+    });
+    lift.sort(function (a, b) {
+      return a[0] - b[0];
     });
     return (
       top.join("") +
       dup.join("") +
+      (lift.length
+        ? '<div class="intrev"><div class="intrevh">WHAT THE TWO PICTURES REVEAL</div>' +
+          lift
+            .map(function (x) {
+              return x[1];
+            })
+            .join("") +
+          "</div>"
+        : "") +
       (rest.length
         ? '<details class="fold parmore" style="margin:14px 0"><summary>MORE FROM BOTH PICTURES</summary>' + rest.join("") + "</details>"
         : "")
@@ -12917,9 +12936,9 @@
                   });
                   var L = S[t.cid]
                     ? t.cid +
-                      " shares the most words with the goal and it also sits on a thread that runs from Q.1–Q.4 into Q.5–Q.7. It is both the most goal-like answer and a hinge between cause and action, a strong place to start."
+                      " shares the most words with the goal and it also sits on a thread that runs from the context you have grasped into what you would design. It is both the most goal-like answer and a hinge between cause and action, a strong place to start."
                     : t.cid +
-                      " shares the most words with the goal but it is not on a thread that carries Q.1–Q.4 into Q.5–Q.7. It speaks the goal's language without yet connecting to the causes you named.";
+                      " shares the most words with the goal but it is not on a thread that carries the context you have grasped into what you would design. It speaks the goal's language without yet connecting to the causes you named.";
                   if (
                     (e.all[t.fid]
                       ? (L +=
@@ -12943,18 +12962,27 @@
                       EA = EC[1],
                       EI = EC[3],
                       es =
-                        "Across your notes, " +
-                        b[A] +
-                        " leads (" +
-                        O +
-                        " of " +
-                        ET +
-                        ")" +
-                        (1 === A && EH ? ", but aggression and defiance together hold " + EH + "." : ".");
+                        (EA + EI
+                          ? "Change is likely to start where your notes carry acceptance or indifference: from there, it can begin now."
+                          : "No note yet carries acceptance or indifference, so nowhere on this ground is change likely to start soon.") +
+                        (EH + EC[2]
+                          ? " Where they carry distrust, aggression, or defiance, which hold " +
+                            (EH + EC[2] > 1.4 * (EA + EI) ? "most" : EH + EC[2] > 0.7 * (EA + EI) ? "much" : "part") +
+                            " of this workbook, change is unlikely in the short or medium term."
+                          : "") +
+                        (0 === A
+                          ? " Aggression leads, and it can harden into defiance: what is resisted now can turn to rebellion if it is pushed."
+                          : 4 === A
+                            ? " Defiance leads: the ground most resistant to any strategy."
+                            : 2 === A
+                              ? " Distrust leads: trust has to come before anything moves."
+                              : 3 === A
+                                ? " Indifference leads: most of this ground could still tip either way."
+                                : "");
                     EA && EH >= 0.7 * EA && EH <= 1.4 * EA
                       ? (es +=
                           " The weight is close to even between the emotions that could carry the goal and those that resist it. Neither side is likely to give way on its own. If change comes, it will come mostly through the ground in between: " +
-                          (EI ? EI + " note" + (1 === EI ? "" : "s") + " in indifference, the emotion of transition (Vigneaux, 2026)." : "indifference, the emotion of transition, and you have no note there yet (Vigneaux, 2026)."))
+                          (EI ? "the indifference you have mapped, the emotion of transition (Vigneaux, 2026)." : "indifference, the emotion of transition, and you have no note there yet (Vigneaux, 2026)."))
                       : EA > 1.4 * EH
                         ? (es +=
                             " Most of the ground already accepts the goal. The risk is less resistance than drift: no emotion is stable, acceptance included, so it has to be kept up as things move (Vigneaux, 2026).")
@@ -12965,12 +12993,12 @@
                       A !== e.brLead.k
                         ? " On “" +
                           e.brLead.name +
-                          "”, the thread that carries Q.1–Q.4 into Q.5–Q.7, " +
+                          "”, the thread that carries the context you have grasped into what you would design, " +
                           b[e.brLead.k] +
                           " leads instead. The idea that links cause to action feels different from the workbook as a whole, so expect friction exactly where understanding turns into doing."
                         : " “" +
                           e.brLead.name +
-                          "”, the thread that carries Q.1–Q.4 into Q.5–Q.7, carries the same emotion, so turning understanding into doing should not add resistance of its own.";
+                          "”, the thread that carries the context you have grasped into what you would design, carries the same emotion, so turning understanding into doing should not add resistance of its own.";
                     E.push(["Emotion", es]);
                   }
                   e.miss && e.miss.length
@@ -12978,7 +13006,7 @@
                         "Voices",
                         e.miss.join(", ") +
                           (e.miss.length > 1 ? " do" : " does") +
-                          " not appear in any thread that carries Q.1–Q.4 into Q.5–Q.7, so the logic that links cause to action does not yet carry " +
+                          " not appear in any thread that carries the context you have grasped into what you would design, so the logic that links cause to action does not yet carry " +
                           (e.miss.length > 1 ? "their" : "that voice's") +
                           " view." +
                           (e.thin
@@ -13180,11 +13208,16 @@
                             "THE EMOTION CHANGES",
                             "a emotion that changes",
                             j(t) +
-                              " carries mostly " +
+                              ([3, 0, 2, 1, 4][a] < [3, 0, 2, 1, 4][i] ? " climbs from " : " drops from ") +
                               b[i] +
-                              " in Q.1–Q.4 and mostly " +
+                              " to " +
                               b[a] +
-                              " in Q.5–Q.7. " +
+                              " as it moves from the context you have grasped into what you would design. " +
+                              (3 !== i && 3 !== a && Math.abs([3, 0, 2, 1, 4][a] - [3, 0, 2, 1, 4][i]) >= 2
+                                ? "On the ground that is a big move with no ridge of indifference between, so it takes energy either way. "
+                                : 3 === i || 3 === a
+                                  ? "It passes through indifference, the usual way across. "
+                                  : "") +
                               ([3, 0, 2, 1, 4][a] < [3, 0, 2, 1, 4][i]
                                 ? "Thinking of it as something to do makes it feel easier. That can be read two ways: the doing may be what brings people from " +
                                   b[i] +
@@ -13213,22 +13246,55 @@
                           var o = n.filter(function (t) {
                             return C[t].up !== e.up;
                           }).length;
+                          var PEN = ["aggression", "acceptance", "distrust", "indifference", "defiance"],
+                            pc = [0, 0, 0, 0, 0];
+                          n.forEach(function (k) {
+                            C[k].up !== e.up && null != C[k].em && C[k].em >= 0 && C[k].em < 5 && pc[C[k].em]++;
+                          });
+                          var pm = Math.max.apply(null, pc),
+                            pt = pm > 0 ? pc.indexOf(pm) : -1,
+                            pe = null != e.em && e.em >= 0 && e.em < 5 ? e.em : -1,
+                            plow = [0, 2, 4].indexOf(pe) >= 0,
+                            nid = String(t).replace(/^(?:place )?note (\d+)/, "N$1"),
+                            pread =
+                              !e.up && plow && (1 === pt || 3 === pt)
+                                ? " That makes it a likely bridge: the language of the high ground already reaches into the low ground here, so a move from " +
+                                  PEN[pe] +
+                                  " toward " +
+                                  PEN[pt] +
+                                  " has something to hold on to. If the placement is wrong instead, move it, and the patterns will follow."
+                                : pe >= 0 && pe === pt
+                                  ? " Its emotion matches what it is tied to; only the side differs. The same " +
+                                    PEN[pe] +
+                                    " may be pointed two ways, against the goal here and for it there, which makes it something to redirect rather than overcome."
+                                  : e.up && [0, 2, 4].indexOf(pt) >= 0
+                                  ? " That makes it a borrowed foothold: what looks like help speaks the language of the " +
+                                    PEN[pt] +
+                                    " it is tied to, so it may give way under pressure. Check it before you build on it."
+                                  : " Either it " +
+                                    (e.up ? "helps" : "hinders") +
+                                    " in a way the rest of your workbook does not show yet, or it was placed " +
+                                    (e.up ? "more hopefully" : "more darkly") +
+                                    " than its words. Open it and ask which: if the placement is right, it may be a bridge worth building on; if not, move it, and the patterns will follow.";
                           o >= Math.ceil((2 * n.length) / 3) &&
                             B(
                               "PLACED ONE WAY, TIED THE OTHER",
                               "a dot placed against its own threads",
-                              String(t).replace(/^(?:place )?note (\d+)/, "N$1") +
+                              nid +
                                 " sits " +
                                 (e.up ? "above" : "below") +
-                                " the line, but " +
-                                o +
-                                " of the " +
-                                n.length +
-                                " answers and notes it shares words with sit on the other side. Either it " +
+                                " the line" +
+                                (pe >= 0 ? ", on " + PEN[pe] : "") +
+                                ", but most of what it shares words with sits " +
+                                (e.up ? "below" : "above") +
+                                " it" +
+                                (pt >= 0 ? ", mostly on " + PEN[pt] : "") +
+                                ". Its place says it " +
                                 (e.up ? "helps" : "hinders") +
-                                " in a way the rest of your workbook does not show yet, or it was placed " +
-                                (e.up ? "more hopefully" : "more darkly") +
-                                " than its words. Open it and ask which: if the placement is right, it may be a bridge worth building on; if not, move it, and the patterns will follow.",
+                                "; its ties say it belongs with what " +
+                                (e.up ? "hinders" : "helps") +
+                                "." +
+                                pread,
                               7 + o / 100,
                               { notes: [t] },
                             );
@@ -13541,8 +13607,17 @@
                           "</div></div>"
                         );
                       },
-                      ot = R.slice(0, 3),
-                      rt = R.slice(3);
+                      PRI = function (t) {
+                        return "PLACED ONE WAY, TIED THE OTHER" === t.lab || "THE EMOTION CHANGES" === t.lab;
+                      },
+                      ot = R.filter(PRI).concat(
+                        R.filter(function (t) {
+                          return !PRI(t);
+                        }).slice(0, 2),
+                      ),
+                      rt = R.filter(function (t) {
+                        return ot.indexOf(t) < 0;
+                      });
                     E.push([
                       "Patterns worth a second look",
                       ot.map(nt).join("") +
@@ -15165,7 +15240,7 @@
                     " from Q.1–Q.4 (and the notes that describe it) into Q.5–Q.7. They carry your logic from cause to action, so Q.5–Q.7 work through them.",
                 )
               : T.push(
-                  "§Bridges.§ No thread runs from Q.1–Q.4 into Q.5–Q.7. The two halves use different words, so Q.5–Q.7 may not yet answer Q.1–Q.4.",
+                  "§Bridges.§ No thread runs from the context you have grasped into what you would design. The two halves use different words, so Q.5–Q.7 may not yet answer Q.1–Q.4.",
                 )),
             w.length &&
               T.push(
@@ -15270,7 +15345,7 @@
                         return !A[t];
                       })
                       .join(", ") +
-                    " do not appear in any thread that runs from Q.1–Q.4 into Q.5–Q.7, so the logic that links cause to action does not yet carry " +
+                    " do not appear in any thread that runs from the context you have grasped into what you would design, so the logic that links cause to action does not yet carry " +
                     ($t.filter(function (t) {
                       return !A[t];
                     }).length > 1
@@ -15280,7 +15355,7 @@
                 ));
           }
           var N = [];
-          (y.length && N.push("start with " + m([y[0]]) + ", which already carries Q.1–Q.4 into Q.5–Q.7"),
+          (y.length && N.push("start with " + m([y[0]]) + ", which already carries the context you have grasped into what you would design"),
             x.length &&
               N.push("then look at " + m([x[0]]) + ", which hinders with nothing above it answering"),
             !x.length && w.length && N.push("then look at " + m([w[0]]) + ", a cause Q.5–Q.7 do not reach"),
@@ -17611,7 +17686,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v222");
+        t && (t.textContent = "v223");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
