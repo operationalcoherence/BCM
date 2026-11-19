@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 11 · 2026-11-18 (v225; §0 BCM Core Structure is the foundational architecture and §0.9 binds all future work to it; §0a vocabulary, §0b missing questions; v196–v206 in §16, v207–v219 in §17, v220–v225 in docs/v220–v225_update.md) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 11 · 2026-11-18 (v225; §0 BCM Core Structure is the foundational architecture and §0.9 binds all future work to it; §0.1a separates foundational concepts (the situation: conditions, possibility, transitions) from their representation (the ground); §0a vocabulary, §0b missing questions; v196–v206 in §16, v207–v219 in §17, v220–v225 in docs/v220–v225_update.md) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -9,26 +9,72 @@ Markers: **[I]** inferred from the export or review, needs confirming against th
 ## 0. BCM Core Structure (foundational architecture)
 **Foundational definition [D 11-18 19:52; promoted to first-class architecture 11-18 19:58].** This is architecture, not commentary. Every other section of this document serves it, and §0.9 binds all future work to it.
 
-### 0.1 The deeper question
-> **What holds this ground where it is, and where can it give toward the goal?**
+### 0.1 The deeper question [D 11-18 20:05]
+> **What holds this situation where it is, and which transitions toward the goal are possible, through which emotions, and at what cost?**
 
-This is the job Vigneaux (2026) gives the possibility landscape: which transitions are needed, through which emotions, how much energy to spend, and where. Every page answers part of it.
+Short form, for headings and the screen: **What holds it, and where can it give?**
+
+The method asks about the **situation**. The ground is how BCM draws it (§0.5). The second half is the job Vigneaux (2026) gives the possibility landscape: which transitions are needed, through which emotions, how much energy to spend, and where. "Cost" means energy, the paper's term; "climb" is its terrain word. Every page answers part of the question.
+
+### 0.1a Foundational and representational concepts [D 11-18 20:05]
+**Rule:** foundational definitions are never written in terrain terms. Terrain words describe how a foundation is shown, never what it is.
+
+**Foundational** (from the paper or the seven questions; they hold however the method draws them):
+
+| Concept | What it is | Source |
+|---|---|---|
+| **The goal** | The idea or practice that is meant to take root | Q.1, Q.4; the paper's "resilience-building idea" |
+| **Disposition** | Emotion as a bodily disposition for action: it sets which actions are possible for a person now. The five emotions run from defiance to acceptance by how open they are to a new idea | Maturana; Vigneaux (2026, pp. 26–28) |
+| **Possibility** | What can take hold now, given people's dispositions (the paper's "spatial possibilities") | Vigneaux (2026, p. 29) |
+| **Conditions** | What holds dispositions and habits in place, or lets them change: context, environment, language, institutions, habits, and self-feeding loops | Q.1, Q.2, Q.4; the environment and language strategies; Juarrero's constraints |
+| **Transition** | A change of disposition. Each has an energy cost; most go through indifference; none is stable, acceptance included | Vigneaux (2026, p. 27) |
+| **Energy** | The cost of a transition | Vigneaux (2026, p. 27) |
+| **Habit** (already doing something) | Self-maintaining patterns people already live in; support that already exists starts here | Sensorimotor schemes; Vigneaux (2026, p. 30) |
+| **Perceiver dependence** | What counts as the relevant world depends on who perceives it; voices read the same thing differently | Varela |
+| **Invitation, not instruction** | Action perturbs; it can't dictate. Design changes conditions (environment, language) or works through dispositions (emotions-first, behaviors-first) | Vigneaux (2026, pp. 29–30) |
+| **Change over time** | Nothing is stable, so the method maps, acts, and maps again | §1 [D] |
+
+**Representational** (how BCM shows the foundations; a visual language, not the subject):
+
+| Representation | What it represents |
+|---|---|
+| **The ground / terrain / relief** | The whole possibility landscape |
+| **Height** (high ground; low ground: distrust low, aggression lower, defiance lowest) | Disposition: how open people are to the goal |
+| **The ridge** | Indifference, the emotion of transition |
+| **Bare rock, a climb** | A high-energy transition between distant emotions with no indifference between them |
+| **Slopes, falls, hollows** | Which way a transition tends to run; conditions that keep people low |
+| **The help and hinder line** | Whether a condition holds the goal back or lets it move |
+| **Present toward the goal** (left to right) | Time within one picture (now and later) |
+| **Colors** (Starratt's palette) | The five dispositions |
+| **The possibility landscape** | The paper's name for the finished visualization |
+| **Lines, threads, ways A/B/C, the tour** | Relations, readings, and moves drawn on the representation |
+
+"Ground" has one narrow foundational sense, from the paper: **fertile ground**, acceptance as where the goal can take root (Q.1 and Q.4 say "take root"). Used for the whole map, "ground" is representational.
 
 ### 0.2 The four core questions
-1. **What holds it?** Holding, resisting, hindering, and reinforcing (a hold that feeds itself: the loop). On the ground: low ground on the hindering side (distrust low, aggression lower, defiance lowest), and what keeps it there.
-2. **What already moves toward the goal?** Enabling, support, and the opportunity. On the ground: high ground on the helping side (acceptance).
-3. **Where can it shift, and at what cost?** Crossing and emotional transitions. On the ground: between high and low, through the ridge of indifference, or over bare rock where there is no ridge, at the cost of a climb. Big moves between distant emotions take energy either way; most shifts go through indifference.
-4. **Where does the reading split?** One thing standing in two places at once. It has two faces:
+Each is defined by the foundations (§0.1a). Its terrain representation comes second.
+
+1. **What holds it?** Which **conditions** keep present dispositions and habits where they are: holding, resisting, hindering, and conditions that feed themselves (the loop).
+   *Drawn as:* low ground on the hindering side, hollows, the loop.
+2. **What already moves toward the goal?** Where the goal is **already possible**: dispositions that allow it, and behaviors already under way (enabling, support, the opportunity).
+   *Drawn as:* high ground on the helping side.
+3. **Where can it shift, and at what cost?** Which **transitions** are possible, through which emotions, and with how much **energy**. Big moves between distant emotions take energy either way; most transitions go through indifference.
+   *Drawn as:* the ridge, bare rock, the climb.
+4. **Where does the reading split?** Where **perceivers** read the conditions differently. It has two faces:
    - *the situation splits:* a word pulled two ways, or two voices on two sides;
-   - *the picture splits:* what was said against what was mapped, a note's place against its ties, or thin ground under a reading.
+   - *the picture splits:* what was said against what was mapped, a note's place against its ties, or a reading that rests on little.
+
+   *Drawn as:* one thing standing in two places at once.
 
 ### 0.3 The central test
-> **Does what you would design meet the ground?**
+> **Does what you would design change the conditions and invite the transitions the goal needs?**
 
-This is the seam between **the context you have grasped** (Q.1–Q.4) and **what you would design** (Q.5–Q.7). It isn't a fifth question. It is the test that holds the second half against the first. Design has to meet:
+Short form, for the screen: **Does what you would design meet the ground?**
+
+This is the seam between **the context you have grasped** (Q.1–Q.4) and **what you would design** (Q.5–Q.7). It isn't a fifth question. It is the test that holds the second half against the first, and it follows the paper's strategies: change the environment and language (conditions), and work through emotions or behaviors (transitions). Design has to meet:
 - what holds it (otherwise the hold is left unanswered);
 - what already moves (otherwise support is left unbuilt-on);
-- where it can shift (otherwise the conditions for a crossing go unmet).
+- where it can shift (otherwise the conditions for a transition go unmet).
 
 ### 0.4 The seven questions are the core questions, asked as input
 The reading pages answer the seven questions again, one level up, as structure instead of answers.
@@ -41,13 +87,20 @@ The reading pages answer the seven questions again, one level up, as structure i
 | Where does the reading split? | Every question, read against the map and across voices |
 | The central test | Q.5–Q.7 held against Q.1–Q.4 |
 
-### 0.5 The ground carries the structure
-The line map's axes and the emotion heights are the core questions made spatial:
-- **Help and hinder** (the line, y = 118) separate what moves from what holds.
-- **Present toward the goal** (left to right) gives now and later.
-- **Emotion is height:** acceptance high, indifference a ridge, distrust low, aggression lower, defiance lowest.
+### 0.5 Terrain is the representation
+Terrain is BCM's visual language for the foundations (§0.1a). It is not their definition, and the core questions would hold for a place map, for text, or for any future view.
 
-Each core question reads one part of this ground, and the test asks whether what you would design lands there.
+| Foundation | Terrain |
+|---|---|
+| Conditions that hold | Low ground on the hindering side, hollows, the loop |
+| Possibility (where the goal can already take hold) | High ground on the helping side |
+| Transitions and their energy | Slopes, the ridge (indifference), bare rock, the climb |
+| Disposition | Height: acceptance high, indifference a ridge, distrust low, aggression lower, defiance lowest |
+| Whether a condition holds the goal back or lets it move | The help and hinder line (y = 118) |
+| Time within one picture | Present toward the goal (left to right): now and later |
+| Where the reading splits | One thing standing in two places at once |
+
+Each core question reads one part of the situation; the terrain shows where. The central test asks whether what you would design lands there.
 
 ### 0.6 How each page contributes
 
@@ -56,7 +109,7 @@ Each core question reads one part of this ground, and the test asks whether what
 | **Pattern Analysis** | **Why does it hold?** (mainly question 1, with 2 and 3) | The explanation in words, built from the user's own language: YOUR STORY SO FAR and WHERE THIS LEAVES THE WORK, then WHY IT BEHAVES THIS WAY (the system that holds, the key tension, the loop, the opportunity, and where it can cross) | The reasons. The ground would show where things hold but never why |
 | **Pattern Synthesis** | **Where does it hold, and where can it give?** (questions 1–3 as position and cost) | Position and cost on the ground: high and low ground, what keeps it this way, where it's easiest to fall or get stuck, the ridge, bare rock, and the price of each crossing. The only page that measures what a move takes | "At what cost." Every move would look equally possible |
 | **In Parallel** | **Where does the reading split?** (question 4) | Two independent readings checked against each other: the words (Analysis) and the ground (Synthesis). It finds hidden disagreements and agreements, emotional turns, overlaps in meaning, bridges, and hinges that neither page shows alone | The check. The picture would be taken as settled |
-| **Taking Action** | **Does what you would design meet the ground, and how would it move?** (the central test) | Turns the readings into ways (a program on ground that holds, a strategy that crosses low ground), costs each way, gives first moves, records the decision, and logs WHAT YOU DID, which closes the map → act → re-map loop | The consequence. Nothing would be decided or tried, and the loop could never close |
+| **Taking Action** | **Does what you would design change the conditions and invite the transitions, and how would it move?** (the central test) | Turns the readings into ways (a program on ground that holds, a strategy that crosses low ground), costs each way, gives first moves, records the decision, and logs WHAT YOU DID, which closes the map → act → re-map loop | The consequence. Nothing would be decided or tried, and the loop could never close |
 
 Mapping Context and Mapping Landscape gather the input: the goal, the seven answers, and the notes with their place, emotion, source, and voice.
 
@@ -86,13 +139,13 @@ All future BCM work maps back to the deeper question (§0.1), the four core ques
 
 Before anything is built, its design states:
 1. **Which core question it answers** (1–4), or that it applies **the central test**, or that it serves the deeper question directly.
-2. **Where it reads the ground:** low ground, high ground, between them, or where the reading splits.
+2. **Which conditions, possibilities, or transitions it reads**, and how terrain represents them (§0.5).
 3. **What it adds that no existing page or section already gives**, and what would be lost without it (§0.6, §0.7).
 4. **Which canonical terms it uses** (§0a).
 
 Work that can't name a core question, the test, or the deeper question doesn't belong in the method until it can. Input steps (Mapping Context, Mapping Landscape) are exempt from item 2, but they state which core questions their input feeds (§0.4).
 
-Multi-workbook capabilities read the same structure across people and across time: whose ground holds or moves (voices, F8), and what has shifted between saves (§0.8).
+Multi-workbook capabilities read the same structure across people and across time: whose conditions hold or move and how each perceiver reads them (voices, F8), and what has shifted between saves (§0.8).
 
 ---
 
@@ -101,12 +154,15 @@ One term per concept, across every page. Proposed 11-18 by Claude; awaiting his 
 
 | Concept | Canonical term | Other names it absorbs |
 |---|---|---|
-| The whole map | **the ground** | terrain, landscape (keep "possibility landscape" only when citing the paper) |
+| What BCM reads | **the situation** (foundational) | the ground, when used for what is being read |
+| Conditions, possibility, transition, energy, disposition | **condition**, **possibility**, **transition**, **energy**, **disposition** (foundational; §0.1a) | cost (as a foundation; keep "climb" for the terrain) |
+| The whole map | **the ground** (representational) | terrain, landscape (keep "possibility landscape" only when citing the paper) |
+| Acceptance as where the goal can take root | **fertile ground**, **take root** (the paper's narrow, foundational sense) | none |
 | The deeper question | **holding and giving** | none |
 | What hinders and stays | **what holds**, on **low ground** (distrust low, aggression lower, defiance lowest) | sunk ground; hollow (keep only as a named landform); opposition (keep for Q.2) |
 | A hold that feeds itself | **the loop** | cause and effect, the suppression loop |
 | What helps and already exists | **what already moves**, on **high ground** | raised ground, firm ground, unused support |
-| Movement between emotions | **a shift** | change, transition |
+| Movement between emotions | **a transition** (foundational); **a shift** on screen | change |
 | A shift on the ground | **a crossing**: through **the ridge** (indifference) or over **bare rock** (no ridge), at the cost of **a climb** | the least costly way up, the way through it |
 | A thing on both sides | **pulled two ways**; at the goal's center, **the tension** | for and against, contested, both kinds of ground |
 | A difference between readings | **where the reading splits** | agree/ask, said against mapped, placed one way, tied the other |
