@@ -19282,7 +19282,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v240");
+        t && (t.textContent = "v241");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -21736,6 +21736,7 @@
           out.push([A0[0] + ((B0[0] - A0[0]) * k) / N, A0[1] + ((B0[1] - A0[1]) * k) / N]);
       }
       out.push(pts[pts.length - 1]);
+      out.stops = pts.slice(); /* v241: the stops, in order, for the numbers on the 3D */
       return out;
     }
     function routeStats(R) {
@@ -21994,6 +21995,7 @@
             var seg = firmPath(stops[j][0], stops[j][1], stops[j + 1][0], stops[j + 1][1]);
             out = out.concat(j ? seg.slice(1) : seg);
           }
+          out.stops = stops.slice(); /* v241 */
           return out;
         }
         var firmNs = ns.filter(function (n) {
@@ -22047,6 +22049,7 @@
           var last = sup[sup.length - 1];
           var rest = firmPath(last.x, last.y, GOAL.x, GOAL.y),
             r3 = first.concat(rest);
+          r3.stops = (first.stops || []).concat([[GOAL.x, GOAL.y]]); /* v241 */
           ROUTES.push({
             key: "C",
             name:
@@ -25498,7 +25501,7 @@
           D.card = true;
           D.read = [];
           D.routes = ROUTES.map(function (R) {
-            return { key: R.key, name: R.name, pts: R.pts, text: rd[R.key] || "" };
+            return { key: R.key, name: R.name, pts: R.pts, stops: R.pts.stops || null, text: rd[R.key] || "" };
           });
           D.onWay = function (k) {
             wayRows().forEach(function (el) {
