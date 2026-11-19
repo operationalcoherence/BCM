@@ -1,5 +1,5 @@
 # BCM_CONCEPT_REGISTRY.md
-Rev 5 · 2026-11-18 (v219) · One line per concept: definition → where it shows up in BCM. Paraphrased; cite the source in the UI.
+Rev 6 · 2026-11-18 (v230) · One line per concept: definition → where it shows up in BCM. Paraphrased; cite the source in the UI.
 
 ## A. Core theory — Vigneaux (2026), JEM 24(7)
 | Concept | Definition (BCM usage) | In BCM |
@@ -53,6 +53,19 @@ Rev 5 · 2026-11-18 (v219) · One line per concept: definition → where it show
 | The two pictures, side by side | Analysis's words in a column, a line to every note on the Synthesis ground that carries each; solid black = the ground agrees, dashed red = it raises a question | Built v213–v216, v219 | In Parallel (the tab is this figure); tapping a word puts its lines on the Synthesis 3D |
 | Guided tour | A live camera path over the user's own ground with captions; Synthesis reads the ground in four acts, Analysis teaches how to read the map | Built v208–v210, v219 | Play the tour on both 3D maps; captions never cite the paper (his rule) |
 | Perturbation audit | Treat incoming notes as perturbations to test, not instructions | Built v195 / Vigneaux | F7: other voices tested against his nearby notes |
+| BCM Core Structure | The deeper question (holding and giving, asked of the situation), four core questions (What holds it? What already moves toward the goal? Where can it shift, and at what cost? Where does the reading split?), and the central test. All features map back to it | His call, 11-18 | ARCHITECTURE §0; every page |
+| The central test | "Does what you would design change the conditions and invite the transitions the goal needs?" Screen form: "Does what you would design meet the ground?" | His call, 11-18 | THE TEST and MEETS THE TEST on Taking Action (v226, v228) |
+| Situation, not representation | BCM reads the situation (conditions, possibility, transitions); the ground is only how it is drawn | His call, 11-18 | ARCHITECTURE §0.1a, §0.5 |
+| What holds the situation in place | The largest group of hindering notes tied by shared words; self-supporting when two or more say so. Analytical name: the system that holds | Built v221; renamed on screen v230 | WHY IT BEHAVES THIS WAY (Analysis); THE TEST and its seeded strategy card (Taking Action) |
+| The key tension | What the goal needs, and people fear: a goal clause asking for more of something, against hindering notes sharing its words and carrying fear words | Built v221 | Analysis; seeded strategy card; THE TEST line "What the goal needs, and people fear" |
+| The loop | A word found in two or more sentences that say it feeds itself; "what keeps reinforcing the situation" | Built v221 | Analysis; seeded strategy card |
+| The opportunity | The alternative that already exists: help-side support on acceptance or indifference, weighed against what is new | Built v221 | Analysis; seeded program card |
+| Seeded cards | Taking Action cards grown from Analysis's structure, not from recurring words; word-only cards fold under them | Built v226 | Taking Action |
+| The way across | Low-ground emotions ordered by cost to the ridge (distrust, aggression, defiance last), then up to acceptance; bare rock costs more; behaviors first below the ridge, emotions first above it | Built v226; Vigneaux (2026) | Seeded cards; the decision strip |
+| The cheapest first move | The program on high ground first, then the strategy through the ridge | Built v226, v228 | Leads THE TEST |
+| Decision, explanation, evidence | Three layers per card: the decision strip, "Why this action", and "Evidence"; nothing removed. "What should I do?" in under 30 seconds | His call, built v228–v229 | Taking Action |
+| Constraint loop | A named constraint goes into Q.4, Q.6, or Q.7, is logged in WHAT YOU DID, flags its note to re-map, and shows on that note on Mapping Landscape | Built v226–v227; Juarrero (2023) | Taking Action, Mapping Landscape |
+| Hinge | The only word connecting two things; if it goes, they come apart | Built v225 | In Parallel (THE UNCLOSED TRIANGLE) |
 
 ## C. Reference list (canonical; see D4/D5 in CURRENT_STATE)
 Ackoff (1999) · Juarrero (2023) · Kurtz & Snowden (2003) · Morin (2008) · Morin & Kern (1999) · Paci-Green, Vigneaux, Jensen & Petal (2016) · Thompson (2007) · Vigneaux (2026), doi:10.5055/jem.0952 · Waldrop (1992). Full entries are in the 11-17 review, with corrections pending D4/D5.

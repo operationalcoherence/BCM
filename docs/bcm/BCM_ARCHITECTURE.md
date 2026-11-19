@@ -1,6 +1,6 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 11 · 2026-11-18 (v225; §0 BCM Core Structure is the foundational architecture and §0.9 binds all future work to it; §0.1a separates foundational concepts (the situation: conditions, possibility, transitions) from their representation (the ground); §0a vocabulary, §0b missing questions; v196–v206 in §16, v207–v219 in §17, v220–v225 in docs/v220–v225_update.md) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 12 · 2026-11-18 (v230; §0 BCM Core Structure is the foundational architecture and §0.9 binds all future work to it; §0.1a separates foundational concepts (the situation: conditions, possibility, transitions) from their representation (the ground); §0a vocabulary, §0b missing questions; v196–v206 in §16, v207–v219 in §17, v220–v230 in §18) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
 
@@ -106,10 +106,10 @@ Each core question reads one part of the situation; the terrain shows where. The
 
 | Page | Its question | What only it does | What would be lost without it |
 |---|---|---|---|
-| **Pattern Analysis** | **Why does it hold?** (mainly question 1, with 2 and 3) | The explanation in words, built from the user's own language: YOUR STORY SO FAR and WHERE THIS LEAVES THE WORK, then WHY IT BEHAVES THIS WAY (the system that holds, the key tension, the loop, the opportunity, and where it can cross) | The reasons. The ground would show where things hold but never why |
+| **Pattern Analysis** | **Why does it hold?** (mainly question 1, with 2 and 3) | The explanation in words, built from the user's own language: YOUR STORY SO FAR and WHERE THIS LEAVES THE WORK, then WHY IT BEHAVES THIS WAY (what holds the situation in place, the key tension, the loop, the opportunity, and where it can cross) | The reasons. The ground would show where things hold but never why |
 | **Pattern Synthesis** | **Where does it hold, and where can it give?** (questions 1–3 as position and cost) | Position and cost on the ground: high and low ground, what keeps it this way, where it's easiest to fall or get stuck, the ridge, bare rock, and the price of each crossing. The only page that measures what a move takes | "At what cost." Every move would look equally possible |
 | **In Parallel** | **Where does the reading split?** (question 4) | Two independent readings checked against each other: the words (Analysis) and the ground (Synthesis). It finds hidden disagreements and agreements, emotional turns, overlaps in meaning, bridges, and hinges that neither page shows alone | The check. The picture would be taken as settled |
-| **Taking Action** | **Does what you would design change the conditions and invite the transitions, and how would it move?** (the central test) | Turns the readings into ways (a program on ground that holds, a strategy that crosses low ground), costs each way, gives first moves, records the decision, and logs WHAT YOU DID, which closes the map → act → re-map loop | The consequence. Nothing would be decided or tried, and the loop could never close |
+| **Taking Action** | **Does what you would design change the conditions and invite the transitions, and how would it move?** (the central test) | Reads the situation against the central test (THE TEST, v226), with cards seeded from Pattern Analysis's structure; turns the readings into ways (a program on ground that holds, a strategy that crosses low ground), costs each way, gives first moves, records the decision, and logs WHAT YOU DID, which closes the map → act → re-map loop | The consequence. Nothing would be decided or tried, and the loop could never close |
 
 Mapping Context and Mapping Landscape gather the input: the goal, the seven answers, and the notes with their place, emotion, source, and voice.
 
@@ -159,7 +159,7 @@ One term per concept, across every page. Proposed 11-18 by Claude; awaiting his 
 | The whole map | **the ground** (representational) | terrain, landscape (keep "possibility landscape" only when citing the paper) |
 | Acceptance as where the goal can take root | **fertile ground**, **take root** (the paper's narrow, foundational sense) | none |
 | The deeper question | **holding and giving** | none |
-| What hinders and stays | **what holds**, on **low ground** (distrust low, aggression lower, defiance lowest) | sunk ground; hollow (keep only as a named landform); opposition (keep for Q.2) |
+| What hinders and stays | **what holds** (on screen since v230: **what holds the situation in place**), on **low ground** (distrust low, aggression lower, defiance lowest) | sunk ground; hollow (keep only as a named landform); opposition (keep for Q.2) |
 | A hold that feeds itself | **the loop** | cause and effect, the suppression loop |
 | What helps and already exists | **what already moves**, on **high ground** | raised ground, firm ground, unused support |
 | Movement between emotions | **a transition** (foundational); **a shift** on screen | change |
@@ -183,10 +183,10 @@ One term per concept, across every page. Proposed 11-18 by Claude; awaiting his 
 - **"Pattern"** is the engine's name ("Patterns suggests"), the drawn phrase patterns, POSSIBLE PATTERNS, and "Patterns worth a second look."
 - **"High ground," "raised ground," and "firm ground"** are used as if they were the same thing.
 
-### 0a.2 The same insight under different names (as of v225)
+### 0a.2 The same insight under different names (as of v225; Taking Action renamed in v230)
 | Insight | Names it goes by |
 |---|---|
-| Holding | THE SYSTEM THAT HOLDS, WHAT KEEPS IT THIS WAY, WHAT HOLDS IT IN THE LOW GROUND, WHAT STANDS IN THE WAY, low ground, sunk ground, hollow, opposition, hinder |
+| Holding | WHAT HOLDS THE SITUATION IN PLACE (was THE SYSTEM THAT HOLDS until v230), WHAT KEEPS IT THIS WAY, WHAT HOLDS IT IN THE LOW GROUND, WHAT STANDS IN THE WAY, low ground, sunk ground, hollow, opposition, hinder |
 | Unanswered holding | SAID, BUT NOT ANSWERED, OPPOSITION NOT YET ENGAGED, NOT YET ANSWERED, NOTHING YOU WOULD DO ANSWERS THESE YET, "Not in Q.5–Q.7 yet," "the unreached cause," the dashed gap box, CONDITION NOT IN Q.5–Q.7 |
 | Help already there | THE OPPORTUNITY, WHAT IS ALREADY HELPING, SUPPORT NOT YET REINFORCED, BUILD ON WHAT IS HAPPENING, PARTLY ALREADY, the teal box, WHAT YOU ALREADY HAVE, high ground, raised ground, firm ground (way B), program |
 | Pulled two ways | THE KEY TENSION, FOR AND AGAINST (three versions), contested, "stands on both kinds of ground," "pulled both ways," TWO PEOPLE, TWO SIDES, ONE WORD, SEVERAL MEANINGS, CROSSES THE GROUND LINE |
@@ -203,7 +203,7 @@ One term per concept, across every page. Proposed 11-18 by Claude; awaiting his 
 What the core structure needs and the pages don't yet fully ask (11-18). Identification only; nothing here is a feature request.
 
 1. **Taking Action doesn't ask where the reading splits.** It acts on words that are pulled two ways and on the ground, but it doesn't carry forward what In Parallel found. When the same word means something different to two voices, In Parallel says a course of action "will be heard differently by each"; the ways on the cards don't hold that. *(Addressed in v226: In Parallel's split readings are carried onto the cards they touch, as WHERE THE READING SPLITS.)*
-2. **Pattern Synthesis asks the central test only lightly** ("Not in Q.5–Q.7 yet," in WHAT IT MIGHT MEAN).
+2. **Pattern Synthesis asks the central test only lightly** (Taking Action now asks it in full, v226) ("Not in Q.5–Q.7 yet," in WHAT IT MIGHT MEAN).
 3. **"Whose ground is it?"** runs under all four questions but is never asked as a question of its own. Emotions belong to people, and Vigneaux (2026) orients practitioners to the people in each emotion. Voices exist, but BCM asks *where* far more than *who*. Today it shows up only as a dimension of the split (two voices on two sides, the thinnest voice).
 4. **"What has shifted since last time?"** is a hidden question already present, not a missing page and not outside scope (see §0.8). It belongs to all four questions across saves.
 
@@ -342,6 +342,11 @@ Terrain module modes (one `mount`): Synthesis (default: readings, phrase loops, 
 - **Reflexive loop**: logging or adjusting an action flags the upstream Q.1–Q.4 nodes and emotional contours it affects, and prompts re-synthesis.
 - Constraint prompt: "What constraint or rule keeps this note in the low ground, and how do we change it?" Saves to `asks["cons|id"]`. Since v226 it goes somewhere: one tap adds it to Q.4, Q.6, or Q.7; WHAT YOU DID lists and saves it (`acts[].c`); its note is flagged to re-map, and SINCE YOU ACTED shows it.
 - Program or strategy [D 11-18]: a way from acceptance into distrust, aggression, or defiance, or one that crosses the help and hinder line, is a strategy (v202, `MixE` in `Fn`). The manual switch (`asks["mode|key"]`) wins in both directions.
+- **THE TEST** (v226) reads the situation against the central test (§0.3): what holds the situation in place, what the goal needs and people fear, what keeps reinforcing the situation, the alternative that already exists, what already helps, where it can shift, where the reading splits, the constraints named, and THE CHEAPEST FIRST MOVE. Verdicts: YES, PARTLY, NOT YET. Line names as of v230.
+- **Seeded cards** (v226): strategies from what holds the situation in place, the key tension, and the loop; programs from the opportunity, what is already helping, and support not yet reinforced. Word-only cards fold under MORE STRATEGIES / MORE PROGRAMS, FROM THE WORDS YOU USE. Each seeded card has its own test and THE WAY ACROSS (ridge before bare rock; distrust, then aggression, then defiance last; behaviors first below the ridge, emotions first above it).
+- **Split readings carried into action** (v226): In Parallel's splits (`window.gsmSplit`) land on at most two cards each, as WHERE THE READING SPLITS (`gsmTAPass`).
+- **Three layers** (v228–v229) [D 11-18]: "What should I do?" in under 30 seconds, "Why?" by opening more; nothing removed. Layer 1, the decision strip (MEETS THE TEST, FIRST MOVE, THE WAY ACROSS, READING SPLITS); layer 2, "Why this action" (closed except on the first-move card); layer 3, "Evidence" (closed), which holds the note lists and HOW THE WAYS READ ON THE GROUND.
+- **Situation language** (v230) [D 11-18 21:53]: Taking Action describes the situation, not the workbook. Say what holds the situation in place, keeps reinforcing it, remains unresolved, or isn't used yet; never "answered" or "built on". Note numbers stay, small and gray, behind the explanation.
 - FIRST MOVES follows the way (v203, `wayMoves(k)` in the terrain module): the words follow the drawn way, not the other way round (measured; reordering the way made it far longer). Way A's zigzag is still open.
 
 ## 11. Data schema (export v1)
@@ -455,3 +460,14 @@ See `BCM_CONCEPT_REGISTRY.md`.
 - v217: the patterns row only on the Synthesis map.
 - v218: the patterns row stays in full screen (`D.onFs`).
 - v219: no paper citation in either tour [D 11-18 15:21]; full screen for the figure with HOW TO READ IT.
+
+## 18. Changes since Rev 11 (v220–v230, 11-18)
+- v220: Pattern Analysis meaning pass: each finding opens with what it means; the words and notes fold under it.
+- v221: WHY IT BEHAVES THIS WAY (`gsmStruct`): the system that holds, the key tension, the loop, the opportunity, where it can cross.
+- v222, v224: YOUR STORY SO FAR leads Pattern Analysis in its own white panel; WHERE THIS LEAVES THE WORK; meaning before counts.
+- v223, v225: In Parallel as a disagreement detector, bridge finder, and hidden-structure finder (WHAT THE TWO PICTURES REVEAL); double readings without counts; hinges named.
+- v226: Taking Action rebuilt around the central test (Phase 2 step 8): THE TEST, seeded cards, THE WAY ACROSS, split readings on cards, constraint → Q.4/Q.6/Q.7 → WHAT YOU DID (`acts[].c`) → re-map.
+- v227: the constraint loop made visible: Q.4/Q.6/Q.7 buttons shown before typing; each note on Mapping Landscape shows its constraint.
+- v228–v229: Taking Action in three layers (decision, why, evidence); the 3D way readings move to Evidence.
+- v230: situation language on Taking Action and Analysis (THE SYSTEM THAT HOLDS → WHAT HOLDS THE SITUATION IN PLACE; THE TEST's line names); the short check of Taking Action.
+- Next: Phase 2 step 9, Mapping Context.

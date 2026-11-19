@@ -1,12 +1,12 @@
 # BCM_TASK_QUEUE.md
-Rev 7 · 2026-11-18 (v230) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 8 · 2026-11-18 (v230) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
 
 ## Current queue (11-18): the v196 review plan
-The live queue is claude/v196_review_plan.md in the Claude project (it quotes his workbook, so it stays private). Status at v219:
+The live queue is claude/v196_review_plan.md in the Claude project (it quotes his workbook, so it stays private). Status at v230:
 - Phase 1 (v197–v203): done.
 - Phase 2: step 6, Pattern Analysis (v205–v207, v211): done. Step 7, Pattern Synthesis (v212, v217, v218): done. Step 10, In Parallel (v213–v216, v219): done.
 - Interpretation pass (v220–v225): done for Analysis and In Parallel.
@@ -22,6 +22,7 @@ The live queue is claude/v196_review_plan.md in the Claude project (it quotes hi
 - ✔v227 The constraint loop made visible: buttons shown before typing; the constraint shown on its note on Mapping Landscape.
 - ✔v228 The Taking Action hierarchy pass: decision, explanation, and evidence layers. ✔v229 The 3D way readings moved into Evidence.
 - ✔v230 The short check of Taking Action, and the situation-language wording review.
+- Left by the v230 check: "Carries furthest" still in workbook language; ground card titles carry note numbers; the loop card keeps "The loop: …".
 - **Next:** **step 9, Mapping Context** (instruction drop-down, emotion definitions where notes are written, Start here text moved to its pages, his redlines).
 - Open from v226, his calls: the redlines on its wording; whether word-only cards should stay folded; merging word cards that repeat a seeded card.
 - Phase 3: WebM download of the tour; captions from his confirmed meanings of the four acts; YOUR OWN WORDS strip (3g); the word-budget pass; the "no questions" map click (3c).
