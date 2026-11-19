@@ -1,8 +1,78 @@
 # BCM_ARCHITECTURE.md
 The Bear Canyon Method (BCM) — authoritative architecture
-Rev 10 · 2026-11-18 (v219; v196–v206 in §16, v207–v219 in §17) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
+Rev 11 · 2026-11-18 (v225; BCM Core Structure added as the foundational definition, below; v196–v206 in §16, v207–v219 in §17, v220–v225 in docs/v220–v225_update.md) · Sources: 11-17 and 11-18 reviews, workbook 2026-11-18, workbook export 2026-11-13, Vigneaux (2026), repo operationalcoherence/BCM
 
 Markers: **[I]** inferred from the export or review, needs confirming against the code · **[?]** unknown · **[D]** decided in a review
+
+---
+
+# BCM Core Structure
+**Foundational definition [D 11-18 19:52].** Everything else in this document serves this structure. New layers, findings, and pages are judged by which core question they answer and how well they answer it.
+
+## The deeper question
+> **What holds this ground where it is, and where can it give toward the goal?**
+
+This is the job Vigneaux (2026) gives the possibility landscape: which transitions are needed, through which emotions, how much energy to spend, and where. Every page answers part of it.
+
+## The four core questions
+1. **What holds it?** Holding, resisting, hindering, and reinforcing (a hold that feeds itself: the loop). On the ground: low ground on the hindering side (distrust low, aggression lower, defiance lowest), and what keeps it there.
+2. **What already moves toward the goal?** Enabling, support, and the opportunity. On the ground: high ground on the helping side (acceptance).
+3. **Where can it shift, and at what cost?** Crossing and emotional transitions. On the ground: between high and low, through the ridge of indifference, or over bare rock where there is no ridge, at the cost of a climb. Big moves between distant emotions take energy either way; most shifts go through indifference.
+4. **Where does the reading split?** One thing standing in two places at once. It has two faces:
+   - *the situation splits:* a word pulled two ways, or two voices on two sides;
+   - *the picture splits:* what was said against what was mapped, a note's place against its ties, or thin ground under a reading.
+
+## The central test
+> **Does what you would design meet the ground?**
+
+This is the seam between **the context you have grasped** (Q.1–Q.4) and **what you would design** (Q.5–Q.7). It isn't a fifth question. It is the test that holds the second half against the first. Design has to meet:
+- what holds it (otherwise the hold is left unanswered);
+- what already moves (otherwise support is left unbuilt-on);
+- where it can shift (otherwise the conditions for a crossing go unmet).
+
+## The seven questions are the core questions, asked as input
+The reading pages answer the seven questions again, one level up, as structure instead of answers.
+
+| Core question | Fed by |
+|---|---|
+| What holds it? | Q.1 (why the goal hasn't taken root), Q.2 (opposition) |
+| What already moves toward the goal? | Q.3 (support), Q.7 (reinforce) |
+| Where can it shift, and at what cost? | Q.4 (conditions to establish), Q.6 (redesign) |
+| Where does the reading split? | Every question, read against the map and across voices |
+| The central test | Q.5–Q.7 held against Q.1–Q.4 |
+
+## The ground carries the structure
+The line map's axes and the emotion heights are the core questions made spatial:
+- **Help and hinder** (the line, y = 118) separate what moves from what holds.
+- **Present toward the goal** (left to right) gives now and later.
+- **Emotion is height:** acceptance high, indifference a ridge, distrust low, aggression lower, defiance lowest.
+
+Each core question reads one part of this ground, and the test asks whether what you would design lands there.
+
+## How each page contributes
+
+| Page | Its question | What only it does | What would be lost without it |
+|---|---|---|---|
+| **Pattern Analysis** | **Why does it hold?** (mainly question 1, with 2 and 3) | The explanation in words, built from the user's own language: YOUR STORY SO FAR and WHERE THIS LEAVES THE WORK, then WHY IT BEHAVES THIS WAY (the system that holds, the key tension, the loop, the opportunity, and where it can cross) | The reasons. The ground would show where things hold but never why |
+| **Pattern Synthesis** | **Where does it hold, and where can it give?** (questions 1–3 as position and cost) | Position and cost on the ground: high and low ground, what keeps it this way, where it's easiest to fall or get stuck, the ridge, bare rock, and the price of each crossing. The only page that measures what a move takes | "At what cost." Every move would look equally possible |
+| **In Parallel** | **Where does the reading split?** (question 4) | Two independent readings checked against each other: the words (Analysis) and the ground (Synthesis). It finds hidden disagreements and agreements, emotional turns, overlaps in meaning, bridges, and hinges that neither page shows alone | The check. The picture would be taken as settled |
+| **Taking Action** | **Does what you would design meet the ground, and how would it move?** (the central test) | Turns the readings into ways (a program on ground that holds, a strategy that crosses low ground), costs each way, gives first moves, records the decision, and logs WHAT YOU DID, which closes the map → act → re-map loop | The consequence. Nothing would be decided or tried, and the loop could never close |
+
+Mapping Context and Mapping Landscape gather the input: the goal, the seven answers, and the notes with their place, emotion, source, and voice.
+
+## Recurrence is by design
+The same finding often appears on several pages. On the 11-18 workbook, "good fire" pulled two ways appears on all four pages, and so does tradition left unanswered. Each page answers the same core question from its own angle (words, ground, check, action). Repetition across pages is acceptable when the angle differs. Within one page it is not.
+
+## Time: a question already present, not yet read
+**"What has shifted since last time?"** is the four core questions asked across saves: what still holds, what has started to move, what has shifted, and where the reading has changed.
+- It's within scope: the living loop (map → act → re-map) is decided [D] (§1).
+- Its data already exists:
+  - emotion history per note (`eh`, v193);
+  - WHAT YOU DID and the notes flagged to re-map (`acts`, `remap`, v194);
+  - SINCE YOU ACTED on Mapping Landscape.
+- No reading page reads it yet. The history is used only as a cost (hysteresis).
+
+Within one save, the method reads the present against what lies toward the goal (now and later). Between saves, it doesn't yet read anything.
 
 ---
 
