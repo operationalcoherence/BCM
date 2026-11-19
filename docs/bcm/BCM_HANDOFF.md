@@ -48,7 +48,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - Tests: tests/ta_flow.py (new, the whole constraint loop), plus matrix, relief_text, and dump2. matrix.py and relief_text.py accept `GSMJS=<file>` to compare against an older build.
 
 ## Open calls for him
-- Answered in the review table and applied in v236 (docs/v236_update.md). Still open: and whether place pages' written readings get v244's treatment (bare rock as color on place maps). F8 is not in this cycle. D8: voices stay equal until F8. The WebM download and A1 come after F8, or are dropped.
+- Answered in the review table and applied in v236 (docs/v236_update.md). Still open: whether place pages' written readings get v244's treatment (bare rock as color on place maps). F8 is not in this cycle. D8: voices stay equal until F8. The WebM download and A1 come after F8, or are dropped.
 - Older items not in the table (his redlines on claude/meaning_patterns_draft.md and claude/structure_pass_plan.md, the U5 instruction redlines, the real-tile check, small calls v191–v194): treat them as settled by the table unless he raises them.
 
 ## Standing rules (his)
