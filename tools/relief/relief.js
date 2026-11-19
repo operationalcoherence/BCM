@@ -242,7 +242,13 @@ function mount(host, D) {
     BADGE.push(rp[bi]);
     const badges = [rp[bi]].map(p => { const o = lab(R.key, 'wl', p[0], p[1], 5, 6, -13, -13, info);
       o.el.style.background = RC[R.key]; o.el.style.color = R.key === 'B' ? '#111' : '#fff'; o.el.style.borderColor = R.key === 'B' ? '#111' : '#fff'; return o; });
-    WAYS[R.key] = { tube, edge, badges, mat };
+    /* v240: arrowheads along the way, pointing the way it goes (from the present to the goal) */
+    const shell = new THREE.MeshBasicMaterial({ color: R.key === 'B' ? '#222222' : '#ffffff', side: THREE.BackSide, transparent: true, opacity: 0.95 }), arrows = [], len = c.getLength(), na = Math.max(2, Math.min(14, Math.round(len / 42))), up = new THREE.Vector3(0, 1, 0), bp = new THREE.Vector3(X(rp[bi][0]), 0, Z(rp[bi][1]));
+    for (let i = 0; i < na; i++) { const t = (i + 0.5) / na, at = c.getPointAt(t), tg = c.getTangentAt(t).normalize();
+      if (Math.hypot(at.x - bp.x, at.z - bp.z) < 9) continue;
+      const q = new THREE.Quaternion().setFromUnitVectors(up, tg), cone = new THREE.Mesh(new THREE.ConeGeometry(4.4, 10, 16), mat); cone.position.copy(at).addScaledVector(tg, 2); cone.quaternion.copy(q); cone.castShadow = true; scene.add(cone); arrows.push(cone);
+      const ce = new THREE.Mesh(new THREE.ConeGeometry(5.3, 12, 16), shell); ce.position.copy(cone.position); ce.quaternion.copy(q); scene.add(ce); arrows.push(ce); }
+    WAYS[R.key] = { tube, edge, badges, mat, arrows, shell };
   });
   const LOOPS = new THREE.Group(); scene.add(LOOPS); let loopKey = '';
   const loopMat = new THREE.MeshStandardMaterial({ color: 0x3a1f0c, roughness: 0.5, emissive: 0x2a1205, emissiveIntensity: 0.4 }), haloMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 });
@@ -265,7 +271,7 @@ function mount(host, D) {
         hoseN++; } }
     dirty = true; }
   let selWay = null, hovWay = null;
-  function showWays() { const k = hovWay || selWay; Object.keys(WAYS).forEach(q => { const w = WAYS[q], on = !k || q === k; w.mat.opacity = on ? 1 : 0.15; if (w.edge) w.edge.material.opacity = on ? 0.9 : 0.1; w.badges.forEach(b => { b.el.style.opacity = on ? 1 : 0.25; }); }); dirty = true; }
+  function showWays() { const k = hovWay || selWay; Object.keys(WAYS).forEach(q => { const w = WAYS[q], on = !k || q === k; w.mat.opacity = on ? 1 : 0.15; if (w.edge) w.edge.material.opacity = on ? 0.9 : 0.1; if (w.shell) w.shell.opacity = on ? 0.95 : 0.12; w.badges.forEach(b => { b.el.style.opacity = on ? 1 : 0.25; }); }); dirty = true; }
   const ray = new THREE.Raycaster(), mv = new THREE.Vector2();
   function wayAt(ev) { if (!PICK.length) return null; const r = renderer.domElement.getBoundingClientRect(); mv.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(mv, camera); const hit = ray.intersectObjects(PICK, false)[0]; return hit ? hit.object.userData.key : null; }
   /* v233: where a tap lands on the ground, in the engine's own coordinates */

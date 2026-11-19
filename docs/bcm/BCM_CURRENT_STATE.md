@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 24 · 2026-11-19 · Preview at **v239** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
+Rev 25 · 2026-11-19 · Preview at **v240** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
 
 ## Shipped
+- **v240** (2026-11-19, preview): direction arrows on the ways on card maps (present to goal, outlined so they read on any ground). See `docs/v240_update.md`.
 - **v239** (2026-11-19, preview): Taking Action shows each card's 3D map open under its decision strip; the card legend is folded; everything else stays closed. See `docs/v239_update.md`.
 - **v238** (2026-11-19, preview): F1 item 1. A workbook with both maps gets YOUR PLACE IN 3D, a closed fold on Analysis and Synthesis with the place ground (place notes P1, P2, and so on). The line map is untouched. See `docs/v238_update.md`.
 - **v237** (2026-11-19, preview): Way A on strategy cards follows the data's path, through the low ground (nearest the ridge first, defiance last), over the nearest ridge, and up to acceptance, matching THE WAY ACROSS. See `docs/v237_update.md`.
