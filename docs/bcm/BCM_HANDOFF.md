@@ -5,7 +5,7 @@
 ## First thing next session
 1. Attach operationalcoherence/BCM with push. If it's refused, tell him plainly and stop; don't work around it. (A read-only clone of the public repo is fine for reading code.) On 11-18 every first attempt was refused, and each time it worked after he said "push access granted."
 2. ~~A short check of Taking Action only~~ Done in v230. What it left open (the "Carries furthest" wording, the ground card titles in docs/v230_update.md, and his redlines on the v226 wording at the end of docs/v226_update.md) goes into the review table.
-3. **Next:** (a) ~~Way A~~ done in v237: it follows the data's path (docs/v237_update.md); (b) confirm "One through four" in Start here 03 (he wrote "One and four"); (c) talk through F1/F2 with him; then (d) F8. History: **His call (11-19 07:06): finish the whole build (everything except F8) first, then one thorough review, as a table, before F8.** All redlines (step 9 part 2 in docs/v232_update.md, the v226 wording, the R items, the word-budget cuts, and every open call below) go into that table, not one at a time. Reprioritized 11-19 07:37 by effect on the UI (his usage is limited): done are 3c the ground tap (v233), the tour act captions (v234), and the YOUR OWN WORDS strip (v235). Still to do: the word-budget cuts, drafted straight into the review table; the WebM download (skipped for now); A1 (skipped for now). Rows 34 and 35 (THE EMOTION CHANGES and PLACED ONE WAY, TIED THE OTHER wording) go in the table. F1/F2 is discussed in the review. F8 is last.
+3. **Next:** (a) ~~Way A~~ done in v237: it follows the data's path (docs/v237_update.md); (b) "One through four" confirmed by him 11-19 09:57; (c) talk through F1/F2 with him. **F8 is not part of this cycle** (his call, 11-19 09:56). History: **His call (11-19 07:06): finish the whole build (everything except F8) first, then one thorough review, as a table, before F8.** All redlines (step 9 part 2 in docs/v232_update.md, the v226 wording, the R items, the word-budget cuts, and every open call below) go into that table, not one at a time. Reprioritized 11-19 07:37 by effect on the UI (his usage is limited): done are 3c the ground tap (v233), the tour act captions (v234), and the YOUR OWN WORDS strip (v235). Still to do: the word-budget cuts, drafted straight into the review table; the WebM download (skipped for now); A1 (skipped for now). Rows 34 and 35 (THE EMOTION CHANGES and PLACED ONE WAY, TIED THE OTHER wording) go in the table. F1/F2 is discussed in the review. F8 is last.
 4. When he reports something already fixed, check which version his page shows first (the label is at the bottom of the page). GitHub Pages can serve the previous build for up to ~10 minutes after a push.
 
 ## Review cadence (agreed 11-18 17:18; confirmed 11-19)
@@ -48,7 +48,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - Tests: tests/ta_flow.py (new, the whole constraint loop), plus matrix, relief_text, and dump2. matrix.py and relief_text.py accept `GSMJS=<file>` to compare against an older build.
 
 ## Open calls for him
-- Answered in the review table and applied in v236 (docs/v236_update.md). Still open: "One through four" (Start here 03), F1/F2 (talk first), and F8's own open calls. D8: voices stay equal until F8. The WebM download and A1 come after F8, or are dropped.
+- Answered in the review table and applied in v236 (docs/v236_update.md). Still open: F1/F2 (talk first). F8 is not in this cycle. D8: voices stay equal until F8. The WebM download and A1 come after F8, or are dropped.
 - Older items not in the table (his redlines on claude/meaning_patterns_draft.md and claude/structure_pass_plan.md, the U5 instruction redlines, the real-tile check, small calls v191–v194): treat them as settled by the table unless he raises them.
 
 ## Standing rules (his)
@@ -94,7 +94,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 ## Later work, in order
 1. ~~Way A~~ done, v237.
 2. F1/F2: talk it through with him.
-3. F8, project lead dashboards: LAST. Plan in BCM_ARCHITECTURE.md §12a. Firebase: "The Bear Canyon Method", Spark plan ($0), Firestore nam5, rules locked, web app "BCM Preview", Google sign-in on. Never upgrade to Blaze without asking. Never put the Firebase web config or key in chat, docs, memory, or the repo. Test data only until there is a privacy page.
+3. F8, project lead dashboards: not this cycle (his call 11-19). When it comes: Plan in BCM_ARCHITECTURE.md §12a. Firebase: "The Bear Canyon Method", Spark plan ($0), Firestore nam5, rules locked, web app "BCM Preview", Google sign-in on. Never upgrade to Blaze without asking. Never put the Firebase web config or key in chat, docs, memory, or the repo. Test data only until there is a privacy page.
 4. After F8, if still wanted: the WebM download of the tour, and A1 (threads across question boundaries).
 
 Not yet done: docs/v193_update.md was never written (v193 is F6 hysteresis).
