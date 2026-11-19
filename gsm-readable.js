@@ -1528,7 +1528,7 @@
     return pd
       ? '<details class="fold gtpl" style="margin:14px 0 18px"><summary>YOUR PLACE IN 3D</summary><div class="intsub" style="margin:4px 0 8px">The notes you placed on the place map' +
           (pd.place && pd.place.name ? ", at " + String(pd.place.name).replace(/&/g, "&amp;").replace(/</g, "&lt;") : "") +
-          ', on the real land. The ground is the real terrain, true to scale; emotion shows only as color.</div><div class="gtplbox"></div></details>'
+          ', on the real land. The ground is the real terrain, its heights exaggerated so the slopes show (the legend gives how much); emotion shows only as color.</div><div class="gtplbox"></div></details>'
       : "";
   };
   document.addEventListener(
@@ -19282,7 +19282,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v241");
+        t && (t.textContent = "v242");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {

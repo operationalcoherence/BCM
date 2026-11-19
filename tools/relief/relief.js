@@ -55,9 +55,11 @@ function mount(host, D) {
   function bil(arr, x, y) { const fx = Math.max(0, Math.min(VX - 1.001, x / CX)), fy = Math.max(0, Math.min(VY - 1.001, y / CY)), i = fx | 0, j = fy | 0, u = fx - i, v = fy - j;
     const g = (ii, jj) => arr[jj * VX + ii]; return g(i, j) * (1 - u) * (1 - v) + g(i + 1, j) * u * (1 - v) + g(i, j + 1) * (1 - u) * v + g(i + 1, j + 1) * u * v; }
   const hRaw = (x, y) => bil(D.hn, x, y) * HS;
-  /* a place: the ground is the real terrain, true to scale (meters per map unit); emotion shows only as color */
+  /* a place: the ground is the real terrain (meters per map unit), heights x VEX so benches and slopes show (v242); emotion shows only as color */
   const MPU = PL ? 156543.03392 * Math.cos(Math.atan(Math.sinh(Math.PI * (1 - 2 * (PL.Y0 + H / 2 / PL.k) / 256)))) / PL.k : 1;
-  function hAt(x, y) { if (PL) return PL.elev ? PL.elev(x, y) / MPU : 0; const e = 0.6, gx = (hRaw(x + e, y) - hRaw(x - e, y)) / (2 * e), gy = (hRaw(x, y + e) - hRaw(x, y - e)) / (2 * e), s = Math.hypot(gx, gy);
+  /* v242: up to 2.5x, but never more than ~70 units of rise (about the line map's own relief), never below true scale */
+  const VRG = PL && PL.elev && PL.elev.hi > PL.elev.lo ? (PL.elev.hi - PL.elev.lo) / MPU : 0, VEX = VRG ? Math.max(1, Math.min(2.5, 70 / VRG)) : 2.5, VXT = VEX > 1.05 ? 'with heights exaggerated ' + (Math.round(VEX * 10) / 10) + '× so its slopes and benches show' : 'true to scale';
+  function hAt(x, y) { if (PL) return PL.elev ? PL.elev(x, y) / MPU * VEX : 0; const e = 0.6, gx = (hRaw(x + e, y) - hRaw(x - e, y)) / (2 * e), gy = (hRaw(x, y + e) - hRaw(x, y - e)) / (2 * e), s = Math.hypot(gx, gy);
     const k = sstep(0.25, 1.1, s), ux = s > 1e-4 ? -gy / s : 1, uy = s > 1e-4 ? gx / s : 0, across = x * ux + y * uy, along = (x * gx + y * gy) / (s || 1);
     const gul = (ridged(across * 0.18 + vn(x * 0.04, y * 0.04) * 2, along * 0.025, 3) - 0.4) * 2.4 * k;
     return (hRaw(x, y) + gul + (ridged(x * 0.11 + 3, y * 0.11 + 7) - 0.35) * 0.9 * (1 - 0.6 * k) + (fbm(x * 0.35, y * 0.35, 3) - 0.5) * 0.5); }
@@ -96,7 +98,7 @@ function mount(host, D) {
     let c = [0, 0, 0]; for (let k = 0; k < K; k++) { const w = b(k); c = [c[0] + EMOC[k][0] * w, c[1] + EMOC[k][1] * w, c[2] + EMOC[k][2] * w]; } return [c, b(K), b(K + 1), b(K + 2)]; }
 
   /* ---------- ground texture: grass, soil, rock by slope; emotion hue at 60% ---------- */
-  const TW = 1600, TH = Math.round(TW * H / W), tcv = CH.tcv || document.createElement('canvas'); if (!CH.tcv) { tcv.width = TW; tcv.height = TH; }
+  const TW = PL ? 2560 : 1600, TH = Math.round(TW * H / W), tcv = CH.tcv || document.createElement('canvas'); if (!CH.tcv) { tcv.width = TW; tcv.height = TH; }
   function paint(base) {
     const ctx = tcv.getContext('2d'), img = ctx.createImageData(TW, TH), px = img.data, bp = base && base.data;
     const GR = [98, 108, 62], GR2 = [140, 134, 86], SO = [124, 96, 66], SO2 = [86, 68, 50], RK = [122, 118, 112], RK2 = [168, 160, 148], lum = q => 0.3 * q[0] + 0.59 * q[1] + 0.11 * q[2];
@@ -284,7 +286,7 @@ function mount(host, D) {
   function hoverWay(k) { if (k === hovWay) return; hovWay = k; showWays(); if (D.onWay) D.onWay(k); }
   /* ---------- legend ---------- */
   const sw = c => `rgb(${c.map(v => v | 0).join(',')})`, order = [[0, 'the highest ground'], [1, 'a ridge'], [2, 'low ground'], [3, 'lower ground'], [4, 'the lowest ground']];
-  leg.innerHTML = '<b>LEGEND</b>' + order.map(([rk, t]) => { const k = RANK.indexOf(rk); return k < 0 ? '' : `<div class="r"><i style="background:${sw(EMOC[k])}"></i><span>${D.emo[k][0]}${PL ? '' : ': ' + t}</span></div>`; }).join('') + (PL ? '<div class="r"><i style="background:linear-gradient(#cfc8b8,#7d7566)"></i><span>The ground is the real terrain, true to scale. Emotion shows only as color.</span></div>' : '') +
+  leg.innerHTML = '<b>LEGEND</b>' + order.map(([rk, t]) => { const k = RANK.indexOf(rk); return k < 0 ? '' : `<div class="r"><i style="background:${sw(EMOC[k])}"></i><span>${D.emo[k][0]}${PL ? '' : ': ' + t}</span></div>`; }).join('') + (PL ? '<div class="r"><i style="background:linear-gradient(#cfc8b8,#7d7566)"></i><span>The ground is the real terrain, ' + VXT + '. Emotion shows only as color.</span></div>' : '') +
     (PL ? '<div class="r"><i style="background:rgba(120,160,120,.45);border:2px solid #2a9d8f"></i><span>Shaded patches: areas you drew on the place map, in their emotion’s color.</span></div><div class="r"><i style="background:#8a8577"></i><span>Satellite image without color: no notes nearby, so no information here.</span></div>' : '<div class="r"><i style="background:rgb(140,135,127)"></i><span>Bare rock face: two distant emotions meet with no ridge of indifference between them, so getting across is a climb. A big move takes energy either way; most moves go through indifference.</span></div>' +
     '<div class="r"><i style="background:rgb(116,122,74)"></i><span>Plain grass, soil or rock, no color: no notes nearby, so no information here.</span></div>') +
     (D.routes && D.routes.length ? D.routes.map(R => `<div class="r"><i style="background:${RC[R.key]};border-color:#111;height:6px;margin-top:5px"></i><span><b style="display:inline;letter-spacing:0;font-size:12.5px">${R.key}</b> · ${R.name.replace(/[<>&]/g, '')}</span></div>`).join('') : '') +
