@@ -109,3 +109,4 @@ Not yet done: docs/v193_update.md was never written (v193 is F6 hysteresis).
 - Wording review sheet (done): https://claude.ai/artifact/KkdeKLx5E45pWKpYU1FE3V
 - F8 mockup: https://claude.ai/artifact/Dqy6xjxr4wPyGpKAf6hn4T
 - F8 costs write-up: https://claude.ai/artifact/4QdCsBzitJneX76CDjHuiL
+- **The pre-F8 review table (11-19, v235): https://claude.ai/artifact/84H2tJCmJvqMcQoDDZdrit** (38 rows; his answers come back as pasted text)
