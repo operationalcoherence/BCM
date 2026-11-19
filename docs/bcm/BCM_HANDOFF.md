@@ -1,80 +1,135 @@
 # BCM_HANDOFF.md
 
-2026-11-18 · Preview at v219 (v197–v219 pushed 11-18; v219: no paper citation in the tours, his call; In Parallel figure has full screen with HOW TO READ IT; v218: patterns row kept in full screen; v217: patterns row on Synthesis only; v216: In Parallel cut to the figure, 5c–5e done; v214: the figure drawn with lines, his call 14:09; v215: In Parallel IS that figure, and the action grid is deleted, his call 14:30); Phases 1 and 2 of the review plan done through step 7, plus the In Parallel figure (5a/5b, v213); the tour (4c) has his 11-18 afternoon notes in (v210) · /gsmlive is defunct (his word, 11-17); the BCM page is operationalcoherence.com/bcm · His v196 review (11-18) is analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook): that plan is the work queue.
+2026-11-18, evening. Preview at **v219** (v197–v219 all pushed 11-18). The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
 
-v210–v213 (11-18 afternoon). v210: his tour notes (full screen on Play; big Play/Pause and End tour at bottom center, `.tourbar`; bigger captions held by reading time; READING THE GROUND opens the tour via `D.intro` = `introStops()`; bare rock reading from `rockFaces()`, the relief's rule replicated in the engine; WHAT THE GROUND SAYS reworded; Pattern Analysis has its own primer tour, his question answered as "two tours, different jobs"). The engine's Escape handler for `.pnet.fs` now skips `.grel`. v211: 3d, bigger themes in WHAT IT PRODUCED. v212: step 7 (patterns row above the figure; questions only under PATTERNS; bold matches; answer links). v213: THE TWO PICTURES, SIDE BY SIDE (`gsmAgreeFig()`, built inside the In Parallel IIFE from p/g/m/v/y/w and inserted before the In Parallel part as its own plab; relief `hoses()`/`hoseCount()`; `window.gsmSynRel`, `window.gsmSynHost`); line maps only (`gsmData().place` set means place map). Patch scripts v210–v213 all apply from v209 (3a00154) in order; tests/tour.py, tour_an.py, agree.py.
-Next: Taking Action (step 8: grouping, chart shown, constraint fields that go somewhere), Mapping Context (step 9), then Phase 3 (WebM download of the tour, captions from his confirmed meanings, 3g YOUR OWN WORDS strip, the poetic pass). Open for him: does the tour's feasibility sentence say what he means; are ~1.5 min tours OK; should WHAT IT MIGHT MEAN quote notes for lone words as v211 does.
+## First thing next session
+1. Attach operationalcoherence/BCM with push. If it's refused, tell him plainly and stop; don't work around it. (A read-only clone of the public repo is fine for reading code.) On 11-18 the first attempt was refused; it worked after he said "push access granted."
+2. Pick up at **Phase 2 step 8, Taking Action** (below). The review plan's section E holds calls already made; don't re-ask them. He does not want lists of questions: make the call, say which, and let him redirect.
+3. When he reports something already fixed, check which version his page shows first (the label is at the bottom of the page). GitHub Pages can serve the previous build for up to ~10 minutes after a push; on 11-18 his 14:52 screenshots were v214 after v215 had deployed.
 
-First thing next session
-1. Attach operationalcoherence/BCM with push. If refused, tell him plainly and stop; don't work around it. (A read-only clone of the public repo is fine for checking code.)
-2. Follow the review plan, Phase 1 onward, from wherever CURRENT_STATE says the last version stopped. Its section E holds the calls already made; don't re-ask them. He does not want lists of questions: make the call, say which, and let him redirect.
+## Where the review plan stands
+- **Phase 1** (v197–v203): done.
+- **Phase 2:**
+  - Step 6 (Pattern Analysis reordered): done (v205–v207, v211 for 3d).
+  - Step 7 (Pattern Synthesis reordered): done (v212, v217, v218).
+  - Step 10 (In Parallel): done (v213–v216, v219; details below).
+  - **Next: step 8, Taking Action.** Group strategies and programs together; show the chart openly; one references list; each text field says in one line what it does, and what's written there goes somewhere (proposal: a named constraint shows on that note's card and in WHAT YOU DID, with a one-tap offer to add it to Q.4, Q.6, or Q.7); the poetic pass on THE WAY FORWARD comes in Phase 3.
+  - Then step 9, Mapping Context: instructions in a drop-down, emotion definitions where notes are written (2g; approved quotes in claude/emotion_definitions_draft.md), the Start here text moved to its pages (his redlines, items marked R, still pending).
+- **Phase 3:** a WebM download of the tour; tour captions from his confirmed meanings of the four acts; 3g, YOUR OWN WORDS as a strip (Q.1 to Q.7, key phrases under each); the word-budget ("poetic") pass with every cut shown to him first; 3c, the "no questions" click on the map.
 
-Start here
-Repo operationalcoherence/BCM (public; attach with push to publish). main feeds the preview page through GitHub Pages.
-Build: edit gsm-readable.js (the source) → npx esbuild@0.24 gsm-readable.js --minify --outfile=gsm-preview.js. 3D: tools/relief/relief.js + three@0.187.0 → npx esbuild tools/relief/relief.js --bundle --minify --format=iife --outfile=gsm-relief.js (install three and esbuild in a scratch dir and point NODE_PATH at it). Both builds reproduce byte for byte from source. Relief edits ride in the version's patch script with a --relief switch (v196, v197 do this).
-Each version = one patch script in tools/patches/ (it must reproduce the source exactly) + docs/vNNN_update.md. Bump the label (t.textContent = "vNNN").
-Test every version:
-tests/matrix.py on his workbooks plus mkwb.py's synthetic ones (always the clinic one). mkwb.py reads tests/real.json and tests/broadview.json: copy his two workbooks there and keep them out of git (add tests/real.json, tests/broadview.json, and tests/wb_*.json to .git/info/exclude, or delete them before committing; the repo is public);
-with the 3D loaded: tests/relief_text.py "str1|str2" wb.json … It takes about a minute per workbook. Matrix blocks the 3D and can't see card failures (v174 lesson).
-To look at the 3D, screenshot it with Playwright and swiftshader (--use-angle=swiftshader --enable-unsafe-swiftshader). Cards mount only when scrolled into view, and park when scrolled away.
-grep -c 'AAPK\|AIza' = 0.
-His workbooks: workbooks/bear-canyon-workbook-2026-11-18.json (line map, 35 notes; newest, test it first; N32–N35 are aggression he placed on the help side on purpose), workbooks/bear-canyon-workbook-2026-11-13.json (line map, 31 notes) and workbooks/bear-canyon-workbook-2026-11-05.json (Broadview, place map, 14 notes) in the Claude project. Read them with the project tool, don't ask him. Test every version on all three (11-18 first). Quick setup used in v205: tests/w18.json is the 11-18 workbook without its edit log; tests/real.json (11-13) was derived from it (first 31 notes, N26 back to Q.2, resp|nnujara dropped); both are excluded from git.
-Esri and AWS tiles can't be reached from the sandbox. Test with stand-in tiles, and ask him to check the real ones on the preview.
-Project memory: docs/bcm/ in the repo (ARCHITECTURE, CURRENT_STATE, TASK_QUEUE, CONCEPT_REGISTRY, this file). The Claude project holds workbooks/, a private archive/ (18 design notes that quote his workbook), claude/layers_tracker.md, claude/README.md, claude/v196_review_plan.md, claude/emotion_definitions_draft.md (approved quotes) and papers/Vigneaux_2026_JEM_paper.md.
-His JEM paper (Vigneaux, 2026): FULL TEXT is in the Claude project at papers/Vigneaux_2026_JEM_paper.md (saved 11-18 from his PDF). Read it there for every emotion meaning and dynamic. Never ask him for the paper again; he has had to send it more than once.
-The preview page is public: every push is live for visitors within minutes. "Preview only" means: never touch anything else.
+## What 11-18 built (v210–v219)
+- **The tour (v210, v219).**
+  - Play opens full screen. A big Play/Pause button sits at the bottom center, with End tour beside it.
+  - Captions are 17 px with 20 px titles, held by reading time (the Synthesis tour runs about 1.5 min on 11-18).
+  - It opens with READING THE GROUND: what color and height mean, what a move costs, which moves are feasible now, and bare rock.
+  - Bare rock has its own reading (`rockFaces()` replicates the relief's rock rule in the engine).
+  - Pattern Analysis has its own short "how to read this map" tour (`introStops(true)`); his question was answered as "two tours, different jobs."
+  - v219: no paper citation in either tour.
+- **WHAT IT PRODUCED (v211):** bigger themes from repeated phrases that share notes; no lone words; leads into YOUR LANDSCAPE.
+- **Pattern Synthesis (v212, v217, v218):**
+  - A patterns row sits above the map (Synthesis only), and full screen carries it into the map.
+  - The Supports questions appear only under PATTERNS.
+  - Matching words are in bold; findings with no note link back to their answers.
+- **In Parallel (v213–v216, v219).** The tab is THE TWO PICTURES, SIDE BY SIDE, drawn with lines:
+  - The left column holds Analysis's words. Box styles: black = contested, dashed = a gap, teal = unused support, grey = designed without a cause.
+  - Each word has a line to every note that carries it: solid black where the ground agrees, dashed red where it asks.
+  - The ground is painted by the relief's own rule.
+  - Tapping a word reads it and draws its lines on the Synthesis 3D.
+  - Full screen opens with a HOW TO READ IT panel.
+  - Under the figure: Where to start, then MORE FROM BOTH PICTURES (closed), then THE EARLIER 3D VIEW (closed).
+  - Line maps only; on place maps (Broadview) the figure doesn't show and the agree/differ text stays.
+  - Code: `gsmAgreeFig()` (built in the In Parallel IIFE from the lists p/g/m/v/y/w), `gsmIntOrder()`, relief `hoses()`/`hoseCount()`, `window.gsmSynRel`/`gsmSynHost`/`gsmSynPend`.
+- **The action grid is deleted** (v215, his call). MOVES, IN ORDER now says "easy to take, on ground that already holds," using each note's ease from gsmDerive. Nothing is drawn from it.
+- **Bugs fixed on the way:**
+  - Escape in full screen left the button saying "Close full screen" and threw an error; the engine's `.pnet.fs` handler now skips `.grel`.
+  - Off-frame labels piled up at the edges of the 3D; they're hidden now.
+  - The patterns row leaked onto the Analysis map, where it did nothing (v217).
 
-Template note (v217 lesson): the terrain module's markup is shared by the Analysis map, the Synthesis map, In Parallel's earlier 3D, and the cards. Anything added to it shows on all of them unless gated on ANH / PAR / CARDH; check each tab after a change there.
-Deploy note: GitHub Pages can serve the previous build for up to ~10 minutes after a push (his 14:52 screenshots were v214 after v215 had deployed). The version label is at the bottom of the page; when he reports something already fixed, check it first.
+## Open calls for him (raise one only when the work reaches it; never as a list)
+- Does the tour's feasibility sentence say what he means? ("From acceptance and indifference, change can start now; from distrust, aggression, and defiance, it is unlikely in the short or medium term.")
+- Are tours of about 1.5 minutes all right?
+- The figure's word labels and WHAT IT MIGHT MEAN still show lone words where the workbook repeats no phrase ("tradition", "reduce"). Quote the shortest note instead, as v211 does?
+- Social media is a strategy but ranks 5th, so it's hidden (v202).
+- Way A's zigzag across the line on strategy cards (v203) is still open.
+- Older, still waiting:
+  - His redlines on his own text in the review (items marked R) and the U5 instruction redlines (docs/v173_update.md, bottom).
+  - D8: voice weighting on by default, or a switch? Also D1/F1/F2, and review rows 34 and 35.
+  - The real-tile check on the preview.
+  - F8's open calls.
+  - Small calls: friction and hysteresis weights (v192/v193); a coworker's deletions on Combine (v191); Combine and PDF for WHAT YOU DID (v194).
 
-Standing rules (his)
-Preview only. American spelling. "Emotion", never "feeling". "The method" = the whole BCM. Q.1–Q.4 are grasping context; Q.5–Q.7 are designing for the context grasped. Use that distinction on screen where necessary (his words, 11-18; replaces the old "grouping is silent" rule, which he didn't recognize). Changes go in the engine for everyone, never tied to his workbook. Never merge words unless he says (THE SAME THING? asks). Flag Claude's wording; show redlines for his text and wait. Send files one per message. Serial comma everywhere. Story over list; tell people what they don't already know. Don't ask him long lists of questions (11-18): decide, say which, let him redirect.
-New (11-18 15:21): tour captions never cite the paper (no "(Vigneaux, 2026)" on either tour); page text keeps its citations.
-New (11-18 14:30): no action grid anywhere in the project ("I don't want the grid anywhere near this project"). Don't propose, mock up, or reintroduce it, including its Act Here / Act Anywhere or reach language. In Parallel is THE TWO PICTURES, SIDE BY SIDE with lines (v214/v215).
-New (11-17 night): don't frame anything in the method as context-free versus context-sensitive, or as bounded applicability. That is Snowden and Juarrero's, and the method must stand in its own terms.
+## Standing rules (his)
+- Preview only: never touch anything else. The preview page is public; every push is live within minutes.
+- American spelling; serial comma everywhere. "Emotion", never "feeling". "The method" = the whole BCM.
+- Q.1–Q.4 are grasping context; Q.5–Q.7 are designing for the context grasped. On screen, say "the context you have grasped" and "what you would design" rather than leaving question numbers bare.
+- Changes go in the engine for everyone, never tied to his workbook.
+- Never merge words unless he says (THE SAME THING? asks).
+- Flag Claude's wording; show redlines for his text and wait.
+- Story over list; tell people what they don't already know. Send files one per message.
+- Don't ask long lists of questions: decide, say which, let him redirect.
+- **No action grid anywhere in the project** (11-18 14:30: "I don't want the grid anywhere near this project"). Don't propose, mock up, or reintroduce it, including its Act Here / Act Anywhere or reach language.
+- **Tour captions never cite the paper** (11-18 15:21). Page text keeps its citations.
+- Don't frame anything in the method as context-free versus context-sensitive, or as bounded applicability (Snowden and Juarrero's terms); the method stands in its own terms.
+- Never rely on hover alone to carry meaning (v207).
 
-Architecture in one breath
-One IIFE engine (~21k lines) plus an appended terrain module. The module's mount(host, data) has modes: Synthesis (default), card (Taking Action), an (Pattern Analysis), an+par (In Parallel). The 3D relief (window.gsmRelief.mount) replaces the canvas when WebGL is available; the canvas is the fallback only. Terrain coordinates are the line map's (340×230; the help and hinder line is y = 118; START (10,118), GOAL (305,118)). Ways on cards: buildCourse() makes ROUTES (A through its notes, B firm ground only, C from the support); routeStats() gives effort, impact, benefit, friction, boomerang risk, rock faces. The action grid was deleted in v215 (his call). MOVES, IN ORDER on strategy cards still reads each note's ease from window.gsmGridPts, which gsmDerive() computes on every pass; nothing is drawn from it.
-Found 11-18 (read-only, v196): card titles are the single thread word (jt(t) in the .coa header), the root of "aggressive", "management", "social", "media". FIRST MOVES (Un(), ~line 8722) is built once per card from the answers, not per way. NO RESPONSE YET = window.gsmNR, hindering notes nothing in Q.5–Q.7 answers. The constraint textareas save to asks["cons|id"] but nothing reads them.
+## How to build and test
+- **Repo:** operationalcoherence/BCM (public). main feeds the preview through GitHub Pages; the page loads gsm-preview.js and gsm-relief.js with a per-minute cache-buster.
+- **Engine:** edit gsm-readable.js, then `esbuild@0.24 gsm-readable.js --minify --outfile=gsm-preview.js`.
+- **3D:** tools/relief/relief.js plus three@0.187.0, then `esbuild tools/relief/relief.js --bundle --minify --format=iife --outfile=gsm-relief.js`. Install three and esbuild in a scratch directory and point NODE_PATH at it. Both builds reproduce byte for byte from source.
+- **Each version** = one patch script in tools/patches/ (engine edits; relief edits behind `--relief`) + docs/vNNN_update.md + the label bump (`t.textContent = "vNNN"`). The patch scripts reproduce the source exactly.
+  - To rebuild from scratch, restore gsm-readable.js and tools/relief/relief.js from v209 (commit 3a00154) and run v210 → v219 in order, each on the relief with `--relief` and then on the engine.
+  - Restoring with `git checkout <commit> -- files` stages them. Before any `git checkout -- .`, run `git checkout HEAD -- <files>` to get back to the committed state.
+- **His workbooks** are in the Claude project:
+  - workbooks/bear-canyon-workbook-2026-11-18.json: line map, 35 notes; test it first. N32–N35 are aggression he placed on the help side on purpose.
+  - workbooks/bear-canyon-workbook-2026-11-13.json: line map, 31 notes.
+  - workbooks/bear-canyon-workbook-2026-11-05.json: Broadview, a place map, 14 notes.
 
-What v197 does (docs/v197_update.md in the patch)
-1. THE BEAR CANYON METHOD · BY OPERATIONAL COHERENCE under every 3D map (Synthesis, Analysis, In Parallel, cards), not only in full screen. His request: "pattern synthesis is missing this footnote."
-2. Indifference reads as one band: indifference notes are joined (shortest links first, none longer than 95 map units), and plain yellow runs along each join through other emotions' ground. On 11-13 it runs N8 → N21 → N26 → N31, into the acceptance, as he asked ("drag the yellow of indifference all the way into acceptance to N31; make that part of the engine"). Color only, line maps only.
-3. Ways drawn the same way on every card: fixed letters (the support way is always C, even with no B), one badge per way placed where it runs alone (was two, overlapping), ways that share ground run side by side. His note: "inconsistencies in strategy representation."
-Tested: matrix on 11-13, Broadview and all of mkwb's workbooks; relief_text with the 3D on 11-13, Broadview, clinic and the 200-note workbook. No page errors; keys grep 0.
+  Read them with the project tool; don't ask him.
+  - Local copies: tests/w18.json is 11-18 without its edit log; tests/real.json (11-13) is derived from it (first 31 notes, N26 back to Q.2, resp|nnujara dropped); tests/broadview.json.
+  - Keep all of them, and mkwb's tests/wb_*.json, out of git via .git/info/exclude; the repo is public.
+- **Tests, every version:**
+  - tests/matrix.py on his workbooks plus every mkwb workbook (always the clinic one).
+  - With the 3D loaded: tests/relief_text.py, tests/tour.py, tests/tour_an.py, tests/agree.py, tests/waymoves.py, tests/derive.py, as the change needs. Matrix blocks the 3D and can't see card failures.
+  - Look at the 3D with Playwright screenshots, using `--use-angle=swiftshader --enable-unsafe-swiftshader`. Cards and the Synthesis 3D mount only when scrolled into view.
+  - `grep -c 'AAPK\|AIza'` = 0 on both built files.
+  - Esri and AWS tiles can't be reached from the sandbox; ask him to check the real ones on the preview.
+- **Template note (v217):** the terrain module's markup is shared by the Analysis map, the Synthesis map, In Parallel's earlier 3D, and the cards. Anything added to it shows on all of them unless gated on ANH / PAR / CARDH; check each tab after a change there.
+- **Several terrain modules** sit in the page at once (one per tab). In tests, scope selectors to the visible one (`.closest('.gterr')`), or a hidden module's element answers instead.
 
-Decided 11-18
-In Parallel: KEEP the tab (with the review's cuts). Build the agreement figure as mockup 2 (Analysis words in a column at left, hoses onto the Synthesis ground; black = ground agrees, white = ground raises a question) as the figure that closes Pattern Synthesis; clicking a word draws that word's hoses on the 3D relief above (mockup 3's piece). Paint the ground with the relief's own colors. Retire In Parallel's existing 3D behind a switch; keep the code. Before moving anything, compute gsmGridPts outside In Parallel.
-Way A on cards follows FIRST MOVES (reversed in v203: the words follow the way instead). Other calls: claude/v196_review_plan.md section E.
+## Architecture in one breath
+- One IIFE engine (~22k lines) plus an appended terrain module. The module's mount(host, data) has modes: Synthesis (default), card (Taking Action), an (Pattern Analysis), and an+par (In Parallel's earlier 3D). The 3D relief (window.gsmRelief.mount) replaces the canvas when WebGL is available; the canvas is the fallback.
+- Terrain coordinates are the line map's: 340 × 230; the help and hinder line is y = 118; START (10, 118), GOAL (305, 118).
+- Ways on cards: buildCourse() makes ROUTES (A through its notes, B firm ground only, C from the support); routeStats() gives effort, impact, benefit, friction, boomerang risk, and rock faces.
+- gsmDerive() recomputes derived state on every pass (v199).
+- The phrase layer: phBest, phClause, phCentral, gsmPhName, gsmPhNameH, gsmPhTitle, gsmPurpose, all inside phKeep so the word tallies don't move.
+- Engine note ids are "note N"; on screen they're "N3".
+- Watch for a local `var P = []` shadowing the save function near the THE SAME THING? code (v205 bug).
+- NO RESPONSE YET = window.gsmNR. The constraint textareas save to asks["cons|id"], but nothing reads them yet (step 8 fixes this).
 
-v198 and v199 (11-18): v198 applied the review's decided wording (docs/v198_update.md). v199 is P2: gsmDerive() computes the action points (gsmGridPts, gsmGridAll) from the workbook on every pass, right after gsmMED is set in Ut; In Parallel's grid only draws them. gsmDerive saves and restores the word tallies (Mt, NmK, NmD), because calling Ht changes which spelling the pages show. tests/derive.py checks it. v200 is P1 on cards: helpers phBest (most-used phrase around stems), phClause (clause starting at stems), gsmPhTitle (cached per pass, unique titles), gsmPurpose (IN SERVICE OF THE GOAL); all wrapped in phKeep so the word tallies don't move; caches reset in gsmDerive. v201 adds gsmPhName (a finding's repeated phrase plus its notes; ctx = Q.1–Q.4 only), gsmSenses (ONE WORD fold), phIn, and phClause's near argument. v202 did the program/strategy rule (MixE in Fn), the switch (gsmModeOv/gsmModeBtn, asks["mode|key"], delegated click on .gsmmode), ground cards (after the Q.3/Q.7 cards), strategy cap 4. Engine note ids are "note N", not "N3". Open call for him: social media is a strategy but ranks 5th, so hidden. v203: wayMoves(k) in the terrain module, called from render() on cards, writes .fmway under FIRST MOVES. E9 reversed: the words follow the way (both reorderings made ways much longer; numbers in docs/v203_update.md); way A's zigzag still open. v205: Phase 2 step 6, first half: Analysis opens with AT A GLANCE, then THE SAME THING? as a prompt (one sentence per word; window.gsmSameAsk, read and cleared where Ot is built), then WHAT IT PRODUCED; WORDS THAT MAKE THE WORLD is its own plab (window.gsmWMW); question hovers on YOUR LANDSCAPE (.gtqpop, tests/qhover.py). Bug fixed: THE SAME THING? buttons never saved, because a local `var P = []` hid the save function; it now calls window.gsmSaveP. Watch for that shadowing in the same scope (~line 6831). v206: YOUR STORY SO FAR opening rewritten as a story (SY() in the Looking In builder; see ARCHITECTURE §9). BCM_ARCHITECTURE.md is Rev 9 (through v206). v207: card titles carry their context inline (gsmHdT; hover titles didn't work for him; never rely on hover alone); thread cards use phCentral() to pick the phrase's most central sentence (phBest now keeps .all per phrase). v208: the guided tour (4c) is built: startTour/stepTour/stopTour inside relief.js mount (camera legs between readings, eased; controls off while touring; captions in .tourcap from D.read[i].cap and D.groups); the engine passes grp and cap per reading. window.gsmTourSlow slows it for tests (tests/tour.py). v209: Pause/Play (pauseTour/resumeTour; a press on the map pauses; Reset view or Escape ends), caption left follows the full-screen legend pad, hover boxes off while playing; ~30 s. Still open for the tour: a WebM download, and captions from his confirmed meanings of the four acts. Next: 3d, then step 7. Next: WHAT IT PRODUCED deepened (3d), then step 7 (Pattern Synthesis reordered: layer menu above the figure, questions to PATTERNS THAT RUN THROUGH IT, legend, bold matches, links back to the map, IN YOUR ANSWERS rebuilt or cut). The guided tour (Phase 3, 4c) gets a Play button: his request 11-18.
+## Project memory
+- In the repo, docs/bcm/: this file, BCM_CURRENT_STATE.md, BCM_ARCHITECTURE.md (Rev 9, through v206; needs v207–v219 added), TASK_QUEUE, CONCEPT_REGISTRY.
+- In the Claude project:
+  - workbooks/ and a private archive/ (design notes that quote his workbook).
+  - claude/v196_review_plan.md (the queue) and claude/in_parallel_figure.md (the figure and his calls on it).
+  - claude/emotion_definitions_draft.md (approved quotes), claude/layers_tracker.md, claude/README.md.
+  - papers/Vigneaux_2026_JEM_paper.md: the FULL TEXT of his paper. Read it there for every emotion meaning and dynamic, and never ask him for the paper again.
 
-What happened on 11-17 night (after v197)
-Action grid (review row 30). He gave its meaning: Act Here = highly attentive to the context; Act Anywhere = act broadly, without contextual consideration. Then he rejected that framing as too close to Snowden and Juarrero. He chose emotional distance (option 1 of 3): how far the emotion has to travel for the action to land (Vigneaux, 2026). Then he said placing by emotion or map position is askew: "it's the analysis of the note itself." Three mocked options, redrawn twice (https://claude.ai/artifact/AR9ndBeY8DcMcyoERdHjEQ), were all called bad. Do not build or iterate on them. The grid stays parked; if it comes back, start from what single decision it should help someone make before Taking Action.
-If emotional distance comes back, read it from the note itself: (1) what it answers, meaning the Q.1–Q.4 notes it takes on and the emotion held there, not its own color; (2) what it asks of people (reinforce < design < redesign what they hold); (3) how settled it is (concrete vs abstract or a problem). Check first whether the word filter drops proper nouns: "Smokey Bear" in N24 shares no words with N1, which hides an obvious link.
-
-Insight on the 11-17 images (Claude's reading)
-1. The footer: fixed in v197 for every 3D map.
-2. The action grid: its axes read reach and the note's color, not the note itself. Parked.
-3. The faint yellow at N31: the emotion field's out-voting; v197 paints indifference as a joined band. A lone note of any other emotion can still be out-voted; leave it unless he raises it.
-4. The strategy card: letters, double badges, and hidden shared stretches fixed in v197. Not fixed: way A sorted by x zigzags across the line (5 crossings on the management card). Decided 11-18: way A follows FIRST MOVES; v203 measured it and reversed it (the words follow the way). The zigzag is still open.
-5. The mockups: grid rejected; In Parallel figure decided (above).
-
-Open work, in order
-1. claude/v196_review_plan.md, Phases 1–3 (that includes the In Parallel figure).
-2. Review rows 34 and 35, still open.
-3. A1 engine side: threads that cross question boundaries.
+## Later work, in order
+1. The rest of the review plan (steps 8 and 9, then Phase 3).
+2. Review rows 34 and 35.
+3. A1, engine side: threads that cross question boundaries.
 4. F1/F2: the fuller per-instance Esri map with topological anchoring (discuss with him first).
-5. F8, project lead dashboards: LAST. Remind him it's the last item left. Plan in BCM_ARCHITECTURE.md §12a; 6–9 versions. Safe first step if he wants it early: Firestore security rules tested with fake people. Review row 33 (TWO PEOPLE, TWO SIDES) is for the dashboard.
-Firebase: project "The Bear Canyon Method", Spark plan ($0), Firestore nam5, rules locked, web app "BCM Preview", Google sign-in on. Never upgrade to Blaze without asking. Never put the Firebase web config or key in chat, docs, memory or the repo; at build time allow exactly that one key in the AIza check. Test data only until there is a privacy page.
+5. F8, project lead dashboards: LAST. Remind him it's the last item left.
+   - The plan is in BCM_ARCHITECTURE.md §12a: 6–9 versions. Safe first step if he wants it early: Firestore security rules tested with fake people. Review row 33 (TWO PEOPLE, TWO SIDES) is for the dashboard.
+   - Firebase: project "The Bear Canyon Method", Spark plan ($0), Firestore nam5, rules locked, web app "BCM Preview", Google sign-in on.
+   - Never upgrade to Blaze without asking.
+   - Never put the Firebase web config or key in chat, docs, memory, or the repo; at build time, allow exactly that one key in the AIza check.
+   - Test data only until there is a privacy page.
+
 Not yet done: docs/v193_update.md was never written (v193 is F6 hysteresis).
 
-Still waiting on Gregory (don't re-ask as a list; raise one only when the work reaches it)
-Redlines on his own text in the review (plan items marked R). U5 instruction redlines (docs/v173_update.md, bottom). D8: voice weighting on by default, or a switch? D1/F1/F2. Review rows 34 and 35. Real-tile check on the preview after v197 goes live. F8 open calls. Small calls: friction and hysteresis weights (v192/v193); a coworker's deletions on Combine (v191); Combine and PDF for WHAT YOU DID (v194).
-
-Links
-Action grid mockups (all rejected): https://claude.ai/artifact/AR9ndBeY8DcMcyoERdHjEQ
-Both pictures in one figure (superseded by the mockup 2 decision): https://claude.ai/artifact/GfYmgywiBj3q7F7vKvgJR9
-Wording review sheet (done): https://claude.ai/artifact/KkdeKLx5E45pWKpYU1FE3V
-F8 mockup: https://claude.ai/artifact/Dqy6xjxr4wPyGpKAf6hn4T
-F8 costs write-up: https://claude.ai/artifact/4QdCsBzitJneX76CDjHuiL
+## Links
+- The two-pictures canvas (mockups 1–3 and the chosen "lines" artboard): https://claude.ai/artifact/GfYmgywiBj3q7F7vKvgJR9
+- Wording review sheet (done): https://claude.ai/artifact/KkdeKLx5E45pWKpYU1FE3V
+- F8 mockup: https://claude.ai/artifact/Dqy6xjxr4wPyGpKAf6hn4T
+- F8 costs write-up: https://claude.ai/artifact/4QdCsBzitJneX76CDjHuiL
