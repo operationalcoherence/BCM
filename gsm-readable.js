@@ -19241,7 +19241,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v236");
+        t && (t.textContent = "v237");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -21891,7 +21891,60 @@
           )
           .concat([[GOAL.x, GOAL.y]]),
       );
-      ROUTES.push({ key: "A", name: "Its way through its notes", pts: own, st: routeStats(own), dash: [] });
+      /* v237: on a strategy, way A is the path the data gives: low ground (nearest the ridge first, defiance last),
+         over the nearest ridge of indifference, up to the acceptance above it, then the goal */
+      var aName = "Its way through its notes";
+      if (cd.mode === "STRATEGY") {
+        var STEP = { 2: 1, 0: 2, 4: 3 },
+          lowNs = ns.filter(function (n) {
+            return null != n.e && null != STEP[n.e];
+          });
+        if (lowNs.length) {
+          lowNs.sort(function (a, b) {
+            return STEP[a.e] - STEP[b.e] || a.x - b.x;
+          });
+          var allN = (terr && terr.notes) || [],
+            near = function (list, p) {
+              return (
+                list.slice().sort(function (a, b) {
+                  return Math.hypot(a.x - p.x, a.y - p.y) - Math.hypot(b.x - p.x, b.y - p.y);
+                })[0] || null
+              );
+            },
+            rgN = near(
+              allN.filter(function (n) {
+                return 3 === n.e;
+              }),
+              lowNs[0],
+            ),
+            tgN = near(
+              allN.filter(function (n) {
+                return 1 === n.e && n.y < 118;
+              }),
+              rgN || lowNs[0],
+            ),
+            seq = lowNs.concat(rgN ? [rgN] : []).concat(tgN ? [tgN] : []);
+          own = viaPts(
+            [[START.x, START.y]]
+              .concat(
+                seq.map(function (n) {
+                  return [n.x, n.y];
+                }),
+              )
+              .concat([[GOAL.x, GOAL.y]]),
+          );
+          aName =
+            "The way the ground points: " +
+            list(
+              lowNs.slice(0, 4).map(function (n) {
+                return "N" + n.k;
+              }),
+            ) +
+            (rgN ? ", over the ridge at N" + rgN.k : ", straight up over bare rock") +
+            (tgN ? ", up to acceptance at N" + tgN.k : "");
+        }
+      }
+      ROUTES.push({ key: "A", name: aName, pts: own, st: routeStats(own), dash: [] });
       if (cd.mode === "STRATEGY") {
         function legs(stops) {
           var out = [];

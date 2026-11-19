@@ -1,7 +1,8 @@
 # BCM_CURRENT_STATE.md
-Rev 22 · 2026-11-19 · Preview at **v236** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
+Rev 22 · 2026-11-19 · Preview at **v237** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
 
 ## Shipped
+- **v237** (2026-11-19, preview): Way A on strategy cards follows the data's path, through the low ground (nearest the ridge first, defiance last), over the nearest ridge, and up to acceptance, matching THE WAY ACROSS. See `docs/v237_update.md`.
 - **v236** (2026-11-19, preview): his answers to the pre-F8 review table applied. See `docs/v236_update.md`.
 - **v235** (2026-11-19, preview): plan 3g. YOUR OWN WORDS opens with a strip, Q.1 to Q.7 under the context grasped and what you would design, with each question's key phrases and where else they appear. See `docs/v235_update.md`.
 - **v234** (2026-11-19, preview): the Synthesis tour opens each of his four acts with what it means, counted from the workbook. See `docs/v234_update.md`.
