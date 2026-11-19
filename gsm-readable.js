@@ -1029,11 +1029,14 @@
     w.className = "tawhy";
     open && (w.open = !0);
     w.innerHTML = "<summary>Why this action</summary>";
+    /* v239: the card's map (THE WAY THROUGH IT) stays open, under the decision strip */
+    var mapSec = null;
     L2.forEach(function (x) {
-      w.appendChild(x[1]);
+      8 === x[0] && !mapSec ? (mapSec = x[1]) : w.appendChild(x[1]);
     });
     bd.insertBefore(sp, bd.firstChild);
     h ? sp.parentNode.insertBefore(w, sp.nextSibling) : (sp.parentNode.removeChild(sp), bd.insertBefore(w, bd.firstChild));
+    mapSec && (mapSec.classList.add("tamap"), w.parentNode.insertBefore(mapSec, w));
     if (L3.length) {
       var e = document.createElement("details");
       e.className = "taev";
@@ -3183,6 +3186,13 @@
             if (n) {
               for (var r = "", i = 0; i < n.children.length && n.children[i] !== e; i++)
                 r += " " + n.children[i].textContent;
+              /* v239: the map now sits above Why this action, so read what used to sit above it there */
+              var tamap = e.classList.contains("tamap");
+              tamap &&
+                [].forEach.call(n.querySelectorAll(":scope > .tawhy > :not(summary)"), function (x) {
+                  var l = x.querySelector(":scope > .csl");
+                  (l && "WHAT HOLDS IT IN THE LOW GROUND" === l.textContent.trim()) || (r += " " + x.textContent);
+                });
               var a = [],
                 s;
               for (var l = /(?<![–-])\bQ\.([1-7])\b(?![–-])/g; (s = l.exec(r)); )
@@ -3191,7 +3201,7 @@
                 var c = document.createElement("div");
                 ((c.className = "csn qrow"),
                   (c.style.cssText = "font-size:12px;color:#777;margin:2px 0 4px"),
-                  c.appendChild(document.createTextNode("Named above, not on the map: ")),
+                  c.appendChild(document.createTextNode(tamap ? "Named on this card, not on the map: " : "Named above, not on the map: ")),
                   a.forEach(function (t, e) {
                     e && c.appendChild(document.createTextNode(", "));
                     var n = document.createElement("a");
@@ -19272,7 +19282,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v238");
+        t && (t.textContent = "v239");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -24239,7 +24249,7 @@
         var nt = document.createElement("div");
         nt.className = "small";
         nt.style.margin = "2px 0 8px";
-        nt.textContent = "Read with the map and chart under Why this action: each letter is a way drawn there.";
+        nt.textContent = "Each letter on the map is a way; its reading is under Evidence.";
         box.appendChild(nt);
       }
       cd.mode === "STRATEGY" && waysChart(box);

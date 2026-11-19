@@ -22,7 +22,8 @@ const CSS = `
 .grleg{margin:8px 0 2px;font-size:12.5px;line-height:1.45;color:#333}
 .grleg .r{display:flex;gap:8px;align-items:flex-start;margin:3px 0}
 .grleg i{flex:0 0 26px;height:12px;border-radius:2px;margin-top:2px;border:1px solid #ccc}
-.grleg b{letter-spacing:.12em;font-size:11px;display:block;margin:6px 0 2px}`;
+.grleg b{letter-spacing:.12em;font-size:11px;display:block;margin:6px 0 2px}
+.grleg .grlf>summary{cursor:pointer;font-size:12.5px;color:#666;text-decoration:underline;margin:2px 0}`;
 
 /* ---------- small helpers ---------- */
 function hash(x, y) { let h = x * 374761393 + y * 668265263; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967295; }
@@ -280,11 +281,13 @@ function mount(host, D) {
     (PL ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color, where you placed them; black flags are questions. The green flag (START) is the note farthest from the goal; the checkered flag is the goal, at ' + (PL.name ? PL.name.replace(/[<>&]/g, '') : 'your location') + '. North is at the back.</span></div>' : '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color; black flags are questions. The green flag is the present; the checkered flag is the goal. ← PRESENT and FUTURE → run along the front; ↑ HELP and ↓ HINDER run back to front.</span></div>') +
     '<div class="r"><span style="color:#666">Drag to turn, scroll or pinch to zoom. Hover or tap a note, question, the goal, a number, or a way to read it.</span></div>';
 
+  /* v239: on a Taking Action card the legend is folded (Legend, closed); full screen still shows it open */
+  if (D.card) leg.innerHTML = '<details class="grlf"><summary>Legend</summary>' + leg.innerHTML.replace('<b>LEGEND</b>', '') + '</details>';
   /* ---------- full screen: legend drawer and the method's name ---------- */
   const fsl = document.createElement('div'); fsl.className = 'grfs fsleg'; const fsb = document.createElement('button'); fsb.type = 'button'; fsb.className = 'grfs fslb'; fsb.textContent = 'Hide legend';
   const brand = document.createElement('div'); brand.className = 'grfs brand'; brand.innerHTML = '<b>THE BEAR CANYON METHOD</b> · BY OPERATIONAL COHERENCE';
   fsb.onclick = ev => { ev.stopPropagation(); const shut = !fsl.classList.contains('shut'); fsl.classList.toggle('shut', shut); fsb.textContent = shut ? 'Legend' : 'Hide legend'; moved = false; size(); };
-  [fsl, fsb, brand].forEach(e => wrap.appendChild(e)); const fillFsl = () => { fsl.innerHTML = ''; const c = leg.cloneNode(true); c.style.display = ''; fsl.appendChild(c); };
+  [fsl, fsb, brand].forEach(e => wrap.appendChild(e)); const fillFsl = () => { fsl.innerHTML = ''; const c = leg.cloneNode(true); c.style.display = ''; c.querySelectorAll('details').forEach(d => { d.open = true; }); fsl.appendChild(c); };
   /* ---------- buttons ---------- */
   const bReset = document.createElement('button'), bFs = document.createElement('button');
   bReset.className = bFs.className = 'bt'; bReset.textContent = 'Reset view'; bFs.textContent = 'Full screen';
