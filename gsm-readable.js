@@ -18965,7 +18965,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v228");
+        t && (t.textContent = "v229");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -23827,7 +23827,31 @@
         cd.mode === "PROGRAM"
           ? "WHAT THE GROUND SAYS ABOUT THIS PROGRAM"
           : "THE WAYS FORWARD, SKETCHED ON THE GROUND";
-      box.appendChild(hd);
+      var EVH = null;
+      if (CARDH && !isFull() && el.closest) {
+        var card = el.closest(".coa"),
+          bd = card && card.querySelector(":scope > .bd"),
+          wy = bd && bd.querySelector(":scope > .tawhy");
+        if (wy) {
+          var ev = bd.querySelector(":scope > .taev");
+          if (!ev) {
+            ev = document.createElement("details");
+            ev.className = "taev";
+            ev.innerHTML = "<summary>Evidence</summary>";
+            wy.parentNode.insertBefore(ev, wy.nextSibling);
+          }
+          EVH = ev.querySelector(":scope > .taways");
+          if (!EVH) {
+            EVH = document.createElement("div");
+            EVH.className = "taways";
+            ev.insertBefore(EVH, ev.firstElementChild ? ev.firstElementChild.nextSibling : null);
+          }
+          EVH.innerHTML = "";
+          hd.textContent = "HOW THE WAYS READ ON THE GROUND";
+          EVH.appendChild(hd);
+        }
+      }
+      EVH || box.appendChild(hd);
       courseReadings(COURSE).forEach(function (r) {
         var d = document.createElement("div");
         d.className = "rd";
@@ -23848,8 +23872,15 @@
         p.textContent = r.text;
         b.appendChild(p);
         d.appendChild(b);
-        box.appendChild(d);
+        (EVH || box).appendChild(d);
       });
+      if (EVH) {
+        var nt = document.createElement("div");
+        nt.className = "small";
+        nt.style.margin = "2px 0 8px";
+        nt.textContent = "Read with the map and chart under Why this action: each letter is a way drawn there.";
+        box.appendChild(nt);
+      }
       cd.mode === "STRATEGY" && waysChart(box);
       var f = document.createElement("div");
       f.className = "small";
