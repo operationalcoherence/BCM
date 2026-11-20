@@ -1,9 +1,18 @@
 # BCM_TASK_QUEUE.md
-Rev 9 · 2026-11-19 (v246) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 10 · 2026-11-20 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
+
+## Added 11-20 15:33 (his asks; not started)
+Detail, with examples from his 11-20 workbook, is in claude/ask_queue_2026-11-20.md in the Claude project (private, because it quotes the workbook).
+- [ ] GLB · ENG · CONTENT · **Emotions read with their side of the line.** His words: "sometimes acceptance with support can be shown on the hinder side of things for acceptance of ideas that hinder the goal. Aggression can be shown on the help side toward people/things/events that hinder the accomplishment of the goal. We need to focus on broader definitions from within (Vigneaux, 2026) that focus on legitimacy to be more universal and be used on both sides of the line."
+  - Acceptance on the hinder side holds the situation in place; it is not promise or opportunity.
+  - Aggression, distrust, or defiance on the help side is aimed at what hinders the goal; it can serve the goal and still carries risk.
+  - Broaden the on-screen emotion definitions from the paper's legitimacy language (p. 29) so each works on either side; redline to him first.
+  - Touches PA (what holds it, the opportunity), the terrain, the PS tour captions, and the TA program/strategy rule. Applies to every workbook.
+- [ ] PA · BUG · ENG · **Pattern Analysis reads as gibberish** (his screenshot, 11-20). Note openings clipped and listed as phrases in WHAT HOLDS THE SITUATION IN PLACE and THE OPPORTUNITY; a single word stated as a finding in AT A GLANCE; a phrase paired with its own longer form in WHAT YOUR USE OF THE METHOD PRODUCED. Fix in the phrase layer (phBest, phClause, gsmPhName): never name a note by its first words; no fragment without meaning; drop a phrase another theme already contains. Test on 11-13, 11-20, Broadview, and clinic with before-and-after text.
 
 ## Added 11-19 14:34 (his asks, place maps; not started)
 - [ ] PA · VIZ · **Place map, Pattern Analysis:** remove the old analysis figure, and give the content the line map's format.
