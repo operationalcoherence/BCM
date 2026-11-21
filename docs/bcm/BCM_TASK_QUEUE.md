@@ -1,9 +1,22 @@
 # BCM_TASK_QUEUE.md
-Rev 10 · 2026-11-20 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 11 · 2026-11-21 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
+
+## Added 11-21 08:52 · VIZ: 3D relief test on Opus 5.5 at max effort
+His idea: run only the code that builds the 3D relief (used on Pattern Analysis, Pattern Synthesis and the Taking Action card maps) on Opus 5.5 at max effort, to see whether it delivers a better result. He sets the effort; do not start until he does and says to begin.
+
+**Scope:** tools/relief/relief.js and the ground builder in gsm-readable.js only.
+**Baseline first:** v247 screenshots, same camera, on the 11-13 workbook, the 11-20 organizational-change workbook, Broadview, and the clinic test.
+**Keep:** his approved look (60% emotion color over rock/grass/soil, rock faces, indifference ridge), no water imagery, no changes to the line map elsewhere.
+**Fix, in order:**
+1. Acceptance keeping its color on the hinder side (see 11-20 15:33 item).
+2. Label pile-ups (N19/N37/N38; N4/N5/N7).
+3. Goal rings sitting over the N10 label.
+4. More realism: better lighting (his addition, 11-21 08:52), then ground that reads more like real Bear Canyon.
+**Process:** separate branch off the live preview; he judges by eye against the baselines and Bear Canyon imagery.
 
 ## The overarching question (his, 11-20 19:54)
 > **What happens when BCM stops dealing with a coherent problem and starts dealing with a genuinely messy one?**
