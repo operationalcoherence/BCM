@@ -8,6 +8,10 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 ## The overarching question (his, 11-20 19:54)
 > **What happens when BCM stops dealing with a coherent problem and starts dealing with a genuinely messy one?**
 
+**Guiding principle (his, 11-20 20:19):** The organizational-change workbook revealed BCM's next bottleneck: large workbooks contain multiple interacting systems, but current insight generation still assumes a small number of singular findings (one system, one opportunity, one tension, one story).
+
+**Start Tuesday 11-24 with:** Pattern Analysis as several stories (Several Systems, first on Analysis). Then, suggested: the Pattern Analysis gibberish; the acceptance color and emotions on both sides of the line; the Taking Action review; Groups Across Ground and the rest of the second generation.
+
 The three 11-20 evening items below (large-workbook review, Taking Action review, Pattern Analysis as several stories) all serve this question. Read each finding and each change against it.
 
 ## Added 11-20 20:06 (review done 11-20, building not started)
