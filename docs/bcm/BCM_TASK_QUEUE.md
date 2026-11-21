@@ -5,6 +5,19 @@ Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
 
+## Added 11-20 19:43 (his ask; not started)
+- [ ] TA · UI · CONTENT · **Taking Action review: make the action as strong as the analysis.** His brief, kept whole:
+  - **Do not change:** logic, scoring, recommendations, architecture, the central test, maps, paths, transition analysis, split-reading analysis. Keep the maps visible. Do not redesign the page or BCM.
+  - **The problem:** not reasoning quality. The action is visually weaker than the analysis supporting it. The recommendation often gets less emphasis than metrics, note references, explanatory text, and supporting analysis.
+  - **The rule:** a person should be able to scan a card in 15 seconds and know (1) what should I do, (2) why should I do it, (3) what is the cost, (4) what major obstacle or split must I handle.
+  - **1. Card titles as actions.** Not "Aggression among acceptance, where things help", but e.g. "Start with existing supporters before addressing resistance", "Build trust before changing structure", "Strengthen support already present", "Reduce fear before pursuing transformation". The title answers "What should I do?"
+  - **2. FIRST MOVE dominant** on every card: the first thing seen after the title.
+  - **3. Note numbers less prominent.** Primary language describes conditions and people: "People already supportive of change (N13, N15, N36)", not "N13, N15, N36".
+  - **4. Map stays visible, never collapsed** (core BCM content), but the recommendation comes before it. Card order: Title → First Move → Why → Cost → Major Split → Map → Metrics → Evidence.
+  - **5. Simpler visible summary:** What this does · First move · Cost · Reading split (if present). Detailed reasoning stays below.
+  - **6. All visible language in situation language:** prefer conditions, tensions, opportunities, support, resistance, transitions; avoid "answered", "built on", "shares words", and note numbers as primary subjects.
+  - **Return to him:** specific hierarchy changes, specific wording changes, and an example rewritten card. Show before shipping.
+
 ## For Tuesday 11-24 (his ask, 11-20 19:30; not started)
 - [ ] PA · ENG · NARR · **Pattern Analysis: several stories, not one.** Review of his 11-20 organizational-change workbook (46 notes, v247): the page still assumes one dominant story, and this workbook has outgrown that. Full review with the evidence is in claude/analysis_review_2026-11-20.md in the Claude project (private, because it quotes the workbook).
   - What the page does now: WHAT HOLDS THE SITUATION IN PLACE puts 24 notes into one system; THE OPPORTUNITY fuses several openings into one list; WHAT YOUR USE PRODUCED names one center; YOUR STORY SO FAR runs one line and skips whole parts of the map (e.g. a second low ground near the goal); WHERE THIS LEAVES THE WORK names one tension.
