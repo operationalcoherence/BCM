@@ -6,6 +6,8 @@ Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR 
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
 
 ## Added 11-21 08:52 · VIZ: 3D relief test on Opus 5.5 at max effort
+**The question (his, 11-21 09:09):** How do we make this terrain communicate constraint, flow, ridges, valleys, barriers, and pathways more convincingly while preserving readability of nodes and questions?
+
 His idea: run only the code that builds the 3D relief (used on Pattern Analysis, Pattern Synthesis and the Taking Action card maps) on Opus 5.5 at max effort, to see whether it delivers a better result. He sets the effort; do not start until he does and says to begin.
 
 **Scope:** tools/relief/relief.js and the ground builder in gsm-readable.js only.
@@ -16,6 +18,7 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 2. Label pile-ups (N19/N37/N38; N4/N5/N7).
 3. Goal rings sitting over the N10 label.
 4. More realism: better lighting (his addition, 11-21 08:52), then ground that reads more like real Bear Canyon.
+**Judge against the question above:** does the ground read as constraint, flow, ridges, valleys, barriers and pathways, with nodes and questions still readable?
 **Process:** separate branch off the live preview; he judges by eye against the baselines and Bear Canyon imagery.
 
 ## The overarching question (his, 11-20 19:54)
