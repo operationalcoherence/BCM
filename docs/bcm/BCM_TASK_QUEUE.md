@@ -5,6 +5,11 @@ Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
 
+## The overarching question (his, 11-20 19:54)
+> **What happens when BCM stops dealing with a coherent problem and starts dealing with a genuinely messy one?**
+
+The three 11-20 evening items below (large-workbook review, Taking Action review, Pattern Analysis as several stories) all serve this question. Read each finding and each change against it.
+
 ## Added 11-20 19:52 (his ask; not started)
 - [ ] GLB · RES · **Large-workbook review** (evaluation only: do not implement, do not redesign). The 11-20 organizational-change workbook is the largest and most structurally complex tested so far. Review Pattern Analysis, Pattern Synthesis, In Parallel, and Taking Action together. Not architecture, not visual design, not wording in isolation: how the method behaves as workbook complexity rises. Core question for every page: does the workbook hold **one dominant structure or several interacting structures**? Identify the first scaling limits it exposes. (The Pattern Analysis part is already partly answered in claude/analysis_review_2026-11-20.md, private; reuse it.)
   - **Pattern Analysis:** still assuming one dominant narrative? Compressing several structures into one story; several tensions into one key tension; several opportunities into one; several reinforcing dynamics into one explanation? Do large workbooks need one narrative or several?
