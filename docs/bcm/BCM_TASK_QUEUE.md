@@ -36,7 +36,7 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 6. Label decluttering: priority, nudging apart, short leader lines, fade with distance.
 7. Depth cues and mesh quality: light haze, tuned vertical exaggeration, finer mesh with smooth interpolation (removes the faceted hatching).
 8. Optional toggle for contour lines.
-His bet-worthy combination: 1, 2 and 4 together.
+Claude's suggested combination to try first: 1, 2 and 4 together.
 **Judge against the question above:** does the ground read as constraint, flow, ridges, valleys, barriers and pathways, with nodes and questions still readable?
 **Process:** separate branch off the live preview; he judges by eye against the baselines and Bear Canyon imagery.
 
