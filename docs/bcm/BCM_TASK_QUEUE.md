@@ -10,6 +10,8 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 
 **Guiding principle (his, 11-20 20:19):** The organizational-change workbook revealed BCM's next bottleneck: large workbooks contain multiple interacting systems, but current insight generation still assumes a small number of singular findings (one system, one opportunity, one tension, one story).
 
+**In short (his, 11-20 20:23):** BCM no longer lacks pages or architecture; it lacks enough insight types to explain large, complex situations, causing multiple systems, actors, targets, and failure modes to be compressed into single findings.
+
 **Start Tuesday 11-24 with:** Pattern Analysis as several stories (Several Systems, first on Analysis). Then, suggested: the Pattern Analysis gibberish; the acceptance color and emotions on both sides of the line; the Taking Action review; Groups Across Ground and the rest of the second generation.
 
 The three 11-20 evening items below (large-workbook review, Taking Action review, Pattern Analysis as several stories) all serve this question. Read each finding and each change against it.
