@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 12 · 2026-11-21 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 13 · 2026-11-21 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -27,6 +27,16 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 2. Label pile-ups (N19/N37/N38; N4/N5/N7).
 3. Goal rings sitting over the N10 label.
 4. More realism: better lighting (his addition, 11-21 08:52), then ground that reads more like real Bear Canyon.
+**Strategies to try (added 11-21 13:32, ranked; test one at a time on the branch):**
+1. Real lighting: low-angle sun, soft shadows, sky/ground ambient light.
+2. Slope-driven materials: rock on steep ground, soil/grass on flat, blended by slope angle.
+3. Fine erosion-like detail through normal map or shading only; the real height data stays untouched.
+4. Flow, ridges and barriers visible in the ground: drainage channels computed from the height, sharper crest lines, cliff bands for barriers.
+5. Routes as ribbons or worn trails laid on the surface, with shading and occlusion (also helps the entangled-strategies item).
+6. Label decluttering: priority, nudging apart, short leader lines, fade with distance.
+7. Depth cues and mesh quality: light haze, tuned vertical exaggeration, finer mesh with smooth interpolation (removes the faceted hatching).
+8. Optional toggle for contour lines.
+His bet-worthy combination: 1, 2 and 4 together.
 **Judge against the question above:** does the ground read as constraint, flow, ridges, valleys, barriers and pathways, with nodes and questions still readable?
 **Process:** separate branch off the live preview; he judges by eye against the baselines and Bear Canyon imagery.
 
