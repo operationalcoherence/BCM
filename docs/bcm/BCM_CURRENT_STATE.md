@@ -1,5 +1,12 @@
 # BCM_CURRENT_STATE.md
-Rev 32 · 2026-11-19 · Preview at **v247** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbook 2026-11-18, repo
+Rev 33 · 2026-11-20 · Preview at **v247** · Basis: 11-17 review, 11-18 review, export 2026-11-13, workbooks 2026-11-18 and 2026-11-20, repo
+
+## The next bottleneck (11-20)
+The organizational-change workbook revealed BCM's next bottleneck: large workbooks contain multiple interacting systems, but current insight generation still assumes a small number of singular findings (one system, one opportunity, one tension, one story).
+
+- Next major capability (Claude's ranking, 11-20, for his review): **Several Systems**, then **Groups Across Ground**. Full order: Several Systems, Groups Across Ground, Risk After the Goal, Same Emotion with Different Targets, Designer Is the Obstacle, Loops Between Groups, Mode Switching.
+- Dependencies: Risk After the Goal is a system that sits at or past the goal (needs Several Systems). Designer Is the Obstacle and Loops Between Groups need Groups Across Ground. Same Emotion with Different Targets shares target-finding with Loops. Mode Switching stands alone and is best asked as a one-tap question.
+- See BCM_TASK_QUEUE.md: the overarching question, the second generation of insight types, and the Tuesday 11-24 item.
 
 ## Shipped
 - **v247** (2026-11-19, preview): place maps lose the line map's language on the page too: the written reading, the pattern meanings, and HOW THIS MAP IS MADE. See `docs/v247_update.md`.
