@@ -5,6 +5,14 @@ Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
 
+## Added 11-20 19:52 (his ask; not started)
+- [ ] GLB · RES · **Large-workbook review** (evaluation only: do not implement, do not redesign). The 11-20 organizational-change workbook is the largest and most structurally complex tested so far. Review Pattern Analysis, Pattern Synthesis, In Parallel, and Taking Action together. Not architecture, not visual design, not wording in isolation: how the method behaves as workbook complexity rises. Core question for every page: does the workbook hold **one dominant structure or several interacting structures**? Identify the first scaling limits it exposes. (The Pattern Analysis part is already partly answered in claude/analysis_review_2026-11-20.md, private; reuse it.)
+  - **Pattern Analysis:** still assuming one dominant narrative? Compressing several structures into one story; several tensions into one key tension; several opportunities into one; several reinforcing dynamics into one explanation? Do large workbooks need one narrative or several?
+  - **Pattern Synthesis:** describing locations on the map rather than structures in the situation? Becoming a tour of the landscape? Structures or merely places? Would 2–4 dominant structures teach more than many important places? Has complexity exceeded the page's assumptions?
+  - **In Parallel:** does it scale better than Analysis and Synthesis? Does complexity raise the value of PLACED ONE WAY, TIED THE OTHER; THE HIDDEN CHANNELS; THE EMOTION CHANGES; TWO PEOPLE, TWO SIDES; and ONE IDEA UNDER TWO NAMES? Is it now the page most able to handle complex situations?
+  - **Taking Action:** does the reasoning stay strong while hierarchy and prioritization become the limit? Recommendations still useful at scale? Similar cards describing variations of larger strategic themes? Group cards under higher-level courses of action? Evidence more prominent than action? Is the problem reasoning, prioritization, hierarchy, naming, or repetition?
+  - **Return:** (1) which page handled increased complexity best; (2) which worst; (3) what assumptions broke first; (4) what assumptions held; (5) the single refinement that would most improve BCM on large workbooks.
+
 ## Added 11-20 19:43 (his ask; not started)
 - [ ] TA · UI · CONTENT · **Taking Action review: make the action as strong as the analysis.** His brief, kept whole:
   - **Do not change:** logic, scoring, recommendations, architecture, the central test, maps, paths, transition analysis, split-reading analysis. Keep the maps visible. Do not redesign the page or BCM.
