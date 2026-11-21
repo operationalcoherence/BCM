@@ -1,9 +1,18 @@
 # BCM_TASK_QUEUE.md
-Rev 11 · 2026-11-21 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 12 · 2026-11-21 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
+
+## Added 11-21 09:28 · VIZ: entangled strategies are unreadable (Taking Action "The way through it" map)
+His words: "We also have to do something about making entangled strategies more readable. We've tried numbers and arrows; we will need something else so the user can make sense of it. Even if the designer finds it impossible to follow."
+
+**What his screenshot shows (11-20 workbook, way A "through its notes"):** the route lines cross and overlap in the lower left and lower right, numbered stops (1-18) sit on top of note labels (N20, N23, N29, N37, N38, N10, N11), and the numbers alone do not tell the order or which way the route goes. Even the designer cannot follow it.
+**Tried and not enough:** numbered stops, arrows.
+**Need:** a different way to show an entangled route, so a reader can follow it without tracing lines. Options to evaluate (none chosen): reading the route one leg at a time (step through, others dimmed); a route as a list beside the map with each step tied to its place; color or line style per leg; separating routes that share ground; drawing the route as a strip (a profile of height along the path) instead of lines on the map.
+**Keep:** maps visible; no change to routes, scoring or recommendations (the Taking Action review rules). Presentation only.
+**Fits with:** the 3D relief test (pathways and barriers question) below; decide together whether the route reads on the ground or beside it.
 
 ## Added 11-21 08:52 · VIZ: 3D relief test on Opus 5.5 at max effort
 **The question (his, 11-21 09:09):** How do we make this terrain communicate constraint, flow, ridges, valleys, barriers, and pathways more convincingly while preserving readability of nodes and questions?
