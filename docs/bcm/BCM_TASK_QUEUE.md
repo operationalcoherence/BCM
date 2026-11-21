@@ -23,11 +23,89 @@ The three 11-20 evening items below (large-workbook review, Taking Action review
     - *Top five, in order:* (1) groups across ground, PA, feeds TA, foundation for 4 and loops; (2) several systems, PA (the Tuesday item) with PS naming its hollows as systems; (3) risk after the goal, PS then TA; (4) designer is the obstacle, TA cards; (5) same emotion, different targets, In Parallel, also fixes DOES THIS ANSWER IT?
     - *From existing data:* strong from position, side, emotion, and links: several systems, risk after the goal. Medium from note text: groups across ground, designer is the obstacle, same emotion with different targets, target emotion, the author's own weight. Weak, better as one-tap questions: loops between groups, mode switching.
     - *Weaken as workbooks grow:* single-slot findings (WHAT HOLDS, THE OPPORTUNITY, one key tension, the story's single line); "decide X first" (the biggest hub wins by size); findings driven by the goal's own words (RUNS TOGETHER on the goal, "what you talk about most…"); count findings (For and against, Unused support); DOES THIS ANSWER IT? on a single shared word. *Hold up:* the In Parallel types, the ground's hollows, the crossing costs.
-  - **Prioritization (11-20 20:13), Claude's ranking for his review; also in BCM_CURRENT_STATE.md under "The next bottleneck":**
-    - *Order:* 1 Several Systems, 2 Groups Across Ground, 3 Risk After the Goal, 4 Same Emotion with Different Targets, 5 Designer Is the Obstacle, 6 Loops Between Groups, 7 Mode Switching.
-    - *Largest quality gain across pages:* Several Systems (every single-answer slot can run once per system). *Most value from existing data:* Several Systems (Synthesis already finds the hollows). *Most cross-domain:* Groups Across Ground (agencies, residents, departments, councils show up on several grounds). *Most fundamental:* Several Systems and Groups Across Ground, side by side (structure and who); the other five build on one or both.
-    - *Dependencies:* Several Systems → Risk After the Goal, and lets TA group cards under larger courses of action. Groups Across Ground → Designer Is the Obstacle, Loops Between Groups. Same Emotion with Different Targets shares target-finding with Loops. Mode Switching stands alone; best as a one-tap question.
-    - *Next major capability:* **Several Systems.** It is the bottleneck named in BCM_CURRENT_STATE.md, needs no new data, upgrades all four pages at once, and unlocks Risk After the Goal. Groups Across Ground second: it depends on recognizing group words, the same trouble layer 20 hit (a word list risks tilting toward one domain).
+  - **Insight Type Prioritization, his record verbatim (11-20 20:17):**
+    > The new insight types review is now part of the “second generation of insight types” item in the queue, and it’s pushed. It includes:
+    >
+    > * which missed insights need new categories and which upgrade existing ones;
+    > * the top five, in order, each with the page it belongs on;
+    > * which ones can be built from what workbooks already hold;
+    > * which existing types get weaker as workbooks grow.
+    >
+    > Like the other items, it points to the private doc in the project for your workbook’s examples.
+    >
+    > **Insight Type Prioritization**
+    >
+    > The organizational-change workbook exposed a scaling limit.
+    > BCM is not failing to analyze the workbook.
+    > BCM is running out of insight types.
+    >
+    > Review:
+    > - The missed insights
+    > - The merged insights
+    > - The proposed new insight categories
+    >
+    > Determine:
+    > 1. Which new insight type would create the largest increase in insight quality across all BCM pages.
+    > 2. Which new insight type would produce the greatest value using data BCM already has.
+    > 3. Which new insight type would likely appear across many domains:
+    >    - wildfire
+    >    - organizations
+    >    - communities
+    >    - planning
+    >    - governance
+    > 4. Which new insight type is most fundamental rather than a special case of another.
+    >
+    > Rank:
+    > - Several Systems
+    > - Groups Across Ground
+    > - Risk After The Goal
+    > - Designer Is The Obstacle
+    > - Same Emotion, Different Targets
+    > - Loops Between Groups
+    > - Mode Switching
+    >
+    > Return:
+    > - Priority order
+    > - Dependencies between insight types
+    > - Which should become BCM's next major capability
+    > - Why
+    >
+    > Do not implement.
+    > Identify the next evolutionary step in insight generation.
+    >
+    > Putting it in `BCM_CURRENT_STATE.md`:
+    > The organizational-change workbook revealed BCM's next bottleneck: large workbooks contain multiple interacting systems, but current insight generation still assumes a small number of singular findings (one system, one opportunity, one tension, one story)
+    >
+    > **The four questions**
+    >
+    > 1. Biggest gain in quality across all pages: Several Systems. Every page has slots built for one answer: what holds it, the opportunity, the tension, the story, the cards. Several Systems lets each of those run once per system instead of squeezing everything into one.
+    > 2. Most value from data BCM already has: Several Systems. Synthesis already finds the hollows. Position, side, emotion, and threads are enough to name them as systems.
+    > 3. Most likely to show up in every domain: Groups Across Ground. Wildfire, organizations, communities, planning, and governance all have groups that show up on more than one ground. Agencies, residents, departments, and councils are each champion in one place and resistance in another.
+    > 4. Most fundamental: Several Systems and Groups Across Ground, side by side. One reads the situation’s structure, the other who is in it. The other five are built from one or both of them.
+    >
+    > **Priority order**
+    >
+    > 1. Several Systems
+    > 2. Groups Across Ground
+    > 3. Risk After the Goal
+    > 4. Same Emotion, Different Targets
+    > 5. Designer Is the Obstacle
+    > 6. Loops Between Groups
+    > 7. Mode Switching
+    >
+    > **Dependencies**
+    >
+    > * Several Systems → Risk After the Goal, which is a system sitting at or past the goal. It also lets Taking Action group its cards under bigger courses of action.
+    > * Groups Across Ground → Designer Is the Obstacle, and → Loops Between Groups.
+    > * Same Emotion, Different Targets shares its target-finding with Loops, and the targets are often groups.
+    > * Mode Switching stands alone. It’s weakest from the notes’ wording, so it’s best as a one-tap question.
+    >
+    > **Next major capability: Several Systems**
+    >
+    > * It’s the exact bottleneck you named: every finding assumes one.
+    > * It needs no new data, because the ground already holds the systems.
+    > * It upgrades all four pages at once, and it unlocks Risk After the Goal.
+    > * Groups Across Ground matters as much, but comes second. Finding groups means recognizing group words in the notes. That’s the same trouble layer 20 hit: telling real terms from ordinary words takes a word list, and a word list could tilt toward one field. Groups can be built on top once systems exist.
   - Serves the overarching question above. Each new type stays inactive unless it applies to the workbook, and must work for every workbook, not just his.
 
 ## Added 11-20 19:52 (his ask; not started)
