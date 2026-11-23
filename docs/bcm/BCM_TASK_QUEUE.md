@@ -1,9 +1,17 @@
 # BCM_TASK_QUEUE.md
-Rev 15 · 2026-11-21 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 16 · 2026-11-23 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
+
+## Added 11-23 12:20 · UI: attribution on every full-screen view (PA, PS, TA)
+His words: add "The Bear Canyon Method by Operational Coherence" "in a spot that cannot be snipped by screenshots but does not interfere with using the tool," on Pattern Analysis and Pattern Synthesis in full screen mode, like in Taking Action. "I don't want people stealing the images without attribution."
+
+**Where:** every full-screen view: the terrain stage (`.gterr .stage.full` and `:fullscreen`, Analysis and Synthesis), the Taking Action card full screen (`.coa.gtfs-on`), and check the other `.figfs` figures.
+**How (to decide when built):** the line drawn inside the image itself (the WebGL/canvas frame), not only an HTML overlay, so any crop of the figure carries it; small, light, and placed where no note, label, goal, or button sits. Candidates: a faint repeated line along the edges of the frame, or one line across the ground's lower margin.
+**Keep:** no blocking of notes, questions, or controls; no change to the line map's visuals beyond the attribution line ("its perfect"); works on place maps (Broadview) too.
+**Note:** no screen mark can stop every crop; the goal is that the parts worth stealing can't be cut away from the name without losing the figure.
 
 ## Added 11-21 09:28 · VIZ: entangled strategies are unreadable (Taking Action "The way through it" map)
 His words: "We also have to do something about making entangled strategies more readable. We've tried numbers and arrows; we will need something else so the user can make sense of it. Even if the designer finds it impossible to follow."
