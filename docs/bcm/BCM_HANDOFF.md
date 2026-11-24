@@ -1,5 +1,7 @@
 # BCM_HANDOFF.md
 
+2026-11-24 12:10: **v256 live**, the approved emotion definitions (his calls 11:52 to 12:00; docs/v256_update.md; final text in the Claude project, claude/emotion_definitions_redline.md). **Next:** trim WHAT THE SYSTEM IS DOING to match the definitions and tie it to his own levers; then back to "NOW · the 3D visual" (label pile-ups first). Still open from the morning: the lighting check on v255 and the color wash (his call only).
+
 2026-11-24 10:47: **v255 live** (checked on operationalcoherence.com/bcm: the label reads v255). Today's 3D work, his call 09:37: "lets work on the 3d visual some more"; his rule 09:38, with five of his Bear Canyon photos: "Improve quality and realism only. Do not reinterpret or redesign."
 - **v253** realism, first pass (docs/v253_update.md). **v254** the whole map reads as rock, not coral (his note 10:00; docs/v254_update.md). **v255** toward photorealism (his note 10:08, "I am just not seeing that photo realism"; docs/v255_update.md).
 - **Open with him:**
