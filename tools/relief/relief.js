@@ -61,10 +61,23 @@ function mount(host, D) {
   const MPU = PL ? 156543.03392 * Math.cos(Math.atan(Math.sinh(Math.PI * (1 - 2 * (PL.Y0 + H / 2 / PL.k) / 256)))) / PL.k : 1;
   /* v242: up to 2.5x, never below true scale; v243: capped at ~140 units of rise (was 70) */
   const VRG = PL && PL.elev && PL.elev.hi > PL.elev.lo ? (PL.elev.hi - PL.elev.lo) / MPU : 0, VEX = VRG ? Math.max(1, Math.min(2.5, 140 / VRG)) : 2.5, VXT = VEX > 1.05 ? 'with heights exaggerated ' + (Math.round(VEX * 10) / 10) + '× so its slopes and benches show' : 'true to scale';
+  function cell(x, y) { const i = Math.floor(x), j = Math.floor(y); let f1 = 9, f2 = 9, id = 0;
+    for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const ci = i + a, cj = j + b, dx = ci + hash(ci, cj) - x, dy = cj + hash(cj + 71, ci + 13) - y, d = dx * dx + dy * dy;
+      if (d < f1) { f2 = f1; f1 = d; id = hash(ci + 5, cj + 3); } else if (d < f2) f2 = d; }
+    return [Math.sqrt(f1), Math.sqrt(f2), id]; }
+  /* v254: the rock's bedding, one coordinate shared by the ledges and the rock's color: a layer every LP units of height,
+     with a slight dip and a slow wander */
+  const LP = 6, layerAt = (x, y, hr) => { const L = hr / LP + x * 0.025 - y * 0.012 + (fbm(x * 0.05 + 11, y * 0.05, 3) - 0.5) * 1.8; return L + 0.3 * Math.sin(L * 2.1 + 1.3) + 0.12 * Math.sin(L * 4.7); };
   function hAt(x, y) { if (PL) return PL.elev ? PL.elev(x, y) / MPU * VEX : 0; const e = 0.6, gx = (hRaw(x + e, y) - hRaw(x - e, y)) / (2 * e), gy = (hRaw(x, y + e) - hRaw(x, y - e)) / (2 * e), s = Math.hypot(gx, gy);
     const k = sstep(0.25, 1.1, s), ux = s > 1e-4 ? -gy / s : 1, uy = s > 1e-4 ? gx / s : 0, across = x * ux + y * uy, along = (x * gx + y * gy) / (s || 1);
-    const gul = (ridged(across * 0.18 + vn(x * 0.04, y * 0.04) * 2, along * 0.025, 3) - 0.4) * 2.4 * k;
-    return (hRaw(x, y) + gul + (ridged(x * 0.11 + 3, y * 0.11 + 7) - 0.35) * 0.9 * (1 - 0.6 * k) + (fbm(x * 0.35, y * 0.35, 3) - 0.5) * 0.5); }
+    const gul = (ridged(across * 0.18 + vn(x * 0.04, y * 0.04) * 2, along * 0.025, 3) - 0.4) * 1.6 * k, hr = hRaw(x, y);
+    /* v254: the surface detail reads as rock, not coral: steep ground steps down in ledges of bedded rock that follow the
+       slope (the layers of the Flatirons); gentle ground rolls. The shape from the notes (hRaw) is the same. */
+    /* hard layers stand out as cliff bands over soft ones; a band breaks off in places; the soft bumps step aside on rock */
+    const L = layerAt(x, y, hr), li = Math.floor(L), f = L - li, hard = 0.2 + 0.8 * sstep(0.55, 0.7, hash(li + 77, 31) * 0.6 + vn(x * 0.035 + li * 1.7, y * 0.035 - li * 0.9) * 0.7),
+      kt = sstep(0.5, 1.25, s) * sstep(0.2, 0.45, fbm(across * 0.07 + li * 3.7, along * 0.05 + 5, 3)),
+      ter = (sstep(0.68, 0.9, f) - f + 0.29) * LP * 0.95 * kt * hard;
+    return hr + gul * (1 - 0.5 * kt) + ter + (fbm(x * 0.08 + 3, y * 0.08 + 7, 4) - 0.5) * 1.1 * (1 - 0.8 * kt) + (fbm(x * 0.35, y * 0.35, 3) - 0.5) * 0.3 * (1 - 0.6 * kt); }
   const MX = 2 * VX - 1, MY = 2 * VY - 1, CK = landKey(D), CH = CACHE.get(CK) || {};
   const hGrid = CH.hGrid || new Float32Array(MX * MY); let hMin = 1e9;
   if (!CH.hGrid) for (let j = 0; j < MY; j++) for (let i = 0; i < MX; i++) { const h = hAt(i / (MX - 1) * W, j / (MY - 1) * H); hGrid[j * MX + i] = h; }
@@ -111,10 +124,6 @@ function mount(host, D) {
      Heights, where rock sits, how far it reaches, and every color's meaning are unchanged. A place keeps its imagery. */
   const TW = PL ? 2560 : 1600, TH = Math.round(TW * H / W), tcv = CH.tcv || document.createElement('canvas'); if (!CH.tcv) { tcv.width = TW; tcv.height = TH; }
   const ncv = PL ? null : (CH.ncv || document.createElement('canvas')); if (ncv && !CH.ncv) { ncv.width = TW; ncv.height = TH; }
-  function cell(x, y) { const i = Math.floor(x), j = Math.floor(y); let f1 = 9, f2 = 9, id = 0;
-    for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const ci = i + a, cj = j + b, dx = ci + hash(ci, cj) - x, dy = cj + hash(cj + 71, ci + 13) - y, d = dx * dx + dy * dy;
-      if (d < f1) { f2 = f1; f1 = d; id = hash(ci + 5, cj + 3); } else if (d < f2) f2 = d; }
-    return [Math.sqrt(f1), Math.sqrt(f2), id]; }
   /* how much of the sky each spot sees: 8 directions out to ~24 map units, on every other grid point */
   const AOW = (MX + 1) >> 1, AOH = (MY + 1) >> 1, HAO = CH.hao || new Float32Array(AOW * AOH);
   if (!PL && !CH.hao) for (let j = 0; j < AOH; j++) for (let i = 0; i < AOW; i++) {
@@ -148,7 +157,7 @@ function mount(host, D) {
         if (rw > 0.003) {
           /* sandstone: layers that follow the contours with a slight dip, each its own tone; a lip on top, an undercut below */
           const ux = s > 1e-4 ? -gy / s : 1, uy = s > 1e-4 ? gx / s : 0, across = x * ux + y * uy, along = (x * gx + y * gy) / (s || 1);
-          const sb = h * 1.25 + x * 0.05 - y * 0.025 + (fbm(x * 0.045, y * 0.045, 3) - 0.5) * 5, lay = Math.floor(sb), band = sb - lay, lh = hash(lay + 300, 17);
+          const Lg = layerAt(x, y, hRaw(x, y)), sb = Lg * 3, lay = Math.floor(Lg), band = sb - Math.floor(sb), lh = hash(lay + 300, 17), riser = sstep(0.45, 0.6, Lg - lay) * (1 - sstep(0.9, 0.97, Lg - lay));
           const rc = lh < 0.42 ? mix(BUFF, GRAY, hash(lay + 9, 4) * 0.5) : lh < 0.75 ? mix(SALM, BUFF, hash(lay + 2, 8) * 0.6) : mix(GRAY, SALM, hash(lay + 5, 1) * 0.4);
           const under = sstep(0.78, 0.98, band), lip = 1 - sstep(0, 0.07, band);
           /* joints: blocks broken along cracks, and thin joints across the bedding */
@@ -156,7 +165,7 @@ function mount(host, D) {
           const joint = (1 - sstep(0.0, 0.06, Math.abs(Math.sin(across * 0.55 + (vn(x * 0.2, y * 0.2) - 0.5) * 4)))) * sstep(0.55, 0.75, hash(lay + 40, 2));
           const lich = sstep(0.62, 0.72, fbm(x * 0.22 + 40, y * 0.22, 3)) * (1 - crack) * 0.4, streak = sstep(0.62, 0.82, vn(across * 1.1, along * 0.07 + lay * 0.3)) * 0.3;
           const rough = fbm(x * 2.2, y * 2.2, 3) - 0.5;
-          rock = mix(mix(rc, LICH, lich), VARN, Math.max(streak, crack * 0.6, joint * 0.45, under * 0.35)).map(v => v * (1 + rough * 0.4) * (1 + lip * 0.08));
+          rock = mix(mix(rc, LICH, lich), VARN, Math.max(streak, crack * 0.6, joint * 0.45, under * 0.35, riser * 0.22)).map(v => v * (1 + rough * 0.4) * (1 + lip * 0.08));
           dR = -0.32 * under + 0.08 * lip - 0.45 * crack - 0.25 * joint + 0.36 * rough;
         }
         /* soil: red decomposed granite with stones; grass: dry grass with green patches */

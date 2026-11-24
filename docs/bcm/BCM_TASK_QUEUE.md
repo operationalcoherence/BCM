@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 21 · 2026-11-24 (v253) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 22 · 2026-11-24 (v254) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -8,7 +8,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 ## NOW · the 3D visual (his call, 11-24 09:37: "lets work on the 3d visual some more - bring that up in the task queue")
 His rule for this work (11-24 09:38, with five of his Bear Canyon photos): "Improve quality and realism only. Do not reinterpret or redesign."
 In order:
-1. ✔v253 Realism, first pass: light, rock, soil, grass, fine relief (docs/v253_update.md). He judges it by eye against his photos.
+1. ✔v253 Realism, first pass: light, rock, soil, grass, fine relief (docs/v253_update.md). ✔v254 the whole map reads as rock, not coral (his note 10:00; docs/v254_update.md). He judges by eye against his photos.
 2. The rest of the 3D relief test below: label pile-ups, goal rings over a label, then strategies 4 to 8.
 3. Entangled strategies on Taking Action maps (below), decided together with strategy 5 (routes laid on the ground).
 4. Attribution on every full-screen view (below the 3D items).

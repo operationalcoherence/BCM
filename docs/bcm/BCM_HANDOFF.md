@@ -1,5 +1,7 @@
 # BCM_HANDOFF.md
 
+2026-11-24 10:25: **v254 live**, the whole map reads as rock, not coral (his note 10:00; docs/v254_update.md): bedded cliff bands on steep ground, rolling gentle ground; the notes' shape is unchanged. **Next:** his eye on v254; then label pile-ups and the goal rings ("NOW · the 3D visual" in BCM_TASK_QUEUE.md).
+
 2026-11-24 09:57: **v253 live**, the 3D ground looks more like real Bear Canyon (his photos, 09:38: "Improve quality and realism only. Do not reinterpret or redesign."; docs/v253_update.md). Line maps only; Broadview pixel-identical. The 3D work is now at the top of BCM_TASK_QUEUE.md ("NOW · the 3D visual"). **Next:** his eye on v253, then label pile-ups and the goal rings. Screenshot tool: tests/reliefshot.py (same camera; DSF=2 for close crops). Local test copies tests/w20.json, tests/w13.json, tests/broadview.json are trimmed (positions and emotions only) and kept out of git.
 
 2026-11-24 later: **v252 live**, every note brings its own emotion color to its own spot on the 3D ground (docs/v252_update.md); acceptance on the hinder side now shows teal. **Next:** he marks claude/emotion_definitions_redline.md, the definitions ship, and WHAT THE SYSTEM IS DOING is trimmed to match and tied to his own levers. Local test copies tests/w20.json and tests/broadview.json are trimmed and kept out of git.
