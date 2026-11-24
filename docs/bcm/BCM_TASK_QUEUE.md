@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 26 · 2026-11-24 (v262) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 27 · 2026-11-24 (v263) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -30,7 +30,7 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 1. Real lighting: low-angle sun, soft shadows, sky/ground ambient light.
 2. Slope-driven materials: rock on steep ground, soil/grass on flat, blended by slope angle.
 3. Fine erosion-like detail through normal map or shading only; the real height data stays untouched.
-4. Flow, ridges and barriers visible in the ground: drainage channels computed from the height, sharper crest lines, cliff bands for barriers.
+4. ✔v263 Flow, ridges and barriers: crisper crest lines (docs/v263_update.md); cliff bands since v254; drainage channels dropped (water imagery).
 5. ✔v261 Routes as ribbons or worn trails laid on the surface, with shading and occlusion (also helps the entangled-strategies item).
 6. Label decluttering: priority, nudging apart, short leader lines, fade with distance.
 7. ✔v262 Depth cues: light distance haze (docs/v262_update.md). Finer mesh tried and dropped (no visible change; 2x too heavy for tour.py). Vertical exaggeration left as is.

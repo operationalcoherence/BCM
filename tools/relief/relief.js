@@ -192,7 +192,7 @@ function mount(host, D) {
       }
       const o0 = (py * TW + pxx) * 4;
       let c = bp ? [bp[o0], bp[o0 + 1], bp[o0 + 2]] : mix(mix(grass, soil, tS + sstep(-0.4, -1.0, h / HS) * 0.5 * (1 - tR)), rock, tR); const kk = bp ? 1 : PL ? 0.93 + 0.14 * sp : 0.96 + 0.08 * sp; c = c.map(v => v * kk);
-      let ao = Math.max(-0.28, Math.min(0.18, -lap * (PL ? 0.5 : 0.11))); if (!PL) ao = Math.max(-0.42, ao * 0.7 - aoAt(x, y) * 0.5); c = c.map(v => v * (1 + ao));
+      let ao = Math.max(-0.28, Math.min(0.18, -lap * (PL ? 0.5 : 0.11))); if (!PL) { ao = Math.max(-0.42, ao * 0.7 - aoAt(x, y) * 0.5); const l1 = gH(x + e, y) + gH(x - e, y) + gH(x, y + e) + gH(x, y - e) - 4 * h; ao += Math.min(0.1, Math.max(0, -l1 - 0.02) * 0.6) * sstep(0.15, 0.5, s); } c = c.map(v => v * (1 + ao));
       /* v243: a place gets a hillshade over its imagery (light from the northwest, 45° up) so benches and slopes read */
       if (PL) { const gx = (gH(x + e, y) - gH(x - e, y)) / (2 * e), gy = (gH(x, y + e) - gH(x, y - e)) / (2 * e), nl = Math.hypot(gx, gy, 1), sh = ((gx + gy) * 0.7071 + 1) * 0.7071 / nl / 0.7071 - 1; c = c.map(v => Math.min(255, v * (1 + Math.max(-0.45, Math.min(0.3, sh * 0.9))))); }
       if (gap > 0.01) c = mix(c, rock.map(v => v * (1 + ao)), gap * 0.85);
