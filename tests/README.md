@@ -23,6 +23,7 @@ Kept here because every previous harness lived in a sandbox that was lost.
 | `tour.py WORKBOOK.json [OUT] [slow]` | The guided tour on Pattern Synthesis (v208), with the 3D loaded: presses Play, prints each caption, screenshots three moments, checks a click stops it. `slow` runs it 8x slower for settled screenshots. |
 | `tour_an.py WORKBOOK.json [OUT]` | The short tour on Pattern Analysis (v210), with the 3D loaded: plays it, prints each caption, screenshots one stop, checks End tour closes full screen. |
 | `agree.py WORKBOOK.json [OUT]` | THE TWO PICTURES, SIDE BY SIDE at the end of Pattern Synthesis (v213), with the 3D loaded: lists the words and verdicts, taps one, checks its hoses are drawn on the 3D, screenshots both. |
+| `ev.py JSFILE WORKBOOK.json TAB 'JS'` | Opens a tab and prints the JSON of one JavaScript expression evaluated in the page (v249). |
 | `stop.txt` | Obsolete (pre-v102, 362 entries). `tok.js` no longer reads it. |
 
 ## Workbooks the scripts expect

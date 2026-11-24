@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 18 · 2026-11-24 (v248) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 19 · 2026-11-24 (v249) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -65,7 +65,7 @@ Claude's suggested combination to try first: 1, 2 and 4 together.
 
 **In short (his, 11-20 20:23):** BCM no longer lacks pages or architecture; it lacks enough insight types to explain large, complex situations, causing multiple systems, actors, targets, and failure modes to be compressed into single findings.
 
-**Started Tuesday 11-24:** ✔v248 Pattern Analysis as several stories (Several Systems, first on Analysis). Next, suggested: the Pattern Analysis gibberish; the acceptance color and emotions on both sides of the line; the Taking Action review; Groups Across Ground and the rest of the second generation.
+**Started Tuesday 11-24:** ✔v248 Pattern Analysis as several stories (Several Systems, first on Analysis). ✔v249 the Pattern Analysis gibberish. Next, suggested: the acceptance color and emotions on both sides of the line; the Taking Action review; Groups Across Ground and the rest of the second generation.
 
 The three 11-20 evening items below (large-workbook review, Taking Action review, Pattern Analysis as several stories) all serve this question. Read each finding and each change against it.
 
@@ -205,7 +205,7 @@ Detail, with examples from his 11-20 workbook, is in claude/ask_queue_2026-11-20
   - **Redline written 11-21 13:45, waiting on his markup** (claude/emotion_definitions_redline.md): acceptance gains the p. 29 legitimacy quote; aggression and defiance quotes cut to "[the idea]"; indifference and distrust unchanged; one lead-in line above the five (Claude's wording). Open for him: (1) the lead-in wording; (2) keep or cut "community members" in the p. 29 quote; (3) keep or cut "in the town" in the "care and concern" quote. Nothing ships until he marks it.
   - Touches PA (what holds it, the opportunity), the terrain, the PS tour captions, and the TA program/strategy rule. Applies to every workbook.
 - [ ] PS · VIZ · BUG · **Acceptance on the hinder side doesn't show on the ground** (his screenshot, 11-20 15:45, Pattern Synthesis 3D). His words: "The acceptance emotion doesnt show up on hinder." "It didn't bring its color with it." Hinder-side acceptance notes sit in red, lavender, and blue with no teal around them: the note is there, its color is not. Cause, read from the code (not yet tested): nothing is side-specific. A lone acceptance note is drowned by the low-ground notes around it. Height is acceptance minus (1.5 × aggression + distrust + 3.4 × defiance) (buildTerrain), and the 3D color mix raises each emotion's weight to the power 2.2, with defiance × 1.6 (the emotion field), so the most numerous or heaviest emotion nearby wins. Fix together with "Emotions read with their side of the line" above: every note's emotion should stay visible at its own spot, at least as a small patch, without changing the line map's look elsewhere (his 11-19 rule: no other changes to the line map).
-- [ ] PA · BUG · ENG · **Pattern Analysis reads as gibberish** (his screenshot, 11-20). Note openings clipped and listed as phrases in WHAT HOLDS THE SITUATION IN PLACE and THE OPPORTUNITY; a single word stated as a finding in AT A GLANCE; a phrase paired with its own longer form in WHAT YOUR USE OF THE METHOD PRODUCED. Fix in the phrase layer (phBest, phClause, gsmPhName): never name a note by its first words; no fragment without meaning; drop a phrase another theme already contains. Test on 11-13, 11-20, Broadview, and clinic with before-and-after text.
+- [x] ✔v249 PA · BUG · ENG · **Pattern Analysis reads as gibberish** (his screenshot, 11-20). Note openings clipped and listed as phrases in WHAT HOLDS THE SITUATION IN PLACE and THE OPPORTUNITY; a single word stated as a finding in AT A GLANCE; a phrase paired with its own longer form in WHAT YOUR USE OF THE METHOD PRODUCED. Fix in the phrase layer (phBest, phClause, gsmPhName): never name a note by its first words; no fragment without meaning; drop a phrase another theme already contains. Test on 11-13, 11-20, Broadview, and clinic with before-and-after text.
 
 ## Added 11-19 14:34 (his asks, place maps; not started)
 - [ ] PA · VIZ · **Place map, Pattern Analysis:** remove the old analysis figure, and give the content the line map's format.
