@@ -316,6 +316,7 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
     const f = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7, 11), new THREE.MeshStandardMaterial({ color: 0x2e9b45, roughness: 0.55 })); f.position.set(X(s.x), h + 18.5, Z(s.y) + 5.5); f.castShadow = true; scene.add(f);
     lab(PL ? 'START' : 'PRESENT', 'pl', s.x, s.y, 24, 3, -30, -24, PL ? { head: 'START', body: 'The note farthest from the goal. The ways run from here to the goal.' } : { head: 'PRESENT', body: 'Where things stand now. The ground runs from here toward the goal.' }); }
   const ringAt = (cx, cy, r) => { const p = []; for (let k = 0; k <= 64; k++) { const a = k / 64 * Math.PI * 2, x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r; p.push(new THREE.Vector3(X(x), gH(x, y) + 0.5, Z(y))); } return p; };
+  const RINGP = []; [22, 14, 6].forEach(r => { const q = ringAt(D.GOAL.x, D.GOAL.y, r); for (let k = 0; k < 64; k += (r > 10 ? 2 : 4)) RINGP.push(q[k]); });
   [22, 14, 6].forEach(r => { const c = new THREE.CatmullRomCurve3(ringAt(D.GOAL.x, D.GOAL.y, r), true); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 1.0, 6, true), new THREE.MeshStandardMaterial({ color: 0xffffff }))); scene.add(new THREE.Mesh(new THREE.TubeGeometry(c, 80, 0.5, 6, true), blk)); });
   { const g = D.GOAL, hh = gH(g.x, g.y), pole = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 16, 6), blk); pole.position.set(X(g.x), hh + 8, Z(g.y)); scene.add(pole);
     pole.scale.y = 1.5; pole.position.y = hh + 12;
@@ -575,6 +576,8 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
     const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);
     L.forEach(o => { if (!o.head || o.hid || o.off) return; hv.copy(o.head).project(camera); if (hv.z > 1) return; hv2.copy(o.head).addScaledVector(up, 2.8).project(camera);
       const r = 1.5 * Math.max(3, Math.hypot((hv2.x - hv.x) * 0.5 * w, (hv2.y - hv.y) * 0.5 * h)); heads.push({ o, x: (hv.x * 0.5 + 0.5) * w, y: (-hv.y * 0.5 + 0.5) * h, r }); });
+    const rings = []; RINGP.forEach(q => { hv.copy(q).project(camera); if (hv.z <= 1) rings.push([(hv.x * 0.5 + 0.5) * w, (-hv.y * 0.5 + 0.5) * h]); });
+    const hitR = (o, x, y, bw, bh) => { if (o.el.textContent === 'GOAL') return 0; let n = 0; for (const r of rings) if (r[0] > x - 3 && r[0] < x + bw + 3 && r[1] > y - 3 && r[1] < y + bh + 3) n += 30; return n; };
     const hitB = (x, y, bw, bh) => { let n = 0; for (const b of boxes) if (x < b[0] + b[2] && x + bw > b[0] && y < b[1] + b[3] && y + bh > b[1]) n += Math.min(x + bw, b[0] + b[2]) - Math.max(x, b[0]) + 1; return n; };
     const hitH = (o, x, y, bw, bh) => { let n = 0; if (!o.isN) return 0; for (const q of heads) { if (q.o === o) continue; const cx = Math.max(x, Math.min(q.x, x + bw)), cy = Math.max(y, Math.min(q.y, y + bh)); if ((cx - q.x) ** 2 + (cy - q.y) ** 2 < (q.r + 1) ** 2) n += 40 + q.r; } return n; };
     L.map(o => { v.copy(o.v).project(camera); o.sx = (v.x * 0.5 + 0.5) * w; o.sy = (-v.y * 0.5 + 0.5) * h; return { o, x: o.sx + o.ax, y: o.sy + o.ay, off: v.z > 1 }; })
@@ -582,12 +585,12 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
      .forEach(p => { const o = p.o; if (o.hid || p.off || p.x < -24 || p.x > w + 24 || p.y < -24 || p.y > h + 24) { o.el.style.display = 'none'; if (o.ld) o.ld.style.display = 'none'; return; } o.el.style.display = '';
        const bw = o.el.offsetWidth || 30, bh = o.el.offsetHeight || 16; let x = p.x, y = p.y;
        /* the side and axis words keep their places; everything else may move off a crowded spot */
-       if (!/\bside\b/.test(o.el.className) && (hitB(x, y, bw, bh) || hitH(o, x, y, bw, bh))) {
+       if (!/\bside\b/.test(o.el.className) && (hitB(x, y, bw, bh) || hitH(o, x, y, bw, bh) || hitR(o, x, y, bw, bh))) {
          const ax = o.sx, ay = o.sy, g = 4, C = [];
          [0, 1, 2, 3].forEach(k => { const d = k * (bh + 2);
            C.push([p.x, p.y - d - (k ? 0 : 0)], [ax + g + d, ay - bh / 2], [ax - g - bw - d, ay - bh / 2], [ax - bw / 2, ay - g - bh - d], [ax - bw / 2, ay + g + d], [ax + g + d * 0.7, ay - g - bh - d * 0.7], [ax - g - bw - d * 0.7, ay - g - bh - d * 0.7], [ax + g + d * 0.7, ay + g + d * 0.7], [ax - g - bw - d * 0.7, ay + g + d * 0.7]); });
          let best = null, bs = 1e9;
-         for (let i = 0; i < C.length; i++) { const [cx, cy] = C[i]; if (cx < 2 || cx + bw > w - 2 || cy < 2 || cy + bh > h - 2) continue; const sc = hitB(cx, cy, bw, bh) * 20 + hitH(o, cx, cy, bw, bh) * 20 + i; if (sc < bs) { bs = sc; best = C[i]; } if (sc === i) break; }
+         for (let i = 0; i < C.length; i++) { const [cx, cy] = C[i]; if (cx < 2 || cx + bw > w - 2 || cy < 2 || cy + bh > h - 2) continue; const sc = hitB(cx, cy, bw, bh) * 20 + hitH(o, cx, cy, bw, bh) * 20 + hitR(o, cx, cy, bw, bh) * 20 + i; if (sc < bs) { bs = sc; best = C[i]; } if (sc === i) break; }
          if (best) { x = best[0]; y = best[1]; } }
        x = Math.max(2, Math.min(w - bw - 2, x)); boxes.push([x, y, bw, bh]); o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
        /* a leader line when the label has left its pin */
