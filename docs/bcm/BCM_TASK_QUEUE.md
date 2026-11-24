@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 17 · 2026-11-23 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 18 · 2026-11-24 (v248) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -65,7 +65,7 @@ Claude's suggested combination to try first: 1, 2 and 4 together.
 
 **In short (his, 11-20 20:23):** BCM no longer lacks pages or architecture; it lacks enough insight types to explain large, complex situations, causing multiple systems, actors, targets, and failure modes to be compressed into single findings.
 
-**Start Tuesday 11-24 with:** Pattern Analysis as several stories (Several Systems, first on Analysis). Then, suggested: the Pattern Analysis gibberish; the acceptance color and emotions on both sides of the line; the Taking Action review; Groups Across Ground and the rest of the second generation.
+**Started Tuesday 11-24:** ✔v248 Pattern Analysis as several stories (Several Systems, first on Analysis). Next, suggested: the Pattern Analysis gibberish; the acceptance color and emotions on both sides of the line; the Taking Action review; Groups Across Ground and the rest of the second generation.
 
 The three 11-20 evening items below (large-workbook review, Taking Action review, Pattern Analysis as several stories) all serve this question. Read each finding and each change against it.
 
@@ -188,8 +188,8 @@ The three 11-20 evening items below (large-workbook review, Taking Action review
   - **6. All visible language in situation language:** prefer conditions, tensions, opportunities, support, resistance, transitions; avoid "answered", "built on", "shares words", and note numbers as primary subjects.
   - **Return to him:** specific hierarchy changes, specific wording changes, and an example rewritten card. Show before shipping.
 
-## For Tuesday 11-24 (his ask, 11-20 19:30; not started)
-- [ ] PA · ENG · NARR · **Pattern Analysis: several stories, not one.** Review of his 11-20 organizational-change workbook (46 notes, v247): the page still assumes one dominant story, and this workbook has outgrown that. Full review with the evidence is in claude/analysis_review_2026-11-20.md in the Claude project (private, because it quotes the workbook).
+## For Tuesday 11-24 (his ask, 11-20 19:30; done 11-24, v248)
+- ✔v248 PA · ENG · NARR · **Pattern Analysis: several stories, not one.** Shipped 11-24 after three wording rounds with him (07:19 systems prose, 07:28 developmental movement, 07:29 invariants, 07:37 six levels). What shipped is described in docs/v248_update.md. In short, `gsmSystems()` finds the separate low grounds. YOUR STORY SO FAR opens with WHAT THE SYSTEM IS DOING, one reading in six levels: pattern, mechanism, invariant, necessity, development, and theory. Each chapter's own reading folds under it, and the one-line story folds under that. The original brief follows. Review of his 11-20 organizational-change workbook (46 notes, v247): the page still assumes one dominant story, and this workbook has outgrown that. Full review with the evidence is in claude/analysis_review_2026-11-20.md in the Claude project (private, because it quotes the workbook).
   - What the page does now: WHAT HOLDS THE SITUATION IN PLACE puts 24 notes into one system; THE OPPORTUNITY fuses several openings into one list; WHAT YOUR USE PRODUCED names one center; YOUR STORY SO FAR runs one line and skips whole parts of the map (e.g. a second low ground near the goal); WHERE THIS LEAVES THE WORK names one tension.
   - What the map holds: two separate low grounds (now, and after the change is declared), a job-security thread, a mutual-aggression loop between supporters and opponents, two centers on the help side, and a large indifferent middle.
   - Approach (from the review): tell one story only when one structure holds most notes; otherwise say "Your workbook holds N stories" (cap 3), found from what the engine already has (side, time, emotion, shared phrases, links), no new questions. Each story gets one line: what holds it, what helps, where it can cross. Tensions, opportunities, and holding structures: top 3 each, ranked, the rest folded. Keep the evidence folds under each story so the page doesn't get longer at first glance.

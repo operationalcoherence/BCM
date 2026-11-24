@@ -1,6 +1,8 @@
 # BCM_HANDOFF.md
 
-2026-11-19, morning. Preview at **v247** (v197–v231 pushed 11-18; v232–v247 pushed 11-19). **The pre-F8 review table is answered and applied (v236, docs/v236_update.md).** The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
+2026-11-24: **v248 live**, Pattern Analysis as several stories, the first build of Several Systems (docs/v248_update.md). His 11-20 workbook is now in the Claude project as workbooks/bear-canyon-workbook-2026-11-20.json. Its local copy is tests/w20.json, kept out of git. Test with tests/stories.py, tests/storyshot.py, and matrix.py. Next on the queue: the Pattern Analysis gibberish; the acceptance color and emotions on both sides of the line; the Taking Action review.
+
+Earlier: 2026-11-19, morning. Preview at **v247** (v197–v231 pushed 11-18; v232–v247 pushed 11-19). **The pre-F8 review table is answered and applied (v236, docs/v236_update.md).** The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
 
 ## First thing next session
 1. Attach operationalcoherence/BCM with push. If it's refused, tell him plainly and stop; don't work around it. (A read-only clone of the public repo is fine for reading code.) On 11-18 every first attempt was refused, and each time it worked after he said "push access granted."
