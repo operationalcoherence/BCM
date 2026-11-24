@@ -178,7 +178,9 @@ JS = r'''
     window.gsmSys = Y;
     if (!Y.several) return;
     var E = GSMEMO,
-      ST = Y.low.slice(0, 3),
+      ST = Y.low.slice(0, 3).sort(function (a, b) {
+        return a.x - b.x;
+      }),
       ind = Y.pts.filter(function (p) {
         return 3 === p.e;
       }),
@@ -218,6 +220,7 @@ JS = r'''
         return a + g.n.length;
       }, 0),
       seenWhere = {},
+      chap = [],
       out = [];
     function pick(L) {
       for (var i = 0; i < L.length; i++) if (L[i][0] && !used[L[i][1]]) return (used[L[i][1]] = 1), L[i][2];
@@ -332,6 +335,7 @@ JS = r'''
           (acc ? " The acceptance that holds the present in place has to loosen too: until the current arrangement stops looking like the only legitimate one, every case for the goal will be heard as an attack on it." : "") +
           ("goal" === wh ? " Here that means judging the change by what people do, not by what has been declared." : ""),
       );
+      chap.push({ x: g.x, wh: wh, e0: e0, acc: acc });
       var TL = { start: second ? "AT THE START, A SECOND LOW GROUND" : "AT THE START", mid: "PARTWAY TO THE GOAL", goal: "CLOSE TO THE GOAL" }[wh];
       out.push(
         '<div class="story1"><div class="s1h">STORY ' +
@@ -351,16 +355,148 @@ JS = r'''
           "</div></details></div>",
       );
     });
+    /* v248c: the movement underneath (his brief, 11-24 07:28). The stories read as chapters in time
+       order: what each defends, what is threatened next, what changes, what stays the same, and the
+       larger story. Identity, legitimacy, power, incentives, coherence, and adaptation; no emotional
+       terrain words. Chosen from the same readings as the stories. */
+    var DF = {
+      legit: {
+        what: "legitimacy: the present arrangement's claim to be the right way of doing things, and with it the identities built inside that arrangement",
+        why: "Power here belongs to whoever can make the present look like common sense, and as long as it does, the change has to argue for its right to exist before it can argue for anything else.",
+        verb: "denies the change its legitimacy",
+        obj: "what is right",
+      },
+      ident: {
+        what: "identity: who people are within the way things are done now",
+        why: "When a way of working has become part of who someone is, any change to it is heard as a judgment of them, and keeping it intact becomes a matter of self-respect rather than preference.",
+        verb: "guards who it is against it",
+        obj: "who people are",
+      },
+      trust: {
+        what: "the authority to decide how change happens: who gets to carry it, on whose terms, and with what promises",
+        why: "The contest is over power before it is over content; until people trust the hands the change is in, they withhold the cooperation it needs.",
+        verb: "questions who has the right to carry it",
+        obj: "who decides",
+      },
+      work: {
+        what: "how the work is done now and who controls it",
+        why: "The existing routines carry the system's competence and its lines of control, so a challenge to them is a challenge to whoever those routines keep in charge.",
+        verb: "defends how its work is done",
+        obj: "how the work is controlled",
+      },
+      place: {
+        what: "position: each person's place, role, and livelihood in whatever comes after",
+        why: "Once the change is real enough to redistribute roles, its incentives become personal; people stop asking whether the goal is right and start asking what it will cost them.",
+        verb: "defends each person's place against it",
+        obj: "who each person will be",
+      },
+      practice: {
+        what: "practice: the everyday ways of working that can keep the old order alive inside the new one",
+        why: "Here power is exercised quietly. The form of the change can be adopted while practice stays loyal to the old incentives, so the system keeps its coherence by letting the two drift apart.",
+        verb: "lets it in by name while keeping the old life underneath",
+        obj: "how the work is actually done",
+      },
+    };
+    var CH = chap
+        .slice()
+        .sort(function (a, b) {
+          return a.x - b.x;
+        }),
+      usedD = {};
+    CH.forEach(function (c) {
+      var d =
+        "goal" === c.wh
+          ? "practice"
+          : "mid" === c.wh
+            ? "place"
+            : c.acc && !usedD.legit
+              ? "legit"
+              : 4 === c.e0 && !usedD.ident
+                ? "ident"
+                : 2 === c.e0 && !usedD.trust
+                  ? "trust"
+                  : !usedD.work
+                    ? "work"
+                    : !usedD.ident
+                      ? "ident"
+                      : "trust";
+      usedD[d] = 1;
+      c.key = d;
+      c.d = DF[d];
+    });
+    /* v248d: invariants (his brief, 11-24 07:29). Not what differs between the stories: what the system
+       protects from beginning to end, and how that one protection changes form from chapter to chapter. */
+    var FORM = {
+      legit: "as an argument about what is right, in which the present arrangement is defended as the legitimate way and the change has to prove its right to exist",
+      ident: "as loyalty to who people already are, in which giving up the old way would mean giving up part of oneself",
+      trust: "as a question of who may decide, in which cooperation is withheld until people trust the hands the change is in",
+      work: "as control of the routines, in which the existing ways of working keep the existing people in charge",
+      place: "as a defense of each person's place, in which the question is no longer whether the goal is right but what it will cost the people inside it",
+      practice: "as quiet practice under a new name, in which the change is adopted in form while the old ways go on inside it",
+    };
+    var anyAcc = CH.some(function (c) {
+        return c.acc;
+      }),
+      hasGoal = CH.some(function (c) {
+        return "goal" === c.wh;
+      }),
+      allDef =
+        CH.filter(function (c) {
+          return 4 === c.e0;
+        }).length *
+          2 >=
+        CH.length,
+      core = anyAcc
+        ? "the standing of the present arrangement as the legitimate one, and the identities, positions, and rewards that standing holds together"
+        : allDef
+          ? "its present identity, and the positions and rewards that identity holds together"
+          : "who decides, whose ways of working count, and what is rewarded: its present order of control",
+      EP = [],
+      fl = ["At first", "Later", "Near the goal"],
+      fo = CH.map(function (c, i) {
+        var lead = "goal" === c.wh ? "Near the goal" : "mid" === c.wh ? "Later" : 0 === i ? "At first" : "At the same time";
+        return lead + " it appears " + FORM[c.key] + ".";
+      });
+    EP.push(
+      "From beginning to end, the system is protecting the same thing: " +
+        core +
+        ". Every chapter of this workbook is that one protection, met at a different distance from the goal.",
+    );
+    EP.push(
+      "What changes is only its form. " +
+        fo.join(" ") +
+        " Underneath each form the work is the same: keeping the system coherent as what it already is." +
+        (hasGoal ? " The protection moves from open argument to quiet practice, but it never lets go." : ""),
+    );
+    EP.push(
+      "What does not change, in any chapter:" +
+        (anyAcc ? " the present arrangement keeps its legitimacy;" : "") +
+        " as far as the map shows, power stays with those the present arrangement keeps in charge, and the incentives still reward the old way; and the system goes on adapting, but its adaptation serves continuity, not the goal.",
+    );
+    EP.push(
+      "<b>The larger story</b> is of a system that meets change by protecting " +
+        (anyAcc ? "its legitimacy" : allDef ? "its identity" : "its order") +
+        (hasGoal ? ", and that can do so even while appearing to change." : ", and has not yet found a reason to stop.") +
+        " The change will keep being " +
+        (hasGoal ? "absorbed" : "resisted") +
+        " for as long as it threatens what is being protected. It loses that power only when the system can protect its coherence by changing rather than by holding still: when there is an identity on the other side that people can hold as legitimately as the one they have, when places survive the crossing, and when the new way is the one that is rewarded.",
+    );
     var more = Y.low.length > 3 ? " These are the three largest; " + (Y.low.length - 3) + (Y.low.length - 3 > 1 ? " smaller hollows are" : " smaller hollow is") + " left out." : "";
     var box = document.createElement("div");
     box.className = "stories";
     box.innerHTML =
       '<p class="stsn">Your workbook holds ' +
       ["", "one story", "two stories", "three stories"][ST.length] +
-      ". Each is its own low ground, with its own reasons for holding and its own way out. Read them apart before reading them as one." +
+      ". Underneath them, one thing does not change." +
       more +
       "</p>" +
-      out.join("");
+      '<div class="evo"><div class="s1h">WHAT STAYS THE SAME</div>' +
+      EP.map(function (p) {
+        return "<p>" + p + "</p>";
+      }).join("") +
+      '</div><details class="more evst"><summary>Each chapter read on its own</summary>' +
+      out.join("") +
+      "</details>";
     var rest = [].slice.call(mt.children).filter(function (c) {
         return !c.classList.contains("owm");
       }),
@@ -375,7 +511,7 @@ JS = r'''
   }
 '''
 
-CSS = '#gsm .stories{margin:6px 0 10px}#gsm .stories .stsn{font-size:17.5px;line-height:1.6;color:#111}#gsm .story1{border-left:3px solid #111;padding:4px 0 6px 14px;margin:16px 0}#gsm .story1 .s1h{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:6px}#gsm .story1 .s1v{font-size:18px;line-height:1.55;font-style:italic;color:#111;margin:0 0 10px}#gsm .story1 .s1p p{font-size:16.5px;line-height:1.65;color:#111;margin:0 0 10px}#gsm .story1 .s1p b{font-weight:700;color:#111}#gsm details.onel{margin-top:14px}'
+CSS = '#gsm .stories{margin:6px 0 10px}#gsm .stories .stsn{font-size:17.5px;line-height:1.6;color:#111}#gsm .story1{border-left:3px solid #111;padding:4px 0 6px 14px;margin:16px 0}#gsm .story1 .s1h{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:6px}#gsm .story1 .s1v{font-size:18px;line-height:1.55;font-style:italic;color:#111;margin:0 0 10px}#gsm .story1 .s1p p{font-size:16.5px;line-height:1.65;color:#111;margin:0 0 10px}#gsm .story1 .s1p b{font-weight:700;color:#111}#gsm details.onel{margin-top:14px}#gsm .evo{border-left:3px solid #111;padding:4px 0 4px 14px;margin:14px 0}#gsm .evo p{font-size:16.5px;line-height:1.65;color:#111;margin:0 0 12px}#gsm details.evst{margin:6px 0 8px}'
 
 a = "  window.gsmStruct = gsmStruct;\n"
 assert s.count(a) == 1

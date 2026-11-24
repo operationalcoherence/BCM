@@ -19,3 +19,16 @@ First build of Several Systems (queue: "Pattern Analysis: several stories, not o
 
 ## Waiting on him
 The wording (verse and prose lines) is Claude's. Not on main until he approves.
+
+## Added 11-24 (his briefs 07:28 and 07:29): what stays the same
+- Above the stories: WHAT STAYS THE SAME. The stories are read as chapters in time order. It says what the system protects from beginning to end, and how that one protection changes form from chapter to chapter. It names what does not change in any chapter, then the larger story and what would make it turn. No emotional terrain words.
+- The invariant is chosen from the readings. Acceptance of the present inside a low ground gives "the standing of the present arrangement as the legitimate one". Mostly defiance gives "its present identity". Otherwise it is "its present order of control".
+- Each chapter's form is chosen from where it sits and what it holds:
+  - an argument about what is right (acceptance of the present)
+  - loyalty to who people already are (defiance)
+  - a question of who may decide (distrust)
+  - control of the routines (aggression)
+  - a defense of each person's place (partway)
+  - quiet practice under a new name (close to the goal)
+- The seven-move reading of each story is kept, folded under "Each chapter read on its own". Stories are numbered in time order.
+- Claims about power and incentives are hedged "as far as the map shows": the engine does not read incentives directly.
