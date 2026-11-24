@@ -1,5 +1,7 @@
 # BCM_HANDOFF.md
 
+2026-11-24 12:30: **v257 live**, WHAT THE SYSTEM IS DOING trimmed to four paragraphs and tied to his own levers (docs/v257_update.md). **Next:** his eye on it; then "NOW · the 3D visual" (label pile-ups first). Still open: the v255 lighting check and the color wash (his call only). Local tests/w20.json rebuilt (goal, answers, notes) and kept out of git.
+
 2026-11-24 12:10: **v256 live**, the approved emotion definitions (his calls 11:52 to 12:00; docs/v256_update.md; final text in the Claude project, claude/emotion_definitions_redline.md). **Next:** trim WHAT THE SYSTEM IS DOING to match the definitions and tie it to his own levers; then back to "NOW · the 3D visual" (label pile-ups first). Still open from the morning: the lighting check on v255 and the color wash (his call only).
 
 2026-11-24 10:47: **v255 live** (checked on operationalcoherence.com/bcm: the label reads v255). Today's 3D work, his call 09:37: "lets work on the 3d visual some more"; his rule 09:38, with five of his Bear Canyon photos: "Improve quality and realism only. Do not reinterpret or redesign."

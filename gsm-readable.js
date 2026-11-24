@@ -3073,86 +3073,95 @@
         }),
       ),
       EP = [];
-    /* 1. pattern */
+    /* v257: four paragraphs (his go-ahead 11-24 12:10). 1 the pattern and how it moves; 2 what keeps
+       it going, after the user's own Q.1 reasons; 3 what it protects and why that is reasonable;
+       4 what the user's own design already reaches, and what nothing yet answers. */
+    var Q1 = ((C && C.a && C.a[0]) || "").toLowerCase(),
+      saidInfo = /knowledge|information|understand|aware|educat|learn|familiar/.test(Q1),
+      DS = []
+        .concat(
+          ((C && C.a) || []).slice(4, 7),
+          ((C && C.m) || [])
+            .filter(function (t) {
+              return t[0] >= 5;
+            })
+            .map(function (t) {
+              return t[3] || "";
+            }),
+        )
+        .join(" \n ")
+        .toLowerCase(),
+      Q2 = ((C && C.a && C.a[1]) || "").toLowerCase();
     EP.push(
-      "The change does not meet resistance once. It meets it again and again, and each time the resistance takes the shape the change has reached: " +
+      "The change meets resistance again and again, and each time the resistance takes the shape the change has reached: " +
         forms.replace(/, and /, ", and finally ").replace(/^([^,]*) and /, CH.length === 2 ? "$1, and then " : "$1 and ") +
-        "." +
-        (helpAgg ? " Around it a second pattern forms: support answers resistance in kind, and each side hardens the other." : "") +
-        (wideMid ? " Between them lies a wide middle that is neither for nor against, waiting to see which way things go." : ""),
+        ". With each step it moves closer to each person and further out of sight" +
+        (hasGoal ? ", until the change looks adopted while the old order goes on inside it." : ".") +
+        (helpAgg ? " Around it, support answers resistance in kind, and each side hardens the other." : "") +
+        (wideMid ? " Between them lies a wide middle, neither for nor against, waiting to see which way things go." : ""),
     );
-    /* 2. mechanism */
     var M = [];
-    anyAcc && M.push("the present arrangement is still taken for granted as the right one, so any alternative has to argue against common sense");
+    anyAcc && M.push("the present arrangement is still accepted as the right one, so any alternative has to argue against common sense");
     helpAgg && M.push("each side reads the other's response as proof of its own fears");
     hasMid && M.push("the rewards people can count on are tied to the places they hold now");
-    hasGoal && M.push("the change is judged by what is declared rather than by what is done, so compliance can be shown without being lived");
+    hasGoal && M.push("the change is judged by what is declared rather than by what is done");
     M.length < 2 && M.push("nothing in the change yet alters what people are trusted, protected, or rewarded for");
     EP.push(
-      "What produces this is not a lack of information. It is that " +
+      (saidInfo
+        ? "A lack of knowledge is among the reasons you gave, but the notes point more strongly elsewhere: "
+        : "What keeps it going is that ") +
         (M.length > 2 ? M.slice(0, -1).join("; ") + "; and " + M[M.length - 1] : M.join(" and ")) +
-        ". Each of these keeps recreating the same response, because the response works: it keeps the system able to act in the way it already knows.",
+        ". Each of these keeps recreating the same response, because the response keeps the system able to act in the way it already knows.",
     );
-    /* 3. invariant */
     var INV = {
-      legit: ["the standing of the present arrangement as the legitimate one", "a shared sense of what is right and of who belongs"],
-      ident: ["the system's present identity", "continuity of self: people remaining recognizable to themselves and to one another"],
-      order: ["the present order of control", "predictability: knowing who decides, what counts as good work, and who is safe"],
+      legit: "the standing of the present arrangement as the legitimate one: a shared sense of what is right" + (hasMid ? ", and of each person's place in it" : ""),
+      ident: "its present identity: people remaining recognizable to themselves and to one another",
+      order: "the present order of control: knowing who decides, what counts as good work, and who is safe",
     }[K];
     EP.push(
-      "Beneath the emotions, the arguments, and the behaviors, which all change, one thing does not. From beginning to end the system protects " +
-        INV[0] +
-        ". The function it is preserving is " +
-        INV[1] +
-        ".",
-    );
-    /* 4. necessity */
-    EP.push(
-      "That protection is not unreasonable. A system that let go of it all at once would lose more than a habit. " +
+      "Underneath, one thing stays the same. From beginning to end the system protects " +
+        INV +
+        ". That is not unreasonable. " +
         (K === "legit"
-          ? "It would lose the ground on which its members agree about what is right, who may decide, and whose work counts, and without that agreement every decision has to be fought for again."
+          ? "Without that shared sense, every decision would have to be fought for again."
           : K === "ident"
-            ? "It would lose the continuity that lets its members recognize themselves in their work, and with it the pride and competence that continuity carries."
-            : "It would lose its ability to coordinate under pressure, because coordination rests on knowing who decides and what is expected.") +
-        (hasMid ? " For the people inside it, the stakes are also plainly material: their places, their skills, and their livelihoods are built on the arrangement as it stands." : "") +
-        " From the system's side, holding on is a way of staying able to function while the future is still unclear.",
+            ? "Without that continuity, people lose the pride and competence their work carries."
+            : "Without it, the system cannot coordinate under pressure.") +
+        (hasMid ? " For the people inside it the stakes are also material: their places, skills, and livelihoods rest on the arrangement as it stands." : ""),
     );
-    /* 5. development */
-    var D = CH.map(function (c, i) {
-      return (
-        (0 === i
-          ? "It is defended first as "
-          : "start" === c.wh && "start" === CH[i - 1].wh
-            ? "at the same time as "
-            : i === CH.length - 1
-              ? "and last as "
-              : "then as ") + SHORT[c.key]
-      );
-    });
-    EP.push(
-      "Across the stories the system does not change what it protects; it changes how. " +
-        D.join(", ") +
-        ". With each step the protection moves closer to each person and further out of sight." +
-        (hasGoal
-          ? " What becomes hardest to see is that the resistance has not ended: by the time the change looks adopted, the protection has moved inside the new form and goes on there."
-          : " What becomes hardest to see is that the dispute was never only about the goal; it was about what the goal would take away."),
+    /* the levers: each mechanism, and whether the user's own design (Q.5 to Q.7 and their notes;
+       for the protected order, Q.2's reassurance too) already reaches it */
+    var LV = [],
+      NO = [];
+    function lever(on, re, txt, gap, also) {
+      if (!on) return;
+      re.test(DS) || (also && re.test(also)) ? LV.push(txt) : NO.push(gap);
+    }
+    lever(
+      anyAcc || K !== "legit",
+      /orderl|predictab|repeatab|stabil|reassur|continuit|familiar|retain|keep the/,
+      "keeping the order people rely on available when conditions call for it",
+      "how the order people rely on is kept while the change goes in",
+      Q2,
     );
-    /* 6. theory */
+    lever(hasMid, /expectation|incentive|reward|role|career|employ|job|position|performance|train/, "changing what people are expected and rewarded for", "what the change offers people in place of the positions they hold now");
+    lever(hasGoal, /measur|pattern|monitor|observ|evaluat|assess|indicator|metric/, "measuring what people do rather than what is declared", "how the change will be judged by what is done");
+    lever(helpAgg, /oppos|across|bridge|dialog|discussion|conversation|engag|participat|includ|listen|perspective/, "engaging those who resist rather than only those who already agree", "how support reaches across the line instead of answering resistance in kind");
     EP.push(
-      "What this workbook reveals is that a system does not resist change as such. It resists the loss of the function the present arrangement performs, and it will keep finding new forms for that resistance for as long as the change offers nothing that performs the function better." +
-        (hasGoal ? " Adoption is not transformation; a system can take on the shape of a change and keep its old purpose inside it." : "") +
-        " The general principle is that change succeeds not when resistance is overcome, but when what the resistance protects is provided another way: " +
+      "Change succeeds here not when the resistance is overcome but when what it protects is provided another way: " +
         (K === "legit"
-          ? "a new arrangement that people can hold as legitimately as the old one."
+          ? "a new arrangement people can hold as legitimately as the old one."
           : K === "ident"
-            ? "a new way of working that people can recognize themselves in."
-            : "a new order that is as predictable as the old one.") +
-        " This matters because it changes where the work is. Persuading, pressing, or outlasting the resistance only teaches it new forms. The work is to build what it is protecting into the place the goal is going.",
+            ? "a new way of working people can recognize themselves in."
+            : "a new order as predictable as the old one.") +
+        (LV.length ? " Your own answers already reach part of this: " + gsmMeanList(LV) + "." : "") +
+        (NO.length ? " Nothing you would design yet answers " + gsmMeanList(NO) + "." : "") +
+        " Pressing or outlasting the resistance only teaches it new forms.",
     );
     /* v251: AT A GLANCE opens with what the system is doing; the gap count is on Taking Action */
     try {
       var GI = {
-          legit: "what the present arrangement gives it: a shared sense of what is right and of who belongs",
+          legit: "what the present arrangement gives it: a shared sense of what is right" + (hasMid ? ", and each person\u2019s place" : ""),
           ident: "its present identity: people remaining recognizable to themselves and to one another",
           order: "the present order of control: knowing who decides, what counts as good work, and who is safe",
         }[K],
@@ -20143,7 +20152,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v256");
+        t && (t.textContent = "v257");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
