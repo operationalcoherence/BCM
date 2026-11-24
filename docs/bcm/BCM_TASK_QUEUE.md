@@ -1,9 +1,19 @@
 # BCM_TASK_QUEUE.md
-Rev 16 · 2026-11-23 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 17 · 2026-11-23 (v247) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
+
+## Added 11-23 17:09 · VIZ: high-resolution detail on the 3D rock (resolution of the 3D landscape)
+His words: "Enhance the exposed rock formations with high-resolution geological detail. Preserve the exact geometry, location, extent, and meaning of the existing rock areas. Add realistic bedrock texture, fractures, weathering patterns, stratification, roughness variation, ambient occlusion, and natural shadowing. Keep the terrain readable as part of the visualization. Do not change the colors, roads, nodes, or overall composition. Improve quality and realism only."
+His rule for this item: "Improve quality and realism only. Do not reinterpret or redesign."
+
+**Scope:** tools/relief/relief.js (rock material and shading). Rock detail goes in through texture, normal, and shading only; the height data and where rock sits stay exactly as they are.
+**Add:** bedrock texture, fractures, weathering patterns, stratification, roughness variation, ambient occlusion, and natural shadowing.
+**Do not change:** rock geometry, location, extent, or meaning; colors; roads (routes); nodes; overall composition; readability of the terrain.
+**Test:** v-current screenshots before and after, same camera, on the 11-13 and 11-20 workbooks; diff must show change only inside rock areas. Place maps have no bare rock, so check Broadview stays identical.
+**Fits with:** the 3D relief test below (its strategies 2, slope-driven materials, and 3, fine detail through normal map or shading). Keep this item to rock only.
 
 ## Added 11-23 12:20 · UI: attribution on every full-screen view (PA, PS, TA)
 His words: add "The Bear Canyon Method by Operational Coherence" "in a spot that cannot be snipped by screenshots but does not interfere with using the tool," on Pattern Analysis and Pattern Synthesis in full screen mode, like in Taking Action. "I don't want people stealing the images without attribution."
