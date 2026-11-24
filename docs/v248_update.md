@@ -32,3 +32,14 @@ The wording (verse and prose lines) is Claude's. Not on main until he approves.
   - quiet practice under a new name (close to the goal)
 - The seven-move reading of each story is kept, folded under "Each chapter read on its own". Stories are numbered in time order.
 - Claims about power and incentives are hedged "as far as the map shows": the engine does not read incentives directly.
+
+## Replaced 11-24 07:37: WHAT THE SYSTEM IS DOING (six levels)
+WHAT STAYS THE SAME is replaced by one piece of continuous prose, WHAT THE SYSTEM IS DOING, which works upward through his six levels with no labels:
+1. Pattern: the resistance takes the shape the change has reached, chapter by chapter. If the side that helps answers in kind, that pattern is named too, and so is a wide middle when indifference is at least 15% of the notes.
+2. Mechanism: assembled from the readings: acceptance of the present, the loop between sides, a partway chapter, a near-goal chapter.
+3. Invariant: legitimacy, identity, or order of control, and the function each preserves.
+4. Necessity: what the system would lose, and why holding on is reasonable from its side.
+5. Development: the order in which the forms appear, and what becomes hardest to see.
+6. Theory: a system resists the loss of a function, not change as such; change succeeds when that function is provided another way.
+
+Each chapter's seven-move reading stays folded under it. In the near-goal story, the final sentence now follows on from the sentence before it.

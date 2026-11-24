@@ -2806,7 +2806,7 @@
             ])
           : "For it to lose its influence, a ridge has to be made first. Nothing between this low ground and the help yet carries indifference, so going straight across is a climb over bare rock, and it takes the most energy in either direction.") +
           (acc ? " The acceptance that holds the present in place has to loosen too: until the current arrangement stops looking like the only legitimate one, every case for the goal will be heard as an attack on it." : "") +
-          ("goal" === wh ? " Here that means judging the change by what people do, not by what has been declared." : ""),
+          ("goal" === wh ? " Near the goal, the way out also means judging the change by what people do, not by what has been declared." : ""),
       );
       chap.push({ x: g.x, wh: wh, e0: e0, acc: acc });
       var TL = { start: second ? "AT THE START, A SECOND LOW GROUND" : "AT THE START", mid: "PARTWAY TO THE GOAL", goal: "CLOSE TO THE GOAL" }[wh];
@@ -2897,21 +2897,24 @@
       c.key = d;
       c.d = DF[d];
     });
-    /* v248d: invariants (his brief, 11-24 07:29). Not what differs between the stories: what the system
-       protects from beginning to end, and how that one protection changes form from chapter to chapter. */
-    var FORM = {
-      legit: "as an argument about what is right, in which the present arrangement is defended as the legitimate way and the change has to prove its right to exist",
-      ident: "as loyalty to who people already are, in which giving up the old way would mean giving up part of oneself",
-      trust: "as a question of who may decide, in which cooperation is withheld until people trust the hands the change is in",
-      work: "as control of the routines, in which the existing ways of working keep the existing people in charge",
-      place: "as a defense of each person's place, in which the question is no longer whether the goal is right but what it will cost the people inside it",
-      practice: "as quiet practice under a new name, in which the change is adopted in form while the old ways go on inside it",
-    };
-    var anyAcc = CH.some(function (c) {
+    /* v248e: one chapter in six levels (his brief, 11-24 07:37): pattern, mechanism, invariant,
+       necessity, development, theory. Continuous prose, no section labels, no note text or numbers. */
+    var SHORT = {
+        legit: "an argument about what is right",
+        ident: "loyalty to who people already are",
+        trust: "a dispute over who may decide",
+        work: "a hold on the routines",
+        place: "a defense of each person's place",
+        practice: "quiet practice under a new name",
+      },
+      anyAcc = CH.some(function (c) {
         return c.acc;
       }),
       hasGoal = CH.some(function (c) {
         return "goal" === c.wh;
+      }),
+      hasMid = CH.some(function (c) {
+        return "mid" === c.wh;
       }),
       allDef =
         CH.filter(function (c) {
@@ -2919,40 +2922,89 @@
         }).length *
           2 >=
         CH.length,
-      core = anyAcc
-        ? "the standing of the present arrangement as the legitimate one, and the identities, positions, and rewards that standing holds together"
-        : allDef
-          ? "its present identity, and the positions and rewards that identity holds together"
-          : "who decides, whose ways of working count, and what is rewarded: its present order of control",
-      EP = [],
-      fl = ["At first", "Later", "Near the goal"],
-      fo = CH.map(function (c, i) {
-        var lead = "goal" === c.wh ? "Near the goal" : "mid" === c.wh ? "Later" : 0 === i ? "At first" : "At the same time";
-        return lead + " it appears " + FORM[c.key] + ".";
-      });
+      wideMid = ind.length >= Math.max(4, 0.15 * Y.pts.length),
+      K = anyAcc ? "legit" : allDef ? "ident" : "order",
+      forms = gsmMeanList(
+        CH.map(function (c) {
+          return SHORT[c.key];
+        }),
+      ),
+      EP = [];
+    /* 1. pattern */
     EP.push(
-      "From beginning to end, the system is protecting the same thing: " +
-        core +
-        ". Every chapter of this workbook is that one protection, met at a different distance from the goal.",
+      "The change does not meet resistance once. It meets it again and again, and each time the resistance takes the shape the change has reached: " +
+        forms.replace(/, and /, ", and finally ").replace(/^([^,]*) and /, CH.length === 2 ? "$1, and then " : "$1 and ") +
+        "." +
+        (helpAgg ? " Around it a second pattern forms: support answers resistance in kind, and each side hardens the other." : "") +
+        (wideMid ? " Between them lies a wide middle that is neither for nor against, waiting to see which way things go." : ""),
     );
+    /* 2. mechanism */
+    var M = [];
+    anyAcc && M.push("the present arrangement is still taken for granted as the right one, so any alternative has to argue against common sense");
+    helpAgg && M.push("each side reads the other's response as proof of its own fears");
+    hasMid && M.push("the rewards people can count on are tied to the places they hold now");
+    hasGoal && M.push("the change is judged by what is declared rather than by what is done, so compliance can be shown without being lived");
+    M.length < 2 && M.push("nothing in the change yet alters what people are trusted, protected, or rewarded for");
     EP.push(
-      "What changes is only its form. " +
-        fo.join(" ") +
-        " Underneath each form the work is the same: keeping the system coherent as what it already is." +
-        (hasGoal ? " The protection moves from open argument to quiet practice, but it never lets go." : ""),
+      "What produces this is not a lack of information. It is that " +
+        (M.length > 2 ? M.slice(0, -1).join("; ") + "; and " + M[M.length - 1] : M.join(" and ")) +
+        ". Each of these keeps recreating the same response, because the response works: it keeps the system able to act in the way it already knows.",
     );
+    /* 3. invariant */
+    var INV = {
+      legit: ["the standing of the present arrangement as the legitimate one", "a shared sense of what is right and of who belongs"],
+      ident: ["the system's present identity", "continuity of self: people remaining recognizable to themselves and to one another"],
+      order: ["the present order of control", "predictability: knowing who decides, what counts as good work, and who is safe"],
+    }[K];
     EP.push(
-      "What does not change, in any chapter:" +
-        (anyAcc ? " the present arrangement keeps its legitimacy;" : "") +
-        " as far as the map shows, power stays with those the present arrangement keeps in charge, and the incentives still reward the old way; and the system goes on adapting, but its adaptation serves continuity, not the goal.",
+      "Beneath the emotions, the arguments, and the behaviors, which all change, one thing does not. From beginning to end the system protects " +
+        INV[0] +
+        ". The function it is preserving is " +
+        INV[1] +
+        ".",
     );
+    /* 4. necessity */
     EP.push(
-      "<b>The larger story</b> is of a system that meets change by protecting " +
-        (anyAcc ? "its legitimacy" : allDef ? "its identity" : "its order") +
-        (hasGoal ? ", and that can do so even while appearing to change." : ", and has not yet found a reason to stop.") +
-        " The change will keep being " +
-        (hasGoal ? "absorbed" : "resisted") +
-        " for as long as it threatens what is being protected. It loses that power only when the system can protect its coherence by changing rather than by holding still: when there is an identity on the other side that people can hold as legitimately as the one they have, when places survive the crossing, and when the new way is the one that is rewarded.",
+      "That protection is not unreasonable. A system that let go of it all at once would lose more than a habit. " +
+        (K === "legit"
+          ? "It would lose the ground on which its members agree about what is right, who may decide, and whose work counts, and without that agreement every decision has to be fought for again."
+          : K === "ident"
+            ? "It would lose the continuity that lets its members recognize themselves in their work, and with it the pride and competence that continuity carries."
+            : "It would lose its ability to coordinate under pressure, because coordination rests on knowing who decides and what is expected.") +
+        (hasMid ? " For the people inside it, the stakes are also plainly material: their places, their skills, and their livelihoods are built on the arrangement as it stands." : "") +
+        " From the system's side, holding on is a way of staying able to function while the future is still unclear.",
+    );
+    /* 5. development */
+    var D = CH.map(function (c, i) {
+      return (
+        (0 === i
+          ? "It is defended first as "
+          : "start" === c.wh && "start" === CH[i - 1].wh
+            ? "at the same time as "
+            : i === CH.length - 1
+              ? "and last as "
+              : "then as ") + SHORT[c.key]
+      );
+    });
+    EP.push(
+      "Across the stories the system does not change what it protects; it changes how. " +
+        D.join(", ") +
+        ". With each step the protection moves closer to each person and further out of sight." +
+        (hasGoal
+          ? " What becomes hardest to see is that the resistance has not ended: by the time the change looks adopted, the protection has moved inside the new form and goes on there."
+          : " What becomes hardest to see is that the dispute was never only about the goal; it was about what the goal would take away."),
+    );
+    /* 6. theory */
+    EP.push(
+      "What this workbook reveals is that a system does not resist change as such. It resists the loss of the function the present arrangement performs, and it will keep finding new forms for that resistance for as long as the change offers nothing that performs the function better." +
+        (hasGoal ? " Adoption is not transformation; a system can take on the shape of a change and keep its old purpose inside it." : "") +
+        " The general principle is that change succeeds not when resistance is overcome, but when what the resistance protects is provided another way: " +
+        (K === "legit"
+          ? "a new arrangement that people can hold as legitimately as the old one."
+          : K === "ident"
+            ? "a new way of working that people can recognize themselves in."
+            : "a new order that is as predictable as the old one.") +
+        " This matters because it changes where the work is. Persuading, pressing, or outlasting the resistance only teaches it new forms. The work is to build what it is protecting into the place the goal is going.",
     );
     var more = Y.low.length > 3 ? " These are the three largest; " + (Y.low.length - 3) + (Y.low.length - 3 > 1 ? " smaller hollows are" : " smaller hollow is") + " left out." : "";
     var box = document.createElement("div");
@@ -2960,10 +3012,10 @@
     box.innerHTML =
       '<p class="stsn">Your workbook holds ' +
       ["", "one story", "two stories", "three stories"][ST.length] +
-      ". Underneath them, one thing does not change." +
+      ". Read together, they show what the system is doing and why." +
       more +
       "</p>" +
-      '<div class="evo"><div class="s1h">WHAT STAYS THE SAME</div>' +
+      '<div class="evo"><div class="s1h">WHAT THE SYSTEM IS DOING</div>' +
       EP.map(function (p) {
         return "<p>" + p + "</p>";
       }).join("") +
