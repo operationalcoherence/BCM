@@ -105,33 +105,87 @@ function mount(host, D) {
     let c = [0, 0, 0]; for (let k = 0; k < K; k++) { const w = b(k); c = [c[0] + EMOC[k][0] * w, c[1] + EMOC[k][1] * w, c[2] + EMOC[k][2] * w]; } return [c, b(K), b(K + 1), b(K + 2)]; }
 
   /* ---------- ground texture: grass, soil, rock by slope; emotion hue at 60% ---------- */
+  /* v253 (his photos of Bear Canyon, 11-24): quality and realism only. On line maps the rock gets sandstone bedding,
+     joints, lichen and dark streaks; the soil gets its red and its stones; the grass gets dry tufts and low shrubs; a fine
+     relief map carries that detail into the light; the land's own horizon gives the shading in hollows and under rock.
+     Heights, where rock sits, how far it reaches, and every color's meaning are unchanged. A place keeps its imagery. */
   const TW = PL ? 2560 : 1600, TH = Math.round(TW * H / W), tcv = CH.tcv || document.createElement('canvas'); if (!CH.tcv) { tcv.width = TW; tcv.height = TH; }
+  const ncv = PL ? null : (CH.ncv || document.createElement('canvas')); if (ncv && !CH.ncv) { ncv.width = TW; ncv.height = TH; }
+  function cell(x, y) { const i = Math.floor(x), j = Math.floor(y); let f1 = 9, f2 = 9, id = 0;
+    for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const ci = i + a, cj = j + b, dx = ci + hash(ci, cj) - x, dy = cj + hash(cj + 71, ci + 13) - y, d = dx * dx + dy * dy;
+      if (d < f1) { f2 = f1; f1 = d; id = hash(ci + 5, cj + 3); } else if (d < f2) f2 = d; }
+    return [Math.sqrt(f1), Math.sqrt(f2), id]; }
+  /* how much of the sky each spot sees: 8 directions out to ~24 map units, on every other grid point */
+  const AOW = (MX + 1) >> 1, AOH = (MY + 1) >> 1, HAO = CH.hao || new Float32Array(AOW * AOH);
+  if (!PL && !CH.hao) for (let j = 0; j < AOH; j++) for (let i = 0; i < AOW; i++) {
+    const x = Math.min(W, i * 2 / (MX - 1) * W), y = Math.min(H, j * 2 / (MY - 1) * H), h0 = gH(x, y); let occ = 0;
+    for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4 + 0.3, dx = Math.cos(a), dy = Math.sin(a); let t = 0;
+      for (const r of [1.5, 3, 5, 8, 12, 17, 24]) { const xx = x + dx * r, yy = y + dy * r; if (xx < 0 || yy < 0 || xx > W || yy > H) break; t = Math.max(t, (gH(xx, yy) - h0) / r); }
+      occ += t / Math.sqrt(1 + t * t); }
+    HAO[j * AOW + i] = occ / 8; }
+  if (!PL) CH.hao = HAO;
+  const aoAt = (x, y) => { const fx = Math.max(0, Math.min(AOW - 1.001, x / W * (MX - 1) / 2)), fy = Math.max(0, Math.min(AOH - 1.001, y / H * (MY - 1) / 2)), i = fx | 0, j = fy | 0, u = fx - i, v = fy - j, g = (a, b) => HAO[b * AOW + a];
+    return g(i, j) * (1 - u) * (1 - v) + g(i + 1, j) * u * (1 - v) + g(i, j + 1) * (1 - u) * v + g(i + 1, j + 1) * u * v; };
   function paint(base) {
-    const ctx = tcv.getContext('2d'), img = ctx.createImageData(TW, TH), px = img.data, bp = base && base.data;
+    const ctx = tcv.getContext('2d'), img = ctx.createImageData(TW, TH), px = img.data, bp = base && base.data, DT = ncv ? new Float32Array(TW * TH) : null;
     const GR = [98, 108, 62], GR2 = [140, 134, 86], SO = [124, 96, 66], SO2 = [86, 68, 50], RK = [122, 118, 112], RK2 = [168, 160, 148], lum = q => 0.3 * q[0] + 0.59 * q[1] + 0.11 * q[2];
+    /* v253 palette, read from his photos; the means stay near the old ones so the legend's swatches still hold */
+    const BUFF = [184, 170, 150], SALM = [176, 144, 126], GRAY = [150, 146, 140], LICH = [158, 156, 108], VARN = [104, 96, 88],
+      DRY = [150, 138, 94], GRN = [100, 112, 64], SHRB = [66, 80, 50], RED = [142, 98, 70], RED2 = [100, 74, 56], STN = [170, 156, 138];
     for (let py = 0; py < TH; py++) for (let pxx = 0; pxx < TW; pxx++) {
       const x = pxx / (TW - 1) * W, y = py / (TH - 1) * H, e = W / TW * 1.5;
-      const h = gH(x, y), s = Math.hypot(gH(x + e, y) - gH(x - e, y), gH(x, y + e) - gH(x, y - e)) / (2 * e);
+      const h = gH(x, y), gx = (gH(x + e, y) - gH(x - e, y)) / (2 * e), gy = (gH(x, y + e) - gH(x, y - e)) / (2 * e), s = Math.hypot(gx, gy);
       const lap = gH(x + 3 * e, y) + gH(x - 3 * e, y) + gH(x, y + 3 * e) + gH(x, y - 3 * e) - 4 * h;
       const n1 = fbm(x * 0.08, y * 0.08, 4), n2 = vn(x * 1.7, y * 1.7), sp = hash(pxx, py);
-      const grass = mix(GR, GR2, sstep(0.35, 0.75, fbm(x * 0.05 + 9, y * 0.05, 4))), soil = mix(SO, SO2, sstep(-0.2, -0.9, h / HS) * 0.8);
-      const rock = mix(RK, RK2, n2 * 0.7).map(v => v * (0.92 + 0.08 * vn(x * 0.6, y * 0.6)));
-      const tR = sstep(0.55, 1.15, s + (n1 - 0.5) * 0.5), tS = sstep(0.25, 0.55, s + (n1 - 0.5) * 0.6) * (1 - tR);
+      const fg = fbm(x * 0.05 + 9, y * 0.05, 4), tR = sstep(0.55, 1.15, s + (n1 - 0.5) * 0.5), tS = sstep(0.25, 0.55, s + (n1 - 0.5) * 0.6) * (1 - tR);
+      let [em, st, gap, rb] = emoMix(x, y); if (PL) gap = 0;
+      let grass, soil, rock, dR = 0, dG = 0;
+      if (PL) { grass = mix(GR, GR2, sstep(0.35, 0.75, fg)); soil = mix(SO, SO2, sstep(-0.2, -0.9, h / HS) * 0.8); rock = mix(RK, RK2, n2 * 0.7).map(v => v * (0.92 + 0.08 * vn(x * 0.6, y * 0.6))); }
+      else {
+        /* each material is worked out only where it shows */
+        const rw = Math.max(tR, gap), sw = Math.min(1, tS + sstep(-0.4, -1.0, h / HS) * 0.5 * (1 - tR));
+        rock = soil = grass = [0, 0, 0];
+        if (rw > 0.003) {
+          /* sandstone: layers that follow the contours with a slight dip, each its own tone; a lip on top, an undercut below */
+          const ux = s > 1e-4 ? -gy / s : 1, uy = s > 1e-4 ? gx / s : 0, across = x * ux + y * uy, along = (x * gx + y * gy) / (s || 1);
+          const sb = h * 1.25 + x * 0.05 - y * 0.025 + (fbm(x * 0.045, y * 0.045, 3) - 0.5) * 5, lay = Math.floor(sb), band = sb - lay, lh = hash(lay + 300, 17);
+          const rc = lh < 0.42 ? mix(BUFF, GRAY, hash(lay + 9, 4) * 0.5) : lh < 0.75 ? mix(SALM, BUFF, hash(lay + 2, 8) * 0.6) : mix(GRAY, SALM, hash(lay + 5, 1) * 0.4);
+          const under = sstep(0.78, 0.98, band), lip = 1 - sstep(0, 0.07, band);
+          /* joints: blocks broken along cracks, and thin joints across the bedding */
+          const [f1, f2] = cell(across * 0.42 + sb * 0.35, sb * 0.9 + across * 0.05), crack = 1 - sstep(0.015, 0.09, f2 - f1);
+          const joint = (1 - sstep(0.0, 0.06, Math.abs(Math.sin(across * 0.55 + (vn(x * 0.2, y * 0.2) - 0.5) * 4)))) * sstep(0.55, 0.75, hash(lay + 40, 2));
+          const lich = sstep(0.62, 0.72, fbm(x * 0.22 + 40, y * 0.22, 3)) * (1 - crack) * 0.4, streak = sstep(0.62, 0.82, vn(across * 1.1, along * 0.07 + lay * 0.3)) * 0.3;
+          const rough = fbm(x * 2.2, y * 2.2, 3) - 0.5;
+          rock = mix(mix(rc, LICH, lich), VARN, Math.max(streak, crack * 0.6, joint * 0.45, under * 0.35)).map(v => v * (1 + rough * 0.4) * (1 + lip * 0.08));
+          dR = -0.32 * under + 0.08 * lip - 0.45 * crack - 0.25 * joint + 0.36 * rough;
+        }
+        /* soil: red decomposed granite with stones; grass: dry grass with green patches */
+        if (sw > 0.003 && tR < 0.997) { const [p1, , pid] = cell(x * 1.6, y * 1.6), stone = sstep(0.3, 0.16, p1) * sstep(0.62, 0.75, pid);
+          soil = mix(mix(RED, RED2, sstep(-0.2, -0.9, h / HS) * 0.8 + (vn(x * 0.3, y * 0.3) - 0.5) * 0.5), STN.map(v => v * (0.8 + 0.25 * pid)), stone * 0.55); dG += 0.1 * stone * sw; }
+        if (sw < 0.997 && tR < 0.997) { const tuft = vn(x * 6.5, y * 6.5) * 0.65 + vn(x * 13.1, y * 13.1) * 0.35, patch = fbm(x * 0.6 + 7, y * 0.6 - 3, 2);
+          grass = mix(mix(GRN, DRY, sstep(0.3, 0.7, fg)), SHRB, sstep(0.55, 0.85, patch) * 0.3).map(v => v * (0.94 + 0.12 * tuft)); dG += (0.06 * (tuft - 0.5) + 0.08 * (patch - 0.5)) * (1 - sw); }
+      }
       const o0 = (py * TW + pxx) * 4;
-      let c = bp ? [bp[o0], bp[o0 + 1], bp[o0 + 2]] : mix(mix(grass, soil, tS + sstep(-0.4, -1.0, h / HS) * 0.5 * (1 - tR)), rock, tR); const kk = bp ? 1 : 0.93 + 0.14 * sp; c = c.map(v => v * kk);
-      const ao = Math.max(-0.28, Math.min(0.18, -lap * (PL ? 0.5 : 0.11))); c = c.map(v => v * (1 + ao));
+      let c = bp ? [bp[o0], bp[o0 + 1], bp[o0 + 2]] : mix(mix(grass, soil, tS + sstep(-0.4, -1.0, h / HS) * 0.5 * (1 - tR)), rock, tR); const kk = bp ? 1 : PL ? 0.93 + 0.14 * sp : 0.96 + 0.08 * sp; c = c.map(v => v * kk);
+      let ao = Math.max(-0.28, Math.min(0.18, -lap * (PL ? 0.5 : 0.11))); if (!PL) ao = Math.max(-0.42, ao * 0.7 - aoAt(x, y) * 0.4); c = c.map(v => v * (1 + ao));
       /* v243: a place gets a hillshade over its imagery (light from the northwest, 45° up) so benches and slopes read */
       if (PL) { const gx = (gH(x + e, y) - gH(x - e, y)) / (2 * e), gy = (gH(x, y + e) - gH(x, y - e)) / (2 * e), nl = Math.hypot(gx, gy, 1), sh = ((gx + gy) * 0.7071 + 1) * 0.7071 / nl / 0.7071 - 1; c = c.map(v => Math.min(255, v * (1 + Math.max(-0.45, Math.min(0.3, sh * 0.9))))); }
-      let [em, st, gap, rb] = emoMix(x, y); if (PL) gap = 0;
       if (gap > 0.01) c = mix(c, rock.map(v => v * (1 + ao)), gap * 0.85);
       const ls = lum(c), le = lum(em) || 1; c = mix(c, PL ? em : em.map(v => Math.min(255, v * ls / le * 1.05)), (PL ? 0.42 : ALPHA) * st * (1 - gap));
       if (rb > 0.01) c = mix(c, EMOC[IND].map(v => v * (0.9 + 0.1 * (1 + ao))), 0.8 * rb);
       const o = (py * TW + pxx) * 4; px[o] = c[0]; px[o + 1] = c[1]; px[o + 2] = c[2]; px[o + 3] = 255;
+      if (DT) { const rw = Math.max(tR, gap); DT[py * TW + pxx] = dG * (1 - rw) + dR * rw; }
     }
     ctx.putImageData(img, 0, 0);
+    /* the fine relief as a normal map: the detail's slope, in the texture's own frame (u along x, v against y) */
+    if (DT) { const nctx = ncv.getContext('2d'), ni = nctx.createImageData(TW, TH), nd = ni.data, k = 0.5 / (W / TW);
+      for (let j = 0; j < TH; j++) for (let i = 0; i < TW; i++) { const a = DT[j * TW + Math.max(0, i - 1)], b = DT[j * TW + Math.min(TW - 1, i + 1)], c2 = DT[Math.max(0, j - 1) * TW + i], d2 = DT[Math.min(TH - 1, j + 1) * TW + i];
+        let nx = -(b - a) / 2 * k, ny = (d2 - c2) / 2 * k; const l = Math.hypot(nx, ny, 1), o = (j * TW + i) * 4;
+        nd[o] = (nx / l * 0.5 + 0.5) * 255; nd[o + 1] = (ny / l * 0.5 + 0.5) * 255; nd[o + 2] = (1 / l * 0.5 + 0.5) * 255; nd[o + 3] = 255; }
+      nctx.putImageData(ni, 0, 0); }
   }
   if (!CH.tcv) paint(null);
-  CH.tcv = tcv;
+  CH.tcv = tcv; if (ncv) CH.ncv = ncv;
   /* a place: Esri imagery, roads and place names under the emotion color; areas drawn as shaded patches */
   function placeGround() {
     if (!PL) return; if (CH.placed) { attr.style.display = ''; return; }
@@ -159,22 +213,24 @@ function mount(host, D) {
   /* ---------- scene ---------- */
   const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
-  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = PL ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.3;
   wrap.insertBefore(renderer.domElement, lbs); busy.remove();
   const scene = new THREE.Scene(); scene.background = new THREE.Color('#ffffff');
   const camera = new THREE.PerspectiveCamera(30, 1.6, 1, 5000), controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.maxPolarAngle = Math.PI * 0.47; controls.minDistance = 120; controls.maxDistance = 1400;
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x9a9384, 1.0));
-  const sun = new THREE.DirectionalLight(0xfff6ea, 3.3); sun.position.set(-260, 260, -160); sun.castShadow = true;
-  sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.6;
+  /* v253: on line maps a sky that is a little blue and a ground that bounces warm, and a lower, warmer sun from the same side */
+  scene.add(PL ? new THREE.HemisphereLight(0xffffff, 0x9a9384, 1.0) : new THREE.HemisphereLight(0xe2ebf5, 0x8f7c66, 1.05));
+  const sun = new THREE.DirectionalLight(PL ? 0xfff6ea : 0xfff0dc, 3.3); if (PL) sun.position.set(-260, 260, -160); else sun.position.set(-290, 215, -175); sun.castShadow = true;
+  sun.shadow.mapSize.set(PL ? 2048 : 4096, PL ? 2048 : 4096); sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.6;
   Object.assign(sun.shadow.camera, { left: -260, right: 260, top: 200, bottom: -200, near: 10, far: 900 }); scene.add(sun);
   const fill = new THREE.DirectionalLight(0xffffff, 0.9); fill.position.set(120, 90, 400); scene.add(fill);
   const X = x => x - W / 2, Z = y => y - H / 2;
   const geo = new THREE.PlaneGeometry(W, H, MX - 1, MY - 1); geo.rotateX(-Math.PI / 2);
   const pos = geo.attributes.position; for (let q = 0; q < MX * MY; q++) pos.setY(q, hGrid[q]); geo.computeVertexNormals();
   const tex = new THREE.CanvasTexture(tcv); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
-  const terrain = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex, roughness: 0.95 })); terrain.castShadow = terrain.receiveShadow = true; scene.add(terrain);
+  const tmat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.95 }); if (ncv) { const nt = new THREE.CanvasTexture(ncv); nt.anisotropy = 8; tmat.normalMap = nt; tmat.normalScale.set(1, 1); }
+  const terrain = new THREE.Mesh(geo, tmat); terrain.castShadow = terrain.receiveShadow = true; scene.add(terrain);
   // block sides
   function wallStrip(pts) { const g = new THREE.BufferGeometry(), v = [], idx = [];
     pts.forEach(p => { v.push(X(p[0]), gH(p[0], p[1]), Z(p[1]), X(p[0]), BASE, Z(p[1])); });

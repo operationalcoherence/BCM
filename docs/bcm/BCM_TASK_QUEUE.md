@@ -1,36 +1,17 @@
 # BCM_TASK_QUEUE.md
-Rev 20 · 2026-11-24 (v250) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 21 · 2026-11-24 (v253) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
 
-## Added 11-23 17:09 · VIZ: high-resolution detail on the 3D rock (resolution of the 3D landscape)
-His words: "Enhance the exposed rock formations with high-resolution geological detail. Preserve the exact geometry, location, extent, and meaning of the existing rock areas. Add realistic bedrock texture, fractures, weathering patterns, stratification, roughness variation, ambient occlusion, and natural shadowing. Keep the terrain readable as part of the visualization. Do not change the colors, roads, nodes, or overall composition. Improve quality and realism only."
-His rule for this item: "Improve quality and realism only. Do not reinterpret or redesign."
-
-**Scope:** tools/relief/relief.js (rock material and shading). Rock detail goes in through texture, normal, and shading only; the height data and where rock sits stay exactly as they are.
-**Add:** bedrock texture, fractures, weathering patterns, stratification, roughness variation, ambient occlusion, and natural shadowing.
-**Do not change:** rock geometry, location, extent, or meaning; colors; roads (routes); nodes; overall composition; readability of the terrain.
-**Test:** v-current screenshots before and after, same camera, on the 11-13 and 11-20 workbooks; diff must show change only inside rock areas. Place maps have no bare rock, so check Broadview stays identical.
-**Fits with:** the 3D relief test below (its strategies 2, slope-driven materials, and 3, fine detail through normal map or shading). Keep this item to rock only.
-
-## Added 11-23 12:20 · UI: attribution on every full-screen view (PA, PS, TA)
-His words: add "The Bear Canyon Method by Operational Coherence" "in a spot that cannot be snipped by screenshots but does not interfere with using the tool," on Pattern Analysis and Pattern Synthesis in full screen mode, like in Taking Action. "I don't want people stealing the images without attribution."
-
-**Where:** every full-screen view: the terrain stage (`.gterr .stage.full` and `:fullscreen`, Analysis and Synthesis), the Taking Action card full screen (`.coa.gtfs-on`), and check the other `.figfs` figures.
-**How (to decide when built):** the line drawn inside the image itself (the WebGL/canvas frame), not only an HTML overlay, so any crop of the figure carries it; small, light, and placed where no note, label, goal, or button sits. Candidates: a faint repeated line along the edges of the frame, or one line across the ground's lower margin.
-**Keep:** no blocking of notes, questions, or controls; no change to the line map's visuals beyond the attribution line ("its perfect"); works on place maps (Broadview) too.
-**Note:** no screen mark can stop every crop; the goal is that the parts worth stealing can't be cut away from the name without losing the figure.
-
-## Added 11-21 09:28 · VIZ: entangled strategies are unreadable (Taking Action "The way through it" map)
-His words: "We also have to do something about making entangled strategies more readable. We've tried numbers and arrows; we will need something else so the user can make sense of it. Even if the designer finds it impossible to follow."
-
-**What his screenshot shows (11-20 workbook, way A "through its notes"):** the route lines cross and overlap in the lower left and lower right, numbered stops (1-18) sit on top of note labels (N20, N23, N29, N37, N38, N10, N11), and the numbers alone do not tell the order or which way the route goes. Even the designer cannot follow it.
-**Tried and not enough:** numbered stops, arrows.
-**Need:** a different way to show an entangled route, so a reader can follow it without tracing lines. Options to evaluate (none chosen): reading the route one leg at a time (step through, others dimmed); a route as a list beside the map with each step tied to its place; color or line style per leg; separating routes that share ground; drawing the route as a strip (a profile of height along the path) instead of lines on the map.
-**Keep:** maps visible; no change to routes, scoring or recommendations (the Taking Action review rules). Presentation only.
-**Fits with:** the 3D relief test (pathways and barriers question) below; decide together whether the route reads on the ground or beside it.
+## NOW · the 3D visual (his call, 11-24 09:37: "lets work on the 3d visual some more - bring that up in the task queue")
+His rule for this work (11-24 09:38, with five of his Bear Canyon photos): "Improve quality and realism only. Do not reinterpret or redesign."
+In order:
+1. ✔v253 Realism, first pass: light, rock, soil, grass, fine relief (docs/v253_update.md). He judges it by eye against his photos.
+2. The rest of the 3D relief test below: label pile-ups, goal rings over a label, then strategies 4 to 8.
+3. Entangled strategies on Taking Action maps (below), decided together with strategy 5 (routes laid on the ground).
+4. Attribution on every full-screen view (below the 3D items).
 
 ## Added 11-21 08:52 · VIZ: 3D relief test on Opus 5.5 at max effort
 **The question (his, 11-21 09:09):** How do we make this terrain communicate constraint, flow, ridges, valleys, barriers, and pathways more convincingly while preserving readability of nodes and questions?
@@ -44,7 +25,7 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 1. Acceptance keeping its color on the hinder side (see 11-20 15:33 item).
 2. Label pile-ups (N19/N37/N38; N4/N5/N7).
 3. Goal rings sitting over the N10 label.
-4. More realism: better lighting (his addition, 11-21 08:52), then ground that reads more like real Bear Canyon.
+4. More realism: better lighting (his addition, 11-21 08:52), then ground that reads more like real Bear Canyon. ✔v253, first pass, from his photos (11-24 09:38): strategies 1 (light), 2 (materials, by the existing slope rule), and 3 (fine detail) are in.
 **Strategies to try (added 11-21 13:32, ranked; test one at a time on the branch):**
 1. Real lighting: low-angle sun, soft shadows, sky/ground ambient light.
 2. Slope-driven materials: rock on steep ground, soil/grass on flat, blended by slope angle.
@@ -57,6 +38,34 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 Claude's suggested combination to try first: 1, 2 and 4 together.
 **Judge against the question above:** does the ground read as constraint, flow, ridges, valleys, barriers and pathways, with nodes and questions still readable?
 **Process:** separate branch off the live preview; he judges by eye against the baselines and Bear Canyon imagery.
+
+## ✔v253 Added 11-23 17:09 · VIZ: high-resolution detail on the 3D rock (resolution of the 3D landscape)
+His words: "Enhance the exposed rock formations with high-resolution geological detail. Preserve the exact geometry, location, extent, and meaning of the existing rock areas. Add realistic bedrock texture, fractures, weathering patterns, stratification, roughness variation, ambient occlusion, and natural shadowing. Keep the terrain readable as part of the visualization. Do not change the colors, roads, nodes, or overall composition. Improve quality and realism only."
+His rule for this item: "Improve quality and realism only. Do not reinterpret or redesign."
+
+**Done in v253** (docs/v253_update.md): bedding, joints, lichen, streaks, a fine relief map, and horizon shading on line maps; heights and rock extent unchanged; Broadview pixel-identical.
+**Scope:** tools/relief/relief.js (rock material and shading). Rock detail goes in through texture, normal, and shading only; the height data and where rock sits stay exactly as they are.
+**Add:** bedrock texture, fractures, weathering patterns, stratification, roughness variation, ambient occlusion, and natural shadowing.
+**Do not change:** rock geometry, location, extent, or meaning; colors; roads (routes); nodes; overall composition; readability of the terrain.
+**Test:** v-current screenshots before and after, same camera, on the 11-13 and 11-20 workbooks; diff must show change only inside rock areas. Place maps have no bare rock, so check Broadview stays identical.
+**Fits with:** the 3D relief test below (its strategies 2, slope-driven materials, and 3, fine detail through normal map or shading). Keep this item to rock only.
+
+## Added 11-21 09:28 · VIZ: entangled strategies are unreadable (Taking Action "The way through it" map)
+His words: "We also have to do something about making entangled strategies more readable. We've tried numbers and arrows; we will need something else so the user can make sense of it. Even if the designer finds it impossible to follow."
+
+**What his screenshot shows (11-20 workbook, way A "through its notes"):** the route lines cross and overlap in the lower left and lower right, numbered stops (1-18) sit on top of note labels (N20, N23, N29, N37, N38, N10, N11), and the numbers alone do not tell the order or which way the route goes. Even the designer cannot follow it.
+**Tried and not enough:** numbered stops, arrows.
+**Need:** a different way to show an entangled route, so a reader can follow it without tracing lines. Options to evaluate (none chosen): reading the route one leg at a time (step through, others dimmed); a route as a list beside the map with each step tied to its place; color or line style per leg; separating routes that share ground; drawing the route as a strip (a profile of height along the path) instead of lines on the map.
+**Keep:** maps visible; no change to routes, scoring or recommendations (the Taking Action review rules). Presentation only.
+**Fits with:** the 3D relief test (pathways and barriers question) below; decide together whether the route reads on the ground or beside it.
+
+## Added 11-23 12:20 · UI: attribution on every full-screen view (PA, PS, TA)
+His words: add "The Bear Canyon Method by Operational Coherence" "in a spot that cannot be snipped by screenshots but does not interfere with using the tool," on Pattern Analysis and Pattern Synthesis in full screen mode, like in Taking Action. "I don't want people stealing the images without attribution."
+
+**Where:** every full-screen view: the terrain stage (`.gterr .stage.full` and `:fullscreen`, Analysis and Synthesis), the Taking Action card full screen (`.coa.gtfs-on`), and check the other `.figfs` figures.
+**How (to decide when built):** the line drawn inside the image itself (the WebGL/canvas frame), not only an HTML overlay, so any crop of the figure carries it; small, light, and placed where no note, label, goal, or button sits. Candidates: a faint repeated line along the edges of the frame, or one line across the ground's lower margin.
+**Keep:** no blocking of notes, questions, or controls; no change to the line map's visuals beyond the attribution line ("its perfect"); works on place maps (Broadview) too.
+**Note:** no screen mark can stop every crop; the goal is that the parts worth stealing can't be cut away from the name without losing the figure.
 
 ## The overarching question (his, 11-20 19:54)
 > **What happens when BCM stops dealing with a coherent problem and starts dealing with a genuinely messy one?**
