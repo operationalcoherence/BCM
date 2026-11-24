@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 28 · 2026-11-24 (v264) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 29 · 2026-11-24 (v265) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -11,7 +11,8 @@ In order:
 1. ✔v253 Realism, first pass: light, rock, soil, grass, fine relief (docs/v253_update.md). ✔v254 the whole map reads as rock, not coral (his note 10:00; docs/v254_update.md). ✔v255 toward photorealism (his note 10:08; docs/v255_update.md). He judges by eye against his photos.
 2. The rest of the 3D relief test below: ✔v258 label pile-ups (docs/v258_update.md), ✔v260 goal rings over a label (docs/v260_update.md), then strategies 4 to 8: ✔v261 strategy 5, ways laid on the ground (docs/v261_update.md). Claude's calls (11-24 15:05, his to redirect): 4 keeps the v254 cliff bands, drops drainage channels (water imagery), tries a crisper ridge crest only; 6 adds only a slight fade for far labels; 7 light distance haze and a smoother mesh; 8 (contour lines) dropped, too close to the Snowden-style drawings he rejected.
 3. ✔v259 Entangled strategies on Taking Action maps (below): walk a way, step by step (docs/v259_update.md). ✔v261 strategy 5, routes laid on the ground.
-4. Attribution on every full-screen view (below the 3D items).
+4. ✔v265 Attribution on every full-screen view: lettered on the front face of the block, or on the base when the face is too low (docs/v265_update.md).
+**"NOW · the 3D visual" is done** apart from his two calls: the v255 lighting check and the color wash. His ask 11-24 16:16: switch focus after this.
 
 ## Added 11-21 08:52 · VIZ: 3D relief test on Opus 5.5 at max effort
 **The question (his, 11-21 09:09):** How do we make this terrain communicate constraint, flow, ridges, valleys, barriers, and pathways more convincingly while preserving readability of nodes and questions?
@@ -60,7 +61,7 @@ His words: "We also have to do something about making entangled strategies more 
 **Keep:** maps visible; no change to routes, scoring or recommendations (the Taking Action review rules). Presentation only.
 **Fits with:** the 3D relief test (pathways and barriers question) below; decide together whether the route reads on the ground or beside it.
 
-## Added 11-23 12:20 · UI: attribution on every full-screen view (PA, PS, TA)
+## ✔v265 Added 11-23 12:20 · UI: attribution on every full-screen view (PA, PS, TA)
 His words: add "The Bear Canyon Method by Operational Coherence" "in a spot that cannot be snipped by screenshots but does not interfere with using the tool," on Pattern Analysis and Pattern Synthesis in full screen mode, like in Taking Action. "I don't want people stealing the images without attribution."
 
 **Where:** every full-screen view: the terrain stage (`.gterr .stage.full` and `:fullscreen`, Analysis and Synthesis), the Taking Action card full screen (`.coa.gtfs-on`), and check the other `.figfs` figures.
