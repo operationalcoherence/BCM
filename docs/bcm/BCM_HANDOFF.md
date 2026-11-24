@@ -1,6 +1,21 @@
 # BCM_HANDOFF.md
 
-2026-11-24 10:55: **v255 live**, toward photorealism (his note 10:08; docs/v255_update.md): rock detail drawn on the graphics card in 3D, no streaks on cliffs, sky light, finer ground. GTAO tried and dropped. The tour test is the frame-cost guard: twice-as-fine ground plus 5-octave detail failed it. **Open with him:** the 60% emotion wash is the limit on photorealism; a lighter wash is his call only. **Next:** his eye on v255; then label pile-ups and the goal rings.
+2026-11-24 10:47: **v255 live** (checked on operationalcoherence.com/bcm: the label reads v255). Today's 3D work, his call 09:37: "lets work on the 3d visual some more"; his rule 09:38, with five of his Bear Canyon photos: "Improve quality and realism only. Do not reinterpret or redesign."
+- **v253** realism, first pass (docs/v253_update.md). **v254** the whole map reads as rock, not coral (his note 10:00; docs/v254_update.md). **v255** toward photorealism (his note 10:08, "I am just not seeing that photo realism"; docs/v255_update.md).
+- **Open with him:**
+  1. Lighting (10:45). He prefers the lighting in the screenshot I sent (h1, v255 full screen, Synthesis on 11-20) to what he saw on Taking Action, Analysis, and Synthesis. v255 went out at 10:39, so he most likely still had v254. I asked him to reload, check the label says v255, and send a screenshot of any view that still differs. All views share one lighting setup in relief.js, and a sharper screen tested the same brightness. If a view does differ, match it to h1.
+  2. Color wash. I sent him color_60_vs_40.png (the same view at 60% and at 40%, the 40% not shipped). The 60% wash is what limits photorealism. Changing it is his call only (ALPHA in relief.js); do not change it unasked.
+- **Next on the queue** (BCM_TASK_QUEUE.md, "NOW · the 3D visual"): label pile-ups, then the goal rings over a label, then strategies 4 to 8 of the relief test, then entangled strategies, then attribution.
+- **How the 3D now works (line maps; place maps untouched, Broadview pixel-identical every version):**
+  - `layerAt()` is one bedding coordinate (LP = 6 units of height per layer, a slight dip, a slow wander). It drives both the cliff bands in `hAt()` and the rock's color bands.
+  - `hAt()`: hard layers stand out as cliff bands on steep ground, fading along their length (`hard`, `kt`); gentle ground rolls. `hRaw` (the notes' shape) is never changed.
+  - `paint()`: works out each material only where it shows. Horizon shading comes from `HAO`. It writes a normal map (`ncv`) and a rock mask (`mcv`).
+  - Terrain material `onBeforeCompile`: rock detail drawn on the graphics card from world position (3-octave noise plus layers by height), only where the mask is rock, fading below a pixel.
+  - The ground is RS = 3 (1.5× the old grid). Sky light comes from a PMREM gradient sky (environmentIntensity 0.3) plus a hemisphere light (0.85). The sun is (-290, 215, -175), warm. Soft shadows, map 4096.
+- **Tried and dropped (don't retry without reason):** GTAO post-processing (flattened the picture, grayed the background); RS = 4 with 5-octave detail (tour.py times out, i.e. frames too heavy); even ledges (looked like contour lines); a strong tilt (looked like wood grain); full rings in pits (looked like a quarry); squiggly crack lines (looked like dried mud); dark shrub clumps (looked like puddles, i.e. water imagery).
+- **Cost:** first build about 5.3 s on 11-20 in testing (v252: 2.2 s); cached after.
+- **Tools:** tests/reliefshot.py PREVIEW.js RELIEF.js WB.json OUT.png [tab] takes a same-camera full-screen shot and prints the build time; DSF=2 gives sharp crops. tour.py on 11-20 is the frame-cost guard: run it after any 3D change. To test a variant, sed a copy of relief.js into tools/relief/_x.js (so imports resolve), build it to /tmp, delete the copy.
+- Local test copies tests/w20.json, tests/w13.json, and tests/broadview.json are trimmed (positions and emotions only; Broadview with its drawn areas) and kept out of git. Rebuild them from the project's workbooks/ when needed.
 
 2026-11-24 10:25: **v254 live**, the whole map reads as rock, not coral (his note 10:00; docs/v254_update.md): bedded cliff bands on steep ground, rolling gentle ground; the notes' shape is unchanged. **Next:** his eye on v254; then label pile-ups and the goal rings ("NOW · the 3D visual" in BCM_TASK_QUEUE.md).
 
