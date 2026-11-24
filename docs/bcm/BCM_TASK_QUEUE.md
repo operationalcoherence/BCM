@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 25 · 2026-11-24 (v261) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 26 · 2026-11-24 (v262) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -33,7 +33,7 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 4. Flow, ridges and barriers visible in the ground: drainage channels computed from the height, sharper crest lines, cliff bands for barriers.
 5. ✔v261 Routes as ribbons or worn trails laid on the surface, with shading and occlusion (also helps the entangled-strategies item).
 6. Label decluttering: priority, nudging apart, short leader lines, fade with distance.
-7. Depth cues and mesh quality: light haze, tuned vertical exaggeration, finer mesh with smooth interpolation (removes the faceted hatching).
+7. ✔v262 Depth cues: light distance haze (docs/v262_update.md). Finer mesh tried and dropped (no visible change; 2x too heavy for tour.py). Vertical exaggeration left as is.
 8. ~~Optional toggle for contour lines.~~ Dropped 11-24 (Claude's call): contour drawings are what he rejected as too close to Snowden.
 Claude's suggested combination to try first: 1, 2 and 4 together.
 **Judge against the question above:** does the ground read as constraint, flow, ridges, valleys, barriers and pathways, with nodes and questions still readable?

@@ -255,7 +255,8 @@ function mount(host, D) {
   if (!PL) { const sk = new THREE.Scene(), sg = new THREE.SphereGeometry(10, 32, 16), sm = new THREE.ShaderMaterial({ side: THREE.BackSide, vertexShader: 'varying vec3 d; void main(){ d = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
       fragmentShader: 'varying vec3 d; void main(){ float y = normalize(d).y; vec3 c = y > 0.0 ? mix(vec3(0.95, 0.93, 0.88), vec3(0.55, 0.68, 0.88), pow(y, 0.6)) : mix(vec3(0.62, 0.52, 0.42), vec3(0.32, 0.27, 0.22), -y); gl_FragColor = vec4(c * 1.4, 1.0); }' });
     sk.add(new THREE.Mesh(sg, sm)); const pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(sk, 0.02).texture; scene.environmentIntensity = 0.3; pm.dispose(); }
-  const draw = () => renderer.render(scene, camera);
+  const HAZE = { n: { value: 1e5 }, f: { value: 2e5 } };
+  const draw = () => { if (!PL) { const d = camera.position.distanceTo(controls.target); HAZE.n.value = d * 0.9; HAZE.f.value = d * 1.5; } renderer.render(scene, camera); };
   const X = x => x - W / 2, Z = y => y - H / 2;
   const geo = new THREE.PlaneGeometry(W, H, MX - 1, MY - 1); geo.rotateX(-Math.PI / 2);
   const pos = geo.attributes.position; for (let q = 0; q < MX * MY; q++) pos.setY(q, hGrid[q]); geo.computeVertexNormals();
@@ -286,7 +287,12 @@ float rkM; float rkH; float rkT;`)
 rkM = texture2D(rockMask, vMapUv).r; { float fw = length(fwidth(vWP)); rkH = rockH(vWP, fw, rkT); }
 diffuseColor.rgb *= mix(1.0, (0.86 + 0.28 * rkT) * (1.0 + rkH * 0.55), rkM);`)
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
-normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
+normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
+      /* v262: distance haze, after the ground's color is final */
+      .replace('#include <fog_fragment>', `#include <fog_fragment>
+{ float hz = clamp((length(vViewPosition) - hazeN) / max(1.0, hazeF - hazeN), 0.0, 1.0); gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.86, 0.89, 0.93), hz * 0.2); }`)
+      .replace('uniform sampler2D rockMask;', 'uniform sampler2D rockMask; uniform float hazeN; uniform float hazeF;');
+    sh.uniforms.hazeN = HAZE.n; sh.uniforms.hazeF = HAZE.f; }; }
   const terrain = new THREE.Mesh(geo, tmat); terrain.castShadow = terrain.receiveShadow = true; scene.add(terrain);
   // block sides
   function wallStrip(pts) { const g = new THREE.BufferGeometry(), v = [], idx = [];
