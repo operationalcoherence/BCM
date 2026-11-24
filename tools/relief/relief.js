@@ -94,6 +94,11 @@ function mount(host, D) {
     EF.a[o + K] = sstep(0.04, 0.5, tot); EF.a[o + K + 2] = RIB.length ? sstep(0.9, 2.0, ribAt(x, y)) : 0;
     const ord = [...ws.keys()].sort((u, v) => ws[v] - ws[u]), k1 = ord[0], k2 = ord[1], s1 = ws[k1], s2 = ws[k2];
     EF.a[o + K + 1] = (Math.abs(RANK[k1] - RANK[k2]) < 2 || RANK[k1] === 1 || RANK[k2] === 1 || s2 < 0.03) ? 0 : sstep(0.22, 0.42, s2 / (s1 + s2));
+    /* v252: every note keeps its own color at its own spot, however many notes of other emotions are near */
+    let kO = -1, wO = 0; EN.forEach(n => { const w = Math.exp(-((n.x - x) ** 2 + (n.y - y) ** 2) / (2 * 8 * 8)); if (w > wO) { wO = w; kO = n.e; } });
+    if (kO >= 0) { const pw = sstep(0.25, 0.7, wO) * (1 - EF.a[o + kO]);
+      if (pw > 0.001) { for (let k = 0; k < K; k++) EF.a[o + k] = EF.a[o + k] * (1 - pw) + (k === kO ? pw : 0);
+        EF.a[o + K + 1] *= 1 - pw; if (kO !== IND) EF.a[o + K + 2] *= 1 - pw; EF.a[o + K] = Math.max(EF.a[o + K], pw); } }
   }
   function emoMix(x, y) { const fx = Math.min(EF.w - 1.001, x / W * (EF.w - 1)), fy = Math.min(EF.h - 1.001, y / H * (EF.h - 1)), i = fx | 0, j = fy | 0, u = fx - i, v = fy - j;
     const g = (ii, jj, k) => EF.a[(jj * EF.w + ii) * (K + 3) + k], b = k => g(i, j, k) * (1 - u) * (1 - v) + g(i + 1, j, k) * u * (1 - v) + g(i, j + 1, k) * (1 - u) * v + g(i + 1, j + 1, k) * u * v;
