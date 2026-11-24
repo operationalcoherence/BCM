@@ -10,7 +10,7 @@ const CSS = `
 .grel .lb{position:absolute;left:0;top:0;white-space:nowrap}
 .grel .ldr{position:absolute;left:0;top:0;height:1px;background:rgba(20,20,20,.75);box-shadow:0 0 0 1px rgba(255,255,255,.55);transform-origin:0 50%;pointer-events:none;display:none}
 .grel .nl{font:bold 12.5px Helvetica,Arial,sans-serif;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
-.grel .lb.tfoc{background:#fff;border-radius:5px;padding:1px 4px;box-shadow:0 0 0 2px #fff,0 0 12px 4px rgba(255,255,255,.95);z-index:5}
+.grel .lb.on,.grel .lb:hover,.grel .lb.tfoc{filter:none!important}.grel .lb.tfoc{background:#fff;border-radius:5px;padding:1px 4px;box-shadow:0 0 0 2px #fff,0 0 12px 4px rgba(255,255,255,.95);z-index:5}
 .grel .tourbar .tpn{font:14px Questrial,Helvetica,Arial,sans-serif;padding:8px 14px;border-radius:20px;background:#fff;border:1px solid #222;display:none}
 .grel .ql{font:bold 12px Helvetica,Arial,sans-serif;background:#111;color:#fff;padding:2px 5px}
 .grel .pl{font:bold 13px Helvetica,Arial,sans-serif;letter-spacing:.1em;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 4px #fff}
@@ -610,6 +610,7 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
          let best = null, bs = 1e9;
          for (let i = 0; i < C.length; i++) { const [cx, cy] = C[i]; if (cx < 2 || cx + bw > w - 2 || cy < 2 || cy + bh > h - 2) continue; const sc = hitB(cx, cy, bw, bh) * 20 + hitH(o, cx, cy, bw, bh) * 20 + hitR(o, cx, cy, bw, bh) * 20 + i; if (sc < bs) { bs = sc; best = C[i]; } if (sc === i) break; }
          if (best) { x = best[0]; y = best[1]; } }
+       if (o.isN) { const dd = camera.position.distanceTo(o.v), d0 = camera.position.distanceTo(controls.target), fz = Math.max(0, Math.min(1, (dd - d0 * 0.95) / (d0 * 0.4))), fo = (1 - 0.35 * fz).toFixed(2); o.el.style.filter = fo === '1.00' ? '' : 'opacity(' + fo + ')'; }
        x = Math.max(2, Math.min(w - bw - 2, x)); boxes.push([x, y, bw, bh]); o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
        /* a leader line when the label has left its pin */
        const ex = Math.max(x, Math.min(o.sx, x + bw)), ey = Math.max(y, Math.min(o.sy, y + bh)), dl = Math.hypot(ex - o.sx, ey - o.sy), far = Math.hypot(x - p.x, y - p.y) > 3;

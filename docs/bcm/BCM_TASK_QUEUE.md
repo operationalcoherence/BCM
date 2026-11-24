@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 27 · 2026-11-24 (v263) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 28 · 2026-11-24 (v264) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -32,7 +32,7 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 3. Fine erosion-like detail through normal map or shading only; the real height data stays untouched.
 4. ✔v263 Flow, ridges and barriers: crisper crest lines (docs/v263_update.md); cliff bands since v254; drainage channels dropped (water imagery).
 5. ✔v261 Routes as ribbons or worn trails laid on the surface, with shading and occlusion (also helps the entangled-strategies item).
-6. Label decluttering: priority, nudging apart, short leader lines, fade with distance.
+6. ✔v258/v260/v264 Label decluttering: priority, nudging apart, short leader lines (v258, v260), fade with distance (v264, docs/v264_update.md).
 7. ✔v262 Depth cues: light distance haze (docs/v262_update.md). Finer mesh tried and dropped (no visible change; 2x too heavy for tour.py). Vertical exaggeration left as is.
 8. ~~Optional toggle for contour lines.~~ Dropped 11-24 (Claude's call): contour drawings are what he rejected as too close to Snowden.
 Claude's suggested combination to try first: 1, 2 and 4 together.
