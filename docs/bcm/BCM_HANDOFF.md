@@ -1,6 +1,6 @@
 # BCM_HANDOFF.md
 
-2026-11-24: **v248 live**, Pattern Analysis as several stories, the first build of Several Systems (docs/v248_update.md). His 11-20 workbook is now in the Claude project as workbooks/bear-canyon-workbook-2026-11-20.json. Its local copy is tests/w20.json, kept out of git. Test with tests/stories.py, tests/storyshot.py, and matrix.py. 2026-11-24 later: **v249 live**, the Pattern Analysis gibberish fixed in the phrase layer (docs/v249_update.md). Local test copies tests/w13.json and tests/broadview.json are trimmed (notes and answers only) and kept out of git. Next on the queue: the acceptance color and emotions on both sides of the line; the Taking Action review.
+2026-11-24: **v248 live**, Pattern Analysis as several stories, the first build of Several Systems (docs/v248_update.md). His 11-20 workbook is now in the Claude project as workbooks/bear-canyon-workbook-2026-11-20.json. Its local copy is tests/w20.json, kept out of git. Test with tests/stories.py, tests/storyshot.py, and matrix.py. 2026-11-24 later: **v249 live**, the Pattern Analysis gibberish fixed in the phrase layer (docs/v249_update.md). Then **v250 live**: no note fragments in any narrative line (his note 08:23, docs/v250_update.md); a line names a theme only when two differently worded notes share the phrase, else counts the notes with their numbers behind. Local test copies tests/w13.json and tests/broadview.json are trimmed (notes and answers only) and kept out of git. Next on the queue: the acceptance color and emotions on both sides of the line; the Taking Action review.
 
 Earlier: 2026-11-19, morning. Preview at **v247** (v197–v231 pushed 11-18; v232–v247 pushed 11-19). **The pre-F8 review table is answered and applied (v236, docs/v236_update.md).** The BCM page is operationalcoherence.com/bcm (/gsmlive is defunct). The work queue is his v196 review, analyzed in claude/v196_review_plan.md in the Claude project (private, because it quotes his workbook). Version-by-version detail is in docs/bcm/BCM_CURRENT_STATE.md and docs/vNNN_update.md.
 
@@ -68,6 +68,7 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - **Tour captions never cite the paper** (11-18 15:21). Page text keeps its citations.
 - Don't frame anything as context-free versus context-sensitive, or as bounded applicability (Snowden and Juarrero's terms).
 - Never rely on hover alone to carry meaning (v207).
+- Never name a note by a fragment of its text in a narrative line (11-24 08:23): name a theme only when two differently worded notes share the phrase; otherwise say what the notes are and where they stand, numbers behind.
 - Lead each tab with meaning; put the inventory under it, closed. Interpretation over inventory.
 - Taking Action describes the situation, not the workbook (11-18 21:53): say what remains unresolved, keeps reinforcing, or is not yet used; never "answered" or "built on". Note numbers go behind, small and gray. On screen, "the system that holds" is WHAT HOLDS THE SITUATION IN PLACE.
 - Don't let a page grow long: v226 kept Taking Action near its old length by folding word-only cards.

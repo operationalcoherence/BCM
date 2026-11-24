@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 19 · 2026-11-24 (v249) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 20 · 2026-11-24 (v250) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -65,7 +65,7 @@ Claude's suggested combination to try first: 1, 2 and 4 together.
 
 **In short (his, 11-20 20:23):** BCM no longer lacks pages or architecture; it lacks enough insight types to explain large, complex situations, causing multiple systems, actors, targets, and failure modes to be compressed into single findings.
 
-**Started Tuesday 11-24:** ✔v248 Pattern Analysis as several stories (Several Systems, first on Analysis). ✔v249 the Pattern Analysis gibberish. Next, suggested: the acceptance color and emotions on both sides of the line; the Taking Action review; Groups Across Ground and the rest of the second generation.
+**Started Tuesday 11-24:** ✔v248 Pattern Analysis as several stories (Several Systems, first on Analysis). ✔v249 the Pattern Analysis gibberish; ✔v250 no note fragments in the narrative (his note 08:23). Next, suggested: the acceptance color and emotions on both sides of the line; the Taking Action review; Groups Across Ground and the rest of the second generation.
 
 The three 11-20 evening items below (large-workbook review, Taking Action review, Pattern Analysis as several stories) all serve this question. Read each finding and each change against it.
 

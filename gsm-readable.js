@@ -2007,13 +2007,18 @@
     sm.innerHTML = 'YOUR STORY SO FAR<span class="stsub">What Pattern Analysis makes of your workbook: the story first, the evidence after.</span>';
     var SS = window.gsmStructSum || {},
       P = [];
-    SS.sys &&
+    SS.sysOn &&
       P.push(
-        Gt(SS.sys.join(", ")).replace(/^./, function (c) {
-          return c.toUpperCase();
-        }) +
-          ", and what stands with them," +
-          (SS.low ? " hold the work in place from the low ground" : " hold the work in place for now, though loosely") +
+        (SS.sys.length
+          ? "What gathers around " +
+            phList(
+              SS.sys.map(function (x) {
+                return "“" + Gt(x) + "”";
+              }),
+            ) +
+            ", and what stands with it, holds"
+          : "What stands against the goal holds") +
+          (SS.low ? " the work in place from the low ground" : " the work in place for now, though loosely") +
           (SS.loop ? ", and a loop in it makes each round harder than the last." : "."),
       );
     SS.tension && P.push("What the goal needs more of is what that ground has learned to fear.");
@@ -2023,7 +2028,7 @@
       ? P.push("So the work is less about inventing than about reinforcing what already stands and bringing people across that ridge.")
       : SS.opp
         ? P.push("So the work is less about inventing than about reinforcing what already stands.")
-        : SS.sys && P.push("So the work starts with what keeps that system in place, not with persuasion.");
+        : SS.sysOn && P.push("So the work starts with what keeps that system in place, not with persuasion.");
     if (P.length >= 3) {
       var mt = fd.querySelector(".mtext"),
         p1 = mt && mt.querySelector(":scope > p");
@@ -2474,6 +2479,22 @@
       r && (u[gsmStKey(r[3])] = 1);
     });
     return Object.keys(u).length;
+  }
+  function gsmStWhere(list) {
+    var c = [0, 0, 0],
+      n = 0;
+    list.forEach(function (x) {
+      var r = x.ref && /^note (\d+)$/.exec(x.ref),
+        row = r ? (C.m || [])[+r[1] - 1] : null,
+        X = row && "number" == typeof row[1] ? row[1] : null;
+      null != X && X >= 0 && X <= 340 && (c[X < 108 ? 0 : X < 207 ? 1 : 2]++, n++);
+    });
+    if (n < 2) return "";
+    var i = c.indexOf(Math.max.apply(null, c));
+    return c[i] / n > 0.5 ? ["near the start of the change", "partway along", "close to the goal"][i] : "";
+  }
+  function gsmStCount(n, noun) {
+    return (n < 10 ? ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"][n] : String(n)) + " " + noun + (1 === n ? "" : "s");
   }
   function gsmStQL(a) {
     return phList(
@@ -3232,13 +3253,8 @@
     }
     var sysTh = comp.length >= 3 ? gsmStThemes(comp, 3) : [];
     if (comp.length >= 3) {
-      SS.sys = sysTh.length
-        ? sysTh
-        : sysNames.length >= 2
-          ? sysNames.slice(0, 3)
-          : comp.slice(0, 3).map(function (n) {
-              return n.lab;
-            });
+      SS.sys = sysTh;
+      SS.sysOn = 1;
       SS.D.sys = comp;
       SS.low = [0, 2, 4].indexOf(gsmStEm(comp).o[0]) >= 0;
       var tied = comp.filter(function (n) {
@@ -3265,16 +3281,7 @@
         "What stands against the goal is one connected body" +
           (sysTh.length
             ? ", gathered around " + gsmStQL(sysTh) + ": " + comp.length + " notes"
-            : sysNames.length >= 2
-              ? " of " +
-                comp.length +
-                " notes, among them " +
-                gsmStQL(
-                  sysNames.slice(0, 3).map(function (x) {
-                    return x.charAt(0).toUpperCase() + x.slice(1);
-                  }),
-                )
-              : ": " + comp.length + " notes") +
+            : ": " + comp.length + " notes" + (gsmStWhere(comp) ? ", most of them " + gsmStWhere(comp) : "")) +
           ", each sharing ground with the others" +
           (self ? ", whose parts reinforce one another into a self-supporting system. " : ". ") +
           g,
@@ -3483,19 +3490,17 @@
       var oe = gsmStEm(ex).o[0];
       SS.opp = ex.length >= nw.length ? "Most" : "Part";
       SS.D.opp = ex;
-      SS.D.oppN = exTh.length ? exTh : exNames;
+      SS.D.oppN = exTh;
       card(
         "THE OPPORTUNITY",
         (ex.length >= nw.length ? "Most" : "Part") +
           " of the alternative already exists" +
           (exTh.length
             ? ", around " + gsmStQL(exTh)
-            : ", in " +
-              gsmStQL(
-                exNames.slice(0, 3).map(function (x) {
-                  return x.charAt(0).toUpperCase() + x.slice(1);
-                }),
-              )) +
+            : ": " +
+              gsmStCount(ex.length, "note") +
+              " of support" +
+              (gsmStWhere(ex) ? ", most of them " + gsmStWhere(ex) : "")) +
           ". The work is scaling and reinforcing it more than inventing it." +
           (1 === oe
             ? " It stands on the high ground of acceptance, the ground with the most promise, but acceptance doesn’t hold on its own: what isn’t reinforced can slip."
@@ -13130,12 +13135,8 @@
               return phList(b);
             }
             function NAMES(xs, k) {
-              k = k || 3;
-              var b = xs.slice(0, k).map(function (x) {
-                return Gt(NM(x));
-              });
-              xs.length > k && b.push(xs.length - k + " more");
-              return phList(b).replace(/^./, function (c) {
+              /* v250: no note fragments; the count, with the numbers behind */
+              return gsmStCount(xs.length, "note").replace(/^./, function (c) {
                 return c.toUpperCase();
               });
             }
@@ -13406,7 +13407,7 @@
             }
             // strategies: what holds it
             var sys = IT(D.sys);
-            if (sys.length >= 3 && SS.sys) {
+            if (sys.length >= 3 && SS.sysOn) {
               var tS = TEST(sys, 0),
                 wS = WAY(tS.not.concat(tS.met)),
                 dS = DOM(sys),
@@ -13420,7 +13421,7 @@
               CARD({
                 key: "seed|sys",
                 seed: "sys",
-                title: "What holds the situation in place: " + gsmMeanList(SS.sys.slice(0, 3)),
+                title: "What holds the situation in place" + (SS.sys.length ? ": " + gsmMeanList(SS.sys.slice(0, 3)) : ""),
                 from: "WHAT HOLDS THE SITUATION IN PLACE (Pattern Analysis)",
                 isS: 1,
                 purp: "These parts hold each other up against the goal. Changing one condition under them moves more than arguing with any one of them.",
@@ -13526,14 +13527,14 @@
             if (opp.length >= 2) {
               var tO = TEST(opp, 1),
                 nO = (D.oppN || []).slice(0, 3),
-                mO = ["Scale what already exists: " + Gt(gsmMeanList(nO.length ? nO : opp.slice(0, 3).map(NM))) + ".", "Ask the people doing it what they need to keep going, and to grow."];
+                mO = [(nO.length ? "Scale what already exists: " + Gt(gsmMeanList(nO)) + "." : "Scale the support already standing (" + opp.map(NB).join(", ") + ")."), "Ask the people doing it what they need to keep going, and to grow."];
               mO.push(tO.not.length ? "Add " + LS(tO.not, 3) + " to Q.7, so what you would reinforce builds on " + (1 === tO.not.length ? "it" : "them") + "." : "Set who does what and when, and repeat it.");
               mO.push("Check back that the acceptance holds: it doesn’t keep on its own.");
               var sO = MIX(opp);
               CARD({
                 key: "seed|opp",
                 seed: "opp",
-                title: "The opportunity: " + gsmMeanList(nO.length ? nO : opp.slice(0, 3).map(NM)),
+                title: "The opportunity" + (nO.length ? ": " + gsmMeanList(nO) : ""),
                 from: "THE OPPORTUNITY (Pattern Analysis)",
                 isS: sO,
                 purp: "Much of the alternative already exists. Scaling it moves the goal further, for less energy, than inventing something new.",
@@ -13557,13 +13558,13 @@
                 q4 = help.some(function (x) {
                   return 4 === x.k;
                 }),
-                mH = ["Build on " + LS(help, 3) + " rather than starting over.", "Ask who is behind it, and what would help them do more of it."];
+                mH = ["Build on what already helps (" + LS(help, 3) + ") rather than starting over.", "Ask who is behind it, and what would help them do more of it."];
               tH.not.length && mH.push("Add " + LS(tH.not, 3) + " to Q.7, so what you would reinforce takes it up.");
               mH.push("Check back if circumstances change.");
               CARD({
                 key: "seed|help",
                 seed: "help",
-                title: "What is already helping: " + gsmMeanList(help.slice(0, 3).map(NM)),
+                title: "What is already helping" + (gsmStThemes(help, 3).length ? ": " + gsmMeanList(gsmStThemes(help, 3)) : ""),
                 from: "WHAT IS ALREADY HELPING (Pattern Analysis)",
                 isS: 0,
                 purp: "Part of the ground already helps the goal" + (q4 ? ", and part of what has to be true is already true" : "") + ". Building on it takes the least energy.",
@@ -13586,7 +13587,7 @@
               CARD({
                 key: "seed|snr",
                 seed: "snr",
-                title: "Support not yet reinforced: " + gsmMeanList(snr.slice(0, 3).map(NM)),
+                title: "Support not yet reinforced" + (gsmStThemes(snr, 3).length ? ": " + gsmMeanList(gsmStThemes(snr, 3)) : ""),
                 from: "SUPPORT NOT YET REINFORCED (Pattern Analysis)",
                 isS: 0,
                 purp: "This support already works, and nothing you would design builds on it yet. Left alone, it can slip.",
@@ -13629,7 +13630,7 @@
                   ". " +
                   (tR.met.length
                     ? tR.not.length
-                      ? "The proposed actions reach " + NAMES(tR.met).replace(/^(?![NP]\d)./, function (c) { return c.toLowerCase(); }) + ", but not yet " + NAMES(tR.not).replace(/^(?![NP]\d)./, function (c) { return c.toLowerCase(); }) + "."
+                      ? "The proposed actions reach " + gsmStCount(tR.met.length, "").split(" ")[0] + " of them, but not yet " + (1 === tR.not.length ? (2 === tR.met.length + tR.not.length ? "the other" : "the last one") : "the other " + gsmStCount(tR.not.length, "").split(" ")[0]) + "."
                       : "The proposed actions reach all of them."
                     : "The proposed actions don\u2019t reach them yet.") +
                   "</div>"
@@ -20015,7 +20016,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v249");
+        t && (t.textContent = "v250");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
