@@ -1,5 +1,5 @@
 # BCM_TASK_QUEUE.md
-Rev 24 · 2026-11-24 (v260) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 25 · 2026-11-24 (v261) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
@@ -9,8 +9,8 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 His rule for this work (11-24 09:38, with five of his Bear Canyon photos): "Improve quality and realism only. Do not reinterpret or redesign."
 In order:
 1. ✔v253 Realism, first pass: light, rock, soil, grass, fine relief (docs/v253_update.md). ✔v254 the whole map reads as rock, not coral (his note 10:00; docs/v254_update.md). ✔v255 toward photorealism (his note 10:08; docs/v255_update.md). He judges by eye against his photos.
-2. The rest of the 3D relief test below: ✔v258 label pile-ups (docs/v258_update.md), ✔v260 goal rings over a label (docs/v260_update.md), then strategies 4 to 8.
-3. ✔v259 Entangled strategies on Taking Action maps (below): walk a way, step by step (docs/v259_update.md). Strategy 5 (routes laid on the ground) still open.
+2. The rest of the 3D relief test below: ✔v258 label pile-ups (docs/v258_update.md), ✔v260 goal rings over a label (docs/v260_update.md), then strategies 4 to 8: ✔v261 strategy 5, ways laid on the ground (docs/v261_update.md). Claude's calls (11-24 15:05, his to redirect): 4 keeps the v254 cliff bands, drops drainage channels (water imagery), tries a crisper ridge crest only; 6 adds only a slight fade for far labels; 7 light distance haze and a smoother mesh; 8 (contour lines) dropped, too close to the Snowden-style drawings he rejected.
+3. ✔v259 Entangled strategies on Taking Action maps (below): walk a way, step by step (docs/v259_update.md). ✔v261 strategy 5, routes laid on the ground.
 4. Attribution on every full-screen view (below the 3D items).
 
 ## Added 11-21 08:52 · VIZ: 3D relief test on Opus 5.5 at max effort
@@ -31,10 +31,10 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 2. Slope-driven materials: rock on steep ground, soil/grass on flat, blended by slope angle.
 3. Fine erosion-like detail through normal map or shading only; the real height data stays untouched.
 4. Flow, ridges and barriers visible in the ground: drainage channels computed from the height, sharper crest lines, cliff bands for barriers.
-5. Routes as ribbons or worn trails laid on the surface, with shading and occlusion (also helps the entangled-strategies item).
+5. ✔v261 Routes as ribbons or worn trails laid on the surface, with shading and occlusion (also helps the entangled-strategies item).
 6. Label decluttering: priority, nudging apart, short leader lines, fade with distance.
 7. Depth cues and mesh quality: light haze, tuned vertical exaggeration, finer mesh with smooth interpolation (removes the faceted hatching).
-8. Optional toggle for contour lines.
+8. ~~Optional toggle for contour lines.~~ Dropped 11-24 (Claude's call): contour drawings are what he rejected as too close to Snowden.
 Claude's suggested combination to try first: 1, 2 and 4 together.
 **Judge against the question above:** does the ground read as constraint, flow, ridges, valleys, barriers and pathways, with nodes and questions still readable?
 **Process:** separate branch off the live preview; he judges by eye against the baselines and Bear Canyon imagery.

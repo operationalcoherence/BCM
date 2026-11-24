@@ -350,6 +350,15 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
     if (o) { pinned = o; showTip(o, ev); return; } const k = wayAt(ev); if (k) { const R = D.routes.find(q => q.key === k); pinned = { info: { head: k + ' · ' + R.name, body: R.text || '' } }; hoverWay(k); showTip(pinned, ev); } else { const g = D.onGround && groundAt(ev), gi = g && D.onGround(g[0], g[1]); if (gi) { pinned = { info: gi }; hoverWay(null); showTip(pinned, ev); } else { pinned = null; hoverWay(null); hideTip(); } } });
   renderer.domElement.addEventListener('pointerleave', () => { if (!pinned) { hoverWay(null); if (tip.style.display !== 'none') hideTip(); } });
   const RC = { A: '#111111', B: '#f4f4f4', C: '#e0007a' }, WAYS = {}, PICK = [];
+  /* v261: a band laid on the ground along a curve: width w, lifted by lift, n steps; t0..t1 a part of the curve; tip narrows it to a point */
+  function ribbon(c, w, lift, n, t0, t1, tip) { t0 = t0 || 0; t1 = t1 == null ? 1 : t1; n = n || Math.max(60, Math.min(1400, Math.ceil(c.getLength() * (t1 - t0) / 0.7))); const P = [], pos = [], idx = [];
+    for (let i = 0; i <= n; i++) P.push(c.getPointAt(t0 + (t1 - t0) * i / n));
+    const hy = (x, z) => gH(x + W / 2, z + H / 2);
+    for (let i = 0; i <= n; i++) { const a = P[Math.max(0, i - 1)], b = P[Math.min(n, i + 1)], dx = b.x - a.x, dz = b.z - a.z, l = Math.hypot(dx, dz) || 1, nx = -dz / l, nz = dx / l, ww = tip ? w * (1 - i / n) : w, y0 = hy(P[i].x, P[i].z);
+      for (const sd of [-1, 1]) { const x = P[i].x + nx * ww / 2 * sd, z = P[i].z + nz * ww / 2 * sd; pos.push(x, Math.max(hy(x, z), y0, hy((x + P[i].x) / 2, (z + P[i].z) / 2)) + lift, z); } }
+    for (let i = 0; i < n; i++) { const a = 2 * i; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals(); return g; }
+  const onGround = (m, o) => { m.side = THREE.DoubleSide; m.transparent = true; m.depthWrite = false; m.polygonOffset = true; m.polygonOffsetFactor = -o; m.polygonOffsetUnits = -o * 2; return m; };
   const NR = (D.routes || []).length, BADGE = [];
   const nearOther = (x, y, ri) => { let m = 1e9; (D.routes || []).forEach((Q, qi) => { if (qi === ri) return; for (let k = 0; k < Q.pts.length; k += 2) m = Math.min(m, Math.hypot(Q.pts[k][0] - x, Q.pts[k][1] - y)); }); return m; };
   (D.routes || []).forEach((R, ri) => {
@@ -358,8 +367,9 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
     const pts = rp.filter((p, k) => k % 2 === 0 || k === rp.length - 1).map(p => new THREE.Vector3(X(p[0]), gH(p[0], p[1]) + 1.6 + ri * 0.4, Z(p[1])));
     if (pts.length < 2) return; const c = new THREE.CatmullRomCurve3(pts);
     const mat = new THREE.MeshStandardMaterial({ color: RC[R.key] || '#111', roughness: 0.45, emissive: R.key === 'B' ? '#ffffff' : '#000000', emissiveIntensity: R.key === 'B' ? 0.35 : 0, transparent: true });
-    const tube = new THREE.Mesh(new THREE.TubeGeometry(c, 700, 1.5, 8), mat); tube.castShadow = true; scene.add(tube);
-    const edge = R.key === 'B' ? new THREE.Mesh(new THREE.TubeGeometry(c, 700, 1.9, 8), new THREE.MeshStandardMaterial({ color: '#222', transparent: true, opacity: 0.9, side: THREE.BackSide })) : null; if (edge) scene.add(edge);
+    mat.roughness = 0.8; onGround(mat, 4 + ri);
+    const tube = new THREE.Mesh(ribbon(c, 3.4, 1.1 + ri * 0.2), mat); tube.receiveShadow = true; tube.renderOrder = 3 + ri * 2; scene.add(tube);
+    const edge = new THREE.Mesh(ribbon(c, 4.6, 0.9 + ri * 0.2), onGround(new THREE.MeshStandardMaterial({ color: R.key === 'B' ? '#222' : '#f3efe6', roughness: 0.9, transparent: true, opacity: 0.8 }), 3 + ri)); edge.receiveShadow = true; edge.renderOrder = 2 + ri * 2; scene.add(edge);
     const fat = new THREE.Mesh(new THREE.TubeGeometry(c, 200, 5, 6), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })); fat.userData.key = R.key; scene.add(fat); PICK.push(fat);
     const info = { head: R.key + ' · ' + R.name, body: R.text || '', way: R.key };
     let bi = Math.floor(rp.length / 2), bs = -1;
@@ -368,11 +378,12 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
     const badges = [rp[bi]].map(p => { const o = lab(R.key, 'wl', p[0], p[1], 5, 6, -13, -13, info);
       o.el.style.background = RC[R.key]; o.el.style.color = R.key === 'B' ? '#111' : '#fff'; o.el.style.borderColor = R.key === 'B' ? '#111' : '#fff'; return o; });
     /* v240: arrowheads along the way, pointing the way it goes (from the present to the goal) */
-    const shell = new THREE.MeshBasicMaterial({ color: R.key === 'B' ? '#222222' : '#ffffff', side: THREE.BackSide, transparent: true, opacity: 0.95 }), arrows = [], len = c.getLength(), na = Math.max(2, Math.min(14, Math.round(len / 42))), up = new THREE.Vector3(0, 1, 0), bp = new THREE.Vector3(X(rp[bi][0]), 0, Z(rp[bi][1]));
+    const shell = onGround(new THREE.MeshBasicMaterial({ color: R.key === 'B' ? '#222222' : '#ffffff', transparent: true, opacity: 0.95 }), 3 + ri), arrows = [], len = c.getLength(), na = Math.max(2, Math.min(14, Math.round(len / 42))), up = new THREE.Vector3(0, 1, 0), bp = new THREE.Vector3(X(rp[bi][0]), 0, Z(rp[bi][1]));
     for (let i = 0; i < na; i++) { const t = (i + 0.5) / na, at = c.getPointAt(t), tg = c.getTangentAt(t).normalize();
       if (Math.hypot(at.x - bp.x, at.z - bp.z) < 9) continue;
-      const q = new THREE.Quaternion().setFromUnitVectors(up, tg), cone = new THREE.Mesh(new THREE.ConeGeometry(4.4, 10, 16), mat); cone.position.copy(at).addScaledVector(tg, 2); cone.quaternion.copy(q); cone.castShadow = true; scene.add(cone); arrows.push(cone);
-      const ce = new THREE.Mesh(new THREE.ConeGeometry(5.3, 12, 16), shell); ce.position.copy(cone.position); ce.quaternion.copy(q); scene.add(ce); arrows.push(ce); }
+      const dt = 11 / len, ta = Math.max(0, t - dt * 0.4), tb = Math.min(1, t + dt * 0.6);
+      const cone = new THREE.Mesh(ribbon(c, 9, 1.5 + ri * 0.2, 16, ta, tb, true), mat); cone.renderOrder = 4 + ri * 2; scene.add(cone); arrows.push(cone);
+      const ce = new THREE.Mesh(ribbon(c, 12.5, 1.5 + ri * 0.2, 16, Math.max(0, ta - dt * 0.12), Math.min(1, tb + dt * 0.12), true), shell); ce.renderOrder = 3 + ri * 2; scene.add(ce); arrows.push(ce); }
     /* v241: the stops in order, numbered 1, 2, 3 ... (START and GOAL keep their flags); shown on the selected way */
     const nums = []; let prev = null;
     (R.stops || []).slice(1, -1).forEach(sp => { if (prev && Math.hypot(sp[0] - prev[0], sp[1] - prev[1]) < 3) return; prev = sp;
@@ -499,7 +510,7 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
   /* v259: walk a way, one leg at a time (Taking Action cards). Only where the way has been, the leg it is on, and
      the stop it is heading to are shown; a strip lists every stop in order and any stop can be tapped. */
   var WALK = null; const WG = new THREE.Group(); scene.add(WG);
-  const legMat = new THREE.MeshStandardMaterial({ color: '#f2b400', roughness: 0.4, emissive: '#5a3c00', emissiveIntensity: 0.35 }), legEdge = new THREE.MeshBasicMaterial({ color: '#111111', side: THREE.BackSide });
+  const legMat = new THREE.MeshStandardMaterial({ color: '#f2b400', roughness: 0.4, emissive: '#5a3c00', emissiveIntensity: 0.35 }), legEdge = new THREE.MeshBasicMaterial({ color: '#111111' }); onGround(legMat, 9); onGround(legEdge, 8); const legGhost = new THREE.MeshBasicMaterial({ color: '#f2b400', transparent: true, opacity: 0.5, depthTest: false, depthWrite: false, side: THREE.DoubleSide });
   const stopName = (sp, i, n) => { if (i === 0) return PL ? 'START' : 'PRESENT'; if (i === n - 1) return 'GOAL'; let b = null, bd = 4.5; D.notes.forEach(q => { const d = Math.hypot(q.x - sp[0], q.y - sp[1]); if (d < bd) { bd = d; b = q; } }); return b ? { k: (D.np || 'N') + b.k, n: b } : { k: 'a turn', n: null }; };
   function walkData(k) { const w = WAYS[k]; if (!w || !w.stops || w.stops.length < 3) return null; const rp = w.rp, st = [], idx = []; let from = 0;
     const extra = {}; w.stops.forEach((sp, i) => { if (i && Math.hypot(sp[0] - w.stops[i - 1][0], sp[1] - w.stops[i - 1][1]) < 3 && i < w.stops.length - 1) { (extra[st.length - 1] = extra[st.length - 1] || []).push(sp); return; } let bk = -1, bd = 1e9;
@@ -507,16 +518,17 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
       if (i === w.stops.length - 1) bk = rp.length - 1; if (i === 0) bk = 0; from = bk; st.push(sp); idx.push(bk); });
     const names = st.map((sp, i) => { const a = stopName(sp, i, st.length); if (typeof a === 'string' || !extra[i]) return a; const ks = [a.k]; extra[i].forEach(e => { const z = stopName(e, 1, 3); if (typeof z !== 'string' && z.n && ks.indexOf(z.k) < 0) ks.push(z.k); }); return { k: ks.join(' + '), n: a.n, all: ks }; });
     return { k, w, st, idx, names }; }
-  const tube3 = (pts2, ri, r) => { const P = pts2.filter((p, q) => q % 2 === 0 || q === pts2.length - 1).map(p => new THREE.Vector3(X(p[0]), gH(p[0], p[1]) + 2 + ri * 0.4, Z(p[1]))); if (P.length < 2) return null; if (P.length === 2) P.splice(1, 0, P[0].clone().lerp(P[1], 0.5)); const c = new THREE.CatmullRomCurve3(P); return { c, g: new THREE.TubeGeometry(c, Math.max(24, P.length * 4), r, 8) }; };
-  function walkClear() { while (WG.children.length) { const m = WG.children.pop(); m.geometry.dispose(); if (m.material !== legMat && m.material !== legEdge) m.material.dispose(); } }
+  const tube3 = (pts2, ri, r) => { const P = pts2.filter((p, q) => q % 2 === 0 || q === pts2.length - 1).map(p => new THREE.Vector3(X(p[0]), gH(p[0], p[1]) + 2 + ri * 0.4, Z(p[1]))); if (P.length < 2) return null; if (P.length === 2) P.splice(1, 0, P[0].clone().lerp(P[1], 0.5)); const c = new THREE.CatmullRomCurve3(P); return { c, g: ribbon(c, r * 2.4, r > 2.5 ? 1.6 : r > 1.5 ? 1.8 : 1.6) }; };
+  function walkClear() { while (WG.children.length) { const m = WG.children.pop(); m.geometry.dispose(); if (m.material !== legMat && m.material !== legEdge && m.material !== legGhost) m.material.dispose(); } }
   function walkShow(i) { const Wk = WALK; if (!Wk) return; const n = Wk.st.length; i = Math.max(1, Math.min(n - 1, i)); Wk.i = i; walkClear();
     const ri = Wk.w.ri, a = Wk.idx[i - 1], b = Wk.idx[i];
-    if (a > 0) { const t = tube3(Wk.w.rp.slice(0, a + 1), ri, 0.9); if (t) WG.add(new THREE.Mesh(t.g, new THREE.MeshStandardMaterial({ color: Wk.k === 'B' ? '#666666' : (RC[Wk.k] || '#111'), roughness: 0.5 }))); }
+    if (a > 0) { const t = tube3(Wk.w.rp.slice(0, a + 1), ri, 0.9); if (t) WG.add(new THREE.Mesh(t.g, onGround(new THREE.MeshStandardMaterial({ color: Wk.k === 'B' ? '#666666' : (RC[Wk.k] || '#111'), roughness: 0.8 }), 7))); }
     const t = tube3(Wk.w.rp.slice(a, Math.max(a + 2, b + 1)), ri, 2.1);
-    if (t) { WG.add(new THREE.Mesh(t.g, legMat)); const e = tube3(Wk.w.rp.slice(a, Math.max(a + 2, b + 1)), ri, 2.7); if (e) WG.add(new THREE.Mesh(e.g, legEdge));
+    if (t) { WG.add(new THREE.Mesh(t.g, legMat)); WG.add(new THREE.Mesh(t.g.clone(), legGhost)); const e = tube3(Wk.w.rp.slice(a, Math.max(a + 2, b + 1)), ri, 3.6); if (e) WG.add(new THREE.Mesh(e.g, legEdge));
       const at = t.c.getPointAt(0.97), tg = t.c.getTangentAt(0.97).normalize(), q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), tg);
-      const cone = new THREE.Mesh(new THREE.ConeGeometry(4.6, 11, 16), legMat); cone.position.copy(at).addScaledVector(tg, 1); cone.quaternion.copy(q); WG.add(cone);
-      const ce = new THREE.Mesh(new THREE.ConeGeometry(5.5, 13, 16), legEdge); ce.position.copy(cone.position); ce.quaternion.copy(q); WG.add(ce); }
+      const ll = t.c.getLength(), ta = Math.max(0, 1 - 13 / ll);
+      WG.add(new THREE.Mesh(ribbon(t.c, 11, 1.9, 16, ta, 1, true), legMat)); WG.add(new THREE.Mesh(ribbon(t.c, 14.5, 1.8, 16, Math.max(0, ta - 1.5 / ll), 1, true), legEdge)); }
+    WG.children.forEach(m => { m.renderOrder = m.material === legMat ? 22 : m.material === legEdge ? 21 : m.material === legGhost ? 19 : 20; });
     const nm = Wk.names, to = nm[i], fr = nm[i - 1], lbl = z => typeof z === 'string' ? z : z.k;
     setSpot({ at: Wk.st[i], title: [fr, to].map(z => typeof z === 'string' ? '' : z.k).join(' ') });
     cap.innerHTML = '<div class="ta"></div><div class="tt"></div><div class="tx"></div><div class="wk"></div>'; cap.appendChild(wbar);
