@@ -10,7 +10,7 @@ His rule for this work (11-24 09:38, with five of his Bear Canyon photos): "Impr
 In order:
 1. ✔v253 Realism, first pass: light, rock, soil, grass, fine relief (docs/v253_update.md). ✔v254 the whole map reads as rock, not coral (his note 10:00; docs/v254_update.md). ✔v255 toward photorealism (his note 10:08; docs/v255_update.md). He judges by eye against his photos.
 2. The rest of the 3D relief test below: ✔v258 label pile-ups (docs/v258_update.md), goal rings over a label, then strategies 4 to 8.
-3. Entangled strategies on Taking Action maps (below), decided together with strategy 5 (routes laid on the ground).
+3. ✔v259 Entangled strategies on Taking Action maps (below): walk a way, step by step (docs/v259_update.md). Strategy 5 (routes laid on the ground) still open.
 4. Attribution on every full-screen view (below the 3D items).
 
 ## Added 11-21 08:52 · VIZ: 3D relief test on Opus 5.5 at max effort
@@ -50,7 +50,8 @@ His rule for this item: "Improve quality and realism only. Do not reinterpret or
 **Test:** v-current screenshots before and after, same camera, on the 11-13 and 11-20 workbooks; diff must show change only inside rock areas. Place maps have no bare rock, so check Broadview stays identical.
 **Fits with:** the 3D relief test below (its strategies 2, slope-driven materials, and 3, fine detail through normal map or shading). Keep this item to rock only.
 
-## Added 11-21 09:28 · VIZ: entangled strategies are unreadable (Taking Action "The way through it" map)
+## ✔v259 Added 11-21 09:28 · VIZ: entangled strategies are unreadable (Taking Action "The way through it" map)
+**Done in v259** (his ask 11-24 12:39; docs/v259_update.md): Claude's call was a step-through of one leg at a time with the rest dimmed, plus the way as an ordered strip of stops that can be tapped.
 His words: "We also have to do something about making entangled strategies more readable. We've tried numbers and arrows; we will need something else so the user can make sense of it. Even if the designer finds it impossible to follow."
 
 **What his screenshot shows (11-20 workbook, way A "through its notes"):** the route lines cross and overlap in the lower left and lower right, numbered stops (1-18) sit on top of note labels (N20, N23, N29, N37, N38, N10, N11), and the numbers alone do not tell the order or which way the route goes. Even the designer cannot follow it.
