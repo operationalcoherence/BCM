@@ -205,134 +205,144 @@ JS = r'''
         t = Math.max(0, Math.min(1, ((p.x - a.x) * vx + (p.y - a.y) * vy) / L));
       return Math.hypot(p.x - a.x - t * vx, p.y - a.y - t * vy);
     }
-    function pickHold(g) {
-      var R = { 4: 5, 0: 4, 2: 3, 3: 1, 1: 2 };
-      return g.n
-        .slice()
-        .sort(function (a, b) {
-          return (
-            (b.txt.split(/\s+/).length >= 4) - (a.txt.split(/\s+/).length >= 4) ||
-            (R[b.e] || 0) - (R[a.e] || 0) ||
-            dsq(a, g) - dsq(b, g)
-          );
-        })
-        .slice(0, 2);
-    }
-    var seenWhere = {},
+    /* v248b: each story is read, not listed. Seven moves (his brief, 11-24 07:19): the dynamic, why it
+       emerges, what recreates it, what it reveals, why it matters, where it goes if it continues, and
+       what would have to change. Each move is chosen from what the hollow holds: where it sits in time,
+       its emotions, acceptance of the present inside it, aggression answering it from the side that
+       helps, a ridge of indifference out of it, and its size. No note text and no note numbers in it. */
+    var used = {},
+      helpAgg = Y.pts.filter(function (p) {
+        return p.side > 0 && 0 === p.e;
+      }).length,
+      allLow = ST.reduce(function (a, g) {
+        return a + g.n.length;
+      }, 0),
+      seenWhere = {},
       out = [];
+    function pick(L) {
+      for (var i = 0; i < L.length; i++) if (L[i][0] && !used[L[i][1]]) return (used[L[i][1]] = 1), L[i][2];
+      for (i = 0; i < L.length; i++) if (L[i][0]) return L[i][2];
+      return "";
+    }
     ST.forEach(function (g, k) {
       var wh = where(g),
         o = lowEm(g),
-        acc = g.n.filter(function (p) {
+        c = gsmStEm(g.n).c,
+        e0 = o[0],
+        e1 = o.length > 1 && c[o[1]] * 2 >= c[o[0]] ? o[1] : null,
+        acc = g.n.some(function (p) {
           return 1 === p.e;
         }),
+        hasAgg = c[0] > 0,
         hc = Y.high
           .slice()
           .sort(function (a, b) {
             return dsq(a, g) - dsq(b, g);
           })[0],
-        help = hc
-          ? hc.n
-              .filter(function (p) {
-                return (1 === p.e || null == p.e) && !usedHelp[p.ref];
-              })
-              .sort(function (a, b) {
-                return dsq(a, g) - dsq(b, g);
-              })
-              .slice(0, 2)
-          : [],
         tgt = hc || { x: g.x, y: 60 },
-        cr = ind
-          .filter(function (p) {
-            return !usedInd[p.ref] && segD(p, g, tgt) < 40;
-          })
-          .sort(function (a, b) {
-            return dsq(a, g) - dsq(b, g);
-          })
-          .slice(0, 3)
-          .sort(function (a, b) {
-            return +a.lab.slice(1) - +b.lab.slice(1);
-          });
+        cr = ind.filter(function (p) {
+          return !usedInd[p.ref] && segD(p, g, tgt) < 40;
+        }),
+        big = 0 === k && g.n.length * 2 >= allLow,
+        second = "start" === wh && seenWhere.start,
+        EW = { 0: "aggression", 2: "distrust", 4: "defiance" },
+        emo = EW[e0] + (null != e1 ? " and " + EW[e1] : "");
       cr.forEach(function (p) {
         usedInd[p.ref] = 1;
       });
-      help.forEach(function (p) {
-        usedHelp[p.ref] = 1;
-      });
-      var em2 = o.length > 1 && gsmStEm(g.n).c[o[1]] * 2 >= gsmStEm(g.n).c[o[0]];
-      /* the verse: where it is, how deep, what sits inside, how it gets out */
-      var V = [];
-      V.push(
-        "start" === wh
-          ? seenWhere.start
-            ? "Here at the start, a second hollow:"
-            : "Here, at the start,"
-          : "goal" === wh
-            ? "Close to the goal,"
-            : "Halfway to the goal,",
-      );
       seenWhere[wh] = 1;
-      V.push(
-        (4 === o[0]
-          ? "the ground drops to defiance"
-          : 0 === o[0]
-            ? "the ground falls into aggression"
-            : "the ground sinks into distrust") +
-          (em2 ? " and " + E[o[1]] : "") +
-          ",",
+      var S = [];
+      /* 1. the dynamic */
+      S.push(
+        "goal" === wh
+          ? "Close to the goal, the ground drops again, into " +
+              emo +
+              ". This is the low ground that waits where the change is close to arriving, where a new arrangement can exist in name while the old one goes on underneath it."
+          : "mid" === wh
+            ? "Partway to the goal, a separate low ground of " +
+              emo +
+              " forms where the change stops being an idea and starts to reach what people stand to lose."
+            : second
+              ? "A second low ground lies at the start, apart from the first, and it is made of " + emo + "."
+              : pick([
+                  [4 === e0, "s1d", "At the start, the change meets defiance, the lowest ground: people are not weighing the goal and deciding against it so much as refusing to let it into the conversation at all."],
+                  [0 === e0, "s1a", "At the start, the change is met with " + emo + ": the goal is treated less as a proposal to weigh than as a threat to push back."],
+                  [!0, "s1t", "At the start, the change meets " + emo + ": before anyone weighs what the goal offers, they are weighing whether the change, and those carrying it, can be trusted."],
+                ]),
       );
-      acc.length
-        ? V.push("and acceptance of what holds it sits down here too,")
-        : "goal" === wh
-          ? V.push("just where the work could look finished,")
-          : V.push(help.length ? "below the help that stands across the line," : "with nothing yet across the line from it,");
-      V.push(cr.length ? "and a ridge of indifference runs out of it." : "and no ridge leads out, only a climb.");
-      /* the prose: what holds it, what helps, where it can cross */
-      var hold = pickHold(g),
-        P = [];
-      P.push(
-        "<b>What holds it:</b> " +
-          gsmMeanList(
-            hold.map(function (p) {
-              return gsmStQ(p);
-            }),
-          ) +
-          ". " +
-          (g.n.length > hold.length ? g.n.length + " notes sit in this hollow, most of them on " + GW[o[0]] + "." : "") +
-          (acc.length
-            ? " " +
-              gsmMeanList(acc.map(gsmStRef)) +
-              (acc.length > 1 ? " carry" : " carries") +
-              " acceptance here, acceptance of what holds the goal back: it keeps this hollow in place, not open."
-            : "") +
-          ("goal" === wh ? " Because it lies close to the goal, it can take hold after the change seems done." : ""),
+      /* 2. why it emerges */
+      S.push(
+        pick([
+          [acc, "w-acc", "It emerges because the present arrangement is still accepted as legitimate. That acceptance is not neutral ground here: it is what the resistance stands on, and it gives the resistance the standing of common sense."],
+          ["goal" === wh, "w-goal", "It emerges because a change can ask for new behavior without changing what people are rewarded, trusted, or protected for, and then the old behavior stays the safer one."],
+          ["mid" === wh, "w-mid", "It emerges once the change becomes concrete enough to threaten people's place in what comes after it, so holding on becomes a way of protecting a future rather than a past."],
+          [4 === e0, "w-def", "It emerges where the old way has become part of who people are, so giving it up would mean giving up part of themselves."],
+          [0 === e0, "w-agg", "It emerges where the change is lived as an attack on how people already work, so pushing back feels like defending something, not blocking something."],
+          [!0, "w-dis", "It emerges where people cannot yet see what the change will ask of them, so they hold to what they know until they can."],
+        ]),
       );
-      P.push(
-        "<b>What helps:</b> " +
-          (help.length
-            ? gsmMeanList(
-                help.map(function (p) {
-                  return gsmStQ(p);
-                }),
-              ) + ", the nearest higher ground across the line."
-            : "nothing yet stands on the side that helps near this hollow."),
+      /* 3. what keeps recreating it */
+      S.push(
+        pick([
+          [helpAgg && hasAgg, "r-loop", "What keeps recreating it is the reply it gets. Aggression on the side that helps, aimed at those who resist, confirms the resisters' reading of the change, and their resistance in turn confirms the supporters' reading of them. Each side's emotion becomes the other side's evidence."],
+          ["goal" === wh, "r-goal", "What keeps recreating it is that adoption can be shown without being lived. As long as the change is judged by what is announced rather than by what is done, the old ways can go on in plain sight without being seen."],
+          [null != e1, "r-mix", 2 === e0 || 2 === e1 ? "What keeps recreating it is that its emotions hold each other up: distrust gives " + EW[2 === e0 ? e1 : e0] + " its reasons, and " + EW[2 === e0 ? e1 : e0] + " gives distrust its proof." : "What keeps recreating it is that its emotions hold each other up: aggression keeps defiance in practice, and defiance keeps aggression justified."],
+          [!0, "r-same", "What keeps recreating it is that each round of the change arrives without changing the ground it lands on, so each round is met the way the last one was."],
+        ]),
       );
-      P.push(
-        "<b>Where it can cross:</b> " +
-          (cr.length
-            ? gsmMeanList(cr.map(gsmStRef)) +
-              (cr.length > 1 ? " carry" : " carries") +
-              " indifference between this hollow and that help, the ridge most crossings go through."
-            : "no indifference lies between this hollow and the help, so getting across is a climb over bare rock, and it takes the most energy."),
+      /* 4. what it reveals */
+      S.push(
+        "goal" === wh
+          ? "It reveals that in this system adoption and change may not be the same thing: the structure can move while the behavior stays."
+          : "mid" === wh
+            ? "It reveals that the resistance has moved from ideas to stakes. What is being defended here is not a view of the goal but a person's footing once the goal arrives."
+            : pick([
+                [acc, "v-acc", "It reveals that the system's coherence is still carried by the arrangement the goal would replace. Resisting is a way of keeping that coherence while familiar assumptions lose their standing."],
+                [!0, "v-gen", "It reveals how much of the system's footing still rests on the way things are done now, and how little of it has yet been given anywhere else to stand."],
+              ]),
       );
+      /* 5. why it matters */
+      S.push(
+        big
+          ? "It matters because most of the ground that hinders lies here: whatever is designed for the goal will land on this ground first, and will be read through it."
+          : "goal" === wh
+            ? "It matters because it can undo the work after the work looks finished, and because it is the hardest of these low grounds to see."
+            : "It matters because it stands apart from the others. Work aimed at another low ground will not reach it, and it can hold even if the others give way.",
+      );
+      /* 6. if it continues */
+      S.push(
+        ("goal" === wh
+          ? "If it continues, the system can look changed while behaving as before, and the gap between the two will be taken as proof that the change never worked. Meanwhile, "
+          : "") +
+          pick([
+            [4 === e0, "f-def", ("goal" === wh ? "d" : "Left as it is, d") + "efiance deepens: the longer the old way is defended, the more of people's identity it carries, and the longer the road back to acceptance becomes."],
+            [0 === e0 || 0 === e1, "f-agg", ("goal" === wh ? "a" : "Left as it is, a") + "ggression can harden into defiance, the lowest ground, from which change is unlikely in the short or medium term."],
+            [!0, "f-dis", ("goal" === wh ? "d" : "Left as it is, d") + "istrust spreads from the change to those leading it, and whatever comes next inherits that distrust before it begins."],
+          ]),
+      );
+      /* 7. what would have to change */
+      S.push(
+        (cr.length
+          ? pick([
+              [!0, "c1", "For it to lose its influence, people do not have to move straight to acceptance. The nearer step is indifference: a ridge of it already runs out of this low ground, and most crossings go through ground like that. The work is to make that ridge easier to reach, not to ask people to climb a cliff."],
+              [!0, "c2", "Here too the nearer step is indifference, not acceptance. A ridge of it already leaves this low ground, and the work is to widen it, so that leaving does not mean taking a side all at once."],
+              [!0, "c3", "As in the other stories, the way out runs through indifference before acceptance, along a ridge that already leaves this low ground, where people can rest without being asked to agree."],
+            ])
+          : "For it to lose its influence, a ridge has to be made first. Nothing between this low ground and the help yet carries indifference, so going straight across is a climb over bare rock, and it takes the most energy in either direction.") +
+          (acc ? " The acceptance that holds the present in place has to loosen too: until the current arrangement stops looking like the only legitimate one, every case for the goal will be heard as an attack on it." : "") +
+          ("goal" === wh ? " Here that means judging the change by what people do, not by what has been declared." : ""),
+      );
+      var TL = { start: second ? "AT THE START, A SECOND LOW GROUND" : "AT THE START", mid: "PARTWAY TO THE GOAL", goal: "CLOSE TO THE GOAL" }[wh];
       out.push(
         '<div class="story1"><div class="s1h">STORY ' +
           (k + 1) +
-          '</div><div class="s1v">' +
-          V.map(Gt).join("<br>") +
-          '</div><div class="s1p">' +
-          P.join("<br>") +
-          '</div><details class="more"><summary>The notes in this hollow</summary><div class="srev">' +
+          " · " +
+          TL +
+          '</div><div class="s1p"><p>' +
+          S.slice(0, 3).join(" ") +
+          "</p><p>" +
+          S.slice(3).join(" ") +
+          '</p></div><details class="more"><summary>The notes behind this reading</summary><div class="srev">' +
           g.n
             .map(function (p) {
               return "<div>" + gsmStRef(p) + " <i>" + (null != p.em ? E[p.em] : "no emotion marked") + "</i>: " + gsmStQ(p).replace(/ \(<a[^)]*<\/a>\)$/, "") + "</div>";
@@ -347,7 +357,7 @@ JS = r'''
     box.innerHTML =
       '<p class="stsn">Your workbook holds ' +
       ["", "one story", "two stories", "three stories"][ST.length] +
-      ". Each is its own low ground, held by its own notes, with its own way out. Read them apart before reading them as one." +
+      ". Each is its own low ground, with its own reasons for holding and its own way out. Read them apart before reading them as one." +
       more +
       "</p>" +
       out.join("");
@@ -365,7 +375,7 @@ JS = r'''
   }
 '''
 
-CSS = '#gsm .stories{margin:6px 0 10px}#gsm .stories .stsn{font-size:17.5px;line-height:1.6;color:#111}#gsm .story1{border-left:3px solid #111;padding:4px 0 6px 14px;margin:16px 0}#gsm .story1 .s1h{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:6px}#gsm .story1 .s1v{font-size:18px;line-height:1.55;font-style:italic;color:#111;margin:0 0 10px}#gsm .story1 .s1p{font-size:15.5px;line-height:1.6;color:#222}#gsm .story1 .s1p b{font-weight:700;color:#111}#gsm details.onel{margin-top:14px}'
+CSS = '#gsm .stories{margin:6px 0 10px}#gsm .stories .stsn{font-size:17.5px;line-height:1.6;color:#111}#gsm .story1{border-left:3px solid #111;padding:4px 0 6px 14px;margin:16px 0}#gsm .story1 .s1h{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:6px}#gsm .story1 .s1v{font-size:18px;line-height:1.55;font-style:italic;color:#111;margin:0 0 10px}#gsm .story1 .s1p p{font-size:16.5px;line-height:1.65;color:#111;margin:0 0 10px}#gsm .story1 .s1p b{font-weight:700;color:#111}#gsm details.onel{margin-top:14px}'
 
 a = "  window.gsmStruct = gsmStruct;\n"
 assert s.count(a) == 1
