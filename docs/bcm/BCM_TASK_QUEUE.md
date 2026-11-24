@@ -9,7 +9,7 @@ Source: repo operationalcoherence/BCM (attached 2026-11-17).
 His rule for this work (11-24 09:38, with five of his Bear Canyon photos): "Improve quality and realism only. Do not reinterpret or redesign."
 In order:
 1. ✔v253 Realism, first pass: light, rock, soil, grass, fine relief (docs/v253_update.md). ✔v254 the whole map reads as rock, not coral (his note 10:00; docs/v254_update.md). ✔v255 toward photorealism (his note 10:08; docs/v255_update.md). He judges by eye against his photos.
-2. The rest of the 3D relief test below: label pile-ups, goal rings over a label, then strategies 4 to 8.
+2. The rest of the 3D relief test below: ✔v258 label pile-ups (docs/v258_update.md), goal rings over a label, then strategies 4 to 8.
 3. Entangled strategies on Taking Action maps (below), decided together with strategy 5 (routes laid on the ground).
 4. Attribution on every full-screen view (below the 3D items).
 
@@ -23,7 +23,7 @@ His idea: run only the code that builds the 3D relief (used on Pattern Analysis,
 **Keep:** his approved look (60% emotion color over rock/grass/soil, rock faces, indifference ridge), no water imagery, no changes to the line map elsewhere.
 **Fix, in order:**
 1. Acceptance keeping its color on the hinder side (see 11-20 15:33 item).
-2. Label pile-ups (N19/N37/N38; N4/N5/N7).
+2. ✔v258 Label pile-ups (N19/N37/N38; N4/N5/N7): labels find free ground around their own pin, with a leader line when moved.
 3. Goal rings sitting over the N10 label.
 4. More realism: better lighting (his addition, 11-21 08:52), then ground that reads more like real Bear Canyon. ✔v253, first pass, from his photos (11-24 09:38): strategies 1 (light), 2 (materials, by the existing slope rule), and 3 (fine detail) are in.
 **Strategies to try (added 11-21 13:32, ranked; test one at a time on the branch):**

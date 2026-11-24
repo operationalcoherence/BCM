@@ -8,6 +8,7 @@ const CSS = `
 .grel canvas{display:block}
 .grel .lbs{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .grel .lb{position:absolute;left:0;top:0;white-space:nowrap}
+.grel .ldr{position:absolute;left:0;top:0;height:1px;background:rgba(20,20,20,.75);box-shadow:0 0 0 1px rgba(255,255,255,.55);transform-origin:0 50%;pointer-events:none;display:none}
 .grel .nl{font:bold 12.5px Helvetica,Arial,sans-serif;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
 .grel .lb.tfoc{background:#fff;border-radius:5px;padding:1px 4px;box-shadow:0 0 0 2px #fff,0 0 12px 4px rgba(255,255,255,.95);z-index:5}
 .grel .tourbar .tpn{font:14px Questrial,Helvetica,Arial,sans-serif;padding:8px 14px;border-radius:20px;background:#fff;border:1px solid #222;display:none}
@@ -294,7 +295,7 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
     const hd = new THREE.Mesh(new THREE.SphereGeometry(2.8, 18, 12), new THREE.MeshStandardMaterial({ color: n.e == null ? 0xffffff : new THREE.Color(`rgb(${D.emo[n.e][1].join(',')})`), roughness: 0.5 }));
     hd.position.set(X(n.x), h + 11, Z(n.y)); hd.castShadow = true; scene.add(hd);
     const lo = lab((D.np || 'N') + n.k, 'nl', n.x, n.y, 11, 1, 6, -8, { head: (D.np || 'N') + n.k + ' · ' + (n.e == null ? 'no emotion marked' : D.emo[n.e][0].toUpperCase()) + (n.q ? ' · Q.' + n.q : ''), body: n.t || '' }); let sp = null; if (D.spokes && n.q) { const Q = (D.qpos || []).find(z => z && z.q === n.q); if (Q) { const P = []; for (let k = 0; k <= 24; k++) { const t = k / 24, x = Q.x + (n.x - Q.x) * t, y = Q.y + (n.y - Q.y) * t; P.push(new THREE.Vector3(X(x), gH(x, y) + 1.4, Z(y))); } sp = new THREE.Line(new THREE.BufferGeometry().setFromPoints(P), spokeMat); scene.add(sp); } }
-    NOBJ.push({ q: n.q, st, hd, lo, sp }); });
+    lo.head = hd.position; lo.isN = 1; NOBJ.push({ q: n.q, st, hd, lo, sp }); });
   D.qpos.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st);
     const fl = new THREE.Mesh(new THREE.BoxGeometry(7, 4.2, 0.6), blk); fl.position.set(X(Q.x) + 3.2, h + 16.4, Z(Q.y)); fl.castShadow = true; scene.add(fl); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 16.4, 2, -4, -10, { head: 'Q.' + Q.q + (Q.title ? ' · ' + Q.title : ''), body: Q.ans || 'No answer written yet.', sm: Q.n ? 'Placed at the middle of its ' + Q.n + ' note' + (Q.n > 1 ? 's' : '') + '.' : 'No notes yet; placed on the line between present and goal.' }); });
   { const s = D.START, h = gH(s.x, s.y), p = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 22, 6), blk); p.position.set(X(s.x), h + 11, Z(s.y)); p.castShadow = true; scene.add(p);
@@ -314,7 +315,7 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
   const RD = (D.read || []).map((r, i) => { const o = lab(String(i + 1), 'rdm', r.at[0], r.at[1], 21, 5, -11, -11, { head: (i + 1) + ' · ' + (r.title || ''), body: r.text || '', rd: i }); const h = gH(r.at[0], r.at[1]);
     const st = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 20, 6), blk); st.position.set(X(r.at[0]), h + 10, Z(r.at[1])); st.castShadow = true; scene.add(st);
     const bl = new THREE.Mesh(new THREE.SphereGeometry(2.6, 16, 12), blk); bl.position.set(X(r.at[0]), h + 21, Z(r.at[1])); bl.castShadow = true; scene.add(bl);
-    const rim = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.35, 6, 24), new THREE.MeshStandardMaterial({ color: 0xffffff })); rim.position.copy(bl.position); scene.add(rim); o.rim = rim; return o; });
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.35, 6, 24), new THREE.MeshStandardMaterial({ color: 0xffffff })); rim.position.copy(bl.position); scene.add(rim); o.rim = rim; o.head = bl.position; return o; });
 
   const tip = document.createElement('div'); tip.className = 'tip'; wrap.appendChild(tip); let pinned = null;
   function showTip(o, ev) { if (TOUR && TOUR.paused == null) return; tip.innerHTML = ''; const b = document.createElement('b'); b.textContent = o.info.head; tip.appendChild(b); const bd = String(o.info.body || ''); tip.appendChild(document.createTextNode(bd.length > (o.info.long ? 900 : 420) ? bd.slice(0, 400).replace(/\s+\S*$/, '') + '\u2026' : bd));
@@ -497,14 +498,32 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`); }; }
   const ro = window.ResizeObserver ? new ResizeObserver(size) : null; if (ro) ro.observe(wrap); window.addEventListener('resize', size);
   let moved = false; controls.addEventListener('start', () => { moved = true; }); controls.addEventListener('change', () => { dirty = true; if (!pinned) tip.style.display = 'none'; });
   const v = new THREE.Vector3();
-  function place() { const w = renderer.domElement.clientWidth, h = renderer.domElement.clientHeight, boxes = [];
+  /* v258: labels look for free ground around their own pin, and a moved label gets a leader line back to it */
+  const hv = new THREE.Vector3(), hv2 = new THREE.Vector3();
+  function place() { const w = renderer.domElement.clientWidth, h = renderer.domElement.clientHeight, boxes = [], heads = [];
+    const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);
+    L.forEach(o => { if (!o.head || o.hid || o.off) return; hv.copy(o.head).project(camera); if (hv.z > 1) return; hv2.copy(o.head).addScaledVector(up, 2.8).project(camera);
+      const r = 1.5 * Math.max(3, Math.hypot((hv2.x - hv.x) * 0.5 * w, (hv2.y - hv.y) * 0.5 * h)); heads.push({ o, x: (hv.x * 0.5 + 0.5) * w, y: (-hv.y * 0.5 + 0.5) * h, r }); });
+    const hitB = (x, y, bw, bh) => { let n = 0; for (const b of boxes) if (x < b[0] + b[2] && x + bw > b[0] && y < b[1] + b[3] && y + bh > b[1]) n += Math.min(x + bw, b[0] + b[2]) - Math.max(x, b[0]) + 1; return n; };
+    const hitH = (o, x, y, bw, bh) => { let n = 0; if (!o.isN) return 0; for (const q of heads) { if (q.o === o) continue; const cx = Math.max(x, Math.min(q.x, x + bw)), cy = Math.max(y, Math.min(q.y, y + bh)); if ((cx - q.x) ** 2 + (cy - q.y) ** 2 < (q.r + 1) ** 2) n += 40 + q.r; } return n; };
     L.map(o => { v.copy(o.v).project(camera); o.sx = (v.x * 0.5 + 0.5) * w; o.sy = (-v.y * 0.5 + 0.5) * h; return { o, x: o.sx + o.ax, y: o.sy + o.ay, off: v.z > 1 }; })
-     .sort((a, b) => b.o.pri - a.o.pri)
-     .forEach(p => { if (p.o.hid || p.off || p.x < -24 || p.x > w + 24 || p.y < -24 || p.y > h + 24) { p.o.el.style.display = 'none'; return; } p.o.el.style.display = '';
-       const bw = p.o.el.offsetWidth || 30, bh = p.o.el.offsetHeight || 16; let y = p.y;
-       let x = p.x; const tries = [[0, 0], [bw * 0.7, 0], [-bw * 0.7, 0], [0, -bh - 2], [bw * 0.7, -bh - 2], [-bw * 0.7, -bh - 2]];
-       for (const [dx, dy] of tries) { const hit = boxes.some(b => p.x + dx < b[0] + b[2] && p.x + dx + bw > b[0] && p.y + dy < b[1] + b[3] && p.y + dy + bh > b[1]); x = p.x + dx; y = p.y + dy; if (!hit) break; }
-       x = Math.max(2, Math.min(w - bw - 2, x)); boxes.push([x, y, bw, bh]); p.o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`; }); }
+     .sort((a, b) => b.o.pri - a.o.pri || a.o.sy - b.o.sy)
+     .forEach(p => { const o = p.o; if (o.hid || p.off || p.x < -24 || p.x > w + 24 || p.y < -24 || p.y > h + 24) { o.el.style.display = 'none'; if (o.ld) o.ld.style.display = 'none'; return; } o.el.style.display = '';
+       const bw = o.el.offsetWidth || 30, bh = o.el.offsetHeight || 16; let x = p.x, y = p.y;
+       /* the side and axis words keep their places; everything else may move off a crowded spot */
+       if (!/\bside\b/.test(o.el.className) && (hitB(x, y, bw, bh) || hitH(o, x, y, bw, bh))) {
+         const ax = o.sx, ay = o.sy, g = 4, C = [];
+         [0, 1, 2, 3].forEach(k => { const d = k * (bh + 2);
+           C.push([p.x, p.y - d - (k ? 0 : 0)], [ax + g + d, ay - bh / 2], [ax - g - bw - d, ay - bh / 2], [ax - bw / 2, ay - g - bh - d], [ax - bw / 2, ay + g + d], [ax + g + d * 0.7, ay - g - bh - d * 0.7], [ax - g - bw - d * 0.7, ay - g - bh - d * 0.7], [ax + g + d * 0.7, ay + g + d * 0.7], [ax - g - bw - d * 0.7, ay + g + d * 0.7]); });
+         let best = null, bs = 1e9;
+         for (let i = 0; i < C.length; i++) { const [cx, cy] = C[i]; if (cx < 2 || cx + bw > w - 2 || cy < 2 || cy + bh > h - 2) continue; const sc = hitB(cx, cy, bw, bh) * 20 + hitH(o, cx, cy, bw, bh) * 20 + i; if (sc < bs) { bs = sc; best = C[i]; } if (sc === i) break; }
+         if (best) { x = best[0]; y = best[1]; } }
+       x = Math.max(2, Math.min(w - bw - 2, x)); boxes.push([x, y, bw, bh]); o.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
+       /* a leader line when the label has left its pin */
+       const ex = Math.max(x, Math.min(o.sx, x + bw)), ey = Math.max(y, Math.min(o.sy, y + bh)), dl = Math.hypot(ex - o.sx, ey - o.sy), far = Math.hypot(x - p.x, y - p.y) > 3;
+       if (far && dl > 7) { if (!o.ld) { o.ld = document.createElement('div'); o.ld.className = 'ldr'; lbs.insertBefore(o.ld, lbs.firstChild); }
+         const r0 = 3.5, L0 = dl - r0; o.ld.style.display = 'block'; o.ld.style.width = L0.toFixed(1) + 'px'; const an = Math.atan2(ey - o.sy, ex - o.sx); o.ld.style.transform = `translate(${(o.sx + Math.cos(an) * r0).toFixed(1)}px,${(o.sy + Math.sin(an) * r0).toFixed(1)}px) rotate(${an.toFixed(3)}rad)`; o.ld.style.opacity = o.el.style.opacity || ''; }
+       else if (o.ld) o.ld.style.display = 'none'; }); }
   function loop() { if (!alive) return; if (!host.isConnected) { dispose(); return; } if (TOUR) stepTour(performance.now()); else controls.update();
     if (!!(D.card && host.closest('.gtfs-on')) !== lastCfs) dirty = true;
     if (dirty && wrap.clientWidth) { RD.forEach(o => o.rim && o.rim.quaternion.copy(camera.quaternion)); if ((wrap.clientWidth !== lastW || !!(D.card && host.closest('.gtfs-on')) !== lastCfs) && !wrap.classList.contains('fs')) { lastCfs = !!(D.card && host.closest('.gtfs-on')); size(); } draw(); place(); dirty = false; } requestAnimationFrame(loop); }
