@@ -2063,7 +2063,7 @@
     st.textContent =
       "#gsm .rule .rmean2{font-size:15.5px;line-height:1.5;color:#111;margin:2px 0 2px}#gsm .rule details.rev summary{margin:6px 0 2px;font-size:12.5px}#gsm .rule .revb{font-size:14px;color:#444;line-height:1.45;margin:4px 0 2px}#gsm .rule .revn{font-size:13.5px;color:#444;line-height:1.45;margin:6px 0 0;padding-left:9px;border-left:2px solid #ddd}#gsm .rule .revn div{margin:0 0 4px}#gsm .rule .revn i{font-style:normal;color:#777;font-size:12.5px}#gsm .metal li .rmean2{font-size:15px;margin:0}#gsm .sread{border-left:3px solid #111;padding:6px 0 6px 12px;margin:0 0 14px}#gsm .sread .srl{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:3px}#gsm .sread .srm{font-size:16px;line-height:1.55;color:#111}#gsm .sread .srev{font-size:13.5px;line-height:1.45;color:#444;padding-left:9px;border-left:2px solid #ddd}#gsm .sread .srev div{margin:0 0 4px}#gsm .sread .srev i{font-style:normal;color:#777;font-size:12.5px}#gsm .sread .srq{margin:8px 0 4px;color:#222}#gsm .storylead{margin:18px 0 26px}#gsm .storylead>details.fold{border:2px solid #111;background:#fff;padding:2px 20px 8px}#gsm .storylead>details.fold>summary{font-size:16px;letter-spacing:.14em}#gsm .storylead .stsub{display:block;font-weight:400;letter-spacing:0;font-size:13px;color:#666;margin-top:4px}#gsm .storylead .mtext>p:first-of-type,#gsm .storylead .mtext p.stimpp{font-size:17.5px;line-height:1.65;color:#111}#gsm .storylead .mtext p.stimpp{border-left:3px solid #111;padding-left:12px}#gsm .storylead .mtext p{font-size:15.5px;line-height:1.6}#gsm .stn{color:#888;font-size:13px}#gsm .stories{margin:6px 0 10px}#gsm .stories .stsn{font-size:17.5px;line-height:1.6;color:#111}#gsm .story1{border-left:3px solid #111;padding:4px 0 6px 14px;margin:16px 0}#gsm .story1 .s1h{font-size:11px;font-weight:700;letter-spacing:.16em;color:#444;margin-bottom:6px}#gsm .story1 .s1v{font-size:18px;line-height:1.55;font-style:italic;color:#111;margin:0 0 10px}#gsm .story1 .s1p p{font-size:16.5px;line-height:1.65;color:#111;margin:0 0 10px}#gsm .story1 .s1p b{font-weight:700;color:#111}#gsm details.onel{margin-top:14px}#gsm .evo{border-left:3px solid #111;padding:4px 0 4px 14px;margin:14px 0}#gsm .evo p{font-size:16.5px;line-height:1.65;color:#111;margin:0 0 12px}#gsm details.evst{margin:6px 0 8px}";
     var st2 = document.createElement("style");
-    st2.textContent = "#gsm .intrev{margin:18px 0 10px}#gsm .intrevh{font-size:13px;font-weight:700;letter-spacing:.16em;color:#222;border-top:1px solid #222;padding-top:10px;margin-bottom:10px}#gsm .intrev .intl{margin-bottom:12px}#gsm .intframe{font-size:15px;line-height:1.5;color:#222;margin:4px 0 10px}";
+    st2.textContent = "#gsm .intrev{margin:18px 0 10px}#gsm .intrevh{font-size:13px;font-weight:700;letter-spacing:.16em;color:#222;border-top:1px solid #222;padding-top:10px;margin-bottom:10px}#gsm .intrev .intl{margin-bottom:12px}#gsm .intframe{font-size:15px;line-height:1.5;color:#222;margin:4px 0 10px}#gsm .srnb{color:#999;font-size:11.5px}#gsm .srnb a.ref{color:#999}#gsm .glance .gl.glsys{cursor:default}";
     document.head.appendChild(st2);
     document.head.appendChild(st);
   }
@@ -2571,6 +2571,13 @@
   }
   function gsmStRef(n) {
     return '<a class="ref" data-ref="' + Gt(n.ref) + '">' + Gt(n.lab) + "</a>";
+  }
+  function gsmStNB(list) {
+    var seen = {},
+      u = (list || []).filter(function (n) {
+        return n && n.ref && !seen[n.ref] && (seen[n.ref] = 1);
+      });
+    return u.length ? ' <span class="srnb">' + u.slice(0, 8).map(gsmStRef).join(", ") + (u.length > 8 ? ", and " + (u.length - 8) + " more" : "") + "</span>" : "";
   }
   function gsmStQ(n, txt, key) {
     var w = String(txt || n.txt).replace(/\s+/g, " ").trim().replace(/[.!?]+$/, "").split(" "),
@@ -3142,6 +3149,51 @@
             : "a new order that is as predictable as the old one.") +
         " This matters because it changes where the work is. Persuading, pressing, or outlasting the resistance only teaches it new forms. The work is to build what it is protecting into the place the goal is going.",
     );
+    /* v251: AT A GLANCE opens with what the system is doing; the gap count is on Taking Action */
+    try {
+      var GI = {
+          legit: "what the present arrangement gives it: a shared sense of what is right and of who belongs",
+          ident: "its present identity: people remaining recognizable to themselves and to one another",
+          order: "the present order of control: knowing who decides, what counts as good work, and who is safe",
+        }[K],
+        FS = CH.map(function (c) {
+          return SHORT[c.key];
+        }),
+        FP = [];
+      /* chapters at the start at the same time join; later ones follow in order */
+      CH.forEach(function (c, i) {
+        i && "start" === c.wh && "start" === CH[i - 1].wh ? (FP[FP.length - 1] += " and " + FS[i]) : FP.push(FS[i]);
+      });
+      var
+        gist =
+          "The system isn\u2019t resisting the change itself. It is protecting " +
+          GI +
+          "." +
+          (FP.length >= 2
+            ? " As the change advances, the protection moves from " + (2 === FP.length ? FP.join(" to ") : FP.join(", to ")) + "."
+            : FS.length >= 2
+              ? " The protection takes several forms at once: " + gsmMeanList(FS) + "."
+              : "") +
+          " It gives way only where the change provides the same thing another way.",
+        groot = mt.closest("#gsm"),
+        gp = groot && groot.querySelector(".glance");
+      if (gp && !gp.querySelector(".glsys")) {
+        var grow = document.createElement("div");
+        grow.className = "gl glsys";
+        grow.innerHTML = '<span class="gk">WHAT THE SYSTEM IS DOING</span><span class="gt"></span>';
+        grow.querySelector(".gt").textContent = gist;
+        [].slice.call(gp.querySelectorAll(".gl")).forEach(function (g) {
+          var k = g.querySelector(".gk");
+          if (k && "BIGGEST GAP" === k.textContent.trim()) {
+            var x = g.nextElementSibling;
+            x && !x.classList.contains("gl") && x.parentNode.removeChild(x);
+            g.parentNode.removeChild(g);
+          }
+        });
+        var gh = gp.querySelector("h4");
+        gh ? gh.after(grow) : gp.prepend(grow);
+      }
+    } catch (e) {}
     var more = Y.low.length > 3 ? " These are the three largest; " + (Y.low.length - 3) + (Y.low.length - 3 > 1 ? " smaller hollows are" : " smaller hollow is") + " left out." : "";
     var box = document.createElement("div");
     box.className = "stories";
@@ -3190,7 +3242,6 @@
       CAUSE = /\b(reinforc\w*|feed\w*|fuel\w*|drive\w*|leads? to|haunt\w*|entrench\w*|freez\w*|ingrain\w*|built up|turns? to|forces? the|sustain\w*|perpetuat\w*|lock\w* in|continuance|itself)\b/i;
     var SDEF = {
       "THE LOOP": "A loop, in this method, is a reinforcing cycle: each turn of it makes the next turn more likely. Systems thinking calls this positive feedback, where positive means self-amplifying, not good. It is not a balancing loop that settles back on its own.",
-      "WHERE IT CAN CROSS": "Crossing is a move from one emotion\u2019s ground to another\u2019s, such as from distrust toward acceptance. Distant emotions take the most energy to cross between, in either direction.",
     };
     function card(lab, html, ev) {
       R.push(
@@ -3276,9 +3327,33 @@
                 : 3 === o[0]
                   ? (g = "Most of it sits on indifference, so it holds loosely: what you do next can tip it either way.")
                   : (g = "Most of it carries acceptance: the people inside it are content with it, which is its own kind of hold."));
+      /* v251: acceptance of the present inside what stands against the goal is what the rest grows on */
+      var accH = comp.filter(function (n) {
+          return 1 === n.em;
+        }),
+        lowO = o.filter(function (e) {
+          return [0, 2, 4].indexOf(e) >= 0;
+        }),
+        lowN = lowO.map(function (e) {
+          return E[e];
+        });
       card(
         "WHAT HOLDS THE SITUATION IN PLACE",
-        "What stands against the goal is one connected body" +
+        accH.length && lowO.length
+          ? "What stands against the goal " +
+              (sysTh.length ? "gathers around " + gsmStQL(sysTh) + " and " : "") +
+              "rests less on " +
+              E[lowO[0]] +
+              " than on acceptance: the present arrangement is still taken as the right one, so any alternative has to argue against common sense. " +
+              gsmMeanList(lowN).replace(/^./, function (c) {
+                return c.toUpperCase();
+              }) +
+              (1 === lowN.length ? " grows" : " grow") +
+              " on that footing" +
+              (tied.length ? ", and the parts hold each other up" : "") +
+              ". That is why it holds." +
+              gsmStNB(accH.concat(tied))
+          : "What stands against the goal is one connected body" +
           (sysTh.length
             ? ", gathered around " + gsmStQL(sysTh) + ": " + comp.length + " notes"
             : ": " + comp.length + " notes" + (gsmStWhere(comp) ? ", most of them " + gsmStWhere(comp) : "")) +
@@ -3491,9 +3566,20 @@
       SS.opp = ex.length >= nw.length ? "Most" : "Part";
       SS.D.opp = ex;
       SS.D.oppN = exTh;
+      var fedN = ex.filter(function (n) {
+          return 7 === n.k;
+        }),
+        hAgg = notes.filter(function (n) {
+          return n.side > 0 && 0 === n.em;
+        });
       card(
         "THE OPPORTUNITY",
-        (ex.length >= nw.length ? "Most" : "Part") +
+        fedN.length && hAgg.length
+          ? "Support for the goal already exists" +
+              (exTh.length ? ", around " + gsmStQL(exTh) : "") +
+              ", and what you would reinforce already feeds it. But it is fed where it already stands, and here support tends to answer resistance in kind: each side hardens the other. The work is to let support reach across the line, not just grow stronger on its own side." +
+              gsmStNB(fedN.concat(hAgg))
+          : (ex.length >= nw.length ? "Most" : "Part") +
           " of the alternative already exists" +
           (exTh.length
             ? ", around " + gsmStQL(exTh)
@@ -3528,15 +3614,54 @@
       return 3 === n.em;
     });
     SS.D.ind = ind;
+    /* v251: the middle is the people in it (Q.1-Q.4), not what you would do about them */
+    var indP = ind.filter(function (n) {
+        return n.k >= 1 && n.k <= 4;
+      }),
+      MID = [
+        [/\b(see what happens|wait\w* (and|to) see)\b/i, "waiting to see what happens"],
+        [/\b(likely to fail|bound to fail|will fail|going to fail|just another)\b/i, "expecting it to fail"],
+        [/\b(out of (their|our|my|his|her) hands|no say|no voice|no influence|powerless|nothing (they|we|i) can do)\b/i, "feeling it is out of their hands"],
+        [/\b(not invested|do(es)?n'?t care|do(es)? not care|disinterested|uninterested)\b/i, "not invested in it"],
+        [/\b(uncertain|unsure|undecided|don'?t know how they feel)\b/i, "unsure how they feel"],
+      ],
+      midD = [],
+      midN = [];
+    MID.forEach(function (m) {
+      var h = indP.filter(function (n) {
+        return m[0].test(n.txt);
+      });
+      h.length && (midD.push(m[1]), (midN = midN.concat(h)));
+    });
+    var noSay = indP.some(function (n) {
+        return MID[2][0].test(n.txt);
+      }),
+      partN = notes.filter(function (n) {
+        return n.k >= 5 && /\b(particip\w*|co-?design\w*|involv\w*|have a say|give (them|people) a (say|voice))\b/i.test(n.txt);
+      });
     if (ind.length && sysNames.length >= 3) {
-      SS.cross = ind.slice(0, 4).map(gsmStRef);
+      SS.cross = (indP.length ? indP : ind).slice(0, 4).map(gsmStRef);
       card(
         "WHERE IT CAN CROSS",
-        gsmStList(ind.map(gsmStRef), 5).replace(/>place note/, ">Place note") +
-          (1 === ind.length ? " carries" : " carry") +
-          " indifference: the ridge between the low ground that holds and the high ground of acceptance. People there are not yet for or against, so they can be moved either way, and most crossings go through ground like this.",
-        ind
-          .slice(0, 5)
+        indP.length
+          ? (indP.length >= 4 ? "A wide middle" : "A small middle") +
+              " is neither for nor against the goal" +
+              (midD.length >= 2 ? ": people " + gsmMeanList(midD) + "." : ".") +
+              " It is the nearest crossing; most moves between emotions go through ground like this." +
+              (noSay ? " What holds people there is less doubt about the goal than a sense of having no say in it." : "") +
+              (partN.length
+                ? noSay
+                  ? " Asking for their participation, as you already plan, is the move that fits."
+                  : " What you would do already asks for participation, which reaches it."
+                : noSay
+                  ? " Nothing you would do yet gives them a say."
+                  : "") +
+              gsmStNB(indP.concat(partN))
+          : gsmStList(ind.map(gsmStRef), 5).replace(/>place note/, ">Place note") +
+            (1 === ind.length ? " carries" : " carry") +
+            " indifference: the ridge between the low ground that holds and the high ground of acceptance. People there are not yet for or against, so they can be moved either way, and most crossings go through ground like this.",
+        (indP.length ? indP : ind)
+          .slice(0, 6)
           .map(function (n) {
             return "<div>" + gsmStQ(n) + "</div>";
           })
@@ -12185,7 +12310,9 @@
                   (HIGH.length ? NL(HIGH) + (LOW.length ? "" : 1 === HIGH.length ? " sits" : " sit") + " on the high ground" : "") +
                   ". Pick a question above the map to see one part of your thinking at a time.",
               ),
-            PARA.length > 1 &&
+            /* v251: retired; it described the method, not the situation */
+            0 &&
+              PARA.length > 1 &&
               (we =
                 '<div class="plab">WHAT YOUR USE OF THE BEAR CANYON METHOD PRODUCED</div><div class="story"><p>' +
                 PARA.map(function (t) {
@@ -20016,7 +20143,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v250");
+        t && (t.textContent = "v251");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
