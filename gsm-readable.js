@@ -3437,6 +3437,16 @@
           ". The change rests on the people it is least trusted with: until that trust moves, whatever they design will be read through it.";
         rank = 4;
         ev = TD.concat(D.filter(function (n) { return n.note; }));
+        var ob = {
+          d: D.map(function (n) {
+            return n.ref;
+          }),
+          td: TD.map(function (n) {
+            return n.ref;
+          }),
+          it: it,
+          W: art + Gt(w),
+        };
       } else if (T.some(function (n) { return LOW(n.em); }) && AL.length) {
         var TT = T.filter(function (n) {
           return LOW(n.em);
@@ -3469,7 +3479,7 @@
         say = Wc + " carries both " + em(hi) + gsmStNB(hi) + " and " + em(lo) + gsmStNB(lo) + ": one name may cover different people, or people partway between.";
         rank = 1;
       }
-      say && out.push({ w: w, stem: w.slice(0, 4).toLowerCase(), say: say, rank: rank, n: hit.length, ev: ev.slice(0, 6) });
+      say && out.push({ w: w, stem: w.slice(0, 4).toLowerCase(), say: say, rank: rank, n: hit.length, ev: ev.slice(0, 6), ob: 4 === rank ? ob : null });
     });
     return out
       .sort(function (a, b) {
@@ -13917,6 +13927,41 @@
             var CARDS = [],
               ROWS = { hold: [], move: [] },
               HTML = [];
+            /* v278: designer is the obstacle */
+            var OBS = (SS.groups || []).filter(function (g) {
+              return g.ob;
+            });
+            function OBMOVE(its) {
+              var has = {};
+              its.forEach(function (x) {
+                x && (has[x.id] = 1);
+              });
+              for (var i = 0; i < OBS.length; i++) {
+                var g = OBS[i].ob,
+                  hit = g.d.concat(g.td).some(function (r) {
+                    return has[r];
+                  });
+                if (!hit) continue;
+                var one = "it" === g.it,
+                  tdN = g.td.map(function (r) {
+                    return "N" + String(r).replace(/\D/g, "");
+                  });
+                return (
+                  "Settle who designs it first: the plan turns on " +
+                  g.W +
+                  ", and your notes distrust " +
+                  (one ? "it" : "them") +
+                  " (" +
+                  phList(tdN) +
+                  "). Design it with people who doubt the change, and let " +
+                  g.W +
+                  " go first in doing what " +
+                  (one ? "it asks" : "they ask") +
+                  " of others."
+                );
+              }
+              return "";
+            }
             function CARD(o) {
               var OV = gsmModeOv(o.key),
                 S = null == OV ? !!o.isS : !!OV,
@@ -13925,7 +13970,9 @@
               (o.way ? o.way.ids : []).concat(o.items).forEach(function (x) {
                 x && !sn[x.id] && ((sn[x.id] = 1), its.push(x));
               });
-              CARDS.push({ S: S, title: o.title, seed: o.seed, ids: its });
+              var obm = OBMOVE(its);
+              obm && (o.moves = [obm].concat(o.moves || []));
+              CARDS.push({ S: S, title: o.title, seed: o.seed, ids: its, ob: !!obm });
               HTML.push(
                 '<div class="coa" data-seed="' +
                   o.seed +
@@ -20614,7 +20661,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v277");
+        t && (t.textContent = "v278");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
