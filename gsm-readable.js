@@ -3378,7 +3378,7 @@
         var k = n.txt.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
         return !txts[k] && (txts[k] = 1);
       });
-      if (hit.length < 2 || (skip && skip[G[0]])) return; /* v280: a group in a loop has its own card */
+      if (hit.length < 2) return;
       /* the word as the person writes it most */
       var form = {};
       hit.forEach(function (n) {
@@ -3479,7 +3479,8 @@
         say = Wc + " carries both " + em(hi) + gsmStNB(hi) + " and " + em(lo) + gsmStNB(lo) + ": one name may cover different people, or people partway between.";
         rank = 1;
       }
-      say && out.push({ w: w, stem: w.slice(0, 4).toLowerCase(), say: say, rank: rank, n: hit.length, ev: ev.slice(0, 6), ob: 4 === rank ? ob : null });
+      /* v280: a group in a loop has its own card; only "the plan relies on the people it distrusts" stays here */
+      say && !(skip && skip[G[0]] && rank < 4) && out.push({ w: w, stem: w.slice(0, 4).toLowerCase(), say: say, rank: rank, n: hit.length, ev: ev.slice(0, 6), ob: 4 === rank ? ob : null });
     });
     return out
       .sort(function (a, b) {

@@ -65,10 +65,9 @@ rep('''    /* v277: RISK AFTER THE GOAL */
 
 # 2. WHO STANDS WHERE leaves a covered group's "both ways" reading to the loop card
 rep('''  function gsmGroups(src) {''', '''  function gsmGroups(src, skip) {''')
-rep('''      if (hit.length < 2) return;
-      /* the word as the person writes it most */''',
-    '''      if (hit.length < 2 || (skip && skip[G[0]])) return; /* v280: a group in a loop has its own card */
-      /* the word as the person writes it most */''')
+rep('''      say && out.push({ w: w, stem: w.slice(0, 4).toLowerCase(), say: say, rank: rank, n: hit.length, ev: ev.slice(0, 6), ob: 4 === rank ? ob : null });''',
+    '''      /* v280: a group in a loop has its own card; only "the plan relies on the people it distrusts" stays here */
+      say && !(skip && skip[G[0]] && rank < 4) && out.push({ w: w, stem: w.slice(0, 4).toLowerCase(), say: say, rank: rank, n: hit.length, ev: ev.slice(0, 6), ob: 4 === rank ? ob : null });''')
 
 # 3. the reader
 rep('''  function gsmStructBuild() {''', r'''  /* v280: who holds a note's emotion, and at which people it is aimed. General words only. */

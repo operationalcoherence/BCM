@@ -16,7 +16,7 @@ Up to two loops; stated ones first. `gsmStructSum.loops` keeps them for later us
 - **Matching:** the same group word, or two emotion-named groups that share an emotion. When the target is named by emotions, the note aimed back must carry one of them before it is asked about. Words are never merged.
 
 ## WHO STANDS WHERE
-A group the loop card covers is left out of WHO STANDS WHERE, and so is one in a loop the person said No to. Its v276 readings of that group were the loop half seen: "runs both ways around supporters" claimed a loop from one group's notes. With that reading gone, the next one ("Supporters is not one block") counted N38, aggression *at* supporters, as supporters hindering, which is wrong.
+A group the loop card covers is left out of WHO STANDS WHERE, and so is one in a loop the person said No to, except for the reading "the plan relies on the people it distrusts", which stays because v278's first move on Taking Action reads it. Its v276 readings of that group were the loop half seen: "runs both ways around supporters" claimed a loop from one group's notes. With that reading gone, the next one ("Supporters is not one block") counted N38, aggression *at* supporters, as supporters hindering, which is wrong.
 
 ## Inactive unless it applies
 Silent unless one note names a group holding an emotion aimed at another group, and another note aims an emotion back at the first.
@@ -31,6 +31,9 @@ Words only. A group named in other words, or an emotion the note doesn't name, i
 
 ## Checks
 matrix.py (15 workbooks, including 11-20 with its note text, kept local): no page errors, no injection. ta_flow.py on 11-20: pass. The Yes tap was clicked in the page: saved to C.asks and the card re-rendered as stated. No keys in the built file.
+
+## His reaction
+On the stated 11-20 card (after Yes): "brilliant" (25 Nov 2026 16:38).
 
 ## Wording to flag (Claude's)
 The title and every sentence of the card: the question, "each side's … is the other side's evidence, so it grows on its own", "the two harden together", "It weakens only when one side stops answering in kind, or when something the two share comes to matter more than what divides them", the acceptance and mixed sentences, "(you said the … in N… comes from them)".
