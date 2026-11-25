@@ -14,7 +14,7 @@
  *   - A note is never named by a fragment of its text in a narrative line. It is described by
  *     what it is and where it stands (its emotion, its side of the line, its stretch of the way);
  *     note numbers go in the evidence line. Only a cue word the graph matched is quoted there.
- *   - "Emotion", never "feeling". Serial comma in every list.
+ *   - "Emotion", never "feeling" or "mood". Serial comma in every list.
  *   - Stays empty-handed honestly: with nothing related, it says so in one line.
  *
  * gsmPSRead(data, lexicon) -> { blocks: [...], empty: bool }   (no DOM; testable in node)
@@ -334,7 +334,7 @@
         : cap(np(a.from, R, T)) + " " + when(a.from, R) + " turns into " + EMO[nb.emo != null ? nb.emo : 0] + " further along.";
       body.push("It shows up " + when(a.from, R) + " and again " + when(a.to, R) + ", and the later one rests on the earlier" + (RANK[a.grade] === 3 ? ": the workbook says as much." : "."));
       if (ground(nb)) body.push(ground(nb));
-      body.push("Carried this far, it is no longer a mood the change can wait out; it is part of the ground every later step has to cross, and each move will be read through it.");
+      body.push("Carried this far, it is no longer an emotion the change can wait out; it is part of the ground every later step has to cross, and each move will be read through it.");
       body.push("It loses its hold only when something done early gives it nothing to carry forward.");
     } else if (a.kind === "reachback") {
       head = "What people expect to happen later is already deciding where they stand now.";
