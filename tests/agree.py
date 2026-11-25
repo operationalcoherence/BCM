@@ -35,11 +35,12 @@ with sync_playwright() as p:
         print('tap %d: points waiting for the 3D = %s | %s' % (i, n, txt[:300]))
         if n and n > 1:
             pg.evaluate("()=>[...document.querySelectorAll('.agfig .agread button')].pop().click()")
+            pg.evaluate('()=>window.gsmSynHost.scrollIntoView({block:"center"})'); pg.wait_for_timeout(800)
             for _ in range(30):
                 if pg.evaluate("()=>!!window.gsmSynRel"): break
                 pg.mouse.wheel(0, 300); pg.wait_for_timeout(500)
             pg.wait_for_timeout(1500)
-            print('on Synthesis, line segments drawn on the 3D:', pg.evaluate("()=>window.gsmSynRel&&window.gsmSynRel.hoseCount()"))
+            print('on Analysis (THE LAY OF THE LAND), line segments drawn on the 3D:', pg.evaluate("()=>window.gsmSynRel&&window.gsmSynRel.hoseCount()"))
             pg.evaluate("()=>window.gsmSynHost.scrollIntoView({block:'center'})"); pg.wait_for_timeout(2500)
             pg.screenshot(path=OUT + '_3d.png'); break
         g.click(); pg.wait_for_timeout(300)

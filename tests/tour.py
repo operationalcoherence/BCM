@@ -21,15 +21,16 @@ with sync_playwright() as p:
     SLOW and pg.add_init_script("window.gsmTourSlow=8")
     pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');" % json.dumps(json.dumps(wb)))
     pg.goto('http://t.local/'); pg.wait_for_selector('#gsm', timeout=25000)
-    pg.evaluate("window.gsmTab(3)"); pg.wait_for_timeout(1500)
+    pg.evaluate("window.gsmTab(2)"); pg.wait_for_timeout(1500)
+    pg.evaluate("()=>window.gsmSynHost.scrollIntoView({block:'center'})"); pg.wait_for_timeout(1500)
     btn = None
     for _ in range(30):
-        bs = [x for x in pg.query_selector_all('.grel .bt') if x.inner_text() == 'Play the tour' and x.is_visible()]
+        bs = [x for x in pg.query_selector_all('.grel .bt') if x.inner_text() == 'Play the tour' and x.is_visible() and x.evaluate('e=>!e.closest(".gtan")')]
         if bs: btn = bs[0]; break
         pg.mouse.wheel(0, 500); pg.wait_for_timeout(500)
     if not btn: print('NO PLAY BUTTON', errs); sys.exit()
     btn.scroll_into_view_if_needed(); pg.wait_for_timeout(800)
-    stage = pg.evaluate_handle("()=>[...document.querySelectorAll('.grel .bt')].find(x=>x.textContent==='Play the tour').closest('.grel')")
+    stage = pg.evaluate_handle("()=>[...document.querySelectorAll('.grel .bt')].find(x=>x.textContent==='Play the tour'&&!x.closest('.gtan')).closest('.grel')")
     pg.evaluate("e=>{window.__caps=[];var c=e.querySelector('.tourcap');new MutationObserver(function(){var t=c.querySelector('.tt');t&&window.__caps[window.__caps.length-1]!==t.textContent&&window.__caps.push(t.textContent)}).observe(c,{childList:true,subtree:true})}", stage)
     btn.click(); t0 = time.time(); caps = []; shots = 0
     fs_on = None

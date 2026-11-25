@@ -11,7 +11,7 @@ Kept here because every previous harness lived in a sandbox that was lost.
 
 | Script | What it does |
 | --- | --- |
-| `dump2.py JSFILE WORKBOOK.json 2,3,6,4` | Renders the named tabs to plain text with every fold open. The way to actually read what the engine says. Tabs: 5 Start Here, 0 Mapping Context, 1 Mapping Change, 2 Pattern Analysis, 3 Pattern Synthesis, 6 In Parallel, 4 Taking Action. |
+| `dump2.py JSFILE WORKBOOK.json 2,3,6,4` | Renders the named tabs to plain text with every fold open. The way to actually read what the engine says. Tabs: 5 Start Here, 0 Mapping Context, 1 Mapping Change, 2 Pattern Analysis, 6 In Parallel, 4 Taking Action (since v269 there is no Pattern Synthesis; 3 opens Analysis). |
 | `matrix.py WORKBOOK.json …` | Runs every tab of every workbook given. Reports boot time, per-tab time and word count, any uncaught page error, and whether either script-injection probe fired. |
 | `coa.py WORKBOOK.json …` | Counts STRATEGY against PROGRAM in Taking Action and prints the reasons each card gives. |
 | `mkwb.py` | Writes the synthetic test workbooks: empty, goal-only, single-note, a non-wildfire clinic workbook, a legacy 9-element-note one and its 10-element twin, hostile text, 200 notes, 12 identical notes, and one carrying both maps. |
@@ -20,9 +20,9 @@ Kept here because every previous harness lived in a sandbox that was lost.
 | `switch.py WORKBOOK.json` | The program/strategy switch on Taking Action cards (v202): switches the first program card, checks it stays and is saved, then undoes it. |
 | `waymoves.py WORKBOOK.json` | FIRST MOVES follows the selected way (v203): with the 3D loaded, clicks every way on every card and prints the line under FIRST MOVES. |
 | `qhover.py WORKBOOK.json` | Hovering a question above YOUR LANDSCAPE shows the question and its notes (v205). |
-| `tour.py WORKBOOK.json [OUT] [slow]` | The guided tour on Pattern Synthesis (v208), with the 3D loaded: presses Play, prints each caption, screenshots three moments, checks a click stops it. `slow` runs it 8x slower for settled screenshots. |
+| `tour.py WORKBOOK.json [OUT] [slow]` | The guided tour on THE LAY OF THE LAND, now at the end of Pattern Analysis (v208, v269), with the 3D loaded: presses Play, prints each caption, screenshots three moments, checks a click stops it. `slow` runs it 8x slower for settled screenshots. |
 | `tour_an.py WORKBOOK.json [OUT]` | The short tour on Pattern Analysis (v210), with the 3D loaded: plays it, prints each caption, screenshots one stop, checks End tour closes full screen. |
-| `agree.py WORKBOOK.json [OUT]` | THE TWO PICTURES, SIDE BY SIDE at the end of Pattern Synthesis (v213), with the 3D loaded: lists the words and verdicts, taps one, checks its hoses are drawn on the 3D, screenshots both. |
+| `agree.py WORKBOOK.json [OUT]` | THE TWO PICTURES, SIDE BY SIDE on In Parallel (v213; since v269 its taps draw on the ground on Pattern Analysis), with the 3D loaded: lists the words and verdicts, taps one, checks its hoses are drawn on the 3D, screenshots both. |
 | `ev.py JSFILE WORKBOOK.json TAB 'JS'` | Opens a tab and prints the JSON of one JavaScript expression evaluated in the page (v249). |
 | `stop.txt` | Obsolete (pre-v102, 362 entries). `tok.js` no longer reads it. |
 
