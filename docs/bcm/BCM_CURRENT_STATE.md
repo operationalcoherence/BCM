@@ -11,6 +11,7 @@ The organizational-change workbook revealed BCM's next bottleneck: large workboo
 - See BCM_TASK_QUEUE.md: the overarching question, the second generation of insight types, and the Tuesday 11-24 item.
 
 ## Shipped
+- **v275** (2026-11-25, preview): Pattern Analysis says each thing once (his "fix all" on the top-to-bottom read): the plan gap, unused support, the ridge, the emotion mix, and why the present holds are each said in one place; three fixes (story vs NOW AND LATER, RUNS TOGETHER side, the numbers list shown again). See `docs/v275_update.md`.
 - **v269** (2026-11-25, preview): Pattern Synthesis retired (his decision; Ackoff). Its sections move to the end of Pattern Analysis (THE LAY OF THE LAND with its 3D and tour, CAUSE AND EFFECT, NOW AND LATER, SCALE, ONE JUDGEMENT TWICE, IN YOUR ANSWERS, NOT ON THE MAP, OPEN QUESTIONS, WHAT IT RESTS ON, WHAT YOU LINKED); DOES THIS SERVE THE GOAL? moves to Taking Action; the rest is dropped. WHAT THE GROUND SAYS reads as a story, the numbered readings folded under it. No Synthesis tab. See `docs/v269_update.md`.
 - **v247** (2026-11-19, preview): place maps lose the line map's language on the page too: the written reading, the pattern meanings, and HOW THIS MAP IS MADE. See `docs/v247_update.md`.
 - **v246** (2026-11-19, preview): every tour gets Back and Next, a glowing white ring around the spot being talked about, and glowing badges on the notes the caption names. See `docs/v246_update.md`.

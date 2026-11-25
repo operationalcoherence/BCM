@@ -1,5 +1,7 @@
 # BCM_HANDOFF.md
 
+2026-11-25 15:30: **v275 live**, Pattern Analysis says each thing once (his "fix all" 14:58 on claude/pattern_analysis_repeats_review_2026-11-25.md; docs/v275_update.md), plus three fixes. Test tool for a full read with every fold open and the 3D loaded: the dump in that update's checks (tests/dump2.py leaves <details> closed). **Next:** the next queue item (his call 14:59).
+
 2026-11-24 21:15: **v267 live**, the Synthesis blocks rewritten as prose (his note 21:01, "the writing is really dry"; docs/v267_update.md). Change is in tools/graph/page.js. **Next:** his read.
 
 2026-11-24 21:00: **v266 live**, the simple Pattern Synthesis page (docs/v266_update.md): WHAT CHANGED WHAT and the strongest shape at the top of Synthesis, from tools/graph/ (graph.js, shapes.js, page.js, pushed this session). **The build now bundles tools/graph/*.js ahead of the engine** (README). No question block (his call). **Next:** his eye on the wording; his call on emotion words as tags in the graph; then a real large workbook. Local tests/graph_wb/ (trimmed 11-20, Good fire, Broadview) is kept out of git.

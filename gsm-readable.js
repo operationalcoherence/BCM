@@ -2089,7 +2089,8 @@
       : SS.opp
         ? P.push("So the work is less about inventing than about reinforcing what already stands.")
         : SS.sysOn && P.push("So the work starts with what keeps that system in place, not with persuasion.");
-    if (P.length >= 3) {
+    if (0 && P.length >= 3) {
+      /* v275: retired; THE OPPORTUNITY and WHAT HOLDS say the same */
       var mt = fd.querySelector(".mtext"),
         p1 = mt && mt.querySelector(":scope > p");
       if (mt) {
@@ -2897,6 +2898,7 @@
       }, 0),
       seenWhere = {},
       chap = [],
+      said = {},
       out = [];
     function pick(L) {
       for (var i = 0; i < L.length; i++) if (L[i][0] && !used[L[i][1]]) return (used[L[i][1]] = 1), L[i][2];
@@ -3007,10 +3009,17 @@
               [!0, "c2", "Here too the nearer step is indifference, not acceptance. A ridge of it already leaves this low ground, and the work is to widen it, so that leaving does not mean taking a side all at once."],
               [!0, "c3", "As in the other stories, the way out runs through indifference before acceptance, along a ridge that already leaves this low ground, where people can rest without being asked to agree."],
             ])
-          : "For it to lose its influence, a ridge has to be made first. Nothing between this low ground and the help yet carries indifference, so going straight across is a climb over bare rock, and it takes the most energy in either direction.") +
-          (acc ? " The acceptance that holds the present in place has to loosen too: until the current arrangement stops looking like the only legitimate one, every case for the goal will be heard as an attack on it." : "") +
-          ("goal" === wh ? " Near the goal, the way out also means judging the change by what people do, not by what has been declared." : ""),
+          : "For it to lose its influence, a ridge has to be made first. Nothing between this low ground and the help yet carries indifference, so going straight across is a climb over bare rock, and it takes the most energy in either direction."),
       );
+      acc && S.push("The acceptance that holds the present in place has to loosen too: until the current arrangement stops looking like the only legitimate one, every case for the goal will be heard as an attack on it.");
+      "goal" === wh && S.push("Near the goal, the way out also means judging the change by what people do, not by what has been declared.");
+      /* v275: say once. A sentence an earlier chapter already said is left out here. */
+      var S1 = S.slice(0, 3).filter(function (x) {
+          return x && !said[x] && (said[x] = 1);
+        }),
+        S2 = S.slice(3).filter(function (x) {
+          return x && !said[x] && (said[x] = 1);
+        });
       chap.push({ x: g.x, wh: wh, e0: e0, acc: acc });
       var TL = { start: second ? "AT THE START, A SECOND LOW GROUND" : "AT THE START", mid: "PARTWAY TO THE GOAL", goal: "CLOSE TO THE GOAL" }[wh];
       out.push(
@@ -3019,9 +3028,9 @@
           " · " +
           TL +
           '</div><div class="s1p"><p>' +
-          S.slice(0, 3).join(" ") +
+          S1.join(" ") +
           "</p><p>" +
-          S.slice(3).join(" ") +
+          S2.join(" ") +
           '</p></div><details class="more"><summary>The notes behind this reading</summary><div class="srev">' +
           g.n
             .map(function (p) {
@@ -3262,6 +3271,15 @@
         var gh = gp.querySelector("h4");
         gh ? gh.after(grow) : gp.prepend(grow);
       }
+      /* v275: the story says why the present holds, so the card that says it again goes */
+      if (anyAcc && groot)
+        [].slice.call(groot.querySelectorAll('[data-pv="2"] .sread')).forEach(function (r) {
+          var l = r.querySelector(".srl");
+          if (!l || "WHAT HOLDS THE SITUATION IN PLACE" !== l.textContent.trim() || !/taken as the right one/.test(r.textContent)) return;
+          var box = r.parentNode;
+          box.removeChild(r);
+          if (!box.querySelector(".sread")) gsmDropSec(box);
+        });
     } catch (e) {}
     var more = Y.low.length > 3 ? " These are the three largest; " + (Y.low.length - 3) + (Y.low.length - 3 > 1 ? " smaller hollows are" : " smaller hollow is") + " left out." : "";
     var box = document.createElement("div");
@@ -3272,7 +3290,7 @@
       ". Read together, they show what the system is doing and why." +
       more +
       "</p>" +
-      '<div class="evo"><div class="s1h">WHAT THE SYSTEM IS DOING</div>' +
+      '<div class="evo">' +
       EP.map(function (p) {
         return "<p>" + p + "</p>";
       }).join("") +
@@ -3290,6 +3308,35 @@
     });
     mt.prepend(fd);
     mt.prepend(box);
+  }
+  function gsmDropSec(box) {
+    /* the section body may already sit in its fold (.secb after a .plab.pfold) */
+    var w = box.closest(".secb") || box;
+    if (w !== box && w.textContent.replace(/\s+/g, "") !== box.textContent.replace(/\s+/g, "")) return box.parentNode.removeChild(box);
+    var h = w.previousElementSibling;
+    h && h.classList && h.classList.contains("plab") && h.parentNode.removeChild(h);
+    w.parentNode && w.parentNode.removeChild(w);
+  }
+  /* v275: findings said elsewhere on the page are not cards. OPPOSITION NOT YET ENGAGED is BIGGEST GAP and the
+     list under WHAT SHAPE; SUPPORT NOT YET REINFORCED and READY TO REINFORCE are THE OPPORTUNITY and the unused
+     support list. FOR AND AGAINST ON THE MAP and OTHER SIDE OF THE LINE join CROSSES THE GROUND LINE. */
+  function gsmAnOnce(b) {
+    var cut = { "OPPOSITION NOT YET ENGAGED": 1, "SUPPORT NOT YET REINFORCED": 1, "READY TO REINFORCE": 1 },
+      cr = null;
+    b.forEach(function (t) {
+      "CROSSES THE GROUND LINE" === t[0] && !cr && (cr = t);
+    });
+    cr &&
+      b.forEach(function (t) {
+        if ("FOR AND AGAINST ON THE MAP" === t[0]) cut[t[0]] = 1;
+        if ("OTHER SIDE OF THE LINE" === t[0] && !cr.os) {
+          cr.os = 1;
+          cr[1] += "<p>Placed on the other side of the line from where its question usually sits: " + t[1].replace(/ sits where you might not expect it\. Worth a second look\.$/, ".") + "</p>";
+          cut[t[0]] = 1;
+        }
+      });
+    for (var i = b.length - 1; i >= 0; i--) cut[b[i][0]] && b.splice(i, 1);
+    return b;
   }
   function gsmStructBuild() {
     gsmMeanCss();
@@ -3313,6 +3360,7 @@
       "THE LOOP": "A loop, in this method, is a reinforcing cycle: each turn of it makes the next turn more likely. Systems thinking calls this positive feedback, where positive means self-amplifying, not good. It is not a balancing loop that settles back on its own.",
     };
     function card(lab, html, ev) {
+      if ("WHERE IT CAN CROSS" === lab) return; /* v275: the ground and the story say it */
       R.push(
         '<div class="sread"><div class="srl">' +
           lab +
@@ -8016,7 +8064,7 @@
           if (e)
             if (S[e]) S[e].id += ", " + t.id;
             else {
-              var n = { id: t.id, side: Wt[t.k - 1], lead: 4 === t.k, act: t.k >= 5, ks: t.t.k };
+              var n = { id: t.id, side: Wt[t.k - 1], ls: t.line ? (t.line[2] < 118 ? 1 : -1) : null, lead: 4 === t.k, act: t.k >= 5, ks: t.t.k };
               ((S[e] = n), T.push(n));
             }
         });
@@ -8067,11 +8115,15 @@
             var e = t.us.map(function (t) {
                 return T[t];
               }),
+              /* v275: a note's side is where it sits; an answer counts only for opposition or support */
+              sd = function (t) {
+                return null != t.ls ? t.ls : "Q.2" === t.id ? -1 : "Q.3" === t.id ? 1 : 0;
+              },
               n = e.some(function (t) {
-                return t.side > 0;
+                return sd(t) > 0;
               }),
               o = e.some(function (t) {
-                return t.side < 0;
+                return sd(t) < 0;
               }),
               r = e.some(function (t) {
                 return t.lead;
@@ -8464,7 +8516,7 @@
           if (!er && !lt2) return "";
           (window.gsmTLX = window.gsmTLX || {}).time = { l: (er ? K1 : H1).concat(er ? H2 : K2) };
           return (
-            '<div class="plab">NOW AND LATER</div><div class="mean"><p>You placed ' +
+            '<div class="plab">NOW AND LATER</div><div class="mean"><p>Counting what you would design too, you placed ' +
             nk +
             " notes as hindering and " +
             nh +
@@ -9859,7 +9911,7 @@
               })
             );
           })(
-            b.filter(function (t) {
+            gsmAnOnce(b).filter(function (t) {
               return !t[2];
             }),
           ),
@@ -10882,6 +10934,10 @@
                     return e.s - t.s;
                   })
                   .filter(function (t) {
+                    /* v275: the gap is said under BIGGEST GAP and WHAT SHAPE THE LINE MAP MAKES */
+                    return !/comes up often, but nothing you would design|only ever appears[^]*none of your actions/.test(t.t);
+                  })
+                  .filter(function (t) {
                     return !a[t.k] && (a[t.k] = 1);
                   })),
                 r.length &&
@@ -11012,7 +11068,6 @@
               "contested",
               "unused",
               "plan",
-              "strength",
             ].forEach(function (t) {
               var e = st[t];
               e &&
@@ -11080,7 +11135,8 @@
             .sort(function (t, e) {
               return gt[e] - gt[t];
             });
-          ((lt +=
+          (0 &&
+            (lt +=
             "<p><b>Emotional disposition (" +
             ft.length +
             " note" +
@@ -11096,6 +11152,7 @@
               ? "No single emotion leads."
               : o[pt[0]][0] + " leads.") +
             "</p>"),
+            0 &&
             gt[3] &&
               (lt +=
                 "<p>Indifference is “the emotion of transition” (Vigneaux, 2026). " +
@@ -11114,7 +11171,7 @@
                 "<p>Aggression and defiance are as strong as acceptance, or stronger. Vigneaux (2026) describes two ways of working with emotion. <b>Emotions first</b> suits acceptance and indifference: connect people to acceptance, or something close to it, then tie that acceptance to what needs doing. <b>Behaviors first</b> suits aggression, distrust, and defiance: introduce the behavior itself, without its label, in a form that fits the emotions already there, and let a small shift in emotion follow over time. Here, behaviors first may fit.</p>")
             : gt[1] > mt &&
               (lt +=
-                "<p>Acceptance is the strongest emotion in your notes. Vigneaux (2026) calls this ground ready for an <b>emotions-first</b> method: connect people to the acceptance already there, then tie it to what needs doing to reach the goal. (The other way, <b>behaviors first</b>, suits aggression, distrust, and defiance: introduce the behavior itself, without its label, and let the emotion shift after it.)</p>");
+                "<p>Acceptance is the strongest emotion in your notes. Vigneaux (2026) calls this ground ready for an <b>emotions-first</b> method: connect people to the acceptance already there, then tie it to what needs doing to reach the goal.</p>");
           var vt = ft.filter(function (t) {
             return (
               (2 === t.k && 1 === t.e) || ((3 === t.k || 7 === t.k || 1 === t.k) && (0 === t.e || 4 === t.e))
@@ -13782,7 +13839,7 @@
                 key: "seed|snr",
                 seed: "snr",
                 title: "Support not yet reinforced" + (gsmStThemes(snr, 3).length ? ": " + gsmMeanList(gsmStThemes(snr, 3)) : ""),
-                from: "SUPPORT NOT YET REINFORCED (Pattern Analysis)",
+                from: "Unused support, WHAT SHAPE THE LINE MAP MAKES (Pattern Analysis)",
                 isS: 0,
                 purp: "This support already works, and nothing you would design builds on it yet. Left alone, it can slip.",
                 test: SAYK(TEST(snr, 1), "help"),
@@ -14822,7 +14879,7 @@
                       return o.r[2] < 118;
                     },
                     now = function (o) {
-                      return o.r[1] < 157;
+                      return o.r[1] < 146;
                     },
                     far = function (o) {
                       return Math.abs(o.r[2] - 118);
@@ -14866,12 +14923,12 @@
                     U >= 3 &&
                     S.push(
                       (hn.length * 2 > H && pl.length * 2 > U
-                        ? "Most of what hinders sits in the present, and most of what helps lies further on: the help is still ahead of the trouble."
+                        ? "In the context you have grasped, most of what hinders sits in the present, and most of what helps lies further on: the help is still ahead of the trouble."
                         : hl.length * 2 > H && pn.length * 2 > U
-                          ? "Most of what helps is already here, and most of what hinders lies further on: the trouble is still ahead, which leaves time to meet it."
+                          ? "In the context you have grasped, most of what helps is already here, and most of what hinders lies further on: the trouble is still ahead, which leaves time to meet it."
                           : hn.length * 2 > H && pn.length * 2 > U
-                            ? "Most of what hinders and most of what helps sit in the present, so little of the context you have grasped yet reaches toward the goal."
-                            : "What hinders and what helps are spread from the present toward the goal, so the work meets both all the way along."),
+                            ? "In the context you have grasped, most of what hinders and most of what helps sit in the present, so little of it yet reaches toward the goal."
+                            : "In the context you have grasped, what hinders and what helps are spread from the present toward the goal, so the work meets both all the way along."),
                     );
                 } else {
                   var q2 = byQ([2]),
@@ -14979,7 +15036,8 @@
                 OP.length >= 2 * SU.length &&
                   (s2 =
                     "Support for the goal is already at work, but the map leans hard toward what is wrong. That may be how things are, or it may be where you have looked; it is worth asking who else could name what is working.");
-                (FR.unused || []).length &&
+                0 &&
+                  (FR.unused || []).length &&
                   (s2 +=
                     " " +
                     q(FR.unused.slice(0, 3)) +
@@ -15047,7 +15105,8 @@
                       ": it shares notes with more of the other courses of action than any other, so what you decide about it carries furthest."
                   : "",
               );
-              var U = NR.u;
+              var U = [];
+              /* v275: NOT YET ANSWERED is said under WHAT YOU WOULD DO and in WHAT SHAPE THE LINE MAP MAKES */
               out += P0(
                 "NOT YET ANSWERED",
                 U.length
@@ -15070,15 +15129,7 @@
               SY() +
               '<details class="more owm"><summary>Your own words, in the order the method asks for them</summary>' +
               gsmOwnStrip() +
-              '<details class="more"><summary>Read them in full</summary><p>This only puts them in order; it does not say what they mean. A note is shown as answered only where you said so or drew the link.</p>' +
-              sec("THE GOAL", '<div style="margin:4px 0">“' + Gt(g1) + "”</div>") +
-              sec("WHAT STANDS IN THE WAY", h2) +
-              sec("WHAT IS ALREADY HELPING", h3) +
-              sec("WHAT HAS TO BE TRUE", h4) +
-              sec("WHAT YOU WOULD DO", h5) +
-              sec("WHERE TO START", h6) +
-              sec("NOT YET ANSWERED", h7) +
-              "</details></details></div></details>"
+              "</details></div></details>"
             );
           })() +
           Ot +
@@ -20217,7 +20268,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v274");
+        t && (t.textContent = "v275");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -26221,6 +26272,8 @@
         var e = $(id);
         if (e) e.style.display = "none";
       });
+      /* v275: the list of the numbers is the one fold that stays */
+      host._rdf && ((host._rdf.style.display = ""), ($("readings").style.display = ""));
       LEGON = false;
       showCause = false;
       var RL = ["why it has not taken root", "opposition", "support", "conditions", "design", "redesign", "reinforce"],
@@ -26415,7 +26468,8 @@
             ids(ind) +
             (ind.length > 1 ? " carry" : " carries") +
             " indifference: the ridge, where most moves between emotions cross.");
-        miss.length &&
+        0 &&
+          miss.length &&
           (t +=
             " " +
             miss.join(", ") +
@@ -26893,16 +26947,14 @@
         host.insertBefore(intro, host.firstChild);
         var out = document.createElement("div");
         out.innerHTML =
-          '<div class="brh"><div class="hd">WHAT THIS GROUND IS DOING</div><p class="em">Tap the ground, a color in the bar, or a row in the table to read it.</p></div>' +
+          '<div class="brh"><div class="hd">WHAT THIS GROUND IS DOING</div><p class="em">Tap the ground or a color in the bar to read it.</p></div>' +
           '<div class="brb">' +
           bar +
           '</div><div class="brl">' +
           lab +
           '</div><div class="brr">' +
           R.join("") +
-          '</div><details class="brm"><summary>Each ground, side by side</summary><table class="brt">' +
-          tb +
-          "</table></details>";
+          "</div>";
         host.appendChild(out);
         var here = out.querySelector(".brh");
         function panel(head, tags, body) {
