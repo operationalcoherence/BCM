@@ -1,9 +1,16 @@
 # BCM_TASK_QUEUE.md
-Rev 29 · 2026-11-24 (v265) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
+Rev 30 · 2026-11-25 (v274) · Source: 11-17 review, then the 11-18 review plan · ✔ = shipped (version)
 
 Categories: BUG · UI · VIZ · ENG · CONTENT · NARR · ARCH · RES · FUT
 Page keys: GLB (all) · MAP (Mapping Landscape) · PA (Pattern Analysis) · PAR (In Parallel) · PS (Pattern Synthesis) · TA (Taking Action)
 Source: repo operationalcoherence/BCM (attached 2026-11-17).
+
+## Added 11-25 14:42 · CONTENT/UI: a video that previews the method, start to finish (Start Here; not started)
+His ask: "somewhere on the f8 version of start here (or this version, too) I want a video that previews the method from start to finish."
+- Where: Start Here, in the F8 version, and on the current Start Here too.
+- What: one video that walks the method in order: Start Here, Mapping Context (Q.1 to Q.7), Mapping Landscape, Pattern Analysis (THE BARE LANDSCAPE, YOUR LANDSCAPE, the stories), Taking Action.
+- Not decided: length, voice or captions only, a real workbook or a made-up one, and when (build it near the end, once the pages stop changing, or it goes stale).
+- Wording rules apply on screen: "emotion", never "feeling" or "mood"; serial comma; never "sense-making"; no water imagery.
 
 ## NOW · the 3D visual (his call, 11-24 09:37: "lets work on the 3d visual some more - bring that up in the task queue")
 His rule for this work (11-24 09:38, with five of his Bear Canyon photos): "Improve quality and realism only. Do not reinterpret or redesign."

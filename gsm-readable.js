@@ -20217,7 +20217,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v271");
+        t && (t.textContent = "v274");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -24516,6 +24516,8 @@
           }
         }
       function drawItem(it) {
+        /* v274: THE BARE LANDSCAPE stays bare in 2D too: ground and goal only */
+        if (BAREH && it.k !== "star") return;
         if (it.k === "seg") {
           var d2 = it.d,
             za = zSmAt(d2.a[0], d2.a[1]) + d2.lift,
@@ -24639,7 +24641,7 @@
         return thOn[th.w] || (SEL && SELTH === th.w) || (HLR && HLR.w === th.w);
       }
       terr.threads.forEach(function (th) {
-        if (!isOn(th)) return;
+        if (BAREH || !isOn(th)) return;
         th.rings.forEach(function (lines, ri) {
           var w = 1.8,
             a = 0.95;
@@ -24664,7 +24666,7 @@
         return n ? [n.x, n.y] : null;
       }
       CAUSE_LBL = null;
-      if (showCause)
+      if (showCause && !BAREH)
         terr.cause.forEach(function (ce) {
           ce.e.forEach(function (from) {
             ce.c.forEach(function (to) {
@@ -24696,7 +24698,7 @@
             });
           });
         });
-      if (SEL) {
+      if (SEL && !BAREH) {
         var sp = posOf(SEL);
         if (sp) {
           var c0 = pr(wx(sp[0]), zAt(sp[0], sp[1]) + 2, wz(sp[1]), [0, 0]);
@@ -24732,7 +24734,7 @@
       }
 
       terr.qpos.forEach(function (Q) {
-        if (!Q) return;
+        if (!Q || BAREH) return;
         var zq = zAt(Q.x, Q.y),
           b0 = pr(wx(Q.x), zq, wz(Q.y), [0, 0]),
           b1 = pr(wx(Q.x), zq + 20, wz(Q.y), [0, 0]);
@@ -24750,7 +24752,7 @@
         ctx.fillText("Q." + Q.q, b1[0], b1[1] + 1);
         qScr.push({ Q: Q, x: b1[0], y: b1[1] - 2 });
       });
-      if (HL != null && READ[HL] && READ[HL].path) {
+      if (!BAREH && HL != null && READ[HL] && READ[HL].path) {
         var pp = READ[HL].path
           .filter(function (v, k) {
             return k % 2 === 0;
@@ -24785,7 +24787,7 @@
             ctx.fillText(R.key, b1[0], b1[1] + 4 * TS);
           });
         });
-      if (COURSE == null)
+      if (COURSE == null && !BAREH)
         READ.forEach(function (r, i) {
           var z = zAt(r.at[0], r.at[1]),
             b0 = pr(wx(r.at[0]), z, wz(r.at[1]), [0, 0]),
@@ -24830,7 +24832,7 @@
         ctx.fillStyle = "#7a1d12";
         ctx.fillText(lt, CAUSE_LBL.p[0], CAUSE_LBL.p[1] - 6);
       }
-      if (labelPins) {
+      if (labelPins && !BAREH) {
         ctx.font = "bold " + 13 * TS + "px Questrial,sans-serif";
         ctx.textAlign = "left";
         ctx.lineWidth = 2.6;
@@ -25604,25 +25606,25 @@
         '<svg width="30" height="14"><polygon points="15,1 17.4,5.4 22,5.6 18.4,8.6 19.6,13 15,10.4 10.4,13 11.6,8.6 8,5.6 12.6,5.4" fill="#111"/></svg>',
         "Goal (hover for the full goal)",
       );
-      row(
+      BAREH || row(
         '<svg width="30" height="14"><rect x="4" y="2" width="22" height="10" fill="#111"/><text x="15" y="10" font-size="7" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">Q.1</text></svg>',
         "Question: at the middle of its notes",
       );
-      row(
+      BAREH || row(
         '<svg width="30" height="14"><line x1="15" y1="13" x2="15" y2="7" stroke="#555"/><circle cx="15" cy="5" r="3.6" fill="#2a9d8f" stroke="#111"/></svg>',
         "Note (white: no emotion marked)",
       );
-      if (COURSE == null)
+      if (COURSE == null && !BAREH)
         row(
           '<svg width="30" height="14"><circle cx="15" cy="7" r="6" fill="#111"/><text x="15" y="10" font-size="8" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">1</text></svg>',
           "What stands out, read below",
         );
-      if (showCause && terr.cause.length)
+      if (showCause && terr.cause.length && !BAREH)
         row(
           '<svg width="30" height="14"><path d="M2 12 Q15 -2 26 10" fill="none" stroke="#7a1d12" stroke-width="2"/><path d="M26 10 l-5 -1 l2 -4z" fill="#7a1d12"/></svg>',
           "Cause and effect: leads to",
         );
-      row(
+      BAREH || row(
         '<svg width="30" height="14"><ellipse cx="15" cy="7" rx="13" ry="5" fill="none" stroke="#2b1a0e" stroke-width="1.6"/></svg>',
         "Phrase loop (when highlighted)",
       );
