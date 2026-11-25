@@ -1071,15 +1071,21 @@
         nx = k.nextElementSibling,
         sb = nx && nx.classList.contains("secb") ? nx : null;
       if ("ABOUT WHAT YOU COLLECTED" === t) {
-        /* its text goes; its fold now heads the ground (THE LAY OF THE LAND) and the hidden old figure it holds */
-        var sp0 = k.querySelector("span");
-        sp0 ? (sp0.textContent = "THE LAY OF THE LAND") : (k.textContent = "THE LAY OF THE LAND");
+        /* v273: THE LAY OF THE LAND is retired; its numbered readings are on YOUR LANDSCAPE */
         for (var c = k.nextElementSibling; c && !c.classList.contains("plab") && !c.classList.contains("part"); ) {
           var c2 = c.nextElementSibling;
-          /^(meta|msub|metal)$/.test(String(c.getAttribute("class") || "")) && c.remove();
+          /* the hidden old figure stays (hidden): Taking Action's WHERE THE READING SPLITS is read from it */
+          if (c.matches(".pnet") || c.querySelector(".pnet")) {
+            c.querySelectorAll(".gterr-host").forEach(function (h) {
+              h.parentNode.removeChild(h);
+            });
+            c.classList.remove("secb", "closed");
+            c.style.display = "none";
+            c.setAttribute("aria-hidden", "true");
+          } else c.remove();
           c = c2;
         }
-        sb && sb.classList.remove("closed");
+        k.remove();
       } else if (DROP[t]) {
         k.remove();
         sb && sb.remove();
@@ -13890,7 +13896,7 @@
                 ["DOES WHAT YOU WOULD DESIGN MEET IT?", "The test on this card: what the proposed actions already address, and what remains unresolved."],
                 ["WHERE THE READING SPLITS", "What Pattern Analysis found under this card’s notes, and what it means for how you act."],
                 ["A strategy or a program", "Why the card is one or the other. The button switches it, and your choice is saved."],
-                ["THE WAY ACROSS", "The order of the crossings on the ground (THE LAY OF THE LAND, Pattern Analysis): through the ridge of indifference before bare rock, with the cost of each move."],
+                ["THE WAY ACROSS", "The order of the crossings on the ground (YOUR LANDSCAPE, Pattern Analysis): through the ridge of indifference before bare rock, with the cost of each move."],
                 ["FIRST MOVES or THE SEQUENCE", "What to do first. Under the map it follows the way you choose."],
                 ["THE WAY THROUGH IT", "The card’s ways drawn on the ground, and a chart comparing their effort, impact, benefit, and return."],
                 ["WHAT HOLDS IT IN THE LOW GROUND", "Write the constraint or rule that keeps a note low. It is saved with the note and shows on every card that holds it; one tap adds it to Q.4, Q.6, or Q.7."],
@@ -20827,7 +20833,7 @@
     var CARDH = !!data.card,
       PLACE = data.place || null,
       ANH = !!data.an,
-      BARE = !!data.bare,
+      BAREH = !!data.bare,
       PAR = !!data.par,
       AQ = 0;
     !ANH && !PAR && !CARDH && (window.gsmSynHost = host);
@@ -22490,7 +22496,7 @@
             " sits on the deepest ground. The way up from here to acceptance is the longest climb on the map, and the rarest move.",
           at: [low.x, low.y],
         });
-      out.push({ act: act, title: "What a move costs", cap: cost + " THE LAY OF THE LAND, below, reads this ground in full.", at: null });
+      out.push({ act: act, title: "What a move costs", cap: cost + " The numbers on this map read this ground in full.", at: null });
       return out;
     }
     /* v244: a place map's own reading: where each emotion gathers on the land, where distant emotions sit closest,
@@ -24339,7 +24345,7 @@
       CARDH && wayMoves(ROUTESEL);
       if (host._rel) {
         if (ANH) {
-          host._rel.focusQ && host._rel.focusQ(BARE ? -1 : AQ);
+          host._rel.focusQ && host._rel.focusQ(BAREH ? -1 : AQ);
           if (!PAR) return;
         }
         host._rel.hl(HL);
@@ -25282,6 +25288,14 @@
     function fillReadings() {
       var el = $("readings");
       el.innerHTML = "";
+      if (ANH && !BAREH && !PAR && !PLACE && READ.length && !host._rdf) {
+        host._rdf = document.createElement("details");
+        host._rdf.className = "gfold";
+        host._rdf.innerHTML = '<summary><span class="sec">WHAT THE NUMBERS ON THE MAP SAY</span></summary>';
+        el.style.display = "";
+        host._rdf.appendChild(el);
+        host.appendChild(host._rdf);
+      }
       host._read = READ;
       if (!(ANH || CARDH || PAR) && el.parentNode) {
         var sw = host.querySelector(".gstory");
@@ -26407,7 +26421,11 @@
             " no note on the ground yet, so " +
             (miss.length > 1 ? "those answers are" : "that answer is") +
             " not yet part of the landscape.");
-        return t + " Tap a question above the map to see only its notes. With all notes shown, tap the ground to read what gathers there.";
+        return (
+          t +
+          " Tap a question above the map to see only its notes. With all notes shown, tap the ground to read what gathers there." +
+          (READ.length && !PLACE ? " The numbers mark what stands out on the ground; tap one, or open the list under the map." : "")
+        );
       }
       /* v233: what gathers at a spot on the ground (plan item 3c) */
       ANGROUND = function (x, y) {
@@ -26613,7 +26631,7 @@
       stg0.parentNode.insertBefore(hd, sy);
     }
     var BAREGROUND = null, BAREAFTER = null;
-    if (BARE) {
+    if (BAREH) {
       /* v272: THE BARE LANDSCAPE. The question buttons, the question text and WHAT THIS SUGGESTS are for the
          notes; this map has none showing. */
       host.querySelectorAll(".gtrb,.gtqpop,.gtansay").forEach(function (e) {
@@ -27142,10 +27160,16 @@
             });
           };
         } else if (ANH && !PAR) {
-          D.read = [];
+          D.read =
+            BAREH || PLACE
+              ? []
+              : READ.map(function (r) {
+                  return { at: r.at, title: r.title, text: r.short + (r.more ? " " + r.more : ""), grp: r.grp, cap: r.short };
+                });
+          D.read.length && (D.groups = GROUPS);
           /* 6: Pattern Analysis gets its own short tour: how to read this map */
           try {
-            BARE || (D.intro = introStops(true));
+            BAREH || (D.intro = introStops(true));
           } catch (e) {}
         } else {
           D.read = READ.map(function (r) {
@@ -27238,7 +27262,7 @@
           (D.onGround = function (x, y) {
             return AQ || !ANGROUND ? null : ANGROUND(x, y);
           });
-        BARE && ((D.qpos = []), (D.read = []), (D.intro = []), (D.onGround = function (x, y) {
+        BAREH && ((D.qpos = []), (D.read = []), (D.intro = []), (D.onGround = function (x, y) {
           return BAREGROUND ? BAREGROUND(x, y) : null;
         }));
         return D;
@@ -27258,7 +27282,15 @@
             }
             try {
               host._rel = window.gsmRelief.mount(box, data());
-              BARE && BAREAFTER && BAREAFTER(box);
+              BAREH && BAREAFTER && BAREAFTER(box);
+              ANH &&
+                !BAREH &&
+                !PAR &&
+                box.querySelectorAll(".grleg .r span").forEach(function (sp) {
+                  /^Numbered: what the ground says/.test(sp.textContent) &&
+                    (sp.textContent = "Numbered: what the ground says. Hover or tap a number to read it; the list is under the map.");
+                  /^A brown line: a pattern you ticked/.test(sp.textContent) && sp.parentNode.parentNode.removeChild(sp.parentNode);
+                });
               if (!ANH && !PAR && !CARDH) {
                 window.gsmSynRel = host._rel;
                 window.gsmSynHost = host;
