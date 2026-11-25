@@ -43,6 +43,10 @@ runs:
 Exact-string patching of the minified file, used v95 to v170, is retired, and so are the
 `tools/terrain` rebuild scripts, which start from an old v150 engine.)
 
+Since v266 the Pattern Synthesis graph, shapes, and page modules are bundled ahead of the engine:
+
+    cat tools/graph/graph.js tools/graph/shapes.js tools/graph/page.js gsm-readable.js | npx esbuild@0.24 --minify --loader=js > gsm-preview.js
+
 The 3D relief module `gsm-relief.js` is built from `tools/relief/relief.js` with
 three@0.187.0:
 

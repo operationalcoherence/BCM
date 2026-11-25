@@ -6778,6 +6778,7 @@
     chilly: 1,
     prickly: 1,
   };
+  try { window.gsmLexicon = { stop: Ot, ly: At }; } catch (e) {}
   function Nt(t) {
     var e = t;
     return (
@@ -15031,6 +15032,7 @@
             : lt) +
           ro),
           (Rt.innerHTML = Ot),
+          (function () { try { window.gsmPSPage && window.gsmPSPage(Rt, C); } catch (e) {} })(),
           (function () {
             var t;
             ((t = ie()),
@@ -20152,7 +20154,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v265");
+        t && (t.textContent = "v266");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
