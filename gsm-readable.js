@@ -2425,7 +2425,7 @@
   function gsmMeanRun(sec) {
     gsmMeanCss();
     sec.querySelectorAll(".rule").forEach(function (r) {
-      if (r.getAttribute("data-mp")) return;
+      if (r.getAttribute("data-mp") || r.closest(".intrev")) return;
       r.setAttribute("data-mp", "1");
       var l = r.querySelector(".rl"),
         lab = l ? l.textContent.trim() : "";
@@ -6374,7 +6374,7 @@
                                     i &&
                                       "2" === i[1] &&
                                       (H(),
-                                      z("In Parallel"),
+                                      z("Taking Action"),
                                       Y(
                                         "How Patterns works: it matches words and symbols across your answers and notes. It can point to things worth a closer look, but BCM does not yet understand what you wrote.",
                                       )),
@@ -7143,40 +7143,38 @@
       return { ph: B ? B.ph : jt(key), multi: !!B || stems.length > 1, ids: ids };
     }));
   }
+  // v271: the In Parallel section now sits in Pattern Analysis, after THE LAY OF THE LAND
+  function gsmWGPlace(Rt, ut, lt, a) {
+    var kids = [].slice.call(Rt.children),
+      at = a || null,
+      k = -1;
+    kids.forEach(function (x, i) {
+      x.classList.contains("plab") && /^THE LAY OF THE LAND/.test(x.textContent.trim()) && (k = i);
+    });
+    if (k >= 0) {
+      at = null;
+      for (var i = k + 1; i < kids.length; i++)
+        if (kids[i].classList.contains("plab") || kids[i].classList.contains("part")) {
+          at = kids[i];
+          break;
+        }
+    }
+    Rt.insertBefore(ut, at);
+    Rt.insertBefore(lt, at);
+  }
   // v216: In Parallel under the figure: where to start, then the rest folded away
   function gsmIntOrder(E, f) {
     var top = [],
-      dup = [],
-      lift = [],
-      rest = [],
-      LIFT = ["Patterns worth a second look", "Emotion", "Closest and farthest from the goal", "Voices"];
+      look = [];
     E.forEach(function (t) {
       "Where to start" === t[0]
         ? top.push(f(t))
-        : "Where both pictures agree" === t[0] || "Where they differ" === t[0]
-          ? dup.push(f(t).replace('<div class="intl">', '<div class="intl" data-dup="1">'))
-          : LIFT.indexOf(t[0]) >= 0
-            ? lift.push([LIFT.indexOf(t[0]), f(t)])
-            : rest.push(f(t));
-    });
-    lift.sort(function (a, b) {
-      return a[0] - b[0];
+        : "Patterns worth a second look" === t[0] && /class="rule"/.test(t[1]) &&
+          look.push(f(t).replace("<b>Patterns worth a second look.</b> ", ""));
     });
     return (
       top.join("") +
-      dup.join("") +
-      (lift.length
-        ? '<div class="intrev"><div class="intrevh">WHAT THE TWO PICTURES REVEAL</div>' +
-          lift
-            .map(function (x) {
-              return x[1];
-            })
-            .join("") +
-          "</div>"
-        : "") +
-      (rest.length
-        ? '<details class="fold parmore" style="margin:14px 0"><summary>MORE FROM BOTH PICTURES</summary>' + rest.join("") + "</details>"
-        : "")
+      (look.length ? '<div class="intrev"><div class="intrevh">WORTH A SECOND LOOK</div>' + look.join("") + "</div>" : "")
     );
   }
   // v213: THE TWO PICTURES, SIDE BY SIDE (closes Pattern Synthesis)
@@ -7331,11 +7329,11 @@
     var wrap = document.createElement("div");
     wrap.className = "agfig";
     wrap.innerHTML =
-      '<div class="agsub">Pattern Analysis keeps its own column; a line runs from each of its words to every note on the ground that carries it. A <b>solid black line</b>: the ground agrees with what Analysis found. A <b>dashed red line</b>: the ground raises a question about it. Tap a word to follow it here and on the 3D map in Pattern Analysis, under THE LAY OF THE LAND.</div>';
-    var svg = mk("svg", { viewBox: "0 0 680 " + VH.toFixed(0), role: "img", "aria-label": "Pattern Analysis words in a column, joined by lines to their notes on the ground" }, wrap);
+      '<div class="agsub">Your words keep their own column; a line runs from each to every note on the ground that carries it. A <b>solid black line</b>: the ground agrees with what your words say. A <b>dashed red line</b>: the ground raises a question about it. Tap a word to follow it here and on the 3D map above.</div>';
+    var svg = mk("svg", { viewBox: "0 0 680 " + VH.toFixed(0), role: "img", "aria-label": "Your words in a column, joined by lines to their notes on the ground" }, wrap);
     mk("rect", { x: 0, y: 0, width: 176, height: VH, fill: "#fafafa" }, svg);
     var t0 = mk("text", { x: 10, y: 16, "font-size": 10.5, "letter-spacing": 1.4, fill: "#555" }, svg);
-    t0.textContent = "PATTERN ANALYSIS";
+    t0.textContent = "YOUR WORDS";
 
     mk("image", { href: cv.toDataURL(), x: X0, y: TOPY, width: 494, height: GHt.toFixed(1), preserveAspectRatio: "none" }, svg);
     mk("rect", { x: X0, y: TOPY, width: 494, height: GHt.toFixed(1), fill: "none", stroke: "#ccc" }, svg);
@@ -7436,7 +7434,7 @@
       });
       rd.textContent = "";
       if (SEL < 0) {
-        rd.textContent = "Tap a word to read what both pictures say about it.";
+        rd.textContent = "Tap a word to read what the ground says about it.";
         window.gsmSynPend = null;
         window.gsmSynRel && window.gsmSynRel.hoses && window.gsmSynRel.hoses(null);
         return;
@@ -7449,7 +7447,7 @@
         var bt = document.createElement("button");
         bt.type = "button";
         bt.className = "lnk";
-        bt.textContent = "See it on the 3D map in Pattern Analysis";
+        bt.textContent = "See it on the 3D map";
         bt.onclick = function () {
           window.gsmTab && window.gsmTab(3);
           setTimeout(function () {
@@ -7476,11 +7474,11 @@
         ("Enter" !== e.key && " " !== e.key) || (e.preventDefault(), pick(i));
       });
     });
-    rd.textContent = "Tap a word to read what both pictures say about it.";
+    rd.textContent = "Tap a word to read what the ground says about it.";
     var ky = document.createElement("div");
     ky.className = "agkey";
     ky.innerHTML =
-      '<span><i style="background:#111;border-color:#111"></i>contested: resisted and supported</span><span><i style="border-style:dashed"></i>a gap: what you would design does not reach it</span><span><i style="border-color:#1f6f66"></i>support nothing uses yet</span><span><i style="border-color:#777"></i>designed with no cause behind it, or read differently by the two pictures</span><span><b style="border-top:1.5px solid #111"></b>the ground agrees</span><span><b style="border-top:1.6px dashed #b3261e"></b>the ground raises a question</span>';
+      '<span><i style="background:#111;border-color:#111"></i>contested: resisted and supported</span><span><i style="border-style:dashed"></i>a gap: what you would design does not reach it</span><span><i style="border-color:#1f6f66"></i>support nothing uses yet</span><span><i style="border-color:#777"></i>designed with no cause behind it, or read differently by your words and the ground</span><span><b style="border-top:1.5px solid #111"></b>the ground agrees</span><span><b style="border-top:1.6px dashed #b3261e"></b>the ground raises a question</span>';
     var fb = document.createElement("button"),
       hp = document.createElement("div"),
       ft = document.createElement("div");
@@ -7488,10 +7486,10 @@
     fb.className = "agfsb";
     fb.textContent = "Full screen";
     ft.className = "agft";
-    ft.textContent = "THE TWO PICTURES, SIDE BY SIDE";
+    ft.textContent = "YOUR WORDS ON THE GROUND";
     hp.className = "aghelp";
     hp.innerHTML =
-      "<b>HOW TO READ IT</b><p>Each word on the left is something Pattern Analysis found in your answers and notes. Its lines run to every note on the ground that uses it, so you can see where that word stands: acceptance is the high ground, indifference the ridge, and distrust, aggression, and defiance the low ground. The dashed line across the map divides what helps (above) from what hinders (below); the goal is the black diamond.</p><p>A <b>solid black line</b> means the ground agrees with what Analysis found. A <b>dashed red line</b> means the ground tells a different story, so that word is worth a second look.</p><p>Tap a word to read what both pictures say about it; its lines also go onto the 3D map in Pattern Analysis.</p>";
+      "<b>HOW TO READ IT</b><p>Each word on the left is something Pattern Analysis found in your answers and notes. Its lines run to every note on the ground that uses it, so you can see where that word stands: acceptance is the high ground, indifference the ridge, and distrust, aggression, and defiance the low ground. The dashed line across the map divides what helps (above) from what hinders (below); the goal is the black diamond.</p><p>A <b>solid black line</b> means the ground agrees with what your words say. A <b>dashed red line</b> means the ground tells a different story, so that word is worth a second look.</p><p>Tap a word to read what both pictures say about it; its lines also go onto the 3D map in Pattern Analysis.</p>";
     var svgEl = wrap.querySelector("svg"),
       fsOn = function (on) {
         wrap.classList.toggle("agfs", on);
@@ -13865,7 +13863,7 @@
               (hold ? row("What holds it", hold) : "") +
               (move ? row("What already moves", move) : "") +
               row("Where it can shift", shift) +
-              row("Where the reading splits", '<div class="tasplitrow">In Parallel found nothing that splits the reading of these cards.</div>') +
+              row("Where the reading splits", '<div class="tasplitrow">Pattern Analysis found nothing that splits the reading of these cards.</div>') +
               (cons.length
                 ? row(
                     "What holds it, as you named it",
@@ -13890,7 +13888,7 @@
               [
                 ["IN SERVICE OF THE GOAL", "What the card is for, in your own words."],
                 ["DOES WHAT YOU WOULD DESIGN MEET IT?", "The test on this card: what the proposed actions already address, and what remains unresolved."],
-                ["WHERE THE READING SPLITS", "What In Parallel found under this card’s notes, and what it means for how you act."],
+                ["WHERE THE READING SPLITS", "What Pattern Analysis found under this card’s notes, and what it means for how you act."],
                 ["A strategy or a program", "Why the card is one or the other. The button switches it, and your choice is saved."],
                 ["THE WAY ACROSS", "The order of the crossings on the ground (THE LAY OF THE LAND, Pattern Analysis): through the ridge of indifference before bare rock, with the cost of each move."],
                 ["FIRST MOVES or THE SEQUENCE", "What to do first. Under the map it follows the way you choose."],
@@ -14320,7 +14318,7 @@
         }
         var ro =
             In || Zn.length
-              ? '<div class="part">3 · COURSES OF ACTION<span>Suggested, area by area: a program where the ground is settled, a strategy where it is not.</span></div><div class="pnote"><b>Prompts, not findings:</b> talk them through with the people involved, and change or drop any that do not fit.</div>' + TAT + '<div class="meta">Programs work best in contexts where you know what is going to happen, either because you have done it before or can strongly anticipate the outcome. Programs work best when executed in environments where there is order, meaning regularity and stability, and a line can be drawn from action to outcome. Set the sequence and let it run: schedule, roles, repeat.</div><div class="meta">Strategies work best in disorderly environments when you cannot foresee entirely what the outcome will be; there are several outcomes to choose from that are all probable. However, there is no way of knowing which is right before acting. Strategies work best when you cannot draw a straight line from action to outcome, as they enable you to keep a loose structure ideal for ill-defined situations where constant revisions to courses of action are necessary. Hold it loosely: sketch two or three ways forward, start small, and change course as people respond (Morin &amp; Kern, 1999; Morin, 2008).</div>' +
+              ? '<div class="part">2 · COURSES OF ACTION<span>Suggested, area by area: a program where the ground is settled, a strategy where it is not.</span></div><div class="pnote"><b>Prompts, not findings:</b> talk them through with the people involved, and change or drop any that do not fit.</div>' + TAT + '<div class="meta">Programs work best in contexts where you know what is going to happen, either because you have done it before or can strongly anticipate the outcome. Programs work best when executed in environments where there is order, meaning regularity and stability, and a line can be drawn from action to outcome. Set the sequence and let it run: schedule, roles, repeat.</div><div class="meta">Strategies work best in disorderly environments when you cannot foresee entirely what the outcome will be; there are several outcomes to choose from that are all probable. However, there is no way of knowing which is right before acting. Strategies work best when you cannot draw a straight line from action to outcome, as they enable you to keep a loose structure ideal for ill-defined situations where constant revisions to courses of action are necessary. Hold it loosely: sketch two or three ways forward, start small, and change course as people respond (Morin &amp; Kern, 1999; Morin, 2008).</div>' +
                 (ESM && ESM.used
                   ? '<details class="fold"><summary>HOW TO READ THIS PAGE</summary><div class="mtext"><p>Each card lists the reasons it calls for a strategy rather than a program. Two of those reasons are the emotion you marked on a note and which side of the line you put it on. In this workbook they almost always match: notes marked acceptance sit above the line, where things help, and notes marked aggression, distrust, or defiance sit below it, where things hinder. That is true of ' +
                     ESM.agree +
@@ -15416,7 +15414,7 @@
                               e.thin[1] +
                               " note" +
                               (1 === e.thin[1] ? "" : "s") +
-                              "), so what both pictures say about them rests on little."
+                              "), so what Patterns says about them rests on little."
                             : ""),
                       ])
                     : e.thin &&
@@ -15427,7 +15425,7 @@
                           e.thin[1] +
                           " note" +
                           (1 === e.thin[1] ? "" : "s") +
-                          "), so what both pictures say about them rests on little.",
+                          "), so what Patterns says about them rests on little.",
                       ]);
                   var N = (e.idx || []).filter(function (t) {
                       return t.n >= 2;
@@ -15632,7 +15630,7 @@
                               tg +
                               " So the split is not one person's mixed feelings; it runs between groups" +
               ". A course of action about it will be heard differently by each, and what wins over one may lose the other. Before acting on it, ask each group what they mean by the word: they may be naming different things with it." +
-                              (window.gsmMED && Object.keys(window.gsmMED).length ? " ONE WORD, SEVERAL MEANINGS on Pattern Analysis shows the phrases each side uses." : ""),
+                              (window.gsmMED && Object.keys(window.gsmMED).length ? " ONE WORD, SEVERAL MEANINGS, above, shows the phrases each side uses." : ""),
                             7 + t.n / 100,
                             { words: [t.w], voices: i.concat(a), vi: i, va: a, eu: eu, ed: ed },
                           );
@@ -15943,7 +15941,7 @@
                           return (
                             "The two sides of that disagreement include " +
                             t +
-                            ", your thinnest voice, so what both pictures say about it rests on little."
+                            ", your thinnest voice, so what Patterns says about it rests on little."
                           );
                         },
                       },
@@ -16093,12 +16091,15 @@
                       PRI = function (t) {
                         return "PLACED ONE WAY, TIED THE OTHER" === t.lab || "THE HIDDEN CHANNELS" === t.lab;
                       },
-                      ot = R.filter(PRI).concat(
-                        R.filter(function (t) {
+                      R2 = R.filter(function (t) {
+                        return "ONE IDEA UNDER TWO NAMES" !== t.lab;
+                      }),
+                      ot = R2.filter(PRI).concat(
+                        R2.filter(function (t) {
                           return !PRI(t);
                         }).slice(0, 2),
                       ),
-                      rt = R.filter(function (t) {
+                      rt = R2.filter(function (t) {
                         return ot.indexOf(t) < 0;
                       });
                     var KIND = {
@@ -16110,7 +16111,7 @@
                         "NEVER IN THE SAME PLACE": "two big ideas never held together",
                       },
                       kinds = [];
-                    R.forEach(function (t) {
+                    R2.forEach(function (t) {
                       KIND[t.lab] && kinds.indexOf(KIND[t.lab]) < 0 && kinds.push(KIND[t.lab]);
                     });
                     var kl =
@@ -16154,7 +16155,7 @@
                     g.length && it.push("the words Q.5–Q.7 do not reach (" + h(g) + ") are the clearest gap"),
                     e.br.length &&
                       it.push("“" + e.br[0].name + "” is what carries your logic from cause to action"),
-                    R[0] && it.push("the least expected thing in the two pictures may be " + R[0].nl),
+                    R[0] && it.push("the least expected thing in your workbook may be " + R[0].nl),
                     e.out.length &&
                       it.push(
                         e.out.length +
@@ -16202,18 +16203,14 @@
                       "2 · THE TWO PICTURES TOGETHER<span>What your words and your ground say when you read them side by side.</span>"),
                     (ut.className = "plab"),
                     (ut.id = "gsm-int"),
-                    (ut.textContent = "THE TWO PICTURES TOGETHER"),
+                    (ut.textContent = "YOUR WORDS ON THE GROUND"),
                     (lt.className = "intbox"),
                     (lt.innerHTML =
                       ((window.gsmData ? window.gsmData().m || [] : []).some(function (z) {
                         return (z[3] || "").trim();
                       })
-                        ? '<div class="agslot"></div><details class="fold parold" style="margin:14px 0 18px"><summary>THE EARLIER 3D VIEW</summary><div class="intsub" style="margin:4px 0 8px">Both pictures on one map. From each question’s flag, thin lines run to its notes: how your thinking spreads across the ground (Analysis). The numbers are what the ground says, read under THE LAY OF THE LAND on Pattern Analysis. Where a question’s lines reach a numbered place, the two pictures meet. Use the buttons to follow one question at a time.</div><div class="gterr-host" data-an="1" data-par="1"></div></details>'
-                        : '<div class="int2"><div class="intfig"><div class="intcap">AROUND THE GOAL</div>' +
-                          st(r) +
-                          '<div class="intsub">How far each answer is from the goal</div></div><div class="intfig"><div class="intcap">HOW IT HANGS TOGETHER</div>' +
-                          st(i) +
-                          '<div class="intsub">How everything ties to everything</div></div></div>') +
+                        ? '<div class="agslot"></div>'
+                        : '') +
                       gsmIntOrder(E, function (t) {
                         return (
                           '<div class="intl"><b>' +
@@ -16247,9 +16244,7 @@
                               : "More patterns (" + t.children.length + ") +"));
                         }
                       }),
-                    a
-                      ? (Rt.insertBefore(ct, a), Rt.insertBefore(ut, a), Rt.insertBefore(lt, a))
-                      : (Rt.appendChild(ct), Rt.appendChild(ut), Rt.appendChild(lt)),
+                    gsmWGPlace(Rt, ut, lt, a),
                     (function () {
                       var AGI = [];
                       [
@@ -16289,6 +16284,10 @@
                         });
                       }
                       PO && PB && lt.insertBefore(PO, PB);
+                      if (!AG && !lt.querySelector(".intrev")) {
+                        ut.parentNode && ut.parentNode.removeChild(ut);
+                        lt.parentNode && lt.parentNode.removeChild(lt);
+                      }
                     })(),
                     s)
                   ) {
@@ -16296,7 +16295,7 @@
                     ((ht.className = "intcard"),
                       (ht.innerHTML =
                         '<b>Put the two pictures together.</b> Analysis showed where your words sit. Synthesis shows how they connect. Together they say more than either does alone.<br><button type="button" class="btn" data-int="1">See the two pictures together →</button>'),
-                      Rt.insertBefore(ht, ct));
+                      void ht);
                   }
                   ((window.gsmHasInt = !0), window.gsmJsub && window.gsmJsub());
                 }
@@ -16345,6 +16344,7 @@
                           "WHY IT BEHAVES THIS WAY" === r ||
                           "STILL OPEN" === r ||
                           "THE TWO PICTURES TOGETHER" === r ||
+                          "YOUR WORDS ON THE GROUND" === r ||
                           "THE TWO PICTURES, SIDE BY SIDE" === r ||
                           e.querySelector(".pnet,.gterr-host")
                         );
@@ -19669,9 +19669,7 @@
           c = l.textContent,
           u = l.nextElementSibling;
         t.querySelector(".jrow").innerHTML =
-          '<button type="button" data-v="5">Start Here</button><button type="button" data-v="0">Mapping Context</button><button type="button" data-v="1">Mapping Landscape</button><button type="button" data-v="2">Pattern Analysis</button><button type="button" data-v="6">' +
-          n +
-          '</button><button type="button" data-v="4">Taking Action</button>';
+          '<button type="button" data-v="5">Start Here</button><button type="button" data-v="0">Mapping Context</button><button type="button" data-v="1">Mapping Landscape</button><button type="button" data-v="2">Pattern Analysis</button><button type="button" data-v="4">Taking Action</button>';
         var d = { 2: "Pattern Analysis", 3: "Pattern Synthesis", 6: n, 4: "Taking Action" };
         i.forEach(function (e) {
           if (e === t) return ((a = !0), void (s = 0));
@@ -19931,7 +19929,7 @@
         return !!Rt.querySelector('[data-pv="' + t + '"]');
       }
       function O(i) {
-        3 === i && (i = 2);
+        (3 === i || 6 === i) && (i = 2);
         ((r = i), N.classList.toggle("onstart", 5 === i), N.classList.toggle("onta", 4 === i), N.classList.toggle("onan", 2 === i), N.classList.toggle("onsy", 3 === i), gsmSince());
         var a = 5 === i ? 5 : i >= 2 ? 2 : i;
         (N.querySelectorAll("[data-tab]").forEach(function (t) {
@@ -20208,7 +20206,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v270");
+        t && (t.textContent = "v271");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
