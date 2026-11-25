@@ -2,3 +2,6 @@
 .keyliteral
 *.key
 tools/terrain/module.js
+
+# trimmed real workbooks for the graph and shapes tests (kept local)
+tests/graph_wb/
