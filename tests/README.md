@@ -11,6 +11,7 @@ Kept here because every previous harness lived in a sandbox that was lost.
 
 | Script | What it does |
 | --- | --- |
+| `fulldump.py WORKBOOK.json ['JS']` | Pattern Analysis as text with every fold and `<details>` open and the 3D loaded (v275); dump2 leaves `<details>` closed. A second argument prints one JS expression instead. |
 | `dump2.py JSFILE WORKBOOK.json 2,3,6,4` | Renders the named tabs to plain text with every fold open. The way to actually read what the engine says. Tabs: 5 Start Here, 0 Mapping Context, 1 Mapping Change, 2 Pattern Analysis, 6 In Parallel, 4 Taking Action (since v269 there is no Pattern Synthesis; 3 opens Analysis). |
 | `matrix.py WORKBOOK.json …` | Runs every tab of every workbook given. Reports boot time, per-tab time and word count, any uncaught page error, and whether either script-injection probe fired. |
 | `coa.py WORKBOOK.json …` | Counts STRATEGY against PROGRAM in Taking Action and prints the reasons each card gives. |

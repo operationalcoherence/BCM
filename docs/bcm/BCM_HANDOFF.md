@@ -1,5 +1,7 @@
 # BCM_HANDOFF.md
 
+2026-11-25 16:10: **v276 live**, WHO STANDS WHERE (groups across ground; docs/v276_update.md). Fires on his 11-20 workbook for leadership (the plan relies on the people it distrusts) and supporters (a loop of aggression). Test copies of his 11-20 and 11-13 workbooks with real note text: build them from the project's workbooks/ (keep out of git). **Next in his order:** Risk After the Goal (item 3), then the rest of Designer Is the Obstacle on Taking Action (item 4), Same Emotion, Different Targets (item 5).
+
 2026-11-25 15:30: **v275 live**, Pattern Analysis says each thing once (his "fix all" 14:58 on claude/pattern_analysis_repeats_review_2026-11-25.md; docs/v275_update.md), plus three fixes. Test tool for a full read with every fold open and the 3D loaded: the dump in that update's checks (tests/dump2.py leaves <details> closed). **Next:** the next queue item (his call 14:59).
 
 2026-11-24 21:15: **v267 live**, the Synthesis blocks rewritten as prose (his note 21:01, "the writing is really dry"; docs/v267_update.md). Change is in tools/graph/page.js. **Next:** his read.
