@@ -1,5 +1,7 @@
 # BCM_HANDOFF.md
 
+2026-11-24 21:15: **v267 live**, the Synthesis blocks rewritten as prose (his note 21:01, "the writing is really dry"; docs/v267_update.md). Change is in tools/graph/page.js. **Next:** his read.
+
 2026-11-24 21:00: **v266 live**, the simple Pattern Synthesis page (docs/v266_update.md): WHAT CHANGED WHAT and the strongest shape at the top of Synthesis, from tools/graph/ (graph.js, shapes.js, page.js, pushed this session). **The build now bundles tools/graph/*.js ahead of the engine** (README). No question block (his call). **Next:** his eye on the wording; his call on emotion words as tags in the graph; then a real large workbook. Local tests/graph_wb/ (trimmed 11-20, Good fire, Broadview) is kept out of git.
 
 2026-11-24 17:00: **v265 live**. Since v261: **v262** distance haze (line maps; a denser mesh was tried and dropped, no visible change and too heavy at 2x), **v263** a crisper crest along ridges, **v264** far note labels fade a little, **v265** the attribution lettered on the front face of the block (or the base when the face is low). **"NOW · the 3D visual" is done** except his two calls (the v255 lighting check, the color wash). **Next: his call (16:16): "can we switch focuses?"** Ask him what to work on next. Tools: tests/cardshot.py, tests/reliefshot.py. Local tests/w20.json and tests/broadview.json are trimmed copies, kept out of git.

@@ -229,97 +229,189 @@
     return cand[0] || null;
   }
 
-  function relBlock(a, R) {
-    var A = R.say(a.from),
-      B = R.say(a.to),
-      P = pair(a.from, a.to, R),
-      T = topic(a, R),
-      about = T.length ? quoteList(T) : "",
-      ev = a.evidence || [],
-      head,
-      body;
-    var mutual = ev.some((e) => e.type === "names-each-other");
-    var user = ev.some((e) => e.type === "user-link");
-    var na = R.byId[a.from],
-      nb = R.byId[a.to];
-    if (mutual) {
-      var same = na && nb && na.emo != null && na.emo === nb.emo;
-      var twoSides = na && nb && na.side && nb.side && na.side !== nb.side && na.side !== "line" && nb.side !== "line";
-      head = (twoSides ? "The two sides’ " : "These two groups’ ") + (same ? EMO[na.emo] : "stances") + " are one exchange.";
-      body = cap(A) + " is aimed at the people " + B + " describes, and " + B + " is aimed back. Each side’s stance is becoming the other side’s reason, so expect a move against either one to be answered by the other.";
-    } else if (user) {
-      head = "You tied these two together.";
-      body = "You drew a link from " + A + " to " + B + ". BCM reads it as a relationship of your own, and nothing it finds on its own outranks it.";
-    } else if (a.kind === "carry") {
-      head = "What comes earlier is carried into what comes later.";
-      body = (P ? cap(P) + "," : cap(A) + ", and later " + B + ",") + (about ? " are both about " + about + "," : "") + " and the later one rests on the earlier. Unless something changes the first, expect the second to keep following from it.";
-    } else if (a.kind === "reachback") {
-      head = "What is expected later already acts on the present.";
-      body = cap(B) + " looks ahead to " + A + (about ? ", through " + about : "") + ". What people expect further along is shaping where they stand now, so the later stretch is partly being decided early.";
-    } else if (a.kind === "recoil") {
-      head = "What you would design will change the ground it is meant for.";
-      body = cap(A) + " is aimed at " + B + (about ? ", through " + about : "") + ". Expect it to answer back: the ground will not stay as it was mapped once the design reaches it.";
-    } else if (a.kind === "coupling") {
-      head = "Two parts on the same stretch move together.";
-      body = (P ? cap(P) + "," : cap(A) + " and " + B) + (about ? " share " + about : " are tied") + ", so a change in one is likely to show up in the other.";
-    } else {
-      head = "Two parts are tied, with no order to read.";
-      body = cap(A) + " and " + B + (about ? " share " + about : " are tied") + ", though the map gives no order to say which acts on which.";
-    }
-    return { key: "rel", title: "WHAT CHANGED WHAT", head: head, body: body, refs: [R.ref(a.from), R.ref(a.to)], arrow: a.undirected ? " and " : " → ", sure: sure([a]) };
+  /* ---------- prose ---------- */
+  // what each emotion means as ground (claude/emotion_definitions_redline.md, approved 11-24);
+  // read toward what the note is about, on either side of the line; never legitimacy outside acceptance
+  function ground(n) {
+    if (!n || n.emo == null) return "";
+    var hinder = n.side === "hinder";
+    return [
+      "Aggression sits next to defiance, and the slide between them runs both ways.",
+      hinder
+        ? "Acceptance below the line is the firmest ground the present way stands on: settled rather than argued, and so the hardest to move."
+        : "Acceptance is the ground where an idea takes root and spreads, and it has to be tended to stay that way.",
+      "Distrust is low ground: it climbs toward acceptance only with real effort, and it slides toward something harsher more easily.",
+      "Indifference is a precarious place, neither for nor against: most change passes through it, and some people stay there.",
+      "Defiance is the lowest ground, and the most resistant to any strategy.",
+    ][n.emo];
+  }
+  var ANS_NOUN = {
+    1: "the reasons the goal has not taken root",
+    2: "the opposition you describe",
+    3: "the support you describe",
+    4: "the conditions you named",
+    5: "your answer on what to design",
+    6: "your answer on what to redesign",
+    7: "your answer on what to reinforce",
+  };
+  var ANS_SHORT = { 1: "those reasons", 2: "the opposition", 3: "the support", 4: "the conditions", 5: "the design", 6: "the redesign", 7: "the reinforcing" };
+  var DES_NOUN = { 5: "something you would design", 6: "something you would redesign", 7: "something you would reinforce" };
+  // a second mention, short; falls back to the full name where two parts would sound alike
+  function shorts(ids, R) {
+    var sh = ids.map(function (id) {
+      var n = R.byId[id];
+      if (!n) return np(id, R);
+      if (n.kind === "answer") return ANS_SHORT[n.q] || np(id, R);
+      if (n.role === "design") return "that " + DES_NOUN[n.q].replace("something you would ", "") ;
+      return n.emo != null ? "the " + EMO[n.emo] : np(id, R);
+    });
+    var full = sh.map((x, i) => (sh.indexOf(x) !== i || sh.lastIndexOf(x) !== i ? np(ids[i], R) : x));
+    return dedupe(full);
+  }
+  // the same name twice in one ring: "one acceptance", "another acceptance"
+  function dedupe(a) {
+    var seen = {};
+    return a.map(function (x) {
+      if (a.indexOf(x) === a.lastIndexOf(x)) return x;
+      var bare = x.replace(/^the /, "");
+      seen[x] = (seen[x] || 0) + 1;
+      return (seen[x] === 1 ? "one " : "another ") + bare;
+    });
+  }
+  // a part as a noun phrase, optionally with what it is about
+  function np(id, R, about) {
+    var n = R.byId[id];
+    if (!n) return "one part of the map";
+    if (n.kind === "goal") return "the goal";
+    if (n.kind === "answer") return ANS_NOUN[n.q] || "one of your answers";
+    if (n.role === "design") return DES_NOUN[n.q] || "something you would do";
+    var e = n.emo != null ? EMO[n.emo] : "concern";
+    var side = R.view === "place" ? "" : n.side === "hinder" ? "below the line" : n.side === "help" ? "above the line" : "";
+    return "the " + e + (about ? " around " + about : "") + (side ? " " + side : "");
+  }
+  function when(id, R) {
+    var n = R.byId[id];
+    return n && n.stretch != null && R.view !== "place" ? ["near the start", "partway along", "near the goal"][n.stretch] : "";
+  }
+  function topicOf(arrows, R, anyWord) {
+    var c = {}, order = [];
+    arrows.forEach(function (a) {
+      topic(a, R).forEach(function (t) {
+        if (!c[t]) order.push(t);
+        c[t] = (c[t] || 0) + 1;
+      });
+    });
+    order.sort((x, y) => (y.indexOf(" ") > 0) - (x.indexOf(" ") > 0) || c[y] - c[x] || y.length - x.length);
+    var t = order[0] || "";
+    return anyWord || t.indexOf(" ") > 0 ? t : "";
   }
 
-  /* ---------- block 2: the strongest shape ---------- */
+  function relBlock(a, R) {
+    var ev = a.evidence || [],
+      na = R.byId[a.from],
+      nb = R.byId[a.to],
+      T = topicOf([a], R),
+      head,
+      body = [];
+    var mutual = ev.some((e) => e.type === "names-each-other");
+    var user = ev.some((e) => e.type === "user-link");
+    var sameEmo = na && nb && na.emo != null && na.emo === nb.emo;
+    if (mutual) {
+      var two = na.side && nb.side && na.side !== nb.side;
+      head = two ? "The two sides are locked in one exchange of " + (sameEmo ? EMO[na.emo] : "hostility") + "." : "Two groups are answering each other in kind.";
+      body.push(cap(np(a.from, R)) + " is aimed at the very people " + np(a.to, R) + " belongs to, and " + np(a.to, R) + " is aimed straight back.");
+      body.push("Each side’s stance has become the other side’s reason, so neither needs anything new to keep going.");
+      if (sameEmo) body.push(ground(na));
+      body.push("Pressing on either side feeds the other. The exchange loosens only when one side is met with something other than what it expects.");
+    } else if (user) {
+      head = "You tied " + np(a.from, R) + " to " + np(a.to, R) + ".";
+      body.push("This is a relationship you drew yourself, so it outranks anything BCM finds in the wording.");
+      if (ground(nb)) body.push(ground(nb));
+      body.push("Whatever moves the first should be expected to reach the second.");
+    } else if (a.kind === "carry") {
+      head = sameEmo
+        ? cap(EMO[na.emo]) + (topicOf([a], R, true) ? " of " + topicOf([a], R, true) : "") + " does not fade as the change moves on; it travels with it."
+        : cap(np(a.from, R, T)) + " " + when(a.from, R) + " turns into " + EMO[nb.emo != null ? nb.emo : 0] + " further along.";
+      body.push("It shows up " + when(a.from, R) + " and again " + when(a.to, R) + ", and the later one rests on the earlier" + (RANK[a.grade] === 3 ? ": the workbook says as much." : "."));
+      if (ground(nb)) body.push(ground(nb));
+      body.push("Carried this far, it is no longer a mood the change can wait out; it is part of the ground every later step has to cross, and each move will be read through it.");
+      body.push("It loses its hold only when something done early gives it nothing to carry forward.");
+    } else if (a.kind === "reachback") {
+      head = "What people expect to happen later is already deciding where they stand now.";
+      body.push(cap(np(a.to, R, T)) + " " + when(a.to, R) + " is looking ahead to " + np(a.from, R) + " " + when(a.from, R) + ".");
+      if (ground(nb)) body.push(ground(nb));
+      body.push("So the later stretch is partly being settled early: the first visible moves will be read as signs of how it ends.");
+    } else if (a.kind === "recoil") {
+      head = cap(np(a.from, R)) + " will change the ground it is meant for.";
+      body.push("It is aimed at " + np(a.to, R, T) + ", and ground does not hold still once something lands on it.");
+      if (ground(nb)) body.push(ground(nb));
+      body.push("Expect an answer, and plan the next step for the ground as it will be, not as it was mapped.");
+    } else if (a.kind === "coupling") {
+      head = (sameEmo ? "Two places of " + EMO[na.emo] : cap(np(a.from, R)) + " and " + np(a.to, R)) + (when(a.from, R) ? " " + when(a.from, R) : "") + " move together" + (T ? ", both turning on " + T : "") + ".";
+      body.push("They stand on the same stretch and turn on the same thing, so a move in one is likely to show up in the other.");
+      if (ground(na)) body.push(ground(na));
+      body.push("Neither changes alone: work on one and watch the other.");
+    } else {
+      head = cap(np(a.from, R)) + " and " + np(a.to, R) + (T ? " both turn on " + T : " are tied") + ".";
+      body.push("The map gives no order to say which acts on which, only that they turn on the same thing.");
+      if (ground(nb)) body.push(ground(nb));
+    }
+    return { key: "rel", title: "WHAT CHANGED WHAT", head: head, body: body.join(" "), refs: [R.ref(a.from), R.ref(a.to)], arrow: a.undirected ? " and " : " → ", sure: sure([a]) };
+  }
+
   function shapeBlock(s, R) {
     var refs = s.parts.map(R.ref),
       head,
-      body,
+      body = [],
       title;
+    var T = topicOf(s.arrows, R);
     var inferred = s.arrows.filter((a) => a.grade === "inferred")[0];
-    var gap = inferred
-      ? " One step, from " + R.say(inferred.from) + " to " + R.say(inferred.to) + ", rests only on a single shared word. Read the rest as shown, and treat that step as open until you say whether it holds."
-      : "";
-    function leg(a, from) {
-      var to = a.from === from ? a.to : a.from, T = topic(a, R);
-      return { to: to, txt: (T.length ? "through " + quoteList(T) + " " : "") + (to === s.parts[0] ? "back to the first" : (a.undirected ? "together with " : "to ") + R.say(to)) };
-    }
+    var weak = inferred || s.burden;
+    var shAll = shorts(s.parts, R), shOf = function (id) { var i = s.parts.indexOf(id); return i >= 0 ? shAll[i] : np(id, R); };
+    var weakTxt = "between " + shOf(weak.from) + " and " + shOf(weak.to);
     if (s.type === "loop" && s.given) {
       title = "WHAT KEEPS ITSELF GOING";
-      head = "You described a loop yourself.";
-      body = cap(R.say(s.parts[0])) + " keeps itself going: more of it makes the need for more of it. " +
-        (s.joins && s.joins.length ? "BCM finds " + s.joins.length + (s.joins.length === 1 ? " other part" : " other parts") + " tied into it, so the loop reaches further than the one note." : "Nothing else on the map ties into it yet.");
+      head = "You described a loop yourself: more of it makes the need for more of it.";
+      body.push(cap(np(s.parts[0], R, T)) + " feeds itself, so it needs no outside push to continue.");
+      if (ground(R.byId[s.parts[0]])) body.push(ground(R.byId[s.parts[0]]));
+      body.push(
+        s.joins && s.joins.length
+          ? "It does not stay inside the one note: BCM finds " + s.joins.length + (s.joins.length === 1 ? " other part" : " other parts") + " tied into it, so the loop reaches further than you wrote it."
+          : "Nothing else on the map ties into it yet, which is worth asking about: a loop this strong rarely stands alone.",
+      );
       refs = refs.concat((s.joins || []).map((a) => R.ref(a.from === s.parts[0] ? a.to : a.from)));
     } else if (s.type === "loop" && s.mutual) {
       var b = relBlock(s.arrows[0], R);
       title = "WHAT KEEPS ITSELF GOING";
       head = b.head;
-      body = b.body;
+      body = [b.body];
     } else if (s.type === "loop") {
       title = "WHAT KEEPS ITSELF GOING";
-      head = cap(NUM[s.parts.length] || String(s.parts.length)) + " parts of the situation hold each other in place.";
-      var at = s.parts[0], legs = [];
-      s.arrows.forEach(function (a, i) {
-        var l = leg(a, at);
-        legs.push(l.txt);
-        at = l.to;
-      });
-      body = "Round it goes: " + R.say(s.parts[0]) + " leads " + legs.join("; then ") + ". Each keeps the next going, so a push on any one alone is likely to be pushed back by the rest." + (gap || " The place to start is the step that holds least firmly, from " + R.say(s.burden.from) + " to " + R.say(s.burden.to) + ".");
+      var k = NUM[s.parts.length] || String(s.parts.length);
+      head = cap(k) + " parts of the situation hold each other in place" + (T ? ", all turning on " + T : "") + ".";
+      var names = s.parts.map((id) => np(id, R)), sn = shorts(s.parts, R);
+      body.push("They are " + list(dedupe(names)) + ".");
+      body.push("Each gives the next its reason: " + list(sn.map((n, i) => "from " + n + (i === sn.length - 1 ? " back to " + sn[0] : " to " + sn[i + 1]))) + ".");
+      body.push("A loop like this needs no one to defend it. It renews itself every time one of its parts is touched, so pressing on one part alone tends to be absorbed by the others.");
+      body.push("It is thinnest " + weakTxt + ". Change what passes there, and the rest lose a reason to hold.");
     } else if (s.type === "settlement") {
       title = "WHAT HOLDS IT IN PLACE";
-      head = cap(NUM[s.sources.length] || String(s.sources.length)) + " different reasons end in the same place.";
-      body = cap(list(s.sources.map(R.say))) + " each lead to " + R.say(s.target) + ". Because the reasons are different, taking one away leaves the others still holding it; it changes only when each reason is met, or when that place itself is changed." + gap;
+      head = cap(NUM[s.sources.length] || String(s.sources.length)) + " different reasons all end in the same place" + (T ? ", around " + T : "") + ".";
+      body.push(cap(list(s.sources.map((id) => np(id, R)))) + " each lead to " + np(s.target, R) + ".");
+      if (ground(R.byId[s.target])) body.push(ground(R.byId[s.target]));
+      body.push("Because the reasons are separate, taking one away leaves the others still holding. This is what a settled situation looks like: nothing is pushing, and nothing has to.");
+      body.push("It moves only when each reason is met, or when the place they end in is changed directly.");
     } else {
       title = "WHERE IT IS HEADING";
-      head = "One thing leads to the next, in " + (NUM[s.arrows.length] || s.arrows.length) + " steps.";
-      var at2 = s.parts[0], legs2 = [];
-      s.arrows.forEach(function (a) {
-        var l = leg(a, at2);
-        legs2.push(l.txt);
-        at2 = l.to;
-      });
-      body = cap(R.say(s.parts[0])) + " leads " + legs2.join("; then ") + ". Left as it is, this is where the situation goes." + (gap || " The step that holds least firmly, from " + R.say(s.burden.from) + " to " + R.say(s.burden.to) + ", is the cheapest place to turn it.");
+      var last = s.parts[s.parts.length - 1];
+      head = cap(np(s.parts[0], R)) + " leads, step by step, to " + np(last, R) + ".";
+      body.push("The way runs " + [np(s.parts[0], R)].concat(shAll.slice(1)).join(", then ") + (T ? ", turning on " + T : "") + ".");
+      if (ground(R.byId[last])) body.push(ground(R.byId[last]));
+      body.push("Left as it is, this is where the situation goes, one step making the next likely.");
+      body.push("The cheapest place to turn it is its weakest link, " + weakTxt + ".");
     }
-    return { key: "shape", title: title, head: head, body: body, refs: refs, arrow: s.type === "settlement" ? ", " : " → ", sure: sure(s.arrows) };
+    if (inferred) body.push("That link rests on a single shared word, so treat it as open until you say whether it holds.");
+    return { key: "shape", title: title, head: head, body: body.join(" "), refs: refs, arrow: s.type === "settlement" ? ", " : " → ", sure: sure(s.arrows) };
   }
 
   function gsmPSRead(data, lex) {
