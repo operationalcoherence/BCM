@@ -1,5 +1,5 @@
 """v284: no vague Taking Action titles. Every card title must name its object in the user's words: a phrase of two
-or more words, an emotion, a list after a colon, note ids, or the user's own instruction. Prints FAIL for any title
+or more words, an emotion, a short clause from a note with its id, note ids, or the user's own instruction. Prints FAIL for any title
 that names only a single word (not an emotion) or nothing at all.
 Usage (from tests/): python3 vague_titles.py WORKBOOK.json ..."""
 import json, sys, re
@@ -28,8 +28,10 @@ with sync_playwright() as p:
             q = re.findall(r'“([^”]+)”', t)
             why = ''
             if VAGUE.match(t): why = 'names nothing'
+            goal = ' ' + re.sub(r'[^a-z0-9 -]', ' ', str(wb.get('goal', '')).lower()) + ' '
             for x in q:
                 if ' ' not in x.strip() and not EMO.match(x): why = 'single word: ' + x
+                elif ' ' + x.lower() + ' ' in re.sub(r'\s+', ' ', goal): why = "only the goal's own words: " + x
             print(('FAIL ' if why else 'ok   ') + f.split('/')[-1] + ': ' + t + (' (' + why + ')' if why else ''))
             bad += bool(why)
         pg.close()
