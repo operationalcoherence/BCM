@@ -5776,7 +5776,7 @@
               .map(function (g) {
                 return g.notes
                   .map(function (n) {
-                    return "<div><i>" + E[n.em] + " at " + Gt(g.show) + (n.side > 0 ? ", helps" : n.side < 0 ? ", hinders" : "") + "</i>: " + gsmStQ(n, null, g.key[0]) + "</div>";
+                    return "<div><i>" + E[n.em] + " aimed at " + Gt(g.show) + (n.side > 0 ? ", helps" : n.side < 0 ? ", hinders" : "") + "</i>: " + gsmStQ(n, null, g.key[0]) + "</div>";
                   })
                   .join("");
               })
@@ -15603,9 +15603,20 @@
               return nm ? Gt(nm) + ' <span class="stn">' + NB(x) + "</span>" : NB(x);
             }
             /* v300: a name in the user's words, quoted, with the label the page shows (N3; "N3 (place)" on both maps) */
-            function NLQ(x) {
-              var nm = NM0(x),
-                bm = a.some(function (y) {
+            function NLQ(x, full) {
+              var nm = NM0(x);
+              /* v303: a step on the way (the ridge, the target) is always named in the note's own words: when the note
+                 has no short name, its opening words, cut at 8 with "…" */
+              if (!nm && full) {
+                var ow = String(x.txt || "").replace(/\([^)]*\)/g, " ").replace(/\s+/g, " ").trim().split(/(?<=[.!?;:])\s+/)[0].replace(/[.!?;:,\s]+$/, "").replace(/^(the|a|an)\s+/i, "").split(" ").filter(Boolean);
+                if (ow.length >= 2) {
+                  var cut = ow.length > 8;
+                  ow = ow.slice(0, 8);
+                  while (cut && ow.length > 3 && /^(and|or|the|a|an|of|to|in|on|at|for|with|by|it|is|are|was|that|as|not)$/i.test(ow[ow.length - 1])) ow.pop();
+                  nm = gsmStLow(ow.join(" ").replace(/[,\s]+$/, "")) + (cut ? "\u2026" : "");
+                }
+              }
+              var bm = a.some(function (y) {
                   return y.line;
                 }) && a.some(function (y) {
                   return y.place && !y.line;
@@ -15790,7 +15801,7 @@
               tg && ids.push(tg);
               var st0 = Math.abs(RK[ems[0]] - 2),
                 sh = rg
-                  ? E[ems[0]] + " (" + NLQ(s0) + ") \u2192 the ridge at " + NLQ(rg) + " \u2192 acceptance" + (tg ? " at " + NLQ(tg) : "") + " \u00b7 " + COST(st0 + 1) + " cost"
+                  ? E[ems[0]] + " (" + NLQ(s0) + ") \u2192 the ridge at " + NLQ(rg, 1) + " \u2192 acceptance" + (tg ? " at " + NLQ(tg, 1) : "") + " \u00b7 " + COST(st0 + 1) + " cost"
                   : E[ems[0]] + " \u2192 acceptance: a climb over bare rock \u00b7 high cost";
               ems.length > 1 && 4 === ems[ems.length - 1] && 4 !== ems[0] && (sh += "; defiance last");
               var hh = out.join(" ");
@@ -15832,7 +15843,7 @@
               ie.length && (h += " " + LS(ie, 2) + (PLP ? ", close by in indifference," : ", at its edge on the ridge,") + " could tip either way: bring " + (1 === ie.length ? "it" : "them") + " in early.");
               le.length && (h += " " + LS(le, 2) + ", close by in " + E[EO(le[0])] + ", could pull it down.");
               h += " Emotions first, and keep it up: acceptance doesn’t hold on its own (Vigneaux, 2026).";
-              return { h: h, ids: xs.slice(0, 6).concat(ie.slice(0, 1)), s: (PLP ? "already in acceptance \u00b7 low cost" : "already on the high ground \u00b7 low cost") + (ie.length ? "; bring in " + NLQ(ie[0]) + " before it tips" : "") };
+              return { h: h, ids: xs.slice(0, 6).concat(ie.slice(0, 1)), s: (PLP ? "already in acceptance \u00b7 low cost" : "already on the high ground \u00b7 low cost") + (ie.length ? "; bring in " + NLQ(ie[0], 1) + " before it tips" : "") };
             }
             function MIX(xs) {
               return (
@@ -22650,7 +22661,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v302");
+        t && (t.textContent = "v303");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
