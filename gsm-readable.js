@@ -955,7 +955,11 @@
       },
       TR = [3, 0, 2, 1, 4];
     if ("TWO PEOPLE, TWO SIDES" === s.lab) return "Two groups read " + q(w[0]) + " two ways.";
-    if ("THE HIDDEN CHANNELS" === s.lab && k.emo) return TR[k.emo[1]] < TR[k.emo[0]] ? "Your plans expect " + q(w[0]) + " to go more smoothly than your notes suggest." : "Your plans expect more resistance around " + q(w[0]) + " than your notes show.";
+    if ("THE HIDDEN CHANNELS" === s.lab && k.emo) {
+      if (/^(accept|indiffer|distrust|aggress|defian)/.test(String(w[0]).toLowerCase()))
+        return TR[k.emo[1]] < TR[k.emo[0]] ? "Your plans take the " + Gt(w[0]) + " more lightly than your notes do." : "Your plans meet the " + Gt(w[0]) + " with more resistance than your notes show.";
+      return TR[k.emo[1]] < TR[k.emo[0]] ? "Your plans expect " + q(w[0]) + " to go more smoothly than your notes suggest." : "Your plans expect more resistance around " + q(w[0]) + " than your notes show.";
+    }
     if ("ONE IDEA UNDER TWO NAMES" === s.lab) return q(w[0]) + " and " + q(w[1] || "") + " act as one idea.";
     if ("PLACED ONE WAY, TIED THE OTHER" === s.lab) {
       var nid = String((k.notes || [])[0] || ""),
@@ -8845,12 +8849,22 @@
     (L || []).forEach(function (sp) {
       /* two single words that always go together are one phrase the user wrote, not a finding */
       if ("ONE IDEA UNDER TWO NAMES" === sp.lab && (sp.names || []).some(function (n) {
-          return String(n).indexOf(" ") < 0;
+          return String(n).indexOf(" ") < 0 && !/^(accept|indiffer|distrust|aggress|defian)/.test(String(n).toLowerCase());
         }))
         return;
       if (!WL[sp.lab] || !(sp.k.words || []).length) return void out.push(sp);
       var st = sp.k.words[0],
-        mine = sp.ids.map(String);
+        mine = sp.ids.map(String),
+        sw = String(jt(st) || st).toLowerCase();
+      /* emotion names are core to the method: one word is enough, and it stays the emotion, not widened */
+      if (st.indexOf(" ") < 0 && /^(accept|indiffer|distrust|aggress|defian)/.test(sw)) {
+        var ek = sp.lab + "|" + st;
+        if (!seen[ek]) {
+          seen[ek] = { lab: sp.lab, k: sp.k, su: sp.su, sd: sp.sd, names: [sw], ids: sp.ids.slice(), ph: st };
+          out.push(seen[ek]);
+        }
+        return;
+      }
       if (st.indexOf(" ") < 0) {
         var best = null,
           bn = 1;
