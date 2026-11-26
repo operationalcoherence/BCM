@@ -1003,7 +1003,7 @@
         if (el === dec || el === act) return -1;
         var cl = el.classList,
           l = lab(el);
-        return cl.contains("purp") ? 1 : cl.contains("coacall") ? 2 : cl.contains("why") ? 3 : cl.contains("tatest") ? 4 : cl.contains("taway") ? 5 : cl.contains("tasplit") ? 6 : /^(FIRST MOVES|THE SEQUENCE)$/.test(l) ? 7 : "THE WAY THROUGH IT" === l ? 8 : "WHAT HOLDS IT IN THE LOW GROUND" === l ? 9 : 0;
+        return cl.contains("purp") ? 1 : cl.contains("coacall") ? 2 : cl.contains("why") ? 3 : cl.contains("tatest") ? 4 : cl.contains("taway") ? 5 : cl.contains("tasplit") ? 6 : /^(FIRST MOVES|THE SEQUENCE)$/.test(l) ? 7 : "THE WAY THROUGH IT" === l ? 8 : /^WHAT HOLDS IT (IN THE LOW GROUND|WHERE IT IS)$/.test(l) ? 9 : 0;
       },
       L2 = [],
       L3 = [];
@@ -1046,7 +1046,7 @@
     cw &&
       (cost =
         cw[1].charAt(0).toUpperCase() + cw[1].slice(1) + " effort. " +
-        cost.replace(cw[0], "").replace(/^already on the high ground;?\s*/, "No crossing needed").replace(/; defiance last$/, "; leave defiance for last").replace(/^No crossing needed(.)/, "No crossing needed; $1").replace(/^[a-z]/, function (x) {
+        cost.replace(cw[0], "").replace(/^already (?:on the high ground|in acceptance);?\s*/, "No crossing needed").replace(/; defiance last$/, "; leave defiance for last").replace(/^No crossing needed(.)/, "No crossing needed; $1").replace(/^[a-z]/, function (x) {
             return x.toUpperCase();
           }) +
         ".");
@@ -1088,7 +1088,7 @@
     }
     li && (h += '<div class="tafmr"><span class="tsl">FIRST MOVE</span> ' + li.innerHTML + "</div>");
     why && (h += '<div><span class="tsl">WHY THIS HELPS THE GOAL</span> ' + Gt(why) + "</div>");
-    cost && (h += '<div><span class="tsl">WHAT IT WILL TAKE</span> ' + (ws ? cost : Gt(cost)) + "</div>");
+    cost && (h += '<div><span class="tsl">WHAT IT WILL TAKE</span> ' + (ws ? gsmStnLabels(cost) : Gt(cost)) + "</div>");
     (c._tsp || []).length
       ? (h += '<div><span class="tsl">WHAT TO WATCH FOR</span> ' + c._tsp.join(" ") + "</div>")
       : tv &&
@@ -1105,7 +1105,7 @@
             };
           return !t || cnt(root) <= cnt(c);
         })() &&
-        (h += '<div><span class="tsl">WHAT STILL STANDS IN THE WAY</span> ' + ts + "</div>");
+        (h += '<div><span class="tsl">WHAT STILL STANDS IN THE WAY</span> ' + gsmStnLabels(ts) + "</div>");
     var sp = document.createElement("div");
     sp.className = "tastrip";
     sp.innerHTML = h;
@@ -1401,6 +1401,26 @@
     h.length > 10 && (h = h.slice(0, 10));
     while (h.length > 2 && GSM_EDGE[String(h[h.length - 1]).toLowerCase()]) h.pop();
     return h.length >= 3 ? h.join(" ") : "";
+  }
+  /* v300: small grey note labels on a card show what the page shows: P5 is N5 (N5 (place) when the workbook has both maps) */
+  /* v300: a workbook with only a place map: its ground is the real land, so emotions are never called high or low ground */
+  function gsmPlaceOnly() {
+    return (
+      !(C.m || []).some(function (t) {
+        return Array.isArray(t) && String(t[3] || "").trim();
+      }) && !!((C.p && C.p.m) || []).length
+    );
+  }
+  function gsmStnLabels(html) {
+    var both =
+      (C.m || []).some(function (t) {
+        return Array.isArray(t) && String(t[3] || "").trim();
+      }) && ((C.p && C.p.m) || []).length;
+    return String(html || "").replace(/(<span class="stn">)([^<]*)(<\/span>)/g, function (z, a, b, e) {
+      return a + b.replace(/\bP(\d+)\b/g, function (y, n) {
+        return "N" + n + (both ? " (place)" : "");
+      }) + e;
+    });
   }
   function gsmTAAction(c, bd) {
     var tx = function (el) {
@@ -6049,7 +6069,7 @@
               tamap &&
                 [].forEach.call(n.querySelectorAll(":scope > .tawhy > :not(summary)"), function (x) {
                   var l = x.querySelector(":scope > .csl");
-                  (l && "WHAT HOLDS IT IN THE LOW GROUND" === l.textContent.trim()) || (r += " " + x.textContent);
+                  (l && /^WHAT HOLDS IT (IN THE LOW GROUND|WHERE IT IS)$/.test(l.textContent.trim())) || (r += " " + x.textContent);
                 });
               var a = [],
                 s;
@@ -14989,11 +15009,17 @@
                   .slice(0, 4);
               if (!low.length) return "";
               return (
-                '<div class="csec"><div class="csl">WHAT HOLDS IT IN THE LOW GROUND</div><div class="csn">The ways through it find the easiest path within things as they are. ' +
-                (1 === low.length ? "This note sits" : "These notes sit") +
-                " in the low ground. A different move is to change what holds " +
-                (1 === low.length ? "it" : "them") +
-                " there, which reshapes the ground itself.</div>" +
+                (gsmPlaceOnly()
+                  ? '<div class="csec"><div class="csl">WHAT HOLDS IT WHERE IT IS</div><div class="csn">The ways through it find the easiest path within things as they are. ' +
+                    (1 === low.length ? "This note carries an emotion" : "These notes carry emotions") +
+                    " that are slow to move toward acceptance. A different move is to change what holds " +
+                    (1 === low.length ? "it" : "them") +
+                    " there, which changes the situation itself.</div>"
+                  : '<div class="csec"><div class="csl">WHAT HOLDS IT IN THE LOW GROUND</div><div class="csn">The ways through it find the easiest path within things as they are. ' +
+                    (1 === low.length ? "This note sits" : "These notes sit") +
+                    " in the low ground. A different move is to change what holds " +
+                    (1 === low.length ? "it" : "them") +
+                    " there, which reshapes the ground itself.</div>") +
                 low
                   .map(function (x) {
                     var r = x.line || x.place,
@@ -15007,7 +15033,9 @@
                       EN[r[5]] +
                       "</i> \u2014 \u201c" +
                       Gt(n.length > 64 ? n.slice(0, 64).replace(/\s+\S*$/, "") + "\u2026" : n) +
-                      '\u201d</div><label class="ccq">What constraint or rule keeps this note in the low ground, and how do we change it?<textarea data-cons="' +
+                      '\u201d</div><label class="ccq">What constraint or rule keeps this note ' +
+                      (gsmPlaceOnly() ? "where it is" : "in the low ground") +
+                      ', and how do we change it?<textarea data-cons="' +
                       Gt(key) +
                       '" rows="2" placeholder="The constraint or rule, and how to change it">' +
                       Gt(v) +
@@ -15514,6 +15542,18 @@
               var nm = NM0(x);
               return nm ? Gt(nm) + ' <span class="stn">' + NB(x) + "</span>" : NB(x);
             }
+            /* v300: a name in the user's words, quoted, with the label the page shows (N3; "N3 (place)" on both maps) */
+            function NLQ(x) {
+              var nm = NM0(x),
+                bm = a.some(function (y) {
+                  return y.line;
+                }) && a.some(function (y) {
+                  return y.place && !y.line;
+                }),
+                n = String(x.id).replace(/\D/g, ""),
+                lb = /^P|^place/i.test(String(x.id)) ? "N" + n + (bm ? " (place)" : "") : "N" + n + (bm ? " (line)" : "");
+              return nm ? "\u201C" + Gt(nm) + '\u201D <span class="stn">' + lb + "</span>" : lb;
+            }
             function NLS(xs, k) {
               k = k || 3;
               var b = xs.slice(0, k).map(NL);
@@ -15644,6 +15684,10 @@
                     return RK[p] - RK[q];
                   }),
                 s0 = G[ems[0]][0],
+                /* v300: on a place map the emotions are not land: no ridge, no bare rock (his rule, 19 Nov 2026) */
+                PLW = xs.every(function (x) {
+                  return !x.line && x.place;
+                }),
                 rg = NEAR(RIDGE, s0),
                 tg = rg ? NEAR(ACC, rg) : NEAR(ACC, s0),
                 out = [],
@@ -15686,10 +15730,24 @@
               tg && ids.push(tg);
               var st0 = Math.abs(RK[ems[0]] - 2),
                 sh = rg
-                  ? E[ems[0]] + " (" + NL(s0) + ") \u2192 the ridge at " + NL(rg) + " \u2192 acceptance" + (tg ? " at " + NL(tg) : "") + " \u00b7 " + COST(st0 + 1) + " cost"
+                  ? E[ems[0]] + " (" + NLQ(s0) + ") \u2192 the ridge at " + NLQ(rg) + " \u2192 acceptance" + (tg ? " at " + NLQ(tg) : "") + " \u00b7 " + COST(st0 + 1) + " cost"
                   : E[ems[0]] + " \u2192 acceptance: a climb over bare rock \u00b7 high cost";
               ems.length > 1 && 4 === ems[ems.length - 1] && 4 !== ems[0] && (sh += "; defiance last");
-              return { h: out.join(" "), ids: ids, e0: ems[0], s0: s0, rg: rg, s: sh };
+              var hh = out.join(" ");
+              if (PLW) {
+                var pw = function (z) {
+                  return z
+                    .replace("There is no ridge of indifference here yet, so every crossing is a climb over bare rock. First look for people who are not yet for or against, and add them to the map: a ridge can form there.", "No one here is indifferent yet, so every change is a big jump. First look for people who are not yet for or against, and add them to the map.")
+                    .replace(/a climb over bare rock, which costs more/g, "a big jump, which costs more")
+                    .replace(/a climb over bare rock/g, "a big jump")
+                    .replace("Below the ridge, behaviors first; from the ridge up, emotions first", "Short of indifference, behaviors first; from indifference on, emotions first")
+                    .replace(/the ridge of indifference/g, "indifference")
+                    .replace(/the ridge at /g, "indifference at ");
+                };
+                hh = pw(hh);
+                sh = pw(sh);
+              }
+              return { h: hh, ids: ids, e0: ems[0], s0: s0, rg: rg, s: sh, pl: PLW };
             }
             function PWAY(xs) {
               if (!xs.length) return null;
@@ -15707,11 +15765,14 @@
                 ie = edge.filter(function (y) {
                   return 3 === EO(y);
                 }),
-                h = "Already on the high ground: no crossing, so the cost is low.";
-              ie.length && (h += " " + LS(ie, 2) + ", at its edge on the ridge, could tip either way: bring " + (1 === ie.length ? "it" : "them") + " in early.");
+                PLP = xs.every(function (x) {
+                  return !x.line && x.place;
+                }),
+                h = PLP ? "Already in acceptance: no crossing, so the cost is low." : "Already on the high ground: no crossing, so the cost is low.";
+              ie.length && (h += " " + LS(ie, 2) + (PLP ? ", close by in indifference," : ", at its edge on the ridge,") + " could tip either way: bring " + (1 === ie.length ? "it" : "them") + " in early.");
               le.length && (h += " " + LS(le, 2) + ", close by in " + E[EO(le[0])] + ", could pull it down.");
               h += " Emotions first, and keep it up: acceptance doesn’t hold on its own (Vigneaux, 2026).";
-              return { h: h, ids: xs.slice(0, 6).concat(ie.slice(0, 1)), s: "already on the high ground \u00b7 low cost" + (ie.length ? "; bring in " + NL(ie[0]) + " before it tips" : "") };
+              return { h: h, ids: xs.slice(0, 6).concat(ie.slice(0, 1)), s: (PLP ? "already in acceptance \u00b7 low cost" : "already on the high ground \u00b7 low cost") + (ie.length ? "; bring in " + NLQ(ie[0]) + " before it tips" : "") };
             }
             function MIX(xs) {
               return (
@@ -15837,8 +15898,8 @@
                 mS = [
                   "Don’t argue with it; change a condition that keeps it in place. Start with " + (NM0(sys[0]) ? Gt(NM0(sys[0])) + " (" + NB(sys[0]) + ")" : NB(sys[0])) + ", the part most tied to the others.",
                 ];
-              wS && mS.push("Cross where it is cheapest first: " + Gt(E[wS.e0]) + (wS.rg ? ", through the ridge at " + wS.rg.id : "") + ". THE WAY ACROSS gives the order.");
-              null != dS && mS.push("In the low ground, bring the behavior before its label: something people can do that fits the " + E[dS] + " already there.");
+              wS && mS.push("Cross where it is cheapest first: " + Gt(E[wS.e0]) + (wS.rg ? (wS.pl ? ", through the indifference at " : ", through the ridge at ") + wS.rg.id : "") + ". THE WAY ACROSS gives the order.");
+              null != dS && mS.push((wS && wS.pl ? "Where people hold " + E[dS] + ", bring the behavior before its label: something people can do that fits the " : "In the low ground, bring the behavior before its label: something people can do that fits the ") + E[dS] + " already there.");
               tS.not.length && mS.push("Name what holds " + LS(tS.not, 3) + " below, and add it to Q.4 or Q.6, so what you would design answers it.");
               mS.push("Watch whether the parts start to come apart from each other: that is the system giving.");
               CARD({
@@ -15849,7 +15910,7 @@
                 isS: 1,
                 purp: "These parts hold each other up against the goal. Changing one condition under them moves more than arguing with any one of them.",
                 test: SAYK(tS, "sys"),
-                why: "it works in the low ground" + (null != dS ? ", mostly " + E[dS] : "") + ", where every crossing is uncertain and the course has to change as people respond.",
+                why: (gsmPlaceOnly() ? "it works with the emotions slowest to move" : "it works in the low ground") + (null != dS ? ", mostly " + E[dS] : "") + ", where every crossing is uncertain and the course has to change as people respond.",
                 way: wS,
                 moves: mS,
                 stand: sys,
@@ -15962,7 +16023,13 @@
                 isS: sO,
                 purp: "Much of the alternative already exists. Scaling it moves the goal further, for less energy, than inventing something new.",
                 test: SAYK(tO, "help"),
-                why: sO ? "its notes reach from acceptance into the low ground, a high-risk move a program cannot plan for." : "it already stands on the high ground and nothing here asks it to cross, so a set sequence can carry it.",
+                why: gsmPlaceOnly()
+                  ? sO
+                    ? "its notes reach from acceptance into distrust, aggression, or defiance, a high-risk move a program cannot plan for."
+                    : "it already stands in acceptance and nothing here asks it to cross, so a set sequence can carry it."
+                  : sO
+                    ? "its notes reach from acceptance into the low ground, a high-risk move a program cannot plan for."
+                    : "it already stands on the high ground and nothing here asks it to cross, so a set sequence can carry it.",
                 way: sO ? WAY(opp) : PWAY(opp),
                 moves: mO,
                 have: opp,
@@ -16177,10 +16244,14 @@
                 ["DOES WHAT YOU WOULD DESIGN MEET IT?", "The test on this card: what the proposed actions already address, and what remains unresolved."],
                 ["WHERE THE READING SPLITS", "What Pattern Analysis found under this card’s notes, and what it means for how you act."],
                 ["A strategy or a program", "Why the card is one or the other. The button switches it, and your choice is saved."],
-                ["THE WAY ACROSS", "The order of the crossings on the ground (YOUR LANDSCAPE, Pattern Analysis): through the ridge of indifference before bare rock, with the cost of each move."],
+                gsmPlaceOnly()
+                  ? ["THE WAY ACROSS", "The order of the moves between emotions: through indifference before any big jump, with the cost of each move."]
+                  : ["THE WAY ACROSS", "The order of the crossings on the ground (YOUR LANDSCAPE, Pattern Analysis): through the ridge of indifference before bare rock, with the cost of each move."],
                 ["FIRST MOVES or THE SEQUENCE", "What to do first. Under the map it follows the way you choose."],
                 ["THE WAY THROUGH IT", "The card’s ways drawn on the ground, and a chart comparing their effort, impact, benefit, and return."],
-                ["WHAT HOLDS IT IN THE LOW GROUND", "Write the constraint or rule that keeps a note low. It is saved with the note and shows on every card that holds it; one tap adds it to Q.4, Q.6, or Q.7."],
+                gsmPlaceOnly()
+                  ? ["WHAT HOLDS IT WHERE IT IS", "Write the constraint or rule that keeps a note where it is. It is saved with the note and shows on every card that holds it; one tap adds it to Q.4, Q.6, or Q.7."]
+                  : ["WHAT HOLDS IT IN THE LOW GROUND", "Write the constraint or rule that keeps a note low. It is saved with the note and shows on every card that holds it; one tap adds it to Q.4, Q.6, or Q.7."],
                 ["YOUR DECISION", "Keep, change, or drop the card, with a line on why. It is listed in WHAT YOU DECIDED AND WHY."],
                 ["WHAT YOU DID", "Log what you did and what happened. The card’s notes, and any note whose constraint you named, are flagged on Mapping Landscape to check again: map, act, map again."],
               ]
@@ -22513,7 +22584,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v299");
+        t && (t.textContent = "v300");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
