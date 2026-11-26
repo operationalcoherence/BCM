@@ -22670,7 +22670,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v307");
+        t && (t.textContent = "v308");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -30025,7 +30025,7 @@
   };
   var test = false;
   try {
-    test = /[?&]f8test=1\b/.test(location.search);
+    test = /[?&#]f8test(=1)?\b/.test(location.search + location.hash);
   } catch (e) {}
   if (!test) return;
   function panel() {
@@ -30036,13 +30036,19 @@
     d.id = "gsm-f8t";
     d.style.cssText = "border:1.5px dashed #a33;padding:12px 14px;margin:12px 0 0;font-size:14px;line-height:1.45";
     d.innerHTML =
-      '<div style="font-weight:700;letter-spacing:.14em;font-size:12px;color:#a33">F8 TEST (only with ?f8test=1 in the address)</div>' +
+      '<div style="font-weight:700;letter-spacing:.14em;font-size:12px;color:#a33">F8 TEST (only with ?f8test=1 or #f8test in the address)</div>' +
       '<div id="gsm-f8s" role="status" style="margin:6px 0 10px">Not loaded. Nothing is saved or sent.</div>' +
       '<div style="display:flex;flex-wrap:wrap;gap:8px">' +
       '<button type="button" class="btn alt" data-f8="lead">Sign in with Google (lead)</button>' +
       '<button type="button" class="btn alt" data-f8="quiet">Sign in anonymously (person answering)</button>' +
       '<button type="button" class="btn alt" data-f8="out">Sign out</button></div>';
     w.appendChild(d);
+    try {
+      window.gsmTab && window.gsmTab(5);
+      setTimeout(function () {
+        d.scrollIntoView({ block: "center" });
+      }, 400);
+    } catch (e) {}
     var s = d.querySelector("#gsm-f8s");
     function show(u) {
       s.textContent = u
