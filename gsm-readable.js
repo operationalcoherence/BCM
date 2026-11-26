@@ -1,4 +1,47 @@
 /* Bear Canyon Method v150 - boot: fonts, styles and page, then the workbook. */
+/* v311: F8 step 4 - which workbook is on this device. Runs before the workbook reads it.
+   The workbook always reads and writes one place (groundsmith-web-v1). An invite link (#bcmjoin=pid.key) parks the
+   person's own workbook (groundsmith-web-v1-solo) and puts that project's workbook in its place; opening the page
+   without the link puts their own workbook back. Nothing is lost either way, and the solo version is untouched. */
+!(function () {
+  var S = "groundsmith-web-v1",
+    SOLO = "groundsmith-web-v1-solo",
+    CUR = "groundsmith-web-f8cur",
+    PK = function (p) {
+      return "groundsmith-web-f8wb-" + p;
+    };
+  try {
+    var ls = localStorage,
+      m = /[#&]bcmjoin=([A-Za-z0-9]{1,40})\.([A-Za-z0-9]{20,64})/.exec(location.hash || ""),
+      cur = null;
+    try {
+      cur = JSON.parse(ls.getItem(CUR) || "null");
+    } catch (e) {}
+    var put = function (k, v) {
+      v == null ? ls.removeItem(k) : ls.setItem(k, v);
+    };
+    if (m) {
+      var pid = m[1];
+      if (!cur) {
+        var own = ls.getItem(S);
+        put(SOLO, own);
+      } else if (cur.pid !== pid) put(PK(cur.pid), ls.getItem(S));
+      if (!cur || cur.pid !== pid) put(S, ls.getItem(PK(pid)));
+      ls.setItem(CUR, JSON.stringify({ pid: pid, key: m[2] }));
+      window.gsmJoin = { pid: pid, key: m[2] };
+    } else if (cur && cur.pid) {
+      put(PK(cur.pid), ls.getItem(S));
+      put(S, ls.getItem(SOLO));
+      ls.removeItem(SOLO);
+      ls.removeItem(CUR);
+    }
+  } catch (e) {}
+  window.addEventListener("hashchange", function () {
+    var had = !!window.gsmJoin,
+      has = /[#&]bcmjoin=/.test(location.hash || "");
+    if (had !== has || (has && location.hash.indexOf(window.gsmJoin.pid + "." + window.gsmJoin.key) < 0)) location.reload();
+  });
+})();
 !(function () {
   var FONT = "https://fonts.googleapis.com/css2?family=Questrial&display=swap",
     CSS =
@@ -22670,7 +22713,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v310");
+        t && (t.textContent = "v311");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -32574,7 +32617,7 @@ var qrcode = function() {
       "<code>" + esc(L) + "</code>" +
       '<div class="lrow"><button type="button" class="btn alt" data-l="copy">Copy link</button><a class="btn alt" href="' + esc(mail) + '" style="text-decoration:none">Email it</a><button type="button" class="btn alt" data-l="qr">Show QR code</button><span class="lh" id="gsm-lcp" role="status"></span></div>' +
       '<div class="qr" id="gsm-lqr" style="display:none">' + svg + "</div>" +
-      '<div class="lh">The link opens the workbook for the people you invite in the next F8 step; it does nothing yet.</div></div>'
+      '<div class="lh">Each person who opens it gets their own workbook, with your goal and map, and it is shared with you as they work.</div></div>'
     );
   }
   function delBox(p) {
@@ -32807,5 +32850,386 @@ var qrcode = function() {
   var n = 0,
     t = setInterval(function () {
       (setup() || ++n > 120) && clearInterval(t);
+    }, 250);
+})();
+
+/* v311: F8 step 4 - the invited person. Runs only when the page was opened with an invite link (#bcmjoin=pid.key).
+   They are signed in anonymously in the background, read the one invite record their key opens, add a name and a
+   voice, and get their own workbook with the lead's goal and map. The workbook is sent to
+   projects/{pid}/workbooks/{uid} about every 30 seconds when it has changed (and when the page is hidden), until they
+   pause sharing. If the free daily write limit is hit, or there is no connection, the work stays on this device and is
+   sent on a later try. Delete my workbook removes it from the project and from this device. */
+!(function () {
+  var J = window.gsmJoin;
+  if (!J) return;
+  var S = "groundsmith-web-v1",
+    SOLO = "groundsmith-web-v1-solo",
+    CUR = "groundsmith-web-f8cur",
+    PK = "groundsmith-web-f8wb-" + J.pid,
+    MEK = "groundsmith-web-f8me-" + J.pid,
+    EVERY = 30000,
+    bar = null,
+    inv = null,
+    me = null,
+    uid = "",
+    st = { msg: "", busy: false, ask: false, inflight: false, wait: 0, problem: "", closed: false, gone: false, voice: "", other: false };
+  function esc(t) {
+    return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function getMe() {
+    try {
+      return JSON.parse(localStorage.getItem(MEK) || "null");
+    } catch (e) {
+      return null;
+    }
+  }
+  function putMe() {
+    try {
+      localStorage.setItem(MEK, JSON.stringify(me));
+    } catch (e) {}
+  }
+  function wb() {
+    try {
+      return JSON.parse(localStorage.getItem(S) || "null");
+    } catch (e) {
+      return null;
+    }
+  }
+  function hash(s) {
+    for (var h = 5381, i = 0; i < s.length; i++) h = (Math.imul(h, 33) ^ s.charCodeAt(i)) >>> 0;
+    return s.length + ":" + h;
+  }
+  function ago(t) {
+    var s = Math.max(0, Math.round((Date.now() - t) / 1000));
+    if (s < 45) return "just now";
+    var m = Math.round(s / 60);
+    if (m < 60) return m + (m === 1 ? " minute ago" : " minutes ago");
+    var h = Math.round(m / 60);
+    return h + (h === 1 ? " hour ago" : " hours ago");
+  }
+  function own() {
+    return location.origin + location.pathname + location.search;
+  }
+  var CSS =
+    "#gsm-join{border:1.5px solid #222;padding:12px 14px;margin:14px 0 4px;font-size:14.5px;line-height:1.45;background:#fff}" +
+    "#gsm-join .jt{font-weight:700;letter-spacing:.14em;font-size:12px;margin:0 0 6px}#gsm-join .jt span{color:#a33}" +
+    "#gsm-join .jg{border-left:3px solid #222;padding:2px 0 2px 10px;margin:8px 0;white-space:pre-wrap}" +
+    "#gsm-join .jh{font-size:12.5px;color:#666;margin:3px 0 0}#gsm-join .jf{margin:12px 0}" +
+    "#gsm-join .jf>label,#gsm-join .jf>.jl{display:block;font-weight:700;letter-spacing:.12em;font-size:11.5px;margin:0 0 4px}" +
+    "#gsm-join input[type=text]{font:inherit;width:100%;box-sizing:border-box;border:1px solid #999;padding:7px 9px;border-radius:2px;background:#fff;color:#222}" +
+    "#gsm-join .jrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}" +
+    "#gsm-join .vch{border:1px solid #222;border-radius:14px;padding:4px 11px;font:13px 'Questrial',sans-serif;background:#fff;color:#222;cursor:pointer;min-height:32px}" +
+    "#gsm-join .vch.on{background:#222;color:#fff}#gsm-join .vch.oth{border-style:dashed}" +
+    "#gsm-join .jst{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}#gsm-join .jst b{font-weight:700}" +
+    "#gsm-join .jmsg{color:#a33;margin:6px 0;font-size:13.5px}#gsm-join .warn{background:#fbeeea;border:1px solid #c9a49b;padding:9px 11px;margin:8px 0}" +
+    "#gsm .goal.f8lock{background:#f6f5f1;color:#333}" +
+    "@media print{#gsm-join{display:none}}";
+  function head() {
+    return '<div class="jt">' + (inv ? esc(inv.name).toUpperCase() : "A SHARED PROJECT") + ' <span>(TEST: use test data)</span></div>';
+  }
+  function viewAsk() {
+    var vs = (inv.voices || []).slice();
+    return (
+      head() +
+      "<p style=\"margin:4px 0\">" + esc(inv.leadName || "The lead") + " has invited you to answer toward this goal. You get your own workbook. What you add is shared with " + esc(inv.leadName || "the lead") + " as you work.</p>" +
+      '<div class="jg">' + esc(inv.goal) + "</div>" +
+      (inv.due ? '<div class="jh">Answers are due ' + esc(inv.due) + ".</div>" : "") +
+      '<div class="jf"><label for="gsm-jn">YOUR NAME</label><input type="text" id="gsm-jn" maxlength="40" autocomplete="name" value="' + esc((me && me.name) || (wb() || {}).who || localStorage.getItem("groundsmith-web-name") || "") + '"><div class="jh">' + esc(inv.leadName || "The lead") + " sees this name next to your answers.</div></div>" +
+      '<div class="jf"><div class="jl">YOUR VOICE</div><div class="jh">Whose view do you bring?</div><div class="jrow">' +
+      vs.map(function (v) {
+        return '<button type="button" class="vch' + (!st.other && st.voice === v ? " on" : "") + '" data-j="v" data-v="' + esc(v) + '">' + esc(v) + "</button>";
+      }).join("") +
+      '<button type="button" class="vch oth' + (st.other ? " on" : "") + '" data-j="oth">Other</button></div>' +
+      (st.other ? '<input type="text" id="gsm-jo" maxlength="60" placeholder="Write in your voice" value="' + esc(st.voice) + '">' : "") +
+      "</div>" +
+      (st.msg ? '<div class="jmsg" role="status">' + esc(st.msg) + "</div>" : "") +
+      '<div class="jrow"><button type="button" class="btn" data-j="go"' + (st.busy ? " disabled" : "") + '>Begin</button><a class="lnk sm" href="' + esc(own()) + '">Not now: back to my own workbook</a></div>' +
+      '<div class="jh">Your own workbook, if you have one on this device, is kept apart and comes back when you open the page without this link.</div>'
+    );
+  }
+  function line() {
+    if (st.gone) return "This invite link no longer works. Ask " + (inv ? esc(inv.leadName || "the lead") : "the lead") + " for a new one. Your work stays on this device.";
+    if (st.closed) return "The lead has stopped taking answers. Your work stays on this device and is no longer sent.";
+    if (me && me.paused) return "<b>Sharing paused.</b> Your work saves on this device only until you resume.";
+    var who = esc((inv && inv.leadName) || "the lead");
+    if (st.problem) return "Sharing with " + who + " · <b>" + esc(st.problem) + "</b>";
+    return "Sharing with " + who + " · " + (me && me.at ? "saved " + ago(me.at) : st.inflight ? "saving…" : "not saved yet");
+  }
+  function viewBar() {
+    var h = head() + '<div class="jst"><span id="gsm-jline" role="status">' + line() + "</span></div>";
+    if (inv) h += '<div class="jh">As ' + esc(me.name) + " · " + esc(me.voice) + (inv.due ? " · answers due " + esc(inv.due) : "") + "</div>";
+    if (st.ask)
+      h +=
+        '<div class="warn">Delete your workbook in "' + esc(inv ? inv.name : "this project") + '"? It is removed from the project and from this device, for good. Your own workbook is kept.</div>' +
+        '<div class="jrow"><button type="button" class="btn" data-j="delyes"' + (st.busy ? " disabled" : "") + '>Delete for good</button><button type="button" class="btn alt" data-j="delno">Keep it</button></div>';
+    else
+      h +=
+        '<div class="jrow">' +
+        (st.closed || st.gone ? "" : '<button type="button" class="btn alt" data-j="pause">' + (me.paused ? "Resume sharing" : "Pause sharing") + "</button>") +
+        '<button type="button" class="lnk sm" data-j="del">Delete my workbook</button>' +
+        '<a class="lnk sm" href="' + esc(own()) + '">Back to my own workbook</a></div>';
+    if (st.msg) h += '<div class="jmsg" role="status">' + esc(st.msg) + "</div>";
+    return h;
+  }
+  function draw() {
+    if (!bar) return;
+    bar.innerHTML = !inv ? head() + '<div class="jst" role="status">' + esc(st.msg || "Opening the project…") + "</div>" : !me ? viewAsk() : viewBar();
+  }
+  function tickLine() {
+    var l = document.getElementById("gsm-jline");
+    l && (l.innerHTML = line());
+  }
+  function lockGoal() {
+    var g = document.querySelector("#gsm textarea.goal");
+    if (!g || !inv) return;
+    g.readOnly = true;
+    g.classList.add("f8lock");
+    g.title = "The lead set this goal. Only they can change it.";
+    if (!document.getElementById("gsm-jgoal")) {
+      var n = document.createElement("div");
+      n.id = "gsm-jgoal";
+      n.className = "whohelp";
+      n.style.margin = "-16px 0 18px";
+      n.textContent = (inv.leadName || "The lead") + " set this goal for the project. Only they can change it.";
+      g.parentNode.insertBefore(n, g.nextSibling);
+    }
+  }
+  function errCode(e) {
+    return (e && e.code) || "";
+  }
+  /* the workbook record, written as BCM's own workbook format (a JSON string inside a map, since Firestore can't hold nested arrays) */
+  function send(force) {
+    if (!me || !inv || me.paused || st.closed || st.gone || st.inflight) return;
+    if (!force && st.wait && Date.now() < st.wait) return;
+    var s = localStorage.getItem(S) || "",
+      h = hash(s);
+    if (!s || (h === me.sent && !st.problem)) return tickLine();
+    st.inflight = true;
+    tickLine();
+    var done = false;
+    window.gsmF8
+      .fs()
+      .then(function (F) {
+        var M = F.M,
+          w = null;
+        try {
+          w = JSON.parse(s);
+        } catch (e) {}
+        var rec = { uid: uid, key: J.key, name: me.name, voice: me.voice, data: { fmt: "bcm-workbook", sv: (w && w.sv) || 2, json: s }, saved: M.serverTimestamp() };
+        return Promise.race([
+          M.setDoc(M.doc(F.db, "projects", J.pid, "workbooks", uid), rec),
+          new Promise(function (r, x) {
+            setTimeout(function () {
+              done || x({ code: "bcm-timeout" });
+            }, 20000);
+          }),
+        ]);
+      })
+      .then(function () {
+        done = true;
+        st.inflight = false;
+        st.problem = "";
+        st.wait = 0;
+        me.sent = h;
+        me.at = Date.now();
+        putMe();
+        tickLine();
+      })
+      .catch(function (e) {
+        done = true;
+        st.inflight = false;
+        var c = errCode(e);
+        if (/resource-exhausted/.test(c)) {
+          st.problem = "Today’s free sharing limit is used up. Your work is safe on this device and is sent later.";
+          st.wait = Date.now() + 15 * 60000;
+        } else if (/permission-denied/.test(c)) {
+          return checkKey().then(function () {
+            st.closed || st.gone || ((st.problem = "The project refused this save. Your work is safe on this device."), (st.wait = Date.now() + 5 * 60000));
+            draw();
+          });
+        } else {
+          st.problem = "Not sent yet: no connection. Your work is safe on this device.";
+          st.wait = Date.now() + 60000;
+        }
+        tickLine();
+      });
+  }
+  function checkKey() {
+    return window.gsmF8
+      .fs()
+      .then(function (F) {
+        return F.M.getDoc(F.M.doc(F.db, "projects", J.pid, "keys", J.key));
+      })
+      .then(function (d) {
+        if (!d.exists()) {
+          st.gone = true;
+          return null;
+        }
+        var x = d.data();
+        st.closed = x.open !== true;
+        return x;
+      });
+  }
+  function begin() {
+    var n = document.getElementById("gsm-jn"),
+      name = n ? n.value.replace(/\s+/g, " ").trim() : "",
+      o = document.getElementById("gsm-jo"),
+      voice = st.other ? (o ? o.value.replace(/\s+/g, " ").trim() : "") : st.voice;
+    if (st.other) st.voice = voice;
+    if (!name) return ((st.msg = "Write your name."), draw(), n && n.focus());
+    if (!voice) return ((st.msg = st.other ? "Write in your voice." : "Choose your voice, or Other to write it in."), draw());
+    var w = wb() || { goal: "", a: ["", "", "", "", "", "", ""], m: [], p: { m: [] } };
+    w.goal = inv.goal || "";
+    w.who = name;
+    Array.isArray(w.voices) || (w.voices = []);
+    (inv.voices || []).concat([voice]).forEach(function (v) {
+      v && w.voices.indexOf(v) < 0 && w.voices.push(v);
+    });
+    if (inv.map && inv.map.kind === "place" && inv.map.p && !(w.p && w.p.c && w.p.c.length)) {
+      try {
+        var pl = JSON.parse(inv.map.p);
+        w.p = { m: (w.p && w.p.m) || [], c: pl.c, loc: pl.loc || null, name: pl.name || inv.map.name || "" };
+      } catch (e) {}
+    }
+    me = { name: name, voice: voice, paused: false, sent: "", at: 0 };
+    try {
+      localStorage.setItem(S, JSON.stringify(w));
+      localStorage.setItem("groundsmith-web-welcomed", "1");
+    } catch (e) {}
+    putMe();
+    location.reload();
+  }
+  function delMine() {
+    st.busy = true;
+    st.msg = "Deleting…";
+    draw();
+    window.gsmF8
+      .fs()
+      .then(function (F) {
+        return F.M.deleteDoc(F.M.doc(F.db, "projects", J.pid, "workbooks", uid));
+      })
+      .then(function () {
+        try {
+          var solo = localStorage.getItem(SOLO);
+          solo == null ? localStorage.removeItem(S) : localStorage.setItem(S, solo);
+          [SOLO, CUR, PK, MEK].forEach(function (k) {
+            localStorage.removeItem(k);
+          });
+        } catch (e) {}
+        window.gsmJoin = null;
+        location.replace(own());
+      })
+      .catch(function (e) {
+        st.busy = false;
+        st.msg = /unavailable|network|timeout/.test(errCode(e)) ? "No connection. Try again when you are online." : "Couldn’t delete it: " + (errCode(e) || (e && e.message) || e);
+        draw();
+      });
+  }
+  function onClick(e) {
+    var b = e.target.closest("[data-j]");
+    if (!b) return;
+    var k = b.getAttribute("data-j");
+    if (k === "v" || k === "oth") st.msg = "";
+    if (k === "v") {
+      st.other = false;
+      draw();
+      st.voice = b.getAttribute("data-v");
+      draw();
+    } else if (k === "oth") {
+      draw();
+      st.other = true;
+      st.voice = "";
+      draw();
+      var o = document.getElementById("gsm-jo");
+      o && o.focus();
+    } else if (k === "go") begin();
+    else if (k === "pause") {
+      me.paused = !me.paused;
+      putMe();
+      st.msg = "";
+      draw();
+      me.paused || send(true);
+    } else if (k === "del") ((st.ask = true), (st.msg = ""), draw());
+    else if (k === "delno") ((st.ask = false), draw());
+    else if (k === "delyes") delMine();
+  }
+  var keptName = null;
+  function keepName() {
+    var n = document.getElementById("gsm-jn");
+    n && (keptName = n.value);
+  }
+  function start() {
+    var host = document.getElementById("gsm"),
+      after = host && host.querySelector(".dsc");
+    if (!after || !window.gsmF8 || !document.getElementById("gsm-ways")) return false;
+    var css = document.createElement("style");
+    css.textContent = CSS;
+    document.head.appendChild(css);
+    bar = document.createElement("div");
+    bar.id = "gsm-join";
+    after.parentNode.insertBefore(bar, after.nextSibling);
+    bar.addEventListener("click", onClick);
+    var _draw = draw;
+    draw = function () {
+      keepName();
+      var o = document.getElementById("gsm-jo");
+      o && st.other && (st.voice = o.value);
+      _draw();
+      var n = document.getElementById("gsm-jn");
+      n && keptName != null && (n.value = keptName);
+    };
+    me = getMe();
+    draw();
+    window.gsmF8
+      .signInQuiet()
+      .then(function (u) {
+        uid = u.uid;
+        return checkKey();
+      })
+      .then(function (x) {
+        if (st.gone) {
+          st.msg = "This invite link doesn’t work. Ask the lead for a new one.";
+          inv = null;
+          return draw();
+        }
+        inv = x;
+        if (me && inv.goal != null) {
+          var w = wb();
+          if (w && w.goal !== inv.goal) {
+            /* the lead changed the shared goal: take it, once per visit */
+            var once = "gsm-f8goal-" + J.pid;
+            if (!sessionStorage.getItem(once)) {
+              sessionStorage.setItem(once, "1");
+              w.goal = inv.goal;
+              localStorage.setItem(S, JSON.stringify(w));
+              return location.reload();
+            }
+          }
+        }
+        lockGoal();
+        draw();
+        if (me) {
+          send(true);
+          setInterval(send, EVERY);
+          setInterval(tickLine, 15000);
+          document.addEventListener("visibilitychange", function () {
+            document.visibilityState === "hidden" && send(true);
+          });
+        }
+        try {
+          window.gsmTab && window.gsmTab(me ? 0 : 5);
+        } catch (e) {}
+      })
+      .catch(function (e) {
+        st.msg = /unavailable|network/.test(errCode(e)) ? "No connection. Open the link again when you are online." : "Couldn’t open the project: " + (errCode(e) || (e && e.message) || e);
+        draw();
+      });
+    return true;
+  }
+  var n = 0,
+    t = setInterval(function () {
+      (start() || ++n > 120) && clearInterval(t);
     }, 250);
 })();

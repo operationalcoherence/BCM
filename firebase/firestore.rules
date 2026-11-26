@@ -1,5 +1,5 @@
 rules_version = '2';
-// BCM F8 security rules (drafted 26 Nov 2026, not yet deployed; the live database stays fully locked until F8 ships).
+// BCM F8 security rules (drafted 26 Nov 2026; published in the Firebase console 26 Nov 2026, 12:12).
 //
 // Layout:
 //   projects/{pid}                     lead only: name, goal, voices, due date, map, lead = the lead's uid
