@@ -955,7 +955,7 @@
       },
       TR = [3, 0, 2, 1, 4];
     if ("TWO PEOPLE, TWO SIDES" === s.lab) return "Two groups read " + q(w[0]) + " two ways.";
-    if ("THE HIDDEN CHANNELS" === s.lab && k.emo) return q(w[0]) + (TR[k.emo[1]] < TR[k.emo[0]] ? " reads easier in your plans than on the ground." : " reads harder in your plans than on the ground.");
+    if ("THE HIDDEN CHANNELS" === s.lab && k.emo) return TR[k.emo[1]] < TR[k.emo[0]] ? "Your plans expect " + q(w[0]) + " to go more smoothly than your notes suggest." : "Your plans expect more resistance around " + q(w[0]) + " than your notes show.";
     if ("ONE IDEA UNDER TWO NAMES" === s.lab) return q(w[0]) + " and " + q(w[1] || "") + " act as one idea.";
     if ("PLACED ONE WAY, TIED THE OTHER" === s.lab) {
       var nid = String((k.notes || [])[0] || ""),
@@ -1033,12 +1033,26 @@
       why = txt(sec(1)).replace(/^IN SERVICE OF THE GOAL\s*/, ""),
       why2 = txt(sec(3)).replace(/^Why:\s*/, ""),
       cost = ws || "",
+      /* v284b: say the cost first, in words, then the order of the crossings */
+      cw = /\s*\u00b7\s*(\w+) cost/.exec(cost);
       mcsn = mapSec && mapSec.querySelector(":scope > .gterr-card .csn, .csn");
     /* a card whose purpose only names its source gives its reason instead */
     (!why || /^It is (what you would|already working)/.test(why) || c.hasAttribute("data-ground")) && why2 && (why = why2.charAt(0).toUpperCase() + why2.slice(1));
+    cw &&
+      (cost =
+        cw[1].charAt(0).toUpperCase() + cw[1].slice(1) + " effort. " +
+        cost.replace(cw[0], "").replace(/^already on the high ground;?\s*/, "No crossing needed").replace(/; defiance last$/, "; leave defiance for last").replace(/^No crossing needed(.)/, "No crossing needed; $1").replace(/^[a-z]/, function (x) {
+            return x.toUpperCase();
+          }) +
+        ".");
     if (!cost && mcsn) {
       var mm = /^Crosses the help and hinder line .*?goal\./.exec(mcsn.textContent.trim());
-      mm && ((cost = mm[0]), (mcsn.textContent = mcsn.textContent.trim().slice(mm[0].length).trim()));
+      var mn = mm && /line (\d+) times?; ([\d.]+)\u00d7/.exec(mm[0]);
+      mm &&
+        ((cost = mn
+          ? "The way to the goal switches between helping and hindering " + (1 == mn[1] ? "once" : mn[1] + " times") + " and is " + mn[2] + " times as long as a straight line."
+          : mm[0]),
+        (mcsn.textContent = mcsn.textContent.trim().slice(mm[0].length).trim()));
     }
     if (act) {
       var hd = c.querySelector(".hd"),
@@ -1052,11 +1066,11 @@
       }
     }
     li && (h += '<div class="tafmr"><span class="tsl">FIRST MOVE</span> ' + li.innerHTML + "</div>");
-    why && (h += '<div><span class="tsl">WHY</span> ' + Gt(why) + "</div>");
-    cost && (h += '<div><span class="tsl">COST</span> ' + (ws ? cost : Gt(cost)) + "</div>");
+    why && (h += '<div><span class="tsl">WHY THIS HELPS THE GOAL</span> ' + Gt(why) + "</div>");
+    cost && (h += '<div><span class="tsl">WHAT IT WILL TAKE</span> ' + (ws ? cost : Gt(cost)) + "</div>");
     (c._tsp || []).length
-      ? (h += '<div><span class="tsl">SPLIT</span> ' + c._tsp.join(" ") + "</div>")
-      : tv && "yes" !== tv && ts && (h += '<div><span class="tsl">IN THE WAY</span> ' + ts + "</div>");
+      ? (h += '<div><span class="tsl">WHAT TO WATCH FOR</span> ' + c._tsp.join(" ") + "</div>")
+      : tv && "yes" !== tv && ts && (h += '<div><span class="tsl">WHAT STILL STANDS IN THE WAY</span> ' + ts + "</div>");
     var sp = document.createElement("div");
     sp.className = "tastrip";
     sp.innerHTML = h;
