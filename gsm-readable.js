@@ -4377,7 +4377,8 @@
         return (
           nm(a, 1) + " " + hv(a) + " " + ex + " toward " + nm(b) + sx + ". " + gsmCap(ey) + " is also aimed at " + nm(a) + sy +
           ", but that note doesn't say whose it is. If it comes from " + nm(b) + ", the two are in a loop: each side's " + (ex === ey ? ex : "emotion") +
-          " is the other side's evidence, so it grows on its own. Whose it is decides whether this is a loop: worth finding out before acting on either side."
+          " is the other side's evidence, so it grows on its own. Does the " + ey + " in " + gsmStRef(y) + " come from " + nm(b) + "?" +
+          '<div class="emo"><button type="button" class="ech" onclick="gsmAskLoop(\'' + ask + '\',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskLoop(\'' + ask + "','n')\">No</button></div>"
         );
       var h =
         (ex === ey
@@ -4570,7 +4571,13 @@
         addEv(c.sup.length ? c.sup : c.opp.length ? c.opp : c.reach, c);
       });
       say +=
-        "</p><p>If both are meant to stay, the goal is not to replace one way with the other. It is to move between the two as conditions change.</p>";
+        "</p><p>If both are meant to stay, the goal is not to replace one way with the other. It is to move between the two as conditions change.</p>" +
+        "<p>Is the goal two ways of running, each for its own conditions?</p>" +
+        '<div class="emo"><button type="button" class="ech" onclick="gsmAskMode(\'' +
+        key +
+        "','y')\">Yes</button><button type=\"button\" class=\"ech\" onclick=\"gsmAskMode('" +
+        key +
+        "','n')\">No</button></div>";
       return { say: say, ev: ev.join(""), ask: 1, key: key };
     }
     var tied = [found.n].concat(c1.sup, c1.opp, c2.sup, c2.opp),
@@ -21992,7 +21999,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v291");
+        t && (t.textContent = "v292");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
