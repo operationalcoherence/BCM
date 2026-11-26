@@ -22730,7 +22730,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v314");
+        t && (t.textContent = "v315");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -33257,7 +33257,11 @@ var qrcode = function() {
       '<div class="lrow"><button type="button" class="btn" style="width:auto;flex:none" data-l="rtog">See ' + (dash.voice ? esc(dash.voice) + " together" : "everyone’s ground together") + " →</button></div>" +
       '<div class="lh">Opens one workbook that holds the answers and notes of ' + rows.length + (rows.length === 1 ? " person" : " people") +
       ", so Pattern Analysis shows the ground they make together, in 3D, and Taking Action reads all of it. It is a copy for reading: nothing there is sent or kept. Your own workbook comes back with Back to my own workbook." +
-      (nq < 7 ? " Pattern Analysis opens once each of the seven questions has an answer from someone; so far " + nq + " of 7 do." : "") + "</div>";
+      (nq < 7 ? " Pattern Analysis opens once each of the seven questions has an answer from someone; so far " + nq + " of 7 do." : "") +
+      (rows.some(function (r) { return r.notes; })
+        ? ""
+        : " <b>There is no ground yet:</b> nobody has written a note. Symbols placed without words don’t count. Until someone writes one, Pattern Analysis shows the answers only.") +
+      "</div>";
     if (rows.length < 2) h += '<div class="lh" style="margin-top:8px">WHERE THEY AGREE and WHERE THEY SPLIT need at least two people' + (dash.voice ? " in this voice" : "") + ".</div>";
     else {
       var S = shared(rows);
