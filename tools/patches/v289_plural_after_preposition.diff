@@ -1,0 +1,28 @@
+diff --git a/gsm-readable.js b/gsm-readable.js
+index 8e0efb4..5082466 100644
+--- a/gsm-readable.js
++++ b/gsm-readable.js
+@@ -8997,7 +8997,13 @@
+               nx = cl(w[i + 1]),
+               head = /[,;:.!?)"\u201d]$/.test(x) || !nx || StStop.test(nx) || /^(that|which|who|whom|whose|where|while|so|because)$/i.test(nx);
+             head &&
+-              (GSM_DET.test(cl(w[i - 1])) || (GSM_DET.test(cl(w[i - 2])) && !/[,;:]$/.test(w[i - 1] || ""))) &&
++              (GSM_DET.test(cl(w[i - 1])) ||
++                (GSM_DET.test(cl(w[i - 2])) && !/[,;:]$/.test(w[i - 1] || "")) ||
++                /* v289: a plural word after a preposition ("a threat to referrals") is a thing too */
++                (/^(to|for|of|in|on|with|about|from|by|into|toward|towards|over|against|among|between|without)$/i.test(cl(w[i - 1])) &&
++                  /[^suiy]s$/i.test(cl(x)) &&
++                  cl(x).length >= 5 &&
++                  !/^(always|sometimes|perhaps|towards|afterwards|nowadays|besides|across|unless|whereas|thus|less|news)$/i.test(cl(x)))) &&
+               (det = !0);
+           });
+           if (!any) return;
+@@ -21983,7 +21989,7 @@
+       }
+       (!(function () {
+         var t = document.getElementById("gsm-ver");
+-        t && (t.textContent = "v288");
++        t && (t.textContent = "v289");
+       })(),
+         document.getElementById("gsm-save").addEventListener("click", r),
+         document.getElementById("gsm-save2").addEventListener("click", function () {
