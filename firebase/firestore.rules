@@ -1,0 +1,63 @@
+rules_version = '2';
+// BCM F8 security rules (drafted 26 Nov 2026, not yet deployed; the live database stays fully locked until F8 ships).
+//
+// Layout:
+//   projects/{pid}                     lead only: name, goal, voices, due date, map, lead = the lead's uid
+//   projects/{pid}/keys/{key}          the invite: holds what an invited person sees (goal, voices, map).
+//                                      Knowing the key (from the link) is the only way in. Nobody can list keys.
+//   projects/{pid}/workbooks/{uid}     one person's workbook. Written only by that person, only while they hold
+//                                      a live key. Read by that person and by the project's lead.
+//
+// Leads sign in with Google. People answering sign in anonymously behind the scenes: no account, nothing to type.
+service cloud.firestore {
+  match /databases/{db}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isGoogle() { return signedIn() && request.auth.token.firebase.sign_in_provider == 'google.com'; }
+    function project(pid) { return get(/databases/$(db)/documents/projects/$(pid)); }
+    function isLead(pid) { return signedIn() && exists(/databases/$(db)/documents/projects/$(pid))
+                                  && project(pid).data.lead == request.auth.uid; }
+    function liveKey(pid, key) {
+      return key is string && key.size() >= 20
+             && exists(/databases/$(db)/documents/projects/$(pid)/keys/$(key))
+             && get(/databases/$(db)/documents/projects/$(pid)/keys/$(key)).data.open == true;
+    }
+    // only the expected fields; Firestore itself caps one document at 1 MB
+    function workbookShape() {
+      return request.resource.data.keys().hasOnly(['uid', 'key', 'name', 'voice', 'data', 'saved'])
+             && request.resource.data.data is map;
+    }
+
+    match /projects/{pid} {
+      allow get: if isLead(pid);
+      allow list: if isGoogle() && resource.data.lead == request.auth.uid;
+      allow create: if isGoogle() && request.resource.data.lead == request.auth.uid;
+      allow update: if isLead(pid) && request.resource.data.lead == resource.data.lead;
+      allow delete: if isLead(pid);
+
+      match /keys/{key} {
+        // the link holder can read this one key, never the list
+        allow get: if signedIn() && key.size() >= 20;
+        allow list: if isLead(pid);
+        allow create, update: if isLead(pid) && key.size() >= 20 && request.resource.data.open is bool;
+        allow delete: if isLead(pid);
+      }
+
+      match /workbooks/{uid} {
+        allow get: if signedIn() && (request.auth.uid == uid || isLead(pid));
+        allow list: if isLead(pid);
+        allow create, update: if signedIn() && request.auth.uid == uid
+                                 && liveKey(pid, request.resource.data.key)
+                                 && request.resource.data.uid == uid
+                                 && workbookShape();
+        // a person can delete their own workbook; the lead can delete any in their project
+        allow delete: if signedIn() && (request.auth.uid == uid || isLead(pid));
+      }
+    }
+
+    // everything else is closed
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}

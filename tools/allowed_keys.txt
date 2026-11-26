@@ -1,0 +1,2 @@
+# The one Google key allowed in the repo: the Firebase web key for F8, restricted to the BCM sites.
+# Empty until the F8 build.
