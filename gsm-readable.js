@@ -3384,15 +3384,19 @@
   var GSM_HOLD = [
     ["trad", /\btradition|\bcentur(?:y|ies)\b|hundred years|\bdecades\b|\bhistor(?:y|ic)\b|always been|\blegacy\b|entrench|\bhabits?\b|ingrained|cultural norm|not broken/i],
     ["liv", /\bmoney\b|financ|\bprofit|occupation|livelihood|\bemploy|\bjobs?\b|\bcareers?\b|\bincome\b|\bwages?\b|\bcomplex\b(?! adaptive)|apparatus|\bearn\b/i],
-    ["fear", /\bfears?\b|\bfeared\b|afraid|liabilit|\bescapes?\b|danger|deadly|\bblame|disaster|worried|catastroph/i],
+    ["fear", /\bfears?\b|\bfeared\b|afraid|liabilit|\bescapes?\b|danger|deadly|\bblame|disaster|worried/i],
     ["expect", /expectation|\bpublic\b|politic|\bmedia\b|televis|perception|community reaction/i],
     ["loop", /reinforc\w* (?:the need|itself)|feedback|feeds? (?:on )?itself|vicious|grows? thicker|accumulat/i],
     ["show", /\bas if\b|workaround|circumvent|appearance of|in name only|officially adopted|on paper/i],
   ];
+  /* v297: aggression aimed at people (those who resist), not at a practice */
+  var GSM_ATPEOPLE = /\b(?:those who|people who|anyone who|everyone who|supporters|opponents|resisters|the opposition|critics|skeptics|holdouts|defiant|distrustful)\b/i;
   function gsmHolds(texts) {
     var n = {};
     (texts || []).forEach(function (t) {
       var seen = {};
+      /* v297: a livelihood being protected (from fire, from harm) is safety, not jobs built on the present way */
+      t = String(t || "").replace(/(\b(?:protect|safeguard|defend|sav)\w*\b[^.;]{0,60}?)\blivelihoods?\b/gi, "$1");
       GSM_HOLD.forEach(function (h) {
         h[1].test(String(t || "")) && !seen[h[0]] && ((seen[h[0]] = 1), (n[h[0]] = (n[h[0]] || 0) + 1));
       });
@@ -3460,7 +3464,7 @@
        helps, a ridge of indifference out of it, and its size. No note text and no note numbers in it. */
     var used = {},
       helpAgg = Y.pts.filter(function (p) {
-        return p.side > 0 && 0 === p.e;
+        return p.side > 0 && 0 === p.e && GSM_ATPEOPLE.test(String(p.txt || ""));
       }).length,
       allLow = ST.reduce(function (a, g) {
         return a + g.n.length;
@@ -22158,7 +22162,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v296");
+        t && (t.textContent = "v297");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
