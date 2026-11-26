@@ -1062,7 +1062,8 @@
         ".");
     if (!cost && mcsn) {
       var mm = /^Crosses the help and hinder line .*?goal\./.exec(mcsn.textContent.trim());
-      var mn = mm && /line (\d+) times?; ([\d.]+)\u00d7/.exec(mm[0]);
+      var mn = mm && /line (?:(\d+) times?|(once)); ([\d.]+)\u00d7/.exec(mm[0]);
+      mn && (mn = [mn[0], mn[1] || "1", mn[3]]);
       mm &&
         ((cost = mn
           ? "The way to the goal switches between helping and hindering " + (1 == mn[1] ? "once" : mn[1] + " times") + " and is " + mn[2] + " times as long as a straight line."
@@ -2681,7 +2682,10 @@
           (s.note ? s.side < 0 : 2 === s.q) && nc.push(o);
         });
     });
-    var q = gsmMeanQuote(all.slice(), rx),
+    var ng = all.filter(function (o) {
+        return "GOAL" !== o.s.ref;
+      }),
+      q = gsmMeanQuote((ng.length ? ng : all).slice(), rx),
       qem = GSMQEM;
     var qh = gsmMeanQuote(hc.slice(), rx),
       qhem = GSMQEM,
@@ -8903,6 +8907,31 @@
     wrap.appendChild(st);
     return wrap;
   }
+  /* v285: one phrase, said once */
+  var GSM_EMOW = /^(accept|indiff|distru|aggres|defian)/;
+  var GSM_CONTR = /\b(dont|doesnt|didnt|isnt|arent|wasnt|werent|cant|couldnt|wont|wouldnt|shouldnt|havent|hasnt|hadnt|aint)\b/;
+  function gsmPhOnce(keys, name) {
+    var nm = keys.map(function (k) {
+        return { k: k, n: String(name(k) || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim() };
+      }),
+      seen = {};
+    return nm
+      .filter(function (o) {
+        if (!o.n || GSM_CONTR.test(o.n)) return !1;
+        if (o.n.indexOf(" ") < 0 && !GSM_EMOW.test(o.n)) return !1;
+        if (seen[o.n]) return !1;
+        if (
+          nm.some(function (x) {
+            return x.n !== o.n && x.n.length > o.n.length && (" " + x.n + " ").indexOf(" " + o.n + " ") >= 0;
+          })
+        )
+          return !1;
+        return (seen[o.n] = 1);
+      })
+      .map(function (o) {
+        return o.k;
+      });
+  }
   function gsmPhNameH(key, ctx) {
     var m = gsmPhName(key, ctx),
       ids = m.ids;
@@ -10281,6 +10310,8 @@
                 return (
                   !CM[k] &&
                   !/^(aggres|hostil|anger|angry|accept|distru|mistru|suspic|indiff|apath|defian|defiant|rebel)/.test(k) &&
+                  !/^(among|amongst|within|without|toward|towards|across|between|upon|via|per|despite|beyond|throughout|onto|into|unto)$/.test(k) &&
+                  !/^(contin\w*|begin\w*|began|start\w*|becom\w*|make|made|take|took|get|got|go|went|come|came|use|used|need\w*|want\w*|seem\w*|keep|kept|give|gave)$/.test(k) &&
                   RW[k] &&
                   RW[k].some(function (l) {
                     return l !== lab;
@@ -10467,6 +10498,15 @@
           });
           WD = WD.filter(function (c) {
             return !one(c);
+          });
+          /* v285: never ask the same phrase twice */
+          var asked = {};
+          WQ.concat(SH).forEach(function (c) {
+            asked[String(jt(c.key)).toLowerCase()] = 1;
+          });
+          WD = WD.filter(function (c) {
+            var n = String(gsmPhName(c.key).ph || "").toLowerCase();
+            return !asked[n] && (asked[n] = 1);
           });
           if (!SH.length && !WQ.length && !WD.length) return;
           function srt(x, y) {
@@ -12504,6 +12544,9 @@
             ].forEach(function (t) {
               var e = st[t];
               e &&
+                (e = gsmPhOnce(e, function (k) {
+                  return gsmPhName(k, "unanswered" === t || "condition" === t).ph || jt(k);
+                })).length &&
                 ((e = e.sort(function (t, e) {
                   var n = t.indexOf(" ") > 0 ? p[t] : g[t];
                   return (e.indexOf(" ") > 0 ? p[e] : g[e]) - n;
@@ -13175,6 +13218,7 @@
               Object.keys(i[t].b).forEach(function (e) {
                 1 === (p[e] || 0) &&
                   nn.length < 2 &&
+                  !GSM_CONTR.test(e) &&
                   !e.split(" ").some(function (t) {
                     return Ct[t];
                   }) &&
@@ -14165,8 +14209,7 @@
                     f = PV
                       ? ""
                       : "Crosses the help and hinder line " +
-                      l +
-                      (1 === l ? " time" : " times") +
+                      (1 === l ? "once" : l + " times") +
                       "; " +
                       u.toFixed(1) +
                       "× the length of a straight run to the goal.",
@@ -14178,8 +14221,8 @@
                         : ""
                       : u > 1.8 || l > 2
                         ? " It is marked a program, but the way through it doubles back " +
-                          l +
-                          " times across the line. It may not run straight through as a program needs to."
+                          (1 === l ? "once" : l + " times") +
+                          " across the line. It may not run straight through as a program needs to."
                         : "";
                   return (
                     '<div class="csec"><div class="csl">THE WAY THROUGH IT</div><div class="gterr-card" data-mode="' +
@@ -21791,7 +21834,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v284");
+        t && (t.textContent = "v285");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
