@@ -1205,6 +1205,100 @@
       return gone.indexOf(c) < 0;
     });
   }
+  /* v284: what a note is about, in its own words: the longest run of content words (joined by "and" or "of" at
+     most) in its first sentence. Used to name what a card builds on, so no title says only "what already helps". */
+  var GSM_AUX = { is: 1, are: 1, was: 1, were: 1, be: 1, been: 1, being: 1, has: 1, have: 1, had: 1, will: 1, would: 1, could: 1, can: 1, may: 1, might: 1, should: 1, must: 1, do: 1, does: 1, did: 1, not: 1, no: 1, yet: 1, just: 1, even: 1, only: 1, already: 1, still: 1, one: 1, other: 1, way: 1, ways: 1, around: 1, toward: 1, towards: 1, through: 1, over: 1, under: 1, between: 1, within: 1, without: 1, across: 1, against: 1, after: 1, before: 1, during: 1, among: 1, amongst: 1, upon: 1, like: 1 };
+  var GSM_TA_USED = {};
+  function gsmTAGist(t) {
+    var sen = String(t || "").split(/(?<=[.!?])\s/)[0],
+      w = sen.split(/\s+/).slice(0, 24),
+      lw = function (x) {
+        return String(x || "").toLowerCase().replace(/[^a-z0-9'-]/g, "");
+      },
+      ct = function (x) {
+        var l = lw(x);
+        return l.length > 2 && !GSM_EDGE[l] && !GSM_AUX[l];
+      },
+      best = [],
+      cur = [];
+    for (var i = 0; i <= w.length; i++) {
+      var x = w[i],
+        l = lw(x),
+        brk = i === w.length || /[,;:()]/.test(String(w[i - 1] || "").slice(-1));
+      if (!brk && ct(x)) cur.push(x.replace(/[,;:.!?()"\u201c\u201d]+/g, ""));
+      else if (!brk && cur.length && ("and" === l || "of" === l) && ct(w[i + 1])) cur.push(l);
+      else {
+        while (cur.length && !ct(cur[cur.length - 1])) cur.pop();
+        cur.length > best.length && (best = cur);
+        cur = !brk || !ct(x) ? [] : [x.replace(/[,;:.!?()"\u201c\u201d]+/g, "")];
+      }
+    }
+    return best.length >= 2 ? best.slice(0, 5).join(" ").toLowerCase() : "";
+  }
+  function gsmTAGists(ids, n) {
+    var d = window.gsmData ? window.gsmData() : { m: [] },
+      out = [];
+    (ids || []).forEach(function (id) {
+      var m = /^note (\d+)$/.exec(String(id).trim()),
+        row = m ? (d.m || [])[+m[1] - 1] : null,
+        g = row ? gsmTAGist(row[3]) : "";
+      g &&
+        out.length < (n || 3) &&
+        !out.some(function (o) {
+          return o === g || o.indexOf(g) >= 0 || g.indexOf(o) >= 0;
+        }) &&
+        out.push(g);
+    });
+    return out;
+  }
+  /* v284: a single word (not an emotion) widened by the list it stands in: "leadership" -> "leadership,
+     management, and supervision"; otherwise by the run of words around it */
+  function gsmTAWiden(word, sent) {
+    var S = String(sent || ""),
+      lw = String(word).toLowerCase();
+    if (!S) {
+      var d = window.gsmData ? window.gsmData() : { a: [], m: [] },
+        all = [d.goal || ""].concat(d.a || []).concat(
+          (d.m || []).map(function (x) {
+            return (x && x[3]) || "";
+          }),
+        );
+      all.some(function (t) {
+        return String(t)
+          .split(/(?<=[.!?])\s+|\n+/)
+          .some(function (z) {
+            return new RegExp("\\b" + lw.replace(/[^a-z0-9]/g, "") + "\\b", "i").test(z) && ((S = z), 1);
+          });
+      });
+    }
+    if (!S) return "";
+    var items = S.split(/,\s*/).map(function (x) {
+        return x.replace(/^(and|or|including|such as)\s+/i, "").replace(/[.;:]+$/, "").trim();
+      }),
+      k = -1;
+    items.forEach(function (x, i) {
+      k < 0 && x.toLowerCase() === lw && (k = i);
+    });
+    if (k >= 0 && items.length >= k + 3) {
+      var L = items.slice(k, k + 3).filter(function (x) {
+        return x && x.split(" ").length <= 3;
+      });
+      if (L.length === 3) return L[0] + ", " + L[1] + ", and " + L[2];
+    }
+    var g = gsmTAGist(S);
+    return g && g.indexOf(lw) >= 0 ? g : "";
+  }
+  /* v284: is the user's own sentence an instruction? Then it is the title. */
+  var GSM_IMP = /^(create|design|redesign|begin|start|offer|provide|send|allow|introduce|perform|build|spread|train|hold|give|set|make|bring|support|scale|engage|encourage|develop|establish|increase|reduce|simplify|continue|use|add|invite|ask|host|fund|hire|run|test|pilot|share|publish|teach|reinforce|keep|remove|replace|change|connect|partner|meet|map|measure|monitor|protect|restore)$/i;
+  function gsmTAOwnAction(sent) {
+    var S = String(sent || "").replace(/\s+/g, " ").trim(),
+      w = S.split(" ");
+    if (!GSM_IMP.test(String(w[0] || "").replace(/[^a-z]/gi, ""))) return "";
+    var h = S.split(/,|;|\.\s|\s(?:by|so that|so|which|because|while|in order to)\s/i)[0].replace(/[.]+$/, "").split(" ");
+    h.length > 10 && (h = h.slice(0, 10));
+    while (h.length > 2 && GSM_EDGE[String(h[h.length - 1]).toLowerCase()]) h.pop();
+    return h.length >= 3 ? h.join(" ") : "";
+  }
   function gsmTAAction(c, bd) {
     var tx = function (el) {
         return el ? el.textContent.replace(/\s+/g, " ").trim() : "";
@@ -1220,6 +1314,9 @@
       q = function (x) {
         return "“" + x + "”";
       };
+    var sids = String(c.getAttribute("data-seedids") || "").split(","),
+      gl = !sub && /^(opp|help|snr)$/.test(seed || "") ? gsmTAGists(sids, 3) : [];
+    gl.length && (sub = gsmMeanList(gl));
     if (seed)
       return {
         sys: sub ? "Change what keeps " + sub + " in place" : "Change what holds the situation in place",
@@ -1237,7 +1334,20 @@
     }
     if (!t) return null;
     var sent = (/^:\s*\u201C(.*)\u201D/.exec(tx(c.querySelector(".hd .phctx"))) || [])[1] || "",
-      ph = q(GSM_EMO_RE.test(t.toLowerCase()) ? t : gsmTAPhrase(t, sent) || t),
+      p0 = GSM_EMO_RE.test(t.toLowerCase()) ? t : gsmTAPhrase(t, sent) || t,
+      own = gsmTAOwnAction(sent);
+    if (own && !GSM_TA_USED[own.toLowerCase()]) return (GSM_TA_USED[own.toLowerCase()] = 1), own;
+    if (p0.indexOf(" ") < 0 && !GSM_EMO_RE.test(p0.toLowerCase())) {
+      var qw = (/named (?:in|as something to \w+) \(?Q\.(\d)/.exec(why) || /^Q\.(\d)$/.exec(src) || [])[1],
+        qt = qw && window.gsmData ? String((window.gsmData().a || [])[+qw - 1] || "") : "",
+        qs = qt
+          .split(/(?<=[.!?])\s+|\n+/)
+          .filter(function (z) {
+            return new RegExp("\\b" + p0.toLowerCase().replace(/[^a-z0-9]/g, "") + "\\b", "i").test(z);
+          })[0];
+      p0 = gsmTAWiden(p0, sent || qs) || p0;
+    }
+    var ph = q(p0),
       fm = (function () {
         var x = [].slice.call(c.querySelectorAll(".csec")).filter(function (e) {
           return /^(FIRST MOVES|THE SEQUENCE)$/.test(tx(e.querySelector(":scope > .csl")));
@@ -1525,6 +1635,7 @@
     var fe = Rt.querySelector(".tafirst"),
       ft = fe ? fe.getAttribute("data-ft") : "",
       opened = 0;
+    GSM_TA_USED = {};
     cards.forEach(function (c) {
       var o = !!ft && ft === tl(c);
       o && opened++;
