@@ -4254,7 +4254,7 @@
       HAS("worth") && !HAS("risk")
         ? "What keeps recreating it is that the benefit is hard to see before it arrives, so the work has to be paid for on faith, while waiting asks for nothing."
         : HAS("risk")
-        ? "What keeps recreating it is that waiting shows no cost. Until something goes wrong, the place that did nothing looks no different from the one that did the work, so " + quiet + " confirms the choice to wait."
+        ? /* v304: what looks the same before a fire is the result, not the place */ "What keeps recreating it is that waiting shows no cost. " + (fire ? "Until a fire comes" : "Until something goes wrong") + ", the work shows only as a change to the place, never as " + ("household" === unit ? "a house saved" : "a loss avoided") + ", so " + quiet + " confirms the choice to wait."
         : HAS("look")
           ? "What keeps recreating it is that the work shows and its benefit does not: the change to the place is seen at once, while what it prevents may never be seen at all."
           : "What keeps recreating it is that each round of the change arrives without changing the reasons it meets, so each round is met the way the last one was.",
@@ -22661,7 +22661,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v303");
+        t && (t.textContent = "v304");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
