@@ -50,9 +50,9 @@ Estimate: 6 to 9 versions over several desktop sessions.
 - **The Firebase web key and config.** Paste it in chat on purpose during v2, never before. Restrict the key to the BCM sites in Google Cloud.
 - **Turn on Anonymous sign-in.** Firebase console → Authentication → Sign-in method. Google is already on.
 
-**Choices, before v3:**
+**Choices, before v3 (one decided):**
 
-1. Who may lead a project: anyone, or only people you approve?
+1. ~~Who may lead a project?~~ **Decided 26 Nov: anyone who signs in with Google.** The rules already allow this.
 2. How long answers are kept, and who can delete them? The rules already let a person delete their own workbook, and a lead delete any workbook in their project.
 3. Does the file route stay for people who don't want to share live?
 4. Which account owns the Firebase project long term?
