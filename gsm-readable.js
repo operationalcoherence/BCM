@@ -1450,7 +1450,44 @@
           })[0];
       p0 = gsmTAWiden(p0, sent || qs) || p0;
     }
-    var ph = q(p0),
+    /* v293: a phrase made only of the goal's own words says nothing the goal doesn't; name the note the card
+       rests on instead (hindering notes first: aggression, distrust, defiance), with its id */
+    var nid = "",
+      fromHinder = 0;
+    (function () {
+      var D = window.gsmData ? window.gsmData() : { goal: "", m: [] },
+        G = " " + String(D.goal || "").toLowerCase().replace(/[^a-z0-9 -]/g, " ").replace(/\s+/g, " ") + " ";
+      if (p0.indexOf(" ") < 0 || G.indexOf(" " + p0.toLowerCase().replace(/\s+/g, " ") + " ") < 0) return;
+      var ns = Object.keys(gsmTAIds(c))
+          .concat((why.match(/\bN\d+\b/g) || []).map(gsmTANorm))
+          .map(function (x) {
+            return (/^note (\d+)$/.exec(x) || [])[1];
+          })
+          .filter(function (x, i, a) {
+            return x && a.indexOf(x) === i;
+          }),
+        rk = function (n) {
+          var r = (D.m || [])[+n - 1];
+          return r && [0, 2, 4].indexOf(r[5]) >= 0 ? 0 : 1;
+        };
+      ns.sort(function (x, y) {
+        return rk(x) - rk(y);
+      });
+      for (var i = 0; i < ns.length; i++) {
+        var r = (D.m || [])[+ns[i] - 1],
+          g = r ? gsmTAClause(r[3]) : "";
+        /* one note names one card: a card asked again keeps the note it got the first time */
+        if (g && G.indexOf(" " + g.toLowerCase() + " ") < 0 && (c._tanid === ns[i] || (!c._tanid && !GSM_TA_USED["n|" + ns[i]]))) {
+          GSM_TA_USED["n|" + ns[i]] = 1;
+          c._tanid = ns[i];
+          p0 = g;
+          nid = "N" + ns[i];
+          fromHinder = !rk(ns[i]);
+          return;
+        }
+      }
+    })();
+    var ph = q(p0) + (nid ? " (" + nid + ")" : ""),
       fm = (function () {
         var x = [].slice.call(c.querySelectorAll(".csec")).filter(function (e) {
           return /^(FIRST MOVES|THE SEQUENCE)$/.test(tx(e.querySelector(":scope > .csl")));
@@ -1461,7 +1498,7 @@
       FM = [
         [/^Start from the support/, both ? "Build on the support for " + ph + ", then reach the other side" : "Build on the support for " + ph],
         [/^Sketch two or three designs/, "Design " + ph + ": sketch two or three, test them small"],
-        [/^Redesign it with those who oppose it/, "Redesign " + ph + " with those who oppose it"],
+        [/^Redesign it with those who oppose it/, "Redesign " + ph + (fromHinder ? " with the people who hold it" : " with those who oppose it")],
         [/^Ask those doing it what they need/, "Keep " + ph + " going: ask those doing it what they need"],
         [/^Carry out what Q\.5 designs/, "Carry out what you designed for " + ph],
         [/^Reinforce what Q\.\d describes/, "Reinforce " + ph],
@@ -16518,8 +16555,9 @@
                   return k.indexOf(o.r[0]) >= 0;
                 });
               }
+              /* v293: no labelled sections in the story: each part is a paragraph */
               function P0(h, body) {
-                return body ? '<div class="csl" style="margin-top:14px">' + h + "</div><p>" + body + "</p>" : "";
+                return body ? "<p>" + body + "</p>" : "";
               }
               var out = "",
                 mk = Object.keys(MED).sort(function (a, b) {
@@ -16575,7 +16613,16 @@
                     best = best.charAt(0).toUpperCase() + best.slice(1);
                     return best.length > 160 ? best.slice(0, 160).replace(/\s+\S*$/, "") + "…" : best;
                   })();
-                Q1 && S.push("It starts with why the goal has not taken root: “" + Gt(Q1.replace(/[\s.;:,]+$/, "")) + "” (Q.1).");
+                /* v293: the story does not quote the notes or answers; it reads them by emotion and place */
+                function feel(L) {
+                  var E = emo(L);
+                  return E.n ? and(E.ord.slice(0, 2).map(function (k) {
+                    return EN[k];
+                  })) : "";
+                }
+                function are(x) {
+                  return / and /.test(x) ? "are" : "is";
+                }
                 function pick(L, n, wt, far) {
                   return L.slice()
                     .sort(function (a, b) {
@@ -16612,25 +16659,21 @@
                     pl = line.filter(function (o) {
                       return up(o) && !now(o);
                     });
-                  hn.length &&
+                  var fhn = feel(hn),
+                    fpn = feel(pn),
+                    fhl = feel(hl),
+                    fpl = feel(pl);
+                  fhn && S.push("In the present, close at hand, what holds the goal back carries " + fhn + ".");
+                  fpn &&
                     S.push(
-                      "In the present, close at hand, " +
-                        (hn.length > 1 ? "these hold it back: " : "this holds it back: ") +
-                        list(pick(hn, 2, HARD, far)) +
-                        ".",
+                      (fhn ? "On the same ground, where things help, " : "In the present, where things help, ") + fpn + " " + are(fpn) + " already at work.",
                     );
-                  pn.length &&
-                    S.push(
-                      (hn.length ? "On the same ground, where things help, you placed " : "In the present, where things help, you placed ") +
-                        list(pick(pn, pn.length > 1 ? 2 : 1, SOFT, far)) +
-                        ".",
-                    );
-                  (hl.length || pl.length) &&
+                  (fhl || fpl) &&
                     S.push(
                       "Further on, toward the goal, " +
-                        (hl.length ? list(pick(hl, 1, HARD, far)) + " waits on the side that hinders" : "") +
-                        (hl.length && pl.length ? ", and " : "") +
-                        (pl.length ? list(pick(pl, 1, SOFT, far)) + " on the side that helps" : "") +
+                        (fhl ? fhl + " " + (are(fhl) === "is" ? "waits" : "wait") + " on the side that hinders" : "") +
+                        (fhl && fpl ? ", and " : "") +
+                        (fpl ? fpl + " on the side that helps" : "") +
                         ".",
                     );
                   var H = hn.length + hl.length,
@@ -16650,10 +16693,8 @@
                   var q2 = byQ([2]),
                     q3 = byQ([3]),
                     q4 = byQ([4]);
-                  q2.length &&
-                    S.push((q2.length > 1 ? "Today, these hold it back: " : "Today, this holds it back: ") + list(pick(q2, 2, HARD)) + ".");
-                  q3.length && S.push("On the side that helps, you name " + list(pick(q3, 1, SOFT)) + ".");
-                  q4.length && S.push("For the goal to take root, " + list(pick(q4, 1, SOFT)) + " has to come true.");
+                  feel(q2) && S.push("Today, what holds the goal back carries " + feel(q2) + ".");
+                  feel(q3) && S.push("On the side that helps, " + feel(q3) + " " + are(feel(q3)) + " already at work.");
                 }
                 /* the word that does two jobs closes the story */
                 if (mk) {
@@ -16700,9 +16741,7 @@
                   (OP.length > 1 ? "s" : "") +
                   " that stand" +
                   (OP.length > 1 ? "" : "s") +
-                  " in the way (" +
-                  ids(OP) +
-                  ").";
+                  " in the way.";
                 var c1 = s1;
                 if (E.n && hard * 2 >= E.n)
                   s1 +=
@@ -16742,7 +16781,7 @@
                       ". What answers one may not reach the other.");
                 }
               }
-              s1 && OP.length && s1.indexOf("You name") && (s1 += ' <span class="stn">(' + ids(OP) + ")</span>");
+
               out += P0("WHAT STANDS IN THE WAY", s1);
               /* what is already helping */
               var SU = byQ([3]),
@@ -16760,7 +16799,7 @@
                     " " +
                     (FR.unused.length > 1 ? "are" : "is") +
                     " support already at work that nothing you would design, redesign, or reinforce draws on yet. Support that nothing opposes and nothing yet builds on is the least costly place to begin.");
-                s2 += ' <span class="stn">(' + ids(SU) + ")</span>";
+
               } else if (OP.length)
                 s2 =
                   "No note yet names what is already working for the goal. Without it, every move has to start from nothing.";
@@ -16769,11 +16808,7 @@
               var CO = byQ([4]),
                 s3 = "";
               CO.length
-                ? (s3 =
-                    "What has to be true for the goal to take root sets the tests that what you would design will have to pass." +
-                    ' <span class="stn">(' +
-                    ids(CO) +
-                    ")</span>")
+                ? (s3 = "")
                 : (s3 =
                     "No note yet says what has to be true for the goal to take root. Q.4 is one of the two leading questions: without it, there is nothing to hold the actions up against.");
               out += P0("WHAT HAS TO BE TRUE", s3);
@@ -16799,18 +16834,13 @@
                 un.length &&
                   (s4 +=
                     " Nothing you would design, redesign, or reinforce deals yet with " +
-                    phList(
-                      un.slice(0, 3).map(function (k) {
-                        return gsmPhNameH(k, 1);
-                      }),
-                    ) +
-                    (un.length > 3 ? ", among other things" : "") +
-                    " that stand in the way in the context you’ve grasped." +
+                    (un.length > an.length ? "most" : "some") +
+                    " of what stands in the way in the context you’ve grasped." +
                     (un.length > an.length
                       ? " So far, your plan reaches less of the problem than the problem holds."
                       : ""));
               }
-              s4 && AC.length && (s4 += ' <span class="stn">(' + ids(AC) + ")</span>");
+
               out += P0("WHAT YOU WOULD DO", s4);
               var W = window.gsmWS;
               out += P0(
@@ -21999,7 +22029,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v292");
+        t && (t.textContent = "v293");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
