@@ -1,4 +1,4 @@
-"""F8 step 3, Lead a project (v309), against fake Firebase modules (no network).
+"""F8 step 3, Lead a project (v309, v310), against fake Firebase modules (no network).
 python3 -I f8lead.py JS WORKBOOK.json WIDTH OUTPREFIX
 Signs in as a fake Google lead, creates a project, edits it, shows the QR code, deletes it,
 and prints every write the page made, in order, so the delete order can be checked."""
@@ -69,5 +69,10 @@ with sync_playwright() as p:
     pg.click('[data-l=delyes]'); pg.wait_for_timeout(800); print('--- after delete\n' + T())
     print('writes:', pg.evaluate('()=>__fslog'))
     print('db left:', pg.evaluate('()=>Object.keys(__fsdb)'))
+    # v310: the place-map link on the form opens Mapping Landscape at the place search
+    pg.click('[data-l=new]'); pg.wait_for_timeout(300)
+    print('map help:', pg.inner_text('#gsm-lead .lf:has([name=gsm-lpm]) .lh'))
+    pg.click('[data-l=findplace]'); pg.wait_for_timeout(700)
+    print('after findplace: focus =', pg.evaluate('()=>document.activeElement&&document.activeElement.id'), '| search visible =', pg.is_visible('#gsm-q'))
     print('ERRORS', errs)
     b.close()

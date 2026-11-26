@@ -22670,7 +22670,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v309");
+        t && (t.textContent = "v310");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -32551,7 +32551,7 @@ var qrcode = function() {
       (place || (p.map && p.map.kind === "place")
         ? '<label class="rad"><input type="radio" name="gsm-lpm" value="place"' + (mk === "place" ? " checked" : "") + "><span>The place map, at " + esc(isNew || !p.map || p.map.kind !== "place" ? place.name : p.map.name) + ", with the line map too.</span></label>"
         : "") +
-      '<div class="lh">' + (place ? "The place comes from your own workbook. To use a different place, change it on Mapping Landscape first." : "To use a place map, find the place on Mapping Landscape first, then come back.") + "</div></div>" +
+      '<div class="lh">' + (place ? 'The place comes from your own workbook. To use a different place, <button type="button" class="lnk sm" data-l="findplace">change it on Mapping Landscape</button> first.' : 'To use a place map, <button type="button" class="lnk sm" data-l="findplace">find the place on Mapping Landscape</button> first, then come back.') + "</div></div>" +
       (st.msg ? '<div class="lmsg' + (st.ok ? " lok" : "") + '" role="status">' + esc(st.msg) + "</div>" : "") +
       '<div class="lrow"><button type="button" class="btn" data-l="save"' + (st.busy ? " disabled" : "") + ">" + (isNew ? "Create the project and invite link" : "Save changes") + '</button><button type="button" class="btn alt" data-l="back">Back to my projects</button></div>';
     if (!isNew) h += delBox(p);
@@ -32747,6 +32747,11 @@ var qrcode = function() {
     } else if (k === "del") (keepForm(), (st.del = true), draw());
     else if (k === "delno") ((st.del = false), draw());
     else if (k === "delyes") delProject();
+    else if (k === "findplace") {
+      keepForm();
+      var fp = document.getElementById("gsm-addloc");
+      fp && fp.click();
+    }
   }
   function setup() {
     var w = document.getElementById("gsm-ways");
