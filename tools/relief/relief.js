@@ -60,7 +60,7 @@ const CACHE = new Map();
 function landKey(D) { let s = 0; for (let q = 0; q < D.hn.length; q += 97) s += D.hn[q] * (q + 1); return D.VX + ',' + D.VY + ',' + D.notes.length + ',' + s.toFixed(4) + ',' + D.notes.map(n => n.k + ':' + n.e + ':' + Math.round(n.x) + ':' + Math.round(n.y)).join(';'); }
 function mount(host, D) {
   if (!document.getElementById('gsm-relcss')) { const s = document.createElement('style'); s.id = 'gsm-relcss'; s.textContent = CSS; document.head.appendChild(s); }
-  const VX = D.VX, VY = D.VY, CX = D.CX, CY = D.CY, W = (VX - 1) * CX, H = (VY - 1) * CY, HS = 58, ALPHA = 0.6, PL = D.place || null;
+  const VX = D.VX, VY = D.VY, CX = D.CX, CY = D.CY, W = (VX - 1) * CX, H = (VY - 1) * CY, HS = 58, ALPHA = 0.45, PL = D.place || null;
   const wrap = document.createElement('div'); wrap.className = 'grel pnet'; host.appendChild(wrap);
   const lbs = document.createElement('div'); lbs.className = 'lbs'; wrap.appendChild(lbs);
   const attr = document.createElement('div'); attr.className = 'attr'; attr.style.display = 'none'; attr.textContent = 'Imagery © Esri, Maxar, Earthstar Geographics, and the GIS User Community · Powered by Esri'; wrap.appendChild(attr);
