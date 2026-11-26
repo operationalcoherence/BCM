@@ -4121,7 +4121,22 @@
     addEv(c1.sup.concat(c1.opp, c2.sup, c2.opp), c2);
     addEv(unev, { rx: GSMUNEVEN });
     sw.length ? addEv(sw, { rx: GSMSWITCH }) : addEv(reach, c2);
-    return { say: say, ev: ev.join(""), ask: 0, key: key, conds: [c1.show, c2.show], refs: tied.map(function (n) { return n.ref; }) };
+    return {
+      say: say,
+      ev: ev.join(""),
+      ask: 0,
+      key: key,
+      conds: [c1.show, c2.show],
+      refs: tied.map(function (n) {
+        return n.ref;
+      }),
+      sw: sw.map(function (n) {
+        return n.lab;
+      }),
+      reach: reach.map(function (n) {
+        return n.lab;
+      }),
+    };
   }
   function gsmStructBuild() {
     gsmMeanCss();
@@ -14875,6 +14890,32 @@
                     " Count the goal reached by how people work, not by what is announced.</div>",
                 );
               })() +
+              (function () {
+                /* v283: TWO WAYS OF RUNNING, tested like the rest (only after a Yes) */
+                var MD = SS.modes;
+                if (!MD || MD.ask || !MD.conds) return "";
+                var tM = { v: MD.sw.length ? "yes" : MD.reach.length ? "partly" : "not yet" },
+                  L = function (a) {
+                    return " (" + Gt(gsmMeanList(a.slice(0, 4))) + ")";
+                  };
+                return row(
+                  "The switch",
+                  "<div>" +
+                    VL(tM) +
+                    " You said the goal runs two ways: one <b>" +
+                    Gt(MD.conds[0]) +
+                    "</b>, the other <b>" +
+                    Gt(MD.conds[1]) +
+                    "</b>. " +
+                    (MD.sw.length
+                      ? "What you would do says how the switch is made" + L(MD.sw) + "."
+                      : (MD.reach.length
+                          ? "What you would do reaches part of it" + L(MD.reach) + ", but not who calls the switch, or what tells them conditions have changed."
+                          : "Nothing you would do yet says who calls the switch, or what tells them conditions have changed.") +
+                        " Decide both, so no one is working one way while others work the other.") +
+                    "</div>",
+                );
+              })() +
               row("Where the reading splits", '<div class="tasplitrow">Pattern Analysis found nothing that splits the reading of these cards.</div>') +
               (cons.length
                 ? row(
@@ -21217,7 +21258,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v282");
+        t && (t.textContent = "v283");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
