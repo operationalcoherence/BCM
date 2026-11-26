@@ -27,7 +27,7 @@ Estimate: 6 to 9 versions over several desktop sessions.
 
 ## Build order
 
-1. **v1, the opening page:** On my own · Combine workbooks · Lead a project. Only the first two work yet; Lead a project shows "coming soon".
+1. **v1, the opening page:** On my own · Combine workbooks · Lead a project. Only the first two work yet; Lead a project shows "coming soon". **Done in v306** (top of Start Here).
 2. **v2, Firebase wired in:** the web key goes in `tools/allowed_keys.txt`; Google sign-in for leads; anonymous sign-in for
    people answering. Use test data only.
 3. **v3, Lead a project:** name, shared goal (lead-only), voices plus **Other** write-in, due date, map, invite link (copy,
