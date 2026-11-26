@@ -29,7 +29,7 @@ Estimate: 6 to 9 versions over several desktop sessions.
 
 1. **v1, the opening page:** On my own · Combine workbooks · Lead a project. Only the first two work yet; Lead a project shows "coming soon". **Done in v306** (top of Start Here).
 2. **v2, Firebase wired in:** the web key goes in `tools/allowed_keys.txt`; Google sign-in for leads; anonymous sign-in for
-   people answering. Use test data only. **Done in v307:** Firebase loads only on demand (the solo page never loads it); test panel at /bcm?f8test=1; anonymous sign-in tested on the live page; Google sign-in waits on Gregory's own click. Test workbooks are tens of KB each, far under the 1 MB record limit.
+   people answering. Use test data only. **Done in v307:** Firebase loads only on demand (the solo page never loads it); test panel at /bcm?f8test=1; anonymous sign-in tested on the live page; Google sign-in confirmed by Gregory on his phone (v308, which also makes the test panel open Start Here). Test workbooks are tens of KB each, far under the 1 MB record limit.
 3. **v3, Lead a project:** name, shared goal (lead-only), voices plus **Other** write-in, due date, map, invite link (copy,
    email, QR).
 4. **v4, invited person:** the link opens the workbook with the lead's goal and map; they add a name and a voice. Saving is live,
