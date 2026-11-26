@@ -3950,11 +3950,12 @@
       ". Read together, they show what the system is doing and why." +
       more +
       "</p>" +
+      '<div class="csl" style="margin-top:10px">YOUR STORY, SUMMARIZED</div>' +
       '<div class="evo">' +
       EP.map(function (p) {
         return "<p>" + p + "</p>";
       }).join("") +
-      '</div><details class="more evst"><summary>Each chapter read on its own</summary>' +
+      '</div><details class="more evst"><summary>Your story in greater detail</summary>' +
       out.join("") +
       "</details>";
     var rest = [].slice.call(mt.children).filter(function (c) {
@@ -22157,7 +22158,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v294");
+        t && (t.textContent = "v295");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
