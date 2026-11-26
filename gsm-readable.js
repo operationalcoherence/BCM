@@ -1599,6 +1599,8 @@
     sb ? sb.appendChild(gw) : ds.parentNode.insertBefore(gw, ds.nextSibling);
   }
   function gsmRetireSyn(Rt) {
+    /* v305: note whether the old figures were built, then remove them; the split readings only need to know they were */
+    Rt._gsmFigs = !!(Rt.querySelector('.pnet[data-fig="goal"] svg') && Rt.querySelector('.pnet[data-fig="hang"] svg'));
     var mk = Rt.querySelector(".synmark");
     if (!mk) return;
     var kids = [],
@@ -1623,15 +1625,8 @@
         /* v273: THE LAY OF THE LAND is retired; its numbered readings are on YOUR LANDSCAPE */
         for (var c = k.nextElementSibling; c && !c.classList.contains("plab") && !c.classList.contains("part"); ) {
           var c2 = c.nextElementSibling;
-          /* the hidden old figure stays (hidden): Taking Action's WHERE THE READING SPLITS is read from it */
-          if (c.matches(".pnet") || c.querySelector(".pnet")) {
-            c.querySelectorAll(".gterr-host").forEach(function (h) {
-              h.parentNode.removeChild(h);
-            });
-            c.classList.remove("secb", "closed");
-            c.style.display = "none";
-            c.setAttribute("aria-hidden", "true");
-          } else c.remove();
+          /* v305: the old figures go too; WHERE THE READING SPLITS no longer needs them on the page */
+          c.remove();
           c = c2;
         }
         k.remove();
@@ -17649,7 +17644,7 @@
                   o = Array.prototype.slice.call(Rt.children),
                   r = Rt.querySelector('.pnet[data-fig="goal"] svg'),
                   i = Rt.querySelector('.pnet[data-fig="hang"] svg');
-                if (t && e && n && n.it && r && i) {
+                if (t && e && n && n.it && ((r && i) || Rt._gsmFigs)) {
                   var a = o.filter(function (t) {
                       return t.classList.contains("part") && /COURSES OF ACTION/.test(t.textContent);
                     })[0],
@@ -22661,7 +22656,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v304");
+        t && (t.textContent = "v305");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
