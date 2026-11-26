@@ -67,10 +67,10 @@ Estimate: 7 to 10 versions over several desktop sessions.
 
 **Before v2:** nothing left; v2 is done.
 
-**Choices, before v3 (one decided):**
+**Choices, before v3 (two decided):**
 
 1. ~~Who may lead a project?~~ **Decided 26 Nov: anyone who signs in with Google.** The rules already allow this.
-2. How long answers are kept, and who can delete them? The rules already let a person delete their own workbook, and a lead delete any workbook in their project. (Also decides Anonymous Auto clean-up.)
+2. ~~How long answers are kept, and who can delete them?~~ **Decided 26 Nov:** a project's answers are kept until the lead deletes the project; anyone can delete their own workbook at any time; a lead can delete any workbook in their project. The rules already allow this. Anonymous Auto clean-up stays **off** (it would delete people's work without warning). v3 needs a "Delete this project" for leads (deletes its keys and workbooks too) and v4 a "Delete my workbook" for people answering.
 3. Does the file route stay for people who don't want to share live?
 4. Which account owns the Firebase project long term? (Today: operationalcoherence@gmail.com.)
 
