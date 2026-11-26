@@ -1866,7 +1866,7 @@
         cards.forEach(function (c) {
           var a = c.querySelector(".taact"),
             o = tl(c);
-          a && o && (fm.innerHTML = fm.innerHTML.split("\u201c" + Gt(o) + "\u201d").join("\u201c" + Gt(a.textContent) + "\u201d"));
+          a && o && (fm.innerHTML = fm.innerHTML.split("\u201c" + Gt(o) + "\u201d").join("\u201c" + Gt(a.textContent.replace(/\u201c/g, "\u2018").replace(/\u201d/g, "\u2019")) + "\u201d"));
         });
       /* v291: WHERE TO START on Pattern Analysis says the same first move */
       var w2 = Rt.querySelector(".gsmws2");
@@ -4676,6 +4676,28 @@
   var GSMTGEN = /^(idea|ideas|concept|concepts|notion|way|ways|thing|things|kind|sort|type|part|whole|lot|level|degree|sense|matter|issue|aspect|form)$/;
   var GSMTDET = /^(the|a|an|what|how|its|their|our|his|her|this|that|these|any|all|some|such|being|it|them|him|me|us|you)$/;
   var GSMTCUT = /^(to|that|which|who|whom|will|would|is|are|was|were|be|been|can|could|should|may|might|must|has|have|had|does|do|did|but|or|as|when|while|for|with|by|in|of|on|at|from|over|into|about|because|if|than|so|not|and|since|after|before|until|during|especially|where|whenever|despite|without|through|among|amongst|within|toward|towards|against|under|between|now|then|again|too|also|even|only|just|still|yet|very|more|most|less)$/;
+  /* v302: the target as the note says it, up to the end of its clause; a list ("defiant, aggressive, or distrustful
+     of ...") is kept whole. At most 12 words. */
+  function gsmTargetFull(tail) {
+    var sg = String(tail).split(","),
+      j = 0;
+    for (var k = 1; k < sg.length && k <= 3; k++)
+      if (/^\s*(and|or)\s/i.test(sg[k])) {
+        j = k;
+        break;
+      }
+    var mid = sg.slice(1, j).every(function (x) {
+        return x.trim().split(/\s+/).length <= 3;
+      }),
+      f = (j && mid && (j >= 2 || sg[j].trim().split(/\s+/).length <= 4) ? sg.slice(0, j + 1).join(",") : sg[0]).replace(/\s+/g, " ").trim().replace(/[\s,]+$/, ""),
+      w = f.split(" ");
+    if (w.length > 12) {
+      w = w.slice(0, 12);
+      while (w.length > 3 && /^(and|or|the|a|an|of|to|in|on|at|for|with|by|they|it|are|is|was|now|that|any|other)$/i.test(w[w.length - 1])) w.pop();
+      f = w.join(" ") + "…";
+    }
+    return f;
+  }
   function gsmTarget(n) {
     var W = GSMEMW[n.em];
     if (!W) return null;
@@ -4699,8 +4721,11 @@
         art = "",
         i = 0;
       /* "those who are defiant": people named by what they do */
-      var th = /^(those|people|anyone|others)\s+who\s+(?:are|were|is)\s+([a-z-]+)/i.exec(m[3]);
-      if (th) return { key: [th[2].toLowerCase()], show: th[1].toLowerCase() + " who are " + th[2].toLowerCase(), art: "" };
+      var th = /^(those|people|anyone|others)\s+who\s+(?:are|were|is)\s+([a-z-]+)/i.exec(m[3]),
+        hb = /^\s*((?:among|amongst|within|from)\s+[a-z'-]+(?:\s+[a-z'-]+)?)\s*$/i.exec(m[1] || ""),
+        FULL = gsmTargetFull(tail),
+        BY = hb ? hb[1].toLowerCase().replace(/^amongst/, "among") : "";
+      if (th) return { key: [th[2].toLowerCase()], show: th[1].toLowerCase() + " who are " + th[2].toLowerCase(), art: "", full: gsmTargetFull(m[3]), by: BY };
       while (i < w.length && GSMTDET.test(w[i].toLowerCase())) (art = /^(the|a|an)$/i.test(w[i]) ? w[i].toLowerCase() + " " : art), i++;
       if (i < w.length && "and" === w[i].toLowerCase()) continue; /* "toward and rejection of ...": the next one */
       while (i + 1 < w.length && GSMTGEN.test(w[i].toLowerCase()) && /^(of|for)$/i.test(w[i + 1])) {
@@ -4727,7 +4752,7 @@
         .filter(function (x) {
           return "and" !== x && !GSMTGEN.test(x) && x.length > 2;
         });
-      if (key.length) return { key: key, show: art + out.join(" "), art: art };
+      if (key.length) return { key: key, show: art + out.join(" "), art: art, full: FULL, by: BY };
     }
     return null;
   }
@@ -4750,7 +4775,7 @@
             return g.key.indexOf(k) >= 0;
           });
         })[0];
-        g ? (g.notes.push(x.n), x.t.key.forEach(function (k) { g.key.indexOf(k) < 0 && g.key.push(k); })) : G.push({ key: x.t.key.slice(), show: x.t.show, notes: [x.n] });
+        g ? (g.notes.push(x.n), x.t.key.forEach(function (k) { g.key.indexOf(k) < 0 && g.key.push(k); })) : G.push({ key: x.t.key.slice(), show: x.t.show, full: x.t.full || x.t.show, by: x.t.by || "", notes: [x.n] });
       });
       if (G.length < 2) return;
       /* people or something else: a target is people when it is a group word (v276) or "those who are ..." */
@@ -4768,7 +4793,7 @@
       var e = E[em],
         list = gsmStList(
           G.map(function (g) {
-            return "<b>" + Gt(g.show) + "</b>" + gsmStNB(g.notes);
+            return "“<b>" + Gt(g.full || g.show) + "</b>”" + (g.by ? " (" + Gt(g.by) + ")" : "") + gsmStNB(g.notes);
           }),
           6,
         ),
@@ -4785,7 +4810,7 @@
           return g.side < 0;
         }),
         most = G[0].notes.length >= 2 && G[0].notes.length > G[1].notes.length,
-        say = gsmCap(e) + " here is not one thing. It is aimed at " + list + (most ? ", and " + Gt(G[0].show) + " draws the most of it." : ".");
+        say = gsmCap(e) + " here is not one thing. It is aimed at " + list + (most ? ", and “" + Gt(G[0].full || G[0].show) + "” draws the most of it." : ".");
       say +=
         P.length && O.length
           ? " " + gsmCap(e) + " aimed at people moves with what those people are seen to do; aimed at an idea or a thing, it moves with what people see of it at work."
@@ -5273,7 +5298,34 @@
         em = gsmStEm(comp),
         o = em.o,
         g = "";
-      o.length &&
+      /* v302: a tie at the top is named as a tie, never as "most" */
+      var TIE = o.length > 1 && em.c[o[0]] === em.c[o[1]]
+        ? o.filter(function (i) {
+            return em.c[i] === em.c[o[0]];
+          })
+        : null;
+      TIE
+        ? (function () {
+            var lo = TIE.filter(function (i) {
+                return [0, 2, 4].indexOf(i) >= 0;
+              }),
+              nm = gsmStList(
+                TIE.map(function (i) {
+                  return E[i];
+                }),
+                5,
+              );
+            g =
+              "It carries " +
+              nm +
+              " in equal measure" +
+              (lo.length && TIE.indexOf(3) >= 0
+                ? ": the " + gsmStList(lo.map(function (i) { return E[i]; }), 5) + (lo.length > 1 ? " hold" : " holds") + " it in place, while the indifference could tip either way."
+                : lo.length === TIE.length
+                  ? ", which is why it holds: from there, change is unlikely in the short or medium term."
+                  : ".");
+          })()
+        : o.length &&
         ([0, 4].indexOf(o[0]) >= 0 && [0, 4].indexOf(o[1]) >= 0
           ? (g = "Most of it sits on aggression and defiance, the lowest ground, which is why it holds: from there, change is unlikely in the short or medium term.")
           : 4 === o[0]
@@ -5285,6 +5337,12 @@
                 : 3 === o[0]
                   ? (g = "Most of it sits on indifference, so it holds loosely: what you do next can tip it either way.")
                   : (g = "Most of it carries acceptance: the people inside it are content with it, which is its own kind of hold."));
+      gsmPlaceOnly() &&
+        (g = g
+          .replace(", the lowest ground and the longest road to acceptance,", ", the longest road to acceptance,")
+          .replace(", the lowest ground,", ",")
+          .replace(", low ground that can slide into defiance,", ", which can slide into defiance,")
+          .replace(", low ground where trust", ", where trust"));
       /* v251: acceptance of the present inside what stands against the goal is what the rest grows on */
       var accH = comp.filter(function (n) {
           return 1 === n.em;
@@ -16136,15 +16194,18 @@
                     return c.S;
                   })[0];
                 FT = (pr || st || {}).title || "";
-                var PL = gsmPlaceOnly(),
+                var Q1 = function (t) {
+                    return Gt(String(t).replace(/[“"]([^”"]*)[”"]/g, "‘$1’"));
+                  },
+                  PL = gsmPlaceOnly(),
                   HG = PL ? "it already stands in acceptance" : "it stands on high ground",
                   RG = PL ? "through indifference" : "through the ridge";
                 return pr && st
-                  ? "Start with the program “" + Gt(pr.title) + "”: " + HG + " and asks for no crossing. Then take up the strategy “" + Gt(st.title) + "”, crossing where it is cheapest, " + RG + "."
+                  ? "Start with the program “" + Q1(pr.title) + "”: " + HG + " and asks for no crossing. Then take up the strategy “" + Q1(st.title) + "”, crossing where it is cheapest, " + RG + "."
                   : st
-                    ? "Start with the strategy “" + Gt(st.title) + "”, crossing where it is cheapest, " + RG + "."
+                    ? "Start with the strategy “" + Q1(st.title) + "”, crossing where it is cheapest, " + RG + "."
                     : pr
-                      ? "Start with the program “" + Gt(pr.title) + "”: " + HG + " and asks for no crossing."
+                      ? "Start with the program “" + Q1(pr.title) + "”: " + HG + " and asks for no crossing."
                       : "";
               })(),
               AK = C.asks || {},
@@ -22589,7 +22650,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v301");
+        t && (t.textContent = "v302");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
