@@ -1490,12 +1490,10 @@
     })[0];
     if (!ds) return;
     var gl = [];
-    [].slice.call(Rt.querySelectorAll('[onclick^="gsmAskG"]')).forEach(function (b) {
-      var d = b.closest(".emo");
-      d = d && d.parentElement;
-      if (!d || gl.indexOf(d) >= 0) return;
+    [].slice.call(Rt.querySelectorAll(".gq")).forEach(function (d) {
+      if (gl.indexOf(d) >= 0) return;
       var pv = d.previousElementSibling;
-      while (pv && "P" !== pv.tagName && pv.querySelector && pv.querySelector('[onclick^="gsmAskG"]')) pv = pv.previousElementSibling;
+      while (pv && pv.classList && pv.classList.contains("gq")) pv = pv.previousElementSibling;
       pv && "P" === pv.tagName && /no word with your goal/.test(pv.textContent) && gl.indexOf(pv) < 0 && gl.push(pv);
       gl.push(d);
     });
@@ -1793,6 +1791,9 @@
             o = tl(c);
           a && o && (fm.innerHTML = fm.innerHTML.split("\u201c" + Gt(o) + "\u201d").join("\u201c" + Gt(a.textContent) + "\u201d"));
         });
+      /* v291: WHERE TO START on Pattern Analysis says the same first move */
+      var w2 = Rt.querySelector(".gsmws2");
+      fm && w2 && w2.parentNode && (w2.parentNode.innerHTML = "On Taking Action: " + fm.innerHTML.charAt(0).toLowerCase() + fm.innerHTML.slice(1));
     }
     !opened && !ft && cards[0] && cards[0].querySelector(".tawhy") && !cards[0].closest("details.tamore") && (cards[0].querySelector(".tawhy").open = !0);
     // page order: the test, then what it asks of you, then the audit trail
@@ -2953,8 +2954,12 @@
         });
         return;
       }
-      var w = gsmMeanWords(body),
-        d = w.length ? gsmMeanData(w) : { q: "", notes: [], em: -1, help: -1, hind: -1 },
+      var w = gsmMeanWords(body);
+      if (!w.length && /^(The words they share|The wording)\b/.test(body.textContent.trim())) {
+        r.parentNode && r.parentNode.removeChild(r);
+        return;
+      }
+      var d = w.length ? gsmMeanData(w) : { q: "", notes: [], em: -1, help: -1, hind: -1 },
         m = gsmMeanSay(lab, w, body.textContent, d);
       if (!m && !old) return;
       var mm = document.createElement("div");
@@ -4245,13 +4250,16 @@
             ? " Each group it is aimed at is its own relationship, and each moves with what that group is seen to do."
             : " Each moves with what people see of what it is aimed at.";
       say += " So no single answer to " + e + " will reach it: there are " + ["two", "three", "four", "five", "six", "seven"][Math.min(G.length, 7) - 2] + " things to answer, each where it points.";
-      out.push({ em: +em, say: say, groups: G, n: L.length });
+      out.push({ em: +em, say: say, groups: G, n: L.length, mv: P.length && O.length ? " " + gsmCap(e) + " aimed at people moves with what those people are seen to do; aimed at an idea or a thing, it moves with what people see of it at work." : "" });
     });
-    return out
+    out = out
       .sort(function (a, b) {
         return b.groups.length - a.groups.length || b.n - a.n;
       })
       .slice(0, 2);
+    /* v291: the people-versus-ideas sentence once */
+    out[1] && out[0].mv && out[1].mv && (out[1].say = out[1].say.replace(out[1].mv, ""));
+    return out;
   }
   function gsmCap(t) {
     return String(t).replace(/^./, function (c) {
@@ -4369,8 +4377,7 @@
         return (
           nm(a, 1) + " " + hv(a) + " " + ex + " toward " + nm(b) + sx + ". " + gsmCap(ey) + " is also aimed at " + nm(a) + sy +
           ", but that note doesn't say whose it is. If it comes from " + nm(b) + ", the two are in a loop: each side's " + (ex === ey ? ex : "emotion") +
-          " is the other side's evidence, so it grows on its own. Does the " + ey + " in " + gsmStRef(y) + " come from " + nm(b) + "?" +
-          '<div class="emo"><button type="button" class="ech" onclick="gsmAskLoop(\'' + ask + '\',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskLoop(\'' + ask + "','n')\">No</button></div>"
+          " is the other side's evidence, so it grows on its own. Whose it is decides whether this is a loop: worth finding out before acting on either side."
         );
       var h =
         (ex === ey
@@ -4563,13 +4570,7 @@
         addEv(c.sup.length ? c.sup : c.opp.length ? c.opp : c.reach, c);
       });
       say +=
-        "</p><p>If both are meant to stay, the goal is not to replace one way with the other. It is to move between the two as conditions change.</p>" +
-        "<p>Is the goal two ways of running, each for its own conditions?</p>" +
-        '<div class="emo"><button type="button" class="ech" onclick="gsmAskMode(\'' +
-        key +
-        "','y')\">Yes</button><button type=\"button\" class=\"ech\" onclick=\"gsmAskMode('" +
-        key +
-        "','n')\">No</button></div>";
+        "</p><p>If both are meant to stay, the goal is not to replace one way with the other. It is to move between the two as conditions change.</p>";
       return { say: say, ev: ev.join(""), ask: 1, key: key };
     }
     var tied = [found.n].concat(c1.sup, c1.opp, c2.sup, c2.opp),
@@ -8997,7 +8998,7 @@
               nx = cl(w[i + 1]),
               head = /[,;:.!?)"\u201d]$/.test(x) || !nx || StStop.test(nx) || /^(that|which|who|whom|whose|where|while|so|because)$/i.test(nx);
             head &&
-              (GSM_DET.test(cl(w[i - 1])) ||
+              (((GSM_DET.test(cl(w[i - 1])) && !(/^(that|this|these|those)$/i.test(cl(w[i - 1])) && i > 1 && !/^(of|in|on|to|for|with|about|at|by|from|into|is|was|are|were|be|and|or|but|all)$/i.test(cl(w[i - 2]))))) ||
                 (GSM_DET.test(cl(w[i - 2])) && !/[,;:]$/.test(w[i - 1] || "")) ||
                 /* v289: a plural word after a preposition ("a threat to referrals") is a thing too */
                 (/^(to|for|of|in|on|with|about|from|by|into|toward|towards|over|against|among|between|without)$/i.test(cl(w[i - 1])) &&
@@ -9024,6 +9025,11 @@
       tw = (a ? ["…"] : []).concat(tw.slice(a, a + 14), a + 14 < tw.length ? ["…"] : []);
     }
     return { ctx: tw.join(" ").replace(/^… /, "…").replace(/ …$/, "…"), lab: best.lab };
+  }
+  /* v291: a word may be stated alone only as a phrase, an emotion, or a thing (his rule, 25 Nov) */
+  function gsmOkW(t) {
+    t = String(t || "").trim();
+    return t.indexOf(" ") > 0 || GSM_EMOW.test(t.toLowerCase()) || !!gsmThing(t);
   }
   function gsmThingSay(stem, word) {
     var t = gsmThing(stem);
@@ -9845,7 +9851,7 @@
                 " in notes both above (HELP) and below (HINDER) the line." +
                 (function () {
                   var t = j(w[0]);
-                  return t[0] && t[1]
+                  return t[0] && t[1] && gsmOkW(w[0])
                     ? " For " +
                         uo([w[0]]) +
                         ": above the line in " +
@@ -9952,7 +9958,7 @@
                 " a condition to establish (Q.4) and also in a note below the line (HINDER)." +
                 (function () {
                   var t = j(w[0]);
-                  return t[1]
+                  return t[1] && gsmOkW(w[0])
                     ? " For " +
                         "<b>" + Gt(jt(w[0])) + "</b>" +
                         ", the notes below the line are " +
@@ -10707,17 +10713,13 @@
                 : "This phrase is not in your goal but also runs") +
               " through three or more of your answers and " +
               (WQ.length > 1 ? "appear" : "appears") +
-              " in one note at most. A phrase can be a theme or just wording, and Patterns cannot tell which, so it asks.</p>" +
+              " in one note at most, so the map has not caught up with it yet.</p>" +
               window.gsmTHK
                 .map(function (c, i) {
                   return (
                     '<div style="margin:6px 0 10px">“' +
                     Gt(jt(c.key)) +
-                    '” Is it a theme?<div class="emo"><button type="button" class="ech" onclick="gsmAskT(' +
-                    i +
-                    ',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskT(' +
-                    i +
-                    ",'n')\">No</button></div></div>"
+                    "”</div>"
                   );
                 })
                 .join("");
@@ -10734,17 +10736,13 @@
               (WD.length > 1 ? "These phrases also run" : "This phrase also runs") +
               " through three or more of your answers and " +
               (WD.length > 1 ? "appear" : "appears") +
-              " in one note at most. A phrase can be a theme or just wording, and Patterns cannot tell which, so it asks.</p>" +
+              " in one note at most, so the map has not caught up with it yet.</p>" +
               window.gsmTHW
                 .map(function (c, i) {
                   return (
                     '<div style="margin:6px 0 10px">“' +
                     Gt(gsmPhName(c.key).ph) +
-                    '” Is it a theme?<div class="emo"><button type="button" class="ech" onclick="gsmAskW(' +
-                    i +
-                    ',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskW(' +
-                    i +
-                    ",'n')\">No</button></div></div>"
+                    "”</div>"
                   );
                 })
                 .join("");
@@ -10902,22 +10900,17 @@
               (U.length > 1 ? "These notes share" : "This note shares") +
               " no word with your goal. That could mean " +
               (U.length > 1 ? "they are" : "it is") +
-              " off the goal or only worded differently, and Patterns cannot tell which, so it asks.</p>" +
+              " off the goal, or the goal may only be worded differently.</p>" +
               U.slice(0, 3)
                 .map(function (x) {
                   var id = String(x[2]).replace(/[^A-Za-z0-9_-]/g, ""),
                     q = x[1].trim().replace(/\s+/g, " ");
                   return (
-                    '<div style="margin:6px 0 10px">' +
+                    '<div class="gq" style="margin:6px 0 10px">' +
                     x[0] +
                     " “" +
                     Gt(q.length > 120 ? q.slice(0, 120).replace(/\s+\S*$/, "") + "…" : q) +
-                    "” Does it serve the goal?" +
-                    '<div class="emo"><button type="button" class="ech" onclick="gsmAskG(\'' +
-                    id +
-                    '\',\'y\')">Yes</button><button type="button" class="ech" onclick="gsmAskG(\'' +
-                    id +
-                    "','n')\">No</button></div></div>"
+                    "”</div>"
                   );
                 })
                 .join(""));
@@ -12523,6 +12516,7 @@
                       }),
                       l || !(!a.length || (o[t.lab] && o[e.lab])))
                     ) {
+                      if (!l) return; /* v291: the generic "sits behind two findings" line adds little */
                       var c = a.length ? "<b>“" + Gt(a[0]) + "”</b>" : s[0],
                         u = (a.length ? "w" : "p") + (a.length ? a[0] : s[0]),
                         d = l
@@ -16234,7 +16228,7 @@
                     ", but nothing in Q.5–Q.7 or in your design, redesign, and reinforce notes carries a number or a time yet.</div></div>"
                   );
                 })() +
-                Qn +
+                (TAT && TAT.indexOf("tafirst") >= 0 ? "" : Qn) +
                 In +
                 qn +
                 (Zn.length
@@ -16782,7 +16776,9 @@
                 D7 = byQ([7]),
                 AC = D5.concat(D6, D7),
                 s4 = "",
-                un = FR.unanswered || [],
+                un = (FR.unanswered || []).filter(function (k) {
+                  return gsmOkW(gsmPhName(k, 1).ph || k);
+                }),
                 an = FR.answered || [];
               if (AC.length) {
                 var big = [
@@ -16813,7 +16809,7 @@
               out += P0(
                 "WHERE TO START",
                 W
-                  ? "Taking Action puts " +
+                  ? '<span class="gsmws2"></span>' + "Taking Action puts " +
                       W.h +
                       " first, as " +
                       (W.st ? "a strategy" : "a program") +
@@ -18503,6 +18499,10 @@
       );
     }
     function uo(t, e) {
+      /* v291: single words that are not things are not stated */
+      var ok = t.filter(gsmOkW);
+      if (!ok.length) return t.length > 1 ? "The words they share" : "The wording";
+      t = ok;
       return (
         (e = e || 3),
         t
@@ -21992,7 +21992,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v290");
+        t && (t.textContent = "v291");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
