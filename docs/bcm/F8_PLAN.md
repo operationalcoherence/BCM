@@ -47,6 +47,16 @@ Estimate: 7 to 10 versions over several desktop sessions.
    Anonymous sign-in tested on the live page (one test anonymous user created). Google sign-in confirmed by Gregory on his phone.
 3. **v3, Lead a project:** name, shared goal (lead-only), voices plus **Other** write-in, due date, map, invite link (copy,
    email, QR).
+   **Built in v309, test only (shows with ?f8test=1; normal visitors still see "coming soon").** Google sign-in, PROJECTS YOU LEAD
+   (Open), and a form: project name, THE SHARED GOAL (starts as the lead's own workbook goal), VOICES (chips, plus an Other
+   write-in for people answering), ANSWERS DUE, and THE MAP (line map, or the place from the lead's own workbook, stored as
+   `map: {kind, name, p}` where `p` is the workbook's place as a JSON string, since Firestore can't hold nested arrays).
+   Saving writes `projects/{pid}` (lead, key, name, goal, voices, due, map, leadName, created, updated) and the invite
+   `projects/{pid}/keys/{key}` (open, pid, and the same shared fields). The key is 32 random characters. The invite link is
+   `<page>#bcmjoin=<pid>.<key>`: after `#`, so it never reaches the web server. Copy, Email (mailto), and a QR code
+   (qrcode-generator 1.4.4, MIT, bundled inside the F8 block). Save changes updates both records. Delete this project
+   (with a confirm) deletes workbooks, then keys, then the project record. Checked with fake Firebase modules
+   (`tests/f8lead.py`); the real database still refuses everything until the rules are published.
 4. **v4, invited person:** the link opens the workbook with the lead's goal and map; they add a name and a voice. Saving is live,
    about every 30 seconds: "Sharing with <lead> · saved N ago", with Pause sharing. If the free daily write cap is hit, work
    stays on the device and is sent later.
