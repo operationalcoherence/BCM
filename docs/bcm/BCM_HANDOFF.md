@@ -128,6 +128,8 @@ Built to BCM_ARCHITECTURE.md §0.3, the central test: "Does what you would desig
 - Lead each tab with meaning; put the inventory under it, closed. Interpretation over inventory.
 - Taking Action describes the situation, not the workbook (11-18 21:53): say what remains unresolved, keeps reinforcing, or is not yet used; never "answered" or "built on". Note numbers go behind, small and gray. On screen, "the system that holds" is WHAT HOLDS THE SITUATION IN PLACE.
 - Don't let a page grow long: v226 kept Taking Action near its old length by folding word-only cards.
+- **Single words (v288, his halfway measure 11-25):** a single word is stated only when it reads as a thing, comes up in 2+ places, and is shown with the user's own clause and its place; emotion names always count.
+- **No one-tap questions just to cover the engine's limits** (11-25 19:28: "it bothers the user with our shortcomings"). Widen or tighten the engine's own tests instead.
 
 ## How to build and test
 - **Repo:** operationalcoherence/BCM (public). main feeds the preview through GitHub Pages; the page loads gsm-preview.js and gsm-relief.js with a per-minute cache-buster.
