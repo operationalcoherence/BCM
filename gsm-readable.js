@@ -884,7 +884,7 @@
     var st = document.createElement("style");
     st.id = "gsm-ta-css";
     st.textContent =
-      "#gsm .tatst{border:2px solid #111;background:#fff;padding:12px 18px 10px;margin:14px 0 18px}#gsm .tatq{font-size:12px;font-weight:700;letter-spacing:.16em;color:#444}#gsm .tatqq{font-size:19px;line-height:1.4;color:#111;margin:4px 0 4px}#gsm .tatsub{font-size:13px;color:#666;margin-bottom:8px}#gsm .tatr{border-top:1px solid #ddd;padding:8px 0 6px;font-size:15px;line-height:1.5}#gsm .tatr>div{margin:2px 0}#gsm .tatl{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:#222;text-transform:uppercase}#gsm .tatr i{font-style:normal;font-weight:700}#gsm .tav{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;padding:1px 6px;border:1px solid #111;margin:0 2px;vertical-align:1px}#gsm .tav-yes{background:#111;color:#fff}#gsm .tav-partly{background:#fff;color:#111}#gsm .tav-notyet{background:#fff;color:#b22;border-color:#b22;border-style:dashed}#gsm .tagrp{margin:26px 0 10px;border-top:3px solid #111;padding-top:10px}#gsm .tagh{font-size:15px;font-weight:700;letter-spacing:.18em;color:#111}#gsm .tags{font-size:14px;color:#555;margin:2px 0 6px}#gsm .tagrp .meta{margin:6px 0 4px}#gsm .coa .tasplit .tspl{margin:0 0 6px}#gsm .tsk{font-size:11px;font-weight:700;letter-spacing:.1em;color:#555;margin-right:6px}#gsm .fhelp{font-size:12.5px;color:#666;line-height:1.4;margin:4px 0 2px}#gsm .consq{margin:4px 0 8px;font-size:13px;color:#444}#gsm .consq .ech{font-size:12.5px;margin:3px 4px 0 0}#gsm .consq .ech[disabled]{opacity:.4;cursor:default}#gsm .ncons{font-size:13.5px;color:#333;line-height:1.45}#gsm .ncons:not(:empty){margin:6px 0 2px;padding:4px 0 4px 9px;border-left:3px solid #111}#gsm .ncons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .actcons{font-size:13.5px;color:#333;margin:4px 0 6px;padding-left:9px;border-left:2px solid #ddd}#gsm .actcons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .coa[data-seed] .phctx{color:#888}#gsm .tafirst{border-left:5px solid #111;padding:2px 0 4px 12px;margin:2px 0 14px}#gsm .tafm{font-size:18px;line-height:1.5;color:#111}#gsm .tafws{font-size:13.5px;color:#555;margin-top:4px}#gsm .tatst .tev{font-size:13.5px;color:#666}#gsm .tapn{font-size:13px;color:#666;background:none;border:0;padding:0}#gsm .tastrip{border-left:4px solid #111;padding:2px 0 2px 12px;margin:8px 0 10px;font-size:16px;line-height:1.5;color:#111}#gsm .tastrip>div{margin:3px 0}#gsm .tsl{font-size:10.5px;font-weight:700;letter-spacing:.14em;color:#555;margin-right:4px}#gsm .tawhy>summary,#gsm .taev>summary{cursor:pointer;font-size:12.5px;letter-spacing:.1em;text-decoration:underline;margin:6px 0}#gsm .tawhy[open]{border-left:1px solid #ddd;padding-left:10px}#gsm .taev{font-size:13px;color:#666}#gsm .taev>summary{color:#666}#gsm .taev[open]{border-left:1px solid #eee;padding-left:10px}#gsm .ccons.cempty .ccq,#gsm .ccons.cempty .consq{display:none}#gsm .ccons:not(.cempty) .tanb{display:none}#gsm .tameta>summary{font-size:13px;cursor:pointer;text-decoration:underline;color:#444}";
+      "#gsm .tatst{border:2px solid #111;background:#fff;padding:12px 18px 10px;margin:14px 0 18px}#gsm .tatq{font-size:12px;font-weight:700;letter-spacing:.16em;color:#444}#gsm .tatqq{font-size:19px;line-height:1.4;color:#111;margin:4px 0 4px}#gsm .tatsub{font-size:13px;color:#666;margin-bottom:8px}#gsm .tatr{border-top:1px solid #ddd;padding:8px 0 6px;font-size:15px;line-height:1.5}#gsm .tatr>div{margin:2px 0}#gsm .tatl{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:#222;text-transform:uppercase}#gsm .tatr i{font-style:normal;font-weight:700}#gsm .tav{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;padding:1px 6px;border:1px solid #111;margin:0 2px;vertical-align:1px}#gsm .tav-yes{background:#111;color:#fff}#gsm .tav-partly{background:#fff;color:#111}#gsm .tav-notyet{background:#fff;color:#b22;border-color:#b22;border-style:dashed}#gsm .tagrp{margin:26px 0 10px;border-top:3px solid #111;padding-top:10px}#gsm .tagh{font-size:15px;font-weight:700;letter-spacing:.18em;color:#111}#gsm .tags{font-size:14px;color:#555;margin:2px 0 6px}#gsm .tagrp .meta{margin:6px 0 4px}#gsm .coa .tasplit .tspl{margin:0 0 6px}#gsm .tsk{font-size:11px;font-weight:700;letter-spacing:.1em;color:#555;margin-right:6px}#gsm .fhelp{font-size:12.5px;color:#666;line-height:1.4;margin:4px 0 2px}#gsm .consq{margin:4px 0 8px;font-size:13px;color:#444}#gsm .consq .ech{font-size:12.5px;margin:3px 4px 0 0}#gsm .consq .ech[disabled]{opacity:.4;cursor:default}#gsm .ncons{font-size:13.5px;color:#333;line-height:1.45}#gsm .ncons:not(:empty){margin:6px 0 2px;padding:4px 0 4px 9px;border-left:3px solid #111}#gsm .ncons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .actcons{font-size:13.5px;color:#333;margin:4px 0 6px;padding-left:9px;border-left:2px solid #ddd}#gsm .actcons b{font-size:11px;letter-spacing:.12em;color:#555}#gsm .coa[data-seed] .phctx{color:#888}#gsm .tafirst{border-left:5px solid #111;padding:2px 0 4px 12px;margin:2px 0 14px}#gsm .tafm{font-size:18px;line-height:1.5;color:#111}#gsm .tafws{font-size:13.5px;color:#555;margin-top:4px}#gsm .tatst .tev{font-size:13.5px;color:#666}#gsm .tapn{font-size:13px;color:#666;background:none;border:0;padding:0}#gsm .tastrip{border-left:4px solid #111;padding:2px 0 2px 12px;margin:8px 0 10px;font-size:16px;line-height:1.5;color:#111}#gsm .tastrip>div{margin:3px 0}#gsm .tsl{font-size:10.5px;font-weight:700;letter-spacing:.14em;color:#555;margin-right:4px}#gsm .coa .hd{flex-wrap:wrap}#gsm .coa .taact{flex:1 0 100%;font-size:19px;font-weight:700;line-height:1.35;color:#111;margin:0}#gsm .coa .hdt.tactx{flex:1 1 0;min-width:0}#gsm .coa .hdt.tactx{font-size:12.5px;color:#888;line-height:1.4}#gsm .coa .hdt.tactx b{font-weight:400;color:#888}#gsm .coa .hdt.tactx .phctx{color:#999}#gsm .tastrip .tafmr{font-size:18px;line-height:1.45;margin-bottom:6px}#gsm .tawhy>summary,#gsm .taev>summary{cursor:pointer;font-size:12.5px;letter-spacing:.1em;text-decoration:underline;margin:6px 0}#gsm .tawhy[open]{border-left:1px solid #ddd;padding-left:10px}#gsm .taev{font-size:13px;color:#666}#gsm .taev>summary{color:#666}#gsm .taev[open]{border-left:1px solid #eee;padding-left:10px}#gsm .ccons.cempty .ccq,#gsm .ccons.cempty .consq{display:none}#gsm .ccons:not(.cempty) .tanb{display:none}#gsm .tameta>summary{font-size:13px;cursor:pointer;text-decoration:underline;color:#444}";
     document.head.appendChild(st);
   }
   function gsmTASay(s) {
@@ -1018,25 +1018,61 @@
       ts = c.getAttribute("data-ts"),
       ws = c.getAttribute("data-ws"),
       h = "";
-    tv && (h += '<div><span class="tsl">MEETS THE TEST</span> <span class="tav tav-' + tv.replace(" ", "") + '">' + Gt(tv.toUpperCase()) + "</span> " + (ts || "") + "</div>");
-    li && (h += '<div><span class="tsl">FIRST MOVE</span> ' + li.innerHTML + "</div>");
-    ws && (h += '<div><span class="tsl">THE WAY ACROSS</span> ' + ws + "</div>");
-    (c._tsp || []).length && (h += '<div><span class="tsl">READING SPLITS</span> ' + c._tsp.join(" ") + "</div>");
+    /* v284: the card reads in 15 seconds: action title, FIRST MOVE, WHY, COST, SPLIT, then the map, then the folds */
+    var txt = function (el) {
+        return el ? el.textContent.replace(/\s+/g, " ").trim() : "";
+      },
+      sec = function (r) {
+        var x = L2.filter(function (y) {
+          return y[0] === r;
+        })[0];
+        return x ? x[1] : null;
+      },
+      mapSec = sec(8),
+      act = gsmTAAction(c, bd),
+      why = txt(sec(1)).replace(/^IN SERVICE OF THE GOAL\s*/, ""),
+      why2 = txt(sec(3)).replace(/^Why:\s*/, ""),
+      cost = ws || "",
+      mcsn = mapSec && mapSec.querySelector(":scope > .gterr-card .csn, .csn");
+    /* a card whose purpose only names its source gives its reason instead */
+    (!why || /^It is (what you would|already working)/.test(why) || c.hasAttribute("data-ground")) && why2 && (why = why2.charAt(0).toUpperCase() + why2.slice(1));
+    if (!cost && mcsn) {
+      var mm = /^Crosses the help and hinder line .*?goal\./.exec(mcsn.textContent.trim());
+      mm && ((cost = mm[0]), (mcsn.textContent = mcsn.textContent.trim().slice(mm[0].length).trim()));
+    }
+    if (act) {
+      var hd = c.querySelector(".hd"),
+        hdt = hd && hd.querySelector(".hdt");
+      if (hd && !hd.querySelector(".taact")) {
+        var at = document.createElement("div");
+        at.className = "taact";
+        at.textContent = act;
+        hd.insertBefore(at, hd.firstChild);
+        hdt && hdt.classList.add("tactx");
+      }
+    }
+    li && (h += '<div class="tafmr"><span class="tsl">FIRST MOVE</span> ' + li.innerHTML + "</div>");
+    why && (h += '<div><span class="tsl">WHY</span> ' + Gt(why) + "</div>");
+    cost && (h += '<div><span class="tsl">COST</span> ' + (ws ? cost : Gt(cost)) + "</div>");
+    (c._tsp || []).length
+      ? (h += '<div><span class="tsl">SPLIT</span> ' + c._tsp.join(" ") + "</div>")
+      : tv && "yes" !== tv && ts && (h += '<div><span class="tsl">IN THE WAY</span> ' + ts + "</div>");
     var sp = document.createElement("div");
     sp.className = "tastrip";
     sp.innerHTML = h;
     var w = document.createElement("details");
     w.className = "tawhy";
     open && (w.open = !0);
-    w.innerHTML = "<summary>Why this action</summary>";
-    /* v239: the card's map (THE WAY THROUGH IT) stays open, under the decision strip */
-    var mapSec = null;
+    w.innerHTML = "<summary>Why this action, in full</summary>";
     L2.forEach(function (x) {
-      8 === x[0] && !mapSec ? (mapSec = x[1]) : w.appendChild(x[1]);
+      x[1] !== mapSec && w.appendChild(x[1]);
     });
     bd.insertBefore(sp, bd.firstChild);
-    h ? sp.parentNode.insertBefore(w, sp.nextSibling) : (sp.parentNode.removeChild(sp), bd.insertBefore(w, bd.firstChild));
-    mapSec && (mapSec.classList.add("tamap"), w.parentNode.insertBefore(mapSec, w));
+    var at0 = h ? sp : (sp.parentNode.removeChild(sp), null);
+    /* the map stays visible, straight under the strip */
+    mapSec && (mapSec.classList.add("tamap"), at0 ? bd.insertBefore(mapSec, at0.nextSibling) : bd.insertBefore(mapSec, bd.firstChild));
+    var after = mapSec || at0;
+    after ? bd.insertBefore(w, after.nextSibling) : bd.insertBefore(w, bd.firstChild);
     if (L3.length) {
       var e = document.createElement("details");
       e.className = "taev";
@@ -1046,6 +1082,49 @@
       });
       w.parentNode.insertBefore(e, w.nextSibling);
     }
+  }
+  /* v284: a card's title as an action, from what the card is (its seed, its ground, or why it is a program or a
+     strategy). The old title stays beside it, in small gray. Null when nothing accurate can be said. */
+  function gsmTAAction(c, bd) {
+    var tx = function (el) {
+        return el ? el.textContent.replace(/\s+/g, " ").trim() : "";
+      },
+      b = c.querySelector(".hd .hdt b") || c.querySelector(".hd b"),
+      t = tx(b),
+      sub = t.indexOf(": ") >= 0 ? t.slice(t.indexOf(": ") + 2) : "",
+      seed = c.getAttribute("data-seed"),
+      strat = /STRATEGY/.test(tx(c.querySelector(".hd .mode"))),
+      call = tx(bd.querySelector(":scope > .coacall")),
+      why = tx(bd.querySelector(":scope > .why")),
+      src = (/\((Q\.\d|N\d+|the goal)\)\s*$/.exec(tx(c.querySelector(".hd .phctx"))) || [])[1] || "",
+      q = function (x) {
+        return "“" + x + "”";
+      };
+    if (seed)
+      return {
+        sys: sub ? "Change what keeps " + sub + " in place" : "Change what holds the situation in place",
+        ten: sub ? "Work the key tension: " + sub : "Work the key tension",
+        loop: sub ? "Change one link in the loop: " + sub : "Change one link in the loop",
+        opp: "Scale the alternative that already exists" + (sub ? ": " + sub : ""),
+        help: "Build on what already helps" + (sub ? ": " + sub : ""),
+        snr: "Reinforce the support you have not backed yet" + (sub ? ": " + sub : ""),
+      }[seed] || null;
+    if (c.hasAttribute("data-ground")) {
+      var gm = /^(\w+) among acceptance/.exec(t),
+        ids = tx(c.querySelector(".hd .gids"));
+      return gm ? "Keep the " + gm[1].toLowerCase() + (ids ? " in " + ids : "") + " from spreading into the acceptance around it" : null;
+    }
+    if (!t) return null;
+    var ph = q(t),
+      qn = (/named (?:in|as something to \w+) \(?(Q\.\d)/.exec(why) || [])[1] || (/^Q\.\d$/.test(src) ? src : ""),
+      vb = { "Q.3": "Reinforce", "Q.5": "Design", "Q.6": "Redesign", "Q.7": "Reinforce" }[qn];
+    if (/already working/.test(call)) return "Reinforce " + ph;
+    if (/\bis pulled both ways/.test(call)) return "Bring both sides of " + ph + " toward the goal";
+    if (/strong emotion/.test(call)) return "Answer the resistance around " + ph;
+    if (/Q\.5–Q\.7 do not reach it/.test(call)) return "Design something that answers " + ph;
+    if (vb && strat) return vb + " " + ph + ": try two or three ways, small";
+    if ("Reinforce" === vb) return "Reinforce " + ph;
+    return strat ? "Try two or three small ways forward on " + ph : "Set a sequence for " + ph;
   }
   /* v269: Pattern Synthesis retired. What was under LOOKING OUT stays where it is, now the end of Pattern Analysis;
      dropped sections go; DOES THIS SERVE THE GOAL? moves to Taking Action. */
@@ -1325,7 +1404,7 @@
       else if (el.classList.contains("rule")) {
         var rl = el.querySelector(".rl"),
           rt = rl ? rl.textContent.trim() : "";
-        if ("DOES THIS ANSWER IT?" === rt && tst) tst.parentNode.insertBefore(el, tst.nextSibling);
+        if ("DOES THIS ANSWER THE GOAL?" === rt && tst) tst.parentNode.insertBefore(el, tst.nextSibling);
         else if ("NOTHING YOU WOULD DO ANSWERS THESE YET" === rt) {
           var f = document.createElement("details");
           f.className = "fold";
@@ -15402,7 +15481,7 @@
                     P();
                   };
                   return (
-                    '<div class="rule open"><div class="rl">DOES THIS ANSWER IT?</div>' +
+                    '<div class="rule open"><div class="rl">DOES THIS ANSWER THE GOAL?</div>' +
                     qs
                       .map(function (t) {
                         var fw = (new RegExp(
@@ -21258,7 +21337,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v283");
+        t && (t.textContent = "v284");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
