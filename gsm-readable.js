@@ -1332,16 +1332,25 @@
   function gsmTAGists(ids, n) {
     var d = window.gsmData ? window.gsmData() : { m: [] },
       out = [];
+    /* v299: place notes too (P5 or "place note 5"), labelled the way the page labels them */
+    var LM = (C.m || []).filter(function (t) {
+        return Array.isArray(t) && String(t[3] || "").trim();
+      }).length ? C.m : [],
+      PM = (C.p && C.p.m) || [],
+      both = LM.length && PM.length;
     (ids || []).forEach(function (id) {
-      var m = /^note (\d+)$/.exec(String(id).trim()),
-        row = m ? (d.m || [])[+m[1] - 1] : null,
+      var s = String(id).trim(),
+        m = /^note (\d+)$/.exec(s),
+        pm = /^(?:P|place note\s*)(\d+)$/i.exec(s),
+        row = m ? (d.m || [])[+m[1] - 1] : pm ? PM[+pm[1] - 1] : null,
+        lab = m ? "N" + m[1] + (both ? ", line" : "") : pm ? "N" + pm[1] + (both ? ", place" : "") : "",
         g = row ? gsmTAClause(row[3]) : "";
       g &&
         out.length < (n || 3) &&
         !out.some(function (o) {
           return o.g === g || o.g.indexOf(g) >= 0 || g.indexOf(o.g) >= 0;
         }) &&
-        out.push({ g: g, id: "N" + m[1] });
+        out.push({ g: g, id: lab });
     });
     return out;
   }
@@ -1409,7 +1418,16 @@
         return "“" + x + "”";
       };
     var sids = String(c.getAttribute("data-seedids") || "").split(","),
-      gl = !sub && /^(opp|help|snr)$/.test(seed || "") ? gsmTAGists(sids, 4) : [];
+      gl = !sub && /^(opp|help|snr|sys)$/.test(seed || "") ? gsmTAGists(sids, 4) : [];
+    /* v299: what holds the situation is named by the part the first move starts with */
+    if (seed === "sys" && !sub) {
+      var fm0 = [].slice.call(c.querySelectorAll(".csec")).filter(function (z) {
+          return /^(FIRST MOVES|THE SEQUENCE)$/.test(tx(z.querySelector(":scope > .csl")));
+        })[0],
+        st = /Start with (.+?) \((N\d+[^)]*)\), the part most tied/.exec(tx(fm0 && fm0.querySelector("li")));
+      if (st && st[1].split(" ").length >= 2) return "Change what keeps " + q(st[1]) + " (" + st[2] + ") in place";
+      if (gl.length) return "Change what keeps " + gl[0].g + " (" + gl[0].id + ") in place";
+    }
     if (gl.length) {
       c._tagist = gl.slice(1);
       var g0 = gl[0].g + " (" + gl[0].id + ")",
@@ -22495,7 +22513,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v298");
+        t && (t.textContent = "v299");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
