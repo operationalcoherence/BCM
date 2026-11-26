@@ -22670,7 +22670,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v306");
+        t && (t.textContent = "v307");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -29949,4 +29949,129 @@
     scan();
   }
   document.body ? start() : document.addEventListener("DOMContentLoaded", start);
+})();
+/* v307: F8 step 2 - Firebase sign-in. Loaded only on demand: the solo workbook never loads it and never signs in.
+   Leads sign in with Google (pop-up); people answering are signed in anonymously in the background.
+   No Firestore reads or writes yet (the database stays locked). Test panel: add ?f8test=1 to the page address. */
+!(function () {
+  var V = "13.4.0",
+    BASE = "https://www.gstatic.com/firebasejs/" + V + "/",
+    CFG = {
+      apiKey: "AIzaSyAemLJdbTiec2NlcQUslILK1lxLwqFc7TQ",
+      authDomain: "the-bear-canyon-method.firebaseapp.com",
+      projectId: "the-bear-canyon-method",
+      storageBucket: "the-bear-canyon-method.firebasestorage.app",
+      messagingSenderId: "649814560363",
+      appId: "1:649814560363:web:6e89f00026285d38d46b2e",
+    },
+    P = null,
+    subs = [],
+    cur = null;
+  function load() {
+    return (
+      P ||
+      (P = Promise.all([import(BASE + "firebase-app.js"), import(BASE + "firebase-auth.js")]).then(function (m) {
+        var A = m[1],
+          app = m[0].initializeApp(CFG, "bcm"),
+          auth = A.getAuth(app);
+        A.onAuthStateChanged(auth, function (u) {
+          cur = u || null;
+          subs.forEach(function (f) {
+            try {
+              f(cur);
+            } catch (e) {}
+          });
+        });
+        return { A: A, auth: auth };
+      })).catch(function (e) {
+        P = null;
+        throw e;
+      })
+    );
+  }
+  function info(u) {
+    return u ? { uid: u.uid, anon: !!u.isAnonymous, name: u.displayName || "", email: u.email || "" } : null;
+  }
+  window.gsmF8 = {
+    load: load,
+    user: function () {
+      return info(cur);
+    },
+    onChange: function (f) {
+      subs.push(f);
+    },
+    signInLead: function () {
+      return load().then(function (F) {
+        var p = new F.A.GoogleAuthProvider();
+        p.setCustomParameters({ prompt: "select_account" });
+        return F.A.signInWithPopup(F.auth, p).then(function (r) {
+          return info(r.user);
+        });
+      });
+    },
+    signInQuiet: function () {
+      return load().then(function (F) {
+        if (F.auth.currentUser) return info(F.auth.currentUser);
+        return F.A.signInAnonymously(F.auth).then(function (r) {
+          return info(r.user);
+        });
+      });
+    },
+    signOut: function () {
+      return load().then(function (F) {
+        return F.A.signOut(F.auth);
+      });
+    },
+  };
+  var test = false;
+  try {
+    test = /[?&]f8test=1\b/.test(location.search);
+  } catch (e) {}
+  if (!test) return;
+  function panel() {
+    var w = document.getElementById("gsm-ways");
+    if (!w) return false;
+    if (document.getElementById("gsm-f8t")) return true;
+    var d = document.createElement("div");
+    d.id = "gsm-f8t";
+    d.style.cssText = "border:1.5px dashed #a33;padding:12px 14px;margin:12px 0 0;font-size:14px;line-height:1.45";
+    d.innerHTML =
+      '<div style="font-weight:700;letter-spacing:.14em;font-size:12px;color:#a33">F8 TEST (only with ?f8test=1 in the address)</div>' +
+      '<div id="gsm-f8s" role="status" style="margin:6px 0 10px">Not loaded. Nothing is saved or sent.</div>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:8px">' +
+      '<button type="button" class="btn alt" data-f8="lead">Sign in with Google (lead)</button>' +
+      '<button type="button" class="btn alt" data-f8="quiet">Sign in anonymously (person answering)</button>' +
+      '<button type="button" class="btn alt" data-f8="out">Sign out</button></div>';
+    w.appendChild(d);
+    var s = d.querySelector("#gsm-f8s");
+    function show(u) {
+      s.textContent = u
+        ? (u.isAnonymous ? "Signed in anonymously" : "Signed in as " + (u.displayName || "") + " (" + (u.email || "") + ")") +
+          ". User id: " +
+          u.uid
+        : "Signed out.";
+    }
+    window.gsmF8.onChange(show);
+    d.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-f8]");
+      if (!b) return;
+      var k = b.getAttribute("data-f8");
+      s.textContent = "Working…";
+      (k === "lead" ? window.gsmF8.signInLead() : k === "quiet" ? window.gsmF8.signInQuiet() : window.gsmF8.signOut())
+        .then(function () {
+          show(cur);
+        })
+        .catch(function (err) {
+          s.textContent = "Error: " + ((err && (err.code || err.message)) || err);
+        });
+    });
+    window.gsmF8.load().catch(function (err) {
+      s.textContent = "Could not load Firebase: " + ((err && err.message) || err);
+    });
+    return true;
+  }
+  var n = 0,
+    t = setInterval(function () {
+      (panel() || ++n > 120) && clearInterval(t);
+    }, 250);
 })();
