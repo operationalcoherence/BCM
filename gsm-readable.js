@@ -3379,8 +3379,47 @@
     return res;
   }
   window.gsmSystems = gsmSystems;
+  /* v294: what holds the situation in place, read from the workbook itself. Each finding needs two
+     places (notes on the hindering side, or the answers to Q.1 and Q.2). */
+  var GSM_HOLD = [
+    ["trad", /\btradition|\bcentur(?:y|ies)\b|hundred years|\bdecades\b|\bhistor(?:y|ic)\b|always been|\blegacy\b|entrench|\bhabits?\b|ingrained|cultural norm|not broken/i],
+    ["liv", /\bmoney\b|financ|\bprofit|occupation|livelihood|\bemploy|\bjobs?\b|\bcareers?\b|\bincome\b|\bwages?\b|\bcomplex\b(?! adaptive)|apparatus|\bearn\b/i],
+    ["fear", /\bfears?\b|\bfeared\b|afraid|liabilit|\bescapes?\b|danger|deadly|\bblame|disaster|worried|catastroph/i],
+    ["expect", /expectation|\bpublic\b|politic|\bmedia\b|televis|perception|community reaction/i],
+    ["loop", /reinforc\w* (?:the need|itself)|feedback|feeds? (?:on )?itself|vicious|grows? thicker|accumulat/i],
+    ["show", /\bas if\b|workaround|circumvent|appearance of|in name only|officially adopted|on paper/i],
+  ];
+  function gsmHolds(texts) {
+    var n = {};
+    (texts || []).forEach(function (t) {
+      var seen = {};
+      GSM_HOLD.forEach(function (h) {
+        h[1].test(String(t || "")) && !seen[h[0]] && ((seen[h[0]] = 1), (n[h[0]] = (n[h[0]] || 0) + 1));
+      });
+    });
+    return n;
+  }
+  function gsmHoldTexts() {
+    var a = (C && C.a) || [];
+    return ((C && C.m) || [])
+      .filter(function (t) {
+        return t && t[0] >= 1 && t[0] <= 4 && ([0, 2, 4].indexOf(t[5]) >= 0 || ("number" == typeof t[2] && t[2] > 118));
+      })
+      .map(function (t) {
+        return t[3];
+      })
+      .concat(
+        String(a[0] || "").split(/(?<=[.!?;])\s+|\n+/),
+        String(a[1] || "").split(/(?<=[.!?;])\s+|\n+/),
+      );
+  }
   function gsmStories(mt) {
     if (!mt || mt.querySelector(".stories")) return;
+    var HD = gsmHolds(gsmHoldTexts()),
+      HAS = function (k) {
+        return (HD[k] || 0) >= 2;
+      },
+      SHOW = HAS("show");
     var Y = gsmSystems();
     window.gsmSys = Y;
     if (!Y.several) return;
@@ -3437,6 +3476,19 @@
     }
     ST.forEach(function (g, k) {
       var wh = where(g),
+        gw = "goal" === wh && SHOW,
+        HG = gsmHolds(
+          g.n
+            .filter(function (p) {
+              return [0, 2, 4].indexOf(p.e) >= 0 || p.side < 0;
+            })
+            .map(function (p) {
+              return p.txt;
+            }),
+        ),
+        hg = function (k) {
+          return (HG[k] || 0) >= 1 && HAS(k);
+        },
         o = lowEm(g),
         c = gsmStEm(g.n).c,
         e0 = o[0],
@@ -3465,10 +3517,14 @@
       var S = [];
       /* 1. the dynamic */
       S.push(
-        "goal" === wh
+        gw
           ? "Close to the goal, the ground drops again, into " +
               emo +
               ". This is the low ground that waits where the change is close to arriving, where a new arrangement can exist in name while the old one goes on underneath it."
+          : "goal" === wh
+            ? "Close to the goal, the ground drops again, into " +
+              emo +
+              ". This resistance does not meet the change at the start; it waits for the change to arrive."
           : "mid" === wh
             ? "Partway to the goal, a separate low ground of " +
               emo +
@@ -3485,7 +3541,11 @@
       S.push(
         pick([
           [acc, "w-acc", "It emerges because the present arrangement is still accepted as legitimate. That acceptance is not neutral ground here: it is what the resistance stands on, and it gives the resistance the standing of common sense."],
-          ["goal" === wh, "w-goal", "It emerges because a change can ask for new behavior without changing what people are rewarded, trusted, or protected for, and then the old behavior stays the safer one."],
+          [gw, "w-goal", "It emerges because a change can ask for new behavior without changing what people are rewarded, trusted, or protected for, and then the old behavior stays the safer one."],
+          [hg("trad"), "w-trad", "It emerges where a long tradition has made the present way seem like the only sensible one, so the change has to argue against what people take for granted."],
+          [hg("liv"), "w-liv", "It emerges where jobs, money, and standing are built around the present way, so changing it costs real people something."],
+          [hg("fear"), "w-fear", "It emerges where fear of what happens when something goes wrong, and of who will be blamed, makes holding back the safer choice."],
+          [hg("expect"), "w-exp", "It emerges where what the public and those in power expect to see keeps rewarding the present way."],
           ["mid" === wh, "w-mid", "It emerges once the change becomes concrete enough to threaten people's place in what comes after it, so holding on becomes a way of protecting a future rather than a past."],
           [4 === e0, "w-def", "It emerges where the old way has become part of who people are, so giving it up would mean giving up part of themselves."],
           [0 === e0, "w-agg", "It emerges where the change is lived as an attack on how people already work, so pushing back feels like defending something, not blocking something."],
@@ -3496,14 +3556,15 @@
       S.push(
         pick([
           [helpAgg && hasAgg, "r-loop", "What keeps recreating it is the reply it gets. Aggression on the side that helps, aimed at those who resist, confirms the resisters' reading of the change, and their resistance in turn confirms the supporters' reading of them. Each side's emotion becomes the other side's evidence."],
-          ["goal" === wh, "r-goal", "What keeps recreating it is that adoption can be shown without being lived. As long as the change is judged by what is announced rather than by what is done, the old ways can go on in plain sight without being seen."],
+          [hg("loop"), "r-loop2", "What keeps recreating it is that the present way feeds itself: each round of it leaves conditions that call for more of the same."],
+          [gw, "r-goal", "What keeps recreating it is that adoption can be shown without being lived. As long as the change is judged by what is announced rather than by what is done, the old ways can go on in plain sight without being seen."],
           [null != e1, "r-mix", 2 === e0 || 2 === e1 ? "What keeps recreating it is that its emotions hold each other up: distrust gives " + EW[2 === e0 ? e1 : e0] + " its reasons, and " + EW[2 === e0 ? e1 : e0] + " gives distrust its proof." : "What keeps recreating it is that its emotions hold each other up: aggression keeps defiance in practice, and defiance keeps aggression justified."],
           [!0, "r-same", "What keeps recreating it is that each round of the change arrives without changing the ground it lands on, so each round is met the way the last one was."],
         ]),
       );
       /* 4. what it reveals */
       S.push(
-        "goal" === wh
+        gw
           ? "It reveals that in this system adoption and change may not be the same thing: the structure can move while the behavior stays."
           : "mid" === wh
             ? "It reveals that the resistance has moved from ideas to stakes. What is being defended here is not a view of the goal but a person's footing once the goal arrives."
@@ -3516,19 +3577,20 @@
       S.push(
         big
           ? "It matters because most of the ground that hinders lies here: whatever is designed for the goal will land on this ground first, and will be read through it."
-          : "goal" === wh
+          : gw
             ? "It matters because it can undo the work after the work looks finished, and because it is the hardest of these low grounds to see."
             : "It matters because it stands apart from the others. Work aimed at another low ground will not reach it, and it can hold even if the others give way.",
       );
       /* 6. if it continues */
       S.push(
-        ("goal" === wh
+        (gw
           ? "If it continues, the system can look changed while behaving as before, and the gap between the two will be taken as proof that the change never worked. Meanwhile, "
           : "") +
           pick([
-            [4 === e0, "f-def", ("goal" === wh ? "d" : "Left as it is, d") + "efiance deepens: the longer the old way is defended, the more of people's identity it carries, and the longer the road back to acceptance becomes."],
-            [0 === e0 || 0 === e1, "f-agg", ("goal" === wh ? "a" : "Left as it is, a") + "ggression can harden into defiance, the lowest ground, from which change is unlikely in the short or medium term."],
-            [!0, "f-dis", ("goal" === wh ? "d" : "Left as it is, d") + "istrust spreads from the change to those leading it, and whatever comes next inherits that distrust before it begins."],
+            [4 === e0, "f-def", (gw ? "d" : "Left as it is, d") + "efiance deepens: the longer the old way is defended, the more of people's identity it carries, and the longer the road back to acceptance becomes."],
+            [0 === e0 || 0 === e1, "f-agg", (gw ? "a" : "Left as it is, a") + "ggression can harden into defiance, the lowest ground, from which change is unlikely in the short or medium term."],
+            [0 === e0 || 0 === e1, "f-agg2", (gw ? "t" : "Left as it is, t") + "his aggression can harden into defiance too, and resistance this close to the goal is the last to give way."],
+            [2 === e0 || 2 === e1 || (4 !== e0 && 0 !== e0 && 0 !== e1), "f-dis", (gw ? "d" : "Left as it is, d") + "istrust spreads from the change to those leading it, and whatever comes next inherits that distrust before it begins."],
           ]),
       );
       /* 7. what would have to change */
@@ -3542,7 +3604,7 @@
           : "For it to lose its influence, a ridge has to be made first. Nothing between this low ground and the help yet carries indifference, so going straight across is a climb over bare rock, and it takes the most energy in either direction."),
       );
       acc && S.push("The acceptance that holds the present in place has to loosen too: until the current arrangement stops looking like the only legitimate one, every case for the goal will be heard as an attack on it.");
-      "goal" === wh && !(window.gsmStructSum || {}).after && S.push("Near the goal, the way out also means judging the change by what people do, not by what has been declared.");
+      gw && !(window.gsmStructSum || {}).after && S.push("Near the goal, the way out also means judging the change by what people do, not by what has been declared.");
       /* v275: say once. A sentence an earlier chapter already said is left out here. */
       var S1 = S.slice(0, 3).filter(function (x) {
           return x && !said[x] && (said[x] = 1);
@@ -3550,7 +3612,7 @@
         S2 = S.slice(3).filter(function (x) {
           return x && !said[x] && (said[x] = 1);
         });
-      chap.push({ x: g.x, wh: wh, e0: e0, acc: acc });
+      chap.push({ x: g.x, wh: wh, e0: e0, acc: acc, hg: hg });
       var TL = { start: second ? "AT THE START, A SECOND LOW GROUND" : "AT THE START", mid: "PARTWAY TO THE GOAL", goal: "CLOSE TO THE GOAL" }[wh];
       out.push(
         '<div class="story1"><div class="s1h">STORY ' +
@@ -3605,6 +3667,10 @@
         verb: "defends each person's place against it",
         obj: "who each person will be",
       },
+      trad: { what: "", why: "", verb: "", obj: "" },
+      liv: { what: "", why: "", verb: "", obj: "" },
+      fear: { what: "", why: "", verb: "", obj: "" },
+      expect: { what: "", why: "", verb: "", obj: "" },
       practice: {
         what: "practice: the everyday ways of working that can keep the old order alive inside the new one",
         why: "Here power is exercised quietly. The form of the change can be adopted while practice stays loyal to the old incentives, so the system keeps its coherence by letting the two drift apart.",
@@ -3619,9 +3685,14 @@
         }),
       usedD = {};
     CH.forEach(function (c) {
-      var d =
-        "goal" === c.wh
+      var own = ["trad", "liv", "fear", "expect"].filter(function (k) {
+          return c.hg(k) && !usedD[k];
+        })[0],
+        d =
+        "goal" === c.wh && SHOW
           ? "practice"
+          : own && !(c.acc && !usedD.legit)
+            ? own
           : "mid" === c.wh
             ? "place"
             : c.acc && !usedD.legit
@@ -3648,13 +3719,19 @@
         work: "a hold on the routines",
         place: "a defense of each person's place",
         practice: "quiet practice under a new name",
+        trad: "the weight of tradition",
+        liv: "a defense of the livelihoods built on it",
+        fear: "fear of what happens when it goes wrong",
+        expect: "what the public and those in power expect",
       },
       anyAcc = CH.some(function (c) {
         return c.acc;
       }),
-      hasGoal = CH.some(function (c) {
-        return "goal" === c.wh;
-      }),
+      hasGoal =
+        SHOW &&
+        CH.some(function (c) {
+          return "goal" === c.wh;
+        }),
       hasMid = CH.some(function (c) {
         return "mid" === c.wh;
       }),
@@ -3665,7 +3742,13 @@
           2 >=
         CH.length,
       wideMid = ind.length >= Math.max(4, 0.15 * Y.pts.length),
-      K = anyAcc ? "legit" : allDef ? "ident" : "order",
+      K = anyAcc
+        ? "legit"
+        : allDef
+          ? "ident"
+          : ["trad", "liv", "fear", "expect"].sort(function (a, b) {
+              return (HD[b] || 0) - (HD[a] || 0);
+            }).filter(HAS)[0] || "order",
       forms = gsmMeanList(
         CH.map(function (c) {
           return SHORT[c.key];
@@ -3693,8 +3776,23 @@
       Q2 = ((C && C.a && C.a[1]) || "").toLowerCase();
     /* v286: AT A GLANCE names the forms when there are two or more; THE OPPORTUNITY says support answers in kind */
     EP.push(
-      (CH.length >= 2
+      (CH.length >= 2 &&
+      CH.some(function (c) {
+        return "place" === c.key || "practice" === c.key;
+      })
         ? "With each step the change takes, the resistance moves closer to each person and further out of sight"
+        : CH.length >= 2
+          ? "The resistance does not sit in one place: it meets the change " +
+            gsmMeanList(
+              CH.map(function (c) {
+                return { start: "at the start", mid: "partway to the goal", goal: "close to the goal" }[c.wh];
+              }).filter(function (x, i, L) {
+                return L.indexOf(x) === i;
+              }),
+            ).replace(/, and /, ", and again ").replace(/^(at the start) and /, "$1 and again ") +
+            ", and it takes the form of " +
+            forms +
+            (HAS("loop") ? ". The present way also feeds itself, so the longer it runs, the more it is needed" : "")
         : "The change meets resistance again and again, and each time the resistance takes the shape the change has reached: " +
           forms.replace(/, and /, ", and finally ").replace(/^([^,]*) and /, CH.length === 2 ? "$1, and then " : "$1 and ") +
           ". With each step it moves closer to each person and further out of sight") +
@@ -3706,6 +3804,18 @@
     helpAgg && M.push("each side reads the other's response as proof of its own fears");
     hasMid && M.push("the rewards people can count on are tied to the places they hold now");
     hasGoal && M.push("the change is judged by what is declared rather than by what is done");
+    var MC = {
+      trad: "a long tradition makes the present way look like the only sensible one",
+      liv: "jobs, money, and standing are built around the present way, so changing it costs real people something",
+      fear: "fear of what happens when something goes wrong, and of who will be blamed, makes holding back the safer choice",
+      expect: "what the public and those in power expect to see keeps rewarding the present way",
+      loop: "the present way feeds itself: each round of it leaves conditions that call for more of the same",
+    };
+    var MK = {};
+    MK[K] = 1;
+    ["trad", "liv", "fear", "expect", "loop"].forEach(function (k) {
+      HAS(k) && M.length < 4 && (M.push(MC[k]), (MK[k] = 1));
+    });
     M.length < 2 && M.push("nothing in the change yet alters what people are trusted, protected, or rewarded for");
     EP.push(
       (saidInfo
@@ -3718,16 +3828,23 @@
       legit: "the standing of the present arrangement as the legitimate one: a shared sense of what is right" + (hasMid ? ", and of each person's place in it" : ""),
       ident: "its present identity: people remaining recognizable to themselves and to one another",
       order: "the present order of control: knowing who decides, what counts as good work, and who is safe",
+      trad: "a way of seeing and doing things that has stood for a long time and that people take for granted",
+      liv: "the livelihoods built around the present way: people's work, income, and standing",
+      fear: "safety from blame: no one wants to answer for the one time things go wrong",
+      expect: "what the public and those in power expect to see, and the standing of those who deliver it",
     }[K];
     EP.push(
       "Underneath, one thing stays the same. From beginning to end the system protects " +
         INV +
         ". That is not unreasonable. " +
-        (K === "legit"
-          ? "Without that shared sense, every decision would have to be fought for again."
-          : K === "ident"
-            ? "Without that continuity, people lose the pride and competence their work carries."
-            : "Without it, the system cannot coordinate under pressure.") +
+        ({
+          legit: "Without that shared sense, every decision would have to be fought for again.",
+          ident: "Without that continuity, people lose the pride and competence their work carries.",
+          trad: "Without it, people would have to rebuild, all at once, what they rely on without thinking.",
+          liv: "Without it, people lose work and standing they have earned.",
+          fear: "Without it, each person would carry the risk of every failure alone.",
+          expect: "Without it, those in charge would answer for every outcome that looks like failure.",
+        }[K] || "Without it, the system cannot coordinate under pressure.") +
         (hasMid ? " For the people inside it the stakes are also material: their places, skills, and livelihoods rest on the arrangement as it stands." : ""),
     );
     /* the levers: each mechanism, and whether the user's own design (Q.5 to Q.7 and their notes;
@@ -3739,7 +3856,7 @@
       re.test(DS) || (also && re.test(also)) ? LV.push(txt) : NO.push(gap);
     }
     lever(
-      anyAcc || K !== "legit",
+      anyAcc || "order" === K || "ident" === K,
       /orderl|predictab|repeatab|stabil|reassur|continuit|familiar|retain|keep the/,
       "keeping the order people rely on available when conditions call for it",
       "how the order people rely on is kept while the change goes in",
@@ -3747,14 +3864,21 @@
     );
     lever(hasMid, /expectation|incentive|reward|role|career|employ|job|position|performance|train/, "changing what people are expected and rewarded for", "what the change offers people in place of the positions they hold now");
     lever(hasGoal, /measur|pattern|monitor|observ|evaluat|assess|indicator|metric/, "measuring what people do rather than what is declared", "how the change will be judged by what is done");
+    lever(MK.trad, /narrativ|frame|story|stories|campaign|educat|curricul|messag|perspective/, "giving people a new story to see the work through", "what new story replaces the one people see the work through now");
+    lever(MK.liv, /fund|financ|\bjobs?\b|career|train|incentive|reward|\bpay|employ/, "giving people work and standing in the new way", "what the change offers the people whose work rests on the present way");
+    lever(MK.fear, /liabil|\brisk|safe|protect|insur|monitor|small|experiment|pilot|right conditions/, "lowering the risk people carry when they try it", "who carries the risk, and the blame, when something goes wrong");
+    lever(MK.expect, /media|public|messag|campaign|communit|narrativ|frame/, "changing what the public expects to see", "what the public and those in power will expect instead");
     lever(helpAgg, /oppos|across|bridge|dialog|discussion|conversation|engag|participat|includ|listen|perspective/, "engaging those who resist rather than only those who already agree", "how support reaches across the line instead of answering resistance in kind");
     EP.push(
       "Change succeeds here not when the resistance is overcome but when what it protects is provided another way: " +
-        (K === "legit"
-          ? "a new arrangement people can hold as legitimately as the old one."
-          : K === "ident"
-            ? "a new way of working people can recognize themselves in."
-            : "a new order as predictable as the old one.") +
+        ({
+          legit: "a new arrangement people can hold as legitimately as the old one.",
+          ident: "a new way of working people can recognize themselves in.",
+          trad: "a new way people can come to take for granted just as they took the old one.",
+          liv: "a way forward that keeps people's work and standing.",
+          fear: "a way to take the risk that does not leave people to carry the blame alone.",
+          expect: "results people can see and come to expect instead.",
+        }[K] || "a new order as predictable as the old one.") +
         (LV.length ? " Your own answers already reach part of this: " + gsmMeanList(LV) + "." : "") +
         (NO.length ? " Nothing you would design yet answers " + gsmMeanList(NO) + "." : "") +
         " Pressing or outlasting the resistance only teaches it new forms.",
@@ -3765,6 +3889,10 @@
           legit: "what the present arrangement gives it: a shared sense of what is right" + (hasMid ? ", and each person\u2019s place" : ""),
           ident: "its present identity: people remaining recognizable to themselves and to one another",
           order: "the present order of control: knowing who decides, what counts as good work, and who is safe",
+          trad: "a way of seeing and doing things that has stood for a long time and that people take for granted",
+          liv: "the livelihoods built around the present way: people's work, income, and standing",
+          fear: "safety from blame: no one wants to answer for the one time things go wrong",
+          expect: "what the public and those in power expect to see, and the standing of those who deliver it",
         }[K],
         FS = CH.map(function (c) {
           return SHORT[c.key];
@@ -22029,7 +22157,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v293");
+        t && (t.textContent = "v294");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
