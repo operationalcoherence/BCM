@@ -3,13 +3,15 @@
 import { test, before, after, beforeEach } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { initializeTestEnvironment, assertSucceeds, assertFails } from '@firebase/rules-unit-testing';
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, collectionGroup, getDocs, query, where, increment } from 'firebase/firestore';
 
 const KEY = 'k'.repeat(24), CLOSED = 'c'.repeat(24), OTHERKEY = 'o'.repeat(24);
 let env;
 const lead = () => env.authenticatedContext('lead1', { firebase: { sign_in_provider: 'google.com' } }).firestore();
 const lead2 = () => env.authenticatedContext('lead2', { firebase: { sign_in_provider: 'google.com' } }).firestore();
 const person = (u = 'p1') => env.authenticatedContext(u, { firebase: { sign_in_provider: 'anonymous' } }).firestore();
+const admin = (email = 'operationalcoherence@gmail.com', verified = true, provider = 'google.com') =>
+  env.authenticatedContext('admin1', { email, email_verified: verified, firebase: { sign_in_provider: provider } }).firestore();
 const anon = () => env.unauthenticatedContext().firestore();
 const wb = (uid, key = KEY, extra = {}) => ({ uid, key, name: 'Sam', voice: 'Residents', data: { goal: 'x', m: [] }, saved: 1, ...extra });
 
@@ -74,3 +76,18 @@ test('saving stops once the lead closes the invite', async () => {
 
 // everything else
 test('nothing outside projects can be written', () => assertFails(setDoc(doc(lead(), 'other/x'), { a: 1 })));
+
+// admin (v314)
+test('the admin lists every project', () => assertSucceeds(getDocs(collection(admin(), 'projects'))));
+test('the admin reads any project', () => assertSucceeds(getDoc(doc(admin(), 'projects/P2'))));
+test('the admin reads every workbook at once', () => assertSucceeds(getDocs(collectionGroup(admin(), 'workbooks'))));
+test('the admin cannot change a project', () => assertFails(updateDoc(doc(admin(), 'projects/P1'), { goal: 'x' })));
+test('the admin cannot write a workbook', () => assertFails(setDoc(doc(admin(), 'projects/P1/workbooks/admin1'), wb('admin1'))));
+test('the admin cannot delete a workbook', () => assertFails(deleteDoc(doc(admin(), 'projects/P1/workbooks/p2'))));
+test('the admin cannot list invite keys', () => assertFails(getDocs(collection(admin(), 'projects/P1/keys'))));
+test('an unverified admin email is refused', () => assertFails(getDocs(collection(admin('operationalcoherence@gmail.com', false), 'projects'))));
+test('the admin email without Google sign-in is refused', () => assertFails(getDocs(collection(admin('operationalcoherence@gmail.com', true, 'password'), 'projects'))));
+test('another Google account cannot read every workbook', () => assertFails(getDocs(collectionGroup(admin('someone@gmail.com'), 'workbooks'))));
+test('a lead cannot read every workbook', () => assertFails(getDocs(collectionGroup(lead(), 'workbooks'))));
+test('an invited person cannot read every workbook', () => assertFails(getDocs(collectionGroup(person(), 'workbooks'))));
+test('a lead counts an export on their own project', () => assertSucceeds(updateDoc(doc(lead(), 'projects/P1'), { exports: increment(1) })));

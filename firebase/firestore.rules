@@ -1,5 +1,5 @@
 rules_version = '2';
-// BCM F8 security rules (drafted 26 Nov 2026; published in the Firebase console 26 Nov 2026, 12:12).
+// BCM F8 security rules (drafted 26 Nov 2026; published 26 Nov 2026, 12:12). v314 adds the admin read: publish again.
 //
 // Layout:
 //   projects/{pid}                     lead only: name, goal, voices, due date, map, lead = the lead's uid
@@ -9,11 +9,15 @@ rules_version = '2';
 //                                      a live key. Read by that person and by the project's lead.
 //
 // Leads sign in with Google. People answering sign in anonymously behind the scenes: no account, nothing to type.
+// Admin (v314): operationalcoherence@gmail.com, signed in with Google and verified, may read (never write) every
+// project and every workbook, for the admin page's counts.
 service cloud.firestore {
   match /databases/{db}/documents {
 
     function signedIn() { return request.auth != null; }
     function isGoogle() { return signedIn() && request.auth.token.firebase.sign_in_provider == 'google.com'; }
+    function isAdmin() { return isGoogle() && request.auth.token.email == 'operationalcoherence@gmail.com'
+                                && request.auth.token.email_verified == true; }
     function project(pid) { return get(/databases/$(db)/documents/projects/$(pid)); }
     function isLead(pid) { return signedIn() && exists(/databases/$(db)/documents/projects/$(pid))
                                   && project(pid).data.lead == request.auth.uid; }
@@ -29,8 +33,8 @@ service cloud.firestore {
     }
 
     match /projects/{pid} {
-      allow get: if isLead(pid);
-      allow list: if isGoogle() && resource.data.lead == request.auth.uid;
+      allow get: if isLead(pid) || isAdmin();
+      allow list: if (isGoogle() && resource.data.lead == request.auth.uid) || isAdmin();
       allow create: if isGoogle() && request.resource.data.lead == request.auth.uid;
       allow update: if isLead(pid) && request.resource.data.lead == resource.data.lead;
       allow delete: if isLead(pid);
@@ -53,6 +57,11 @@ service cloud.firestore {
         // a person can delete their own workbook; the lead can delete any in their project
         allow delete: if signedIn() && (request.auth.uid == uid || isLead(pid));
       }
+    }
+
+    // the admin page reads every workbook at once (a collection group read); read only
+    match /{path=**}/workbooks/{uid} {
+      allow read: if isAdmin();
     }
 
     // everything else is closed
