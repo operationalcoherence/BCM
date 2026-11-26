@@ -8798,6 +8798,99 @@
       return '<div class="purp"><b>IN SERVICE OF THE GOAL</b> ' + out.join(" ") + "</div>";
     });
   }
+  /* v284: a split about a word is stated only as a phrase the user wrote. A single word is widened to the phrase
+     it sits in (the one sharing most of its notes); fragments of one phrase ("complex adaptive", "adaptive
+     system", "system") become that phrase, once. A single word with no phrase around it is not stated. */
+  function gsmSplitPhrases(L, N) {
+    var WL = { "TWO PEOPLE, TWO SIDES": 1, "THE HIDDEN CHANNELS": 1 },
+      d = window.gsmData ? window.gsmData() : { m: [], a: [], goal: "" },
+      txt = [d.goal || ""]
+        .concat(d.a || [])
+        .concat(
+          (d.m || []).map(function (x) {
+            return (x && x[3]) || "";
+          }),
+        )
+        .join(" \n ")
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, " ")
+        .replace(/\s+/g, " "),
+      sf = function (st) {
+        var w = st.split(" ").map(function (x) {
+            return String(jt(x) || x).toLowerCase();
+          }).join(" "),
+          f = String(jt(st) || "").toLowerCase();
+        return txt.indexOf(w) >= 0 ? w : f.split(" ").length === st.split(" ").length && txt.indexOf(f) >= 0 ? f : "";
+      },
+      said = function (st) {
+        var f = sf(st);
+        return f.indexOf(" ") > 0 && f.indexOf("/") < 0 ? f : "";
+      },
+      idsOf = function (st) {
+        var o = [];
+        (N || []).forEach(function (t) {
+          t.w === st && (o = t.ids.map(String));
+        });
+        return o;
+      },
+      phr = (N || [])
+        .filter(function (t) {
+          return t.w && t.w.indexOf(" ") > 0;
+        })
+        .map(function (t) {
+          return t.w;
+        }),
+      out = [],
+      seen = {};
+    (L || []).forEach(function (sp) {
+      /* two single words that always go together are one phrase the user wrote, not a finding */
+      if ("ONE IDEA UNDER TWO NAMES" === sp.lab && (sp.names || []).some(function (n) {
+          return String(n).indexOf(" ") < 0;
+        }))
+        return;
+      if (!WL[sp.lab] || !(sp.k.words || []).length) return void out.push(sp);
+      var st = sp.k.words[0],
+        mine = sp.ids.map(String);
+      if (st.indexOf(" ") < 0) {
+        var best = null,
+          bn = 1;
+        phr.forEach(function (ph) {
+          if (ph.split(" ").indexOf(st) < 0 || !said(ph)) return;
+          var n = idsOf(ph).filter(function (i) {
+            return mine.indexOf(i) >= 0 || mine.indexOf(i.replace(/^note (\d+)$/, "N$1")) >= 0;
+          }).length;
+          n > bn && ((bn = n), (best = ph));
+        });
+        if (!best) return;
+        st = best;
+      }
+      if (!said(st)) return;
+      /* join overlapping pieces of one phrase: "comple adapti" + "adapti system" -> "comple adapti system" */
+      for (var grew = 1; grew; ) {
+        grew = 0;
+        phr.forEach(function (ph) {
+          var a = st.split(" "),
+            b = ph.split(" ");
+          if (ph === st) return;
+          var j1 = a.slice(1).concat([b[b.length - 1]]).join(" ") === b.slice(0).join(" ") ? a.concat([b[b.length - 1]]).join(" ") : "",
+            j2 = [b[0]].concat(a.slice(0, -1)).join(" ") === ph ? [b[0]].concat(a).join(" ") : "",
+            j = j1 && said(j1) ? j1 : j2 && said(j2) ? j2 : "";
+          j && j.split(" ").length <= 5 && ((st = j), (grew = 1));
+        });
+      }
+      var key = sp.lab + "|" + st;
+      if (seen[key]) {
+        mine.forEach(function (i) {
+          seen[key].ids.indexOf(i) < 0 && seen[key].ids.push(i);
+        });
+        return;
+      }
+      var c2 = { lab: sp.lab, k: sp.k, su: sp.su, sd: sp.sd, names: [said(st)], ids: sp.ids.slice(), ph: st };
+      seen[key] = c2;
+      out.push(c2);
+    });
+    return out;
+  }
   function jt(t) {
     if (NmD[t]) return NmD[t];
     if (Ct[t]) return "planned-burn" === t ? "planned burn / prescribed fire" : t;
@@ -16987,6 +17080,7 @@
                         }),
                       };
                     });
+                    window.gsmSplit = gsmSplitPhrases(window.gsmSplit, N);
                   } catch (e0) {
                     window.gsmSplit = [];
                   }
