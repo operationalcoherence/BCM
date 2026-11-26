@@ -8967,6 +8967,62 @@
   /* v285: one phrase, said once */
   var GSM_EMOW = /^(accept|indiff|distru|aggres|defian)/;
   var GSM_CONTR = /\b(dont|doesnt|didnt|isnt|arent|wasnt|werent|cant|couldnt|wont|wouldnt|shouldnt|havent|hasnt|hadnt|aint)\b/;
+  /* v288: a single word that reads as a thing, said with its context */
+  var GSM_DET = /^(a|an|the|this|that|these|those|their|our|its|his|her|my|your|each|every|no|any)$/i;
+  function gsmThing(stem) {
+    stem = String(stem || "").toLowerCase().replace(/[^a-z]/g, "");
+    if (stem.length < 3 || /^(thing|way|part|idea|kind|sort|lot|number|fact|case|point|area|level|form|type|side|time|end)/.test(stem)) return null;
+    if (GSM_EMOW.test(stem)) return { ctx: "", lab: "" };
+    var src = gsmMeanSrc(),
+      where = {},
+      det = !1,
+      best = null,
+      hit = function (w) {
+        w = w.toLowerCase().replace(/[^a-z]/g, "");
+        return w.length >= 4 && 0 === w.indexOf(stem) && w.length - stem.length <= 3;
+      };
+    src.forEach(function (o) {
+      String(o.txt)
+        .replace(/\s+/g, " ")
+        .split(/(?<=[.!?;])\s+|\n+/)
+        .forEach(function (se) {
+          var w = se.split(" "),
+            any = !1;
+          w.forEach(function (x, i) {
+            if (!hit(x)) return;
+            any = !0;
+            var cl = function (y) {
+                return String(y || "").replace(/[^a-z]/gi, "");
+              },
+              nx = cl(w[i + 1]),
+              head = /[,;:.!?)"\u201d]$/.test(x) || !nx || StStop.test(nx) || /^(that|which|who|whom|whose|where|while|so|because)$/i.test(nx);
+            head &&
+              (GSM_DET.test(cl(w[i - 1])) || (GSM_DET.test(cl(w[i - 2])) && !/[,;:]$/.test(w[i - 1] || ""))) &&
+              (det = !0);
+          });
+          if (!any) return;
+          where[o.lab] = 1;
+          var n = w.length,
+            sc = (o.note ? 0 : 20) + (n > 16 ? n : 0) + ("GOAL" === o.ref ? 40 : 0);
+          (!best || sc < best.sc) && (best = { sc: sc, t: se.trim(), lab: o.lab });
+        });
+    });
+    if (!det || Object.keys(where).length < 2 || !best) return null;
+    var tw = best.t.replace(/[.;]+$/, "").split(" ");
+    if (tw.length > 14) {
+      var at = 0;
+      tw.forEach(function (x, i) {
+        hit(x) && !at && (at = i);
+      });
+      var a = Math.max(0, Math.min(at - 5, tw.length - 14));
+      tw = (a ? ["…"] : []).concat(tw.slice(a, a + 14), a + 14 < tw.length ? ["…"] : []);
+    }
+    return { ctx: tw.join(" ").replace(/^… /, "…").replace(/ …$/, "…"), lab: best.lab };
+  }
+  function gsmThingSay(stem, word) {
+    var t = gsmThing(stem);
+    return t && t.ctx ? "<b>" + Gt(word || stem) + "</b>: “" + Gt(t.ctx) + "” (" + Gt(t.lab) + ")" : "";
+  }
   function gsmPhOnce(keys, name) {
     var nm = keys.map(function (k) {
         return { k: k, n: String(name(k) || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim() };
@@ -8975,7 +9031,7 @@
     return nm
       .filter(function (o) {
         if (!o.n || GSM_CONTR.test(o.n)) return !1;
-        if (o.n.indexOf(" ") < 0 && !GSM_EMOW.test(o.n)) return !1;
+        if (o.n.indexOf(" ") < 0 && !GSM_EMOW.test(o.n) && !gsmThing(o.k)) return !1;
         if (seen[o.n]) return !1;
         if (
           nm.some(function (x) {
@@ -9892,7 +9948,7 @@
                   var t = j(w[0]);
                   return t[1]
                     ? " For " +
-                        uo([w[0]]) +
+                        "<b>" + Gt(jt(w[0])) + "</b>" +
                         ", the notes below the line are " +
                         t[1] +
                         ". Something you say has to be in place is also named in what holds people back, so setting it up may first mean dealing with what those notes describe."
@@ -11009,7 +11065,7 @@
           });
           /* v287: no single words here */
           out = out.filter(function (o) {
-            return !o.w || o.k.slice(2).indexOf(" ") > 0 || GSM_EMOW.test(o.k.slice(2));
+            return !o.w || o.k.slice(2).indexOf(" ") > 0 || GSM_EMOW.test(o.k.slice(2)) || !!gsmThing(o.k.slice(2));
           });
           out = out.slice(0, 6);
           if (!out.length) return "";
@@ -11021,7 +11077,19 @@
                   tx = "",
                   r = o.k.slice(2),
                   m;
-                if (o.w) lab = "The word “" + Gt(nm[o.k] || r) + "”";
+                if (o.w) {
+                  lab = "“" + Gt(nm[o.k] || r) + "”";
+                  var th = gsmThing(r);
+                  if (
+                    th &&
+                    out.some(function (x) {
+                      var mx = /^note (\d+)$/.exec(x.k.slice(2)) || /^P(\d+)$/.exec(x.k.slice(2));
+                      return !x.w && (mx ? "N" + mx[1] : x.k.slice(2)) === th.lab;
+                    })
+                  )
+                    return "";
+                  th && th.ctx && ((tx = th.ctx), (lab += " (" + Gt(th.lab) + ")"));
+                }
                 else if ((m = /^note (\d+)$/.exec(r))) {
                   lab = "N" + m[1];
                   tx = (C.m[+m[1] - 1] || [])[3] || "";
@@ -12441,7 +12509,7 @@
                     });
                   if (a.length || s.length) {
                     var l = null;
-                    if (a.length && String(a[0]).indexOf(" ") < 0 && !GSM_EMOW.test(String(a[0]).toLowerCase())) return;
+                    if (a.length && String(a[0]).indexOf(" ") < 0 && !GSM_EMOW.test(String(a[0]).toLowerCase()) && !gsmThing(a[0])) return;
                     if (
                       (n.forEach(function (n) {
                         ((n[0] === t.lab && n[1] === e.lab) || (n[0] === e.lab && n[1] === t.lab)) &&
@@ -12622,7 +12690,8 @@
                   e
                     .slice(0, 4)
                     .map(function (k) {
-                      return gsmPhNameH(k, "unanswered" === t || "condition" === t);
+                      var nm1 = gsmPhName(k, "unanswered" === t || "condition" === t).ph || jt(k);
+                      return (String(nm1).indexOf(" ") < 0 && gsmThingSay(k, nm1)) || gsmPhNameH(k, "unanswered" === t || "condition" === t);
                     })
                     .join("; ") +
                   (e.length > 4 ? "; and " + (e.length - 4) + " more" : "") +
@@ -18433,9 +18502,12 @@
         t
           .slice(0, e)
           .map(function (t) {
-            return "<b>" + Gt(jt(t)) + "</b>";
+            /* v288: a single word comes with its context */
+            return (t.indexOf(" ") < 0 && !GSM_EMOW.test(t) && gsmThingSay(t, jt(t))) || "<b>" + Gt(jt(t)) + "</b>";
           })
-          .join(", ")
+          .join(t.slice(0, e).some(function (x) {
+            return x.indexOf(" ") < 0 && !GSM_EMOW.test(x);
+          }) ? "; " : ", ")
       );
     }
     function ho(t, e, n) {
@@ -18445,7 +18517,7 @@
       return co(
         Object.keys(i[t].k).filter(function (t) {
           /* v287: a single word is not stated as a finding */
-          return i[e].k[t] && (t.indexOf(" ") > 0 || GSM_EMOW.test(t));
+          return i[e].k[t] && (t.indexOf(" ") > 0 || GSM_EMOW.test(t) || !!gsmThing(t));
         }),
         [i[t].b, i[e].b],
       );
@@ -21911,7 +21983,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v287");
+        t && (t.textContent = "v288");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
