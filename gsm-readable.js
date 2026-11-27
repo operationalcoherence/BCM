@@ -52,6 +52,30 @@
     window.gsmPeekFail = true;
   }
 })();
+/* v325: a sample project to look at the lead's reading (#bcmdemo=fuel-break). It loads a made-up 20-person project from this
+   site's own files into the reading copy and opens it as #bcmread=demo. The person's own workbook is parked and comes back
+   when the page is opened without the link, as for any project reading. */
+!(function () {
+  var mm = /[#&]bcmdemo=([a-z-]+)/.exec(location.hash || "");
+  if (!mm) return;
+  var D = { "fuel-break": ["tests/fuel_break_20.json", "Upper canyon fuel break (sample project)", 20] }[mm[1]];
+  if (!D) return;
+  var sc = document.querySelector('script[src*="gsm-preview.js"]'),
+    base = sc ? sc.src.replace(/gsm-preview\.js.*$/, "") : "";
+  fetch(base + D[0])
+    .then(function (r) {
+      return r.json();
+    })
+    .then(function (j) {
+      localStorage.setItem("groundsmith-web-f8read", JSON.stringify(j.data || j));
+      localStorage.setItem("groundsmith-web-f8readmeta", JSON.stringify({ name: D[1], voice: "", who: "", n: D[2], at: Date.now(), demo: 1 }));
+      location.replace(location.pathname + location.search + "#bcmread=demo");
+      location.reload();
+    })
+    .catch(function () {
+      window.console && console.warn("sample project could not load");
+    });
+})();
 /* v311: F8 step 4 - which workbook is on this device. Runs before the workbook reads it.
    The workbook always reads and writes one place (groundsmith-web-v1). An invite link (#bcmjoin=pid.key) parks the
    person's own workbook (groundsmith-web-v1-solo) and puts that project's workbook in its place; opening the page
@@ -22830,7 +22854,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v324");
+        t && (t.textContent = "v325");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
