@@ -22854,7 +22854,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v325");
+        t && (t.textContent = "v326");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -33140,6 +33140,32 @@ var qrcode = function() {
     st.del = false;
     draw();
   }
+  /* v326: a sample project (?f8test=1 only), read from this site's own files; made-up people, nothing written anywhere */
+  function sampleP() {
+    if (!window.__gsmSample) {
+      var sc = document.querySelector('script[src*="gsm-preview.js"]'),
+        base = sc ? sc.src.replace(/gsm-preview\.js.*$/, "") : "";
+      window.__gsmSample = fetch(base + "tests/sample_project_fuel_break.json")
+        .then(function (r) {
+          return r.json();
+        })
+        .catch(function () {
+          window.__gsmSample = null;
+          return null;
+        });
+    }
+    return window.__gsmSample;
+  }
+  function addSample() {
+    return sampleP().then(function (j) {
+      if (!j || !j.project) return;
+      st.list = st.list.filter(function (x) {
+        return !x.sample;
+      });
+      st.list.push(Object.assign({ id: "sample-fuel-break", sample: 1 }, j.project));
+      draw();
+    });
+  }
   function refresh() {
     if (!isLead()) return go("signin");
     st.busy = true;
@@ -33163,6 +33189,7 @@ var qrcode = function() {
         st.view = "list";
         st.msg = "";
         draw();
+        addSample();
       })
       .catch(function (e) {
         st.busy = false;
@@ -33194,7 +33221,7 @@ var qrcode = function() {
     else
       st.list.forEach(function (p, i) {
         h +=
-          '<div class="pr"><b>' + esc(p.name) + "</b><span>" + (p.due ? "Answers due " + esc(p.due) : "No due date") + '</span><button type="button" class="btn alt" data-l="open" data-i="' + i + '">Open</button></div>';
+          '<div class="pr"><b>' + esc(p.name) + "</b><span>" + (p.sample ? "Made-up people, to look around" : p.due ? "Answers due " + esc(p.due) : "No due date") + '</span><button type="button" class="btn alt" data-l="open" data-i="' + i + '">Open</button></div>';
       });
     return h + '</div><div class="lrow"><button type="button" class="btn" data-l="new">Start a new project</button><button type="button" class="btn alt" data-l="close">Close</button></div>';
   }
@@ -33205,6 +33232,12 @@ var qrcode = function() {
       place = myPlace(),
       mk = (p.map && p.map.kind) || (place ? "place" : "line"),
       h = "";
+    if (p.sample)
+      return (
+        '<div class="lh" style="border:1.5px solid #222;padding:10px 12px;margin:0 0 12px;color:#222">A sample project: 20 made-up people and their notes, so you can see a big project at work. Nothing here is saved or sent, and nothing can be changed.</div>' +
+        dashHtml() +
+        '<div class="lrow"><button type="button" class="btn alt" data-l="back">Back to your projects</button></div>'
+      );
     if (!isNew) h += dashHtml() + inviteBox(p);
     h +=
       '<div class="lf"><label for="gsm-lpn">PROJECT NAME</label><input type="text" id="gsm-lpn" maxlength="80" value="' + esc(p.name || "") + '"><div class="lh">The people you invite see this name.</div></div>' +
@@ -33312,6 +33345,22 @@ var qrcode = function() {
     dash.busy = true;
     quiet || drawDash();
     var pid = p.id;
+    if (p.sample)
+      return sampleP().then(function (j) {
+        if (dash.pid !== pid) return;
+        var now = Date.now() / 1000;
+        dash.rows = ((j && j.people) || []).map(function (x) {
+          return readWb({ id: x.uid, name: x.name, voice: x.voice, data: { fmt: "bcm-workbook", sv: 2, json: x.json }, saved: { seconds: Math.round(now - x.ago * 60) } });
+        });
+        dash.rows.sort(function (a, b) {
+          return b.at - a.at;
+        });
+        dash.taking = true;
+        dash.at = Date.now();
+        dash.busy = false;
+        dash.err = j ? "" : "The sample project could not be loaded.";
+        drawDash();
+      });
     window.gsmF8
       .fs()
       .then(function (S) {
@@ -34387,6 +34436,10 @@ var qrcode = function() {
     if (!b || !box.contains(b)) return;
     var k = b.getAttribute("data-l"),
       i = +b.getAttribute("data-i");
+    if (st.cur && st.cur.sample && /^(ddel|ddelyes|dtake|save|del|delyes)$/.test(k)) {
+      dash.msg = "This is a sample project, so nothing in it can be changed.";
+      return drawDash();
+    }
     if (k === "signin") {
       st.msg = "Opening Google sign-in…";
       draw();
@@ -34421,7 +34474,7 @@ var qrcode = function() {
       var fr = rowOf(b.getAttribute("data-u"));
       fr && fr.ok && saveFile(fr);
       /* v314: count it, for the admin page; one write, and nothing is lost if it fails */
-      fr && fr.ok && st.cur && st.cur.id &&
+      fr && fr.ok && st.cur && st.cur.id && !st.cur.sample &&
         window.gsmF8
           .fs()
           .then(function (S) {
