@@ -22854,7 +22854,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v327");
+        t && (t.textContent = "v328");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -30606,6 +30606,8 @@ function gsmClusters(notes, goal, links, opt) {
           });
         });
         return auth.authStateReady().then(function () {
+          /* v328: the restored sign-in is known here, even if the change callback has not run yet */
+          auth.currentUser && !cur && (cur = auth.currentUser);
           return { A: A, auth: auth, app: app };
         });
       })).catch(function (e) {
@@ -33162,9 +33164,115 @@ var qrcode = function() {
       st.list = st.list.filter(function (x) {
         return !x.sample;
       });
-      st.list.push(Object.assign({ id: "sample-fuel-break", sample: 1 }, j.project));
+      st.list.push(Object.assign({ id: "samplefuelbreak", sample: 1 }, j.project));
       draw();
+      tryGoto();
     });
+  }
+  /* v328: the leader's menu, on the dashboard side */
+  function tryGoto() {
+    var g = st.goto;
+    if (!g) return;
+    if (!g.pid) return (st.goto = null);
+    var p = null;
+    st.list.forEach(function (x) {
+      x.id === g.pid && (p = x);
+    });
+    if (!p) return;
+    st.goto = null;
+    st.cur = p;
+    st.voices = (p.voices || []).slice();
+    dash.pid = "";
+    st.goTab = g;
+    go("form");
+    loadDash();
+  }
+  function navTop(el) {
+    if (!el) return;
+    var j = document.getElementById("gsm-jump"),
+      off = j ? j.getBoundingClientRect().height + 8 : 60;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - off, behavior: "smooth" });
+  }
+  function navStart() {
+    try {
+      window.gsmTab && window.gsmTab(5);
+    } catch (e) {}
+  }
+  function navAct(k, v) {
+    if (k === "glance" || k === "people" || k === "person") {
+      if (k === "person" && !v) return;
+      navStart();
+      dash.who = k === "person" ? v : "";
+      k !== "person" && (dash.tab = k);
+      dash.ask = "";
+      dash.msg = "";
+      drawDash();
+      setTimeout(function () {
+        navTop(document.getElementById("gsm-ldash"));
+      }, 30);
+    } else if (k === "together") openTogether();
+    else if (k === "clusters") {
+      try {
+        localStorage.setItem("groundsmith-web-leadgo-read", "clusters");
+      } catch (e) {}
+      openTogether();
+    } else if (k === "settings") {
+      navStart();
+      setTimeout(function () {
+        navTop(box.querySelector(".inv") || document.getElementById("gsm-lpn"));
+      }, 30);
+    } else if (k === "projects") {
+      navStart();
+      refresh();
+      setTimeout(function () {
+        navTop(box);
+      }, 30);
+    } else if (k === "close") {
+      box.classList.remove("on");
+      navDraw();
+    }
+  }
+  function navDraw() {
+    if (!window.gsmLeadNav) return;
+    var p = st.cur;
+    if (!(box && box.classList.contains("on") && st.view === "form" && p && p.id)) return window.gsmLeadNav(null);
+    var ppl =
+      dash.pid === p.id
+        ? dash.rows.map(function (r) {
+            return { u: r.uid, name: r.name, voice: r.voice };
+          })
+        : [];
+    window.gsmLeadNav({
+      title: p.name,
+      cur: dash.who ? "person" : dash.tab || "glance",
+      who: dash.who,
+      people: ppl,
+      items: [
+        ["glance", "Project at a glance"],
+        ["people", "People" + (ppl.length ? " (" + ppl.length + ")" : "")],
+        ["person"],
+        ["together", "Everyone together"],
+        ["clusters", "Clusters"],
+        ["|"],
+        p.sample ? null : ["settings", "Invite and settings", 1],
+        ["projects", "All projects", 1],
+        ["close", "Close", 1],
+      ],
+      on: navAct,
+    });
+    if (st.goScroll && dash.at) {
+      st.goScroll = 0;
+      navStart();
+      setTimeout(function () {
+        navTop(document.getElementById("gsm-ldash"));
+      }, 60);
+    }
+    if (st.goAct && dash.at) {
+      var a = st.goAct;
+      st.goAct = "";
+      a === "clusters" && localStorage.setItem("groundsmith-web-leadgo-read", "clusters");
+      openTogether();
+    }
   }
   function refresh() {
     if (!isLead()) return go("signin");
@@ -33190,6 +33298,7 @@ var qrcode = function() {
         st.view = "list";
         st.msg = "";
         draw();
+        tryGoto();
         addSample();
       })
       .catch(function (e) {
@@ -33344,6 +33453,13 @@ var qrcode = function() {
     var p = st.cur;
     if (!p || !p.id || dash.busy) return;
     if (dash.pid !== p.id) dash = { pid: p.id, rows: [], at: 0, busy: false, err: "", msg: "", open: "", ask: "", taking: true, voice: "", tab: "glance", who: "", more: {} };
+    if (st.goTab) {
+      dash.tab = st.goTab.tab === "people" ? "people" : "glance";
+      dash.who = st.goTab.who || "";
+      st.goAct = st.goTab.act || "";
+      st.goScroll = 1;
+      st.goTab = null;
+    }
     dash.busy = true;
     quiet || drawDash();
     var pid = p.id;
@@ -33595,6 +33711,10 @@ var qrcode = function() {
     );
   }
   function drawDash() {
+    drawDash0();
+    navDraw();
+  }
+  function drawDash0() {
     var el = box && document.getElementById("gsm-ldash");
     if (!el) return;
     var t = document.createElement("div");
@@ -34263,6 +34383,20 @@ var qrcode = function() {
       p = st.cur;
     if (!rows.length) return;
     try {
+      localStorage.setItem(
+        "groundsmith-web-leadnav",
+        JSON.stringify({
+          pid: p.id,
+          name: p.name,
+          sample: !!p.sample,
+          who: only ? only.uid : "",
+          people: dash.rows.map(function (r) {
+            return { u: r.uid, name: r.name, voice: r.voice };
+          }),
+        }),
+      );
+    } catch (e) {}
+    try {
       localStorage.setItem("groundsmith-web-f8read", JSON.stringify(together(rows)));
       localStorage.setItem("groundsmith-web-f8readmeta", JSON.stringify({ name: p.name, voice: only ? "" : dash.voice || "", who: only ? only.name : "", n: rows.length, at: Date.now() }));
     } catch (e) {
@@ -34319,6 +34453,10 @@ var qrcode = function() {
     return h + "</div>";
   }
   function draw() {
+    draw0();
+    navDraw();
+  }
+  function draw0() {
     if (!box) return;
     var b = st.view === "signin" ? viewSignin() : st.view === "list" ? viewList() : viewForm();
     if (st.view !== "form" && st.msg) b = '<div class="lmsg" role="status">' + esc(st.msg) + "</div>" + b;
@@ -34434,6 +34572,10 @@ var qrcode = function() {
       });
   }
   function onClick(e) {
+    onClick0(e);
+    navDraw();
+  }
+  function onClick0(e) {
     var b = e.target.closest("[data-l]");
     if (!b || !box.contains(b)) return;
     var k = b.getAttribute("data-l"),
@@ -34573,6 +34715,18 @@ var qrcode = function() {
     var row = w.querySelector(".wrow");
     row && row.nextSibling ? w.insertBefore(box, row.nextSibling) : w.appendChild(box);
     box.addEventListener("click", onClick);
+    /* v328: coming back from a reading copy through the leader's menu */
+    try {
+      var lg = JSON.parse(localStorage.getItem("groundsmith-web-leadgo") || "null");
+      if (lg) {
+        localStorage.removeItem("groundsmith-web-leadgo");
+        st.goto = lg;
+        setTimeout(function () {
+          var lb = document.getElementById("gsm-wlead");
+          lb && lb.click();
+        }, 0);
+      }
+    } catch (e) {}
     box.addEventListener("change", function (e) {
       var t = e.target;
       t && t.matches && t.matches('select[data-l="cmp"]') && ((dash[t.getAttribute("data-k")] = t.value), drawDash());
@@ -34828,6 +34982,73 @@ var qrcode = function() {
     }, 250);
 })();
 
+/* v328: the leader's menu. One bar at the top of the page (inside the sticky tab bar) on every leader screen: the
+   dashboard (a project open) and the reading copies. Gregory, 27 Nov: "We need a menu specific to project leadership that
+   runs at the top". cfg: {title, cur, who, people:[{u, name, voice}], items:[[key, label]], on(key, value)}; null hides it. */
+!(function () {
+  var CSS =
+    "#gsm-lnav{background:#111;color:#fff;padding:8px 10px 9px;margin:-6px 0 6px;font-family:inherit}" +
+    "#gsm-lnav .lnt{font-size:11px;letter-spacing:.14em;font-weight:700;color:#ccc;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}" +
+    "#gsm-lnav .lnt b{color:#fff}#gsm-lnav .lnr{display:flex;flex-wrap:wrap;gap:6px;align-items:center}" +
+    "#gsm #gsm-lnav button,#gsm #gsm-lnav select{font:13px Questrial,Helvetica,Arial,sans-serif;min-height:34px;padding:0 12px;border-radius:17px;border:1.5px solid #fff;background:#111;color:#fff;cursor:pointer;max-width:100%;letter-spacing:0;margin:0}" +
+    "#gsm-lnav select{padding:0 8px;appearance:auto}#gsm-lnav option{color:#111;background:#fff}" +
+    "#gsm #gsm-lnav .on{background:#fff;color:#111;font-weight:700;border-color:#fff}#gsm-lnav .lsep{flex:1 1 auto}#gsm #gsm-lnav .lq{border-color:#777;color:#ddd}" +
+    "@media (max-width:640px){#gsm-lnav .lnr{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}#gsm-lnav .lsep{display:none}#gsm #gsm-lnav button,#gsm #gsm-lnav select{flex:none}}" +
+    "@media print{#gsm-lnav{display:none}}";
+  function esc(t) {
+    return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  window.gsmLeadNav = function (cfg) {
+    var el = document.getElementById("gsm-lnav"),
+      jump = document.getElementById("gsm-jump");
+    if (!cfg) return el && el.parentNode && el.parentNode.removeChild(el);
+    if (!jump) return;
+    if (!document.getElementById("gsm-lnavcss")) {
+      var st = document.createElement("style");
+      st.id = "gsm-lnavcss";
+      st.textContent = CSS;
+      document.head.appendChild(st);
+    }
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "gsm-lnav";
+      el.setAttribute("role", "navigation");
+      el.setAttribute("aria-label", "Leading this project");
+      jump.insertBefore(el, jump.firstChild);
+      el.addEventListener("click", function (e) {
+        var b = e.target.closest && e.target.closest("button[data-n]");
+        b && el._on && el._on(b.getAttribute("data-n"), "");
+      });
+      el.addEventListener("change", function (e) {
+        var t = e.target;
+        t && t.getAttribute("data-n") === "person" && t.value && el._on && el._on("person", t.value);
+      });
+    }
+    el._on = cfg.on;
+    var h = '<div class="lnt">LEADING · <b>' + esc(String(cfg.title || "A project").toUpperCase()) + "</b></div><div class=\"lnr\">";
+    cfg.items.forEach(function (it) {
+      if (!it) return;
+      if (it[0] === "|") return (h += '<span class="lsep"></span>');
+      if (it[0] === "person") {
+        var ppl = cfg.people || [];
+        if (!ppl.length) return;
+        h +=
+          '<select data-n="person" aria-label="One person"' + (cfg.cur === "person" ? ' class="on"' : "") + '><option value="">One person…</option>' +
+          ppl
+            .map(function (x) {
+              return '<option value="' + esc(x.u) + '"' + (cfg.who === x.u ? " selected" : "") + ">" + esc(x.name) + (x.voice ? " · " + esc(x.voice) : "") + "</option>";
+            })
+            .join("") +
+          "</select>";
+        return;
+      }
+      h += '<button type="button" data-n="' + it[0] + '"' + (cfg.cur === it[0] ? ' class="on" aria-current="page"' : it[2] ? ' class="lq"' : "") + ">" + esc(it[1]) + "</button>";
+    });
+    el.innerHTML = h + "</div>";
+  };
+})();
 /* v313: F8 step 6 - reading everyone together (#bcmread=pid). The page holds a combined copy the lead's
    dashboard made; this bar says so, and Back to my own workbook brings the lead's own workbook back. */
 !(function () {
@@ -34862,6 +35083,69 @@ var qrcode = function() {
     try {
       window.gsmTab && window.gsmTab(2);
     } catch (e) {}
+    /* v328: the leader's menu in the reading copy */
+    var L = null,
+      own = location.origin + location.pathname + location.search;
+    try {
+      L = JSON.parse(localStorage.getItem("groundsmith-web-leadnav") || "null");
+    } catch (e) {}
+    L && L.pid !== R.pid && (L = null);
+    function back(g) {
+      try {
+        g && localStorage.setItem("groundsmith-web-leadgo", JSON.stringify(g));
+      } catch (e) {}
+      location.href = own;
+    }
+    function toMap() {
+      try {
+        window.gsmTab && window.gsmTab(2);
+      } catch (e) {}
+      var n = 0,
+        iv = setInterval(function () {
+          var h = document.querySelector(".gterr-host[data-an]:not([data-bare])");
+          if (h || ++n > 40) {
+            clearInterval(iv);
+            if (!h) return;
+            var go = function () {
+              var j = document.getElementById("gsm-jump"),
+                off = j ? j.getBoundingClientRect().height + 30 : 80;
+              var t = h.querySelector(".grel,.gtwait,canvas") || h;
+              window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - off });
+            };
+            go();
+            /* the maps above load and push it down: settle on it again */
+            setTimeout(go, 1200);
+            setTimeout(go, 3000);
+          }
+        }, 250);
+    }
+    function onNav(k, v) {
+      if (k === "glance" || k === "people") back({ pid: R.pid, tab: k });
+      else if (k === "person") v && back({ pid: R.pid, tab: "people", who: v });
+      else if (k === "together") L && L.who ? back({ pid: R.pid, tab: "glance", act: "together" }) : (window.gsmTab && window.gsmTab(2), window.scrollTo({ top: 0, behavior: "smooth" }));
+      else if (k === "clusters") L && L.who ? back({ pid: R.pid, tab: "glance", act: "clusters" }) : toMap();
+      else if (k === "projects") back({ pid: "" });
+      else if (k === "own") back(null);
+    }
+    window.gsmLeadNav &&
+      window.gsmLeadNav({
+        title: M.name || (L && L.name) || "A shared project",
+        cur: L && L.who ? "person" : "together",
+        who: L ? L.who : "",
+        people: L ? L.people : [],
+        items: L
+          ? [["glance", "Project at a glance"], ["people", "People" + (L.people && L.people.length ? " (" + L.people.length + ")" : "")], ["person"], ["together", "Everyone together"], ["clusters", "Clusters"], ["|"], ["projects", "All projects", 1], ["own", "My own workbook", 1]]
+          : [["together", "Everyone together"], ["clusters", "Clusters"], ["|"], ["own", "My own workbook", 1]],
+        on: onNav,
+      });
+    if (localStorage.getItem("groundsmith-web-leadgo-read") === "clusters") {
+      localStorage.removeItem("groundsmith-web-leadgo-read");
+      var cb = document.querySelector('#gsm-lnav [data-n="clusters"]'),
+        tb = document.querySelector('#gsm-lnav [data-n="together"]');
+      cb && cb.classList.add("on");
+      tb && tb.classList.remove("on");
+      setTimeout(toMap, 600);
+    }
     return true;
   }
   var n = 0,
