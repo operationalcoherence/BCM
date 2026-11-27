@@ -1,0 +1,2002 @@
+[
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "C1",
+  "about": "protecting the homes above the road",
+  "should_match_by": "same",
+  "note": "Protecting the homes above the road is worth doing."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "C1",
+  "about": "protecting the homes above the road",
+  "should_match_by": "same",
+  "note": "The break would protect the homes above the road."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "C1",
+  "about": "protecting the homes above the road",
+  "should_match_by": "similar",
+  "note": "Glad the line would shield the houses up above the canyon road."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "C1",
+  "about": "protecting the homes above the road",
+  "should_match_by": "far",
+  "note": "Protection for the houses above that road makes sense to me."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "C1",
+  "about": "protecting the homes above the road",
+  "should_match_by": "meaning",
+  "note": "If the hillside burns, the families up the hill need a buffer. I'm for it."
+ },
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "C1",
+  "about": "protecting the homes above the road",
+  "should_match_by": "placed",
+  "note": "Worth it for our neighbours up the slope."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "distrust",
+  "group": "C2",
+  "about": "who decides where the line runs",
+  "should_match_by": "same",
+  "note": "Who decides where the line runs? Not us, it seems."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "distrust",
+  "group": "C2",
+  "about": "who decides where the line runs",
+  "should_match_by": "same",
+  "note": "Nobody has told us who decides where the line runs."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.2",
+  "emotion": "distrust",
+  "group": "C2",
+  "about": "who decides where the line runs",
+  "should_match_by": "similar",
+  "note": "We don't trust how the route of the break gets decided."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.2",
+  "emotion": "distrust",
+  "group": "C2",
+  "about": "who decides where the line runs",
+  "should_match_by": "far",
+  "note": "Decisions about the line's route are made behind closed doors."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "distrust",
+  "group": "C2",
+  "about": "who decides where the line runs",
+  "should_match_by": "meaning",
+  "note": "I suspect the people drawing the map have already made up their minds."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "distrust",
+  "group": "C2",
+  "about": "who decides where the line runs",
+  "should_match_by": "placed",
+  "note": "We were never asked where it should go."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "C3",
+  "about": "thinning near the houses",
+  "should_match_by": "same",
+  "note": "Furious about the thinning near the houses."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "C3",
+  "about": "thinning near the houses",
+  "should_match_by": "same",
+  "note": "Angry that thinning near the houses will strip our privacy."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "C3",
+  "about": "thinning near the houses",
+  "should_match_by": "similar",
+  "note": "Thinning close to our houses makes my blood boil."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "C3",
+  "about": "thinning near the houses",
+  "should_match_by": "meaning",
+  "note": "Cutting trees right next to people's homes is outrageous."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "C3",
+  "about": "thinning near the houses",
+  "should_match_by": "placed",
+  "note": "The chainsaws by the houses have people up in arms."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "C4",
+  "about": "the plan from last spring",
+  "should_match_by": "same",
+  "note": "Last spring's plan? Never read it, and don't much care."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "C4",
+  "about": "the plan from last spring",
+  "should_match_by": "same",
+  "note": "Indifferent to last spring's plan; plans come and go."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "C4",
+  "about": "the plan from last spring",
+  "should_match_by": "similar",
+  "note": "The plan from last spring doesn't change much for me."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "C4",
+  "about": "the plan from last spring",
+  "should_match_by": "far",
+  "note": "That spring planning document sits on a shelf. Whatever."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "C4",
+  "about": "the plan from last spring",
+  "should_match_by": "similar",
+  "note": "Another plan from the spring meeting, another shrug."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "C4",
+  "about": "the plan from last spring",
+  "should_match_by": "meaning",
+  "note": "I haven't looked at what they wrote up in April."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "C5",
+  "about": "the crews already doing the work",
+  "should_match_by": "same",
+  "note": "The crews already doing the work are the best part of this."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "C5",
+  "about": "the crews already doing the work",
+  "should_match_by": "same",
+  "note": "Our crews are already doing the work on the lower road."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "C5",
+  "about": "the crews already doing the work",
+  "should_match_by": "similar",
+  "note": "Crews have already started the work, and it shows."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "C5",
+  "about": "the crews already doing the work",
+  "should_match_by": "similar",
+  "note": "The work the crews are doing already is solid."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "C5",
+  "about": "the crews already doing the work",
+  "should_match_by": "meaning",
+  "note": "The engine crew is out there every week clearing brush."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "C5",
+  "about": "the crews already doing the work",
+  "should_match_by": "meaning",
+  "note": "Seeing crew members on the ridge each morning gives me hope."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.4",
+  "emotion": "distrust",
+  "group": "C6",
+  "about": "funding stopping halfway",
+  "should_match_by": "same",
+  "note": "I don't trust the funding to last; it'll stop halfway."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.4",
+  "emotion": "distrust",
+  "group": "C6",
+  "about": "funding stopping halfway",
+  "should_match_by": "same",
+  "note": "Funding always stops halfway through these projects."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.4",
+  "emotion": "distrust",
+  "group": "C6",
+  "about": "funding stopping halfway",
+  "should_match_by": "meaning",
+  "note": "The grant runs out after one year, and then what?"
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.4",
+  "emotion": "distrust",
+  "group": "C6",
+  "about": "funding stopping halfway",
+  "should_match_by": "meaning",
+  "note": "Money for the break will dry up before it's finished."
+ },
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "defiance",
+  "group": "C7",
+  "about": "outside agencies on our land",
+  "should_match_by": "same",
+  "note": "No outside agencies on our land, period."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "defiance",
+  "group": "C7",
+  "about": "outside agencies on our land",
+  "should_match_by": "same",
+  "note": "Outside agencies don't get to tell us what to do on our land."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "defiance",
+  "group": "C7",
+  "about": "outside agencies on our land",
+  "should_match_by": "meaning",
+  "note": "We'll block any federal crew that sets foot on our property."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.4",
+  "emotion": "aggression",
+  "group": "T1",
+  "about": "the evacuation route (early thread)",
+  "should_match_by": "similar",
+  "note": "The evacuation route makes me angry; one road out is not a plan."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.4",
+  "emotion": "aggression",
+  "group": "T1",
+  "about": "the evacuation route (early thread)",
+  "should_match_by": "similar",
+  "note": "Angry that the only evacuation route is the canyon road."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "T2",
+  "about": "grazing as a tool (early thread)",
+  "should_match_by": "similar",
+  "note": "Grazing goats under the trees is a tool I'd welcome."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "T2",
+  "about": "grazing as a tool (early thread)",
+  "should_match_by": "similar",
+  "note": "Using grazing as a tool to keep the grass down would help."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.6",
+  "emotion": "distrust",
+  "group": "T3",
+  "about": "smoke on school days (early thread)",
+  "should_match_by": "similar",
+  "note": "We don't trust them to avoid burning piles on school days."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.6",
+  "emotion": "distrust",
+  "group": "T3",
+  "about": "smoke on school days (early thread)",
+  "should_match_by": "meaning",
+  "note": "Smoke drifting into classrooms worries us; I doubt they'll check the school calendar."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.2",
+  "emotion": "acceptance",
+  "group": "X-C2",
+  "about": "who decides where the line runs",
+  "should_match_by": "trap: same words, opposite emotion",
+  "note": "Glad the county forester decides where the line runs; that's their job."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "X-C3",
+  "about": "thinning near the houses",
+  "should_match_by": "trap: same word, different object",
+  "note": "Some neighbours are aggressive toward the crews doing the thinning."
+ },
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.1",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "I mostly hear about the fire plans from the mail carrier."
+ },
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The last survey crew left stakes in my garden and never came back."
+ },
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The volunteer fire department breakfast is the best meeting in town."
+ },
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.4",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Insurance premiums doubled and nobody can say why."
+ },
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A map at the post office would help people see the plan."
+ },
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.7",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "I'll go to a meeting if there's food."
+ },
+ {
+  "person": "Person 1",
+  "voice": "Residents",
+  "question": "Q.1",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Our road association has its own ideas about the gate."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Residents who cleared their own brush last year made our job easier."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Some people park across the hydrant every weekend."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The weather window for this kind of work keeps shrinking."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A shaded break keeps the big trees and drops the ladder fuels."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We could run a ride-along so neighbours see what the work looks like."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.7",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Radio coverage in the upper canyon is spotty at best."
+ },
+ {
+  "person": "Person 2",
+  "voice": "Fire crews",
+  "question": "Q.2",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Our seasonal staff turn over every summer."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The soil survey shows the slope can take the equipment."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.2",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Easement records for the upper parcels are a mess."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.4",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Cheatgrass will come in fast if we open the canopy too much."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We can leave the old ponderosas standing."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.6",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Monitoring plots could go in after the first season."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A youth corps crew could handle the piling."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.2",
+  "emotion": "defiance",
+  "group": "C8",
+  "about": "landowners refusing access",
+  "should_match_by": "similar",
+  "note": "One landowner has refused every request to survey since 2019."
+ },
+ {
+  "person": "Person 3",
+  "voice": "Land managers",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Bark beetle numbers are down this year."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Teachers want a lesson on why the forest needs work."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.2",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Bus routes might shift while the road work is going on."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The PTA could host a walk along the break."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Students could help plant the native grasses afterward."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.7",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We were burned once by a contractor who promised outreach and vanished."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Most parents have not heard about the project yet."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The high school science club already tracks local weather."
+ },
+ {
+  "person": "Person 4",
+  "voice": "Other: school board",
+  "question": "Q.6",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Parents get loud at board meetings about anything that touches the bus schedule."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.1",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "I moved here two years ago and still learning how things work."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "My neighbour lent me his chipper; that kind of help is common here."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.6",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The county website is impossible to find anything on."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A phone tree would reach the older folks better than email."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.1",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Tourists leave campfires burning at the trailhead."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The elk come through every evening, fire break or not."
+ },
+ {
+  "person": "Person 5",
+  "voice": "Residents",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "T4",
+  "about": "chipper days (early thread)",
+  "should_match_by": "similar",
+  "note": "I would pay for a chipping day if it came to my road."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Residents on the east side wave us down to ask questions."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.4",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Dispatch doesn't always know which side road is which."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Hand crews can work the steep pitch where machines cannot."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.6",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Training hours for chainsaw certification are hard to schedule."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A joint drill with the school would build trust both ways."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.3",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Fireworks on the Fourth are a real problem up here."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Our engine is due for replacement in three years."
+ },
+ {
+  "person": "Person 6",
+  "voice": "Fire crews",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Pile burning in winter keeps smoke low."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The watershed group has volunteers ready to help."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Past mitigation near the trailhead held up well in the last fire."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.4",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Contractor bids came in far above the estimate."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.5",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Archaeological review may add a few weeks."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Shared equipment between agencies would cut the cost."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We can phase the work from the bottom of the road upward."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Off-road riders keep cutting new trails through the treated area."
+ },
+ {
+  "person": "Person 7",
+  "voice": "Land managers",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Snowpack will decide when we can start."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The school is the evacuation point for the whole canyon."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Our facilities staff already mow a defensible space around the gym."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Board elections in May could change who is involved."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We can share the school's sign board for notices."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A family night could explain the project to parents."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Some parents are hostile to any work near the playground."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.6",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Liability paperwork takes our lawyer months."
+ },
+ {
+  "person": "Person 8",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The district office rarely answers our emails about safety."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "I grew up in this canyon and want my kids to stay."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The road gets plowed late every winter anyway."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "I can host a meeting in my barn."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.6",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "My well is near the planned access road and nobody has checked it."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Neighbours share trucks for hauling slash."
+ },
+ {
+  "person": "Person 9",
+  "voice": "Residents",
+  "question": "Q.1",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "near-miss for C3 (trees cut, but not near the houses for the break)",
+  "should_match_by": "none",
+  "note": "The power company trimmed my trees badly last year."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Fire behaviour modelling shows the break slows a run up the slope."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.2",
+  "emotion": "defiance",
+  "group": "C8",
+  "about": "landowners refusing access",
+  "should_match_by": "meaning",
+  "note": "A few residents have said they will never let us on their land."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Overtime budgets get tight by August."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Masticators can work the flatter sections fast."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We could post weekly progress photos online."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Cross-training with the land agency is overdue."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.1",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Most calls up here are medical, not fire."
+ },
+ {
+  "person": "Person 10",
+  "voice": "Fire crews",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "People yell at us when we close the road for an hour."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The canyon has a good record of neighbours helping each other."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.2",
+  "emotion": "defiance",
+  "group": "C8",
+  "about": "landowners refusing access",
+  "should_match_by": "meaning",
+  "note": "The ranch at the top will not sign any agreement."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Thinning prescriptions can follow the contour."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Seed mixes from local sources do best here."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.7",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Permits move at their own pace."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Trespass grazing on the lower parcel causes fights every summer."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Slash can go to the biomass plant down valley."
+ },
+ {
+  "person": "Person 11",
+  "voice": "Land managers",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A shared calendar between agencies would avoid clashes."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Enrollment is dropping, so the school has other worries."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Our counsellor runs a wildfire anxiety group for students."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.4",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The teachers union is angry about after-hours duties."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We can lend classrooms for evening meetings."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Older students could earn credit by volunteering."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Families who rent rarely hear about anything."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The cafeteria would need notice for any big event."
+ },
+ {
+  "person": "Person 12",
+  "voice": "Other: school board",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A school newsletter reaches almost every household."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.1",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "I only come up on weekends in summer."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The fire chief came to our potluck and answered every question."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Clearing around my propane tank was easy once someone showed me how."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.6",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Last time a crew came through, they left the gate open and my horses got out."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.7",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "I would read a one-page update; anything longer I skip."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The church hall is free for community meetings."
+ },
+ {
+  "person": "Person 13",
+  "voice": "Residents",
+  "question": "Q.4",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Speeders on the canyon road scare everyone."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The volunteer roster grew by six people this year."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.2",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Night shifts are hard to staff in winter."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.4",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The new radios have not been programmed yet."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The new saw chains last longer than the old ones."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A ride-along for the school board could open doors."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Mutual aid agreements are already in place."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Someone keeps stealing our trail signs."
+ },
+ {
+  "person": "Person 14",
+  "voice": "Fire crews",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Fuel moisture readings are taken only once a week."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The canyon was treated once in the 1990s and it helped."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.2",
+  "emotion": "defiance",
+  "group": "C8",
+  "about": "landowners refusing access",
+  "should_match_by": "meaning",
+  "note": "One owner posted no trespassing signs along the whole ridge."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Wildlife surveys are only done in spring."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We can leave islands of shrubs for the birds."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "near-miss for C1 (same emotion and words, different thing)",
+  "should_match_by": "none",
+  "note": "A demonstration plot near the road would show what the break looks like."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.7",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Staff time is split across four other projects."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The prescribed burn crew has a good safety record."
+ },
+ {
+  "person": "Person 15",
+  "voice": "Land managers",
+  "question": "Q.1",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Illegal dumping in the pull-outs is getting worse."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The superintendent supports any project that makes the school safer."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.2",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Board members mostly live in town, not the canyon."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Our drama club made a fire safety play last year."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.4",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Promises of road repair near the school were broken twice."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We could add the break to the evacuation drill map."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.6",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Summer school uses the building in July."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The booster club could fundraise for signs."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Few board members have walked the upper road."
+ },
+ {
+  "person": "Person 16",
+  "voice": "Other: school board",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The nurse keeps air purifiers for smoky days."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "My family has kept a firebreak behind the barn for decades."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.3",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "I mostly mind my own business up here."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "T4",
+  "about": "chipper days (early thread)",
+  "should_match_by": "similar",
+  "note": "A chipper day in October would get a good turnout."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.6",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The HOA newsletter twists every story."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.7",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Older neighbours need help moving firewood away from houses."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Property taxes went up again."
+ },
+ {
+  "person": "Person 17",
+  "voice": "Residents",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Hunters ignore the closures every fall."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The canyon residents fed us during the last incident."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.2",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Equipment breakdowns slow every project."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Our captain grew up on the upper road."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.4",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Weather forecasts for the canyon are often wrong."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "We can stage equipment at the school lot on weekends."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Short videos of the work would travel far on social media."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.7",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The academy class graduates in June."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A neighbour threatened a crew member with a shovel last year."
+ },
+ {
+  "person": "Person 18",
+  "voice": "Fire crews",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Hand piling keeps soil disturbance low."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.1",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Aspen stands on the north side act as a natural break."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.2",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The state map of parcel lines is out of date."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.4",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Elk calving season limits work in May."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Leave trees can be marked with blue paint."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.6",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Post-treatment monitoring needs a volunteer lead."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Landowners on the south side already signed on."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "near-miss for C3 (trees taken, different thing)",
+  "should_match_by": "none",
+  "note": "Firewood cutters keep taking trees from the plots."
+ },
+ {
+  "person": "Person 19",
+  "voice": "Land managers",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Photo points every quarter mile would show change over time."
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Most of our families commute to town for work."
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.2",
+  "emotion": "aggression",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A board member called the project 'a waste' in public."
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Our bus drivers know every turnout on the road."
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.5",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The school could be a cooling centre on smoky days."
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.6",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "A student art contest could design the project signs."
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.7",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Next year's budget is still unsettled."
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.1",
+  "emotion": "distrust",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "Parents doubt the district will fix the potholes by the bus stop."
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.3",
+  "emotion": "acceptance",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The library has fire history books for the canyon."
+ },
+ {
+  "person": "Person 20",
+  "voice": "Other: school board",
+  "question": "Q.5",
+  "emotion": "indifference",
+  "group": "loose",
+  "about": "",
+  "should_match_by": "none",
+  "note": "The school roof replacement takes priority this year."
+ }
+]
