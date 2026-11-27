@@ -4,7 +4,7 @@ python3 -I f8dash.py JS WORKBOOK.json WIDTH OUTPREFIX
 python3 -I f8lead.py JS WORKBOOK.json WIDTH OUTPREFIX
 Signs in as a fake Google lead, creates a project, edits it, shows the QR code, deletes it,
 and prints every write the page made, in order, so the delete order can be checked."""
-import json, sys
+import json, sys, os
 from playwright.sync_api import sync_playwright
 JS, WB, W, OUT = sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4]
 SRC = open(JS, 'rb').read()
@@ -34,7 +34,7 @@ wb = json.load(open(WB))['data']
 import os; T = os.path.dirname(os.path.abspath(WB)) + '/'
 def wbj(f): return json.dumps(json.load(open(T+f))['data'])
 with sync_playwright() as p:
-    b = p.chromium.launch(executable_path='/opt/pw-browsers/chromium-1243/chrome-linux64/chrome', args=['--no-sandbox'])
+    b = p.chromium.launch(executable_path='/opt/pw-browsers/chromium-1243/chrome-linux64/chrome', args=['--no-sandbox','--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist'])
     ctx = b.new_context(viewport={'width': W, 'height': 900}, is_mobile=W < 600, has_touch=W < 600, accept_downloads=True)
     pg = ctx.new_page(); errs = []
     pg.on('pageerror', lambda e: errs.append(str(e).split('\n')[0]))
@@ -43,6 +43,7 @@ with sync_playwright() as p:
         u = r.request.url
         if u.startswith('http://t.local/?') or u == 'http://t.local/': r.fulfill(status=200, content_type='text/html', body=HTML)
         elif u.startswith('http://t.local/gsm-preview.js'): r.fulfill(status=200, content_type='application/javascript', body=SRC)
+        elif u.startswith('http://t.local/gsm-relief.js'): r.fulfill(status=200, content_type='application/javascript', body=open(os.path.join(os.path.dirname(os.path.abspath(JS)), 'gsm-relief.js'), 'rb').read())
         elif u.endswith('/firebase-app.js'): r.fulfill(status=200, content_type='application/javascript', body=APP, headers={'access-control-allow-origin': '*'})
         elif u.endswith('/firebase-auth.js'): r.fulfill(status=200, content_type='application/javascript', body=AUTH, headers={'access-control-allow-origin': '*'})
         elif u.endswith('/firebase-firestore.js'): r.fulfill(status=200, content_type='application/javascript', body=FS, headers={'access-control-allow-origin': '*'})
@@ -66,6 +67,23 @@ with sync_playwright() as p:
     pg.evaluate("""(seed)=>{const k=Object.keys(__fsdb).find(k=>k.includes('/keys/'));const pid=k.split('/')[1];
       for(const u in seed){const [n,v,j,t]=seed[u];__fsdb['projects/'+pid+'/workbooks/'+u]={uid:u,key:'x',name:n,voice:v,data:{fmt:'bcm-workbook',sv:2,json:j},saved:{seconds:t}}}}""", seed)
     pg.click('[data-l=dref]'); pg.wait_for_timeout(500)
+    # v321: opens on Project at a glance, with AT A GLANCE, the ground in 3D and the story, read in a frame of its own
+    t0 = __import__('time').time()
+    try:
+        pg.wait_for_selector('#gsm-lpeek .pkstory details', state='attached', timeout=60000)
+        pg.wait_for_timeout(1500)
+        print('--- glance read in %.1fs' % (__import__('time').time() - t0))
+    except Exception as e: print('--- glance NOT READ', str(e)[:200])
+    print(pg.inner_text('#gsm-lpeek')[:3000])
+    print('peek parts:', pg.evaluate("()=>[...document.querySelector('#gsm-lpeek').children].map(c=>c.className+':'+c.innerHTML.length+':'+getComputedStyle(c).display+':'+(c.firstElementChild?getComputedStyle(c.firstElementChild).display:''))"))
+    print('frame height:', pg.evaluate("()=>document.querySelector('#gsm-lpeek iframe').style.height"), '| canvas in frame:', pg.evaluate("()=>{const d=document.querySelector('#gsm-lpeek iframe').contentDocument;return d.querySelectorAll('.grel canvas').length}"))
+    print('own workbook untouched:', pg.evaluate("()=>localStorage.getItem('groundsmith-web-v1')") == json.dumps(wb), '| no read keys left:', pg.evaluate("()=>[localStorage.getItem('groundsmith-web-f8read'),localStorage.getItem('groundsmith-web-f8cur'),localStorage.getItem('groundsmith-web-v1-solo')]"))
+    pg.screenshot(path=OUT + '_glance_top.png', full_page=True)
+    # a redraw (Refresh) keeps the frame: no reload
+    pg.evaluate("()=>{document.querySelector('#gsm-lpeek iframe').contentWindow.__mark=1}")
+    pg.click('[data-l=dref]'); pg.wait_for_timeout(800)
+    print('frame kept after Refresh:', pg.evaluate("()=>document.querySelector('#gsm-lpeek iframe').contentWindow.__mark===1"))
+    pg.click('[data-l=dtab][data-v=people]'); pg.wait_for_timeout(300)
     print('--- after seeding 5 workbooks\n' + D())
     pg.locator('#gsm-ldash').screenshot(path=OUT + '_table.png')
     print('groups:', pg.evaluate("()=>[...document.querySelectorAll('#gsm-ldash .egrp')].map(g=>g.querySelector('.egh b').textContent+': '+[...g.querySelectorAll('.ecn')].map(x=>x.textContent).join(', '))"))
@@ -101,6 +119,13 @@ with sync_playwright() as p:
     print('name kept after refresh:', pg.input_value('#gsm-lpn'))
     # back to list, reopen: table loads again
     pg.click('[data-l=back]'); pg.wait_for_timeout(400); pg.click('[data-l=open]'); pg.wait_for_timeout(500)
+    hs=[]
+    for i in range(12): hs.append(pg.evaluate("()=>{const f=document.querySelector('#gsm-lpeek iframe');return f?f.style.height+'/'+document.querySelector('#gsm-ldash .etabs').getBoundingClientRect().top:'-'}")); pg.wait_for_timeout(500)
+    print('heights after reopen:', hs)
+    pg.wait_for_selector('#gsm-lpeek .pkstory details', state='attached', timeout=60000); pg.wait_for_timeout(1000)
+    print('reopen debug:', pg.evaluate("()=>{const f=document.querySelector('#gsm-lpeek iframe');const d=f.contentDocument;const r=d&&d.querySelector('.gtbare .grel');const bx=r&&r.parentNode;return [f.isConnected, f.getBoundingClientRect().width, !!r, bx&&bx.getBoundingClientRect().height, bx&&getComputedStyle(bx).display, d&&d.querySelectorAll('canvas').length, d && d.body.innerText.slice(0,200)]}"))
+    print('after reopen, frame height:', pg.evaluate("()=>document.querySelector('#gsm-lpeek iframe').style.height"))
+    print('reopens on:', pg.inner_text('#gsm-ldash .etabs button.on')); pg.click('[data-l=dtab][data-v=people]'); pg.wait_for_timeout(300)
     print('reopen cards:', pg.locator('#gsm-ldash .ecard').count())
     pg.screenshot(path=OUT + '_page.png', full_page=False)
     print('reads/writes:', pg.evaluate('()=>__fslog'))

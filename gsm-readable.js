@@ -1,4 +1,57 @@
 /* Bear Canyon Method v150 - boot: fonts, styles and page, then the workbook. */
+/* v321: the lead's dashboard reads everyone together in a frame of its own (window.GSM_PEEK, set by the dashboard).
+   In that frame every read and write of storage goes to a plain object, so nothing is saved on the device and the
+   lead's own workbook is never touched. */
+!(function () {
+  var P = window.GSM_PEEK;
+  if (!P) return;
+  try {
+    var mem = {},
+      SP = Storage.prototype,
+      has = function (k) {
+        return Object.prototype.hasOwnProperty.call(mem, k);
+      };
+    Object.keys(P.store || {}).forEach(function (k) {
+      mem[k] = String(P.store[k]);
+    });
+    SP.getItem = function (k) {
+      return has(String(k)) ? mem[String(k)] : null;
+    };
+    SP.setItem = function (k, v) {
+      mem[String(k)] = String(v);
+    };
+    SP.removeItem = function (k) {
+      delete mem[String(k)];
+    };
+    SP.clear = function () {
+      mem = {};
+    };
+    SP.key = function (i) {
+      return Object.keys(mem)[i] || null;
+    };
+    /* the frame is never scrolled: THE BARE LANDSCAPE is built at once, and no other map is built at all */
+    try {
+      window.IntersectionObserver = function (cb) {
+        this.observe = function (el) {
+          var p = el;
+          while (p && !(p.classList && p.classList.contains("gtbare"))) p = p.parentNode;
+          p &&
+            setTimeout(function () {
+              cb([{ isIntersecting: true, target: el }]);
+            }, 0);
+        };
+        this.unobserve = this.disconnect = function () {};
+        this.takeRecords = function () {
+          return [];
+        };
+      };
+    } catch (e) {}
+    window.gsmRead = { pid: P.pid || "peek", meta: P.meta || {} };
+    window.gsmPeek = true;
+  } catch (e) {
+    window.gsmPeekFail = true;
+  }
+})();
 /* v311: F8 step 4 - which workbook is on this device. Runs before the workbook reads it.
    The workbook always reads and writes one place (groundsmith-web-v1). An invite link (#bcmjoin=pid.key) parks the
    person's own workbook (groundsmith-web-v1-solo) and puts that project's workbook in its place; opening the page
@@ -22777,7 +22830,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v320");
+        t && (t.textContent = "v321");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -32602,6 +32655,10 @@ var qrcode = function() {
     "#gsm-lead .efar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:460px;margin:6px 0 4px}#gsm-lead .efq{display:flex;flex-direction:column;align-items:stretch;gap:2px}" +
     "#gsm-lead .efn{font-size:12px;text-align:center}#gsm-lead .efb{height:64px;display:flex;align-items:flex-end;background:#f1efe9}#gsm-lead .efb b{display:block;width:100%;background:#222}#gsm-lead .efb b.s2{background:#7a7a7a}" +
     "#gsm-lead .efq i{font-style:normal;font-size:11px;color:#666;text-align:center}" +
+    "#gsm-lead #gsm-lpeek{margin:8px 0 4px}#gsm-lead #gsm-lpeek .pkst{margin:0 0 6px}#gsm-lead #gsm-lpeek .glance{margin:6px 0 10px}" +
+    "#gsm-lead #gsm-lpeek .rh{font-weight:700;letter-spacing:.12em;font-size:11.5px;margin:14px 0 6px}#gsm-lead #gsm-lpeek .pkfr{border:1px solid #ddd!important}" +
+    "#gsm-lead #gsm-lpeek .pkstory{margin:14px 0 0}#gsm-lead #gsm-lpeek .pkstory details{margin-bottom:8px}" +
+    "#gsm-lead .rdg2{border-top:0;margin-top:6px;padding-top:0}" +
     "#gsm-lead .evr{margin:8px 0}#gsm-lead .rgap li{margin:3px 0}#gsm-lead .rgap{margin:4px 0;padding-left:20px}" +
     "@media(max-width:620px){#gsm-lead .ewb thead{display:none}#gsm-lead .ewb,#gsm-lead .ewb tbody,#gsm-lead .ewb tr,#gsm-lead .ewb td{display:block;width:100%}" +
     "#gsm-lead .ewb tr{border-top:1.5px solid #222;padding:6px 0}#gsm-lead .ewb td{border:0;padding:2px 0;display:flex;gap:8px}" +
@@ -32742,7 +32799,7 @@ var qrcode = function() {
   var EMOS = [["Aggression", "#c8352e"], ["Acceptance", "#2a9d8f"], ["Distrust", "#a48fd0"], ["Indifference", "#e6be4f"], ["Defiance", "#1b2a8f"]],
     NOWMS = 5 * 60000,
     NOTICE = "This document was generated using The Bear Canyon Method, a method developed by Operational Coherence. The Bear Canyon Method is provided free of charge; however, attribution to Operational Coherence is required. The Bear Canyon Method, including its architecture, framework design, and implementation, remains the intellectual property of Operational Coherence.",
-    dash = { pid: "", rows: [], at: 0, busy: false, err: "", msg: "", open: "", ask: "", taking: true, voice: "", tab: "people", who: "", more: {} };
+    dash = { pid: "", rows: [], at: 0, busy: false, err: "", msg: "", open: "", ask: "", taking: true, voice: "", tab: "glance", who: "", more: {} };
   function tms(t) {
     if (!t) return 0;
     if (typeof t.toMillis === "function") return t.toMillis();
@@ -32788,7 +32845,7 @@ var qrcode = function() {
   function loadDash(quiet) {
     var p = st.cur;
     if (!p || !p.id || dash.busy) return;
-    if (dash.pid !== p.id) dash = { pid: p.id, rows: [], at: 0, busy: false, err: "", msg: "", open: "", ask: "", taking: true, voice: "", tab: "people", who: "", more: {} };
+    if (dash.pid !== p.id) dash = { pid: p.id, rows: [], at: 0, busy: false, err: "", msg: "", open: "", ask: "", taking: true, voice: "", tab: "glance", who: "", more: {} };
     dash.busy = true;
     quiet || drawDash();
     var pid = p.id;
@@ -32899,9 +32956,9 @@ var qrcode = function() {
   function tabsHtml() {
     return (
       '<div class="etabs" role="tablist" aria-label="Dashboard views">' +
-      [["people", "People"], ["glance", "Project at a glance"]]
+      [["glance", "Project at a glance"], ["people", "People"]]
         .map(function (t) {
-          var on = (dash.tab || "people") === t[0];
+          var on = (dash.tab || "glance") === t[0];
           return '<button type="button" role="tab" aria-selected="' + on + '"' + (on ? ' class="on"' : "") + ' data-l="dtab" data-v="' + t[0] + '">' + t[1] + "</button>";
         })
         .join("") +
@@ -33025,7 +33082,154 @@ var qrcode = function() {
   }
   function drawDash() {
     var el = box && document.getElementById("gsm-ldash");
-    if (el) el.outerHTML = dashHtml();
+    if (!el) return;
+    var t = document.createElement("div");
+    t.innerHTML = dashHtml();
+    var N = t.firstElementChild,
+      K = peek.el && peek.pid === dash.pid ? peek.el : null,
+      slot = N.querySelector("#gsm-lpeek-slot");
+    if (K && K.parentNode === el) {
+      /* the frame stays put: everything else is swapped around it */
+      [].slice.call(el.childNodes).forEach(function (c) {
+        c !== K && el.removeChild(c);
+      });
+      var before = true;
+      [].slice.call(N.childNodes).forEach(function (c) {
+        if (c === slot) return void (before = false);
+        before ? el.insertBefore(c, K) : el.appendChild(c);
+      });
+      K.style.display = slot ? "" : "none";
+    } else {
+      el.parentNode.replaceChild(N, el);
+      if (K) {
+        slot ? slot.parentNode.replaceChild(K, slot) : N.appendChild(K);
+        K.style.display = slot ? "" : "none";
+        /* a frame that moves reloads, so it must be read again */
+        peek.want = 1;
+      }
+    }
+    slot && peekRun();
+  }
+  /* v321: AT A GLANCE, the ground in 3D and the story, read from the combined copy in a frame of its own. */
+  var peek = { el: null, pid: "", voice: null, want: 0, at: 0, n: 0, timer: 0 };
+  function peekSrc() {
+    var sc = document.querySelector('script[src*="gsm-preview.js"]');
+    return sc ? sc.src : "";
+  }
+  function peekRun() {
+    var p = st.cur,
+      slot = document.getElementById("gsm-lpeek-slot"),
+      rows = vrows();
+    if (!p || !rows.length) return;
+    var fresh = !peek.el || peek.pid !== dash.pid || peek.voice !== (dash.voice || "") || peek.want;
+    if (!fresh) return;
+    var src = peekSrc();
+    if (!src) return;
+    var K = peek.el;
+    if (!K || peek.pid !== dash.pid) {
+      K = document.createElement("div");
+      K.id = "gsm-lpeek";
+      slot && slot.parentNode.replaceChild(K, slot);
+      K.addEventListener("click", function (e) {
+        var g = e.target.closest(".gl");
+        if (g && K.contains(g)) {
+          var x = g.nextElementSibling;
+          x && x.classList.contains("gx") && x.classList.toggle("on");
+        }
+      });
+    } else if (slot) slot.parentNode.replaceChild(K, slot);
+    peek.el = K;
+    peek.pid = dash.pid;
+    peek.voice = dash.voice || "";
+    peek.want = 0;
+    peek.n = rows.length;
+    clearInterval(peek.timer);
+    var priv = {};
+    ["solo", "join", "lead", "live"].forEach(function (k) {
+      priv[k] = { v: "9999", at: null };
+    });
+    window.__gsmPeekData = {
+      pid: p.id,
+      meta: { name: p.name, voice: dash.voice || "", n: rows.length, at: Date.now() },
+      store: { "groundsmith-web-v1": JSON.stringify(together(rows)), "groundsmith-web-welcomed": "1", "groundsmith-web-privacy": JSON.stringify(priv) },
+    };
+    K.innerHTML =
+      '<div class="pkst lh" role="status">Reading ' + (dash.voice ? esc(dash.voice) : "everyone") + "’s workbooks together…</div>" +
+      '<div class="pkgl"></div><div class="rh pkgh" style="display:none">THE GROUND THEY MAKE TOGETHER</div>' +
+      '<iframe class="pkfr" title="The ground they make together, in 3D" style="display:block;width:100%;height:0;border:0" tabindex="0"></iframe>' +
+      '<div class="pkstory"></div>';
+    var fr = K.querySelector("iframe");
+    fr.srcdoc =
+      '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:#fff}</style></head><body><div id="gsm-mount"></div>' +
+      "<script>window.GSM_ESRI_KEY=" + JSON.stringify(String(window.GSM_ESRI_KEY || "")).replace(/</g, "\\u003c") + ";window.GSM_PEEK=parent.__gsmPeekData;<\/script>" +
+      '<script src="' + esc(src) + '"><\/script></body></html>';
+    var tries = 0;
+    peek.timer = setInterval(function () {
+      tries++;
+      if (!K.isConnected) return void clearInterval(peek.timer);
+      var d = null;
+      try {
+        d = fr.contentDocument;
+      } catch (e) {}
+      var pat = d && d.getElementById("gsm-pat"),
+        gl = pat && pat.querySelector(".glance"),
+        bare = pat && pat.querySelector(".gtbare"),
+        rel = bare && bare.querySelector(".grel"),
+        cv = rel && rel.querySelector("canvas"),
+        story = pat && pat.querySelector(".storylead details");
+      if (!(gl && (cv || tries > 40) && (story || tries > 40)) && tries < 80) return;
+      clearInterval(peek.timer);
+      peekShow(K, fr, d, gl, bare, rel, story);
+    }, 500);
+  }
+  function peekShow(K, fr, d, gl, bare, rel, story) {
+    var st0 = K.querySelector(".pkst"),
+      when = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    if (!gl) {
+      st0.innerHTML = "The ground and the story couldn’t be read here. Open everyone’s workbooks together in full to see them. " + '<button type="button" class="lnk sm" data-l="pkre">Try again</button>';
+      fr.style.display = "none";
+      return;
+    }
+    st0.innerHTML = "Read from " + peek.n + (peek.n === 1 ? " workbook" : " workbooks") + (peek.voice ? " (" + esc(peek.voice) + ")" : "") + " at " + esc(when) + '. <button type="button" class="lnk sm" data-l="pkre">Read again</button>';
+    /* AT A GLANCE, as Pattern Analysis has it */
+    var g = gl.cloneNode(true);
+    g.querySelectorAll("[id]").forEach(function (x) { x.removeAttribute("id"); });
+    K.querySelector(".pkgl").appendChild(g);
+    /* the 3D ground and its own reading (WHAT THIS GROUND IS DOING, which answers taps on the ground): only they show
+       in the frame */
+    var relBox = rel && rel.parentNode,
+      box = bare;
+    if (relBox && rel.querySelector("canvas")) {
+      [].forEach.call(bare.children, function (c) {
+        c !== relBox && c !== bare.lastElementChild && (c.style.display = "none");
+      });
+      for (var n = box; n && n !== d.body; n = n.parentElement)
+        n.parentElement &&
+          [].forEach.call(n.parentElement.children, function (c) {
+            c !== n && !/^(SCRIPT|STYLE|LINK)$/.test(c.tagName) && (c.style.display = "none");
+          });
+      var gs = d.getElementById("gsm");
+      gs && (gs.style.padding = "0", gs.style.maxWidth = "none");
+      var fit = function () {
+        fr.style.height = Math.ceil(box.getBoundingClientRect().height) + 4 + "px";
+      };
+      fit();
+      try {
+        new fr.contentWindow.ResizeObserver(fit).observe(box);
+      } catch (e) {
+        setTimeout(fit, 1500);
+      }
+      K.querySelector(".pkgh").style.display = "";
+    } else fr.style.display = "none";
+    /* the story */
+    if (story) {
+      var sc = story.cloneNode(true);
+      sc.setAttribute("open", "");
+      var sm = sc.querySelector("summary");
+      sm && (sm.textContent = "THE STORY SO FAR");
+      sc.querySelectorAll("[id]").forEach(function (x) { x.removeAttribute("id"); });
+      K.querySelector(".pkstory").appendChild(sc);
+    }
   }
   function rowOf(u) {
     for (var i = 0; i < dash.rows.length; i++) if (dash.rows[i].uid === u) return dash.rows[i];
@@ -33575,7 +33779,12 @@ var qrcode = function() {
       (h += '<div class="vfl" role="group" aria-label="Voice"><button type="button" data-l="rvoice" data-v=""' + (dash.voice ? "" : ' class="on" aria-pressed="true"') + ">Every voice</button>" +
         vs.map(function (v) { return '<button type="button" data-l="rvoice" data-v="' + esc(v) + '"' + (dash.voice === v ? ' class="on" aria-pressed="true"' : "") + ">" + esc(v) + "</button>"; }).join("") + "</div>");
     h +=
-      '<div class="lrow"><button type="button" class="btn" style="width:auto;flex:none" data-l="rtog">See ' + (dash.voice ? esc(dash.voice) + " together" : "everyone’s ground together") + " →</button></div>" +
+      "</div>" +
+      (nq === 7
+        ? '<div id="gsm-lpeek-slot"></div>'
+        : '<div class="lh" style="margin:8px 0 0">The ground in 3D and the story show here once each of the seven questions has an answer from someone; so far ' + nq + " of 7 do.</div>") +
+      '<div class="rdg rdg2">' +
+      '<div class="lrow"><button type="button" class="btn alt" style="width:auto;flex:none" data-l="rtog">Open ' + (dash.voice ? esc(dash.voice) + " together" : "everyone’s workbooks together") + " in full →</button></div>" +
       '<div class="lh">Opens one workbook that holds the answers and notes of ' + rows.length + (rows.length === 1 ? " person" : " people") +
       ", so Pattern Analysis shows the ground they make together, in 3D, and Taking Action reads all of it. It is a copy for reading: nothing there is sent or kept. Your own workbook comes back with Back to my own workbook." +
       (nq < 7 ? " Pattern Analysis opens once each of the seven questions has an answer from someone; so far " + nq + " of 7 do." : "") +
@@ -33738,7 +33947,8 @@ var qrcode = function() {
       var de = document.getElementById("gsm-ldash");
       de && de.scrollIntoView && de.scrollIntoView({ block: "start" });
     } else if (k === "dback") ((dash.who = ""), (dash.ask = ""), (dash.msg = ""), drawDash());
-    else if (k === "dtab") ((dash.tab = b.getAttribute("data-v") || "people"), (dash.who = ""), (dash.ask = ""), drawDash());
+    else if (k === "dtab") ((dash.tab = b.getAttribute("data-v") || "glance"), (dash.who = ""), (dash.ask = ""), drawDash());
+    else if (k === "pkre") ((peek.want = 1), drawDash());
     else if (k === "dmore") ((dash.more[b.getAttribute("data-g")] = 1), drawDash());
     else if (k === "rme") {
       var mr = rowOf(b.getAttribute("data-u"));

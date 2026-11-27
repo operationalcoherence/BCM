@@ -79,10 +79,10 @@ with sync_playwright() as p:
     pg.evaluate("""(seed)=>{const k=Object.keys(__fsdb).find(k=>k.includes('/keys/'));const pid=k.split('/')[1];
       for(const u in seed){const [n,v,j,t]=seed[u];__fsdb['projects/'+pid+'/workbooks/'+u]={uid:u,key:'x',name:n,voice:v,data:{fmt:'bcm-workbook',sv:2,json:j},saved:{seconds:t}}}}""", seed)
     pg.click('[data-l=dref]'); pg.wait_for_timeout(500); pg.click('[data-l=dtab][data-v=glance]'); pg.wait_for_timeout(300)  # v320: the reading is on Project at a glance
-    print('--- reading, every voice\n' + pg.inner_text('#gsm-ldash .rdg'))
-    pg.locator('#gsm-ldash .rdg').screenshot(path=OUT + '_reading.png')
+    print('--- reading, every voice\n' + pg.inner_text('#gsm-ldash .rdg2'))
+    pg.locator('#gsm-ldash .rdg2').screenshot(path=OUT + '_reading.png')
     pg.click('[data-l=rvoice][data-v="Residents"]'); pg.wait_for_timeout(200)
-    print('--- reading, Residents\n' + pg.inner_text('#gsm-ldash .rdg')[:900])
+    print('--- reading, Residents\n' + pg.inner_text('#gsm-ldash .rdg2')[:900])
     pg.click('[data-l=rvoice][data-v=""]'); pg.wait_for_timeout(200)
     own = pg.evaluate("localStorage.getItem('groundsmith-web-v1')")
     pg.click('[data-l=rtog]'); pg.wait_for_selector('#gsm-rbar', timeout=25000); pg.wait_for_timeout(3500)
