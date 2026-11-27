@@ -19,7 +19,7 @@ with sync_playwright() as p:
     pg.route('**/*', route)
     SLOW = len(sys.argv) > 3
     SLOW and pg.add_init_script("window.gsmTourSlow=8")
-    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},live:{v:'9999'}}));" % json.dumps(json.dumps(wb)))
+    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},join:{v:'9999'},lead:{v:'9999'}}));" % json.dumps(json.dumps(wb)))
     pg.goto('http://t.local/'); pg.wait_for_selector('#gsm', timeout=25000)
     pg.evaluate("window.gsmTab(2)"); pg.wait_for_timeout(1500)
     pg.evaluate("()=>window.gsmSynHost.scrollIntoView({block:'center'})"); pg.wait_for_timeout(1500)

@@ -40,7 +40,7 @@ with sync_playwright() as p:
         elif 'leaflet' in u and u.endswith('.css'): r.fulfill(status=200,content_type='text/css',body=LCSS)
         else: r.abort()
     pg.route('**/*',route)
-    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},live:{v:'9999'}}));"%json.dumps(json.dumps(wb)))
+    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},join:{v:'9999'},lead:{v:'9999'}}));"%json.dumps(json.dumps(wb)))
     pg.goto('http://t.local/'); pg.wait_for_selector('#gsm',timeout=20000); pg.wait_for_timeout(1500)
     pg.evaluate("window.gsmTab(1)"); pg.wait_for_timeout(2500)
     print('leaflet loaded:', pg.evaluate("typeof window.L!=='undefined'"))

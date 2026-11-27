@@ -18,7 +18,7 @@ with sync_playwright() as p:
         else: r.abort()
     pg.route('**/*', route)
     pg.add_init_script("var __r;Object.defineProperty(window,'gsmRelief',{configurable:true,get:function(){return __r},set:function(v){var m=v.mount;v.mount=function(a,b){var t=performance.now();var o=m(a,b);(window.__mt=window.__mt||[]).push(Math.round(performance.now()-t));return o};__r=v}})")
-    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},live:{v:'9999'}}));" % json.dumps(json.dumps(wb)))
+    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},join:{v:'9999'},lead:{v:'9999'}}));" % json.dumps(json.dumps(wb)))
     pg.goto('http://t.local/'); pg.wait_for_selector('#gsm', timeout=25000)
     pg.evaluate("window.gsmTab(%d)" % TAB); pg.wait_for_timeout(1500)
     for _ in range(40):

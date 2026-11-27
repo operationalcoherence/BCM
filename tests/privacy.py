@@ -68,7 +68,7 @@ with sync_playwright() as p:
     pg.goto('http://t.local/'); pg.wait_for_selector('#gsm-priv', timeout=25000); pg.wait_for_timeout(300)
     print('--- solo screen\n' + pg.inner_text('#gsm-priv'))
     pg.screenshot(path=OUT + '_solo.png')
-    ok('solo screen shown on first open', G() and 'BEFORE YOU START' in pg.inner_text('#gsm-priv'))
+    ok('solo screen shown on first open', G() and 'WORKING ON YOUR OWN' in pg.inner_text('#gsm-priv'))
     ok('workbook is inert behind it', pg.evaluate("()=>document.getElementById('gsm').inert===true"))
     blocked = False
     try: pg.click('#gsm-nbgo', timeout=1500)
@@ -82,11 +82,11 @@ with sync_playwright() as p:
     ok('Tab stays inside', pg.evaluate("()=>document.getElementById('gsm-priv').contains(document.activeElement)"))
     pg.click('[data-pv=full]'); pg.wait_for_timeout(100)
     t = pg.inner_text('#gsm-priv'); print('--- full page from the screen\n' + t)
-    ok('full page reachable before acknowledging', 'SHARED PROJECTS' in t and 'BCM administrator' in t and G())
+    ok('full page reachable before acknowledging', 'ANSWERING AN INVITE' in t and 'LEADING A PROJECT' in t and 'BCM administrator' in t and G())
     pg.screenshot(path=OUT + '_full.png')
     pg.click('[data-pv=ok]'); pg.wait_for_timeout(200)
     r = json.loads(LS('groundsmith-web-privacy') or '{}')
-    ok('I understand closes it and records solo', not G() and r.get('solo', {}).get('v') == '2026-11-26' and 'live' not in r)
+    ok('I understand closes it and records solo', not G() and r.get('solo', {}).get('v') == '2026-11-26.2' and 'join' not in r and 'lead' not in r)
     ok('workbook usable after', pg.evaluate("()=>document.getElementById('gsm').inert===false"))
     pg.fill('#gsm-nb', 'Pat'); ok('can type after', pg.input_value('#gsm-nb') == 'Pat')
     pg.reload(); pg.wait_for_selector('#gsm-ways', state='attached', timeout=25000); pg.wait_for_timeout(1200)
@@ -103,10 +103,11 @@ with sync_playwright() as p:
     pg.click('[data-pv=ok]'); pg.wait_for_timeout(100)
     # an invite link: the live screen
     LINK = 'http://t.local/#bcmjoin=PID1.' + KEY
-    pg.goto(LINK); pg.wait_for_selector('#gsm-priv', timeout=25000); pg.wait_for_timeout(300)
+    pg.goto(LINK); pg.wait_for_selector('#gsm-priv [data-pv=ok]', timeout=25000); pg.wait_for_timeout(300)
     t = pg.inner_text('#gsm-priv'); print('--- live screen\n' + t)
     pg.screenshot(path=OUT + '_live.png')
-    ok('live screen on an invite link, even after solo', 'shared project' in t and 'BCM administrator' in t and 'Delete my workbook' in t)
+    ok('invite screen names the project and lead, even after solo', '“CANYON TEST”' in t and 'Test Lead sees everything you write here' in t and 'wouldn’t want Test Lead to read' in t and 'Delete my workbook' in t)
+    ok('it is not the lead screen', 'BEFORE YOU LEAD' not in t)
     blocked = False
     try: pg.click('[data-j=go]', timeout=1500)
     except Exception: blocked = True
@@ -117,6 +118,9 @@ with sync_playwright() as p:
     ok('no screen after reload', not G())
     rec = DB().get('projects/PID1/workbooks/anon1') or {}
     pv = (rec.get('data') or {}).get('privacy') or {}
-    ok('workbook record carries the acknowledgement', pv.get('v') == '2026-11-26' and bool(pv.get('at')))
+    ok('workbook record carries the acknowledgement', pv.get('v') == '2026-11-26.2' and bool(pv.get('at')))
+    pg.evaluate("()=>{const r=JSON.parse(localStorage.getItem('groundsmith-web-privacy'));delete r.join;localStorage.setItem('groundsmith-web-privacy',JSON.stringify(r))}")
+    pg.goto('http://t.local/#bcmjoin=PID9.' + KEY); pg.wait_for_timeout(3000)
+    ok('a bad link leaves no screen', not G() and 'doesn' in pg.inner_text('#gsm-join'))
     print('ERRORS', errs)
     b.close()

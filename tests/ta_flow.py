@@ -21,7 +21,7 @@ with sync_playwright() as p:
         elif u.startswith('http://t.local/gsm-preview.js'): r.fulfill(status=200, content_type='application/javascript', body=SRC)
         else: r.abort()
     pg.route('**/*', route)
-    pg.add_init_script("if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},live:{v:'9999'}}));}" % json.dumps(json.dumps(wb)))
+    pg.add_init_script("if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},join:{v:'9999'},lead:{v:'9999'}}));}" % json.dumps(json.dumps(wb)))
     pg.goto('http://t.local/'); pg.wait_for_selector('#gsm', timeout=20000); pg.wait_for_timeout(1200)
     pg.evaluate("window.gsmTab(4)"); pg.wait_for_timeout(1200)
     st = pg.evaluate("""()=>({grp:[...document.querySelectorAll('#gsm-pat .tagrp .tagh')].map(e=>e.textContent),
