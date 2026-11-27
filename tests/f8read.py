@@ -78,7 +78,7 @@ with sync_playwright() as p:
             'p4': ('', '', '{not json', now - 30)}
     pg.evaluate("""(seed)=>{const k=Object.keys(__fsdb).find(k=>k.includes('/keys/'));const pid=k.split('/')[1];
       for(const u in seed){const [n,v,j,t]=seed[u];__fsdb['projects/'+pid+'/workbooks/'+u]={uid:u,key:'x',name:n,voice:v,data:{fmt:'bcm-workbook',sv:2,json:j},saved:{seconds:t}}}}""", seed)
-    pg.click('[data-l=dref]'); pg.wait_for_timeout(500)
+    pg.click('[data-l=dref]'); pg.wait_for_timeout(500); pg.click('[data-l=dtab][data-v=glance]'); pg.wait_for_timeout(300)  # v320: the reading is on Project at a glance
     print('--- reading, every voice\n' + pg.inner_text('#gsm-ldash .rdg'))
     pg.locator('#gsm-ldash .rdg').screenshot(path=OUT + '_reading.png')
     pg.click('[data-l=rvoice][data-v="Residents"]'); pg.wait_for_timeout(200)

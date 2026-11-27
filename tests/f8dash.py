@@ -1,4 +1,4 @@
-"""F8 step 5, EVERY WORKBOOK (v312), against fake Firebase modules (no network).
+"""F8 step 5, EVERY WORKBOOK (v312; v320: cards, one person, Project at a glance), against fake Firebase modules (no network).
 python3 -I f8dash.py JS WORKBOOK.json WIDTH OUTPREFIX
 (based on f8lead.py) F8 step 3, Lead a project (v309, v310), against fake Firebase modules (no network).
 python3 -I f8lead.py JS WORKBOOK.json WIDTH OUTPREFIX
@@ -68,16 +68,25 @@ with sync_playwright() as p:
     pg.click('[data-l=dref]'); pg.wait_for_timeout(500)
     print('--- after seeding 5 workbooks\n' + D())
     pg.locator('#gsm-ldash').screenshot(path=OUT + '_table.png')
-    href = pg.get_attribute('#gsm-ldash tbody tr:first-child a.lnk', 'href')
+    print('groups:', pg.evaluate("()=>[...document.querySelectorAll('#gsm-ldash .egrp')].map(g=>g.querySelector('.egh b').textContent+': '+[...g.querySelectorAll('.ecn')].map(x=>x.textContent).join(', '))"))
+    href = pg.get_attribute('#gsm-ldash .ecard a.lnk', 'href')
     import urllib.parse as up; print('remind (first row):', up.unquote(href)[:400])
     # open Ana
-    pg.click('[data-l=dopen][data-u=p1]'); pg.wait_for_timeout(200)
-    print('--- Ana opened\n' + pg.inner_text('#gsm-ldash .ewv')[:900])
+    pg.click('.ecn[data-u=p1]'); pg.wait_for_timeout(200)
+    print('--- Ana opened\n' + D()[:1600])
+    pg.click('#gsm-ldash .edet summary'); pg.wait_for_timeout(100)
+    print('--- her answers and notes\n' + pg.inner_text('#gsm-ldash .ewv')[:500])
     pg.locator('#gsm-ldash').screenshot(path=OUT + '_open.png')
     with pg.expect_download() as dl: pg.click('[data-l=dfile]')
     f = dl.value; path = f.path(); j = json.load(open(path))
     print('file:', f.suggested_filename, '| app', j['app'], '| who', j['data'].get('who'), '| answers', sum(1 for a in j['data']['a'] if a.strip()), '| notes', len(j['data']['m']))
-    pg.click('[data-l=dopen][data-u=p4]'); pg.wait_for_timeout(200); print('broken open:', pg.inner_text('#gsm-ldash .ewv'))
+    pg.click('[data-l=dback]'); pg.wait_for_timeout(200)
+    pg.click('[data-l=dopen][data-u=p4]'); pg.wait_for_timeout(200); print('broken open:', D()[:400])
+    pg.click('[data-l=dback]'); pg.wait_for_timeout(200)
+    pg.click('[data-l=dtab][data-v=glance]'); pg.wait_for_timeout(300)
+    print('--- Project at a glance\n' + D()[:2500])
+    pg.locator('#gsm-ldash').screenshot(path=OUT + '_glance.png')
+    pg.click('[data-l=dtab][data-v=people]'); pg.wait_for_timeout(200)
     # delete Cy
     pg.click('[data-l=ddel][data-u=p3]'); pg.wait_for_timeout(200); print('delete ask:', pg.inner_text('#gsm-ldash .warn'))
     pg.click('[data-l=ddelyes]'); pg.wait_for_timeout(400); print('--- after delete\n' + D()[:300])
@@ -92,8 +101,15 @@ with sync_playwright() as p:
     print('name kept after refresh:', pg.input_value('#gsm-lpn'))
     # back to list, reopen: table loads again
     pg.click('[data-l=back]'); pg.wait_for_timeout(400); pg.click('[data-l=open]'); pg.wait_for_timeout(500)
-    print('reopen rows:', pg.locator('#gsm-ldash tbody tr').count())
+    print('reopen cards:', pg.locator('#gsm-ldash .ecard').count())
     pg.screenshot(path=OUT + '_page.png', full_page=False)
     print('reads/writes:', pg.evaluate('()=>__fslog'))
+    # one person's workbook opens on its own as a copy for reading
+    pg.click('.ecn[data-u=p2]'); pg.wait_for_timeout(200)
+    pg.click('[data-l=rme]'); pg.wait_for_timeout(1500)
+    print('own copy:', pg.evaluate("()=>[location.hash,localStorage.getItem('groundsmith-web-f8readmeta')]"))
+    try:
+        pg.wait_for_selector('#gsm-rbar', timeout=15000); print('banner:', pg.inner_text('#gsm-rbar')[:300])
+    except Exception as e: print('banner MISSING', e)
     print('ERRORS', errs)
     b.close()

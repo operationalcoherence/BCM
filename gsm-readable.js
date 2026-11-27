@@ -22777,7 +22777,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v319");
+        t && (t.textContent = "v320");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -32584,6 +32584,24 @@ var qrcode = function() {
     "#gsm-lead .ebar{display:flex;height:12px;border:1px solid #bbb;margin:3px 0 2px;max-width:420px}#gsm-lead .ebar span{display:block;height:100%}" +
     "#gsm-lead .crow{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin:6px 0 8px}#gsm-lead .crow select{font:inherit;font-size:13.5px;border:1px solid #999;border-radius:2px;padding:5px 7px;background:#fff;color:#222;max-width:100%;min-height:34px}" +
     "#gsm-lead .rdg .rsh{font-weight:700;letter-spacing:.1em;font-size:10.5px;color:#444;margin:12px 0 2px}#gsm-lead .rdg>.rm{margin:4px 0}" +
+    "#gsm-lead .etabs{display:flex;gap:2px;border-bottom:1.5px solid #222;margin:12px 0 10px}#gsm-lead .etabs button{border:0;background:none;font:inherit;font-size:14px;padding:9px 12px;min-height:44px;color:#555;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1.5px}" +
+    "#gsm-lead .etabs button.on{color:#111;font-weight:700;border-bottom-color:#222}" +
+    "#gsm-lead .egrp{margin:6px 0 14px}#gsm-lead .egh{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;border-bottom:1px solid #ccc;padding:0 0 4px;margin:0 0 8px}" +
+    "#gsm-lead .egh b{letter-spacing:.12em;font-size:11.5px}#gsm-lead .egh span{color:#666;font-size:12.5px}" +
+    "#gsm-lead .ecards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}" +
+    "#gsm-lead .ecard{border:1px solid #bbb;background:#fff;padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}" +
+    "#gsm-lead .ecth{display:flex;align-items:baseline;gap:6px}#gsm-lead .ecn{border:0;background:none;padding:0;font:inherit;font-weight:700;font-size:15px;text-align:left;cursor:pointer;color:#111;overflow-wrap:anywhere}" +
+    "#gsm-lead .ecn:hover{text-decoration:underline}#gsm-lead .ect{margin-left:auto;color:#666;font-size:12px;white-space:nowrap}#gsm-lead .ecard .ev,#gsm-lead .eper .ev{color:#666;font-size:12.5px}" +
+    "#gsm-lead .estep{display:flex;gap:3px;margin:2px 0 0}#gsm-lead .estep span{flex:1;display:block}#gsm-lead .estep b{display:block;height:7px;background:#e4e1d9}" +
+    "#gsm-lead .estep .s1 b{background:#222}#gsm-lead .estep .s2 b{background:#7a7a7a}#gsm-lead .estep i{display:block;font-style:normal;font-size:11px;color:#666;text-align:center;margin-top:3px}#gsm-lead .estep.elab b{height:10px}" +
+    "#gsm-lead .eemo{font-size:13.5px}#gsm-lead .eact{display:flex;align-items:center;gap:16px;border-top:1px solid #e6e3dc;padding-top:6px;margin-top:2px}#gsm-lead .eact .lnk,#gsm-lead .eper>.lrow>.lnk{display:inline-flex;align-items:center;font-size:13.5px;min-height:32px;margin:0;padding:0;line-height:1.3;vertical-align:middle}#gsm-lead .eact .lnk:last-child{margin-left:auto}" +
+    "#gsm-lead .eper{margin:8px 0 4px}#gsm-lead .eper .rh{font-weight:700;letter-spacing:.12em;font-size:11.5px;margin:16px 0 4px}#gsm-lead .eper .rsh{font-weight:700;letter-spacing:.1em;font-size:10.5px;color:#444;margin:12px 0 2px}" +
+    "#gsm-lead .eph{display:flex;align-items:baseline;gap:6px;margin:10px 0 0}#gsm-lead .eph b{font-size:20px}" +
+    "#gsm-lead .edet{margin:16px 0 0;border-top:1.5px solid #222;padding-top:8px}#gsm-lead .edet summary{cursor:pointer;font-weight:700;letter-spacing:.12em;font-size:11.5px;min-height:28px}" +
+    "#gsm-lead .edet .ewv{margin:8px 0 0}#gsm-lead .etabs+.rdg{border-top:0;margin-top:0;padding-top:0}" +
+    "#gsm-lead .efar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:460px;margin:6px 0 4px}#gsm-lead .efq{display:flex;flex-direction:column;align-items:stretch;gap:2px}" +
+    "#gsm-lead .efn{font-size:12px;text-align:center}#gsm-lead .efb{height:64px;display:flex;align-items:flex-end;background:#f1efe9}#gsm-lead .efb b{display:block;width:100%;background:#222}#gsm-lead .efb b.s2{background:#7a7a7a}" +
+    "#gsm-lead .efq i{font-style:normal;font-size:11px;color:#666;text-align:center}" +
     "#gsm-lead .evr{margin:8px 0}#gsm-lead .rgap li{margin:3px 0}#gsm-lead .rgap{margin:4px 0;padding-left:20px}" +
     "@media(max-width:620px){#gsm-lead .ewb thead{display:none}#gsm-lead .ewb,#gsm-lead .ewb tbody,#gsm-lead .ewb tr,#gsm-lead .ewb td{display:block;width:100%}" +
     "#gsm-lead .ewb tr{border-top:1.5px solid #222;padding:6px 0}#gsm-lead .ewb td{border:0;padding:2px 0;display:flex;gap:8px}" +
@@ -32724,7 +32742,7 @@ var qrcode = function() {
   var EMOS = [["Aggression", "#c8352e"], ["Acceptance", "#2a9d8f"], ["Distrust", "#a48fd0"], ["Indifference", "#e6be4f"], ["Defiance", "#1b2a8f"]],
     NOWMS = 5 * 60000,
     NOTICE = "This document was generated using The Bear Canyon Method, a method developed by Operational Coherence. The Bear Canyon Method is provided free of charge; however, attribution to Operational Coherence is required. The Bear Canyon Method, including its architecture, framework design, and implementation, remains the intellectual property of Operational Coherence.",
-    dash = { pid: "", rows: [], at: 0, busy: false, err: "", msg: "", open: "", ask: "", taking: true, voice: "" };
+    dash = { pid: "", rows: [], at: 0, busy: false, err: "", msg: "", open: "", ask: "", taking: true, voice: "", tab: "people", who: "", more: {} };
   function tms(t) {
     if (!t) return 0;
     if (typeof t.toMillis === "function") return t.toMillis();
@@ -32747,11 +32765,12 @@ var qrcode = function() {
       w = JSON.parse((x.data && x.data.json) || "null");
     } catch (e) {}
     if (w && w.app && w.data) w = w.data;
-    var r = { uid: x.id, name: String(x.name || "").trim() || "No name", voice: String(x.voice || "").trim(), at: tms(x.saved), w: w, ok: !!(w && typeof w === "object"), answered: 0, notes: 0, emo: [], none: 0 };
+    var r = { uid: x.id, name: String(x.name || "").trim() || "No name", voice: String(x.voice || "").trim(), at: tms(x.saved), w: w, ok: !!(w && typeof w === "object"), answered: 0, notes: 0, emo: [], none: 0, qa: [], list: [] };
     if (!r.ok) return r;
     var a = Array.isArray(w.a) ? w.a : [],
       c = [0, 0, 0, 0, 0];
-    for (var i = 0; i < 7; i++) String(a[i] || "").trim() && r.answered++;
+    r.qa = [];
+    for (var i = 0; i < 7; i++) (r.qa[i] = !!String(a[i] || "").trim()) && r.answered++;
     r.list = (Array.isArray(w.m) ? w.m : []).concat(w.p && Array.isArray(w.p.m) ? w.p.m : []).filter(function (n) {
       return Array.isArray(n) && String(n[3] || "").trim();
     });
@@ -32769,7 +32788,7 @@ var qrcode = function() {
   function loadDash(quiet) {
     var p = st.cur;
     if (!p || !p.id || dash.busy) return;
-    if (dash.pid !== p.id) dash = { pid: p.id, rows: [], at: 0, busy: false, err: "", msg: "", open: "", ask: "", taking: true, voice: "" };
+    if (dash.pid !== p.id) dash = { pid: p.id, rows: [], at: 0, busy: false, err: "", msg: "", open: "", ask: "", taking: true, voice: "", tab: "people", who: "", more: {} };
     dash.busy = true;
     quiet || drawDash();
     var pid = p.id;
@@ -32820,7 +32839,7 @@ var qrcode = function() {
         "To carry on, open the same link as before, on the device you used:\n" + link(p) + "\n";
     return "mailto:?subject=" + encodeURIComponent("Reminder: " + p.name) + "&body=" + encodeURIComponent(body);
   }
-  function viewWb(r) {
+  function viewWb(r, bare) {
     var p = st.cur,
       w = r.w,
       h = '<div class="ewv">';
@@ -32840,6 +32859,7 @@ var qrcode = function() {
         '<div class="eq"><b>' + (j + 1) + '.</b><span>' + esc(n[3]) +
         '<span class="ev">' + (e ? '<span class="esw" style="background:' + e[1] + '"></span>' + e[0] : "No emotion marked") + (n[7] ? " · " + esc(n[7]) : "") + "</span></span></div>";
     });
+    if (bare) return h + "</div>";
     return (
       h +
       '<div class="lrow"><button type="button" class="btn alt" style="width:auto;flex:none" data-l="dfile" data-u="' + esc(r.uid) + '">Save as a file</button><button type="button" class="lnk sm" data-l="dclose">Close</button></div>' +
@@ -32861,29 +32881,147 @@ var qrcode = function() {
     if (dash.msg) h += '<div class="lmsg lok" role="status">' + esc(dash.msg) + "</div>";
     if (!rows.length) h += '<div class="lh" style="margin-top:6px">Send the invite link below. Each person who opens it and chooses Begin shows up here.</div>';
     else {
-      h += '<table class="ewb"><thead><tr><th>PERSON</th><th>QUESTIONS</th><th>NOTES</th><th>MAIN EMOTION</th><th>LAST CHANGE</th><th><span style="position:absolute;left:-9999px">Actions</span></th></tr></thead><tbody>';
-      rows.forEach(function (r) {
-        var on = dash.open === r.uid;
-        h +=
-          '<tr' + (on ? ' class="eon"' : "") + '><td data-h="PERSON"><span><b>' + esc(r.name) + "</b>" + (r.at && Date.now() - r.at < NOWMS ? '<span class="enow">NOW</span>' : "") + '<span class="ev">' + (r.voice ? esc(r.voice) : "No voice") + "</span></span></td>" +
-          '<td data-h="QUESTIONS">' + (r.ok ? r.answered + " of 7" : '<span class="egray">—</span>') + "</td>" +
-          '<td data-h="NOTES">' + (r.ok ? r.notes : '<span class="egray">—</span>') + "</td>" +
-          '<td data-h="MAIN EMOTION"><span>' + emoCell(r) + "</span></td>" +
-          '<td data-h="LAST CHANGE">' + esc(agoT(r.at)) + "</td>" +
-          '<td class="ea"><button type="button" class="lnk" data-l="dopen" data-u="' + esc(r.uid) + '" aria-expanded="' + on + '">' + (on ? "Close" : "Open") + '</button><a class="lnk" href="' + esc(remindHref(r)) + '">Remind</a><button type="button" class="lnk" data-l="ddel" data-u="' + esc(r.uid) + '">Delete</button></td></tr>';
-        if (dash.ask === r.uid)
-          h +=
-            '<tr><td colspan="6" class="ew"><div class="warn">Delete ' + esc(r.name) + "’s workbook from this project? It can’t be undone. Their copy on their own device is kept" +
-            (dash.taking ? ", and if they keep working it is sent again. To stop that, stop taking answers first." : ".") +
-            '</div><div class="lrow"><button type="button" class="btn" data-l="ddelyes" data-u="' + esc(r.uid) + '">Delete for good</button><button type="button" class="btn alt" data-l="ddelno">Keep it</button></div></td></tr>';
-        if (on) h += '<tr><td colspan="6" class="ew">' + viewWb(r) + "</td></tr>";
-      });
-      h += "</tbody></table>";
+      var wr = dash.who ? rowOf(dash.who) : null;
+      dash.who && !wr && (dash.who = "");
+      h += wr ? personHtml(wr) : tabsHtml() + (dash.tab === "glance" ? readHtml() || '<div class="lh" style="margin-top:8px">Nothing to read yet: no workbook here could be read.</div>' : peopleHtml(rows));
     }
     h +=
       '<div class="lrow"><button type="button" class="lnk sm" data-l="dtake">' + (dash.taking ? "Stop taking answers" : "Start taking answers again") + "</button>" +
       '<span class="lh">' + (dash.taking ? "Stops new saves from everyone. You can start again at any time." : "People’s work is sent again on their next save.") + "</span></div>";
-    return h + readHtml() + "</div>";
+    return h + "</div>";
+  }
+  /* v320: the three levels. People (cards), one person, and Project at a glance (readHtml). */
+  var GRPS = [["WORKING NOW", "saved in the last 5 minutes"], ["STILL GOING", "started, not finished"], ["FINISHED", "all 7 questions answered"]],
+    GMAX = 9;
+  function isNow(r) {
+    return !!(r.at && Date.now() - r.at < NOWMS);
+  }
+  function tabsHtml() {
+    return (
+      '<div class="etabs" role="tablist" aria-label="Dashboard views">' +
+      [["people", "People"], ["glance", "Project at a glance"]]
+        .map(function (t) {
+          var on = (dash.tab || "people") === t[0];
+          return '<button type="button" role="tab" aria-selected="' + on + '"' + (on ? ' class="on"' : "") + ' data-l="dtab" data-v="' + t[0] + '">' + t[1] + "</button>";
+        })
+        .join("") +
+      "</div>"
+    );
+  }
+  function stepsHtml(r, lab) {
+    var h = '<div class="estep' + (lab ? " elab" : "") + '" aria-hidden="true">';
+    for (var i = 0; i < 7; i++) h += '<span class="' + (r.ok && r.qa[i] ? (i < 4 ? "s1" : "s2") : "") + '"><b></b>' + (lab ? "<i>Q." + (i + 1) + "</i>" : "") + "</span>";
+    return h + "</div>";
+  }
+  function delAsk(r) {
+    return (
+      '<div class="warn">Delete ' + esc(r.name) + "’s workbook from this project? It can’t be undone. Their copy on their own device is kept" +
+      (dash.taking ? ", and if they keep working it is sent again. To stop that, stop taking answers first." : ".") +
+      '</div><div class="lrow"><button type="button" class="btn" data-l="ddelyes" data-u="' + esc(r.uid) + '">Delete for good</button><button type="button" class="btn alt" data-l="ddelno">Keep it</button></div>'
+    );
+  }
+  function cardHtml(r) {
+    var u = esc(r.uid),
+      h =
+        '<div class="ecard"><div class="ecth"><button type="button" class="ecn" data-l="dopen" data-u="' + u + '">' + esc(r.name) + "</button>" +
+        (isNow(r) ? '<span class="enow">NOW</span>' : "") + '<span class="ect">' + esc(agoT(r.at)) + "</span></div>" +
+        '<div class="ev">' + (r.voice ? esc(r.voice) : "No voice") + "</div>";
+    h += r.ok
+      ? stepsHtml(r) + '<div class="lh">' + r.answered + " of 7 questions answered · " + r.notes + (r.notes === 1 ? " note" : " notes") + '</div><div class="eemo"><span class="lh">Main emotion:</span> ' + emoCell(r) + "</div>"
+      : '<div class="lh">This workbook couldn’t be read. It may have been saved by a newer or older version of the workbook.</div>';
+    h +=
+      '<div class="eact"><button type="button" class="lnk" data-l="dopen" data-u="' + u + '">Open</button><a class="lnk" href="' + esc(remindHref(r)) + '">Remind</a><button type="button" class="lnk" data-l="ddel" data-u="' + u + '">Delete</button></div>';
+    dash.ask === r.uid && (h += delAsk(r));
+    return h + "</div>";
+  }
+  function peopleHtml(rows) {
+    var G = [[], [], []];
+    rows.forEach(function (r) {
+      G[isNow(r) ? 0 : r.ok && r.answered === 7 ? 2 : 1].push(r);
+    });
+    return G.map(function (g, i) {
+      if (!g.length) return "";
+      var show = dash.more[i] || g.length <= GMAX ? g : g.slice(0, GMAX);
+      return (
+        '<div class="egrp"><div class="egh"><b>' + GRPS[i][0] + "</b><span>" + g.length + (g.length === 1 ? " person" : " people") + " · " + GRPS[i][1] + "</span></div>" +
+        '<div class="ecards">' + show.map(cardHtml).join("") + "</div>" +
+        (show.length < g.length ? '<button type="button" class="lnk sm" data-l="dmore" data-g="' + i + '">Show all ' + g.length + "</button>" : "") +
+        "</div>"
+      );
+    }).join("");
+  }
+  function mixOf(rows) {
+    var c = [0, 0, 0, 0, 0],
+      n = 0;
+    rows.forEach(function (r) {
+      (r.list || []).forEach(function (x) {
+        x[5] != null && EMOS[x[5]] && (c[x[5]]++, n++);
+      });
+    });
+    return { c: c, n: n };
+  }
+  function mixHtml(label, m) {
+    var order = [1, 3, 2, 0, 4];
+    if (!m.n) return '<div class="evr"><b>' + esc(label) + '</b> <span class="lh">no emotion marked yet</span></div>';
+    return (
+      '<div class="evr"><b>' + esc(label) + "</b>" +
+      '<div class="ebar" aria-hidden="true">' + order.map(function (i) { return m.c[i] ? '<span style="width:' + (100 * m.c[i]) / m.n + "%;background:" + EMOS[i][1] + '"></span>' : ""; }).join("") + "</div>" +
+      '<div class="lh">' + order.filter(function (i) { return m.c[i]; }).map(function (i) { return EMOS[i][0] + " " + Math.round((100 * m.c[i]) / m.n) + "%"; }).join(", ") + "</div></div>"
+    );
+  }
+  function personHtml(r) {
+    var p = st.cur,
+      u = esc(r.uid),
+      all = dash.rows.filter(function (x) { return x.ok; }),
+      h = '<div class="eper"><button type="button" class="lnk sm" data-l="dback">← Everyone in ' + esc(p.name) + "</button>";
+    h +=
+      '<div class="eph"><b>' + esc(r.name) + "</b>" + (isNow(r) ? '<span class="enow">NOW</span>' : "") + "</div>" +
+      '<div class="ev">' + (r.voice ? esc(r.voice) : "No voice") + " · last change " + esc(agoT(r.at)) + (r.ok ? " · " + r.notes + (r.notes === 1 ? " note" : " notes") : "") + "</div>";
+    h +=
+      '<div class="lrow">' +
+      (r.ok ? '<button type="button" class="btn" style="width:auto;flex:none" data-l="rme" data-u="' + u + '">See their ground and their story →</button><button type="button" class="btn alt" style="width:auto;flex:none" data-l="dfile" data-u="' + u + '">Save as a file</button>' : "") +
+      '<a class="lnk" href="' + esc(remindHref(r)) + '">Remind</a><button type="button" class="lnk" data-l="ddel" data-u="' + u + '">Delete</button></div>';
+    dash.ask === r.uid && (h += delAsk(r));
+    if (!r.ok) return h + '<div class="lh">This workbook couldn’t be read. It may have been saved by a newer or older version of the workbook.</div></div>';
+    if (r.ok)
+      h += '<div class="lh" style="margin:2px 0 0">Their workbook opens on its own as a copy for reading, with Pattern Analysis and Taking Action. Nothing there is sent or kept.</div>';
+    var g = r.qa.slice(0, 4).filter(Boolean).length,
+      d = r.qa.slice(4).filter(Boolean).length;
+    h +=
+      '<div class="rh">HOW FAR THEY HAVE GOT</div>' + stepsHtml(r, true) +
+      '<div class="lh">' + r.answered + " of 7 answered. Grasping context (Q.1 to Q.4): " + g + " of 4. Designing for the context grasped (Q.5 to Q.7): " + d + " of 3.</div>";
+    if (all.length >= 2) {
+      h += '<div class="rh">NEXT TO THE PROJECT</div>' + mixHtml(r.name, mixOf([r])) + mixHtml("Whole project", mixOf(all));
+      var S = shared(all),
+        mine = function (x) { return x.r.uid === r.uid; },
+        sp = S.split.filter(function (x) { return mine(x.pair[0]) || mine(x.pair[1]); }),
+        ag = S.agree.filter(function (a) { return a.xs.some(mine); });
+      sp.length && (h += '<div class="rsh">WHERE THEY SPLIT FROM OTHERS</div>' + sp.slice(0, 3).map(splitItem).join("") + (sp.length > 3 ? '<div class="lh">…and ' + (sp.length - 3) + " more.</div>" : ""));
+      ag.length && (h += '<div class="rsh">WHERE THEY AGREE WITH OTHERS</div>' + ag.slice(0, 3).map(function (a) { return agreeItem(a); }).join("") + (ag.length > 3 ? '<div class="lh">…and ' + (ag.length - 3) + " more.</div>" : ""));
+      sp.length || ag.length || (h += '<div class="lh">Nobody else names the same things in the same way yet.</div>');
+    }
+    h += '<details class="edet"><summary>THEIR ANSWERS AND NOTES</summary>' + viewWb(r, true) + "</details>";
+    return h + "</div>";
+  }
+  function farHtml(rows) {
+    var c = [0, 0, 0, 0, 0, 0, 0],
+      n = rows.length,
+      g = 0,
+      d = 0;
+    rows.forEach(function (r) {
+      for (var i = 0; i < 7; i++) r.qa[i] && c[i]++;
+      r.qa.slice(0, 4).every(Boolean) && g++;
+      r.qa.slice(4).some(Boolean) && d++;
+    });
+    return (
+      '<div class="efar" aria-hidden="true">' +
+      c.map(function (v, i) {
+        return '<div class="efq"><span class="efn">' + v + '</span><span class="efb"><b class="' + (i < 4 ? "s1" : "s2") + '" style="height:' + (n ? Math.round((100 * v) / n) : 0) + '%"></b></span><i>Q.' + (i + 1) + "</i></div>";
+      }).join("") +
+      "</div>" +
+      '<div class="lh">How many of the ' + n + (n === 1 ? " person" : " people") + " have answered each question: " + c.map(function (v, i) { return "Q." + (i + 1) + " " + v; }).join(", ") + ". " +
+      g + (g === 1 ? " has" : " have") + " answered all of Q.1 to Q.4 (grasping context); " + d + (d === 1 ? " has" : " have") + " started on Q.5 to Q.7 (designing for the context grasped).</div>"
+    );
   }
   function drawDash() {
     var el = box && document.getElementById("gsm-ldash");
@@ -32927,6 +33065,7 @@ var qrcode = function() {
         dash.rows = dash.rows.filter(function (x) { return x.uid !== u; });
         dash.ask = "";
         dash.open === u && (dash.open = "");
+        dash.who === u && (dash.who = "");
         dash.msg = r.name + "’s workbook was deleted.";
         drawDash();
       })
@@ -33161,7 +33300,13 @@ var qrcode = function() {
       var i = v.c.indexOf(Math.max.apply(null, v.c));
       return i;
     };
-    var h = V.map(function (v) {
+    var W = { k: "Whole project", ppl: 0, c: [0, 0, 0, 0, 0], n: 0 };
+    V.forEach(function (v) {
+      W.ppl += v.ppl;
+      W.n += v.n;
+      v.c.forEach(function (x, i) { W.c[i] += x; });
+    });
+    var h = (V.length >= 2 ? [W] : []).concat(V).map(function (v) {
       var order = [1, 3, 2, 0, 4];
       return (
         '<div class="evr"><b>' + esc(v.k) + '</b> <span class="lh">' + v.ppl + (v.ppl === 1 ? " person" : " people") + ", " + v.n + (v.n === 1 ? " note" : " notes") + " with an emotion</span>" +
@@ -33395,13 +33540,13 @@ var qrcode = function() {
     W.view = W.p.loc && W.p.m.length && !W.m.length ? "place" : "line";
     return W;
   }
-  function openTogether() {
-    var rows = vrows(),
+  function openTogether(only) {
+    var rows = only ? [only] : vrows(),
       p = st.cur;
     if (!rows.length) return;
     try {
       localStorage.setItem("groundsmith-web-f8read", JSON.stringify(together(rows)));
-      localStorage.setItem("groundsmith-web-f8readmeta", JSON.stringify({ name: p.name, voice: dash.voice || "", n: rows.length, at: Date.now() }));
+      localStorage.setItem("groundsmith-web-f8readmeta", JSON.stringify({ name: p.name, voice: only ? "" : dash.voice || "", who: only ? only.name : "", n: rows.length, at: Date.now() }));
     } catch (e) {
       dash.err = "This device has no room to open everyone together.";
       return drawDash();
@@ -33425,7 +33570,7 @@ var qrcode = function() {
       for (var i = 0; i < 7; i++) String((r.w.a || [])[i] || "").trim() && (ans[i] = 1);
     });
     var nq = ans.reduce(function (a, b) { return a + b; }, 0),
-      h = '<div class="rdg"><div class="rh">READING THEM TOGETHER</div><div class="rpsd">Patterns suggests; you decide.</div>';
+      h = '<div class="rdg"><div class="rpsd">Patterns suggests; you decide.</div>';
     vs.length > 1 &&
       (h += '<div class="vfl" role="group" aria-label="Voice"><button type="button" data-l="rvoice" data-v=""' + (dash.voice ? "" : ' class="on" aria-pressed="true"') + ">Every voice</button>" +
         vs.map(function (v) { return '<button type="button" data-l="rvoice" data-v="' + esc(v) + '"' + (dash.voice === v ? ' class="on" aria-pressed="true"' : "") + ">" + esc(v) + "</button>"; }).join("") + "</div>");
@@ -33438,13 +33583,14 @@ var qrcode = function() {
         ? ""
         : " <b>There is no ground yet:</b> nobody has written a note. Symbols placed without words don’t count. Until someone writes one, Pattern Analysis shows the answers only.") +
       "</div>";
+    h += '<div class="rh">HOW FAR THE PROJECT HAS GOT</div>' + farHtml(rows);
+    h += '<div class="rh">EMOTION ACROSS THE PROJECT</div>' + voiceHtml(rows);
     if (rows.length < 2) h += '<div class="lh" style="margin-top:8px">WHERE THEY AGREE and WHERE THEY SPLIT need at least two people' + (dash.voice ? " in this voice" : "") + ".</div>";
     else {
       var S = shared(rows);
       h += '<div class="rh">WHERE THEY SPLIT</div>' + (S.split.length ? S.split.slice(0, 4).map(splitItem).join("") + (S.split.length > 4 ? '<div class="lh">…and ' + (S.split.length - 4) + " more.</div>" : "") : '<div class="lh">Nobody yet reads the same thing two ways.</div>');
       h += '<div class="rh">WHERE THEY AGREE</div>' + (S.agree.length ? S.agree.slice(0, 4).map(agreeItem).join("") + (S.agree.length > 4 ? '<div class="lh">…and ' + (S.agree.length - 4) + " more.</div>" : "") : '<div class="lh">No two people name the same thing in the same way yet.</div>');
     }
-    h += '<div class="rh">EMOTION BY VOICE</div>' + voiceHtml(rows);
     h += '<div class="rh">WHAT NOBODY HAS SAID YET</div>' + gapsHtml(rows);
     h += cmpHtml(rows);
     return h + "</div>";
@@ -33585,11 +33731,18 @@ var qrcode = function() {
     else if (k === "open") ((st.cur = st.list[i]), (st.voices = (st.cur.voices || []).slice()), (dash.pid = ""), go("form"), loadDash());
     else if (k === "dref") ((dash.msg = ""), loadDash());
     else if (k === "dopen") {
-      var u = b.getAttribute("data-u");
-      dash.open = dash.open === u ? "" : u;
+      dash.who = b.getAttribute("data-u");
       dash.ask = "";
       dash.msg = "";
       drawDash();
+      var de = document.getElementById("gsm-ldash");
+      de && de.scrollIntoView && de.scrollIntoView({ block: "start" });
+    } else if (k === "dback") ((dash.who = ""), (dash.ask = ""), (dash.msg = ""), drawDash());
+    else if (k === "dtab") ((dash.tab = b.getAttribute("data-v") || "people"), (dash.who = ""), (dash.ask = ""), drawDash());
+    else if (k === "dmore") ((dash.more[b.getAttribute("data-g")] = 1), drawDash());
+    else if (k === "rme") {
+      var mr = rowOf(b.getAttribute("data-u"));
+      mr && mr.ok && openTogether(mr);
     } else if (k === "dclose") ((dash.open = ""), drawDash());
     else if (k === "dfile") {
       var fr = rowOf(b.getAttribute("data-u"));
@@ -33971,9 +34124,11 @@ var qrcode = function() {
     var bar = document.createElement("div");
     bar.id = "gsm-rbar";
     bar.innerHTML =
-      '<div class="jt">' + esc(String(M.name || "A shared project").toUpperCase()) + " · EVERYONE TOGETHER</div>" +
-      "<div>" + (M.n || 0) + ((M.n || 0) === 1 ? " person" : " people") + (M.voice ? ", " + esc(M.voice) + " only" : ", every voice") + ". Their answers and notes are read here as one workbook.</div>" +
-      '<div class="jh">A copy for reading, made ' + (M.at ? new Date(M.at).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "") + ". Nothing here is sent or kept. Pattern Analysis shows the ground they make together.</div>" +
+      '<div class="jt">' + esc(String(M.name || "A shared project").toUpperCase()) + (M.who ? " · " + esc(String(M.who).toUpperCase()) : " · EVERYONE TOGETHER") + "</div>" +
+      (M.who
+        ? "<div>" + esc(M.who) + "’s answers and notes, read here on their own.</div>"
+        : "<div>" + (M.n || 0) + ((M.n || 0) === 1 ? " person" : " people") + (M.voice ? ", " + esc(M.voice) + " only" : ", every voice") + ". Their answers and notes are read here as one workbook.</div>") +
+      '<div class="jh">A copy for reading, made ' + (M.at ? new Date(M.at).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "") + ". Nothing here is sent or kept. " + (M.who ? "Pattern Analysis shows the ground their notes make." : "Pattern Analysis shows the ground they make together.") + "</div>" +
       '<div style="margin-top:8px"><a class="lnk sm" href="' + esc(location.origin + location.pathname + location.search) + '">Back to my own workbook</a></div>';
     after.parentNode.insertBefore(bar, after.nextSibling);
     try {

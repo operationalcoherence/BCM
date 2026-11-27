@@ -71,6 +71,9 @@ Estimate: 7 to 10 versions over several desktop sessions.
    emotion by voice; WHAT NOBODY HAS SAID YET; "Patterns suggests; you decide." said once.
 7. **v7, wrap-up:** compare two people or voices; take everyone to Taking Action; a file route kept as a fallback ("Add it" link);
    the full privacy page; App Check; deploy the rules.
+7b. **Lead dashboard in three levels: done in v320.** Tabs People (cards in Working now, Still going, Finished) and Project at a
+   glance (the reading, plus how far and emotion across the project); one person's view behind Open. Still to try: a story for
+   the whole project at the top of the glance tab.
 8. **v8 to v9, test and fix:** with one real team.
 
 ## Needed from Gregory
