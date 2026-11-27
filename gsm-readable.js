@@ -2320,7 +2320,7 @@
   );
   window.gsmData = function () {
     var pv = gsmPlaceView();
-    return { m: pv ? pv.m : C.m, a: Q(), goal: C.goal, place: pv ? pv.place : null };
+    return { m: pv ? pv.m : C.m, a: Q(), goal: C.goal, place: pv ? pv.place : null, links: C.links || [] };
   };
   function Q() {
     return C.a.map(function (t, e) {
@@ -22830,7 +22830,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v322");
+        t && (t.textContent = "v323");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -23394,7 +23394,7 @@
     return !!(window.gsmPlaceOnly && window.gsmPlaceOnly());
   };
   var CSS =
-      ".gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .laybar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 8px}.gterr .laybar:empty{display:none}.gterr .laybar .lbl{font-size:11px;font-weight:700;letter-spacing:.14em;margin-right:4px}.gterr .laybar .lchip{font:13px Questrial,Helvetica,Arial,sans-serif;padding:6px 11px;border:1px solid #222;border-radius:16px;background:#fff;color:#222;cursor:pointer}.gterr .laybar .lchip.on{background:#3a1f0c;border-color:#3a1f0c;color:#fff}.gterr .laybar .lhelp{flex:1 1 100%;font-size:12px;color:#666;margin-top:2px}.gterr .phq{margin:6px 0 2px;font-size:13.5px;line-height:1.45}.gterr .phq div{padding-left:9px;border-left:2px solid #ddd;margin:0 0 4px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}.gterr .gfold summary{cursor:pointer;list-style:none}.gterr .gfold summary::-webkit-details-marker{display:none}.gterr .gfold summary::before{content:\"+ \";font-weight:700}.gterr .gfold[open] summary::before{content:\"\u2212 \"}.gterr .gfold .sec{display:inline;margin:0}.gterr .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}.gterr .more:not(details){color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}.gterr .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}.gterr .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}.gterr .stage.full .fsx{display:block}.gterr .stage:fullscreen .fsx{display:block}.gterr .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}#gsm .rd[data-way]{cursor:default;transition:background .15s}#gsm .rd.gtwon{background:#f1f0ea;box-shadow:inset 3px 0 0 #111}#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 2vw 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .selbox,#gsm .coa.gtfs-on .csn,#gsm .coa.gtfs-on .coacall,#gsm .coa.gtfs-on .cq{max-width:960px}.gtrb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px;font:12px 'Questrial',sans-serif}.gtrb span{letter-spacing:.1em;color:#555;margin-right:2px}.gtrb button{background:#fff;color:#111;border:2px solid #111;border-radius:14px;padding:4px 11px;font:12.5px 'Questrial',sans-serif;cursor:pointer}.gtrb button.on{background:#111;color:#fff}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}",
+      ".gterr .sub{color:#777;font-size:14px;margin-bottom:12px}.gterr .bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0 10px;font-size:13px}.gterr .laybar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 8px}.gterr .laybar:empty{display:none}.gterr .laybar .lbl{font-size:11px;font-weight:700;letter-spacing:.14em;margin-right:4px}.gterr .laybar .lchip{font:13px Questrial,Helvetica,Arial,sans-serif;padding:6px 11px;border:1px solid #222;border-radius:16px;background:#fff;color:#222;cursor:pointer}.gterr .laybar .lchip.on{background:#3a1f0c;border-color:#3a1f0c;color:#fff}.gterr .laybar .lhelp{flex:1 1 100%;font-size:12px;color:#666;margin-top:2px}.gterr .phq{margin:6px 0 2px;font-size:13.5px;line-height:1.45}.gterr .phq div{padding-left:9px;border-left:2px solid #ddd;margin:0 0 4px}.gterr .bar label{display:flex;align-items:center;gap:6px}.gterr select,.gterr button,.gterr input[type=range]{font:inherit;font-size:13px}.gterr select,.gterr button{border:1px solid #bbb;background:#fff;color:#222;padding:5px 10px;border-radius:3px;cursor:pointer}.gterr button:hover,.gterr select:hover{border-color:#222}.gterr .stage{position:relative;border:1px solid #ddd;background:linear-gradient(#fff,#f6f4ef)}.gterr canvas{display:block;width:100%;touch-action:none;cursor:grab}.gterr canvas.drag{cursor:grabbing}.gterr .tip{position:absolute;pointer-events:none;max-width:280px;line-height:1.4;max-height:520px;overflow:hidden;background:#fff;border:1px solid #222;padding:6px 8px;font-size:12px;display:none;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.15)}.gterr .tip b{display:block;letter-spacing:.06em;font-size:11px;margin-bottom:2px}.gterr .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 4px;font-size:12.5px}.gterr .legend span{display:inline-flex;align-items:center;gap:6px}.gterr .sw{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.2)}.gterr .terr{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;color:#444;margin:2px 0 10px}.gterr .note{font-size:12.5px;color:#777;margin:6px 0}.gterr .sec{font-size:11px;letter-spacing:.14em;margin:16px 0 6px;font-weight:700}.gterr .row{font-size:13.5px;margin:5px 0}.gterr .row b{letter-spacing:.05em}.gterr .small{font-size:12px;color:#777}.gterr .msg{color:#a33;font-size:13px;margin:6px 0}.gterr .legbtn{position:absolute;top:10px;right:10px;z-index:4;font-size:12px;padding:4px 10px;background:#fff}.gterr .legbox{position:absolute;top:42px;right:10px;z-index:4;width:225px;font-size:11.5px;background:rgba(255,255,255,.96);border:1px solid #222;padding:10px 12px;font-size:12px;line-height:1.35}.gterr .legbox h5{margin:0 0 6px;font-size:11px;letter-spacing:.12em}.gterr .legbox .lr{display:flex;align-items:center;gap:8px;margin:3px 0}.gterr .legbox .lg{flex:0 0 30px;height:14px;display:flex;align-items:center;justify-content:center}.gterr .legbox.hide{display:none}.gterr .cbtn{margin:3px 6px 3px 0;padding:4px 10px;font-size:12.5px}.gterr .cbtn.on{background:#111;color:#fff;border-color:#111}.gterr .gfold{margin:10px 0;border-top:1px solid #ddd;padding-top:6px}.gterr .gfold summary{cursor:pointer;list-style:none}.gterr .gfold summary::-webkit-details-marker{display:none}.gterr .gfold summary::before{content:\"+ \";font-weight:700}.gterr .gfold[open] summary::before{content:\"\u2212 \"}.gterr .gfold .sec{display:inline;margin:0}.gterr .grp{font-size:11px;letter-spacing:.12em;color:#777;margin:10px 0 2px}.gterr .more:not(details){color:#7a1d12;cursor:pointer;font-size:12.5px;margin-left:5px;text-decoration:underline}.gterr .fsx{display:none;position:absolute;top:10px;left:10px;z-index:5;font-size:12px;padding:4px 10px;background:#fff}.gterr .stage.full{position:fixed;inset:0;z-index:99999;border:0;background:linear-gradient(#fff,#f6f4ef)}.gterr .stage.full .fsx{display:block}.gterr .stage:fullscreen .fsx{display:block}.gterr .stage:fullscreen{background:linear-gradient(#fff,#f6f4ef)}.gterr .rd{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;margin:2px 0;border-left:3px solid transparent;cursor:default;font-size:13.5px}.gterr .rd.on{background:#f6efe9;border-left-color:#7a1d12}.gterr .rd b{display:block;margin-bottom:2px}.gterr .rn{flex:0 0 22px;height:22px;border-radius:11px;background:#111;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:1px}.gterr .rd.on .rn{background:#7a1d12}.gterr .mn i{font-style:normal;font-weight:700;color:#7a1d12}.gterr .selbox{border:1px solid #222;padding:8px 10px;margin:8px 0;font-size:13.5px}.gterr .ask{font-size:13px;margin:4px 0 4px 14px;padding:6px 8px;background:#f6f1e6}.gterr .ask button{margin-left:6px;font-size:12px;padding:3px 8px}.gterr{color:#222;line-height:1.45;margin:6px 0 18px}.gterr *{box-sizing:border-box}.gtold{margin:10px 0 18px}#gsm .rd[data-way]{cursor:default;transition:background .15s}#gsm .rd.gtwon{background:#f1f0ea;box-shadow:inset 3px 0 0 #111}#gsm .gtfsb{float:right;background:#fff;color:#222;border:1px solid #222;font:11.5px 'Questrial',sans-serif;padding:3px 9px;cursor:pointer;margin:-3px 0 0 8px;letter-spacing:.03em}#gsm .coa.gtfs-on{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483000;background:#fff;overflow:auto;margin:0;border:0;padding:0 2vw 48px;-webkit-overflow-scrolling:touch}#gsm .coa.gtfs-on .selbox,#gsm .coa.gtfs-on .csn,#gsm .coa.gtfs-on .coacall,#gsm .coa.gtfs-on .cq{max-width:960px}.gtrb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 6px;font:12px 'Questrial',sans-serif}.gtrb span{letter-spacing:.1em;color:#555;margin-right:2px}.gtrb button{background:#fff;color:#111;border:2px solid #111;border-radius:14px;padding:4px 11px;font:12.5px 'Questrial',sans-serif;cursor:pointer}.gtrb button.on{background:#111;color:#fff}.gtcl{margin:10px 0 22px;color:#111;font-size:13.5px;line-height:1.45}.gtcl .clh{font-size:11.5px;letter-spacing:.14em;font-weight:700;margin:14px 0 6px}.gtcl .clg{border:1.5px solid #111;padding:12px 14px}.gtcl .clg .gcbig{font-size:16px;font-weight:700;margin:2px 0 6px}.gtcl .cle{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px 16px;margin-top:10px}.gtcl .cle b{display:flex;align-items:center;gap:6px;font-size:13px}.gtcl .gcdot{flex:none;width:11px;height:11px;border-radius:50%;display:inline-block}.gtcl .gcbar{display:block;height:8px;background:#eee;position:relative;margin:4px 0}.gtcl .gcbar i{position:absolute;left:0;top:0;bottom:0}.gtcl .gcsm{font-size:12px;color:#555}.gtcl .cli{display:flex;flex-direction:column;gap:4px;width:100%;text-align:left;border:1px solid #ccc;background:#fff;padding:10px 12px;margin:0 0 8px;font:inherit;color:#111;cursor:pointer}.gtcl .cli.on{border:2px solid #111}.gtcl .cli.dim{opacity:.45}.gtcl .clt2{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:700}.gtcl .gcchip{flex:none;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}.gtcl .gcrows{display:none;border-top:1px solid #e3e3e3;padding-top:7px;margin-top:3px}.gtcl .cli.on .gcrows,.gtcl .cli.open .gcrows{display:block}.gtcl .gcrows div{font-size:12.5px;margin:0 0 5px}.gtcl .gcrows span{color:#666}.gtcl details{border:1px solid #ccc;padding:9px 12px;margin:4px 0 8px}.gtcl summary{cursor:pointer;font-weight:700}.gtcl .thr{display:flex;gap:7px;align-items:flex-start;font-size:12.5px;margin:6px 0}.gtcl .thr .gcdot{margin-top:4px}.gtcl .mt{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px 16px}.gtcl .mt b{display:block;font-size:13px}.gtcl .gcsm{display:block}.gtcl .cle .gcsm,.gtcl .thr .gcsm{display:inline}#gsm .coa.gtfs-on .hd{padding-top:56px}#gsm .coa.gtfs-on .gtfsb{position:fixed;top:10px;right:12px;z-index:2147483001;background:#222;color:#fff;padding:9px 15px;font-size:14px;margin:0}",
     TPL =
       '<div class="plab">THE LAY OF THE LAND</div><div class="sub">The ground your notes describe, read before Taking Action leads you across it. The numbered readings fold under the story; hover or tap a number on the map to read it there. Drag to turn the map; scroll or pinch to zoom.</div>\n  <div class="sec" data-gt="rdhead" style="margin-top:12px">WHAT THE GROUND SAYS</div>\n  <div data-gt="readings"></div>\n  <div class="bar">\n  </div>\n  <div class="bar">\n    <label>View <select data-gt="ver">\n      <option value="emo">Emotion ground</option>\n      <option value="down">Downhill to the goal</option>\n      <option value="ridge">Walls and channels</option>\n      <option value="grow">As the map was made</option>\n      <option value="above">From above</option>\n    </select></label>\n    <label data-gt="grw" style="display:none">Notes <input data-gt="gr" type="range" min="1" max="1" step="1" value="1"> <span data-gt="grv"></span></label>\n    <label>Ground <select data-gt="gm"><option value="color">Color</option><option value="clay">Clay</option></select></label>\n    <label>Height <input data-gt="exag" type="range" min="0.4" max="3.2" step="0.05" value="1.9"></label>\n    <label><input data-gt="pins" type="checkbox" checked> Notes</label>\n    <label><input data-gt="cz" type="checkbox" checked> Cause and effect</label>\n    <button data-gt="reset" type="button">Reset view</button>\n    <button data-gt="fs" type="button">Full screen</button>\n  </div>\n  <div class="laybar" data-gt="laybar"></div>\n  <div class="msg" data-gt="msg"></div>\n  <div class="stage" data-gt="stage">\n    <canvas data-gt="cv"></canvas>\n    <div class="tip" data-gt="tip"></div>\n    <button type="button" data-gt="legbtn" class="legbtn">Legend</button>\n    <button type="button" data-gt="fsx" class="fsx">Close full screen</button>\n    <div class="legbox" data-gt="legbox"></div>\n  </div>\n  <div data-gt="selnote" class="row"></div>\n  <details class="gfold" open><summary><span class="sec" data-gt="phhead">PATTERNS THAT RUN THROUGH IT</span></summary>\n  <div class="small" style="margin:4px 0">Two words used together in more than one note or answer, with what each means. Tick one here, or tap it in the row above the map, to draw it on the map.</div>\n  <div data-gt="threads"></div></details>\n  <div class="sec" data-gt="crshead" style="margin-top:12px">MODEL A COURSE OF ACTION</div>\n  <div data-gt="courses"></div>\n  <div data-gt="coursebox"></div>\n  <details class="gfold gthow"><summary><span class="sec">HOW THIS MAP IS MADE</span></summary>\n  <div class="note" data-gt="count"></div>\n  <div class="note">Each note with an emotion assigned to it shapes the ground around it. More notes accumulating in one place shape it to a greater extent.</div>\n  <div class="note">Where notes carry voices, each voice counts about evenly: a voice with few notes is weighted up and one with many is weighted down (between 0.6 and 1.8 times), so a small voice is not flattened by a large one.</div>\n  <div class="note">Acceptance is the highest ground. Distrust is low ground, aggression lower, and defiance the lowest: the deepest ground and the longest way back to acceptance. Indifference is a narrow ridge that climbs from the low ground up into acceptance: the way most moves between emotions go, and a place people can stay, precariously, with the ground falling away on both sides.</div>\n  <div class="note">Where high ground meets low ground directly, a big move in either direction takes energy. Colors soften toward each other where emotions meet. Where two distant emotions meet with no ridge of indifference between them, the ground breaks to a bare rock face: getting across is a climb, and most moves go through indifference instead. Plain grass, soil, or rock with no color means no notes nearby, so no information there. Heights are relative to your own map, not a standard measurement, as each map is unique.</div>\n  <div class="note">An emotion is not good or bad in itself. What matters is what it is attached to and the future it produces with the others: accepting the wrong thing, or distrusting someone who has earned your trust, can lead away from the goal.</div>\n  <div class="note">The mapping concept: Juarrero (2023) and Vigneaux (2026). Emotions are not good or bad in themselves: after Maturana and P\u00f6rksen (2011). Where it is easiest to get to: after Thompson (2007).</div>\n  </details>',
     TC = {},
@@ -29736,6 +29736,211 @@
       function wayRows() {
         return [].slice.call(host.querySelectorAll("[data-way]"));
       }
+      /* F8 (lead's project copy only): clusters on the project map. Engine: tools/clusters/clusters.js (rule-based). */
+      function clusterData(D) {
+        if (!host._clR) {
+          var gd = window.gsmData() || {},
+            raw = gd.m || [],
+            K = {},
+            ins = [];
+          raw.forEach(function (n, i) {
+            if (!Array.isArray(n) || !String(n[3] || "").trim()) return;
+            var id = String(n[8] || "k" + (i + 1));
+            K[id] = i + 1;
+            ins.push({ id: id, t: String(n[3]), e: n[5], q: n[0], x: +n[1], y: +n[2], who: n[9] || "", voice: n[7] || "" });
+          });
+          var R;
+          try {
+            R = window.gsmClusters(ins, gd.goal || "", gd.links || []);
+          } catch (e) {
+            return;
+          }
+          R.K = K;
+          R.raw = raw;
+          R.ins = ins;
+          host._clR = R;
+        }
+        var R = host._clR;
+        D.clusters = {
+          list: R.clusters.map(function (c, i) {
+            var t = clTitle(c);
+            return {
+              k: i + 1,
+              e: c.e,
+              ink: c.e === 2 || c.e === 3 ? "#111" : "#fff",
+              ks: c.notes.map(function (n) {
+                return R.K[n.id];
+              }),
+              tag: (c.about ? clShort(c.about) : EMO[c.e][0]) + " · " + c.people + " people",
+              head: i + 1 + " · " + t,
+              body: c.notes
+                .slice(0, 4)
+                .map(function (n) {
+                  return (n.who || "Someone") + ": " + n.t;
+                })
+                .join("  ·  ") + (c.notes.length > 4 ? "  ·  …and " + (c.notes.length - 4) + " more, in the list under the map." : ""),
+            };
+          }),
+        };
+        D.onCluster = function (k) {
+          clPick(host._clSel === k ? 0 : k);
+        };
+        host._clP || clPanel(R);
+      }
+      function clEsc(t) {
+        return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+      function clShort(a) {
+        if (a.length <= 30) return a;
+        var c = a.slice(0, 30).replace(/\s+\S*$/, "");
+        return (c || a.slice(0, 28)) + "…";
+      }
+      function clTitle(c) {
+        return EMO[c.e][0] + (c.about ? " about " + c.about : ", in the people’s own words");
+      }
+      function clList(a) {
+        return a.length < 3 ? a.join(" and ") : a.slice(0, -1).join(", ") + ", and " + a[a.length - 1];
+      }
+      function clCol(e) {
+        return "rgb(" + EMO[e][1].join(",") + ")";
+      }
+      function clPick(k) {
+        host._clSel = k;
+        host._rel && host._rel.cluster && host._rel.cluster(k);
+        var P = host._clP;
+        P &&
+          P.querySelectorAll(".cli").forEach(function (b) {
+            var on = +b.getAttribute("data-k") === k;
+            b.classList.toggle("on", on);
+            b.classList.toggle("dim", !!k && !on);
+            b.setAttribute("aria-pressed", on ? "true" : "false");
+          });
+      }
+      function clPanel(R) {
+        var HOW = ["", "same words", "similar words", "placed together"],
+          N = R.n || 1,
+          inC = 0,
+          tot = [0, 0, 0, 0, 0],
+          got = [0, 0, 0, 0, 0],
+          ORD = [1, 3, 2, 0, 4];
+        R.ins.forEach(function (n) {
+          n.e != null && EMO[n.e] && tot[n.e]++;
+        });
+        R.clusters.forEach(function (c) {
+          inC += c.notes.length;
+          got[c.e] += c.notes.length;
+        });
+        var pct = Math.round((100 * inC) / N),
+          gath = R.clusters.length && pct >= 30,
+          h = '<div class="clh">THE PROJECT’S LANDSCAPE, IN CLUSTERS</div>' +
+            '<div class="gcsm" style="font-size:13px;margin-bottom:8px">A cluster is notes from three or more people with the same emotion about the same thing, in their own words. It is found by matching words, never by reading for meaning. Every other note is a faint dot on the map.</div>' +
+            '<div class="clg"><div class="clh" style="margin:0">HOW GATHERED THE PROJECT IS</div><div class="gcbig">' +
+            (R.clusters.length
+              ? (gath ? "Gathered: " : "Dispersed: ") + inC + " of " + N + " notes (" + pct + "%) fall in " + R.clusters.length + (R.clusters.length === 1 ? " cluster" : " clusters")
+              : "Dispersed: none of the " + N + " notes fall in a cluster yet") +
+            "</div>",
+          ga = [],
+          sp = [];
+        ORD.forEach(function (e) {
+          if (!tot[e]) return;
+          (tot[e] && got[e] / tot[e] >= 0.3 ? ga : sp).push(EMO[e][0]);
+        });
+        h +=
+          "<div>" +
+          (gath
+            ? (ga.length ? clList(ga) + (ga.length > 1 ? " are" : " is") + " gathered: many people share " + (ga.length > 1 ? "them" : "it") + ", about the same few things. " : "") +
+              (sp.length ? clList(sp) + (sp.length > 1 ? " are" : " is") + " spread: people hold " + (sp.length > 1 ? "them" : "it") + " about many different things." : "")
+            : "Most people are saying different things, or the same things in ways that don’t yet meet. That is a finding, not a failure: the project has not found its common ground yet." +
+              (R.threads.length ? " The early threads below show where it may start." : "")) +
+          '</div><div class="cle">';
+        ORD.forEach(function (e) {
+          if (!tot[e]) return;
+          var p = Math.round((100 * got[e]) / tot[e]);
+          h +=
+            '<div><b><span class="gcdot" style="background:' + clCol(e) + '"></span>' + EMO[e][0] + " · " + (p >= 30 ? "gathered" : "spread") +
+            '</b><span class="gcbar"><i style="width:' + p + "%;background:" + clCol(e) + '"></i></span><span class="gcsm">' + got[e] + " of " + tot[e] + " notes in clusters (" + p + "%)</span></div>";
+        });
+        h += "</div></div>";
+        if (R.clusters.length) {
+          h += '<div class="clh">CLUSTERS</div>';
+          R.clusters.forEach(function (c, i) {
+            var v = {},
+              qs = [],
+              hc = [0, 0, 0, 0],
+              up = 0;
+            c.notes.forEach(function (n) {
+              n.voice && (v[n.voice] = (v[n.voice] || 0) + 1);
+              n.q && qs.indexOf(n.q) < 0 && qs.push(n.q);
+              hc[n.how || 0]++;
+              var r = R.raw[R.K[n.id] - 1];
+              r && +r[2] < 118 && up++;
+            });
+            qs.sort();
+            var side = up * 3 >= c.notes.length * 2 ? "Helps the goal" : up * 3 <= c.notes.length ? "Hinders the goal" : "On both sides of the line",
+              mt = [1, 2, 3]
+                .filter(function (k) {
+                  return hc[k];
+                })
+                .map(function (k) {
+                  return HOW[k] + " " + hc[k];
+                });
+            h +=
+              '<button type="button" class="cli' + (c.about ? "" : " open") + '" data-k="' + (i + 1) + '" aria-pressed="false"><span class="clt2"><span class="gcchip" style="background:' + clCol(c.e) + ";color:" + (c.e === 2 || c.e === 3 ? "#111" : "#fff") + '">' + (i + 1) + "</span>" + clEsc(clTitle(c)) + "</span>" +
+              '<span class="gcsm">' + c.people + " people · " + c.notes.length + " notes · " +
+              clEsc(
+                Object.keys(v)
+                  .map(function (k) {
+                    return k + " " + v[k];
+                  })
+                  .join(", ") || "no voice marked",
+              ) +
+              '</span><span class="gcsm">' + side + (qs.length ? " · " + qs.map(function (q) { return "Q." + q; }).join(", ") : "") + "</span>" +
+              (mt.length ? '<span class="gcsm">Matched by ' + clList(mt) + "</span>" : "") +
+              '<span class="gcrows">' +
+              c.notes
+                .map(function (n) {
+                  return "<div>" + clEsc(n.t) + " <span>· " + clEsc(n.who || "Someone") + (n.voice ? ", " + clEsc(n.voice) : "") + (n.q ? " · Q." + n.q : "") + (n.how ? " · " + HOW[n.how] : "") + "</span></div>";
+                })
+                .join("") +
+              "</span></button>";
+          });
+        }
+        if (R.threads.length) {
+          h += "<details><summary>Early threads · " + R.threads.length + (R.threads.length === 1 ? " pair" : " pairs") + '</summary><div class="gcsm" style="margin:4px 0">Two people with the same emotion about the same thing. Not a cluster yet; a third person would make one.</div>';
+          R.threads.forEach(function (t) {
+            var who = [];
+            t.notes.forEach(function (n) {
+              var w = n.voice || "no voice marked";
+              who.indexOf(w) < 0 && who.push(w);
+            });
+            h +=
+              '<div class="thr"><span class="gcdot" style="background:' + clCol(t.e) + '"></span><span>' +
+              (t.about
+                ? "<b>" + clEsc(EMO[t.e][0] + " about " + t.about) + "</b>"
+                : "<b>" + EMO[t.e][0] + "</b> · " + t.notes.map(function (n) { return "“" + clEsc(n.t) + "”"; }).join(" · ")) +
+              ' <span class="gcsm">· ' + clEsc(clList(who)) + "</span></span></div>";
+          });
+          h += "</details>";
+        }
+        h +=
+          '<div class="clh">HOW NOTES ARE MATCHED</div><div class="mt"><div><b>1 · Same words</b><span class="gcsm">The same phrase in two or more people’s notes.</span></div>' +
+          '<div><b>2 · Similar words</b><span class="gcsm">Shared uncommon words, in any order, or a link someone drew.</span></div>' +
+          '<div><b>3 · Placed together</b><span class="gcsm">Same emotion, same question, close on the ground, sharing a word. It can add a note to a cluster, never make one.</span></div></div>' +
+          '<div class="gcsm" style="margin-top:8px">Only notes with the same emotion, from different people, are matched. Emotion names and the goal’s own words never count as a match.</div>';
+        var P = document.createElement("div");
+        P.className = "gtcl";
+        P.innerHTML = h;
+        host.parentNode && host.parentNode.insertBefore(P, host.nextSibling);
+        host._clP = P;
+        P.addEventListener("click", function (ev) {
+          var b = ev.target.closest && ev.target.closest(".cli");
+          if (!b) return;
+          var k = +b.getAttribute("data-k");
+          clPick(host._clSel === k ? 0 : k);
+        });
+      }
       function data() {
         var D = {
           VX: VX,
@@ -29885,6 +30090,7 @@
           (D.onGround = function (x, y) {
             return AQ || !ANGROUND ? null : ANGROUND(x, y);
           });
+        ANH && !PAR && !BAREH && !PLACE && !CARDH && window.gsmRead && window.gsmClusters && clusterData(D);
         BAREH && ((D.qpos = []), (D.read = []), (D.intro = []), (D.onGround = function (x, y) {
           return BAREGROUND ? BAREGROUND(x, y) : null;
         }));
@@ -30109,6 +30315,237 @@
     scan();
   }
   document.body ? start() : document.addEventListener("DOMContentLoaded", start);
+})();
+/* F8 project clusters engine, copied from tools/clusters/clusters.js (keep the two the same). Used only on the lead's project copy. */
+!(function () {
+/* BCM project clusters (F8, lead's project copy only). Rule-based: no AI, nothing sent.
+   A cluster = notes from 3+ people with the same emotion about the same thing, in their own words.
+   Two people = an early thread. Matches, strongest first:
+     1 same words      a shared phrase (two or three content words in a row, stemmed)
+     2 similar words   shared uncommon words, any order (idf-weighted overlap)
+     3 placed together same emotion and question, close on the ground to two of a cluster's notes,
+                       sharing a word with each; it can join a cluster
+                       of 3+ people (at most one such note for every two found by words), never make one
+   Emotion names and the goal's own words never count as a match (they would pull everything together).
+   Input notes: {id, t, e (0-4), q (1-7), x, y, who, voice}. Links: [{f, t}] between note ids. */
+function gsmClusters(notes, goal, links, opt) {
+  opt = opt || {};
+  var STOPW = {};
+  ("a an the and or but if then than so of to in on at by for with from into onto over under about as is are was were be been being it its this that these those there here they them their we our us you your i me my he she his her not no nor do does did done has have had will would can could should may might must just also very more most much many some any all each every other such only own same too out up down off again once what which who whom whose when where why how because while until both few s t yet still even ever get gets got make makes made way ways thing things lot " +
+    "dont doesnt didnt wont cant isnt arent im ive id youre theyre thats whats whatever havent hasnt wasnt werent through across toward towards against upon another always never " +
+    "last next year years week weeks day month months time times first new old good like looks see seen would one two three every part lot sure really well").split(" ").forEach(function (w) { STOPW[w] = 1; });
+  var EMOW = /^(aggress|aggres|accept|distru|trust|defian|defiant|indiff|indifferen|angry|anger|furiou|glad|happy)/;
+  function stem(t) {
+    var e = t;
+    if (/ies$/.test(e) && e.length > 5) e = e.slice(0, -3) + "y";
+    else if (/ing$/.test(e) && e.length > 6) e = e.slice(0, -3).replace(/([b-df-hj-np-tv-z])\1$/, "$1");
+    else if ((/ed$/.test(e) && e.length > 5) || (/es$/.test(e) && e.length > 6)) e = e.slice(0, -2);
+    else if (/ers?$/.test(e) && e.length > 5) e = e.replace(/ers?$/, "");
+    else if (/s$/.test(e) && !/(ss|us|is)$/.test(e) && e.length > 3) e = e.slice(0, -1);
+    return e.length > 6 ? e.slice(0, 6) : e;
+  }
+  function toks(text) {
+    var out = [];
+    String(text || "").replace(/[’']/g, "").split(/[.!?;:,()\n"“”]+/).forEach(function (sen) {
+      var run = [];
+      (sen.toLowerCase().match(/[a-z][a-z-]*/g) || []).forEach(function (w) {
+        var s = stem(w);
+        run.push(!STOPW[w] && w.length > 2 && !EMOW.test(s) ? { s: s, w: w } : null);
+      });
+      out.push(run);
+    });
+    return out;
+  }
+  var goalW = {}, goalP = {};
+  toks(goal).forEach(function (run) {
+    run.forEach(function (x, i) {
+      if (!x) return;
+      goalW[x.s] = 1;
+      run[i + 1] && (goalP[x.s + " " + run[i + 1].s] = 1);
+    });
+  });
+  var N = notes.filter(function (n) { return n && String(n.t || "").trim() && n.e != null && n.who; });
+  var df = {};
+  N.forEach(function (n) {
+    var runs = toks(n.t), W = {}, P = {};
+    runs.forEach(function (run) {
+      run.forEach(function (x, i) {
+        if (!x) return;
+        goalW[x.s] || (W[x.s] = x.w);
+        for (var k = 2; k <= 3; k++) {
+          var sl = run.slice(i, i + k);
+          if (sl.length < k || sl.some(function (y) { return !y; })) break;
+          var key = sl.map(function (y) { return y.s; }).join(" ");
+          if (k === 2 && goalP[key]) continue;
+          P[key] || (P[key] = sl.map(function (y) { return y.w; }).join(" "));
+        }
+      });
+    });
+    n._W = W; n._P = P;
+    Object.keys(W).forEach(function (s) { df[s] = (df[s] || 0) + 1; });
+  });
+  var M = N.length || 1;
+  function idf(s) { return Math.log((M + 1) / ((df[s] || 0) + 1)); }
+  N.forEach(function (n) {
+    var v = {}, z = 0;
+    Object.keys(n._W).forEach(function (s) { v[s] = idf(s); z += v[s] * v[s]; });
+    z = Math.sqrt(z) || 1;
+    Object.keys(v).forEach(function (s) { v[s] /= z; });
+    n._V = v;
+  });
+  var linked = {};
+  (links || []).forEach(function (l) { l && l.f && l.t && ((linked[l.f + "|" + l.t] = 1), (linked[l.t + "|" + l.f] = 1)); });
+  var SIM = opt.sim || 0.34, NEAR = opt.near || 10, MINP = opt.minp || 3, COMMON = Math.max(4, Math.round(M * 0.06));
+  /* pair matches, same emotion and different people only */
+  var E = N.map(function () { return []; });
+  for (var i = 0; i < N.length; i++)
+    for (var j = i + 1; j < N.length; j++) {
+      var a = N[i], b = N[j];
+      if (a.e !== b.e || a.who === b.who) continue;
+      var kind = 0, why = "";
+      Object.keys(a._P).some(function (k) {
+        if (!b._P[k]) return false;
+        why = a._P[k];
+        return (kind = 1);
+      });
+      if (!kind) {
+        var c = 0, rare = "";
+        Object.keys(a._V).forEach(function (s) {
+          if (b._V[s]) { c += a._V[s] * b._V[s]; df[s] <= COMMON && (!rare || df[s] < df[rare]) && (rare = s); }
+        });
+        if (c >= SIM && rare) { kind = 2; why = a._W[rare]; }
+      }
+      if (!kind && linked[a.id + "|" + b.id]) kind = 2;
+      var close = a.q === b.q && a.x != null && b.x != null && Math.hypot(a.x - b.x, a.y - b.y) <= NEAR;
+      if (kind) { E[i].push({ j: j, k: kind, w: why }); E[j].push({ j: i, k: kind, w: why }); }
+      else if (close) { E[i].push({ j: j, k: 3 }); E[j].push({ j: i, k: 3 }); }
+    }
+  /* groups from word matches only: a note joins a group when it matches two of its notes, or one when the group
+     is still a pair; this stops one shared word chaining unrelated notes together */
+  var gid = N.map(function () { return -1; }), G = [];
+  var order = N.map(function (n, i) { return i; }).sort(function (x, y) {
+    return E[y].filter(function (m) { return m.k < 3; }).length - E[x].filter(function (m) { return m.k < 3; }).length;
+  });
+  order.forEach(function (i) {
+    if (gid[i] >= 0) return;
+    var g = { m: [i], how: {} };
+    g.how[i] = 0;
+    gid[i] = G.length;
+    G.push(g);
+    var grew = true;
+    while (grew) {
+      grew = false;
+      for (var c = 0; c < N.length; c++) {
+        if (gid[c] >= 0) continue;
+        var hits = E[c].filter(function (m) { return m.k < 3 && gid[m.j] === gid[i]; });
+        var strong = hits.some(function (m) { return m.k === 1; });
+        if (hits.length >= 2 || (hits.length && (g.m.length < 3 || strong))) {
+          g.m.push(c);
+          gid[c] = gid[i];
+          g.how[c] = Math.min.apply(null, hits.map(function (m) { return m.k; }));
+          grew = true;
+        }
+      }
+    }
+  });
+  /* two groups that match each other in two places (or once in the same words) become one */
+  for (var again = true; again; ) {
+    again = false;
+    for (var g1 = 0; g1 < G.length && !again; g1++)
+      for (var g2 = g1 + 1; g2 < G.length && !again; g2++) {
+        if (!G[g1].m.length || !G[g2].m.length) continue;
+        var x = 0, sx = 0;
+        G[g2].m.forEach(function (c) { E[c].forEach(function (m) { m.k < 3 && gid[m.j] === g1 && (x++, m.k === 1 && sx++); }); });
+        if (x >= 2 || sx >= 1) {
+          G[g2].m.forEach(function (c) { gid[c] = g1; G[g1].m.push(c); G[g1].how[c] = G[g2].how[c] || 1; });
+          G[g2].m = [];
+          again = true;
+        }
+      }
+  }
+  /* placed together: a loose note joins a group of 2+ people when it sits close to two of its notes */
+  G.forEach(function (g) {
+    var ppl = {};
+    g.m.forEach(function (i) { ppl[N[i].who] = 1; });
+    if (Object.keys(ppl).length < MINP) return;
+    var gi = G.indexOf(g), cap = Math.floor(g.m.length / 2), added = 0;
+    N.forEach(function (n, c) {
+      if (added >= cap || G[gid[c]].m.length > 1) return;
+      var near = E[c].filter(function (m) {
+        return m.k === 3 && gid[m.j] === gi && Object.keys(N[c]._W).some(function (s) { return N[m.j]._W[s]; });
+      }).length;
+      if (near >= 2) { G[gid[c]].m = []; gid[c] = gi; g.m.push(c); g.how[c] = 3; added++; }
+    });
+  });
+  /* the group's name: the phrase most of its people share, in their own words; else the rare word they share */
+  var EN = ["Aggression", "Acceptance", "Distrust", "Indifference", "Defiance"];
+  function name(g) {
+    var best = null;
+    var cnt = {};
+    g.m.forEach(function (i) {
+      var seen = {};
+      Object.keys(N[i]._P).forEach(function (k) {
+        if (seen[k]) return;
+        seen[k] = 1;
+        (cnt[k] = cnt[k] || { w: N[i]._P[k], who: {} }).who[N[i].who] = 1;
+      });
+    });
+    Object.keys(cnt).forEach(function (k) {
+      var n = Object.keys(cnt[k].who).length;
+      n >= 2 && (!best || n > best.n || (n === best.n && k.split(" ").length > best.k.split(" ").length)) && (best = { k: k, w: cnt[k].w, n: n });
+    });
+    if (best) {
+      /* widen the phrase to a few of the writer's own words around it, from the shortest note that has it */
+      var KEEP = { who: 1, how: 1, what: 1, where: 1, the: 1, "last": 1 };
+      var src = g.m.map(function (i) { return N[i]; }).filter(function (n) { return n._P[best.k]; })
+        .sort(function (a, b) { return a.t.length - b.t.length; })[0];
+      var sens = String(src.t).replace(/[’]/g, "'").split(/[.!?;:,()\n"“”]+/);
+      for (var si = 0; si < sens.length; si++) {
+        var ws = sens[si].trim().split(/\s+/), low = ws.map(function (w) { return stem(w.toLowerCase().replace(/[^a-z-]/g, "")); });
+        var first = best.k.split(" ");
+        for (var wi = 0; wi + first.length <= low.length; wi++) {
+          if (first.every(function (f, fi) { return low[wi + fi] === f; })) {
+            var plain = function (w) { return w.toLowerCase().replace(/[^a-z]/g, ""); };
+            var a0 = Math.max(0, wi - 3), a1 = wi + first.length;
+            /* after the phrase: an article and the word it leads to, never a verb run like "would cut" */
+            if ((ws[a1] && /^(the|a|an)$/i.test(ws[a1]) && ws[a1 + 1] && !STOPW[plain(ws[a1 + 1])])) a1 += 2;
+            var cut = ws.slice(a0, a1), lead = cut.length - first.length - (a1 - wi - first.length);
+            for (var moved = true; moved && lead > 0; ) {
+              var w0 = plain(cut[0]);
+              moved = (STOPW[w0] && !KEEP[w0]) || EMOW.test(stem(w0)) || /^(i|we|they|it|nobody|people)$/.test(w0);
+              moved && (cut.shift(), lead--);
+            }
+            return cut.join(" ").replace(/^(the|a|an) /i, "the ").replace(/^./, function (c) { return c.toLowerCase(); });
+          }
+        }
+      }
+      return best.w;
+    }
+    /* no shared phrase: a single word is never the name (BCM rule); the page shows the people's own sentences */
+    return "";
+  }
+  var out = { clusters: [], threads: [], loose: [], n: N.length };
+  G.forEach(function (g) {
+    if (!g.m.length) return;
+    var ppl = {};
+    g.m.forEach(function (i) { ppl[N[i].who] = 1; });
+    var np = Object.keys(ppl).length;
+    var item = {
+      e: N[g.m[0]].e,
+      emotion: EN[N[g.m[0]].e],
+      about: name(g),
+      people: np,
+      notes: g.m.map(function (i) { return { id: N[i].id, who: N[i].who, voice: N[i].voice, q: N[i].q, t: N[i].t, how: g.how[i] }; }),
+    };
+    if (np >= 3) out.clusters.push(item);
+    else if (np === 2) out.threads.push(item);
+    else g.m.forEach(function (i) { out.loose.push(N[i].id); });
+  });
+  out.clusters.sort(function (a, b) { return b.people - a.people || b.notes.length - a.notes.length; });
+  out.threads.sort(function (a, b) { return b.notes.length - a.notes.length; });
+  return out;
+}
+  window.gsmClusters = gsmClusters;
 })();
 /* v307: F8 step 2 - Firebase sign-in. Loaded only on demand: the solo workbook never loads it and never signs in.
    Leads sign in with Google (pop-up); people answering are signed in anonymously in the background.

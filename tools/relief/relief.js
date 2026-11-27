@@ -16,6 +16,7 @@ const CSS = `
 .grel .pl{font:bold 13px Helvetica,Arial,sans-serif;letter-spacing:.1em;color:#111;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 4px #fff}
 .grel .side{font:bold 17.5px Helvetica,Arial,sans-serif;letter-spacing:.14em;color:#1f6f66;text-shadow:0 0 3px #fff,0 0 3px #fff}.grel .side.hd{color:#8a2a22}.grel .side.ax{color:#333}.grel .lb.hit{pointer-events:auto;cursor:pointer}.grel .tip{position:absolute;display:none;z-index:4;max-width:340px;max-height:60%;overflow:auto;background:#222;color:#fff;font:13px/1.45 Questrial,Helvetica,Arial,sans-serif;padding:8px 10px;border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.3)}.grel .tip b{display:block;margin-bottom:3px}.grel .tip .sm{opacity:.75;font-size:12px;margin-top:4px}
 .grel .rdm{font:bold 12px Helvetica,Arial,sans-serif;color:#fff;background:#111;width:22px;height:22px;line-height:20px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.grel .clt{font:600 12px Helvetica,Arial,sans-serif;color:#111;background:#fff;border:1.5px solid #111;border-radius:999px;padding:3px 9px 3px 3px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:opacity .15s}.grel .clt i{font-style:normal;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
 .grel .rdm.on{background:#7a1d12;transform:scale(1.25)}
 .grel .wn{font:bold 11px Helvetica,Arial,sans-serif;min-width:18px;height:18px;line-height:15px;padding:0 3px;text-align:center;border-radius:9px;border:1.5px solid #fff;box-shadow:0 1px 2px rgba(0,0,0,.45)}.grel .wl{font:bold 14px Helvetica,Arial,sans-serif;width:26px;height:26px;line-height:22px;text-align:center;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)}.grel .bt{position:absolute;top:8px;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer;z-index:3}
 .grel.fs{position:fixed;inset:0;z-index:2147483000;border:0}.grel .grfs{display:none!important}.grel.fs .grfs,.grel.cfs .grfs{display:block!important}.grel .fsleg{position:absolute;top:0;bottom:0;left:0;width:min(340px,86vw);background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-right:1px solid #ddd;padding:52px 14px 14px;overflow:auto;z-index:4;transform:translateX(0);transition:transform .2s}.grel .fsleg.shut{transform:translateX(-100%)}.grel .fsleg .grleg{margin:0}.grel .fslb{position:absolute;top:8px;left:8px;z-index:5;background:#fff;border:1px solid #222;font:12px Questrial,Helvetica,Arial,sans-serif;padding:4px 9px;cursor:pointer}.grel .brand{position:absolute;top:auto;left:auto;width:auto;height:auto;pointer-events:none;right:12px;bottom:10px;z-index:3;font:12px Questrial,Helvetica,Arial,sans-serif;letter-spacing:.12em;color:#333;background:rgba(255,255,255,.75);padding:3px 8px}.grel .brand b{font-weight:700}
@@ -325,7 +326,18 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
   function lab(text, cls, x, y, lift, pri, ax, ay, info) { const el = document.createElement('div'); el.className = 'lb ' + cls + (info ? ' hit' : ''); el.textContent = text; lbs.appendChild(el); const o = { el, v: new THREE.Vector3(X(x), gH(x, y) + lift, Z(y)), pri, ax: ax || 0, ay: ay || 0, info }; L.push(o);
     if (info) { el.addEventListener('mouseenter', ev => { if (!pinned) showTip(o, ev); }); el.addEventListener('mouseleave', () => { if (!pinned) hideTip(); }); el.addEventListener('click', ev => { ev.stopPropagation(); pinned = pinned === o ? null : o; pinned ? showTip(o, ev) : hideTip(); }); } return o; }
   const NOBJ = [], spokeMat = new THREE.LineBasicMaterial({ color: 0x222222, transparent: true, opacity: 0.55 });
+  /* F8 (lead's project copy only): notes in clusters are dots on the ground, notes in no cluster faint dots; no labels */
+  const CL = D.clusters || null, CLOF = {}, CLM = [];
+  if (CL) CL.list.forEach((c, i) => c.ks.forEach(k => { CLOF[k] = i; }));
   D.notes.forEach(n => { const h = gH(n.x, n.y);
+    if (CL) { const ci = CLOF[n.k], inC = ci != null, col = n.e == null ? 0xffffff : new THREE.Color(`rgb(${D.emo[n.e][1].join(',')})`);
+      const m = new THREE.MeshStandardMaterial({ color: col, roughness: 0.5, transparent: true, opacity: inC ? 1 : 0.5 });
+      const hd = new THREE.Mesh(new THREE.SphereGeometry(inC ? 2.4 : 1.5, 14, 10), m); hd.position.set(X(n.x), h + (inC ? 7 : 4.5), Z(n.y)); if (inC) hd.castShadow = true; scene.add(hd);
+      /* a white rim so a dot reads on ground of its own colour */
+      const rm = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide, transparent: true, opacity: inC ? 1 : 0.5 }); const rim = new THREE.Mesh(new THREE.SphereGeometry(inC ? 3.1 : 1.9, 14, 10), rm); rim.position.copy(hd.position); scene.add(rim);
+      let st = null; if (inC) { st = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 7, 6), blk); st.position.set(X(n.x), h + 3.5, Z(n.y)); scene.add(st); }
+      CLM.push({ ci: inC ? ci : -1, m, rm, st, base: inC ? 1 : 0.5 });
+      NOBJ.push({ q: n.q, st: rim, hd, lo: { el: document.createElement('div') }, sp: null }); if (st) NOBJ.push({ q: n.q, st, hd, lo: { el: document.createElement('div') }, sp: null }); return; }
     const st = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 10, 6), blk); st.position.set(X(n.x), h + 5, Z(n.y)); st.castShadow = true; scene.add(st);
     const hd = new THREE.Mesh(new THREE.SphereGeometry(2.8, 18, 12), new THREE.MeshStandardMaterial({ color: n.e == null ? 0xffffff : new THREE.Color(`rgb(${D.emo[n.e][1].join(',')})`), roughness: 0.5 }));
     hd.position.set(X(n.x), h + 11, Z(n.y)); hd.castShadow = true; scene.add(hd);
@@ -380,6 +392,25 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
     for (let i = 0; i < n; i++) { const a = 2 * i; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals(); return g; }
   const onGround = (m, o) => { m.side = THREE.DoubleSide; m.transparent = true; m.depthWrite = false; m.polygonOffset = true; m.polygonOffsetFactor = -o; m.polygonOffsetUnits = -o * 2; return m; };
+  /* F8 clusters: a dashed ring on the ground around each cluster's notes, and a tag (number, what it is about, how many people) */
+  const CLR = [];
+  if (CL) CL.list.forEach((c, ci) => { const ns = D.notes.filter(n => CLOF[n.k] === ci); if (!ns.length) return;
+    const cx = ns.reduce((a, n) => a + n.x, 0) / ns.length, cy = ns.reduce((a, n) => a + n.y, 0) / ns.length;
+    const rx = Math.max(8, Math.min(60, Math.max(...ns.map(n => Math.abs(n.x - cx))) + 6)), ry = Math.max(8, Math.min(45, Math.max(...ns.map(n => Math.abs(n.y - cy))) + 6));
+    const P = []; for (let k = 0; k < 72; k++) { const a = k / 72 * Math.PI * 2, x = Math.max(1, Math.min(W - 1, cx + Math.cos(a) * rx)), y = Math.max(1, Math.min(H - 1, cy + Math.sin(a) * ry)); P.push(new THREE.Vector3(X(x), gH(x, y), Z(y))); }
+    const cur = new THREE.CatmullRomCurve3(P, true), col = new THREE.Color(`rgb(${D.emo[c.e][1].join(',')})`);
+    const mat = onGround(new THREE.MeshStandardMaterial({ color: col, roughness: 0.8, opacity: 1 }), 5), wm = onGround(new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, opacity: 0.85 }), 4);
+    const ND = Math.max(14, Math.round(cur.getLength() / 7));
+    for (let d = 0; d < ND; d++) { const t0 = d / ND, t1 = (d + 0.55) / ND;
+      const e = new THREE.Mesh(ribbon(cur, 3.4, 3.2, 12, t0, t1), wm); e.renderOrder = 4; scene.add(e);
+      const r = new THREE.Mesh(ribbon(cur, 2.0, 3.4, 12, t0, t1), mat); r.renderOrder = 5; scene.add(r); }
+    const ty = Math.max(2, cy - ry), tg = lab('', 'clt', cx, ty, 3, 4, 0, -30, { head: c.head, body: c.body, long: 1 }); tg.cen = 1;
+    tg.el.textContent = ''; const ch = document.createElement('i'); ch.textContent = String(c.k); ch.style.background = `rgb(${D.emo[c.e][1].join(',')})`; ch.style.color = c.ink || '#fff';
+    tg.el.appendChild(ch); tg.el.appendChild(document.createTextNode(c.tag)); tg.el.addEventListener('click', () => { if (D.onCluster) D.onCluster(c.k); });
+    CLR.push({ k: c.k, mat, wm, tg }); });
+  function cluster(k) { const sel = CL ? CL.list.findIndex(c => c.k === k) : -1;
+    CLR.forEach((o, i) => { const on = sel < 0 || CL.list[sel] && CL.list[sel].k === o.k; o.mat.opacity = on ? 1 : 0.25; o.wm.opacity = on ? 0.85 : 0.2; o.tg.el.style.opacity = on ? '' : '0.3'; });
+    CLM.forEach(o => { const op = sel < 0 ? o.base : o.ci === sel ? 1 : o.ci < 0 ? 0.15 : 0.22; o.m.opacity = op; o.rm.opacity = op; if (o.st) o.st.visible = sel < 0 || o.ci === sel; }); dirty = true; }
   const NR = (D.routes || []).length, BADGE = [];
   const nearOther = (x, y, ri) => { let m = 1e9; (D.routes || []).forEach((Q, qi) => { if (qi === ri) return; for (let k = 0; k < Q.pts.length; k += 2) m = Math.min(m, Math.hypot(Q.pts[k][0] - x, Q.pts[k][1] - y)); }); return m; };
   (D.routes || []).forEach((R, ri) => {
@@ -447,6 +478,7 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
     (D.routes && D.routes.length ? D.routes.map(R => `<div class="r"><i style="background:${RC[R.key]};border-color:#111;height:6px;margin-top:5px"></i><span><b style="display:inline;letter-spacing:0;font-size:12.5px">${R.key}</b> · ${R.name.replace(/[<>&]/g, '')}</span></div>`).join('') : '') +
     (D.spokes ? '<div class="r"><i style="background:#222;height:2px;margin-top:7px"></i><span>Thin lines: from each question’s flag to its notes.</span></div>' : '') + ((D.read || []).length ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Numbered: what the ground says' + (D.spokes ? ' (from Pattern Synthesis). Hover or tap a number to read it.' : ', read above the map.') + '</span></div><div class="r"><i style="background:#3a1f0c;height:6px;margin-top:5px;border:1px solid #fff;box-shadow:0 0 0 1px #bbb"></i><span>A brown line: a pattern you ticked under PATTERNS THAT RUN THROUGH IT.</span></div>' : '') +
     (PL ? '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color, where you placed them; black flags are questions. The green flag (START) is the note farthest from the goal; the checkered flag is the goal, at ' + (PL.name ? PL.name.replace(/[<>&]/g, '') : 'your location') + '. North is at the back.</span></div>' : '<div class="r"><i style="background:#111;border-radius:50%"></i><span>Pins are notes in their emotion’s color; black flags are questions. The green flag is the present; the checkered flag is the goal. ← PRESENT and FUTURE → run along the front; ↑ HELP and ↓ HINDER run back to front.</span></div>') +
+    (CL ? '<div class="r"><i style="background:#fff;border:2px dashed #111;border-radius:50%"></i><span>A dashed ring: a cluster, notes from three or more people with the same emotion about the same thing. A faint dot: a note in no cluster. Tap a tag to read it; the list is under the map.</span></div>' : '') +
     '<div class="r"><span style="color:#666">Drag to turn, scroll or pinch to zoom. Hover or tap a note, question, the goal, a number, or a way to read it.</span></div>';
 
   /* v239: on a Taking Action card the legend is folded (Legend, closed); full screen still shows it open */
@@ -613,7 +645,7 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
     const hitR = (o, x, y, bw, bh) => { if (o.el.textContent === 'GOAL') return 0; let n = 0; for (const r of rings) if (r[0] > x - 3 && r[0] < x + bw + 3 && r[1] > y - 3 && r[1] < y + bh + 3) n += 30; return n; };
     const hitB = (x, y, bw, bh) => { let n = 0; for (const b of boxes) if (x < b[0] + b[2] && x + bw > b[0] && y < b[1] + b[3] && y + bh > b[1]) n += Math.min(x + bw, b[0] + b[2]) - Math.max(x, b[0]) + 1; return n; };
     const hitH = (o, x, y, bw, bh) => { let n = 0; if (!o.isN) return 0; for (const q of heads) { if (q.o === o) continue; const cx = Math.max(x, Math.min(q.x, x + bw)), cy = Math.max(y, Math.min(q.y, y + bh)); if ((cx - q.x) ** 2 + (cy - q.y) ** 2 < (q.r + 1) ** 2) n += 40 + q.r; } return n; };
-    L.map(o => { v.copy(o.v).project(camera); o.sx = (v.x * 0.5 + 0.5) * w; o.sy = (-v.y * 0.5 + 0.5) * h; return { o, x: o.sx + o.ax, y: o.sy + o.ay, off: v.z > 1 }; })
+    L.map(o => { v.copy(o.v).project(camera); o.sx = (v.x * 0.5 + 0.5) * w; o.sy = (-v.y * 0.5 + 0.5) * h; return { o, x: o.sx + o.ax - (o.cen ? (o.el.offsetWidth || 0) / 2 : 0), y: o.sy + o.ay, off: v.z > 1 }; })
      .sort((a, b) => b.o.pri - a.o.pri || a.o.sy - b.o.sy)
      .forEach(p => { const o = p.o; if (o.hid || p.off || p.x < -24 || p.x > w + 24 || p.y < -24 || p.y > h + 24) { o.el.style.display = 'none'; if (o.ld) o.ld.style.display = 'none'; return; } o.el.style.display = '';
        const bw = o.el.offsetWidth || 30, bh = o.el.offsetHeight || 16; let x = p.x, y = p.y;
@@ -638,7 +670,7 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
   function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
   size(); home(); loop(); placeGround();
   function focusQ(q) { NOBJ.forEach(o => { const on = !q || o.q === q; o.st.visible = o.hd.visible = on; if (o.sp) o.sp.visible = on; o.lo.off = !on; o.lo.el.style.opacity = on ? '' : '0'; o.lo.el.style.pointerEvents = on ? '' : 'none'; }); dirty = true; }
-  return { loops, hoses, hoseCount() { return hoseN; }, focusQ, tour: startTour, touring() { return !!TOUR; }, paused() { return !!TOUR && TOUR.paused != null; }, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; if (WALK) walkEnd(); showWays(); walkBtn(); } }, walk(k) { walkStart(k); }, walking() { return WALK ? { k: WALK.k, i: WALK.i, n: WALK.st.length - 1, names: WALK.names.map(z => typeof z === 'string' ? z : z.k) } : null; }, walkStep(i) { walkShow(i); }, walkEnd() { walkEnd(); }, hoverWay(k) { hoverWay(k); },
+  return { cluster, loops, hoses, hoseCount() { return hoseN; }, focusQ, tour: startTour, touring() { return !!TOUR; }, paused() { return !!TOUR && TOUR.paused != null; }, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; if (WALK) walkEnd(); showWays(); walkBtn(); } }, walk(k) { walkStart(k); }, walking() { return WALK ? { k: WALK.k, i: WALK.i, n: WALK.st.length - 1, names: WALK.names.map(z => typeof z === 'string' ? z : z.k) } : null; }, walkStep(i) { walkShow(i); }, walkEnd() { walkEnd(); }, hoverWay(k) { hoverWay(k); },
     snap() { draw(); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
 }
 
