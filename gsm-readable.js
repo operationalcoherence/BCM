@@ -22854,7 +22854,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v326");
+        t && (t.textContent = "v327");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -33168,6 +33168,7 @@ var qrcode = function() {
   }
   function refresh() {
     if (!isLead()) return go("signin");
+    sampleP();
     st.busy = true;
     draw();
     return window.gsmF8
@@ -33197,6 +33198,7 @@ var qrcode = function() {
         st.list = [];
         st.msg = errText(e);
         draw();
+        addSample();
       });
   }
   function head() {
