@@ -59,7 +59,7 @@ with sync_playwright() as p:
 
     pg.route('**/*', route)
     pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);"
-                       "localStorage.setItem('groundsmith-web-welcomed','1');"
+                       "localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},live:{v:'9999'}}));"
                        % json.dumps(json.dumps(wb)))
     pg.goto('http://t.local/')
     pg.wait_for_selector('#gsm', timeout=20000)

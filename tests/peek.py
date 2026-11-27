@@ -13,7 +13,7 @@ with sync_playwright() as p:
         elif u.startswith('http://t.local/gsm-preview.js'): r.fulfill(status=200,content_type='application/javascript',body=SRC)
         else: r.abort()
     pg.route('**/*',route)
-    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');"%json.dumps(json.dumps(wb)))
+    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},live:{v:'9999'}}));"%json.dumps(json.dumps(wb)))
     pg.goto('http://t.local/'); pg.wait_for_selector('#gsm'); pg.wait_for_timeout(800)
     pg.evaluate("window.gsmTab(%d)"%TAB); pg.wait_for_timeout(600)
     print(pg.evaluate("""()=>{var o=[];document.querySelectorAll('.plab').forEach(function(l){if(/STILL OPEN/.test(l.textContent)){var n=l.nextElementSibling;o.push(l.textContent+' => '+(n?n.textContent:''));var m=l.parentNode;}});return o.join('\\n')}"""))

@@ -27,6 +27,8 @@ Kept here because every previous harness lived in a sandbox that was lost.
 | `vague_titles.py WORKBOOK.json …` | No vague Taking Action titles (v284): every card title names its object in the user's words. FAILs on a title that names a single non-emotion word or nothing at all. |
 | `pagewalk.py JSFILE WORKBOOK.json OUTDIR [width]` | Start Here, Mapping Context steps 0 to 7, and Mapping Landscape steps 1 and 2, every fold open: prints each step's text and saves a full-page screenshot (v290; default width 420, a phone). |
 | `f8join.py JSFILE WORKBOOK.json WIDTH OUTPREFIX` | F8 step 4, the invited person (v311), with fake Firebase kept in sessionStorage so it survives reloads: invite link, own workbook parked and restored, name and voice, live save, Pause, the daily limit, the lead changing the goal or closing the project, Delete my workbook, a bad link, a place-map project. Prints PASS/FAIL lines. |
+| `privacy.py JSFILE WORKBOOK.json WIDTH OUTPREFIX` | The privacy screen (v318): solo screen on first open, can't be got past, full page, footer link, asked again on a new version, live screen on an invite link, acknowledgement in the workbook record. `privacy_lead.py` (same arguments) checks Lead a project asks first and the project record. Every other script sets the acknowledgement at start-up. |
+| `f8cmp.py JSFILE WORKBOOK.json WIDTH OUTPREFIX` | COMPARE TWO (v317): people, voices, an overlap, the voice filter. |
 | `ev.py JSFILE WORKBOOK.json TAB 'JS'` | Opens a tab and prints the JSON of one JavaScript expression evaluated in the page (v249). |
 | `stop.txt` | Obsolete (pre-v102, 362 entries). `tok.js` no longer reads it. |
 

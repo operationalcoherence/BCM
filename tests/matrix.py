@@ -17,7 +17,7 @@ with sync_playwright() as p:
             elif u.startswith('http://t.local/gsm-preview.js'): r.fulfill(status=200,content_type='application/javascript',body=SRC)
             else: r.abort()
         pg.route('**/*',route)
-        pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');"%json.dumps(json.dumps(wb)))
+        pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},live:{v:'9999'}}));"%json.dumps(json.dumps(wb)))
         t0=time.time()
         try:
             pg.goto('http://t.local/'); pg.wait_for_selector('#gsm',timeout=25000)

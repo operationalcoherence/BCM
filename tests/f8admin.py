@@ -54,7 +54,7 @@ with sync_playwright() as p:
         elif u.endswith('/firebase-firestore.js'): r.fulfill(status=200, content_type='application/javascript', body=FS, headers={'access-control-allow-origin': '*'})
         else: r.abort()
     pg.route('**/*', route)
-    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');" % json.dumps(json.dumps(wb)))
+    pg.add_init_script("localStorage.setItem('groundsmith-web-v1',%s);localStorage.setItem('groundsmith-web-welcomed','1');localStorage.setItem('groundsmith-web-privacy',JSON.stringify({solo:{v:'9999'},live:{v:'9999'}}));" % json.dumps(json.dumps(wb)))
     pg.goto('http://t.local/#bcmadmin'); pg.wait_for_selector('#gsm-admin', timeout=25000); pg.wait_for_timeout(800)
     print('--- before sign-in\n' + pg.inner_text('#gsm-admin'))
     now = int(__import__('time').time())
