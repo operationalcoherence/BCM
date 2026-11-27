@@ -22830,7 +22830,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v323");
+        t && (t.textContent = "v324");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -30507,6 +30507,8 @@ function gsmClusters(notes, goal, links, opt) {
           if (first.every(function (f, fi) { return low[wi + fi] === f; })) {
             var plain = function (w) { return w.toLowerCase().replace(/[^a-z]/g, ""); };
             var a0 = Math.max(0, wi - 3), a1 = wi + first.length;
+            /* a question word just before the window ("who decides…") belongs to the name */
+            a0 > 0 && KEEP[plain(ws[a0 - 1])] && !KEEP[plain(ws[a0])] && a0--;
             /* after the phrase: an article and the word it leads to, never a verb run like "would cut" */
             if ((ws[a1] && /^(the|a|an)$/i.test(ws[a1]) && ws[a1 + 1] && !STOPW[plain(ws[a1 + 1])])) a1 += 2;
             var cut = ws.slice(a0, a1), lead = cut.length - first.length - (a1 - wi - first.length);
