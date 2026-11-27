@@ -22830,7 +22830,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v321");
+        t && (t.textContent = "v322");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -32712,7 +32712,7 @@ var qrcode = function() {
   function head() {
     var u = me();
     return (
-      '<div class="lt">LEAD A PROJECT <span style="color:#a33">(TEST ONLY: use test data)</span></div>' +
+      '<div class="lt">LEAD A PROJECT</div>' +
       (u && !u.anon
         ? '<div class="lh">Signed in as ' + esc(u.name || u.email) + (u.email ? " (" + esc(u.email) + ")" : "") + ' · <button type="button" class="lnk sm" data-l="out">Sign out</button></div>'
         : "")
@@ -34016,7 +34016,7 @@ var qrcode = function() {
     if (card) {
       card.classList.remove("wsoon");
       var bd = card.querySelector(".wbadge");
-      bd && (bd.textContent = "TEST");
+      bd && bd.parentNode.removeChild(bd);
       var btn = card.querySelector("button");
       if (btn) {
         btn.disabled = false;
