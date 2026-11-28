@@ -322,6 +322,14 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
   const slab = new THREE.Mesh(new THREE.BoxGeometry(W + 30, 4, H + 30), new THREE.MeshStandardMaterial({ color: 0xeeeeec, roughness: 0.9 })); slab.position.y = BASE - 2; slab.receiveShadow = true; scene.add(slab);
 
   /* ---------- notes, questions, goal, things to notice ---------- */
+  /* v333: a question flag or a numbered marker never lands on a note, the goal, the start, or another marker: it steps to the
+     nearest clear ground. Notes stay exactly where people put them. */
+  const SPOTS = D.notes.map(n => [n.x, n.y]).concat([[D.GOAL.x, D.GOAL.y], [D.START.x, D.START.y]]);
+  function clear(x, y) { const MIN = 15, ok = (a, b) => a >= 3 && a <= W - 3 && b >= 3 && b <= H - 3 && SPOTS.every(t => Math.hypot(t[0] - a, t[1] - b) >= MIN);
+    let at = [x, y]; if (!ok(x, y)) { find: for (let r = 4; r <= 36; r += 4) for (let k = 0; k < 16; k++) { const a = k / 16 * Math.PI * 2 + r * 0.3, nx = x + Math.cos(a) * r, ny = y + Math.sin(a) * r; if (ok(nx, ny)) { at = [nx, ny]; break find; } } }
+    SPOTS.push(at); return at; }
+  const QP = (D.qpos || []).map(Q => { if (!Q) return Q; const a = clear(Q.x, Q.y); return Object.assign({}, Q, { x: a[0], y: a[1] }); });
+  const RP = (D.read || []).map(r => r.at ? clear(r.at[0], r.at[1]) : r.at);
   const L = [], blk = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.6 });
   function lab(text, cls, x, y, lift, pri, ax, ay, info) { const el = document.createElement('div'); el.className = 'lb ' + cls + (info ? ' hit' : ''); el.textContent = text; lbs.appendChild(el); const o = { el, v: new THREE.Vector3(X(x), gH(x, y) + lift, Z(y)), pri, ax: ax || 0, ay: ay || 0, info }; L.push(o);
     if (info) { el.addEventListener('mouseenter', ev => { if (!pinned) showTip(o, ev); }); el.addEventListener('mouseleave', () => { if (!pinned) hideTip(); }); el.addEventListener('click', ev => { ev.stopPropagation(); pinned = pinned === o ? null : o; pinned ? showTip(o, ev) : hideTip(); }); } return o; }
@@ -347,9 +355,9 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
     const st = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 10, 6), blk); st.position.set(X(n.x), h + 5, Z(n.y)); st.castShadow = true; scene.add(st);
     const hd = new THREE.Mesh(new THREE.SphereGeometry(2.8, 18, 12), new THREE.MeshStandardMaterial({ color: n.e == null ? 0xffffff : new THREE.Color(`rgb(${D.emo[n.e][1].join(',')})`), roughness: 0.5 }));
     hd.position.set(X(n.x), h + 11, Z(n.y)); hd.castShadow = true; scene.add(hd);
-    const lo = lab((D.np || 'N') + n.k, 'nl', n.x, n.y, 11, 1, 6, -8, { head: (D.np || 'N') + n.k + ' · ' + (n.e == null ? 'no emotion marked' : D.emo[n.e][0].toUpperCase()) + (n.q ? ' · Q.' + n.q : ''), body: n.t || '' }); let sp = null; if (D.spokes && n.q) { const Q = (D.qpos || []).find(z => z && z.q === n.q); if (Q) { const P = []; for (let k = 0; k <= 24; k++) { const t = k / 24, x = Q.x + (n.x - Q.x) * t, y = Q.y + (n.y - Q.y) * t; P.push(new THREE.Vector3(X(x), gH(x, y) + 1.4, Z(y))); } sp = new THREE.Line(new THREE.BufferGeometry().setFromPoints(P), spokeMat); scene.add(sp); } }
+    const lo = lab((D.np || 'N') + n.k, 'nl', n.x, n.y, 11, 1, 6, -8, { head: (D.np || 'N') + n.k + ' · ' + (n.e == null ? 'no emotion marked' : D.emo[n.e][0].toUpperCase()) + (n.q ? ' · Q.' + n.q : ''), body: n.t || '' }); let sp = null; if (D.spokes && n.q) { const Q = QP.find(z => z && z.q === n.q); if (Q) { const P = []; for (let k = 0; k <= 24; k++) { const t = k / 24, x = Q.x + (n.x - Q.x) * t, y = Q.y + (n.y - Q.y) * t; P.push(new THREE.Vector3(X(x), gH(x, y) + 1.4, Z(y))); } sp = new THREE.Line(new THREE.BufferGeometry().setFromPoints(P), spokeMat); scene.add(sp); } }
     lo.head = hd.position; lo.isN = 1; NOBJ.push({ q: n.q, st, hd, lo, sp }); });
-  D.qpos.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st);
+  QP.forEach(Q => { if (!Q) return; const h = gH(Q.x, Q.y), st = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 18, 6), blk); st.position.set(X(Q.x), h + 9, Z(Q.y)); st.castShadow = true; scene.add(st);
     const fl = new THREE.Mesh(new THREE.BoxGeometry(7, 4.2, 0.6), blk); fl.position.set(X(Q.x) + 3.2, h + 16.4, Z(Q.y)); fl.castShadow = true; scene.add(fl); lab('Q.' + Q.q, 'ql', Q.x, Q.y, 16.4, 2, -4, -10, { head: 'Q.' + Q.q + (Q.title ? ' · ' + Q.title : ''), body: Q.ans || 'No answer written yet.', sm: Q.n ? 'Placed at the middle of its ' + Q.n + ' note' + (Q.n > 1 ? 's' : '') + '.' : 'No notes yet; placed on the line between present and goal.' }); });
   { const s = D.START, h = gH(s.x, s.y), p = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 22, 6), blk); p.position.set(X(s.x), h + 11, Z(s.y)); p.castShadow = true; scene.add(p);
     const f = new THREE.Mesh(new THREE.BoxGeometry(0.5, 7, 11), new THREE.MeshStandardMaterial({ color: 0x2e9b45, roughness: 0.55 })); f.position.set(X(s.x), h + 18.5, Z(s.y) + 5.5); f.castShadow = true; scene.add(f);
@@ -366,9 +374,9 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
     const o2 = lab('↓ HINDER', 'side hd', 0, H - 2, 0, 4, -128, -10); o2.v.set(X(-6), (gH(0, H - 2) + BASE) / 2, Z(H));
     const o3 = lab('← PRESENT', 'side ax', 0, H, 0, 4, 0, 10); o3.v.set(X(0), BASE, Z(H) + 4);
     const o4 = lab('FUTURE →', 'side ax', W, H, 0, 4, -120, 10); o4.v.set(X(W), BASE, Z(H) + 4); }
-  const RD = (D.read || []).map((r, i) => { const o = lab(String(i + 1), 'rdm', r.at[0], r.at[1], 21, 5, -11, -11, { head: (i + 1) + ' · ' + (r.title || ''), body: r.text || '', rd: i }); const h = gH(r.at[0], r.at[1]);
-    const st = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 20, 6), blk); st.position.set(X(r.at[0]), h + 10, Z(r.at[1])); st.castShadow = true; scene.add(st);
-    const bl = new THREE.Mesh(new THREE.SphereGeometry(2.6, 16, 12), blk); bl.position.set(X(r.at[0]), h + 21, Z(r.at[1])); bl.castShadow = true; scene.add(bl);
+  const RD = (D.read || []).map((r, i) => { const o = lab(String(i + 1), 'rdm', RP[i][0], RP[i][1], 21, 5, -11, -11, { head: (i + 1) + ' · ' + (r.title || ''), body: r.text || '', rd: i }); const h = gH(RP[i][0], RP[i][1]);
+    const st = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 20, 6), blk); st.position.set(X(RP[i][0]), h + 10, Z(RP[i][1])); st.castShadow = true; scene.add(st);
+    const bl = new THREE.Mesh(new THREE.SphereGeometry(2.6, 16, 12), blk); bl.position.set(X(RP[i][0]), h + 21, Z(RP[i][1])); bl.castShadow = true; scene.add(bl);
     const rim = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.35, 6, 24), new THREE.MeshStandardMaterial({ color: 0xffffff })); rim.position.copy(bl.position); scene.add(rim); o.rim = rim; o.head = bl.position; return o; });
 
   const tip = document.createElement('div'); tip.className = 'tip'; wrap.appendChild(tip); let pinned = null;
