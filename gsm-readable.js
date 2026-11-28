@@ -22854,7 +22854,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v328");
+        t && (t.textContent = "v329");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -33194,6 +33194,8 @@ var qrcode = function() {
     window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - off, behavior: "smooth" });
   }
   function navStart() {
+    var b = document.querySelector('#gsm-jump .jrow button[data-v="5"]');
+    if (b) return b.click();
     try {
       window.gsmTab && window.gsmTab(5);
     } catch (e) {}
@@ -33210,17 +33212,11 @@ var qrcode = function() {
       setTimeout(function () {
         navTop(document.getElementById("gsm-ldash"));
       }, 30);
-    } else if (k === "together") openTogether();
-    else if (k === "clusters") {
+    } else if (/^t[0-3]$/.test(k)) {
       try {
-        localStorage.setItem("groundsmith-web-leadgo-read", "clusters");
+        localStorage.setItem("groundsmith-web-leadgo-read", k);
       } catch (e) {}
       openTogether();
-    } else if (k === "settings") {
-      navStart();
-      setTimeout(function () {
-        navTop(box.querySelector(".inv") || document.getElementById("gsm-lpn"));
-      }, 30);
     } else if (k === "projects") {
       navStart();
       refresh();
@@ -33230,6 +33226,7 @@ var qrcode = function() {
     } else if (k === "close") {
       box.classList.remove("on");
       navDraw();
+      navStart();
     }
   }
   function navDraw() {
@@ -33242,24 +33239,7 @@ var qrcode = function() {
             return { u: r.uid, name: r.name, voice: r.voice };
           })
         : [];
-    window.gsmLeadNav({
-      title: p.name,
-      cur: dash.who ? "person" : dash.tab || "glance",
-      who: dash.who,
-      people: ppl,
-      items: [
-        ["glance", "Project at a glance"],
-        ["people", "People" + (ppl.length ? " (" + ppl.length + ")" : "")],
-        ["person"],
-        ["together", "Everyone together"],
-        ["clusters", "Clusters"],
-        ["|"],
-        p.sample ? null : ["settings", "Invite and settings", 1],
-        ["projects", "All projects", 1],
-        ["close", "Close", 1],
-      ],
-      on: navAct,
-    });
+    window.gsmLeadNav({ title: p.name, mode: "dash", cur: dash.who ? "person" : dash.tab || "glance", who: dash.who, people: ppl, on: navAct });
     if (st.goScroll && dash.at) {
       st.goScroll = 0;
       navStart();
@@ -33270,7 +33250,7 @@ var qrcode = function() {
     if (st.goAct && dash.at) {
       var a = st.goAct;
       st.goAct = "";
-      a === "clusters" && localStorage.setItem("groundsmith-web-leadgo-read", "clusters");
+      a !== "together" && localStorage.setItem("groundsmith-web-leadgo-read", a);
       openTogether();
     }
   }
@@ -34982,28 +34962,42 @@ var qrcode = function() {
     }, 250);
 })();
 
-/* v328: the leader's menu. One bar at the top of the page (inside the sticky tab bar) on every leader screen: the
-   dashboard (a project open) and the reading copies. Gregory, 27 Nov: "We need a menu specific to project leadership that
-   runs at the top". cfg: {title, cur, who, people:[{u, name, voice}], items:[[key, label]], on(key, value)}; null hides it. */
+/* v329: project mode. While a lead has a project open (the dashboard, or a reading copy of it), the page's own tab bar
+   becomes the project's: one bar, in the site's own tab style. Gregory, 27 Nov 17:00: the menu "is functionally sound,
+   but design wise, it is not passable"; Pattern Analysis and Taking Action must be the project's in project mode.
+   cfg: {title, mode: "dash"|"read", cur, who, people:[{u, name, voice}], on(key, value)}; null puts the page's own tabs back.
+   Keys: glance, people, person, t0..t3 (Mapping Context, Mapping Landscape, Pattern Analysis, Taking Action), projects, close. */
 !(function () {
   var CSS =
-    "#gsm-lnav{background:#111;color:#fff;padding:8px 10px 9px;margin:-6px 0 6px;font-family:inherit}" +
-    "#gsm-lnav .lnt{font-size:11px;letter-spacing:.14em;font-weight:700;color:#ccc;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}" +
-    "#gsm-lnav .lnt b{color:#fff}#gsm-lnav .lnr{display:flex;flex-wrap:wrap;gap:6px;align-items:center}" +
-    "#gsm #gsm-lnav button,#gsm #gsm-lnav select{font:13px Questrial,Helvetica,Arial,sans-serif;min-height:34px;padding:0 12px;border-radius:17px;border:1.5px solid #fff;background:#111;color:#fff;cursor:pointer;max-width:100%;letter-spacing:0;margin:0}" +
-    "#gsm-lnav select{padding:0 8px;appearance:auto}#gsm-lnav option{color:#111;background:#fff}" +
-    "#gsm #gsm-lnav .on{background:#fff;color:#111;font-weight:700;border-color:#fff}#gsm-lnav .lsep{flex:1 1 auto}#gsm #gsm-lnav .lq{border-color:#777;color:#ddd}" +
-    "@media (max-width:640px){#gsm-lnav .lnr{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}#gsm-lnav .lsep{display:none}#gsm #gsm-lnav button,#gsm #gsm-lnav select{flex:none}}" +
+    "#gsm .jump.lmode .jrow,#gsm .jump.lmode.ldash #gsm-jprog{display:none!important}" +
+    "#gsm-lnav .lnt{display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap;padding:2px 2px 6px;border-bottom:1px solid #e2e2e2}" +
+    "#gsm-lnav .lnk2{font-size:11px;letter-spacing:.16em;font-weight:700;color:#777}" +
+    "#gsm-lnav .lnn{font-size:12px;letter-spacing:.14em;font-weight:700;color:#111;flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
+    "#gsm #gsm-lnav .lnt button{border:0;background:none;padding:0;font:12.5px 'Questrial',sans-serif;letter-spacing:.02em;color:#555;text-decoration:underline;text-underline-offset:3px;cursor:pointer;white-space:nowrap}" +
+    "#gsm #gsm-lnav .lnt button:hover{color:#111}" +
+    "#gsm-lnav .lnr{display:flex;flex-wrap:nowrap;align-items:stretch}" +
+    "#gsm #gsm-lnav .lnr>*{flex:1 1 auto;position:relative;background:none;border:0;border-bottom:3px solid transparent;border-radius:0;padding:8px 6px 7px;margin:0;font:clamp(11px,2.6vw,14px) 'Questrial',sans-serif;letter-spacing:.01em;line-height:1.2;color:#888;text-align:center;cursor:pointer;white-space:normal;min-height:0}" +
+    "#gsm #gsm-lnav .lnr>*+*:before{content:'';position:absolute;left:0;top:22%;bottom:22%;border-left:1px solid #d4d4d4}" +
+    "#gsm #gsm-lnav .lnr>.lgap{flex:0 0 0;cursor:default;padding:0;margin:5px 3px;border-left:2px solid #9a9a9a}#gsm #gsm-lnav .lnr>.lgap:before,#gsm #gsm-lnav .lnr>.lgap+*:before{display:none}" +
+    "#gsm #gsm-lnav .lnr>.on{color:#111;border-bottom-color:#111}" +
+    "#gsm #gsm-lnav .lnr>*:hover{color:#111}" +
+    "#gsm #gsm-lnav .lnr select{-webkit-appearance:none;appearance:none;padding-right:18px;background:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M1 1l4 4 4-4' fill='none' stroke='%23888' stroke-width='1.5'/></svg>\") no-repeat right 4px center;max-width:150px;white-space:nowrap;text-overflow:ellipsis;text-align-last:center}" +
+    "#gsm #gsm-lnav option{color:#111}" +
+    "@media (max-width:760px){#gsm-lnav .lnt{flex-wrap:nowrap;gap:10px}#gsm-lnav .lnk2{display:none}#gsm #gsm-lnav .lnt button{font-size:12px}#gsm-lnav .lnr{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}#gsm #gsm-lnav .lnr>*{flex:none;padding:8px 10px 7px;white-space:nowrap}}" +
     "@media print{#gsm-lnav{display:none}}";
   function esc(t) {
     return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
+  var TABS = [["t0", "Mapping Context"], ["t1", "Mapping Landscape"], ["t2", "Pattern Analysis"], ["t3", "Taking Action"]];
   window.gsmLeadNav = function (cfg) {
     var el = document.getElementById("gsm-lnav"),
       jump = document.getElementById("gsm-jump");
-    if (!cfg) return el && el.parentNode && el.parentNode.removeChild(el);
+    if (!cfg) {
+      jump && jump.classList.remove("lmode", "ldash");
+      return el && el.parentNode && el.parentNode.removeChild(el);
+    }
     if (!jump) return;
     if (!document.getElementById("gsm-lnavcss")) {
       var st = document.createElement("style");
@@ -35011,11 +35005,13 @@ var qrcode = function() {
       st.textContent = CSS;
       document.head.appendChild(st);
     }
+    jump.classList.add("lmode");
+    jump.classList.toggle("ldash", cfg.mode === "dash");
     if (!el) {
       el = document.createElement("div");
       el.id = "gsm-lnav";
       el.setAttribute("role", "navigation");
-      el.setAttribute("aria-label", "Leading this project");
+      el.setAttribute("aria-label", "This project");
       jump.insertBefore(el, jump.firstChild);
       el.addEventListener("click", function (e) {
         var b = e.target.closest && e.target.closest("button[data-n]");
@@ -35027,24 +35023,28 @@ var qrcode = function() {
       });
     }
     el._on = cfg.on;
-    var h = '<div class="lnt">LEADING · <b>' + esc(String(cfg.title || "A project").toUpperCase()) + "</b></div><div class=\"lnr\">";
-    cfg.items.forEach(function (it) {
-      if (!it) return;
-      if (it[0] === "|") return (h += '<span class="lsep"></span>');
-      if (it[0] === "person") {
-        var ppl = cfg.people || [];
-        if (!ppl.length) return;
-        h +=
-          '<select data-n="person" aria-label="One person"' + (cfg.cur === "person" ? ' class="on"' : "") + '><option value="">One person…</option>' +
-          ppl
-            .map(function (x) {
-              return '<option value="' + esc(x.u) + '"' + (cfg.who === x.u ? " selected" : "") + ">" + esc(x.name) + (x.voice ? " · " + esc(x.voice) : "") + "</option>";
-            })
-            .join("") +
-          "</select>";
-        return;
-      }
-      h += '<button type="button" data-n="' + it[0] + '"' + (cfg.cur === it[0] ? ' class="on" aria-current="page"' : it[2] ? ' class="lq"' : "") + ">" + esc(it[1]) + "</button>";
+    var cur = cfg.cur,
+      ppl = cfg.people || [],
+      tab = function (k, lab) {
+        return '<button type="button" data-n="' + k + '"' + (cur === k ? ' class="on" aria-current="page"' : "") + ">" + esc(lab) + "</button>";
+      },
+      h =
+        '<div class="lnt"><span class="lnk2">PROJECT</span><span class="lnn">' + esc(String(cfg.title || "A project").toUpperCase()) + "</span>" +
+        '<button type="button" data-n="projects">All projects</button><button type="button" data-n="close">Close the project</button></div><div class="lnr">' +
+        tab("glance", "At a glance") +
+        tab("people", "People" + (ppl.length ? " (" + ppl.length + ")" : ""));
+    ppl.length &&
+      (h +=
+        '<select data-n="person" aria-label="One person"' + (cur === "person" ? ' class="on"' : "") + '><option value="">One person</option>' +
+        ppl
+          .map(function (x) {
+            return '<option value="' + esc(x.u) + '"' + (cfg.who === x.u ? " selected" : "") + ">" + esc(x.name) + (x.voice ? " · " + esc(x.voice) : "") + "</option>";
+          })
+          .join("") +
+        "</select>");
+    h += '<span class="lgap" aria-hidden="true"></span>';
+    TABS.forEach(function (t) {
+      h += tab(t[0], t[1]);
     });
     el.innerHTML = h + "</div>";
   };
@@ -35119,32 +35119,62 @@ var qrcode = function() {
           }
         }, 250);
     }
+    function pageTab(n) {
+      var b = document.querySelector('#gsm-jump .jrow button[data-v="' + n + '"]');
+      if (b) b.click();
+      else
+        try {
+          window.gsmTab && window.gsmTab(n);
+        } catch (e) {}
+    }
     function onNav(k, v) {
       if (k === "glance" || k === "people") back({ pid: R.pid, tab: k });
       else if (k === "person") v && back({ pid: R.pid, tab: "people", who: v });
-      else if (k === "together") L && L.who ? back({ pid: R.pid, tab: "glance", act: "together" }) : (window.gsmTab && window.gsmTab(2), window.scrollTo({ top: 0, behavior: "smooth" }));
-      else if (k === "clusters") L && L.who ? back({ pid: R.pid, tab: "glance", act: "clusters" }) : toMap();
-      else if (k === "projects") back({ pid: "" });
-      else if (k === "own") back(null);
+      else if (/^t[0-3]$/.test(k)) {
+        if (L && L.who) return back({ pid: R.pid, tab: "glance", act: k });
+        pageTab([0, 1, 2, 4][+k.slice(1)]);
+        window.scrollTo({ top: 0 });
+        draw(k);
+      } else if (k === "projects") back(L ? { pid: "" } : null);
+      else if (k === "close") back(null);
     }
-    window.gsmLeadNav &&
-      window.gsmLeadNav({
-        title: M.name || (L && L.name) || "A shared project",
-        cur: L && L.who ? "person" : "together",
-        who: L ? L.who : "",
-        people: L ? L.people : [],
-        items: L
-          ? [["glance", "Project at a glance"], ["people", "People" + (L.people && L.people.length ? " (" + L.people.length + ")" : "")], ["person"], ["together", "Everyone together"], ["clusters", "Clusters"], ["|"], ["projects", "All projects", 1], ["own", "My own workbook", 1]]
-          : [["together", "Everyone together"], ["clusters", "Clusters"], ["|"], ["own", "My own workbook", 1]],
-        on: onNav,
-      });
-    if (localStorage.getItem("groundsmith-web-leadgo-read") === "clusters") {
+    function curTab() {
+      var g = document.getElementById("gsm"),
+        vis = function (id) {
+          var e = document.getElementById(id);
+          return !!(e && e.offsetParent !== null);
+        };
+      if (g && g.classList.contains("onta")) return "t3";
+      return vis("gsm-a-pat") ? "t2" : vis("gsm-a-chg") ? "t1" : vis("gsm-a-ctx") ? "t0" : "";
+    }
+    function draw(cur) {
+      window.gsmLeadNav &&
+        window.gsmLeadNav({
+          title: M.name || (L && L.name) || "A shared project",
+          mode: "read",
+          cur: cur != null ? cur : curTab(),
+          who: L ? L.who : "",
+          people: L ? L.people : [],
+          on: onNav,
+        });
+    }
+    draw("t2");
+    /* follow the page's own moves between tabs (Next buttons, links) */
+    setInterval(function () {
+      var c = curTab(),
+        on = document.querySelector("#gsm-lnav .lnr .on");
+      if (c && (!on || on.getAttribute("data-n") !== c)) draw(c);
+    }, 600);
+    var go = localStorage.getItem("groundsmith-web-leadgo-read");
+    if (go) {
       localStorage.removeItem("groundsmith-web-leadgo-read");
-      var cb = document.querySelector('#gsm-lnav [data-n="clusters"]'),
-        tb = document.querySelector('#gsm-lnav [data-n="together"]');
-      cb && cb.classList.add("on");
-      tb && tb.classList.remove("on");
-      setTimeout(toMap, 600);
+      if (go === "clusters") setTimeout(toMap, 600);
+      else if (/^t[0-3]$/.test(go))
+        setTimeout(function () {
+          pageTab([0, 1, 2, 4][+go.slice(1)]);
+          window.scrollTo({ top: 0 });
+          draw(go);
+        }, 300);
     }
     return true;
   }
