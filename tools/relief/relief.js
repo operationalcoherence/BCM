@@ -325,8 +325,10 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
   /* v333: a question flag or a numbered marker never lands on a note, the goal, the start, or another marker: it steps to the
      nearest clear ground. Notes stay exactly where people put them. */
   const SPOTS = D.notes.map(n => [n.x, n.y]).concat([[D.GOAL.x, D.GOAL.y], [D.START.x, D.START.y]]);
+  /* sideways first (left and right in the usual view), so a moved marker does not hide behind what it left */
+  const SIDEA = [0, Math.PI, 0.35, Math.PI - 0.35, -0.35, Math.PI + 0.35, 0.8, Math.PI - 0.8, -0.8, Math.PI + 0.8, Math.PI / 2, -Math.PI / 2];
   function clear(x, y) { const MIN = 15, ok = (a, b) => a >= 3 && a <= W - 3 && b >= 3 && b <= H - 3 && SPOTS.every(t => Math.hypot(t[0] - a, t[1] - b) >= MIN);
-    let at = [x, y]; if (!ok(x, y)) { find: for (let r = 4; r <= 36; r += 4) for (let k = 0; k < 16; k++) { const a = k / 16 * Math.PI * 2 + r * 0.3, nx = x + Math.cos(a) * r, ny = y + Math.sin(a) * r; if (ok(nx, ny)) { at = [nx, ny]; break find; } } }
+    let at = [x, y]; if (!ok(x, y)) { find: for (let r = 4; r <= 40; r += 4) for (const a of SIDEA) { const nx = x + Math.cos(a) * r, ny = y + Math.sin(a) * r; if (ok(nx, ny)) { at = [nx, ny]; break find; } } }
     SPOTS.push(at); return at; }
   const QP = (D.qpos || []).map(Q => { if (!Q) return Q; const a = clear(Q.x, Q.y); return Object.assign({}, Q, { x: a[0], y: a[1] }); });
   const RP = (D.read || []).map(r => r.at ? clear(r.at[0], r.at[1]) : r.at);
