@@ -22854,7 +22854,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v330");
+        t && (t.textContent = "v331");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -33097,7 +33097,7 @@ var qrcode = function() {
     "#gsm-lead .rdg .rh:first-child{margin-top:0}#gsm-lead .rdg .rpsd{font-style:italic;color:#444;margin:2px 0 8px}" +
     "#gsm-lead .vfl{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}#gsm-lead .vfl button{border:1px solid #222;border-radius:14px;padding:4px 11px;font:13px 'Questrial',sans-serif;background:#fff;color:#222;cursor:pointer;min-height:32px}" +
     "#gsm-lead .vfl button.on{background:#222;color:#fff}" +
-    "#gsm-lead .rit{border-left:3px solid #222;padding:4px 0 4px 10px;margin:8px 0}#gsm-lead .rit.rsp{border-left-color:#c8352e}#gsm-lead .rbleg{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:#444;margin:0 0 8px}#gsm-lead .rbleg i{display:inline-block;width:11px;height:11px;margin-right:6px;vertical-align:-1px}#gsm-lead .rbr{margin:0;border-top:1px solid #eee}#gsm-lead .rbr summary{display:grid;grid-template-columns:minmax(110px,30%) 1fr 26px 92px;align-items:center;gap:10px;padding:7px 0;cursor:pointer;list-style:none}#gsm-lead .rbr summary::-webkit-details-marker{display:none}#gsm-lead .rbl{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#gsm-lead .rbt{display:block;height:16px}#gsm-lead .rbf{display:flex;height:100%}#gsm-lead .rbf span{display:block;height:100%}#gsm-lead .rbn{font-size:13px;font-weight:700;text-align:right}#gsm-lead .rbk{font-size:11px;letter-spacing:.1em;font-weight:700;text-transform:uppercase;color:#555}#gsm-lead .rbr.split .rbk{color:#b3261e}#gsm-lead .rbr[open] summary .rbl{font-weight:700}#gsm-lead .rbr .rit{margin:2px 0 10px}@media (max-width:560px){#gsm-lead .rbr summary{grid-template-columns:1fr 70px;grid-template-areas:'l k' 't n';gap:4px 10px}#gsm-lead .rbl{grid-area:l}#gsm-lead .rbk{grid-area:k;text-align:right}#gsm-lead .rbt{grid-area:t}#gsm-lead .rbn{grid-area:n;text-align:left}}" +
+    "#gsm-lead .rit{border-left:3px solid #222;padding:4px 0 4px 10px;margin:8px 0}#gsm-lead .rit.rsp{border-left-color:#c8352e}#gsm-lead .rbleg{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:#444;margin:0 0 8px}#gsm-lead .rbleg i{display:inline-block;width:11px;height:11px;margin-right:6px;vertical-align:-1px}#gsm-lead .rbch{border-bottom:1px solid #eee}#gsm-lead a.rbr{display:grid;grid-template-columns:22px minmax(120px,34%) 1fr 26px 52px;align-items:center;gap:10px;padding:6px 0;border-top:1px solid #eee;color:#111;text-decoration:none}#gsm-lead a.rbr:hover{background:#f7f7f5}#gsm-lead .rbi{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#111;color:#fff;font-size:11px;font-weight:700;flex:none}#gsm-lead .rbr.split .rbi,#gsm-lead .rbx .rbi.s{background:#b3261e}#gsm-lead .rbl{min-width:0}#gsm-lead .rbl b{display:block;font-size:13.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#gsm-lead .rbl small{display:block;font-size:11.5px;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#gsm-lead .rbt{display:block;height:16px}#gsm-lead .rbf{display:flex;height:100%}#gsm-lead .rbf span{display:block;height:100%}#gsm-lead .rbn{font-size:13px;font-weight:700;text-align:right}#gsm-lead .rbk{font-size:11px;letter-spacing:.1em;font-weight:700;text-transform:uppercase;color:#555}#gsm-lead .rbr.split .rbk{color:#b3261e}#gsm-lead .rbx{display:flex;gap:10px;align-items:flex-start;scroll-margin-top:150px}#gsm-lead .rbx .rbi{margin-top:12px}#gsm-lead .rbx .rit{flex:1 1 auto;min-width:0}#gsm-lead .rbx:target .rit{background:#f7f5ef}@media (max-width:560px){#gsm-lead a.rbr{grid-template-columns:22px 1fr 46px;grid-template-areas:'i l k' '. t n';gap:3px 8px}#gsm-lead .rbi{grid-area:i}#gsm-lead .rbl{grid-area:l}#gsm-lead .rbk{grid-area:k;text-align:right}#gsm-lead .rbt{grid-area:t}#gsm-lead .rbn{grid-area:n;text-align:left}}" +
     "#gsm-lead .rit .rm{margin:0 0 4px}#gsm-lead .rit .rq{font-size:13px;color:#333;margin:3px 0;overflow-wrap:anywhere}#gsm-lead .rit .rq i{color:#777;font-style:normal}" +
     "#gsm-lead .ebar{display:flex;height:12px;border:1px solid #bbb;margin:3px 0 2px;max-width:420px}#gsm-lead .ebar span{display:block;height:100%}" +
     "#gsm-lead .crow{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin:6px 0 8px}#gsm-lead .crow select{font:inherit;font-size:13.5px;border:1px solid #999;border-radius:2px;padding:5px 7px;background:#fff;color:#222;max-width:100%;min-height:34px}" +
@@ -34093,19 +34093,21 @@ var qrcode = function() {
      line they put it on. Splits first. Tap a bar for the words (the old text, folded under it). */
   var SIDEC = { help: ["#2f6f9f", "helps the goal"], hinder: ["#e0892c", "hinders the goal"], none: ["#c9c9c9", "not placed on either side"] };
   function splitChart(S) {
-    var items = S.split
-      .slice(0, 6)
-      .map(function (x) {
-        return { b: x.b, k: "split", how: x.how, body: splitItem(x) };
-      })
-      .concat(
-        S.agree.slice(0, 6).map(function (a) {
-          return { b: a.b, k: "agree", body: agreeItem(a) };
-        }),
-      );
+    var sp = S.split.slice(0, 6),
+      ag = S.agree.slice(0, 6),
+      items = sp
+        .map(function (x) {
+          return { b: x.b, k: "split", how: x.how, body: splitItem(x), where: x.how === "emo" ? "two far-apart emotions" : "read as helping and as hindering" };
+        })
+        .concat(
+          ag.map(function (a) {
+            return { b: a.b, k: "agree", body: agreeItem(a), where: a.side ? "all on the " + a.side + " side" : a.q >= 0 ? "about Q." + (a.q + 1) : a.e != null ? "with " + EMOS[a.e][0].toLowerCase() : "" };
+          }),
+        );
     if (!items.length) return '<div class="lh">No two people name the same thing in the same way yet.</div>';
-    items.forEach(function (it) {
+    items.forEach(function (it, i) {
       var p = {};
+      it.i = i + 1;
       it.b.xs.forEach(function (x) {
         var u = x.r.uid;
         (!p[u] || (p[u] === "none" && x.side)) && (p[u] = x.side || "none");
@@ -34118,28 +34120,38 @@ var qrcode = function() {
     });
     var max = Math.max.apply(null, items.map(function (it) { return it.n; })),
       h =
-        '<div class="lh" style="margin:2px 0 6px">Each bar is something two or more people name in their own words. Its length is how many people; its colours, which side of the line they put it on. Tap a bar to read what they wrote.</div>' +
+        '<div class="lh" style="margin:2px 0 6px">Each bar is something two or more people name in their own words. Its length is how many people; its colours, which side of the line they put it on. The numbered readings under the chart say what each one means, with everyone\u2019s words.</div>' +
         '<div class="rbleg">' +
         ["help", "hinder", "none"]
           .map(function (k) {
             return '<span><i style="background:' + SIDEC[k][0] + '"></i>' + SIDEC[k][1] + "</span>";
           })
           .join("") +
-        "</div>";
+        '</div><div class="rbch">';
     items.forEach(function (it) {
       h +=
-        '<details class="rbr ' + it.k + '"><summary><span class="rbl">\u201c' + esc(trim(it.b.w, 40)) + '\u201d</span><span class="rbt" role="img" aria-label="' +
+        '<a class="rbr ' + it.k + '" href="#gsm-rb' + it.i + '"><span class="rbi">' + it.i + '</span><span class="rbl"><b>\u201c' + esc(trim(it.b.w, 40)) + '\u201d</b><small>' + esc(it.where) + '</small></span><span class="rbt" role="img" aria-label="' +
         esc(it.n + " people: " + it.c.help + " helps, " + it.c.hinder + " hinders, " + it.c.none + " not placed") + '"><span class="rbf" style="width:' + ((100 * it.n) / max).toFixed(1) + '%">' +
         ["help", "hinder", "none"]
           .map(function (k) {
             return it.c[k] ? '<span style="flex:' + it.c[k] + ";background:" + SIDEC[k][0] + '"></span>' : "";
           })
           .join("") +
-        '</span></span><span class="rbn">' + it.n + '</span><span class="rbk">' + (it.k === "split" ? (it.how === "emo" ? "Split \u00b7 emotion" : "Split") : "Agree") + "</span></summary>" + it.body + "</details>";
+        '</span></span><span class="rbn">' + it.n + '</span><span class="rbk">' + (it.k === "split" ? "Split" : "Agree") + "</span></a>";
     });
-    var more = S.split.length - Math.min(6, S.split.length) + S.agree.length - Math.min(6, S.agree.length);
-    more > 0 && (h += '<div class="lh">…and ' + more + " more.</div>");
-    return h;
+    h += "</div>";
+    var more = S.split.length - sp.length + S.agree.length - ag.length;
+    more > 0 && (h += '<div class="lh" style="margin-top:4px">The ' + items.length + " shared by the most people are shown; " + more + " more are smaller.</div>");
+    var list = function (k, head) {
+      var L = items.filter(function (it) { return it.k === k; });
+      return L.length
+        ? '<div class="rh" style="margin-top:14px">' + head + "</div>" +
+            L.map(function (it) {
+              return '<div class="rbx" id="gsm-rb' + it.i + '"><span class="rbi' + (k === "split" ? " s" : "") + '">' + it.i + "</span>" + it.body + "</div>";
+            }).join("")
+        : "";
+    };
+    return h + list("split", "WHERE THEY SPLIT") + list("agree", "WHERE THEY AGREE");
   }
   function splitItem(x) {
     var A = x.pair[0],
