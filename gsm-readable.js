@@ -22854,7 +22854,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v329");
+        t && (t.textContent = "v330");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -33097,7 +33097,7 @@ var qrcode = function() {
     "#gsm-lead .rdg .rh:first-child{margin-top:0}#gsm-lead .rdg .rpsd{font-style:italic;color:#444;margin:2px 0 8px}" +
     "#gsm-lead .vfl{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}#gsm-lead .vfl button{border:1px solid #222;border-radius:14px;padding:4px 11px;font:13px 'Questrial',sans-serif;background:#fff;color:#222;cursor:pointer;min-height:32px}" +
     "#gsm-lead .vfl button.on{background:#222;color:#fff}" +
-    "#gsm-lead .rit{border-left:3px solid #222;padding:4px 0 4px 10px;margin:8px 0}#gsm-lead .rit.rsp{border-left-color:#c8352e}" +
+    "#gsm-lead .rit{border-left:3px solid #222;padding:4px 0 4px 10px;margin:8px 0}#gsm-lead .rit.rsp{border-left-color:#c8352e}#gsm-lead .rbleg{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:#444;margin:0 0 8px}#gsm-lead .rbleg i{display:inline-block;width:11px;height:11px;margin-right:6px;vertical-align:-1px}#gsm-lead .rbr{margin:0;border-top:1px solid #eee}#gsm-lead .rbr summary{display:grid;grid-template-columns:minmax(110px,30%) 1fr 26px 92px;align-items:center;gap:10px;padding:7px 0;cursor:pointer;list-style:none}#gsm-lead .rbr summary::-webkit-details-marker{display:none}#gsm-lead .rbl{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#gsm-lead .rbt{display:block;height:16px}#gsm-lead .rbf{display:flex;height:100%}#gsm-lead .rbf span{display:block;height:100%}#gsm-lead .rbn{font-size:13px;font-weight:700;text-align:right}#gsm-lead .rbk{font-size:11px;letter-spacing:.1em;font-weight:700;text-transform:uppercase;color:#555}#gsm-lead .rbr.split .rbk{color:#b3261e}#gsm-lead .rbr[open] summary .rbl{font-weight:700}#gsm-lead .rbr .rit{margin:2px 0 10px}@media (max-width:560px){#gsm-lead .rbr summary{grid-template-columns:1fr 70px;grid-template-areas:'l k' 't n';gap:4px 10px}#gsm-lead .rbl{grid-area:l}#gsm-lead .rbk{grid-area:k;text-align:right}#gsm-lead .rbt{grid-area:t}#gsm-lead .rbn{grid-area:n;text-align:left}}" +
     "#gsm-lead .rit .rm{margin:0 0 4px}#gsm-lead .rit .rq{font-size:13px;color:#333;margin:3px 0;overflow-wrap:anywhere}#gsm-lead .rit .rq i{color:#777;font-style:normal}" +
     "#gsm-lead .ebar{display:flex;height:12px;border:1px solid #bbb;margin:3px 0 2px;max-width:420px}#gsm-lead .ebar span{display:block;height:100%}" +
     "#gsm-lead .crow{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin:6px 0 8px}#gsm-lead .crow select{font:inherit;font-size:13.5px;border:1px solid #999;border-radius:2px;padding:5px 7px;background:#fff;color:#222;max-width:100%;min-height:34px}" +
@@ -34088,6 +34088,59 @@ var qrcode = function() {
           : who + " tie “" + a.b.w + "” to " + EMOS[a.e][0].toLowerCase() + ". The same emotion attached to the same thing tends to hold steady.";
     return '<div class="rit"><div class="rm">' + esc(m) + "</div>" + a.xs.slice(0, 4).map(said).join("") + (a.xs.length > 4 ? '<div class="rq"><i>…and ' + (a.xs.length - 4) + " more</i></div>" : "") + "</div>";
   }
+  /* v330: WHERE THEY AGREE AND SPLIT as one bar chart (Gregory, 27 Nov: "this should be a graphic"; "a conventional pie
+     chart or bar graph is fine"). One bar per thing two or more people name; length = people, colours = the side of the
+     line they put it on. Splits first. Tap a bar for the words (the old text, folded under it). */
+  var SIDEC = { help: ["#2f6f9f", "helps the goal"], hinder: ["#e0892c", "hinders the goal"], none: ["#c9c9c9", "not placed on either side"] };
+  function splitChart(S) {
+    var items = S.split
+      .slice(0, 6)
+      .map(function (x) {
+        return { b: x.b, k: "split", how: x.how, body: splitItem(x) };
+      })
+      .concat(
+        S.agree.slice(0, 6).map(function (a) {
+          return { b: a.b, k: "agree", body: agreeItem(a) };
+        }),
+      );
+    if (!items.length) return '<div class="lh">No two people name the same thing in the same way yet.</div>';
+    items.forEach(function (it) {
+      var p = {};
+      it.b.xs.forEach(function (x) {
+        var u = x.r.uid;
+        (!p[u] || (p[u] === "none" && x.side)) && (p[u] = x.side || "none");
+      });
+      it.c = { help: 0, hinder: 0, none: 0 };
+      Object.keys(p).forEach(function (u) {
+        it.c[p[u]]++;
+      });
+      it.n = it.c.help + it.c.hinder + it.c.none;
+    });
+    var max = Math.max.apply(null, items.map(function (it) { return it.n; })),
+      h =
+        '<div class="lh" style="margin:2px 0 6px">Each bar is something two or more people name in their own words. Its length is how many people; its colours, which side of the line they put it on. Tap a bar to read what they wrote.</div>' +
+        '<div class="rbleg">' +
+        ["help", "hinder", "none"]
+          .map(function (k) {
+            return '<span><i style="background:' + SIDEC[k][0] + '"></i>' + SIDEC[k][1] + "</span>";
+          })
+          .join("") +
+        "</div>";
+    items.forEach(function (it) {
+      h +=
+        '<details class="rbr ' + it.k + '"><summary><span class="rbl">\u201c' + esc(trim(it.b.w, 40)) + '\u201d</span><span class="rbt" role="img" aria-label="' +
+        esc(it.n + " people: " + it.c.help + " helps, " + it.c.hinder + " hinders, " + it.c.none + " not placed") + '"><span class="rbf" style="width:' + ((100 * it.n) / max).toFixed(1) + '%">' +
+        ["help", "hinder", "none"]
+          .map(function (k) {
+            return it.c[k] ? '<span style="flex:' + it.c[k] + ";background:" + SIDEC[k][0] + '"></span>' : "";
+          })
+          .join("") +
+        '</span></span><span class="rbn">' + it.n + '</span><span class="rbk">' + (it.k === "split" ? (it.how === "emo" ? "Split \u00b7 emotion" : "Split") : "Agree") + "</span></summary>" + it.body + "</details>";
+    });
+    var more = S.split.length - Math.min(6, S.split.length) + S.agree.length - Math.min(6, S.agree.length);
+    more > 0 && (h += '<div class="lh">…and ' + more + " more.</div>");
+    return h;
+  }
   function splitItem(x) {
     var A = x.pair[0],
       B = x.pair[1],
@@ -34425,8 +34478,7 @@ var qrcode = function() {
     if (rows.length < 2) h += '<div class="lh" style="margin-top:8px">WHERE THEY AGREE and WHERE THEY SPLIT need at least two people' + (dash.voice ? " in this voice" : "") + ".</div>";
     else {
       var S = shared(rows);
-      h += '<div class="rh">WHERE THEY SPLIT</div>' + (S.split.length ? S.split.slice(0, 4).map(splitItem).join("") + (S.split.length > 4 ? '<div class="lh">…and ' + (S.split.length - 4) + " more.</div>" : "") : '<div class="lh">Nobody yet reads the same thing two ways.</div>');
-      h += '<div class="rh">WHERE THEY AGREE</div>' + (S.agree.length ? S.agree.slice(0, 4).map(agreeItem).join("") + (S.agree.length > 4 ? '<div class="lh">…and ' + (S.agree.length - 4) + " more.</div>" : "") : '<div class="lh">No two people name the same thing in the same way yet.</div>');
+      h += '<div class="rh">WHERE THEY AGREE AND SPLIT</div>' + splitChart(S);
     }
     h += '<div class="rh">WHAT NOBODY HAS SAID YET</div>' + gapsHtml(rows);
     h += cmpHtml(rows);
