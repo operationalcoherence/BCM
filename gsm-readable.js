@@ -22854,7 +22854,7 @@
       }
       (!(function () {
         var t = document.getElementById("gsm-ver");
-        t && (t.textContent = "v331");
+        t && (t.textContent = "v332");
       })(),
         document.getElementById("gsm-save").addEventListener("click", r),
         document.getElementById("gsm-save2").addEventListener("click", function () {
@@ -29784,7 +29784,13 @@
           R.ins = ins;
           host._clR = R;
         }
-        var R = host._clR;
+        var R = host._clR,
+          who = {};
+        /* v332: clusters need three people; one person's copy keeps the ordinary map, every note labelled */
+        R.ins.forEach(function (n) {
+          n.who && (who[n.who] = 1);
+        });
+        if (Object.keys(who).length < 3) return;
         D.clusters = {
           list: R.clusters.map(function (c, i) {
             var t = clTitle(c);

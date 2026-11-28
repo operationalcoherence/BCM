@@ -329,6 +329,10 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
   /* F8 (lead's project copy only): notes in clusters are dots on the ground, notes in no cluster faint dots; no labels */
   const CL = D.clusters || null, CLOF = {}, CLM = [];
   if (CL) CL.list.forEach((c, i) => c.ks.forEach(k => { CLOF[k] = i; }));
+  /* v332: notes the numbered readings name keep their labels, so "N4 and N9" can be found on the map */
+  const CLREF = {}, CLLAB = []; if (CL) (D.read || []).forEach((r, ri) => String((r.text || '') + ' ' + (r.title || '') + ' ' + (r.cap || '')).replace(new RegExp('\\b' + (D.np || 'N') + '(\\d+)\\b', 'g'), (m, k) => { (CLREF[+k] = CLREF[+k] || {})[ri] = 1; return m; }));
+  /* shown only while the numbered reading that names them is hovered or tapped */
+  function refShow(ri) { CLLAB.forEach(o => { o.hid = !(ri != null && o.rds[ri]); if (o.hid) o.el.style.display = 'none'; }); dirty = true; }
   D.notes.forEach(n => { const h = gH(n.x, n.y);
     if (CL) { const ci = CLOF[n.k], inC = ci != null, col = n.e == null ? 0xffffff : new THREE.Color(`rgb(${D.emo[n.e][1].join(',')})`);
       const m = new THREE.MeshStandardMaterial({ color: col, roughness: 0.5, transparent: true, opacity: inC ? 1 : 0.5 });
@@ -337,7 +341,9 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
       const rm = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide, transparent: true, opacity: inC ? 1 : 0.5 }); const rim = new THREE.Mesh(new THREE.SphereGeometry(inC ? 3.1 : 1.9, 14, 10), rm); rim.position.copy(hd.position); scene.add(rim);
       let st = null; if (inC) { st = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 7, 6), blk); st.position.set(X(n.x), h + 3.5, Z(n.y)); scene.add(st); }
       CLM.push({ ci: inC ? ci : -1, m, rm, st, base: inC ? 1 : 0.5 });
-      NOBJ.push({ q: n.q, st: rim, hd, lo: { el: document.createElement('div') }, sp: null }); if (st) NOBJ.push({ q: n.q, st, hd, lo: { el: document.createElement('div') }, sp: null }); return; }
+      let lo0 = { el: document.createElement('div') };
+      if (CLREF[n.k]) { lo0 = lab((D.np || 'N') + n.k, 'nl', n.x, n.y, inC ? 7 : 4.5, 1, 6, -8, { head: (D.np || 'N') + n.k + ' · ' + (n.e == null ? 'no emotion marked' : D.emo[n.e][0].toUpperCase()) + (n.q ? ' · Q.' + n.q : ''), body: n.t || '' }); lo0.head = hd.position; lo0.isN = 1; lo0.rds = CLREF[n.k]; lo0.hid = true; lo0.el.style.display = 'none'; CLLAB.push(lo0); }
+      NOBJ.push({ q: n.q, st: rim, hd, lo: lo0, sp: null }); if (st) NOBJ.push({ q: n.q, st, hd, lo: { el: document.createElement('div') }, sp: null }); return; }
     const st = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 10, 6), blk); st.position.set(X(n.x), h + 5, Z(n.y)); st.castShadow = true; scene.add(st);
     const hd = new THREE.Mesh(new THREE.SphereGeometry(2.8, 18, 12), new THREE.MeshStandardMaterial({ color: n.e == null ? 0xffffff : new THREE.Color(`rgb(${D.emo[n.e][1].join(',')})`), roughness: 0.5 }));
     hd.position.set(X(n.x), h + 11, Z(n.y)); hd.castShadow = true; scene.add(hd);
@@ -370,8 +376,8 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
     if (o.info.sm) { const d = document.createElement('div'); d.className = 'sm'; d.textContent = o.info.sm; tip.appendChild(d); }
     dirty = true; tip.style.display = 'block'; const r = wrap.getBoundingClientRect(), x = (ev ? ev.clientX : r.left) - r.left, y = (ev ? ev.clientY : r.top) - r.top;
     tip.style.left = Math.max(4 + (parseFloat(lbs.style.left) || 0), Math.min(r.width - tip.offsetWidth - 4, x + 12)) + 'px'; tip.style.top = Math.max(4, y - 10 - tip.offsetHeight) + 'px';
-    RD.forEach((q, k) => q.el.classList.toggle('on', k === o.info.rd)); if (D.onHL) D.onHL(o.info.rd == null ? null : o.info.rd); if (o.info.way) hoverWay(o.info.way); }
-  function hideTip() { dirty = true; if (!pinned) hoverWay(null); tip.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (D.onHL) D.onHL(null); }
+    RD.forEach((q, k) => q.el.classList.toggle('on', k === o.info.rd)); if (CLLAB.length) refShow(o.info.rd); if (D.onHL) D.onHL(o.info.rd == null ? null : o.info.rd); if (o.info.way) hoverWay(o.info.way); }
+  function hideTip() { dirty = true; if (!pinned) hoverWay(null); tip.style.display = 'none'; RD.forEach(q => q.el.classList.remove('on')); if (CLLAB.length) refShow(null); if (D.onHL) D.onHL(null); }
   function nearest(ev) { const r = renderer.domElement.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top; let best = null, bd = 20;
     L.forEach(o => { if (!o.info || o.sx == null || o.off) return; const d = Math.hypot(o.sx - x, o.sy - y); if (d < bd) { bd = d; best = o; } }); return best; }
   const offClick = ev => { if (pinned && !wrap.contains(ev.target)) { pinned = null; hoverWay(null); hideTip(); } }; document.addEventListener('click', offClick, true);
@@ -670,7 +676,7 @@ normal = bumpN(-vViewPosition, normal, rkH * rkM * 0.9);`)
   function dispose() { if (!alive) return; alive = false; if (ro) ro.disconnect(); window.removeEventListener('resize', size); document.removeEventListener('keydown', onKey); document.removeEventListener('click', offClick, true); renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {} }
   size(); home(); loop(); placeGround();
   function focusQ(q) { NOBJ.forEach(o => { const on = !q || o.q === q; o.st.visible = o.hd.visible = on; if (o.sp) o.sp.visible = on; o.lo.off = !on; o.lo.el.style.opacity = on ? '' : '0'; o.lo.el.style.pointerEvents = on ? '' : 'none'; }); dirty = true; }
-  return { cluster, loops, hoses, hoseCount() { return hoseN; }, focusQ, tour: startTour, touring() { return !!TOUR; }, paused() { return !!TOUR && TOUR.paused != null; }, hl(i) { if (!pinned) RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); }, setWay(k) { if (k !== selWay) { selWay = k; if (WALK) walkEnd(); showWays(); walkBtn(); } }, walk(k) { walkStart(k); }, walking() { return WALK ? { k: WALK.k, i: WALK.i, n: WALK.st.length - 1, names: WALK.names.map(z => typeof z === 'string' ? z : z.k) } : null; }, walkStep(i) { walkShow(i); }, walkEnd() { walkEnd(); }, hoverWay(k) { hoverWay(k); },
+  return { cluster, loops, hoses, hoseCount() { return hoseN; }, focusQ, tour: startTour, touring() { return !!TOUR; }, paused() { return !!TOUR && TOUR.paused != null; }, hl(i) { if (!pinned) { RD.forEach((o, k) => o.el.classList.toggle('on', k === i)); if (CLLAB.length) refShow(i); } }, setWay(k) { if (k !== selWay) { selWay = k; if (WALK) walkEnd(); showWays(); walkBtn(); } }, walk(k) { walkStart(k); }, walking() { return WALK ? { k: WALK.k, i: WALK.i, n: WALK.st.length - 1, names: WALK.names.map(z => typeof z === 'string' ? z : z.k) } : null; }, walkStep(i) { walkShow(i); }, walkEnd() { walkEnd(); }, hoverWay(k) { hoverWay(k); },
     snap() { draw(); return renderer.domElement.toDataURL('image/jpeg', 0.85); }, height() { return wrap.offsetHeight; }, dispose };
 }
 
